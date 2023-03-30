@@ -5,10 +5,11 @@ import { cloneDeep, set } from 'lodash';
 import compose from 'compose-function';
 import classNames from 'classnames';
 import { parseErrors } from 'apollo';
-import { withNotifications, withModals } from 'hoc';
-import { State, Sort, LevelType, Notify, Modal } from 'types';
+import { withNotifications } from 'hoc';
+import { State, Sort, LevelType, Notify } from 'types';
 import permissions from 'config/permissions';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
+import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
@@ -24,32 +25,20 @@ import './SymbolsList.scss';
 
 type SymbolType = ExtractApolloTypeFromPageable<SymbolsQuery['tradingEngine']['symbols']>;
 
-interface ConfirmationModalProps {
-  onSubmit: (groupName: string) => void,
-  modalTitle: string,
-  actionText: string,
-  submitButtonLabel: string,
-}
-
 type Props = {
   notify: Notify,
-  modals: {
-    confirmationModal: Modal<ConfirmationModalProps>,
-    secondConfirmationModal: Modal<ConfirmationModalProps>,
-  },
 }
 
 const SymbolsList = ({
-  modals: {
-    confirmationModal,
-    secondConfirmationModal,
-  },
   notify,
 }: Props) => {
   const history = useHistory();
   const { state } = useLocation<State<SymbolsQueryVariables['args']>>();
   const [deleteSymbol] = useDeleteSymbolMutation();
   const permission = usePermission();
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const symbolsQuery = useSymbolsQuery({
     variables: {
@@ -96,7 +85,7 @@ const SymbolsList = ({
       const error = parseErrors(e);
 
       if (error.error === 'error.symbol.has.opened.orders') {
-        secondConfirmationModal.show({
+        confirmActionModal.show({
           onSubmit: () => handleDeleteSymbol(symbolName, true),
           modalTitle: I18n.t('TRADING_ENGINE.SYMBOL.CONFIRMATION.DELETE.TITLE'),
           actionText: I18n.t('TRADING_ENGINE.SYMBOL.CONFIRMATION.DELETE.DESCRIPTION_DELETE_SYMBOL',
@@ -114,7 +103,7 @@ const SymbolsList = ({
   };
 
   const handleDeleteSymbolClick = (symbol: string) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       onSubmit: () => handleDeleteSymbol(symbol),
       modalTitle: I18n.t('TRADING_ENGINE.SYMBOL.CONFIRMATION.DELETE.TITLE'),
       actionText: I18n.t('TRADING_ENGINE.SYMBOL.CONFIRMATION.DELETE.DESCRIPTION', { symbol }),
@@ -331,9 +320,5 @@ const SymbolsList = ({
 
 export default compose(
   React.memo,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-    secondConfirmationModal: ConfirmActionModal,
-  }),
   withNotifications,
 )(SymbolsList);

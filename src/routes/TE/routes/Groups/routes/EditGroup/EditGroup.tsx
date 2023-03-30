@@ -5,13 +5,13 @@ import { useParams } from 'react-router-dom';
 import { omit } from 'lodash';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { parseErrors } from 'apollo';
-import { withNotifications, withModals } from 'hoc';
+import { withNotifications } from 'hoc';
 import NotFound from 'routes/NotFound';
-import { Modal } from 'types';
 import { Notify, LevelType } from 'types/notify';
 import { createValidator } from 'utils/validator';
+import { useModal } from 'providers/ModalProvider';
 import ShortLoader from 'components/ShortLoader';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import GroupProfileHeaderEdit from '../../components/GroupProfileHeaderEdit';
 import GroupCommonForm from '../../components/GroupCommonForm';
 import GroupPermissionsForm from '../../components/GroupPermissionsForm';
@@ -27,10 +27,6 @@ import './EditGroup.scss';
 
 type Props = {
   notify: Notify,
-  modals: {
-    confirmationModal: Modal,
-    confirmationOpenOrderModal: Modal,
-  },
 }
 
 const validator = createValidator(
@@ -51,7 +47,10 @@ const validator = createValidator(
 );
 
 const EditGroup = (props: Props) => {
-  const { notify, modals: { confirmationModal } } = props;
+  const { notify } = props;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const { id: groupName } = useParams<{ id: string }>();
 
@@ -99,7 +98,7 @@ const EditGroup = (props: Props) => {
 
       // Open confirmation modal to confirm force closing orders
       if (errors.error === 'error.group-relations.have.opened.orders') {
-        confirmationModal.show({
+        confirmActionModal.show({
           actionText: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.EDIT.FAILED_ORDERS_EXIST', {
             data: groupEditErrorMessage.join(', '),
           }),
@@ -159,8 +158,4 @@ const EditGroup = (props: Props) => {
 export default compose(
   React.memo,
   withNotifications,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-    confirmationOpenOrderModal: ConfirmActionModal,
-  }),
 )(EditGroup);

@@ -4,13 +4,14 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { parseErrors } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
-import { LevelType, Modal, Notify } from 'types';
+import { withNotifications } from 'hoc';
+import { LevelType, Notify } from 'types';
+import { useModal } from 'providers/ModalProvider';
 import Input from 'components/Input';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Account } from '../../AccountProfile';
 import { useUpdateAccountGroupMutation } from './graphql/__generated__/UpdateAccountGroupMutation';
 import { useGroupsQuery } from './graphql/__generated__/GroupsQuery';
@@ -19,9 +20,6 @@ import './AccountProfileGroup.scss';
 type Props = {
   account: Account,
   notify: Notify,
-  modals: {
-    confirmationModal: Modal,
-  },
 }
 
 const AccountProfileGroup = (props: Props) => {
@@ -30,13 +28,15 @@ const AccountProfileGroup = (props: Props) => {
       group,
       enable,
     },
-    modals: { confirmationModal },
   } = props;
 
   const [isDropDownOpen, setDropdownState] = React.useState(false);
   const [searchVal, setSearchVal] = React.useState('');
   const [updateAccountGroup] = useUpdateAccountGroupMutation();
   const permission = usePermission();
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const groupsQuery = useGroupsQuery({
     variables: {
@@ -83,7 +83,7 @@ const AccountProfileGroup = (props: Props) => {
 
       // Open confirmation modal to confirm force closing orders
       if (error.error === 'error.account.has.opened.orders') {
-        confirmationModal.show({
+        confirmActionModal.show({
           actionText: I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ACCOUNT_HAS_OPEN_ORDERS'),
           submitButtonLabel: I18n.t('COMMON.YES'),
           cancelButtonLabel: I18n.t('COMMON.NO'),
@@ -181,7 +181,4 @@ const AccountProfileGroup = (props: Props) => {
 export default compose(
   React.memo,
   withNotifications,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
 )(AccountProfileGroup);

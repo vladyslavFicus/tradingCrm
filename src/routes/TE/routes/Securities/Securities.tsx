@@ -6,11 +6,12 @@ import { parseErrors } from 'apollo';
 import { withNotifications, withModals } from 'hoc';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import { Button, TrashButton } from 'components/Buttons';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import PermissionContent from 'components/PermissionContent';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Modal } from 'types/modal';
 import EditSecurityModal from 'routes/TE/modals/EditSecurityModal';
 import NewSecurityModal from 'routes/TE/modals/NewSecurityModal';
@@ -25,7 +26,6 @@ type Props = {
   modals: {
     newSecurityModal: Modal,
     editSecurityModal: Modal,
-    confirmationModal: Modal,
   },
   notify: Notify,
 }
@@ -35,7 +35,6 @@ const Securities = (props: Props) => {
     modals: {
       newSecurityModal,
       editSecurityModal,
-      confirmationModal,
     },
     notify,
   } = props;
@@ -50,6 +49,9 @@ const Securities = (props: Props) => {
 
   const allowsEditSecurities = permission.allows(permissions.WE_TRADING.EDIT_SECURITIES);
 
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
+
   // ===== Handlers ===== //
   const handleNewSecurityClick = () => {
     newSecurityModal.show({
@@ -62,7 +64,7 @@ const Securities = (props: Props) => {
       await deleteSecurity({ variables: { securityName } });
 
       await refetch();
-      confirmationModal.hide();
+      confirmActionModal.hide();
 
       notify({
         level: LevelType.SUCCESS,
@@ -101,7 +103,7 @@ const Securities = (props: Props) => {
   };
 
   const handleDeleteSecurityClick = (securityName: string) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       onSubmit: () => handleDeleteSecurity(securityName),
       modalTitle: I18n.t('TRADING_ENGINE.SECURITIES.CONFIRMATION.DELETE.TITLE'),
       actionText: I18n.t('TRADING_ENGINE.SECURITIES.CONFIRMATION.DELETE.DESCRIPTION', { securityName }),
@@ -204,6 +206,5 @@ export default compose(
   withModals({
     newSecurityModal: NewSecurityModal,
     editSecurityModal: EditSecurityModal,
-    confirmationModal: ConfirmActionModal,
   }),
 )(Securities);

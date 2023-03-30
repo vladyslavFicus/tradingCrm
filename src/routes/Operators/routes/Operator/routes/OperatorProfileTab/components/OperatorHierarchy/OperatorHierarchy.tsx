@@ -41,7 +41,6 @@ const OperatorHierarchy = (props: Props) => {
       <OperatorHierarchyBranches
         operator={operator}
         allowToUpdateHierarchy={allowUpdateBranch && !isCurrentOperator}
-        onRefetch={onRefetch}
       />
     </div>
   );

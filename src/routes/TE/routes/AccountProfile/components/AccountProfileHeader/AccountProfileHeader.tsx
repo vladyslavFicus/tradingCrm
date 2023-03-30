@@ -6,6 +6,7 @@ import { parseErrors } from 'apollo';
 import { Modal, Notify, LevelType } from 'types';
 import { withNotifications } from 'hoc';
 import { getGraphQLUrl, getVersion } from 'config';
+import { useModal } from 'providers/ModalProvider';
 import withModals from 'hoc/withModals';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
@@ -17,7 +18,7 @@ import Badge from 'components/Badge';
 import PermissionContent from 'components/PermissionContent';
 import NewOrderModal from 'routes/TE/modals/NewOrderModal';
 import FixBalanceModal from 'routes/TE/modals/FixBalanceModal';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Account } from '../../AccountProfile';
 import { useArchiveMutation } from './graphql/__generated__/ArchiveMutation';
 import { useTokenRenewMutation } from './graphql/__generated__/TokenRenewMutation';
@@ -26,7 +27,6 @@ import './AccountProfileHeader.scss';
 type Props = {
   modals: {
     newOrderModal: Modal,
-    confirmationModal: Modal,
     fixBalanceModal: Modal,
   },
   account: Account,
@@ -43,7 +43,6 @@ const AccountProfileHeader = (props: Props) => {
       enable,
     },
     modals: {
-      confirmationModal,
       newOrderModal,
       fixBalanceModal,
     },
@@ -53,6 +52,9 @@ const AccountProfileHeader = (props: Props) => {
 
   const [archive] = useArchiveMutation();
   const [tokenRenew] = useTokenRenewMutation();
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const handleNewOrderClick = () => {
     newOrderModal.show({
@@ -103,7 +105,7 @@ const AccountProfileHeader = (props: Props) => {
   };
 
   const handleArchiveClick = (enabled: boolean) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       onSubmit: () => handleArchiveAccount(enabled),
       modalTitle: I18n.t(`TRADING_ENGINE.ACCOUNT_PROFILE.${enabled ? 'UNARCHIVE' : 'ARCHIVE'}`),
       actionText: I18n.t(
@@ -242,7 +244,6 @@ export default compose(
   withNotifications,
   withModals({
     newOrderModal: NewOrderModal,
-    confirmationModal: ConfirmActionModal,
     fixBalanceModal: FixBalanceModal,
   }),
 )(AccountProfileHeader);

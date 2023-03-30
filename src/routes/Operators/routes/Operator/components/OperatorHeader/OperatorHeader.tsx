@@ -7,11 +7,12 @@ import { Modal } from 'types';
 import { Operator } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import permissions from 'config/permissions';
 import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import { passwordPattern, passwordMaxSize, passwordCustomError } from 'constants/operators';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Button } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import { useOperatorLockStatusQuery } from './graphql/__generated__/OperatorLockStatusQuery';
@@ -23,7 +24,6 @@ import './OperatorHeader.scss';
 type Props = {
   operator: Operator,
   modals: {
-    confirmActionModal: Modal,
     changePasswordModal: Modal,
   },
 };
@@ -37,7 +37,6 @@ const OperatorHeader = (props: Props) => {
       uuid,
     },
     modals: {
-      confirmActionModal,
       changePasswordModal,
     },
   } = props;
@@ -46,6 +45,9 @@ const OperatorHeader = (props: Props) => {
 
   const allowResetPassword = permission.allows(permissions.OPERATORS.RESET_PASSWORD);
   const allowChangePassword = permission.allows(permissions.OPERATORS.CHANGE_PASSWORD);
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   // ===== Requests ===== //
   const operatorLockStatusQuery = useOperatorLockStatusQuery({ variables: { uuid }, fetchPolicy: 'network-only' });
@@ -105,7 +107,7 @@ const OperatorHeader = (props: Props) => {
       actionText: I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.ACTION_TEXT'),
       additionalText: I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.ACTION_TARGET'),
       submitButtonLabel: I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.CONFIRM_ACTION'),
-      fullName,
+      fullName: fullName as string,
       uuid,
     });
   };
@@ -204,6 +206,5 @@ export default compose(
   React.memo,
   withModals({
     changePasswordModal: ChangePasswordModal,
-    confirmActionModal: ConfirmActionModal,
   }),
 )(OperatorHeader);

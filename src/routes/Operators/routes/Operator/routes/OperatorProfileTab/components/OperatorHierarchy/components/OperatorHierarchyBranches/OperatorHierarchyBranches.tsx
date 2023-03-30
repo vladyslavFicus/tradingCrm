@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { omit } from 'lodash';
 import { Formik, Form, Field } from 'formik';
-import { withModals } from 'hoc';
 import { parseErrors } from 'apollo';
-import { Modal } from 'types';
 import { Operator, HierarchyBranch } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
+import { useModal } from 'providers/ModalProvider';
 import { branchTypes } from 'constants/hierarchyTypes';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/Buttons';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -32,19 +30,19 @@ type FormValues = {
 type Props = {
   operator: Operator,
   allowToUpdateHierarchy: boolean,
-  modals: {
-    confirmActionModal: Modal,
-  },
 };
 
 const OperatorHierarchyBranches = (props: Props) => {
-  const { operator, allowToUpdateHierarchy, modals: { confirmActionModal } } = props;
+  const { operator, allowToUpdateHierarchy } = props;
 
   const operatorUuid = operator.uuid;
 
   const branchTypesOptions = Object.keys(omit(branchTypes, 'COMPANY'));
 
   const [isVisibleAddBranchForm, setSsVisibleAddBranchForm] = useState(false);
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   // ===== Requests ===== //
   const operatorHierarchyQuery = useOperatorHierarchyQuery({ variables: { uuid: operator.uuid } });
@@ -301,9 +299,4 @@ const OperatorHierarchyBranches = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    confirmActionModal: ConfirmActionModal,
-  }),
-)(OperatorHierarchyBranches);
+export default React.memo(OperatorHierarchyBranches);

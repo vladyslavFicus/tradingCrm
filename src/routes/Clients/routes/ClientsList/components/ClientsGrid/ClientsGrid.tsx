@@ -1,13 +1,11 @@
 import React, { Fragment } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { startCase } from 'lodash';
-import compose from 'compose-function';
 import { NetworkStatus, QueryResult } from '@apollo/client';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { withModals } from 'hoc';
-import { Modal, Pageable, State } from 'types';
+import { Pageable, State } from 'types';
 import { getBrand, getBackofficeBrand } from 'config';
 import permissions from 'config/permissions';
 import { targetTypes } from 'constants/note';
@@ -15,7 +13,8 @@ import { warningLabels } from 'constants/warnings';
 import { statuses, statusesLabels } from 'constants/user';
 import { lastActivityStatusesLabels } from 'constants/lastActivity';
 import { usePermission } from 'providers/PermissionsProvider';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { useModal } from 'providers/ModalProvider';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
 import GridPlayerInfo from 'components/GridPlayerInfo';
@@ -49,23 +48,20 @@ type TableSelection = {
 };
 
 type Props = {
-  modals: {
-    confirmationModal: Modal,
-  },
   sorts: Array<Sort>,
   clientsQuery: QueryResult<ClientsListQuery>,
-  onSelect: () => void,
+  onSelect: (selectedClients: TableSelection) => void,
 };
 
 const ClientsGrid = (props: Props) => {
   const {
-    modals: {
-      confirmationModal,
-    },
     sorts,
     clientsQuery,
     onSelect,
   } = props;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const location = useLocation<State<ClientsListQueryVariables>>();
   const { state } = location;
@@ -103,8 +99,8 @@ const ClientsGrid = (props: Props) => {
   };
 
   const handleSelectError = (select: TableSelection) => {
-    confirmationModal.show({
-      onSubmit: confirmationModal.hide,
+    confirmActionModal.show({
+      onSubmit: confirmActionModal.hide,
       modalTitle: `${select.max} ${I18n.t('COMMON.CLIENTS_SELECTED')}`,
       actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: select.max }),
       submitButtonLabel: I18n.t('COMMON.OK'),
@@ -572,9 +568,4 @@ const ClientsGrid = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
-)(ClientsGrid);
+export default React.memo(ClientsGrid);

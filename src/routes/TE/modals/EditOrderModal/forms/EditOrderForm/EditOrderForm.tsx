@@ -3,13 +3,14 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import moment from 'moment';
-import { LevelType, Modal, Notify } from 'types';
-import { withModals, withNotifications } from 'hoc';
+import { LevelType, Notify } from 'types';
+import { withNotifications } from 'hoc';
 import permissions from 'config/permissions';
 import { OrderStatus, OrderType } from 'types/trading-engine';
 import { Permission } from 'types/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { useModal } from 'providers/ModalProvider';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import Input from 'components/Input';
 import { FormikDatePicker, FormikInputDecimalsField, FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/Buttons';
@@ -29,9 +30,6 @@ type Props = {
   onSuccess: (shouldCloseModal?: boolean) => void,
   notify: Notify,
   permission: Permission,
-  modals: {
-    confirmationModal: Modal,
-  },
 }
 
 type FormValues = {
@@ -54,9 +52,6 @@ const EditOrderForm = (props: Props) => {
     order,
     onSuccess,
     notify,
-    modals: {
-      confirmationModal,
-    },
   } = props;
 
   const {
@@ -82,6 +77,9 @@ const EditOrderForm = (props: Props) => {
     symbolConfig,
     symbolEntity,
   } = order;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const permission = usePermission();
 
@@ -122,7 +120,7 @@ const EditOrderForm = (props: Props) => {
     || !account.enable;
 
   const handleEditOrder = async (values: FormValues) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       modalTitle: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CHANGE_ORDER_TITLE'),
       actionText: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CHANGE_ORDER_TEXT', { id }),
       submitButtonLabel: I18n.t('COMMON.YES'),
@@ -504,7 +502,4 @@ const EditOrderForm = (props: Props) => {
 export default compose(
   React.memo,
   withNotifications,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
 )(EditOrderForm);

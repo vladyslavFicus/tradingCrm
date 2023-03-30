@@ -6,8 +6,9 @@ import { useLocation, useParams } from 'react-router-dom';
 import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import CreateRuleModal from 'modals/CreateRuleModal';
 import UpdateRuleModal from 'modals/UpdateRuleModal';
 import { Modal, State } from 'types';
@@ -42,7 +43,6 @@ type RuleInfo = {
 
 type Modals = {
   createRuleModal: Modal,
-  deleteModal: Modal,
   updateRuleModal: Modal,
 };
 
@@ -54,10 +54,13 @@ type Props = {
 
 const SalesRules = (props: Props) => {
   const {
-    modals: { createRuleModal, deleteModal, updateRuleModal },
+    modals: { createRuleModal, updateRuleModal },
     type: userType,
     isTab,
   } = props;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const { id: parentBranch } = useParams<{ id: string }>();
   const { state } = useLocation<State>();
@@ -116,7 +119,7 @@ const SalesRules = (props: Props) => {
 
       await refetch();
 
-      deleteModal.hide();
+      confirmActionModal.hide();
 
       notify({
         level: LevelType.SUCCESS,
@@ -136,7 +139,7 @@ const SalesRules = (props: Props) => {
     const result = rules.find(rule => rule?.uuid === uuid);
     const name = result?.name;
 
-    deleteModal.show({
+    confirmActionModal.show({
       onSubmit: handleDeleteRule(uuid),
       modalTitle: I18n.t('HIERARCHY.PROFILE_RULE_TAB.DELETE_MODAL.HEADER'),
       actionText: I18n.t(
@@ -398,7 +401,6 @@ const SalesRules = (props: Props) => {
 export default compose(
   React.memo,
   withModals({
-    deleteModal: ConfirmActionModal,
     createRuleModal: CreateRuleModal,
     updateRuleModal: UpdateRuleModal,
   }),

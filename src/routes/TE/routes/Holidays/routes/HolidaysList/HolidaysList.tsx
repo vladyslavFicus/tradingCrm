@@ -4,14 +4,15 @@ import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { useHistory, useLocation } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
-import { State, Sort, Modal, LevelType, Notify } from 'types';
-import { withModals, withNotifications } from 'hoc';
+import { State, Sort, LevelType, Notify } from 'types';
+import { withNotifications } from 'hoc';
 import permissions from 'config/permissions';
 import { Table, Column } from 'components/Table';
 import PermissionContent from 'components/PermissionContent';
 import { Button, EditButton, TrashButton } from 'components/Buttons';
 import Tabs from 'components/Tabs';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
+import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { tradingEngineTabs } from 'routes/TE/constants';
 import HolidaysFilter from './components/HolidaysFilter';
@@ -21,27 +22,20 @@ import './HolidaysList.scss';
 
 type Holiday = ExtractApolloTypeFromPageable<HolidaysQuery['tradingEngine']['holidays']>;
 
-interface ConfirmationModalProps {
-  onSubmit: () => void,
-  modalTitle: string,
-  actionText: string,
-  submitButtonLabel: string,
-}
-
 type Props = {
   notify: Notify,
-  modals: {
-    confirmationModal: Modal<ConfirmationModalProps>,
-  },
 }
 
 const Holidays = (props: Props) => {
-  const { modals: { confirmationModal }, notify } = props;
+  const { notify } = props;
 
   const history = useHistory();
   const { state } = useLocation<State<HolidaysQueryVariables['args']>>();
 
   const permission = usePermission();
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const [deleteHoliday] = useDeleteHolidayMutation();
 
@@ -92,7 +86,7 @@ const Holidays = (props: Props) => {
       await deleteHoliday({ variables: { id } });
 
       await holidaysQuery.refetch();
-      confirmationModal.hide();
+      confirmActionModal.hide();
 
       notify({
         level: LevelType.SUCCESS,
@@ -109,7 +103,7 @@ const Holidays = (props: Props) => {
   };
 
   const handleHolidayDeleteClick = (holiday: Holiday) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       onSubmit: () => handleDeleteHoliday(holiday.id),
       modalTitle: I18n.t('TRADING_ENGINE.HOLIDAYS.CONFIRMATION.DELETE.TITLE'),
       actionText: I18n.t('TRADING_ENGINE.HOLIDAYS.CONFIRMATION.DELETE.DESCRIPTION', { date: holiday.date }),
@@ -229,7 +223,4 @@ const Holidays = (props: Props) => {
 export default compose(
   React.memo,
   withNotifications,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
 )(Holidays);

@@ -2,23 +2,21 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import compose from 'compose-function';
 import classNames from 'classnames';
-import { withModals } from 'hoc';
-import { Modal } from 'types';
 import {
   DistributionRule,
   DistributionRule__SourceBrandConfig as DistributionRuleSourceBrandConfig,
   DistributionRule__TargetBrandConfig as DistributionRuleTargetBrandConfig,
 } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
+import { useModal } from 'providers/ModalProvider';
 import { salesStatuses } from 'constants/salesStatuses';
 import { clientDistributionStatuses } from 'constants/clientsDistribution';
 import Uuid from 'components/Uuid';
 import { Button } from 'components/Buttons';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { Table, Column } from 'components/Table';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { ReactComponent as PlayIcon } from './img/play-icon.svg';
 import { ReactComponent as PauseIcon } from './img/pause-icon.svg';
 import { ReactComponent as TimeIcon } from './img/time-icon.svg';
@@ -34,17 +32,17 @@ type Props = {
   content: Array<DistributionRule>,
   loading: boolean,
   last: boolean,
-  modals: {
-    confirmActionModal: Modal,
-  },
   onRefetch: () => void,
   onMore: () => void,
 };
 
 const DistributionRulesGrid = (props: Props) => {
-  const { content, loading, last, modals: { confirmActionModal }, onRefetch, onMore } = props;
+  const { content, loading, last, onRefetch, onMore } = props;
 
   const history = useHistory();
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   // ===== Requests ===== //
   const [distributionRuleClientsCountQuery] = useDistributionRuleClientsCountQueryLazyQuery({
@@ -418,9 +416,4 @@ const DistributionRulesGrid = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    confirmActionModal: ConfirmActionModal,
-  }),
-)(DistributionRulesGrid);
+export default React.memo(DistributionRulesGrid);

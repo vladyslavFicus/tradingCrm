@@ -2,10 +2,11 @@ import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { parseErrors } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
-import { LevelType, Modal, Notify } from 'types';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { withNotifications } from 'hoc';
+import { LevelType, Notify } from 'types';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Button } from 'components/Buttons';
+import { useModal } from 'providers/ModalProvider';
 import { OrderQuery } from '../../graphql/__generated__/OrderQuery';
 import { useReopenOrderMutation } from './graphql/__generated__/ReopenOrderMutation';
 
@@ -13,9 +14,6 @@ type Props = {
   order: OrderQuery['tradingEngine']['order'],
   onSuccess: (shouldCloseModal?: boolean) => void,
   notify: Notify,
-  modals: {
-    confirmationModal: Modal,
-  },
 }
 
 const ReopenOrderButton = (props: Props) => {
@@ -23,17 +21,17 @@ const ReopenOrderButton = (props: Props) => {
     order,
     onSuccess,
     notify,
-    modals: {
-      confirmationModal,
-    },
   } = props;
 
   const { id } = order;
 
   const [reopenOrder, { loading }] = useReopenOrderMutation();
 
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
+
   const handleReopenOrder = async () => {
-    confirmationModal.show({
+    confirmActionModal.show({
       modalTitle: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.REOPEN_ORDER_TITLE'),
       actionText: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.REOPEN_ORDER_TEXT', { id }),
       submitButtonLabel: I18n.t('COMMON.YES'),
@@ -92,7 +90,4 @@ const ReopenOrderButton = (props: Props) => {
 export default compose(
   React.memo,
   withNotifications,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
 )(ReopenOrderButton);

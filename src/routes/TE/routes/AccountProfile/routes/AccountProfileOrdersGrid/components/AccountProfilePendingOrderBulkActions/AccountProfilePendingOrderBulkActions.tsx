@@ -2,19 +2,17 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
-import { withModals, withNotifications } from 'hoc';
-import { LevelType, Modal, Notify, TableSelection } from 'types';
+import { withNotifications } from 'hoc';
+import { LevelType, Notify, TableSelection } from 'types';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { useModal } from 'providers/ModalProvider';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Button } from 'components/Buttons';
 import { OrdersQueryQueryResult, OrdersQuery } from '../../graphql/__generated__/OrdersQuery';
 import { useBulkCloseOrderMutation } from './graphql/__generated__/BulkCloseOrderMutation';
 import './AccountProfilePendingOrderBulkActions.scss';
 
 type Props = {
-  modals: {
-    confirmationModal: Modal,
-  },
   notify: Notify,
   select: TableSelection,
   ordersQuery: OrdersQueryQueryResult,
@@ -24,15 +22,15 @@ type Order = ExtractApolloTypeFromPageable<OrdersQuery['tradingEngine']['orders'
 
 const AccountProfilePendingOrderBulkActions = (props: Props) => {
   const {
-    modals: {
-      confirmationModal,
-    },
     ordersQuery,
     notify,
     select,
   } = props;
 
   const [bulkCloseOrders] = useBulkCloseOrderMutation();
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const handleBulkCloseOrderClick = async () => {
     const ordersData = ordersQuery.data?.tradingEngine.orders || { content: [] };
@@ -45,7 +43,7 @@ const AccountProfilePendingOrderBulkActions = (props: Props) => {
 
     const orders = selectedOrders.map(order => ({ id: order.id }));
 
-    confirmationModal.show({
+    confirmActionModal.show({
       modalTitle: I18n.t('TRADING_ENGINE.MODALS.BULK_CANCEL_ORDERS.TITLE'),
       actionText: I18n.t('TRADING_ENGINE.MODALS.BULK_CANCEL_ORDERS.CANCEL'),
       submitButtonLabel: I18n.t('COMMON.YES'),
@@ -100,7 +98,4 @@ export default compose(
   React.memo,
   withRouter,
   withNotifications,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
 )(AccountProfilePendingOrderBulkActions);

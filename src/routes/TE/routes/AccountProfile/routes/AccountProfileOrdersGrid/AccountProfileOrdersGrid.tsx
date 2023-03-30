@@ -12,6 +12,7 @@ import { TradingEngine__OrderStatuses__Enum as OrderStatusesEnum } from '__gener
 import { Button } from 'components/Buttons';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import PermissionContent from 'components/PermissionContent';
 import { round } from 'utils/round';
 import { Table, Column } from 'components/Table';
@@ -23,7 +24,7 @@ import PnL from 'routes/TE/components/PnL';
 import CurrentPrice from 'routes/TE/components/CurrentPrice';
 import { useSymbolsPricesStream } from 'routes/TE/components/SymbolsPricesStream';
 import EditOrderModal from 'routes/TE/modals/EditOrderModal';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { types } from '../../attributes/constants';
 import { MAX_SELECTED_ACCOUNT_ORDERS } from '../../constants';
 import AccountProfileOrdersGridFilter from './components/AccountProfileOrdersGridFilter';
@@ -40,7 +41,6 @@ type Props = {
   showCloseButtonColumn?: boolean,
   modals: {
     editOrderModal: Modal,
-    confirmationModal: Modal,
   },
   notify: Notify,
 }
@@ -51,10 +51,12 @@ const AccountProfileOrdersGrid = (props: Props) => {
     showCloseButtonColumn = false,
     modals: {
       editOrderModal,
-      confirmationModal,
     },
     notify,
   } = props;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const { id: accountUuid } = useParams<{ id: string }>();
   const history = useHistory();
@@ -117,7 +119,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
   };
 
   const handleCloseOrderClick = async (order: Order, closeBy: OrderCloseByEnum) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       modalTitle: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.TITLE'),
       actionText: I18n.t(`TRADING_ENGINE.MODALS.CLOSE_ORDER.${closeBy}_DESCRIPTION`, order),
       submitButtonLabel: I18n.t('COMMON.YES'),
@@ -460,6 +462,5 @@ export default compose(
   withNotifications,
   withModals({
     editOrderModal: EditOrderModal,
-    confirmationModal: ConfirmActionModal,
   }),
 )(AccountProfileOrdersGrid);

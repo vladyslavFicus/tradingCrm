@@ -1,9 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import compose from 'compose-function';
-import { withModals } from 'hoc';
-import { Modal, Sorts } from 'types';
+import { Sorts } from 'types';
 import { IpWhitelistAddress } from '__generated__/types';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -13,7 +11,7 @@ import { Table, Column } from 'components/Table';
 import { TrashButton, EditButton } from 'components/Buttons';
 import UpdateIpWhiteListModal,
 { UpdateIpWhiteListModalProps } from 'modals/UpdateIpWhiteListModal';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { useIpWhitelistDeleteMutation } from './graphql/__generated__/IpWhitelistDeleteMutation';
 import './IpWhitelistGrid.scss';
 
@@ -21,13 +19,10 @@ type Props = {
   content: Array<IpWhitelistAddress>,
   loading: boolean,
   last: boolean,
-  modals: {
-    deleteModal: Modal,
-  },
   onRefetch: () => void,
   onFetchMore: () => void,
   onSort: (sorts: Sorts) => void,
-  onSelect: () => void,
+  onSelect: Function,
 };
 
 const IpWhitelistGrid = (props: Props) => {
@@ -35,9 +30,6 @@ const IpWhitelistGrid = (props: Props) => {
     content,
     loading,
     last,
-    modals: {
-      deleteModal,
-    },
     onRefetch,
     onFetchMore,
     onSort,
@@ -50,6 +42,7 @@ const IpWhitelistGrid = (props: Props) => {
   const allowDeleteIp = permission.allows(permissions.IP_WHITELIST.DELETE_IP_ADDRESS);
 
   // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
   const updateIpWhiteListModal = useModal<UpdateIpWhiteListModalProps>(UpdateIpWhiteListModal);
 
   // ===== Requests ===== //
@@ -61,7 +54,7 @@ const IpWhitelistGrid = (props: Props) => {
       await ipWhitelistDeleteMutation({ variables: { uuid } });
 
       onRefetch();
-      deleteModal.hide();
+      confirmActionModal.hide();
 
       notify({
         level: LevelType.SUCCESS,
@@ -107,7 +100,7 @@ const IpWhitelistGrid = (props: Props) => {
       <If condition={allowDeleteIp}>
         <TrashButton
           className="IpWhitelistGrid__action-icon"
-          onClick={() => deleteModal.show({
+          onClick={() => confirmActionModal.show({
             onSubmit: handleDeleteIp(item),
             modalTitle: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.HEADER'),
             actionText: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.ACTION_TEXT', { ip: item.ip }),
@@ -161,10 +154,4 @@ const IpWhitelistGrid = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    updateIpWhiteListModal: UpdateIpWhiteListModal,
-    deleteModal: ConfirmActionModal,
-  }),
-)(IpWhitelistGrid);
+export default React.memo(IpWhitelistGrid);

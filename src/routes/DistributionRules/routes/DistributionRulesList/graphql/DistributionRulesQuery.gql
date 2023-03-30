@@ -1,6 +1,7 @@
 query DistributionRulesQuery($args: DistributionRuleSearch__Input) {
   distributionRules (args: $args) {
     content {
+      _id
       uuid
       name
       order
@@ -8,6 +9,7 @@ query DistributionRulesQuery($args: DistributionRuleSearch__Input) {
       createdBy
       statusChangedAt
       createdAt
+      updatedAt
       executionType
       latestMigration {
         uuid

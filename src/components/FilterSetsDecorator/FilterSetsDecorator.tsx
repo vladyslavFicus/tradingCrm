@@ -7,8 +7,9 @@ import { withModals } from 'hoc';
 import { Modal, State } from 'types';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
+import { useModal } from 'providers/ModalProvider';
 import ActionFilterModal from 'modals/ActionFilterModal';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { FilterSet__Types__Enum as FilterSetType } from '__generated__/types';
 import { FilterSetContext } from 'types/filterSet';
 import { SelectedFilterSet } from 'types/selectedFilterSet';
@@ -21,7 +22,6 @@ import './FilterSetsDecorator.scss';
 
 type Modals = {
   actionFilterModal: Modal,
-  confirmActionModal: Modal,
 };
 
 type Props = {
@@ -40,7 +40,6 @@ const FilterSetsDecorator = (props: Props) => {
   const {
     modals: {
       actionFilterModal,
-      confirmActionModal,
     },
     children,
     filterSetType,
@@ -52,6 +51,9 @@ const FilterSetsDecorator = (props: Props) => {
 
   const { state } = useLocation<State<FilterSetsQueryVariables>>();
   const history = useHistory();
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const [selectedFilterSetUuid, setSelectedFilterSetUuid] = useState<string>();
   const [filterSetsLoading, setFilterSetsLoading] = useState(false);
@@ -251,6 +253,5 @@ export default compose(
   React.memo,
   withModals({
     actionFilterModal: ActionFilterModal,
-    confirmActionModal: ConfirmActionModal,
   }),
 )(FilterSetsDecorator);

@@ -52,7 +52,7 @@ type Props = {
   stickyFromTop: string | number,
   onMore: () => void,
   onSort: (sorts: Array<Sort>) => void,
-  onSelect?: () => void,
+  onSelect?: (selected: TableSelection) => void,
   onSelectError?: (select: TableSelection) => void,
 }
 

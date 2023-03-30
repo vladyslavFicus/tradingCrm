@@ -2,10 +2,11 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import compose from 'compose-function';
-import { LevelType, Modal, Notify } from 'types';
+import { LevelType, Notify } from 'types';
 import { parseErrors } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { withNotifications } from 'hoc';
+import { useModal } from 'providers/ModalProvider';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { FormikInputDecimalsField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/Buttons';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
@@ -21,9 +22,6 @@ type Props = {
   order: OrderQuery['tradingEngine']['order'],
   onSuccess: (shouldCloseModal?: boolean) => void,
   notify: Notify,
-  modals: {
-    confirmationModal: Modal,
-  },
 }
 
 type FormValues = {
@@ -36,9 +34,6 @@ const ActivatePendingOrderForm = (props: Props) => {
     order,
     onSuccess,
     notify,
-    modals: {
-      confirmationModal,
-    },
   } = props;
 
   const {
@@ -52,6 +47,9 @@ const ActivatePendingOrderForm = (props: Props) => {
     symbolEntity,
     account,
   } = order;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const [activatePendingOrder] = useActivatePendingOrderMutation();
 
@@ -73,7 +71,7 @@ const ActivatePendingOrderForm = (props: Props) => {
 
   // ==== Handlers ==== //
   const handleActivatePendingOrder = async (values: FormValues) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       modalTitle: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.PENDING_ORDER_TITLE'),
       actionText: I18n.t(
         'TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.PENDING_ORDER_TEXT',
@@ -207,7 +205,4 @@ const ActivatePendingOrderForm = (props: Props) => {
 export default compose(
   React.memo,
   withNotifications,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
 )(ActivatePendingOrderForm);

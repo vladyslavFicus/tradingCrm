@@ -2,9 +2,10 @@ import React, { useRef } from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import compose from 'compose-function';
-import { LevelType, Modal, Notify } from 'types';
-import { withModals, withNotifications } from 'hoc';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { LevelType, Notify } from 'types';
+import { withNotifications } from 'hoc';
+import { useModal } from 'providers/ModalProvider';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { FormikInputDecimalsField, FormikInputField } from 'components/Formik';
 import { Button } from 'components/Buttons';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
@@ -20,9 +21,6 @@ type Props = {
   order: OrderQuery['tradingEngine']['order'],
   onSuccess: (shouldCloseModal?: boolean) => void,
   notify: Notify,
-  modals: {
-    confirmationModal: Modal,
-  },
 }
 
 type FormValues = {
@@ -35,9 +33,6 @@ const CloseOpenOrderForm = (props: Props) => {
     order,
     onSuccess,
     notify,
-    modals: {
-      confirmationModal,
-    },
   } = props;
 
   const {
@@ -51,6 +46,9 @@ const CloseOpenOrderForm = (props: Props) => {
     direction,
     symbolConfig,
   } = order;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const [closeOrder] = useCloseOrderMutation();
 
@@ -83,7 +81,7 @@ const CloseOpenOrderForm = (props: Props) => {
 
   // ==== Handlers ==== //
   const handleCloseOrder = async (values: FormValues) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       modalTitle: I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CLOSE_ORDER_TITLE_${status}`),
       actionText: I18n.t(`TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CLOSE_ORDER_TEXT_${status}`, {
         id,
@@ -227,7 +225,4 @@ const CloseOpenOrderForm = (props: Props) => {
 export default compose(
   React.memo,
   withNotifications,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
 )(CloseOpenOrderForm);

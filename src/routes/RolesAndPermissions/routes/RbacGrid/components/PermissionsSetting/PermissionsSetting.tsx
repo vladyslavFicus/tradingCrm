@@ -9,17 +9,16 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import classNames from 'classnames';
-import { withModals } from 'hoc';
-import { Modal } from 'types';
 import { ActionKey, RbackItem, Actions, Action } from 'types/rbac';
 import rbac from 'constants/rbac';
 import { notify, LevelType } from 'providers/NotificationProvider';
+import { useModal } from 'providers/ModalProvider';
 import { Button } from 'components/Buttons';
 import { withImages } from 'components/ImageViewer';
 import { Image } from 'components/ImageViewer/types';
 import ShortLoader from 'components/ShortLoader';
 import ReactSwitch from 'components/ReactSwitch';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { useActionsQuery } from './graphql/__generated__/ActionsQuery';
 import { useDefaultAuthorityQuery } from './graphql/__generated__/DefaultAuthorityQuery';
 import { useUpdateAuthorityActionsMutation } from './graphql/__generated__/UpdateAuthorityActionsMutation';
@@ -31,15 +30,15 @@ type Props = {
   images: Image,
   department: string,
   role: string,
-  modals: {
-    confirmationModal: Modal,
-  },
 };
 
 const PermissionsSetting = (props: Props) => {
-  const { images, department, role, modals: { confirmationModal } } = props;
+  const { images, department, role } = props;
 
   const [sectionsList, setSectionsList] = useState<RbackItem[]>([]);
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const getSectionsList = (authorityActions: Array<string>) => rbac.map((sectionItem) => {
     const section = { ...sectionItem };
@@ -185,7 +184,7 @@ const PermissionsSetting = (props: Props) => {
 
       await refetch();
 
-      confirmationModal.hide();
+      confirmActionModal.hide();
     } catch {
       notify({
         level: LevelType.ERROR,
@@ -196,7 +195,7 @@ const PermissionsSetting = (props: Props) => {
   };
 
   const handleResetPermission = () => {
-    confirmationModal.show({
+    confirmActionModal.show({
       onSubmit: resetPermission,
       modalTitle: I18n.t('ROLES_AND_PERMISSIONS.RESET_TO_DEFAULT_MODAL.TITLE'),
       actionText: I18n.t('ROLES_AND_PERMISSIONS.RESET_TO_DEFAULT_MODAL.TEXT'),
@@ -329,8 +328,5 @@ const PermissionsSetting = (props: Props) => {
 
 export default compose(
   React.memo,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
   withImages,
 )(PermissionsSetting);

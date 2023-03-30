@@ -5,11 +5,12 @@ import { cloneDeep, set } from 'lodash';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { parseErrors } from 'apollo';
 import { usePermission } from 'providers/PermissionsProvider';
-import { withNotifications, withModals } from 'hoc';
-import { State, Sort, Modal } from 'types';
+import { withNotifications } from 'hoc';
+import { State, Sort } from 'types';
+import { useModal } from 'providers/ModalProvider';
 import permissions from 'config/permissions';
 import { LevelType, Notify } from 'types/notify';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import { Button, TrashButton } from 'components/Buttons';
 import PermissionContent from 'components/PermissionContent';
@@ -20,28 +21,13 @@ import './GroupsGrid.scss';
 
 type GroupType = ExtractApolloTypeFromPageable<GroupsQuery['tradingEngine']['groups']>;
 
-interface ConfirmationModalProps {
-  onSubmit: (groupName: string) => void,
-  modalTitle: string,
-  actionText: string,
-  submitButtonLabel: string,
-}
-
 type Props = {
   groupsListQuery: GroupsQueryQueryResult,
   notify: Notify,
-  modals: {
-    confirmationModal: Modal<ConfirmationModalProps>,
-    confirmationOpenOrderModal: Modal<ConfirmationModalProps>,
-  },
 }
 
 const GroupsGrid = ({
   groupsListQuery,
-  modals: {
-    confirmationOpenOrderModal,
-    confirmationModal,
-  },
   notify,
 }: Props) => {
   const { state } = useLocation<State<GroupsQueryVariables>>();
@@ -49,6 +35,9 @@ const GroupsGrid = ({
   const [deleteGroup] = useDeleteGroupMutation();
   const [archiveGroup] = useArchiveMutation();
   const permission = usePermission();
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const { loading, data: groupsListData, refetch } = groupsListQuery || {};
   const {
@@ -62,7 +51,7 @@ const GroupsGrid = ({
       await deleteGroup({ variables: { groupName } });
 
       await refetch();
-      confirmationModal.hide();
+      confirmActionModal.hide();
       notify({
         level: LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
@@ -107,7 +96,7 @@ const GroupsGrid = ({
           ? I18n.t('TRADING_ENGINE.GROUP.GROUPS_HAS_ACTIVE_ACCOUNTS_AND_OPEN_ORDERS', { accountsCount, ordersCount })
           : I18n.t('TRADING_ENGINE.GROUP.GROUPS_HAS_ACTIVE_ACCOUNTS', { accountsCount });
 
-        confirmationOpenOrderModal.show({
+        confirmActionModal.show({
           actionText,
           modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${enabled ? 'UNARCHIVE' : 'ARCHIVE'}`, { groupName }),
           submitButtonLabel: I18n.t('COMMON.YES'),
@@ -124,7 +113,7 @@ const GroupsGrid = ({
   };
 
   const handleArchiveClick = (groupName: string, enabled: boolean) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       onSubmit: () => handleArchiveAccount(groupName, enabled),
       modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${enabled ? 'UNARCHIVE' : 'ARCHIVE'}`, { groupName }),
       actionText: I18n.t(
@@ -135,7 +124,7 @@ const GroupsGrid = ({
   };
 
   const handleDeleteGroupModal = (groupName: string) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       onSubmit: () => handleDeleteGroup(groupName),
       modalTitle: I18n.t('TRADING_ENGINE.GROUPS.CONFIRMATION.DELETE.TITLE'),
       actionText: I18n.t('TRADING_ENGINE.GROUPS.CONFIRMATION.DELETE.DESCRIPTION', { groupName }),
@@ -273,9 +262,5 @@ const GroupsGrid = ({
 
 export default compose(
   React.memo,
-  withModals({
-    confirmationOpenOrderModal: ConfirmActionModal,
-    confirmationModal: ConfirmActionModal,
-  }),
   withNotifications,
 )(GroupsGrid);

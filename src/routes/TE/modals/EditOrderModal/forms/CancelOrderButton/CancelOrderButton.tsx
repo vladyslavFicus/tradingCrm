@@ -1,9 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
-import { withModals, withNotifications } from 'hoc';
-import { LevelType, Modal, Notify } from 'types';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { withNotifications } from 'hoc';
+import { LevelType, Notify } from 'types';
+import { useModal } from 'providers/ModalProvider';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Button } from 'components/Buttons';
 import { OrderQuery } from '../../graphql/__generated__/OrderQuery';
 import { useCancelOrderMutation } from './graphql/__generated__/CancelOrderMutation';
@@ -12,9 +13,6 @@ type Props = {
   order: OrderQuery['tradingEngine']['order'],
   onSuccess: (shouldCloseModal?: boolean) => void,
   notify: Notify,
-  modals: {
-    confirmationModal: Modal,
-  },
 }
 
 const CancelOrderButton = (props: Props) => {
@@ -22,17 +20,17 @@ const CancelOrderButton = (props: Props) => {
     order,
     onSuccess,
     notify,
-    modals: {
-      confirmationModal,
-    },
   } = props;
 
   const { id } = order;
 
   const [cancelOrder, { loading }] = useCancelOrderMutation();
 
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
+
   const handleDeleteOrder = async () => {
-    confirmationModal.show({
+    confirmActionModal.show({
       modalTitle: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CANCEL_ORDER_TITLE'),
       actionText: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CONFIRMATION.CANCEL_ORDER_TEXT', { id }),
       submitButtonLabel: I18n.t('COMMON.YES'),
@@ -77,7 +75,4 @@ const CancelOrderButton = (props: Props) => {
 export default compose(
   React.memo,
   withNotifications,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
 )(CancelOrderButton);

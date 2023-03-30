@@ -5,19 +5,13 @@ import { FormikProps } from 'formik';
 import classNames from 'classnames';
 import { withModals } from 'hoc';
 import { Modal } from 'types/modal';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { useModal } from 'providers/ModalProvider';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import { Button, EditButton, TrashButton } from 'components/Buttons';
 import GroupNewSymbolModal from '../../modals/GroupNewSymbolModal';
 import { GroupSymbol, GroupSecurity, FormValues } from '../../types';
 import './GroupSymbolsGrid.scss';
-
-interface ConfirmationModalProps {
-  onSubmit: (symbol: GroupSymbol) => void,
-  modalTitle: string,
-  actionText: string,
-  submitButtonLabel: string,
-}
 
 interface GroupNewSymbolModalProps {
   onSuccess: (symbol: GroupSymbol) => void,
@@ -29,14 +23,12 @@ interface GroupNewSymbolModalProps {
 type Props = {
   formik: FormikProps<FormValues>,
   modals: {
-    confirmationModal: Modal<ConfirmationModalProps>,
     groupNewSymbolModal: Modal<GroupNewSymbolModalProps>,
   },
 }
 
 const GroupSymbolsGrid = ({ modals, formik }: Props) => {
   const {
-    confirmationModal,
     groupNewSymbolModal,
   } = modals;
 
@@ -45,6 +37,9 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
   const groupSymbols = values?.groupSymbols || [];
   const groupSecurities = values?.groupSecurities || [];
   const archived = !values.enabled;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const handleNewGroupSymbol = (symbol: GroupSymbol) => {
     setFieldValue('groupSymbols', [...groupSymbols, symbol]);
@@ -62,7 +57,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
   const handleDeleteGroupSymbol = (id: string) => {
     const modifiedGroupSymbols = groupSymbols.filter(({ symbol }: GroupSymbol) => symbol !== id);
     setFieldValue('groupSymbols', modifiedGroupSymbols);
-    confirmationModal.hide();
+    confirmActionModal.hide();
   };
 
   const handleNewGroupSymbolModal = () => {
@@ -82,7 +77,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
   };
 
   const handleDeleteGroupSymbolModal = ({ symbol }: GroupSymbol) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       onSubmit: () => handleDeleteGroupSymbol(symbol),
       modalTitle: I18n.t('TRADING_ENGINE.GROUP.SYMBOL_OVERRIDES_TABLE.CONFIRMATION.DELETE.TITLE'),
       actionText: I18n.t('TRADING_ENGINE.GROUP.SYMBOL_OVERRIDES_TABLE.CONFIRMATION.DELETE.DESCRIPTION', { symbol }),
@@ -190,7 +185,6 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
 export default compose(
   React.memo,
   withModals({
-    confirmationModal: ConfirmActionModal,
     groupNewSymbolModal: GroupNewSymbolModal,
   }),
 )(GroupSymbolsGrid);

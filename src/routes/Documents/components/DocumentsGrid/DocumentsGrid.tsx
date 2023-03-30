@@ -4,15 +4,14 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { useHistory, useLocation } from 'react-router-dom';
 import compose from 'compose-function';
-import { withModals } from 'hoc';
 import { getGraphQLUrl, getVersion } from 'config';
-import { Modal, Sort, State } from 'types';
+import { Sort, State } from 'types';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import downloadBlob from 'utils/downloadBlob';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import AddDocumentModal, { AddDocumentModalProps } from 'modals/AddDocumentModal';
 import UpdateDoсumentModal, { UpdateDocumentModalProps } from 'modals/UpdateDoсumentModal';
 import { Column, Table } from 'components/Table';
@@ -38,14 +37,6 @@ type ShowProps = {
 }
 
 type Props = {
-  modals: {
-    deleteModal: Modal<{
-      onSubmit: (item: DocumentItem) => void,
-      modalTitle: string,
-      actionText: string,
-      submitButtonLabel: string,
-    }>,
-  },
   images: {
     show: (prop: Array<ShowProps>) => void,
     close: () => void,
@@ -53,7 +44,7 @@ type Props = {
 };
 
 const DocumentsGrid = (props: Props) => {
-  const { modals, images } = props;
+  const { images } = props;
 
   const { state } = useLocation<State<DocumentSearchQueryVariables['args']>>();
 
@@ -63,6 +54,8 @@ const DocumentsGrid = (props: Props) => {
 
   const history = useHistory();
 
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
   const updateDoсumentModal = useModal<UpdateDocumentModalProps>(UpdateDoсumentModal);
   const addDocumentModal = useModal<AddDocumentModalProps>(AddDocumentModal);
 
@@ -81,8 +74,6 @@ const DocumentsGrid = (props: Props) => {
       },
     },
   });
-
-  const { deleteModal } = modals;
 
   const { content = [], last, number = 0, totalElements = 0 } = data?.documentSearch || {};
 
@@ -134,7 +125,7 @@ const DocumentsGrid = (props: Props) => {
   const handleDeleteDocument = ({ uuid, title }: DocumentItem) => async () => {
     try {
       await deleteDocumentMutation({ variables: { uuid } });
-      deleteModal.hide();
+      confirmActionModal.hide();
       refetch();
 
       notify({
@@ -218,7 +209,7 @@ const DocumentsGrid = (props: Props) => {
       <If condition={permission.allows(permissions.DOCUMENTS.DELETE_DOCUMENT)}>
         <TrashButton
           className="DocumentsGrid__action-icon"
-          onClick={() => deleteModal.show({
+          onClick={() => confirmActionModal.show({
             onSubmit: handleDeleteDocument(item),
             modalTitle: I18n.t('DOCUMENTS.MODALS.DELETE.HEADER'),
             actionText: I18n.t('DOCUMENTS.MODALS.DELETE.ACTION_TEXT', { documentName: item.title }),
@@ -334,8 +325,5 @@ const DocumentsGrid = (props: Props) => {
 
 export default compose(
   React.memo,
-  withModals({
-    deleteModal: ConfirmActionModal,
-  }),
   withImages,
 )(DocumentsGrid);

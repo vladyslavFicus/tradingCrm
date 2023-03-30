@@ -6,6 +6,7 @@ import { LevelType, Modal, Notify } from 'types';
 import { withModals, withNotifications } from 'hoc';
 import { passwordMaxSize, passwordPattern } from 'routes/TE/constants';
 import permissions from 'config/permissions';
+import { useModal } from 'providers/ModalProvider';
 import EventEmitter, { OPERATOR_RELOAD } from 'utils/EventEmitter';
 import PermissionContent from 'components/PermissionContent';
 import { Button } from 'components/Buttons';
@@ -13,7 +14,7 @@ import Uuid from 'components/Uuid';
 import { LoginLock } from '__generated__/types';
 import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Operator } from '../../DealingOperator';
 import { useChangeOperatorPasswordMutation } from './graphql/__generated__/ChangeOperatorPasswordMutation';
 import { useResetOperatorPasswordMutation } from './graphql/__generated__/ResetOperatorPasswordMutation';
@@ -26,18 +27,20 @@ type Props = {
   notify: Notify,
   modals: {
     changePasswordModal: Modal,
-    confirmActionModal: Modal,
   },
 };
 
 const DealingOperatorHeader = (props: Props) => {
-  const { operator, notify, modals: { changePasswordModal, confirmActionModal } } = props;
+  const { operator, notify, modals: { changePasswordModal } } = props;
   const { status, firstName, lastName, uuid } = operator;
   const [changePasswordMutation] = useChangeOperatorPasswordMutation();
   const [resetPasswordMutation] = useResetOperatorPasswordMutation();
   const [unlockOperatorLoginMutation] = useUnlockOperatorLoginMutation();
   const operatorLockStatusQuery = useOperatorLockStatus({ variables: { uuid: operator.uuid } });
   const locks = operatorLockStatusQuery.data?.loginLock as LoginLock;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const handleChangePassword = async ({ newPassword }: any) => {
     try {
@@ -184,6 +187,5 @@ export default compose(
   withNotifications,
   withModals({
     changePasswordModal: ChangePasswordModal,
-    confirmActionModal: ConfirmActionModal,
   }),
 )(DealingOperatorHeader);

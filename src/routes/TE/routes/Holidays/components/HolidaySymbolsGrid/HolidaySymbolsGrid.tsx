@@ -4,7 +4,8 @@ import compose from 'compose-function';
 import { FormikProps } from 'formik';
 import { withModals } from 'hoc';
 import { Modal } from 'types/modal';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { useModal } from 'providers/ModalProvider';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import { Button, TrashButton } from 'components/Buttons';
 import CircleLoader from 'components/CircleLoader';
@@ -12,13 +13,6 @@ import HolidayNewSymbolModal from '../../modals/HolidayNewSymbolModal';
 import { FormValues } from '../../types';
 import { useSymbolsSourcesQuery } from './graphql/__generated__/SymbolsSourcesQuery';
 import './HolidaySymbolsGrid.scss';
-
-interface ConfirmationModalProps {
-  onSubmit: () => void,
-  modalTitle: string,
-  actionText: string,
-  submitButtonLabel: string,
-}
 
 interface HolidayNewSymbolModalProps {
   onSuccess: (symbols: string[]) => void,
@@ -28,7 +22,6 @@ interface HolidayNewSymbolModalProps {
 type Props = {
   formik: FormikProps<FormValues>,
   modals: {
-    confirmationModal: Modal<ConfirmationModalProps>,
     holidayNewSymbolModal: Modal<HolidayNewSymbolModalProps>,
   },
 }
@@ -36,7 +29,6 @@ type Props = {
 const HolidaySymbolsGrid = (props: Props) => {
   const {
     modals: {
-      confirmationModal,
       holidayNewSymbolModal,
     },
     formik: {
@@ -44,6 +36,9 @@ const HolidaySymbolsGrid = (props: Props) => {
       setFieldValue,
     },
   } = props;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const symbolsSourcesQuery = useSymbolsSourcesQuery();
 
@@ -64,7 +59,7 @@ const HolidaySymbolsGrid = (props: Props) => {
 
     setFieldValue('symbols', symbols);
 
-    confirmationModal.hide();
+    confirmActionModal.hide();
   };
 
   const handleNewHolidaySymbolClick = () => {
@@ -77,7 +72,7 @@ const HolidaySymbolsGrid = (props: Props) => {
   };
 
   const handleDeleteHolidaySymbolClick = (symbol: string) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       onSubmit: () => handleDeleteHolidaySymbol(symbol),
       modalTitle: I18n.t('TRADING_ENGINE.HOLIDAY.SYMBOLS_TABLE.CONFIRMATION.DELETE.TITLE'),
       actionText: I18n.t('TRADING_ENGINE.HOLIDAY.SYMBOLS_TABLE.CONFIRMATION.DELETE.DESCRIPTION', { symbol }),
@@ -144,7 +139,6 @@ const HolidaySymbolsGrid = (props: Props) => {
 export default compose(
   React.memo,
   withModals({
-    confirmationModal: ConfirmActionModal,
     holidayNewSymbolModal: HolidayNewSymbolModal,
   }),
 )(HolidaySymbolsGrid);

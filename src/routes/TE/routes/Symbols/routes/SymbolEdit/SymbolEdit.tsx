@@ -3,16 +3,16 @@ import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import compose from 'compose-function';
 import { useParams } from 'react-router-dom';
 import I18n from 'i18n';
-import { withNotifications, withModals } from 'hoc';
+import { withNotifications } from 'hoc';
 import { parseErrors } from 'apollo';
-import { Modal } from 'types';
 import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import NotFound from 'routes/NotFound';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/Buttons';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Notify, LevelType } from 'types/notify';
+import { useModal } from 'providers/ModalProvider';
 import { LotMax, LotMin, LotStep } from 'routes/TE/routes/Groups/types';
 import SymbolSettings from '../../components/SymbolSettings';
 import CalculationSettings from '../../components/CalculationSettings';
@@ -29,9 +29,6 @@ import './SymbolEdit.scss';
 
 type Props = {
   notify: Notify,
-  modals: {
-    confirmationModal: Modal,
-  },
 }
 
 const validator = createValidator(
@@ -93,9 +90,12 @@ const validator = createValidator(
 );
 
 const SymbolEdit = (props: Props) => {
-  const { notify, modals: { confirmationModal } } = props;
+  const { notify } = props;
 
   const { id } = useParams<{ id: string }>();
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const symbolQuery = useSymbolQuery({ variables: { symbolName: id } });
   const securitiesQuery = useSecuritiesQuery();
@@ -151,7 +151,7 @@ const SymbolEdit = (props: Props) => {
 
       // Open confirmation modal to confirm force closing orders
       if (error.error === 'error.symbol.has.opened.orders') {
-        confirmationModal.show({
+        confirmActionModal.show({
           actionText: I18n.t('TRADING_ENGINE.EDIT_SYMBOL.NOTIFICATION.FAILED_SYMBOL_HAS_ORDERS'),
           submitButtonLabel: I18n.t('COMMON.YES'),
           cancelButtonLabel: I18n.t('COMMON.NO'),
@@ -330,7 +330,4 @@ const SymbolEdit = (props: Props) => {
 export default compose(
   React.memo,
   withNotifications,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
 )(SymbolEdit);

@@ -5,12 +5,13 @@ import { FormikProps } from 'formik';
 import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { parseErrors } from 'apollo';
-import { LevelType, Modal, Notify } from 'types';
+import { LevelType, Notify } from 'types';
+import { useModal } from 'providers/ModalProvider';
 import PermissionContent from 'components/PermissionContent';
 import permissions from 'config/permissions';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Button } from 'components/Buttons';
-import { withModals, withNotifications } from 'hoc';
+import { withNotifications } from 'hoc';
 import { FormValues } from '../../types';
 import { useArchiveMutation } from './graphql/__generated__/ArchiveMutation';
 import './GroupProfileHeaderEdit.scss';
@@ -19,19 +20,11 @@ type Props = {
   notify: Notify,
   onArchived: () => void,
   formik: FormikProps<FormValues>,
-  modals: {
-    confirmationModal: Modal,
-    confirmationOpenOrderModal: Modal,
-  },
 }
 
 const GroupProfileHeaderEdit = (props: Props) => {
   const {
     formik,
-    modals: {
-      confirmationModal,
-      confirmationOpenOrderModal,
-    },
     notify,
     onArchived,
   } = props;
@@ -41,6 +34,9 @@ const GroupProfileHeaderEdit = (props: Props) => {
   const { groupName, enabled } = values;
 
   const [archiveGroup] = useArchiveMutation();
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const handleArchiveAccount = async (_enabled: boolean, force = false) => {
     try {
@@ -66,7 +62,7 @@ const GroupProfileHeaderEdit = (props: Props) => {
           ? I18n.t('TRADING_ENGINE.GROUP.GROUPS_HAS_ACTIVE_ACCOUNTS_AND_OPEN_ORDERS', { accountsCount, ordersCount })
           : I18n.t('TRADING_ENGINE.GROUP.GROUPS_HAS_ACTIVE_ACCOUNTS', { accountsCount });
 
-        confirmationOpenOrderModal.show({
+        confirmActionModal.show({
           actionText,
           modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${_enabled ? 'UNARCHIVE' : 'ARCHIVE'}`, { groupName }),
           submitButtonLabel: I18n.t('COMMON.YES'),
@@ -83,7 +79,7 @@ const GroupProfileHeaderEdit = (props: Props) => {
   };
 
   const handleArchiveClick = (_enabled: boolean) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       onSubmit: () => handleArchiveAccount(_enabled),
       modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${_enabled ? 'UNARCHIVE' : 'ARCHIVE'}`, { groupName }),
       actionText: I18n.t(
@@ -143,8 +139,4 @@ const GroupProfileHeaderEdit = (props: Props) => {
 export default compose(
   React.memo,
   withNotifications,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-    confirmationOpenOrderModal: ConfirmActionModal,
-  }),
 )(GroupProfileHeaderEdit);

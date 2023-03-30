@@ -8,7 +8,8 @@ import {
   Commission__Type__Enum as GroupCommissionType,
   Commission__Lots__Enum as GroupCommissionLots,
 } from '__generated__/types';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { useModal } from 'providers/ModalProvider';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import { EditButton, TrashButton, Button } from 'components/Buttons';
 import GroupNewSecurityModal from '../../modals/GroupNewSecurityModal';
@@ -24,13 +25,6 @@ import {
 } from '../../types';
 import './GroupSecuritiesGrid.scss';
 
-interface ConfirmationModalProps {
-  onSubmit: (id: number) => void,
-  modalTitle: string,
-  actionText: string,
-  submitButtonLabel: string,
-}
-
 interface GroupNewSecurityModalProps {
   onSuccess: (securities: Security[]) => void,
   groupSecurities: GroupSecurity[],
@@ -44,7 +38,6 @@ interface GroupSecurityCustomizationModalProps {
 type Props = {
   formik: FormikProps<FormValues>,
   modals: {
-    confirmationModal: Modal<ConfirmationModalProps>,
     groupNewSecurityModal: Modal<GroupNewSecurityModalProps>,
     groupSecurityCustomizationModal: Modal<GroupSecurityCustomizationModalProps>,
   },
@@ -54,7 +47,6 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
   const {
     groupNewSecurityModal,
     groupSecurityCustomizationModal,
-    confirmationModal,
   } = modals;
 
   const { values, setFieldValue } = formik;
@@ -62,6 +54,9 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
   const groupSecurities = values?.groupSecurities || [];
   const groupSymbols = values?.groupSymbols || [];
   const archived = !values.enabled;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const handleNewGroupSecurity = (securities: Security[]) => {
     const newSecurities = securities.map(security => ({
@@ -96,7 +91,7 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
     setFieldValue('groupSecurities', modifiedGroupSecurities);
     setFieldValue('groupSymbols', modifiedGroupSymbols);
 
-    confirmationModal.hide();
+    confirmActionModal.hide();
   };
 
   const handleNewGroupSecurityModal = () => {
@@ -114,7 +109,7 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
   };
 
   const handleDeleteGroupSecurityModal = ({ security: { name, id } }: GroupSecurity) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       onSubmit: () => handleDeleteGroupSecurity(id),
       modalTitle: I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.CONFIRMATION.DELETE.TITLE'),
       actionText: I18n.t('TRADING_ENGINE.GROUP.SECURITIES_TABLE.CONFIRMATION.DELETE.DESCRIPTION', { name }),
@@ -200,7 +195,6 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
 export default compose(
   React.memo,
   withModals({
-    confirmationModal: ConfirmActionModal,
     groupNewSecurityModal: GroupNewSecurityModal,
     groupSecurityCustomizationModal: GroupSecurityCustomizationModal,
   }),

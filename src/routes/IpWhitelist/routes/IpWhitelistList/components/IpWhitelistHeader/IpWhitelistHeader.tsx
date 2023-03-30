@@ -1,16 +1,14 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
-import { withModals } from 'hoc';
-import { Modal, State, TableSelection } from 'types';
+import { State, TableSelection } from 'types';
 import { IpWhitelistAddress } from '__generated__/types';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { Button } from 'components/Buttons';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import CreateIpWhiteListModal, { CreateIpWhiteListModalProps } from 'modals/CreateIpWhiteListModal';
 import { useIpWhitelistBulkDeleteMutation } from './graphql/__generated__/IpWhitelistBulkDeleteMutation';
 import './IpWhitelistHeader.scss';
@@ -19,9 +17,6 @@ type Props = {
   content: Array<IpWhitelistAddress>,
   totalElements: number,
   selected: TableSelection | null,
-  modals: {
-    deleteModal: Modal,
-  },
   onRefetch: () => void,
 };
 
@@ -30,9 +25,6 @@ const IpWhitelistHeader = (props: Props) => {
     content,
     totalElements,
     selected,
-    modals: {
-      deleteModal,
-    },
     onRefetch,
   } = props;
 
@@ -47,6 +39,7 @@ const IpWhitelistHeader = (props: Props) => {
   const allowDeleteIp = permission.allows(permissions.IP_WHITELIST.DELETE_IP_ADDRESS);
 
   // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
   const createIpWhiteListModal = useModal<CreateIpWhiteListModalProps>(CreateIpWhiteListModal);
 
   // ===== Requests ===== //
@@ -105,11 +98,11 @@ const IpWhitelistHeader = (props: Props) => {
       });
     }
 
-    deleteModal.hide();
+    confirmActionModal.hide();
   };
 
   const handleOpenBulkDeleteModal = () => {
-    deleteModal.show({
+    confirmActionModal.show({
       onSubmit: handleBulkDelete,
       modalTitle: I18n.t('IP_WHITELIST.MODALS.DELETE_MANY_MODAL.HEADER'),
       actionText: I18n.t('IP_WHITELIST.MODALS.DELETE_MANY_MODAL.ACTION_TEXT',
@@ -155,9 +148,4 @@ const IpWhitelistHeader = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    deleteModal: ConfirmActionModal,
-  }),
-)(IpWhitelistHeader);
+export default React.memo(IpWhitelistHeader);

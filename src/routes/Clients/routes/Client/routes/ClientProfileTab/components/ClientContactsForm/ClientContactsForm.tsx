@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import Trackify from '@hrzn/trackify';
-import { withModals } from 'hoc';
 import { parseErrors } from 'apollo';
-import { Modal } from 'types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import { createValidator, translateLabels } from 'utils/validator';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { FormikInputField } from 'components/Formik';
 import { Button } from 'components/Buttons';
 import { Profile } from '__generated__/types';
@@ -31,7 +29,6 @@ type FormValues = {
 };
 
 type Props = {
-  modals: { confirmationModal: Modal },
   clientData: Profile,
 };
 
@@ -50,10 +47,10 @@ const ClientContactsForm = (props: Props) => {
       phoneVerified,
       emailVerified,
     },
-    modals: {
-      confirmationModal,
-    },
   } = props;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const [isPhonesShown, setIsPhonesShown] = useState<boolean>(false);
   const [isEmailShown, setIsEmailShown] = useState<boolean>(false);
@@ -222,11 +219,11 @@ const ClientContactsForm = (props: Props) => {
       }
     }
 
-    confirmationModal.hide();
+    confirmActionModal.hide();
   };
 
   const handleSubmitEmailClick = (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       onSubmit: () => handleSubmitEmail(values),
       onCloseCallback: () => resetForm(),
       modalTitle: I18n.t('PLAYER_PROFILE.PROFILE.EMAIL.EMAIL_CHANGE.TITLE'),
@@ -510,9 +507,4 @@ const ClientContactsForm = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
-)(ClientContactsForm);
+export default React.memo(ClientContactsForm);

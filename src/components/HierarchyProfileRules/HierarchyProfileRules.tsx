@@ -6,8 +6,9 @@ import { withModals } from 'hoc';
 import permissions from 'config/permissions';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import { Modal, State } from 'types';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import CreateRuleModal from 'modals/CreateRuleModal';
 import UpdateRuleModal from 'modals/UpdateRuleModal';
 import { Button, EditButton, TrashButton } from 'components/Buttons';
@@ -33,7 +34,6 @@ type Rule = ExtractApolloTypeFromArray<RulesQuery['rules']>;
 type Modals = {
   createRuleModal: Modal,
   updateRuleModal: Modal,
-  deleteModal: Modal,
 };
 
 type Props = {
@@ -47,11 +47,13 @@ const HierarchyProfileRules = (props: Props) => {
     modals: {
       createRuleModal,
       updateRuleModal,
-      deleteModal,
     },
     branchId,
     title,
   } = props;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const [DeleteRule] = useDeleteRule();
   const { state } = useLocation<State<RulesQueryVariables>>();
@@ -99,7 +101,7 @@ const HierarchyProfileRules = (props: Props) => {
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED', { id: uuid }),
       });
 
-      deleteModal.hide();
+      confirmActionModal.hide();
     } catch (e) {
       notify({
         level: LevelType.ERROR,
@@ -115,7 +117,7 @@ const HierarchyProfileRules = (props: Props) => {
     const result = rules.find(rule => rule?.uuid === uuid);
     const name = result?.name;
 
-    deleteModal.show({
+    confirmActionModal.show({
       onSubmit: handleDeleteRule(uuid),
       modalTitle: I18n.t('HIERARCHY.PROFILE_RULE_TAB.DELETE_MODAL.HEADER'),
       actionText: I18n.t('HIERARCHY.PROFILE_RULE_TAB.DELETE_MODAL.ACTION_TEXT', { name }),
@@ -311,6 +313,5 @@ export default compose(
   withModals({
     createRuleModal: CreateRuleModal,
     updateRuleModal: UpdateRuleModal,
-    deleteModal: ConfirmActionModal,
   }),
 )(HierarchyProfileRules);

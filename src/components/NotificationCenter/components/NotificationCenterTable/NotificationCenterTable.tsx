@@ -1,12 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
-import { withModals } from 'hoc';
-import { Modal, TableSelection } from 'types';
+import { TableSelection } from 'types';
 import { NotificationCenter } from '__generated__/types';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import { useModal } from 'providers/ModalProvider';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
@@ -20,15 +19,12 @@ type Props = {
   notificationQuery: NotificationQueryQueryResult,
   filters: Filter,
   className: string,
-  modals: {
-    confirmationModal: Modal,
-  },
   onSetEnableToggle: (enable: boolean) => void,
   onSelect: (select: TableSelection) => void,
 };
 
 const NotificationCenterTable = (props: Props) => {
-  const { notificationQuery, filters, className, modals, onSetEnableToggle, onSelect } = props;
+  const { notificationQuery, filters, className, onSetEnableToggle, onSelect } = props;
 
   const { data, loading, variables, fetchMore } = notificationQuery;
   const size = variables?.args?.page?.size;
@@ -39,6 +35,9 @@ const NotificationCenterTable = (props: Props) => {
     number = 0,
     last = true,
   } = data?.notificationCenter || {};
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   // ===== Handlers ===== //
   const handlePageChanged = () => {
@@ -60,8 +59,8 @@ const NotificationCenterTable = (props: Props) => {
   const handleSelectError = () => {
     onSetEnableToggle(false);
 
-    modals.confirmationModal.show({
-      onSubmit: modals.confirmationModal.hide,
+    confirmActionModal.show({
+      onSubmit: confirmActionModal.hide,
       onCloseCallback: () => onSetEnableToggle(true),
       modalTitle: `${MAX_SELECTED_ROWS} ${I18n.t('NOTIFICATION_CENTER.TOOLTIP.MAX_ITEM_SELECTED')}`,
       actionText: I18n.t('NOTIFICATION_CENTER.TOOLTIP.ERRORS.SELECTED_MORE_THAN_MAX', { max: MAX_SELECTED_ROWS }),
@@ -216,9 +215,4 @@ const NotificationCenterTable = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
-)(NotificationCenterTable);
+export default React.memo(NotificationCenterTable);

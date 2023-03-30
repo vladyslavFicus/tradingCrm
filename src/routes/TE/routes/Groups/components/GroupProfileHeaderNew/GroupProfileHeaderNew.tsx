@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import compose from 'compose-function';
 import { FormikProps } from 'formik';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
 import Select from 'components/Select';
 import { Button } from 'components/Buttons';
-import { withModals, withNotifications } from 'hoc';
+import { withNotifications } from 'hoc';
 import { FormValues } from '../../types';
 import { useNewGroupTemplatesQuery, NewGroupTemplatesQuery } from './graphql/__generated__/NewGroupTemplatesQuery';
 import './GroupProfileHeaderNew.scss';
@@ -88,8 +87,4 @@ const GroupProfileHeaderNew = (props: Props) => {
 export default compose(
   React.memo,
   withNotifications,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-    confirmationOpenOrderModal: ConfirmActionModal,
-  }),
 )(GroupProfileHeaderNew);

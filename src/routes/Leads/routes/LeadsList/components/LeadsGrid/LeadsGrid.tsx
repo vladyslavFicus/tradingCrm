@@ -1,16 +1,15 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { startCase } from 'lodash';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
 import { NetworkStatus, QueryResult } from '@apollo/client';
 import limitItems from 'utils/limitItems';
-import { Modal, State, TableSelection } from 'types';
-import { withModals } from 'hoc';
+import { State, TableSelection } from 'types';
 import { getBackofficeBrand } from 'config';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
+import { useModal } from 'providers/ModalProvider';
 import { Lead, Pageable__Lead as PageableLead, Sort__Input as Sort } from '__generated__/types';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { AdjustableTable, Column } from 'components/Table';
@@ -25,8 +24,7 @@ import { leadStatuses } from './constants';
 import './LeadsGrid.scss';
 
 type Props = {
-  onSelect: () => void,
-  modals: { confirmationModal: Modal},
+  onSelect: (selectedLeads: TableSelection) => void,
   leadsQuery: QueryResult<LeadsListQuery>,
   sorts: Array<Sort>,
 };
@@ -39,12 +37,12 @@ const LeadsGrid = (props: Props) => {
       variables,
       networkStatus,
     },
-    modals: {
-      confirmationModal,
-    },
     sorts,
     onSelect,
   } = props;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const location = useLocation<State<LeadsListQueryVariables>>();
   const { state } = location;
@@ -91,8 +89,8 @@ const LeadsGrid = (props: Props) => {
   };
 
   const handleSelectError = (select: TableSelection) => {
-    confirmationModal.show({
-      onSubmit: confirmationModal.hide,
+    confirmActionModal.show({
+      onSubmit: confirmActionModal.hide,
       modalTitle: `${select.max} ${I18n.t('LEADS.LEADS_SELECTED')}`,
       actionText: I18n.t('COMMON.NOT_MORE_CAN_SELECTED', { max: select.max }),
       submitButtonLabel: I18n.t('COMMON.OK'),
@@ -344,9 +342,4 @@ const LeadsGrid = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
-)(LeadsGrid);
+export default React.memo(LeadsGrid);

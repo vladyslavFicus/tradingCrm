@@ -1,10 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { useLocation } from 'react-router-dom';
-import compose from 'compose-function';
 import { orderBy } from 'lodash';
-import { withModals } from 'hoc';
-import { Modal, State } from 'types';
+import { State } from 'types';
 import { parseErrors } from 'apollo';
 import { getBrand } from 'config';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -17,7 +15,7 @@ import { useModal } from 'providers/ModalProvider';
 import { Button, TrashButton } from 'components/Buttons';
 import { Table, Column } from 'components/Table';
 import CreateAcquisitionStatusModal, { CreateAcquisitionStatusModalProps } from 'modals/CreateAcquisitionStatusModal';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import AcquisitionStatusesFilter from './components/AcquisitionStatusesFilter';
 import {
   useAcquisitionStatusesQuery,
@@ -29,20 +27,13 @@ import './AcquisitionStatuses.scss';
 
 type AcquisitionStatus = ExtractApolloTypeFromArray<AcquisitionStatusesQuery['settings']['acquisitionStatuses']>;
 
-type Props = {
-  modals: {
-    confirmationModal: Modal,
-  },
-};
-
-const AcquisitionStatuses = (props: Props) => {
-  const { modals: { confirmationModal } } = props;
-
+const AcquisitionStatuses = () => {
   const { state } = useLocation<State<AcquisitionStatusesQueryVariables['args']>>();
 
   const permission = usePermission();
 
   // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
   const createAcquisitionStatusModal = useModal<CreateAcquisitionStatusModalProps>(CreateAcquisitionStatusModal);
 
   // ===== Requests ===== //
@@ -78,7 +69,7 @@ const AcquisitionStatuses = (props: Props) => {
       });
 
       await acquisitionStatusesQuery.refetch();
-      confirmationModal.hide();
+      confirmActionModal.hide();
 
       notify({
         level: LevelType.SUCCESS,
@@ -120,7 +111,7 @@ const AcquisitionStatuses = (props: Props) => {
   };
 
   const handleDeleteStatusClick = (acquisitionStatus: AcquisitionStatus) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       onSubmit: () => handleDeleteStatus(acquisitionStatus),
       modalTitle: I18n.t('SETTINGS.ACQUISITION_STATUSES.CONFIRMATION.DELETE.TITLE'),
       actionText: I18n.t('SETTINGS.ACQUISITION_STATUSES.CONFIRMATION.DELETE.DESCRIPTION', {
@@ -202,9 +193,4 @@ const AcquisitionStatuses = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
-)(AcquisitionStatuses);
+export default React.memo(AcquisitionStatuses);

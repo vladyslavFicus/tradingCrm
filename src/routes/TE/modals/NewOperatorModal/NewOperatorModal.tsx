@@ -4,15 +4,15 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { useHistory } from 'react-router-dom';
 import compose from 'compose-function';
-import { Modal as ModalType } from 'types';
 import { generate } from 'utils/password';
 import { parseErrors } from 'apollo';
-import { withModals, withNotifications } from 'hoc';
+import { withNotifications } from 'hoc';
+import { useModal } from 'providers/ModalProvider';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/Buttons';
 import { Notify, LevelType } from 'types/notify';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { passwordMaxSize, passwordPattern } from '../../constants';
 import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAccessDataQuery';
 import { useCreateOperatorMutation } from './graphql/__generated__/CreateOperatorMutation';
@@ -22,9 +22,6 @@ type Props = {
   notify: Notify,
   onCloseModal: () => void,
   onSuccess: () => void,
-  modals: {
-    confirmationModal: ModalType,
-  },
 }
 
 type FormValues = {
@@ -64,13 +61,16 @@ const validate = createValidator(
 );
 
 const NewOperatorModal = (props: Props) => {
-  const { onCloseModal, onSuccess, notify, modals: { confirmationModal } } = props;
+  const { onCloseModal, onSuccess, notify } = props;
   const groupsQuery = useOperatorAccessDataQuery();
   const [createOperatorMutation] = useCreateOperatorMutation();
   const history = useHistory();
 
   const rolesOptions = groupsQuery.data?.tradingEngine.operatorAccessData.writeableRoles || [];
   const accessibleGroupNames = groupsQuery.data?.tradingEngine.operatorAccessData.accessibleGroupNames || [];
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const handleSubmit = async (values: FormValues, helpers: FormikHelpers<any>, existsInCrm = false) => {
     try {
@@ -96,7 +96,7 @@ const NewOperatorModal = (props: Props) => {
       const error = parseErrors(e);
 
       if (error.error === 'error.external-api.error.validation.email.exists') {
-        confirmationModal.show({
+        confirmActionModal.show({
           onSubmit: () => handleSubmit(values, helpers, true),
           modalTitle: I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.CONFIRMATION.TITLE'),
           actionText: I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.CONFIRMATION.DESCRIPTION'),
@@ -266,8 +266,5 @@ const NewOperatorModal = (props: Props) => {
 
 export default compose(
   React.memo,
-  withModals({
-    confirmationModal: ConfirmActionModal,
-  }),
   withNotifications,
 )(NewOperatorModal);

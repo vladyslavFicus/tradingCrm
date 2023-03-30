@@ -12,7 +12,7 @@ import permissions from 'config/permissions';
 import customTimeout from 'utils/customTimeout';
 import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import ChangePasswordModal from 'modals/ChangePasswordModal';
 import CreateClientCallbackModal, { CreateClientCallbackModalProps } from 'modals/CreateClientCallbackModal';
 import ActionsDropDown from 'components/ActionsDropDown';
@@ -28,7 +28,6 @@ import { useClientChangePasswordMutation } from './graphql/__generated__/ClientC
 import './ClientHeader.scss';
 
 type Modals = {
-  confirmActionModal: Modal,
   changePasswordModal: Modal,
 }
 
@@ -48,7 +47,6 @@ const ClientHeader = (props: Props) => {
       profileVerified,
     },
     modals: {
-      confirmActionModal,
       changePasswordModal,
     },
   } = props;
@@ -56,6 +54,9 @@ const ClientHeader = (props: Props) => {
   const [runningReloadAnimation, setRunningReloadAnimation] = useState<boolean>(false);
 
   const permission = usePermission();
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const { data, refetch } = useClientLockStatusQuery({
     variables: { playerUUID: uuid },
@@ -268,7 +269,6 @@ const ClientHeader = (props: Props) => {
 export default compose(
   React.memo,
   withModals({
-    confirmActionModal: ConfirmActionModal,
     changePasswordModal: ChangePasswordModal,
   }),
 )(ClientHeader);

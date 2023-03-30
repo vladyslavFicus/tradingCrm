@@ -14,6 +14,7 @@ import { OrderCloseByEnum } from 'types/trading-engine';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { withStorage } from 'providers/StorageProvider';
+import { useModal } from 'providers/ModalProvider';
 import { round } from 'utils/round';
 import { Table, Column } from 'components/Table';
 import { Button } from 'components/Buttons';
@@ -24,7 +25,7 @@ import ActionsDropDown from 'components/ActionsDropDown';
 import { Storage } from 'types/storage';
 import PnL from 'routes/TE/components/PnL';
 import { useSymbolsPricesStream } from 'routes/TE/components/SymbolsPricesStream';
-import ConfirmActionModal from 'modals/ConfirmActionModal';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import NewOrderModal from 'routes/TE/modals/NewOrderModal';
 import EditOrderModal from 'routes/TE/modals/EditOrderModal';
 import { tradingEngineTabs } from '../../constants';
@@ -42,7 +43,6 @@ type Props = {
   modals: {
     newOrderModal: Modal,
     editOrderModal: Modal,
-    confirmationModal: Modal,
   },
   notify: Notify,
 }
@@ -53,10 +53,12 @@ const Orders = (props: Props) => {
     modals: {
       newOrderModal,
       editOrderModal,
-      confirmationModal,
     },
     notify,
   } = props;
+
+  // ===== Modals ===== //
+  const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const history = useHistory();
   const { state } = useLocation<State<OrdersQueryVariables['args']>>();
@@ -122,7 +124,7 @@ const Orders = (props: Props) => {
   };
 
   const handleCloseOrderClick = async (order: Order, closeBy: OrderCloseByEnum) => {
-    confirmationModal.show({
+    confirmActionModal.show({
       modalTitle: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.TITLE'),
       actionText: I18n.t(`TRADING_ENGINE.MODALS.CLOSE_ORDER.${closeBy}_DESCRIPTION`, order),
       submitButtonLabel: I18n.t('COMMON.YES'),
@@ -537,6 +539,5 @@ export default compose(
   withModals({
     newOrderModal: NewOrderModal,
     editOrderModal: EditOrderModal,
-    confirmationModal: ConfirmActionModal,
   }),
 )(Orders);
