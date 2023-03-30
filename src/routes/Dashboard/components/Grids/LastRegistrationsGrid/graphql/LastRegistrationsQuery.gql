@@ -1,6 +1,6 @@
-query LastRegistrationsQuery($args: ClientSearch__Input) {
-  profiles(args: $args) {
-    content {
+query LastRegistrationsQuery {
+  dashboard {
+    lastRegistration {
       uuid
       firstName
       lastName

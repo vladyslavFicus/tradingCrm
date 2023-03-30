@@ -14,19 +14,10 @@ import renderLabel from 'utils/renderLabel';
 import { useLastRegistrationsQuery, LastRegistrationsQuery } from './graphql/__generated__/LastRegistrationsQuery';
 import './LastRegistrationsGrid.scss';
 
-type LastRegistration = ExtractApolloTypeFromArray<LastRegistrationsQuery['profiles']['content']>;
+type LastRegistration = ExtractApolloTypeFromArray<LastRegistrationsQuery['dashboard']['lastRegistration']>;
 
 const LastRegistrationsGrid = () => {
-  const { data, loading } = useLastRegistrationsQuery({
-    variables: {
-      args: {
-        page: {
-          from: 0,
-          size: 10,
-        },
-      },
-    },
-  });
+  const { data, loading } = useLastRegistrationsQuery();
 
   const renderClient = (rowCell: LastRegistration) => (
     <GridPlayerInfo profile={rowCell} />
@@ -184,7 +175,7 @@ const LastRegistrationsGrid = () => {
       </div>
 
       <Table
-        items={data?.profiles?.content || []}
+        items={data?.dashboard?.lastRegistration || []}
         loading={loading}
       >
         <Column
