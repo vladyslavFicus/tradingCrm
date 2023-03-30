@@ -56,7 +56,7 @@ const LeadsList = () => {
       <LeadsGrid
         leadsQuery={leadsQuery}
         onSelect={handleSelect}
-        sorts={state.sorts || []}
+        sorts={state?.sorts || []}
       />
     </div>
   );
