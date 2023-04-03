@@ -21,7 +21,7 @@ const DynamicRangeGroup = (props: Props) => {
   );
 
   return (
-    <If condition={shouldFieldRender}>
+    <If condition={!!shouldFieldRender}>
       <RangeGroup {...rest} />
     </If>
   );

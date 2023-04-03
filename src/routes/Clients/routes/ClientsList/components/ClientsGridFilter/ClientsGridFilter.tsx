@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import compose from 'compose-function';
 import { intersection, sortBy } from 'lodash';
@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { Formik, Form } from 'formik';
 import I18n from 'i18n-js';
 import Trackify from '@hrzn/trackify';
+import usePrevious from 'hooks/usePrevious';
 import { Button, RefreshButton } from 'components/Buttons';
 import { isSales, isRetention, userTypes } from 'constants/hierarchyTypes';
 import { getAvailableLanguages, getBrand } from 'config';
@@ -44,11 +45,13 @@ import {
   radioSelect,
   PARTNERS_SORT,
   OPERATORS_SORT,
+  storageKey,
 } from '../../constants';
 import { PartnersQueryVariables, usePartnersQuery } from './graphql/__generated__/PartnersQuery';
 import { useOperatorsQuery } from './graphql/__generated__/OperatorsQuery';
 import { useDesksAndTeamsQuery } from './graphql/__generated__/DesksAndTeamsQuery';
 import { useAcquisitionStatusesQuery } from './graphql/__generated__/AcquisitionStatusesQuery';
+import { oldFilters, defaultFilters } from './constants';
 import './ClientsGridFilter.scss';
 
 type Auth = {
@@ -61,6 +64,7 @@ type Props = {
   auth: Auth,
   storage: Storage,
   clientsLoading: boolean,
+  isOldClientsGridFilterPanel?: boolean,
   handleRefetch: () => void,
 };
 
@@ -69,16 +73,24 @@ const ClientsGridFilter = (props:Props) => {
     auth: { role, department },
     storage,
     clientsLoading,
+    isOldClientsGridFilterPanel,
     handleRefetch,
   } = props;
 
   const { state } = useLocation<State<ClientSearch>>();
   const history = useHistory();
   const permission = usePermission();
+  const prevFiltersFields = usePrevious(state?.filtersFields);
 
-  const { data: desksAndTeamsData, loading: isDesksAndTeamsLoading } = useDesksAndTeamsQuery();
+  const { data: desksAndTeamsData, loading: isDesksAndTeamsLoading } = useDesksAndTeamsQuery({
+    // You should only use this query when displaying desks and teams filters.
+    skip: !['desks', 'teams'].some(field => state?.filtersFields?.includes(field)),
+  });
+
   const { data: acquisitionStatusesData, loading: isAcquisitionStatusesLoading } = useAcquisitionStatusesQuery({
     variables: { brandId: getBrand().id },
+    // You should only use this query when displaying salesStatuses and retentionStatuses filters.
+    skip: !['salesStatuses', 'retentionStatuses'].some(field => state?.filtersFields?.includes(field)),
   });
 
   const { data: partnersData, loading: isPartnersLoading } = usePartnersQuery({
@@ -87,13 +99,17 @@ const ClientsGridFilter = (props:Props) => {
       page: { sorts: PARTNERS_SORT },
     },
     fetchPolicy: 'cache-and-network',
+    // You should only use this query when displaying affiliateUuids filter.
+    skip: !state?.filtersFields?.includes('affiliateUuids'),
   });
 
   const { data: operatorsData, loading: isOperatorsLoading } = useOperatorsQuery({
     variables: { page: { sorts: OPERATORS_SORT } },
+    // You should only use this query when displaying salesOperators, operators and retentionOperators filters.
+    skip: !['salesOperators', 'operators', 'retentionOperators'].some(field => state?.filtersFields?.includes(field)),
   });
-  const operators = operatorsData?.operators?.content || [];
 
+  const operators = operatorsData?.operators?.content || [];
 
   const filterOperatorsByBranch = (uuids: Array<string | null>) => (
     operators.filter((operator) => {
@@ -148,11 +164,47 @@ const ClientsGridFilter = (props:Props) => {
    *
    * @param enabled
    */
-  const handleToggleFilterPanel = (enabled: boolean) => {
+  const handleToggleFilterPanel = useCallback((enabled: boolean) => {
     Trackify.click('CLIENTS_GRID_SWITCH_TO_OLD_FILTER_PANEL', { eventValue: enabled.toString() });
 
     storage.set('isOldClientsGridFilterPanel', enabled);
+
+    // When selected "Custom Filters Sets" otherwise defaultFilters
+    const prevFilters = state?.selectedFilterSet?.fields || defaultFilters;
+
+    history.replace({
+      state: {
+        ...state,
+        filtersFields: enabled ? oldFilters : prevFilters,
+      },
+    });
+  }, [history, state]);
+
+  const getFilters = () => {
+    // Set default filters fields list if no filters fields list was applied before and the current history operation
+    // isn't "replace" state to prevent set default filters list if user cleared select with filters list
+    if (!state?.filtersFields?.length && history.action !== 'REPLACE') {
+      const storedFilters = storage.get(storageKey) || [];
+      const filtersFields = storedFilters.length ? storedFilters : defaultFilters;
+
+      history.replace({
+        state: {
+          ...state,
+          filtersFields,
+        },
+      });
+    }
+
+    // Save to persistent storage if list with filters fields was changed
+    if (storageKey && prevFiltersFields !== state?.filtersFields) {
+      storage.set(storageKey, state?.filtersFields);
+    }
   };
+
+  useEffect(() => {
+    getFilters();
+  }, [state?.filtersFields]);
+
 
   const offices = desksAndTeamsData?.userBranches?.OFFICE || [];
   const desks = desksAndTeamsData?.userBranches?.DESK || [];
@@ -193,6 +245,7 @@ const ClientsGridFilter = (props:Props) => {
               filterSetType={filterSetTypes.CLIENT}
               currentValues={values}
               disabled={clientsLoading}
+              isOldClientsGridFilterPanel={isOldClientsGridFilterPanel}
               submitFilters={(filterSetValues: ClientSearch) => {
                 setValues(filterSetValues);
                 onSubmit();
@@ -200,6 +253,7 @@ const ClientsGridFilter = (props:Props) => {
               renderBefore={(
                 <>
                   <ReactSwitch
+                    on={isOldClientsGridFilterPanel}
                     stopPropagation
                     className="ClientsGridFilter__old-filters"
                     label={I18n.t('COMMON.BUTTONS.OLD_FILTERS')}
@@ -207,64 +261,59 @@ const ClientsGridFilter = (props:Props) => {
                     onClick={handleToggleFilterPanel}
                   />
 
-                  <DynamicFiltersButton
-                    className="ClientsGridFilter__add-filter-button"
-                    storageKey="clientsGridFilterFields"
-                    defaultFilters={[
-                      'searchByIdentifiers',
-                      'activityStatus',
-                      'registrationDateRange',
-                      'searchLimit',
-                    ]}
-                    filters={{
-                      searchByIdentifiers: I18n.t('COMMON.SEARCH_BY.CLIENT'),
-                      searchByAffiliateIdentifiers: I18n.t('COMMON.SEARCH_BY.AFFILIATE'),
-                      migrationId: I18n.t('COMMON.SEARCH_BY.MIGRATION_ID'),
-                      activityStatus: I18n.t(attributeLabels.activityStatus),
-                      affiliateFtd: I18n.t(attributeLabels.affiliateFtd),
-                      affiliateFtdDateRange: I18n.t(attributeLabels.affiliateFtdDateRange),
-                      languages: I18n.t(attributeLabels.languages),
-                      countries: I18n.t(attributeLabels.countries),
-                      desks: I18n.t(attributeLabels.desks),
-                      teams: I18n.t(attributeLabels.teams),
-                      operators: I18n.t(attributeLabels.operators),
-                      ...(
-                        permission.allows(permissions.PARTNERS.PARTNERS_LIST_VIEW)
+                  <If condition={!isOldClientsGridFilterPanel}>
+                    <DynamicFiltersButton
+                      className="ClientsGridFilter__add-filter-button"
+                      filters={{
+                        searchByIdentifiers: I18n.t('COMMON.SEARCH_BY.CLIENT'),
+                        searchByAffiliateIdentifiers: I18n.t('COMMON.SEARCH_BY.AFFILIATE'),
+                        migrationId: I18n.t('COMMON.SEARCH_BY.MIGRATION_ID'),
+                        activityStatus: I18n.t(attributeLabels.activityStatus),
+                        affiliateFtd: I18n.t(attributeLabels.affiliateFtd),
+                        affiliateFtdDateRange: I18n.t(attributeLabels.affiliateFtdDateRange),
+                        languages: I18n.t(attributeLabels.languages),
+                        countries: I18n.t(attributeLabels.countries),
+                        desks: I18n.t(attributeLabels.desks),
+                        teams: I18n.t(attributeLabels.teams),
+                        operators: I18n.t(attributeLabels.operators),
+                        ...(
+                          permission.allows(permissions.PARTNERS.PARTNERS_LIST_VIEW)
                           && { affiliateUuids: I18n.t(attributeLabels.affiliateUuids) }
-                      ),
-                      salesOperators: I18n.t(attributeLabels.salesOperators),
-                      retentionOperators: I18n.t(attributeLabels.retentionOperators),
-                      isReferrered: I18n.t(attributeLabels.isReferrered),
-                      statuses: I18n.t(attributeLabels.statuses),
-                      acquisitionStatus: I18n.t(attributeLabels.acquisitionStatus),
-                      passportCountriesOfIssue: I18n.t(attributeLabels.passportCountryOfIssue),
-                      salesStatuses: I18n.t(attributeLabels.salesStatuses),
-                      retentionStatuses: I18n.t(attributeLabels.retentionStatuses),
+                        ),
+                        salesOperators: I18n.t(attributeLabels.salesOperators),
+                        retentionOperators: I18n.t(attributeLabels.retentionOperators),
+                        isReferrered: I18n.t(attributeLabels.isReferrered),
+                        statuses: I18n.t(attributeLabels.statuses),
+                        acquisitionStatus: I18n.t(attributeLabels.acquisitionStatus),
+                        passportCountriesOfIssue: I18n.t(attributeLabels.passportCountryOfIssue),
+                        salesStatuses: I18n.t(attributeLabels.salesStatuses),
+                        retentionStatuses: I18n.t(attributeLabels.retentionStatuses),
 
-                      /* Only Admin and CS Head of department can see unassigned clients */
-                      ...(
-                        ['ADMINISTRATION', 'CS'].includes(department)
+                        /* Only Admin and CS Head of department can see unassigned clients */
+                        ...(
+                          ['ADMINISTRATION', 'CS'].includes(department)
                           && ['ADMINISTRATION', 'HEAD_OF_DEPARTMENT'].includes(role)
                           && { assignStatus: I18n.t(attributeLabels.assignStatus) }
-                      ),
-                      kycStatuses: I18n.t(attributeLabels.kycStatuses),
-                      firstTimeDeposit: I18n.t(attributeLabels.firstTimeDeposit),
-                      warnings: I18n.t(attributeLabels.warnings),
-                      balanceRange: I18n.t(attributeLabels.balance),
-                      depositsCountRange: I18n.t(attributeLabels.deposit),
-                      registrationDateRange: I18n.t(attributeLabels.registrationDate),
-                      firstDepositDateRange: I18n.t(attributeLabels.firstDepositDateRange),
-                      firstNoteDateRange: I18n.t(attributeLabels.firstNoteDateRange),
-                      lastNoteDateRange: I18n.t(attributeLabels.lastNoteDateRange),
-                      lastTradeDateRange: I18n.t(attributeLabels.lastTradeDateRange),
-                      lastLoginDateRange: I18n.t(attributeLabels.lastLoginDateRange),
-                      lastModificationDateRange: I18n.t(attributeLabels.lastModificationDateRange),
-                      lastCallDateRange: I18n.t(attributeLabels.lastCallDateRange),
-                      isNeverCalled: I18n.t(attributeLabels.isNeverCalled),
-                      searchLimit: I18n.t(attributeLabels.searchLimit),
-                      offices: I18n.t(attributeLabels.offices),
-                    }}
-                  />
+                        ),
+                        kycStatuses: I18n.t(attributeLabels.kycStatuses),
+                        firstTimeDeposit: I18n.t(attributeLabels.firstTimeDeposit),
+                        warnings: I18n.t(attributeLabels.warnings),
+                        balanceRange: I18n.t(attributeLabels.balance),
+                        depositsCountRange: I18n.t(attributeLabels.deposit),
+                        registrationDateRange: I18n.t(attributeLabels.registrationDate),
+                        firstDepositDateRange: I18n.t(attributeLabels.firstDepositDateRange),
+                        firstNoteDateRange: I18n.t(attributeLabels.firstNoteDateRange),
+                        lastNoteDateRange: I18n.t(attributeLabels.lastNoteDateRange),
+                        lastTradeDateRange: I18n.t(attributeLabels.lastTradeDateRange),
+                        lastLoginDateRange: I18n.t(attributeLabels.lastLoginDateRange),
+                        lastModificationDateRange: I18n.t(attributeLabels.lastModificationDateRange),
+                        lastCallDateRange: I18n.t(attributeLabels.lastCallDateRange),
+                        isNeverCalled: I18n.t(attributeLabels.isNeverCalled),
+                        searchLimit: I18n.t(attributeLabels.searchLimit),
+                        offices: I18n.t(attributeLabels.offices),
+                      }}
+                    />
+                  </If>
                 </>
                 )}
             >
@@ -969,5 +1018,5 @@ const ClientsGridFilter = (props:Props) => {
 
 export default compose(
   React.memo,
-  withStorage(['auth']),
+  withStorage(['auth', 'isOldClientsGridFilterPanel']),
 )(ClientsGridFilter);

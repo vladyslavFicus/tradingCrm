@@ -31,6 +31,7 @@ type Props = {
   currentValues: FieldProps,
   disabled?: boolean,
   renderBefore?: React.ReactNode,
+  isOldClientsGridFilterPanel?: boolean,
   submitFilters: (filterSet: string) => void,
 };
 
@@ -45,6 +46,7 @@ const FilterSetsDecorator = (props: Props) => {
     filterSetType,
     currentValues,
     disabled,
+    isOldClientsGridFilterPanel,
     renderBefore,
     submitFilters,
   } = props;
@@ -71,13 +73,14 @@ const FilterSetsDecorator = (props: Props) => {
   const common = data?.filterSets?.common || [];
   const favourite = data?.filterSets?.favourite || [];
 
-  const setActiveFilterSet = ({ uuid }: SelectedFilterSet, filtersFields: Object) => {
+  const setActiveFilterSet = (uuid: string, filtersFields: Object) => {
     history.replace({
       state: {
         ...state,
-        filtersFields,
+        ...(!isOldClientsGridFilterPanel && filtersFields),
         selectedFilterSet: {
           uuid,
+          fields: filtersFields,
         },
       },
     });
@@ -104,7 +107,7 @@ const FilterSetsDecorator = (props: Props) => {
       onSuccess: async (_: any, { uuid } : SelectedFilterSet) => {
         await refetch({ type: filterSetType });
 
-        setActiveFilterSet({ uuid }, Object.keys(currentValues));
+        setActiveFilterSet(uuid, Object.keys(currentValues));
         actionFilterModal.hide();
       },
     });
@@ -181,7 +184,7 @@ const FilterSetsDecorator = (props: Props) => {
 
       submitFilters(selectData?.filterSet);
 
-      setActiveFilterSet({ uuid }, Object.keys(selectData?.filterSet));
+      setActiveFilterSet(uuid, Object.keys(selectData?.filterSet));
     } catch {
       notify({
         level: LevelType.ERROR,

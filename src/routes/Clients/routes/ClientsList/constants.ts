@@ -1,3 +1,5 @@
+export const storageKey = 'clientsGridFilterFields';
+
 export const MAX_SELECTED_CLIENTS = 5000;
 export const MAX_QUERY_CLIENTS = 10000;
 

@@ -1,24 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import compose from 'compose-function';
 import { NetworkStatus } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
 import { State, TableSelection } from 'types';
-import { withStorage } from 'providers/StorageProvider';
 import usePrevious from 'hooks/usePrevious';
 import ClientsHeader from './components/ClientsHeader';
 import ClientsGrid from './components/ClientsGrid';
 import ClientsGridFilter from './components/ClientsGridFilter';
-import ClientsGridOldFilter from './components/ClientsGridOldFilter';
 import { ClientsListQueryVariables, useClientsListQuery } from './graphql/__generated__/ClientsQuery';
 import './ClientsList.scss';
 
-type Props = {
-  isOldClientsGridFilterPanel?: boolean,
-};
-
-const ClientsList = (props: Props) => {
-  const { isOldClientsGridFilterPanel } = props;
-
+const ClientsList = () => {
   const [select, setSelect] = useState<TableSelection | null>(null);
 
   const { state } = useLocation<State<ClientsListQueryVariables>>();
@@ -58,21 +49,10 @@ const ClientsList = (props: Props) => {
         select={select}
       />
 
-      <Choose>
-        <When condition={!!isOldClientsGridFilterPanel}>
-          <ClientsGridOldFilter
-            clientsLoading={loading}
-            handleRefetch={refetch}
-          />
-        </When>
-
-        <Otherwise>
-          <ClientsGridFilter
-            clientsLoading={loading}
-            handleRefetch={refetch}
-          />
-        </Otherwise>
-      </Choose>
+      <ClientsGridFilter
+        clientsLoading={loading}
+        handleRefetch={refetch}
+      />
 
       <ClientsGrid
         clientsQuery={clientsQuery}
@@ -83,7 +63,4 @@ const ClientsList = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withStorage(['isOldClientsGridFilterPanel']),
-)(ClientsList);
+export default React.memo(ClientsList);

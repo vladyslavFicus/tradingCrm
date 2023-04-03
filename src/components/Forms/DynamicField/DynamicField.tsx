@@ -41,7 +41,7 @@ const DynamicField = (props: Props) => {
   }, [state?.filters, state?.filtersFields]);
 
   return (
-    <If condition={shouldFieldRender}>
+    <If condition={!!shouldFieldRender}>
       <Field {...props} />
     </If>
   );

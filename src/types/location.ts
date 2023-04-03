@@ -2,9 +2,9 @@ import { Location } from 'history';
 import { SelectedFilterSet } from './selectedFilterSet';
 import { Sort } from './sort';
 
-export interface State<TFilters = Record<string, any>> {
+export interface State<TFilters = Record<string, any>, TFiltersFields = Array<String>> {
   filters?: TFilters,
-  filtersFields?: TFilters,
+  filtersFields?: TFiltersFields,
   sorts?: undefined | Sort[],
   selectedFilterSet?: SelectedFilterSet,
 }
