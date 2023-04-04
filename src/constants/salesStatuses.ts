@@ -55,6 +55,8 @@ export const salesStatuses: Record<string, string> = {
   FROST: 'CONSTANTS.SALES_STATUSES.FROST',
   REFERRAL: 'CONSTANTS.SALES_STATUSES.REFERRAL',
   ACTIVE: 'CONSTANTS.SALES_STATUSES.ACTIVE',
+  CALLBACK_NA: 'CONSTANTS.SALES_STATUSES.CALLBACK_NA',
+  MESSAGER: 'CONSTANTS.SALES_STATUSES.MESSAGER',
 };
 
 export const salesStatusesColor: Record<string, string> = {
@@ -113,4 +115,6 @@ export const salesStatusesColor: Record<string, string> = {
   FROST: 'info',
   REFERRAL: 'info',
   ACTIVE: 'success',
+  CALLBACK_NA: 'info',
+  MESSAGER: 'info',
 };

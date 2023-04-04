@@ -1488,7 +1488,9 @@
       "DEPOSIT_WITH_ME": "Deposit with me",
       "FROST": "Frost",
       "REFERRAL": "Referral",
-      "ACTIVE": "Active"
+      "ACTIVE": "Active",
+      "CALLBACK_NA": "Callback NA",
+      "MESSAGER": "Messager"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
