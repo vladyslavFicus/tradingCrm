@@ -47,7 +47,7 @@ import {
   OPERATORS_SORT,
   storageKey,
 } from '../../constants';
-import { PartnersQueryVariables, usePartnersQuery } from './graphql/__generated__/PartnersQuery';
+import { usePartnersQuery } from './graphql/__generated__/PartnersQuery';
 import { useOperatorsQuery } from './graphql/__generated__/OperatorsQuery';
 import { useDesksAndTeamsQuery } from './graphql/__generated__/DesksAndTeamsQuery';
 import { useAcquisitionStatusesQuery } from './graphql/__generated__/AcquisitionStatusesQuery';
@@ -94,11 +94,7 @@ const ClientsGridFilter = (props:Props) => {
   });
 
   const { data: partnersData, loading: isPartnersLoading } = usePartnersQuery({
-    variables: {
-      ...state?.filters as PartnersQueryVariables,
-      page: { sorts: PARTNERS_SORT },
-    },
-    fetchPolicy: 'cache-and-network',
+    variables: { page: { sorts: PARTNERS_SORT } },
     // You should only use this query when displaying affiliateUuids filter.
     skip: !state?.filtersFields?.includes('affiliateUuids'),
   });
