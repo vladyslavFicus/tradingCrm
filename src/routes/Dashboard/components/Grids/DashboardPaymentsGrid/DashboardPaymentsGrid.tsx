@@ -27,7 +27,13 @@ const DashboardPaymentsGrid = (props: Props) => {
   const renderTransactions = (rowCell: TableCell) => (
     <>
       <GridPaymentInfo
-        payment={{ ...rowCell, originalAgent: { uuid: rowCell.agentId } }}
+        payment={{ ...rowCell,
+          originalAgent: { uuid: rowCell.agentId || '', fullName: rowCell.agentName, _id: '' },
+          _id: rowCell?.agentId || '',
+          accountType: rowCell?.accountType as string,
+          login: rowCell?.login as string,
+          platformType: rowCell?.platformType as string,
+        }}
         onSuccess={refetch}
       />
 

@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
 import { getBrand, getBackofficeBrand } from 'config';
-import { Sort__Input as Sort } from '__generated__/types';
+import { Payment as PaymentInfo, Sort__Input as Sort } from '__generated__/types';
 import { NoteEntity } from 'types/Note';
 import { targetTypes } from 'constants/note';
 import { aggregatorsLabels, tradingTypes, tradingTypesLabels, aggregators } from 'constants/payment';
@@ -40,7 +40,7 @@ const PaymentsListGrid = (props: Props) => {
   // ===== Renders ===== //
   const renderTransactions = (payment: Payment) => (
     <>
-      <GridPaymentInfo payment={payment} onSuccess={onRefetch} />
+      <GridPaymentInfo payment={payment as PaymentInfo} onSuccess={onRefetch} />
 
       <If condition={!!payment.userMigrationId}>
         <Uuid

@@ -1,20 +1,15 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
-import { withModals } from 'hoc';
-import { Modal } from 'types';
 import { Payment } from '__generated__/types';
 import { shortify } from 'utils/uuid';
+import { useModal } from 'providers/ModalProvider';
 import Badge from 'components/Badge';
 import Uuid from 'components/Uuid';
-import PaymentDetailsModal from 'modals/PaymentDetailsModal';
+import PaymentDetailsModal, { PaymentDetailsModalProps } from 'modals/PaymentDetailsModal';
 import './GridPaymentInfo.scss';
 
 type Props = {
   payment: Payment,
-  modals: {
-    paymentDetails: Modal,
-  },
   onSuccess: () => void,
 };
 
@@ -22,13 +17,14 @@ const GridPaymentInfo = (props: Props) => {
   const {
     payment,
     onSuccess,
-    modals: { paymentDetails },
   } = props;
 
   const { paymentId, createdBy, accountType } = payment;
 
+  const paymentDetailsModal = useModal<PaymentDetailsModalProps>(PaymentDetailsModal);
+
   const handleOpenDetailModal = () => {
-    paymentDetails.show({ payment, onSuccess });
+    paymentDetailsModal.show({ payment, onSuccess });
   };
 
   return (
@@ -55,9 +51,4 @@ const GridPaymentInfo = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    paymentDetails: PaymentDetailsModal,
-  }),
-)(GridPaymentInfo);
+export default React.memo(GridPaymentInfo);

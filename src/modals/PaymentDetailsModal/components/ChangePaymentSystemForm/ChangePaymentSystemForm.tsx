@@ -1,48 +1,34 @@
-import React, { PureComponent } from 'react';
-import compose from 'compose-function';
-import { BaseMutationOptions, MutationResult, QueryResult } from '@apollo/client';
+import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { withRequests } from 'apollo';
 import { createValidator } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/Buttons';
-import UpdatePaymentSystemMutation from './graphql/UpdatePaymentSystemMutation';
-import PaymentSystemsQuery from './graphql/PaymentSystemsQuery';
+import { usePaymentSystemQuery } from './graphql/__generated__/PaymentSystemsQuery';
+import { useUpdatePaymentSystemMutation } from './graphql/__generated__/UpdatePaymentSystemMutation';
 import './ChangePaymentSystemForm.scss';
 
 type FormValues = {
   paymentSystem: string,
-}
-
-interface PaymentSystemsData {
-  paymentSystems: {
-    paymentSystem: string,
-  }[],
-}
-
-interface UpdatePaymentSystemResponse {
-  changePaymentSystem: null,
-}
+};
 
 type Props = {
   paymentId: string,
   onSuccess: () => void,
-  paymentSystemsQuery: QueryResult<PaymentSystemsData>,
-  updatePaymentSystem: (options: BaseMutationOptions) => MutationResult<UpdatePaymentSystemResponse>,
-}
+};
 
-class ChangePaymentSystemForm extends PureComponent<Props> {
-  handleSubmit = async ({ paymentSystem }: FormValues) => {
-    const {
-      onSuccess,
-      paymentId,
-      updatePaymentSystem,
-    } = this.props;
+const ChangePaymentSystemForm = (props: Props) => {
+  const { paymentId, onSuccess } = props;
 
+  const { data, loading } = usePaymentSystemQuery();
+  const paymentSystems = data?.paymentSystems || [];
+
+  const [updatePaymentSystemMutation] = useUpdatePaymentSystemMutation();
+
+  const handleSubmit = async ({ paymentSystem }: FormValues) => {
     try {
-      await updatePaymentSystem({ variables: { paymentId, paymentSystem } });
+      await updatePaymentSystemMutation({ variables: { paymentId, paymentSystem } });
 
       notify({
         level: LevelType.SUCCESS,
@@ -58,77 +44,61 @@ class ChangePaymentSystemForm extends PureComponent<Props> {
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.UPDATE_SYSTEM_ERROR'),
       });
     }
-  }
+  };
 
-  render() {
-    const {
-      paymentSystemsQuery: {
-        data,
-        loading,
-      },
-    } = this.props;
-
-    const paymentSystems = data?.paymentSystems || [];
-
-    return (
-      <Formik
-        initialValues={{
-          paymentSystem: '',
-        }}
-        validate={
+  return (
+    <Formik
+      initialValues={{
+        paymentSystem: '',
+      }}
+      validate={
           createValidator({
             paymentSystem: ['string'],
           }, {
             paymentSystem: I18n.t('PAYMENT_DETAILS_MODAL.PAYMENT_SYSTEM'),
           }, false)
         }
-        validateOnBlur={false}
-        validateOnChange={false}
-        onSubmit={this.handleSubmit}
-      >
-        {({ dirty, isSubmitting }) => (
-          <Form className="ChangePaymentSystemForm">
-            <div className="ChangePaymentSystemForm__fields">
-              <Field
-                name="paymentSystem"
-                className="ChangePaymentSystemForm__field"
-                label={I18n.t('PAYMENT_DETAILS_MODAL.PAYMENT_SYSTEM')}
-                placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
-                component={FormikSelectField}
-                disabled={loading}
-              >
-                {[
-                  <option key="NONE" value="NONE">{I18n.t('COMMON.NONE')}</option>,
-                  ...paymentSystems.map(({ paymentSystem }) => (
-                    <option key={paymentSystem} value={paymentSystem}>
-                      {paymentSystem}
-                    </option>
-                  )),
-                  <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                ]}
-              </Field>
-            </div>
+      validateOnBlur={false}
+      validateOnChange={false}
+      onSubmit={handleSubmit}
+    >
+      {({ dirty, isSubmitting }) => (
+        <Form className="ChangePaymentSystemForm">
+          <div className="ChangePaymentSystemForm__fields">
+            <Field
+              name="paymentSystem"
+              className="ChangePaymentSystemForm__field"
+              label={I18n.t('PAYMENT_DETAILS_MODAL.PAYMENT_SYSTEM')}
+              placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
+              component={FormikSelectField}
+              disabled={loading}
+            >
+              {[
+                <option key="NONE" value="NONE">{I18n.t('COMMON.NONE')}</option>,
+                ...paymentSystems.map(({ paymentSystem }) => (
+                  <option key={paymentSystem} value={paymentSystem}>
+                    {paymentSystem}
+                  </option>
+                )),
+                <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
+              ]}
+            </Field>
+          </div>
 
-            <div className="ChangePaymentSystemForm__buttons">
-              <Button
-                className="ChangePaymentSystemForm__button"
-                type="submit"
-                primary
-                disabled={!dirty || isSubmitting}
-              >
-                {I18n.t('COMMON.SAVE_CHANGES')}
-              </Button>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    );
-  }
-}
+          <div className="ChangePaymentSystemForm__buttons">
+            <Button
+              className="ChangePaymentSystemForm__button"
+              type="submit"
+              primary
+              disabled={!dirty || isSubmitting}
+            >
+              {I18n.t('COMMON.SAVE_CHANGES')}
+            </Button>
+          </div>
+        </Form>
+      )}
+    </Formik>
+  );
+};
 
-export default compose(
-  withRequests({
-    updatePaymentSystem: UpdatePaymentSystemMutation,
-    paymentSystemsQuery: PaymentSystemsQuery,
-  }),
-)(ChangePaymentSystemForm);
+export default React.memo(ChangePaymentSystemForm);

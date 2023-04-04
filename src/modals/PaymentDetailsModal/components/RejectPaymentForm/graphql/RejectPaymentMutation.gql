@@ -1,0 +1,13 @@
+mutation RejectPaymentMutation(
+  $typeAcc: String!
+  $paymentId: String!
+  $declineReason: String
+) {
+  payment {
+    acceptPayment (
+      typeAcc: $typeAcc
+      paymentId: $paymentId
+      declineReason: $declineReason
+    )
+  }
+}
