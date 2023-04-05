@@ -6,6 +6,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import compose from 'compose-function';
 import { getGraphQLUrl, getVersion } from 'config';
 import { Sort, State } from 'types';
+import { DocumentFile } from '__generated__/types';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { LevelType, notify } from 'providers/NotificationProvider';
@@ -13,28 +14,27 @@ import { useModal } from 'providers/ModalProvider';
 import downloadBlob from 'utils/downloadBlob';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import AddDocumentModal, { AddDocumentModalProps } from 'modals/AddDocumentModal';
-import UpdateDoсumentModal, { UpdateDocumentModalProps } from 'modals/UpdateDoсumentModal';
+import UpdateDocumentModal, { UpdateDocumentModalProps } from 'modals/UpdateDocumentModal';
 import { Column, Table } from 'components/Table';
 import { Button, DownloadButton, EditButton, TrashButton } from 'components/Buttons';
 import Tabs from 'components/Tabs';
 import ShortLoader from 'components/ShortLoader';
 import { withImages } from 'components/ImageViewer';
+import { fieldTimeZoneOffset } from 'utils/timeZoneOffset';
 import { DocumentsTabs } from '../../constants';
+import { FormValues } from './types';
 import { useDeleteDocumentMutation } from './graphql/__generated__/DocumentDeleteMutation';
 import { useTokenRenewMutation } from './graphql/__generated__/TokenRenewMutation';
 import {
-  DocumentSearchQuery,
   DocumentSearchQueryVariables,
   useDocumentSearchQuery,
 } from './graphql/__generated__/DocumentSearchQuery';
 import DocumentFilter from './components/DocumentFilter';
 import './DocumentsGrid.scss';
 
-type DocumentItem = ExtractApolloTypeFromPageable<DocumentSearchQuery['documentSearch']>;
-
 type ShowProps = {
   src: string,
-}
+};
 
 type Props = {
   images: {
@@ -46,33 +46,42 @@ type Props = {
 const DocumentsGrid = (props: Props) => {
   const { images } = props;
 
-  const { state } = useLocation<State<DocumentSearchQueryVariables['args']>>();
-
-  const permission = usePermission();
-
-  const isAllowedToDownload = permission.allows(permissions.DOCUMENTS.DOWNLOAD_DOCUMENT);
+  const { state } = useLocation<State<FormValues>>();
 
   const history = useHistory();
 
+  // ===== Permissions ===== //
+  const permission = usePermission();
+  const isAllowedToDownload = permission.allows(permissions.DOCUMENTS.DOWNLOAD_DOCUMENT);
+
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
-  const updateDoсumentModal = useModal<UpdateDocumentModalProps>(UpdateDoсumentModal);
+  const updateDocumentModal = useModal<UpdateDocumentModalProps>(UpdateDocumentModal);
   const addDocumentModal = useModal<AddDocumentModalProps>(AddDocumentModal);
 
-  const [deleteDocumentMutation] = useDeleteDocumentMutation();
+  // ===== Requests ===== //
   const [tokenRenew] = useTokenRenewMutation();
+  const [deleteDocumentMutation] = useDeleteDocumentMutation();
 
-  const { data, fetchMore, loading, refetch, variables } = useDocumentSearchQuery({
-    variables: {
-      args: {
-        ...state?.filters,
-        page: {
-          from: 0,
-          size: 20,
-          sorts: state?.sorts,
-        },
+  const { timeZone, uploadDateRange, ...rest } = state?.filters || {} as FormValues;
+
+  const queryVariables = {
+    args: {
+      ...rest,
+      ...(uploadDateRange && { uploadDateRange: {
+        ...fieldTimeZoneOffset('from', uploadDateRange?.from, timeZone),
+        ...fieldTimeZoneOffset('to', uploadDateRange?.to, timeZone),
+      } }),
+      page: {
+        from: 0,
+        size: 20,
+        sorts: state?.sorts,
       },
     },
+  };
+
+  const { data, fetchMore, loading, refetch, variables } = useDocumentSearchQuery({
+    variables: queryVariables as DocumentSearchQueryVariables,
   });
 
   const { content = [], last, number = 0, totalElements = 0 } = data?.documentSearch || {};
@@ -122,7 +131,7 @@ const DocumentsGrid = (props: Props) => {
     if (isAvailableClick && isAllowedToDownload) handleOpenPreview(uuid, mediaType);
   };
 
-  const handleDeleteDocument = ({ uuid, title }: DocumentItem) => async () => {
+  const handleDeleteDocument = ({ uuid, title }: DocumentFile) => async () => {
     try {
       await deleteDocumentMutation({ variables: { uuid } });
       confirmActionModal.hide();
@@ -142,7 +151,7 @@ const DocumentsGrid = (props: Props) => {
     }
   };
 
-  const handleDownloadDocument = async (item: DocumentItem) => {
+  const handleDownloadDocument = async (item: DocumentFile) => {
     const { uuid, fileName } = item;
 
     const { token } = (await tokenRenew()).data?.auth.tokenRenew || {};
@@ -167,13 +176,13 @@ const DocumentsGrid = (props: Props) => {
     }
   };
 
-  const renderDescription = (item: DocumentItem) => (
+  const renderDescription = (item: DocumentFile) => (
     <div className="DocumentsGrid__cell-description">
       {item.description}
     </div>
   );
 
-  const uploadDateColumnRender = (item: DocumentItem) => (
+  const uploadDateColumnRender = (item: DocumentFile) => (
     <div className="DocumentsGrid__cell-primary">
       <div className="DocumentsGrid__cell-primary-date">
         {moment.utc(item.uploadDate).local().format('DD.MM.YYYY')}
@@ -185,7 +194,7 @@ const DocumentsGrid = (props: Props) => {
     </div>
   );
 
-  const renderNameColumn = ({ fileName, uuid, title, mediaType }: DocumentItem) => (
+  const renderNameColumn = ({ fileName, uuid, title, mediaType }: DocumentFile) => (
     <>
       <div
         onClick={() => handleClickPreview(uuid, mediaType)}
@@ -204,7 +213,7 @@ const DocumentsGrid = (props: Props) => {
     </>
   );
 
-  const actionsColumnRender = (item: DocumentItem) => (
+  const actionsColumnRender = (item: DocumentFile) => (
     <div className="DocumentsGrid__cell-buttons">
       <If condition={permission.allows(permissions.DOCUMENTS.DELETE_DOCUMENT)}>
         <TrashButton
@@ -225,7 +234,7 @@ const DocumentsGrid = (props: Props) => {
       <If condition={permission.allows(permissions.DOCUMENTS.UPDATE_DOCUMENT)}>
         <EditButton
           className="DocumentsGrid__action-icon"
-          onClick={() => updateDoсumentModal.show({ item, onSuccess: refetch })}
+          onClick={() => updateDocumentModal.show({ item, onSuccess: refetch })}
         />
       </If>
 

@@ -4,8 +4,10 @@ import { useLocation } from 'react-router-dom';
 import { State } from 'types';
 import EventEmitter, { CLIENT_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { Link } from 'components/Link';
+import { fieldTimeZoneOffset } from 'utils/timeZoneOffset';
 import ClientCallbacksGridFilter from './components/ClientCallbacksGridFilter';
 import ClientCallbacksGrid from './components/ClientCallbacksGrid';
+import { FormValues } from './types';
 import {
   useClientCallbacksListQuery,
   ClientCallbacksListQueryVariables,
@@ -13,15 +15,20 @@ import {
 import './ClientCallbacksList.scss';
 
 const CallbacksList = () => {
-  const { state } = useLocation<State<ClientCallbacksListQueryVariables>>();
+  const { state } = useLocation<State<FormValues>>();
+  const { timeZone, callbackTimeFrom, callbackTimeTo, ...rest } = state?.filters || {} as FormValues;
+
+  const queryVariables = {
+    ...rest,
+    ...fieldTimeZoneOffset('callbackTimeFrom', callbackTimeFrom, timeZone),
+    ...fieldTimeZoneOffset('callbackTimeTo', callbackTimeTo, timeZone),
+    limit: 20,
+    page: 0,
+  };
 
   // ===== Requests ===== //
   const clientCallbacksListQuery = useClientCallbacksListQuery({
-    variables: {
-      ...state?.filters as ClientCallbacksListQueryVariables,
-      limit: 20,
-      page: 0,
-    },
+    variables: queryVariables as ClientCallbacksListQueryVariables,
   });
 
   const totalElements = clientCallbacksListQuery.data?.clientCallbacks.totalElements;

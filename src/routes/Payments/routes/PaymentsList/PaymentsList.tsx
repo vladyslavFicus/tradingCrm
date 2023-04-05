@@ -4,33 +4,53 @@ import { cloneDeep, set, compact } from 'lodash';
 import { State } from 'types';
 import { Sort__Input as Sort } from '__generated__/types';
 import { statusMapper, statuses } from 'constants/payment';
-import PaymentsListFilters from 'components/PaymentsListFilters';
+import PaymentsListFilters, { FiltersFormValues } from 'components/PaymentsListFilters';
 import PaymentsListGrid from 'components/PaymentsListGrid';
+import { fieldTimeZoneOffset } from 'utils/timeZoneOffset';
 import PaymentsHeader from './components/PaymentsHeader';
 import { usePaymentsQuery, PaymentsQueryVariables } from './graphql/__generated__/PaymentsQuery';
 import { usePartnersQuery } from './graphql/__generated__/PartnersQuery';
 import './PaymentsList.scss';
 
 const PaymentsList = () => {
-  const { state } = useLocation<State<PaymentsQueryVariables['args']>>();
+  const { state } = useLocation<State<FiltersFormValues>>();
 
   const history = useHistory();
 
-  // ===== Requests ===== //
-  const paymentsQuery = usePaymentsQuery({
-    variables: {
-      args: {
-        ...state?.filters ? state.filters : { accountType: 'LIVE' },
-        statuses: state?.filters?.statuses
-          ? compact(state?.filters?.statuses).map(item => statusMapper[item as statuses]).flat()
-          : undefined,
-        page: {
-          from: 0,
-          size: 20,
-          sorts: state?.sorts,
-        },
+  const {
+    timeZone,
+    statusChangedTimeFrom,
+    statusChangedTimeTo,
+    creationTimeFrom,
+    creationTimeTo,
+    modificationTimeFrom,
+    modificationTimeTo,
+    ...rest
+  } = state?.filters || { accountType: 'LIVE' } as FiltersFormValues;
+
+  const queryVariables = {
+    args: {
+      ...rest,
+      ...fieldTimeZoneOffset('statusChangedTimeFrom', statusChangedTimeFrom, timeZone),
+      ...fieldTimeZoneOffset('statusChangedTimeTo', statusChangedTimeTo, timeZone),
+      ...fieldTimeZoneOffset('creationTimeFrom', creationTimeFrom, timeZone),
+      ...fieldTimeZoneOffset('creationTimeTo', creationTimeTo, timeZone),
+      ...fieldTimeZoneOffset('modificationTimeFrom', modificationTimeFrom, timeZone),
+      ...fieldTimeZoneOffset('modificationTimeTo', modificationTimeTo, timeZone),
+      statuses: state?.filters?.statuses
+        ? compact(state?.filters?.statuses).map(item => statusMapper[item as statuses]).flat()
+        : undefined,
+      page: {
+        from: 0,
+        size: 20,
+        sorts: state?.sorts,
       },
     },
+  };
+
+  // ===== Requests ===== //
+  const paymentsQuery = usePaymentsQuery({
+    variables: queryVariables as PaymentsQueryVariables,
     fetchPolicy: 'cache-and-network',
     errorPolicy: 'all',
     context: { batch: false },

@@ -6,6 +6,7 @@ import I18n from 'i18n-js';
 import { v4 } from 'uuid';
 import PropTypes from 'constants/propTypes';
 import Select from 'components/Select';
+import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import './FormikSelectField.scss';
 
 class FormikSelectField extends PureComponent {
@@ -16,6 +17,7 @@ class FormikSelectField extends PureComponent {
       PropTypes.string,
       PropTypes.element,
     ]),
+    labelTooltip: PropTypes.string,
     placeholder: PropTypes.string,
     multiple: PropTypes.bool,
     multipleLabel: PropTypes.bool,
@@ -50,6 +52,7 @@ class FormikSelectField extends PureComponent {
     customOnChange: null,
     disabled: false,
     label: null,
+    labelTooltip: null,
     multiple: false,
     multipleLabel: false,
     placeholder: null,
@@ -92,6 +95,7 @@ class FormikSelectField extends PureComponent {
         initialValues,
       },
       label,
+      labelTooltip,
       multiple,
       multipleLabel,
       placeholder,
@@ -104,6 +108,7 @@ class FormikSelectField extends PureComponent {
 
     const error = getIn(errors, name);
     const isTouched = getIn(touched, name);
+    const tooltipId = `label-${name}`;
 
     return (
       <div className={
@@ -116,6 +121,19 @@ class FormikSelectField extends PureComponent {
       >
         <If condition={label}>
           <label className="FormikSelectField__label" htmlFor={this.id}>{label}</label>
+
+          <If condition={!!labelTooltip}>
+            <span id={tooltipId}>
+              <i className="FormikSelectField__icon fa fa-info-circle" />
+            </span>
+
+            <UncontrolledTooltip
+              fade={false}
+              target={tooltipId}
+            >
+              {labelTooltip}
+            </UncontrolledTooltip>
+          </If>
         </If>
 
         <div>

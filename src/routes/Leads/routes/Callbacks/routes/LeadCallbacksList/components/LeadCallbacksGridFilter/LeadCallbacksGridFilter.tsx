@@ -8,15 +8,10 @@ import { ResetForm } from 'types/formik';
 import enumToArray from 'utils/enumToArray';
 import { Button, RefreshButton } from 'components/Buttons';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
+import TimeZoneField from 'components/TimeZoneField';
 import { decodeNullValues } from 'components/Formik/utils';
+import { FormValues } from '../../types';
 import './LeadCallbacksGridFilter.scss';
-
-type FormValues = {
-  searchKeyword?: string,
-  statuses?: Array<CallbackStatusEnum>,
-  callbackTimeFrom?: string,
-  callbackTimeTo?: string,
-};
 
 type Props = {
   onRefetch: () => void,
@@ -90,6 +85,8 @@ const LeadCallbacksGridFilter = (props: Props) => {
               </option>
             ))}
           </Field>
+
+          <TimeZoneField className="LeadCallbacksGridFilter__field LeadCallbacksGridFilter__time-zone" />
 
           <Field
             className="LeadCallbacksGridFilter__field LeadCallbacksGridFilter__date-range"

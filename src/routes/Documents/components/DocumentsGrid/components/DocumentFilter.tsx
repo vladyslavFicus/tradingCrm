@@ -6,16 +6,10 @@ import { State } from 'types';
 import { ResetForm } from 'types/formik';
 import { FormikDateRangePicker, FormikInputField } from 'components/Formik';
 import { Button, RefreshButton } from 'components/Buttons';
+import TimeZoneField from 'components/TimeZoneField';
 import { decodeNullValues } from 'components/Formik/utils';
+import { FormValues } from '../types';
 import './DocumentFilter.scss';
-
-type FormValues = {
-  searchBy?: string,
-  uploadDateRange?: {
-    from?: string,
-    to?: string,
-  },
-};
 
 type Props = {
   onRefetch: () => void,
@@ -73,6 +67,8 @@ const DocumentFilter = (props: Props) => {
               addition={<i className="icon icon-search" />}
             />
 
+            <TimeZoneField className="DocumentFilter__field DocumentFilter__time-zone" />
+
             <Field
               name="uploadDateRange"
               className="DocumentFilter__field DocumentFilter__date-range"
@@ -84,31 +80,31 @@ const DocumentFilter = (props: Props) => {
                 to: 'uploadDateRange.to',
               }}
             />
-          </div>
 
-          <div className="DocumentFilter__buttons">
-            <RefreshButton
-              className="DocumentFilter__button"
-              onClick={onRefetch}
-            />
+            <div className="DocumentFilter__buttons">
+              <RefreshButton
+                className="DocumentFilter__button"
+                onClick={onRefetch}
+              />
 
-            <Button
-              className="DocumentFilter__button"
-              onClick={() => handleReset(resetForm)}
-              disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
-              primary
-            >
-              {I18n.t('COMMON.RESET')}
-            </Button>
+              <Button
+                className="DocumentFilter__button"
+                onClick={() => handleReset(resetForm)}
+                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
+                primary
+              >
+                {I18n.t('COMMON.RESET')}
+              </Button>
 
-            <Button
-              className="DocumentFilter__button"
-              type="submit"
-              disabled={isSubmitting || !isValid || !dirty}
-              primary
-            >
-              {I18n.t('COMMON.APPLY')}
-            </Button>
+              <Button
+                className="DocumentFilter__button"
+                type="submit"
+                disabled={isSubmitting || !isValid || !dirty}
+                primary
+              >
+                {I18n.t('COMMON.APPLY')}
+              </Button>
+            </div>
           </div>
         </Form>
       )}

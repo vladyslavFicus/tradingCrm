@@ -31,11 +31,11 @@ import FiltersToggler from 'components/FiltersToggler';
 import FilterSetsDecorator, { FilterSetsButtons } from 'components/FilterSetsDecorator';
 import DynamicFiltersButton from 'components/DynamicFiltersButton';
 import ReactSwitch from 'components/ReactSwitch';
+import TimeZoneField from 'components/TimeZoneField/TimeZoneField';
 import countries from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import { State } from 'types';
 import { Storage } from 'types/storage';
-import { ClientSearch__Input as ClientSearch } from '__generated__/types';
 import {
   MAX_SELECTED_CLIENTS,
   acquisitionStatuses,
@@ -47,6 +47,7 @@ import {
   OPERATORS_SORT,
   storageKey,
 } from '../../constants';
+import { FormValues } from '../../types';
 import { usePartnersQuery } from './graphql/__generated__/PartnersQuery';
 import { useOperatorsQuery } from './graphql/__generated__/OperatorsQuery';
 import { useDesksAndTeamsQuery } from './graphql/__generated__/DesksAndTeamsQuery';
@@ -77,7 +78,7 @@ const ClientsGridFilter = (props:Props) => {
     handleRefetch,
   } = props;
 
-  const { state } = useLocation<State<ClientSearch>>();
+  const { state } = useLocation<State<FormValues>>();
   const history = useHistory();
   const permission = usePermission();
   const prevFiltersFields = usePrevious(state?.filtersFields);
@@ -116,7 +117,7 @@ const ClientsGridFilter = (props:Props) => {
     })
   );
 
-  const filterOperators = ({ desks, teams }: ClientSearch) => {
+  const filterOperators = ({ desks, teams }: FormValues) => {
     if (teams && teams.length) {
       return filterOperatorsByBranch(teams);
     }
@@ -134,7 +135,7 @@ const ClientsGridFilter = (props:Props) => {
     return operators;
   };
 
-  const handleSubmit = (values: ClientSearch) => {
+  const handleSubmit = (values: FormValues) => {
     history.replace({
       state: {
         ...state,
@@ -242,7 +243,7 @@ const ClientsGridFilter = (props:Props) => {
               currentValues={values}
               disabled={clientsLoading}
               isOldClientsGridFilterPanel={isOldClientsGridFilterPanel}
-              submitFilters={(filterSetValues: ClientSearch) => {
+              submitFilters={(filterSetValues: FormValues) => {
                 setValues(filterSetValues);
                 onSubmit();
               }}
@@ -307,6 +308,7 @@ const ClientsGridFilter = (props:Props) => {
                         isNeverCalled: I18n.t(attributeLabels.isNeverCalled),
                         searchLimit: I18n.t(attributeLabels.searchLimit),
                         offices: I18n.t(attributeLabels.offices),
+                        timeZone: I18n.t(attributeLabels.timeZone),
                       }}
                     />
                   </If>
@@ -838,6 +840,29 @@ const ClientsGridFilter = (props:Props) => {
                   </RangeGroup>
 
                   <Field
+                    name="isNeverCalled"
+                    className="ClientsGridFilter__field ClientsGridFilter__select"
+                    label={I18n.t(attributeLabels.isNeverCalled)}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                    component={FormikSelectField}
+                    withAnyOption
+                    withFocus
+                  >
+                    {radioSelect.map(({ value, label }) => (
+                      // @ts-ignore TS doesn't approve value as boolean type
+                      <option key={`isNeverCalled-${value}`} value={value}>
+                        {I18n.t(label)}
+                      </option>
+                    ))}
+                  </Field>
+
+                  <Field
+                    name="timeZone"
+                    className="ClientsGridFilter__field ClientsGridFilter__select"
+                    component={TimeZoneField}
+                  />
+
+                  <Field
                     name="registrationDateRange"
                     className="ClientsGridFilter__field ClientsGridFilter__date-range"
                     label={I18n.t(attributeLabels.registrationDate)}
@@ -946,23 +971,6 @@ const ClientsGridFilter = (props:Props) => {
                     }}
                     withFocus
                   />
-
-                  <Field
-                    name="isNeverCalled"
-                    className="ClientsGridFilter__field ClientsGridFilter__select"
-                    label={I18n.t(attributeLabels.isNeverCalled)}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withAnyOption
-                    withFocus
-                  >
-                    {radioSelect.map(({ value, label }) => (
-                      // @ts-ignore TS doesn't approve value as boolean type
-                      <option key={`isNeverCalled-${value}`} value={value}>
-                        {I18n.t(label)}
-                      </option>
-                    ))}
-                  </Field>
 
                   <Field
                     name="searchLimit"

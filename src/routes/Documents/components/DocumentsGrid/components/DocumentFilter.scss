@@ -3,28 +3,26 @@
   background-color: var(--surface-filters-background);
 
   &__fields {
+    width: 100%;
     display: grid;
-    column-gap: 15px;
+    grid-gap: 15px;
     grid-template-columns: repeat(12, 1fr);
   }
 
   &__field {
-    grid-column: span 2;
-
-    &--large {
-      grid-column: span 4;
-    }
+    margin-bottom: 0;
   }
 
   &__search {
-    flex-grow: 0.75;
-    flex-basis: 250px;
-    min-width: 250px;
-    grid-column: span 4;
+    grid-column: span 3;
   }
 
   &__date-range {
     grid-column: span 4;
+  }
+
+  &__time-zone {
+    grid-column: span 2;
   }
 
   &__add-button {
@@ -36,8 +34,11 @@
   }
 
   &__buttons {
+    grid-column-start: 10;
+    grid-column-end: 13;
     display: flex;
-    justify-content: flex-end;
+    margin-left: auto;
+    align-self: flex-end;
   }
 
   &__button {

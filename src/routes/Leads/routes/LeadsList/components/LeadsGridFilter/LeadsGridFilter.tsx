@@ -6,7 +6,6 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { getAvailableLanguages, getBrand } from 'config';
 import { State } from 'types';
-import { LeadSearch__Input as LeadSearch } from '__generated__/types';
 import countries from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
@@ -14,7 +13,9 @@ import { statuses as operatorsStasuses } from 'constants/operators';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/Buttons';
+import TimeZoneField from 'components/TimeZoneField';
 import { leadAccountStatuses, neverCalledTypes } from '../../constants';
+import { FormValues } from '../../type';
 import { OPERATORS_SORT, attributeLabels, maxSearchLimit } from './constants';
 import { useAcquisitionStatusesQuery } from './graphql/__generated__/AcquisitionStatusesQuery';
 import { useDesksAndTeamsQuery } from './graphql/__generated__/DesksAndTeamsQuery';
@@ -22,15 +23,16 @@ import { useOperatorsQuery } from './graphql/__generated__/OperatorsQuery';
 import './LeadsGridFilter.scss';
 
 type Props = {
-  handleRefetch: () => void,
+  onRefetch: () => void,
 };
 
 const LeadsGridFilter = (props:Props) => {
-  const { handleRefetch } = props;
+  const { onRefetch } = props;
 
-  const { state } = useLocation<State<LeadSearch>>();
+  const { state } = useLocation<State<FormValues>>();
   const history = useHistory();
 
+  // ===== Requests ===== //
   const { data: desksAndTeamsData, loading: isDesksAndTeamsLoading } = useDesksAndTeamsQuery();
   const { data: acquisitionStatusesData, loading: isAcquisitionStatusesLoading } = useAcquisitionStatusesQuery({
     variables: { brandId: getBrand().id },
@@ -41,34 +43,8 @@ const LeadsGridFilter = (props:Props) => {
   });
   const operators = operatorsData?.operators?.content || [];
 
-  const filterOperatorsByBranch = (uuids: Array<string | null>) => (
-    operators.filter((operator) => {
-      const parentBranches = operator.hierarchy?.parentBranches || [];
-      const branches = parentBranches.map(({ uuid }) => uuid) || [];
-
-      return intersection(branches, uuids).length;
-    })
-  );
-
-  const filterOperators = ({ desks, teams }: LeadSearch) => {
-    if (teams && teams.length) {
-      return filterOperatorsByBranch(teams);
-    }
-
-    if (desks && desks.length) {
-      // If desk chosen -> find all teams of these desks to filter operators
-      const teamsList = desksAndTeamsData?.userBranches?.TEAM || [];
-      const teamsByDesks = teamsList.filter(team => desks.includes(team?.parentBranch?.uuid as string))
-        .map(({ uuid }) => uuid);
-      const uuids = [...desks, ...teamsByDesks];
-
-      return filterOperatorsByBranch(uuids);
-    }
-
-    return operators;
-  };
-
-  const handleSubmit = (values: LeadSearch, { setSubmitting }: FormikHelpers<LeadSearch>) => {
+  // ===== Handlers ===== //
+  const handleSubmit = (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
     history.replace({
       state: {
         ...state,
@@ -86,6 +62,33 @@ const LeadsGridFilter = (props:Props) => {
         filters: null,
       },
     });
+  };
+
+  const filterOperatorsByBranch = (uuids: Array<string | null>) => (
+    operators.filter((operator) => {
+      const parentBranches = operator.hierarchy?.parentBranches || [];
+      const branches = parentBranches.map(({ uuid }) => uuid) || [];
+
+      return intersection(branches, uuids).length;
+    })
+  );
+
+  const filterOperators = ({ desks, teams }: FormValues) => {
+    if (teams && teams.length) {
+      return filterOperatorsByBranch(teams);
+    }
+
+    if (desks && desks.length) {
+      // If desk chosen -> find all teams of these desks to filter operators
+      const teamsList = desksAndTeamsData?.userBranches?.TEAM || [];
+      const teamsByDesks = teamsList.filter(team => desks.includes(team?.parentBranch?.uuid as string))
+        .map(({ uuid }) => uuid);
+      const uuids = [...desks, ...teamsByDesks];
+
+      return filterOperatorsByBranch(uuids);
+    }
+
+    return operators;
   };
 
   const salesStatuses = sortBy(acquisitionStatusesData?.settings.salesStatuses || [], 'status');
@@ -279,41 +282,6 @@ const LeadsGridFilter = (props:Props) => {
               </Field>
 
               <Field
-                className="LeadsGridFilter__field LeadsGridFilter__date-range"
-                label={I18n.t(attributeLabels.registrationDateRange)}
-                component={FormikDateRangePicker}
-                fieldsNames={{
-                  from: 'registrationDateStart',
-                  to: 'registrationDateEnd',
-                }}
-                withFocus
-              />
-
-              <Field
-                className="LeadsGridFilter__field LeadsGridFilter__date-range"
-                label={I18n.t(attributeLabels.lastNoteDateRange)}
-                component={FormikDateRangePicker}
-                fieldsNames={{
-                  from: 'lastNoteDateFrom',
-                  to: 'lastNoteDateTo',
-                }}
-                withFocus
-              />
-
-              <Field
-                name="lastCallDateRange"
-                className="LeadsGridFilter__field LeadsGridFilter__date-range"
-                label={I18n.t(attributeLabels.lastCallDateRange)}
-                component={FormikDateRangePicker}
-                fieldsNames={{
-                  from: 'lastCallDateFrom',
-                  to: 'lastCallDateTo',
-                }}
-                anchorDirection="right"
-                withFocus
-              />
-
-              <Field
                 name="isNeverCalled"
                 className="LeadsGridFilter__field LeadsGridFilter__select"
                 label={I18n.t(attributeLabels.isNeverCalled)}
@@ -348,31 +316,68 @@ const LeadsGridFilter = (props:Props) => {
                 component={FormikInputField}
                 withFocus
               />
-            </div>
 
-            <div className="LeadsGridFilter__buttons">
-              <RefreshButton
-                className="LeadsGridFilter__button"
-                onClick={handleRefetch}
+              <TimeZoneField className="LeadsGridFilter__field LeadsGridFilter__select" />
+
+              <Field
+                className="LeadsGridFilter__field LeadsGridFilter__date-range"
+                label={I18n.t(attributeLabels.registrationDateRange)}
+                component={FormikDateRangePicker}
+                fieldsNames={{
+                  from: 'registrationDateStart',
+                  to: 'registrationDateEnd',
+                }}
+                withFocus
               />
 
-              <Button
-                className="LeadsGridFilter__button"
-                disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
-                onClick={handleReset}
-                primary
-              >
-                {I18n.t('COMMON.RESET')}
-              </Button>
+              <Field
+                className="LeadsGridFilter__field LeadsGridFilter__date-range"
+                label={I18n.t(attributeLabels.lastNoteDateRange)}
+                component={FormikDateRangePicker}
+                fieldsNames={{
+                  from: 'lastNoteDateFrom',
+                  to: 'lastNoteDateTo',
+                }}
+                withFocus
+              />
 
-              <Button
-                className="LeadsGridFilter__button"
-                disabled={isSubmitting || !dirty}
-                type="submit"
-                primary
-              >
-                {I18n.t('COMMON.APPLY')}
-              </Button>
+              <Field
+                name="lastCallDateRange"
+                className="LeadsGridFilter__field LeadsGridFilter__date-range"
+                label={I18n.t(attributeLabels.lastCallDateRange)}
+                component={FormikDateRangePicker}
+                fieldsNames={{
+                  from: 'lastCallDateFrom',
+                  to: 'lastCallDateTo',
+                }}
+                anchorDirection="right"
+                withFocus
+              />
+
+              <div className="LeadsGridFilter__buttons">
+                <RefreshButton
+                  className="LeadsGridFilter__button"
+                  onClick={onRefetch}
+                />
+
+                <Button
+                  className="LeadsGridFilter__button"
+                  disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
+                  onClick={handleReset}
+                  primary
+                >
+                  {I18n.t('COMMON.RESET')}
+                </Button>
+
+                <Button
+                  className="LeadsGridFilter__button"
+                  disabled={isSubmitting || !dirty}
+                  type="submit"
+                  primary
+                >
+                  {I18n.t('COMMON.APPLY')}
+                </Button>
+              </div>
             </div>
           </Form>
         );

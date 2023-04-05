@@ -37,6 +37,7 @@ export const oldFilters = [
   'isNeverCalled',
   'searchLimit',
   'offices',
+  'timeZone',
 ];
 
 export const defaultFilters = [

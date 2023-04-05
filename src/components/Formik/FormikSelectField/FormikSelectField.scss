@@ -7,6 +7,10 @@
     margin-bottom: 5px;
   }
 
+  &__icon {
+    margin-left: 5px;
+  }
+
   &__error {
     color: var(--state-colors-danger);
     font-size: 12px;

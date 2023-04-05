@@ -886,6 +886,8 @@
     "FILTERS": {
       "SEARCH_LIMIT": "Search limit"
     },
+    "TIME_ZONE": "Time zone",
+    "CURRENT_TIME_ZONE": "Current time zone {{currentTimeZone}}",
     "TIME_RANGE": {
       "TIME_FROM": "Time from:",
       "TIME_TO": "Time to:",

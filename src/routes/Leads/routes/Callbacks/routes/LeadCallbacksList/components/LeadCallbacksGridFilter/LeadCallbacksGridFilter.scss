@@ -5,7 +5,7 @@
     background-color: var(--surface-filters-background);
     display: grid;
     grid-gap: 15px;
-    grid-template-columns: repeat(12, calc(8.33% - 15px * 11 / 12));
+    grid-template-columns: repeat(12, 1fr);
   }
 
   &__field {
@@ -13,7 +13,7 @@
   }
 
   &__search {
-    grid-column: span 3;
+    grid-column: span 4;
   }
 
   &__select {
@@ -22,6 +22,10 @@
 
   &__date-range {
     grid-column: span 4;
+  }
+
+  &__time-zone {
+    grid-column: span 2;
   }
 
   &__buttons {

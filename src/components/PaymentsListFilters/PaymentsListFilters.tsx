@@ -2,10 +2,12 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { useHistory, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
-import { intersection, omit } from 'lodash';
+import { compact, intersection, omit } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import { getBrand } from 'config';
 import { State } from 'types';
+import { TimeZone } from 'types/timeZoneField';
+import { PaymentSearch__Input as PaymentSearch } from '__generated__/types';
 import {
   aggregators,
   aggregatorsLabels,
@@ -32,37 +34,14 @@ import { RangeGroup } from 'components/Forms';
 import FiltersToggler from 'components/FiltersToggler';
 import FilterSetsDecorator, { FilterSetsButtons } from 'components/FilterSetsDecorator';
 import { Button, RefreshButton } from 'components/Buttons';
+import TimeZoneField from 'components/TimeZoneField';
 import { firstTimeDepositFilter } from './constants';
 import { useOperatorsQuery } from './graphql/__generated__/OperatorsQuery';
 import { useDesksAndTeamsQuery } from './graphql/__generated__/DesksAndTeamsQuery';
 import { usePaymentMethodsQuery } from './graphql/__generated__/PaymentMethodsQuery';
 import './PaymentsListFilters.scss';
 
-type FormValues = {
-  searchParam?: string,
-  paymentAggregator?: string,
-  paymentMethods?: Array<string>,
-  paymentTypes?: Array<string>,
-  statuses?: Array<string>,
-  statusChangedTimeFrom?: string,
-  statusChangedTimeTo?: string,
-  desks?: Array<string>,
-  teams?: Array<string>,
-  agentIds?: Array<string>,
-  currency?: string,
-  accountType?: string,
-  platformType?: string,
-  firstTimeDeposit?: boolean,
-  warnings?: Array<string>,
-  amountFrom?: number,
-  amountTo?: number,
-  creationTimeFrom?: string,
-  creationTimeTo?: string,
-  modificationTimeFrom?: string,
-  modificationTimeTo?: string,
-  countries?: Array<string>,
-  affiliateUuids?: Array<string>,
-};
+export type FormValues = Omit<PaymentSearch, 'page'> & TimeZone;
 
 type Props = {
   paymentsLoading: boolean,
@@ -135,7 +114,7 @@ const PaymentsListFilters = (props: Props) => {
 
   const filterOperators = ({ desks, teams }: FormValues) => {
     if (teams && teams.length) {
-      return filterOperatorsByBranch(teams);
+      return filterOperatorsByBranch(compact(teams));
     }
 
     if (desks && desks.length) {
@@ -144,7 +123,7 @@ const PaymentsListFilters = (props: Props) => {
         .filter(team => team.parentBranch && desks.includes(team.parentBranch.uuid)).map(({ uuid }) => uuid);
       const uuids = [...desks, ...teamsByDesks];
 
-      return filterOperatorsByBranch(uuids);
+      return filterOperatorsByBranch(compact(uuids));
     }
 
     return operators;
@@ -241,6 +220,10 @@ const PaymentsListFilters = (props: Props) => {
                     }}
                     withFocus
                   />
+
+                  <If condition={!clientView}>
+                    <TimeZoneField className="PaymentsListFilters__field PaymentsListFilters__select" />
+                  </If>
 
                   <Field
                     name="paymentAggregator"
@@ -537,34 +520,34 @@ const PaymentsListFilters = (props: Props) => {
                       </option>
                     ))}
                   </Field>
-                </div>
 
-                <div className="PaymentsListFilters__buttons">
-                  <FilterSetsButtons />
+                  <div className="PaymentsListFilters__buttons">
+                    <FilterSetsButtons />
 
-                  <div className="PaymentsListFilters__buttons-group">
-                    <RefreshButton
-                      onClick={onRefetch}
-                      className="PaymentsListFilters__button"
-                    />
+                    <div className="PaymentsListFilters__buttons-group">
+                      <RefreshButton
+                        onClick={onRefetch}
+                        className="PaymentsListFilters__button"
+                      />
 
-                    <Button
-                      onClick={handleReset}
-                      className="PaymentsListFilters__button"
-                      disabled={paymentsLoading || isSubmitting || !checkIsDirty(values)}
-                      primary
-                    >
-                      {I18n.t('COMMON.RESET')}
-                    </Button>
+                      <Button
+                        onClick={handleReset}
+                        className="PaymentsListFilters__button"
+                        disabled={paymentsLoading || isSubmitting || !checkIsDirty(values)}
+                        primary
+                      >
+                        {I18n.t('COMMON.RESET')}
+                      </Button>
 
-                    <Button
-                      type="submit"
-                      className="PaymentsListFilters__button"
-                      disabled={paymentsLoading || isSubmitting || !dirty}
-                      primary
-                    >
-                      {I18n.t('COMMON.APPLY')}
-                    </Button>
+                      <Button
+                        type="submit"
+                        className="PaymentsListFilters__button"
+                        disabled={paymentsLoading || isSubmitting || !dirty}
+                        primary
+                      >
+                        {I18n.t('COMMON.APPLY')}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </Form>

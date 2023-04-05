@@ -2,33 +2,21 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
+import { DocumentFile } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Button } from 'components/Buttons';
 import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import { useUpdateDocumentMutation } from './graphql/__generated__/UpdateDocumentMutation';
-import './UpdateDoсumentModal.scss';
-
-const validate = createValidator(
-  {
-    title: ['required', 'string', 'max:500'],
-    description: ['string', 'max:1000'],
-  },
-  {
-    title: I18n.t('DOCUMENTS.MODALS.ADD_DOCUMENT.TITLE'),
-    description: I18n.t('DOCUMENTS.MODALS.ADD_DOCUMENT.DESCRIPTION'),
-  },
-  false,
-);
+import './UpdateDocumentModal.scss';
 
 type FormValues = {
   title: string,
-  uuid: string,
-  description: string | null,
+  description: string,
 };
 
 export type Props = {
-  item: FormValues | null,
+  item: DocumentFile,
   onSuccess: () => void,
   onCloseModal: () => void,
 };
@@ -41,10 +29,10 @@ const UpdateDocumentModal = (props: Props) => {
 
   // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues) => {
-    const { title, description, uuid } = values;
+    const { title, description } = values;
 
     try {
-      await updateDocumentMutation({ variables: { args: { title, description, uuid } } });
+      await updateDocumentMutation({ variables: { args: { title, description, uuid: item.uuid } } });
 
       onSuccess();
       onCloseModal();
@@ -66,11 +54,21 @@ const UpdateDocumentModal = (props: Props) => {
   return (
     <Modal className="UpdateDoсumentModal" toggle={onCloseModal} isOpen>
       <Formik
-        initialValues={item || {
-          title: '',
-          description: '',
-        } as FormValues}
-        validate={validate}
+        initialValues={{
+          title: item.title,
+          description: item.description || '',
+        }}
+        validate={createValidator(
+          {
+            title: ['required', 'string', 'max:500'],
+            description: ['string', 'max:1000'],
+          },
+          {
+            title: I18n.t('DOCUMENTS.MODALS.ADD_DOCUMENT.TITLE'),
+            description: I18n.t('DOCUMENTS.MODALS.ADD_DOCUMENT.DESCRIPTION'),
+          },
+          false,
+        )}
         validateOnBlur={false}
         validateOnChange={false}
         onSubmit={handleSubmit}

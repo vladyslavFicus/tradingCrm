@@ -41,6 +41,7 @@ export const attributeLabels = {
   statuses: 'PROFILE.LIST.FILTERS.STATUS',
   teams: 'PROFILE.LIST.FILTERS.TEAMS',
   warnings: 'PROFILE.LIST.FILTERS.WARNING',
+  timeZone: 'COMMON.TIME_ZONE',
 };
 
 export const activityStatuses = [

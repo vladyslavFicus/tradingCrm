@@ -5,6 +5,7 @@ import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
 import { parseErrors, withRequests } from 'apollo';
 import { getAvailableLanguages } from 'config';
+import { timeZoneOffsets } from 'constants/dates';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import permissions from 'config/permissions';
 import { withPermission } from 'providers/PermissionsProvider';
@@ -16,7 +17,7 @@ import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button } from 'components/Buttons';
-import { attributeLabels, timeZoneOffsets } from './constants';
+import { attributeLabels } from './constants';
 import UpdateClientPersonalMutation from './graphql/UpdateClientPersonalMutation';
 import './ClientPersonalForm.scss';
 
