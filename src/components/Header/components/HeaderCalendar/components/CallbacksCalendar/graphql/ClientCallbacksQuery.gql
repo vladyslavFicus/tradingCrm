@@ -1,12 +1,12 @@
 query ClientCallbacksQuery(
   $callbackTimeFrom: String
   $callbackTimeTo: String
-  $limit: Int
+  $page: Page__Input
 ) {
   clientCallbacks(
     callbackTimeFrom: $callbackTimeFrom
     callbackTimeTo: $callbackTimeTo
-    limit: $limit
+    page: $page
   ) @connection(key: "CLIENT_CALLBACKS_HEADER_CALENDAR") {
     content {
       _id

@@ -3,15 +3,13 @@ query LeadCallbacksListQuery(
   $statuses: [Callback__Status__Enum],
   $callbackTimeFrom: String,
   $callbackTimeTo: String,
-  $limit: Int,
-  $page: Int,
+  $page: Page__Input,
 ) {
   leadCallbacks(
     searchKeyword: $searchKeyword,
     statuses: $statuses,
     callbackTimeFrom: $callbackTimeFrom,
     callbackTimeTo: $callbackTimeTo,
-    limit: $limit,
     page: $page,
   ) {
     page

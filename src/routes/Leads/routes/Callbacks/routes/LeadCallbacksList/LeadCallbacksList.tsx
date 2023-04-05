@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import I18n from 'i18n-js';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { State } from 'types';
+import { Sort__Input as Sort } from '__generated__/types';
 import EventEmitter, { LEAD_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import { Link } from 'components/Link';
 import { fieldTimeZoneOffset } from 'utils/timeZoneOffset';
@@ -18,17 +19,25 @@ const LeadCallbacksList = () => {
   const { state } = useLocation<State<FormValues>>();
   const { timeZone, callbackTimeFrom, callbackTimeTo, ...rest } = state?.filters || {} as FormValues;
 
+  const history = useHistory();
+
   const queryVariables = {
     ...rest,
     ...fieldTimeZoneOffset('callbackTimeFrom', callbackTimeFrom, timeZone),
     ...fieldTimeZoneOffset('callbackTimeTo', callbackTimeTo, timeZone),
-    limit: 20,
-    page: 0,
+    page: {
+      from: 0,
+      size: 20,
+      sorts: state?.sorts,
+    },
   };
 
   // ===== Requests ===== //
   const leadCallbacksListQuery = useLeadCallbacksListQuery({
     variables: queryVariables as LeadCallbacksListQueryVariables,
+    fetchPolicy: 'cache-and-network',
+    errorPolicy: 'all',
+    context: { batch: false },
   });
 
   const totalElements = leadCallbacksListQuery.data?.leadCallbacks.totalElements;
@@ -41,6 +50,16 @@ const LeadCallbacksList = () => {
       EventEmitter.off(LEAD_CALLBACK_RELOAD, leadCallbacksListQuery.refetch);
     };
   }, []);
+
+  // ===== Handlers ===== //
+  const handleSort = (sorts: Array<Sort>) => {
+    history.replace({
+      state: {
+        ...state,
+        sorts,
+      },
+    });
+  };
 
   return (
     <div className="LeadCallbacksList">
@@ -61,7 +80,12 @@ const LeadCallbacksList = () => {
       </div>
 
       <LeadCallbacksGridFilter onRefetch={leadCallbacksListQuery?.refetch} />
-      <LeadCallbacksGrid leadCallbacksListQuery={leadCallbacksListQuery} />
+
+      <LeadCallbacksGrid
+        sorts={state?.sorts || []}
+        onSort={handleSort}
+        leadCallbacksListQuery={leadCallbacksListQuery}
+      />
     </div>
   );
 };

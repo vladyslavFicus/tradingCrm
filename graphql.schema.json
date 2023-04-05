@@ -28404,23 +28404,11 @@
                 "deprecationReason": null
               },
               {
-                "name": "limit",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
                 "name": "page",
                 "description": null,
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
+                  "kind": "INPUT_OBJECT",
+                  "name": "Page__Input",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -29661,23 +29649,11 @@
                 "deprecationReason": null
               },
               {
-                "name": "limit",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
                 "name": "page",
                 "description": null,
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
+                  "kind": "INPUT_OBJECT",
+                  "name": "Page__Input",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -32720,12 +32696,6 @@
             "deprecationReason": null
           },
           {
-            "name": "CALLBACK_NA",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "CALL_AGAIN",
             "description": null,
             "isDeprecated": false,
@@ -32781,12 +32751,6 @@
           },
           {
             "name": "INVALID_LANGUAGE",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "MESSAGER",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null

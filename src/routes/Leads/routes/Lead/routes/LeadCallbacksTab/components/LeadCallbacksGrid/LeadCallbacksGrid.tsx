@@ -3,7 +3,7 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { cloneDeep, set } from 'lodash';
-import { LeadCallback } from '__generated__/types';
+import { LeadCallback, Sort__Input as Sort } from '__generated__/types';
 import { shortify } from 'utils/uuid';
 import { useModal } from 'providers/ModalProvider';
 import { targetTypes } from 'constants/note';
@@ -23,11 +23,13 @@ import {
 import './LeadCallbacksGrid.scss';
 
 type Props = {
+  sorts: Array<Sort>,
+  onSort: (sorts: Array<Sort>) => void,
   leadCallbacksListQuery: LeadCallbacksListQueryQueryResult,
 };
 
 const LeadCallbacksGrid = (props: Props) => {
-  const { leadCallbacksListQuery } = props;
+  const { sorts, onSort, leadCallbacksListQuery } = props;
 
   const { data, variables, fetchMore, loading, refetch } = leadCallbacksListQuery;
 
@@ -166,6 +168,8 @@ const LeadCallbacksGrid = (props: Props) => {
         loading={loading}
         hasMore={!last}
         onMore={handlePageChanged}
+        onSort={onSort}
+        sorts={sorts}
       >
         <Column
           header={I18n.t('CALLBACKS.GRID_HEADER.ID')}
@@ -178,6 +182,7 @@ const LeadCallbacksGrid = (props: Props) => {
         <Column
           header={I18n.t('CALLBACKS.GRID_HEADER.TIME')}
           render={callback => renderDateTime(callback, 'callbackTime')}
+          sortBy="callbackTime"
         />
         <Column
           header={I18n.t('CALLBACKS.GRID_HEADER.CREATED')}

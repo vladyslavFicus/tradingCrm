@@ -29,7 +29,10 @@ const ClientCallbacksCalendar = () => {
     variables: {
       callbackTimeFrom: Calendar.firstVisibleDate(moment()).utc().format(DATE_TIME_BASE_FORMAT),
       callbackTimeTo: Calendar.lastVisibleDate(moment()).utc().format(DATE_TIME_BASE_FORMAT),
-      limit: 2000,
+      page: {
+        from: 0,
+        size: 2000,
+      },
     },
   });
 

@@ -43,12 +43,12 @@ const CallbacksCalendar = (props: Props) => {
   const permission = usePermission();
 
   const clientCallbacksQuery = useClientCallbacksQuery({
-    variables: { ...callbackTime, limit: 2000 },
+    variables: { ...callbackTime, page: { from: 0, size: 2000 } },
     skip: permission.denies(permissions.USER_PROFILE.CALLBACKS_LIST),
   });
 
   const leadCallbacksQuery = useLeadCallbacksQuery({
-    variables: { ...callbackTime, limit: 2000 },
+    variables: { ...callbackTime, page: { from: 0, size: 2000 } },
     skip: permission.denies(permissions.LEAD_PROFILE.CALLBACKS_LIST),
   });
 

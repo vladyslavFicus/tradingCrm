@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { cloneDeep, set } from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { ClientCallback } from '__generated__/types';
+import { ClientCallback, Sort__Input as Sort } from '__generated__/types';
 import { shortify } from 'utils/uuid';
 import { useModal } from 'providers/ModalProvider';
 import { targetTypes } from 'constants/note';
@@ -23,11 +23,13 @@ import {
 import './ClientCallbacksGrid.scss';
 
 type Props = {
+  sorts: Array<Sort>,
+  onSort: (sorts: Array<Sort>) => void,
   clientCallbacksListQuery: ClientCallbacksListQueryQueryResult,
 };
 
 const ClientCallbacksGrid = (props: Props) => {
-  const { clientCallbacksListQuery } = props;
+  const { sorts, onSort, clientCallbacksListQuery } = props;
 
   const { data, variables, fetchMore, loading, refetch } = clientCallbacksListQuery;
 
@@ -57,7 +59,7 @@ const ClientCallbacksGrid = (props: Props) => {
     const { callbackId, operatorId } = callback;
 
     return (
-      <Fragment>
+      <>
         <div
           className="ClientCallbacksGrid__info-main ClientCallbacksGrid__info-main--pointer"
           onClick={() => updateClientCallbackModal.show({
@@ -74,12 +76,12 @@ const ClientCallbacksGrid = (props: Props) => {
         <div className="ClientCallbacksGrid__info-secondary">
           {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={operatorId} />
         </div>
-      </Fragment>
+      </>
     );
   };
 
   const renderOperator = ({ operator, operatorId }: ClientCallback) => (
-    <Fragment>
+    <>
       <If condition={!!operator}>
         <div className="ClientCallbacksGrid__info-main">
           {operator?.fullName}
@@ -89,7 +91,7 @@ const ClientCallbacksGrid = (props: Props) => {
       <div className="ClientCallbacksGrid__info-secondary">
         <Uuid uuid={operatorId} />
       </div>
-    </Fragment>
+    </>
   );
 
   const renderUser = ({ client, userId }: ClientCallback) => (
@@ -110,7 +112,7 @@ const ClientCallbacksGrid = (props: Props) => {
   );
 
   const renderDateTime = (callback: ClientCallback, field: CallbackTimes) => (
-    <Fragment>
+    <>
       <div className="ClientCallbacksGrid__info-main">
         {moment.utc(callback[field]).local().format('DD.MM.YYYY')}
       </div>
@@ -118,7 +120,7 @@ const ClientCallbacksGrid = (props: Props) => {
       <div className="ClientCallbacksGrid__info-secondary">
         {moment.utc(callback[field]).local().format('HH:mm:ss')}
       </div>
-    </Fragment>
+    </>
   );
 
   const renderStatus = ({ status }: ClientCallback) => (
@@ -158,25 +160,25 @@ const ClientCallbacksGrid = (props: Props) => {
   };
 
   const renderReminder = ({ reminder, callbackTime }: ClientCallback) => {
-    if (reminder) {
-      // Reminder format: ISO 8601('PT5M'), get milliseconds via moment.duration
-      const reminderMilliseconds = moment.duration(reminder).asMilliseconds();
-      const reminderDate = moment.utc(callbackTime).local().subtract(reminderMilliseconds, 'ms');
-
-      return (
-        <Fragment>
-          <div className="ClientCallbacksGrid__info-main">
-            {moment(reminderDate).format('DD.MM.YYYY')}
-          </div>
-
-          <div className="ClientCallbacksGrid__info-secondary">
-            {moment(reminderDate).format('HH:mm:ss')}
-          </div>
-        </Fragment>
-      );
+    if (!reminder) {
+      return <>&mdash;</>;
     }
 
-    return (<div>&mdash;</div>);
+    // Reminder format: ISO 8601('PT5M'), get milliseconds via moment.duration
+    const reminderMilliseconds = moment.duration(reminder).asMilliseconds();
+    const reminderDate = moment.utc(callbackTime).local().subtract(reminderMilliseconds, 'ms');
+
+    return (
+      <>
+        <div className="ClientCallbacksGrid__info-main">
+          {moment(reminderDate).format('DD.MM.YYYY')}
+        </div>
+
+        <div className="ClientCallbacksGrid__info-secondary">
+          {moment(reminderDate).format('HH:mm:ss')}
+        </div>
+      </>
+    );
   };
 
   return (
@@ -187,6 +189,8 @@ const ClientCallbacksGrid = (props: Props) => {
         loading={loading}
         hasMore={!last}
         onMore={handlePageChanged}
+        sorts={sorts}
+        onSort={onSort}
       >
         <Column
           header={I18n.t('CALLBACKS.GRID_HEADER.ID')}
@@ -203,6 +207,7 @@ const ClientCallbacksGrid = (props: Props) => {
         <Column
           header={I18n.t('CALLBACKS.GRID_HEADER.TIME')}
           render={callback => renderDateTime(callback, 'callbackTime')}
+          sortBy="callbackTime"
         />
         <Column
           header={I18n.t('CALLBACKS.GRID_HEADER.CREATED')}

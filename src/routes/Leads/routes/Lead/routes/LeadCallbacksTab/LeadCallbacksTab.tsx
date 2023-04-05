@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { State } from 'types';
+import { Sort__Input as Sort } from '__generated__/types';
 import EventEmitter, { LEAD_CALLBACK_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
 import { useModal } from 'providers/ModalProvider';
@@ -22,6 +23,8 @@ const LeadCallbacksTab = () => {
 
   const { state } = useLocation<State<LeadCallbacksListQueryVariables>>();
 
+  const history = useHistory();
+
   // ===== Modals ===== //
   const createLeadCallbackModal = useModal<CreateLeadCallbackModalProps>(CreateLeadCallbackModal);
 
@@ -30,15 +33,30 @@ const LeadCallbacksTab = () => {
     variables: {
       ...state?.filters as LeadCallbacksListQueryVariables,
       userId: uuid,
-      limit: 20,
-      page: 0,
+      page: {
+        from: 0,
+        size: 20,
+        sorts: state?.sorts,
+      },
     },
+    fetchPolicy: 'cache-and-network',
+    errorPolicy: 'all',
+    context: { batch: false },
   });
 
   // ===== Handlers ===== //
   const handleOpenAddCallbackModal = () => {
     createLeadCallbackModal.show({
       userId: uuid,
+    });
+  };
+
+  const handleSort = (sorts: Array<Sort>) => {
+    history.replace({
+      state: {
+        ...state,
+        sorts,
+      },
     });
   };
 
@@ -70,7 +88,12 @@ const LeadCallbacksTab = () => {
       </TabHeader>
 
       <LeadCallbacksGridFilter onRefetch={leadCallbacksListQuery.refetch} />
-      <LeadCallbacksGrid leadCallbacksListQuery={leadCallbacksListQuery} />
+
+      <LeadCallbacksGrid
+        sorts={state?.sorts || []}
+        onSort={handleSort}
+        leadCallbacksListQuery={leadCallbacksListQuery}
+      />
     </div>
   );
 };

@@ -1,12 +1,12 @@
 query LeadCallbacksListQuery(
   $callbackTimeFrom: String
   $callbackTimeTo: String
-  $limit: Int
+  $page: Page__Input
 ) {
   leadCallbacks(
     callbackTimeFrom: $callbackTimeFrom
     callbackTimeTo: $callbackTimeTo
-    limit: $limit
+    page: $page
     ) @connection(key: "LEAD_CALLBACKS_CALENDAR") {
     totalElements
     content {
