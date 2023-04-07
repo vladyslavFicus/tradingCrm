@@ -35,7 +35,7 @@ const DynamicFiltersButton = (props: Props) => {
       state: {
         ...state,
         filters: pick(state?.filters, value),
-        filtersFields: value,
+        filtersFields: [...new Set(value)],
       },
     });
   }, [history, state]);

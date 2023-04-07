@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import compose from 'compose-function';
 import { intersection, sortBy } from 'lodash';
@@ -48,10 +48,10 @@ import {
   storageKey,
 } from '../../constants';
 import { FormValues } from '../../types';
-import { usePartnersQuery } from './graphql/__generated__/PartnersQuery';
-import { useOperatorsQuery } from './graphql/__generated__/OperatorsQuery';
-import { useDesksAndTeamsQuery } from './graphql/__generated__/DesksAndTeamsQuery';
-import { useAcquisitionStatusesQuery } from './graphql/__generated__/AcquisitionStatusesQuery';
+import { usePartnersQueryLazyQuery } from './graphql/__generated__/PartnersQuery';
+import { useOperatorsQueryLazyQuery } from './graphql/__generated__/OperatorsQuery';
+import { useDesksAndTeamsQueryLazyQuery } from './graphql/__generated__/DesksAndTeamsQuery';
+import { useAcquisitionStatusesQueryLazyQuery } from './graphql/__generated__/AcquisitionStatusesQuery';
 import { oldFilters, defaultFilters } from './constants';
 import './ClientsGridFilter.scss';
 
@@ -83,27 +83,47 @@ const ClientsGridFilter = (props:Props) => {
   const permission = usePermission();
   const prevFiltersFields = usePrevious(state?.filtersFields);
 
-  const { data: desksAndTeamsData, loading: isDesksAndTeamsLoading } = useDesksAndTeamsQuery({
-    // You should only use this query when displaying desks and teams filters.
-    skip: !['desks', 'teams'].some(field => state?.filtersFields?.includes(field)),
-  });
+  const [getPartnersQuery, {
+    data: partnersData, loading: isPartnersLoading,
+  }] = usePartnersQueryLazyQuery({ variables: { page: { sorts: PARTNERS_SORT } } });
 
-  const { data: acquisitionStatusesData, loading: isAcquisitionStatusesLoading } = useAcquisitionStatusesQuery({
-    variables: { brandId: getBrand().id },
-    // You should only use this query when displaying salesStatuses and retentionStatuses filters.
-    skip: !['salesStatuses', 'retentionStatuses'].some(field => state?.filtersFields?.includes(field)),
-  });
+  const [getOperatorsQuery, {
+    data: operatorsData, loading: isOperatorsLoading,
+  }] = useOperatorsQueryLazyQuery({ variables: { page: { sorts: OPERATORS_SORT } } });
 
-  const { data: partnersData, loading: isPartnersLoading } = usePartnersQuery({
-    variables: { page: { sorts: PARTNERS_SORT } },
-    // You should only use this query when displaying affiliateUuids filter.
-    skip: !state?.filtersFields?.includes('affiliateUuids'),
-  });
+  const [getDesksAndTeamsQuery, {
+    data: desksAndTeamsData, loading: isDesksAndTeamsLoading,
+  }] = useDesksAndTeamsQueryLazyQuery();
 
-  const { data: operatorsData, loading: isOperatorsLoading } = useOperatorsQuery({
-    variables: { page: { sorts: OPERATORS_SORT } },
-    // You should only use this query when displaying salesOperators, operators and retentionOperators filters.
-    skip: !['salesOperators', 'operators', 'retentionOperators'].some(field => state?.filtersFields?.includes(field)),
+  const [getAcquisitionStatusesQuery, {
+    data: acquisitionStatusesData, loading: isAcquisitionStatusesLoading,
+  }] = useAcquisitionStatusesQueryLazyQuery({ variables: { brandId: getBrand().id } });
+
+  const isFetchPartnersQuery = useMemo(() => (
+    state?.filtersFields?.includes('affiliateUuids') && !partnersData
+  ), [state?.filtersFields, partnersData]);
+
+  const isFetchOperatorsQuery = useMemo(() => (
+    ['salesOperators', 'operators', 'retentionOperators'].some(
+      field => state?.filtersFields?.includes(field),
+    ) && !operatorsData
+  ), [state?.filtersFields, operatorsData]);
+
+  const isFetchDesksAndTeamsQuery = useMemo(() => (
+    ['desks', 'teams'].some(field => state?.filtersFields?.includes(field)) && !desksAndTeamsData
+  ), [state?.filtersFields, desksAndTeamsData]);
+
+  const isFetchAcquisitionStatusesQuery = useMemo(() => (
+    ['salesStatuses', 'retentionStatuses'].some(
+      field => state?.filtersFields?.includes(field),
+    ) && !acquisitionStatusesData
+  ), [state?.filtersFields, acquisitionStatusesData]);
+
+  useEffect(() => {
+    if (isFetchPartnersQuery) getPartnersQuery();
+    if (isFetchOperatorsQuery) getOperatorsQuery();
+    if (isFetchDesksAndTeamsQuery) getDesksAndTeamsQuery();
+    if (isFetchAcquisitionStatusesQuery) getAcquisitionStatusesQuery();
   });
 
   const operators = operatorsData?.operators?.content || [];
@@ -166,8 +186,11 @@ const ClientsGridFilter = (props:Props) => {
 
     storage.set('isOldClientsGridFilterPanel', enabled);
 
-    // When selected "Custom Filters Sets" otherwise defaultFilters
-    const prevFilters = state?.selectedFilterSet?.fields || defaultFilters;
+    const prevFilters = [...new Set([
+      ...(state?.selectedFilterSet?.fields || []),
+      ...defaultFilters,
+      ...Object.keys(state?.filters || []),
+    ])];
 
     history.replace({
       state: {
