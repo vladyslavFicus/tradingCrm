@@ -45,7 +45,7 @@ const LeadCallbacksGrid = (props: Props) => {
 
     if (!loading) {
       fetchMore({
-        variables: set(cloneDeep(variables as LeadCallbacksListQueryVariables), 'page', page + 1),
+        variables: set(cloneDeep(variables as LeadCallbacksListQueryVariables), 'page.from', page + 1),
       });
     }
   };

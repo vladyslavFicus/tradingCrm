@@ -45,7 +45,7 @@ const ClientCallbacksGrid = (props: Props) => {
 
     if (!loading) {
       fetchMore({
-        variables: set(cloneDeep(variables as ClientCallbacksListQueryVariables), 'page', page + 1),
+        variables: set(cloneDeep(variables as ClientCallbacksListQueryVariables), 'page.from', page + 1),
       });
     }
   };
