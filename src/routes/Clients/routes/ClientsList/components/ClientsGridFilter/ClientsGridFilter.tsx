@@ -262,6 +262,7 @@ const ClientsGridFilter = (props:Props) => {
 
           return (
             <FilterSetsDecorator
+              // @ts-ignore Component withRouter HOC types issue
               filterSetType={filterSetTypes.CLIENT}
               currentValues={values}
               disabled={clientsLoading}

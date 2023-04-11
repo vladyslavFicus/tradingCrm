@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import I18n from 'i18n-js';
 import { useHistory, useLocation } from 'react-router-dom';
-import compose from 'compose-function';
-import { FieldProps } from 'formik';
-import { withModals } from 'hoc';
-import { Modal, State } from 'types';
+import { FormikValues } from 'formik';
+import { State } from 'types';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
-import ActionFilterModal from 'modals/ActionFilterModal';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
+import ActionFilterModal, { ActionFilterModalProps } from 'modals/ActionFilterModal';
 import { FilterSet__Types__Enum as FilterSetType } from '__generated__/types';
+import { FormValues as ClientFilterSet } from 'routes/Clients/routes/ClientsList/types';
 import { FilterSetContext } from 'types/filterSet';
 import { SelectedFilterSet } from 'types/selectedFilterSet';
+import { FiltersFormValues as PaymentFilterSet } from 'components/PaymentsListFilters';
 import FilterSets from './components/FilterSets';
 import { FilterSetsQueryVariables, useFilterSetsQuery } from './graphql/__generated__/FilterSetsQuery';
 import { useFilterSetByIdQueryLazyQuery } from './graphql/__generated__/filterSetByIdQuery';
@@ -20,28 +20,20 @@ import { useUpdateFavouriteFilterSetMutation } from './graphql/__generated__/Upd
 import { useDeleteFilterSetMutation } from './graphql/__generated__/DeleteFilterSetMutation';
 import './FilterSetsDecorator.scss';
 
-type Modals = {
-  actionFilterModal: Modal,
-};
-
 type Props = {
-  modals: Modals,
   children: React.ReactNode,
   filterSetType: FilterSetType,
-  currentValues: FieldProps,
+  currentValues: FormikValues,
   disabled?: boolean,
   renderBefore?: React.ReactNode,
   isOldClientsGridFilterPanel?: boolean,
-  submitFilters: (filterSet: string) => void,
+  submitFilters: (filterSet: PaymentFilterSet | ClientFilterSet) => void,
 };
 
 export const FilterSetsContext = React.createContext({} as FilterSetContext);
 
 const FilterSetsDecorator = (props: Props) => {
   const {
-    modals: {
-      actionFilterModal,
-    },
     children,
     filterSetType,
     currentValues,
@@ -56,6 +48,7 @@ const FilterSetsDecorator = (props: Props) => {
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
+  const actionFilterModal = useModal<ActionFilterModalProps>(ActionFilterModal);
 
   const [selectedFilterSetUuid, setSelectedFilterSetUuid] = useState<string>();
   const [filterSetsLoading, setFilterSetsLoading] = useState(false);
@@ -104,7 +97,7 @@ const FilterSetsDecorator = (props: Props) => {
       filterSetType,
       fields: currentValues,
       action: 'CREATE',
-      onSuccess: async (_: any, { uuid } : SelectedFilterSet) => {
+      onSuccess: async (_: any, { uuid = '' } : SelectedFilterSet) => {
         await refetch({ type: filterSetType });
 
         setActiveFilterSet(uuid, Object.keys(currentValues));
@@ -252,9 +245,4 @@ const FilterSetsDecorator = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    actionFilterModal: ActionFilterModal,
-  }),
-)(FilterSetsDecorator);
+export default React.memo(FilterSetsDecorator);
