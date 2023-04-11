@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Route as OriginalRoute, Redirect, withRouter } from 'react-router-dom';
-import { routePermissions } from 'config/routes';
+import { routesPermissions } from 'config/routes';
 import { withStorage } from 'providers/StorageProvider';
 import { PermissionConsumer } from 'providers/PermissionsProvider';
 import Forbidden from 'routes/Forbidden';
@@ -40,16 +40,16 @@ class Route extends PureComponent {
     }
   }
 
-  isRouteForbidden(permissions) {
+  isRouteForbidden(permission) {
     const {
       path,
       auth,
       token,
     } = this.props;
 
-    const route = routePermissions[path];
+    const routePermissions = routesPermissions[path];
 
-    return route && auth && token && !permissions.includes(route);
+    return routePermissions && routePermissions.length && auth && token && !permission.allowsAll(routePermissions);
   }
 
   render() {
@@ -75,7 +75,7 @@ class Route extends PureComponent {
         <PermissionConsumer>
           {({ permission } = {}) => (
             <Choose>
-              <When condition={permission && this.isRouteForbidden(permission.permissions)}>
+              <When condition={permission && this.isRouteForbidden(permission)}>
                 <Forbidden />
               </When>
               <Otherwise>

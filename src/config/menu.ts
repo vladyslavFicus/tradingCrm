@@ -4,7 +4,7 @@ import permissions from './permissions';
 export type SidebarMenuSubItem = {
   label: string,
   url: string,
-  permissions?: string,
+  permissions?: Array<string>,
   icon?: string,
   conditions?: string,
 };
@@ -14,7 +14,7 @@ export type SidebarMenuItem = {
   icon: string,
   url?: string,
   conditions?: string,
-  permissions?: Array<string> | string,
+  permissions?: Array<string>,
   isOpen?: boolean,
   items?: Array<SidebarMenuSubItem>,
 };
@@ -52,22 +52,34 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
       {
         label: 'SIDEBAR.TOP_MENU.SEARCH_CLIENTS',
         url: '/clients/list',
-        permissions: permissions.USER_PROFILE.PROFILES_LIST,
+        permissions: [
+          permissions.USER_PROFILE.PROFILES_LIST,
+          permissions.SIDEBAR.CLIENTS_LIST,
+        ],
       },
       {
         label: 'SIDEBAR.TOP_MENU.KYC_DOCUMENTS',
         url: '/clients/kyc-documents',
-        permissions: permissions.FILES.SEARCH_FILES,
+        permissions: [
+          permissions.FILES.SEARCH_FILES,
+          permissions.SIDEBAR.CLIENTS_KYC_DOCUMENTS,
+        ],
       },
       {
         label: 'SIDEBAR.TOP_MENU.TRADING_ACCOUNTS',
         url: '/trading-accounts/list',
-        permissions: permissions.TRADING_ACCOUNTS.GET_TRADING_ACCOUNTS,
+        permissions: [
+          permissions.TRADING_ACCOUNTS.GET_TRADING_ACCOUNTS,
+          permissions.SIDEBAR.CLIENTS_TRADING_ACCOUNTS,
+        ],
       },
       {
         label: 'SIDEBAR.TOP_MENU.CLIENT_CALLBACKS',
         url: '/clients/callbacks/list',
-        permissions: permissions.USER_PROFILE.CALLBACKS_LIST,
+        permissions: [
+          permissions.USER_PROFILE.CALLBACKS_LIST,
+          permissions.SIDEBAR.CLIENTS_CALLBACKS,
+        ],
       },
     ],
   },
@@ -79,12 +91,18 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
       {
         label: 'SIDEBAR.TOP_MENU.SEARCH_LEADS',
         url: '/leads/list',
-        permissions: permissions.LEADS.GET_LEADS,
+        permissions: [
+          permissions.LEADS.GET_LEADS,
+          permissions.SIDEBAR.LEADS_LIST,
+        ],
       },
       {
         label: 'SIDEBAR.TOP_MENU.LEAD_CALLBACKS',
         url: '/leads/callbacks/list',
-        permissions: permissions.LEAD_PROFILE.CALLBACKS_LIST,
+        permissions: [
+          permissions.LEAD_PROFILE.CALLBACKS_LIST,
+          permissions.SIDEBAR.LEADS_CALLBACKS,
+        ],
       },
     ],
   },
@@ -92,7 +110,10 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
     label: 'SIDEBAR.TOP_MENU.HIERARCHY',
     icon: 'icon-organization',
     url: '/hierarchy/tree',
-    permissions: permissions.HIERARCHY.GET_TREE,
+    permissions: [
+      permissions.HIERARCHY.GET_TREE,
+      permissions.SIDEBAR.HIERARCHY,
+    ],
   },
   {
     label: 'SIDEBAR.TOP_MENU.MANAGEMENT',
@@ -102,32 +123,50 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
       {
         label: 'SIDEBAR.TOP_MENU.OFFICES',
         url: '/offices/list',
-        permissions: permissions.HIERARCHY.GET_OFFICES,
+        permissions: [
+          permissions.HIERARCHY.GET_OFFICES,
+          permissions.SIDEBAR.MANAGMENT_OFFICES,
+        ],
       },
       {
         label: 'SIDEBAR.TOP_MENU.DESKS',
         url: '/desks/list',
-        permissions: permissions.HIERARCHY.GET_DESKS,
+        permissions: [
+          permissions.HIERARCHY.GET_DESKS,
+          permissions.SIDEBAR.MANAGMENT_DESKS,
+        ],
       },
       {
         label: 'SIDEBAR.TOP_MENU.TEAMS',
         url: '/teams/list',
-        permissions: permissions.HIERARCHY.GET_TEAMS,
+        permissions: [
+          permissions.HIERARCHY.GET_TEAMS,
+          permissions.SIDEBAR.MANAGMENT_TEAMS,
+        ],
       },
       {
         label: 'SIDEBAR.TOP_MENU.SALES_RULES',
         url: '/sales-rules',
-        permissions: permissions.SALES_RULES.GET_RULES,
+        permissions: [
+          permissions.SALES_RULES.GET_RULES,
+          permissions.SIDEBAR.MANAGMENT_SALES_RULES,
+        ],
       },
       {
         label: 'SIDEBAR.TOP_MENU.OPERATORS',
         url: '/operators/list',
-        permissions: permissions.HIERARCHY.GET_OPERATORS,
+        permissions: [
+          permissions.HIERARCHY.GET_OPERATORS,
+          permissions.SIDEBAR.MANAGMENT_OPERATORS,
+        ],
       },
       {
         label: 'SIDEBAR.TOP_MENU.PARTNERS',
         url: '/partners/list',
-        permissions: permissions.PARTNERS.PARTNERS_LIST_VIEW,
+        permissions: [
+          permissions.PARTNERS.PARTNERS_LIST_VIEW,
+          permissions.SIDEBAR.MANAGMENT_PARTNERS,
+        ],
       },
     ],
   },
@@ -135,25 +174,37 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
     label: 'SIDEBAR.TOP_MENU.DOCUMENTS',
     icon: 'icon-file-text2',
     url: '/documents',
-    permissions: permissions.DOCUMENTS.SEARCH_DOCUMENT,
+    permissions: [
+      permissions.DOCUMENTS.SEARCH_DOCUMENT,
+      permissions.SIDEBAR.DOCUMENTS,
+    ],
   },
   {
     label: 'SIDEBAR.TOP_MENU.PAYMENTS',
     icon: 'icon-payments SidebarNavItem__icon--payments',
     url: '/payments/list',
-    permissions: permissions.PAYMENTS.PAYMENTS_LIST,
+    permissions: [
+      permissions.PAYMENTS.PAYMENTS_LIST,
+      permissions.SIDEBAR.PAYMENTS,
+    ],
   },
   {
     label: 'SIDEBAR.TOP_MENU.NOTIFICATIONS',
     icon: 'icon-notifications',
     url: '/notifications',
-    permissions: permissions.NOTIFICATION_CENTER.LIST,
+    permissions: [
+      permissions.NOTIFICATION_CENTER.LIST,
+      permissions.SIDEBAR.NOTIFICATIONS,
+    ],
   },
   {
     label: 'SIDEBAR.TOP_MENU.CLIENTS_DISTRIBUTION',
     icon: 'icon-union',
     url: '/distribution',
-    permissions: permissions.CLIENTS_DISTRIBUTION.LIST,
+    permissions: [
+      permissions.CLIENTS_DISTRIBUTION.LIST,
+      permissions.SIDEBAR.CLIENTS_DISTIBUTION,
+    ],
   },
   {
     label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.TITLE',
@@ -162,47 +213,47 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
       {
         label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.ACCOUNTS',
         url: '/trading-engine/accounts',
-        permissions: permissions.WE_TRADING.ACCOUNTS_LIST,
+        permissions: [permissions.WE_TRADING.ACCOUNTS_LIST],
       },
       {
         label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.ORDERS',
         url: '/trading-engine/orders',
-        permissions: permissions.WE_TRADING.ORDERS_LIST,
+        permissions: [permissions.WE_TRADING.ORDERS_LIST],
       },
       {
         label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.QUOTES',
         url: '/trading-engine/quotes',
-        permissions: permissions.WE_TRADING.SYMBOLS_LIST,
+        permissions: [permissions.WE_TRADING.SYMBOLS_LIST],
       },
       {
         label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.MARGIN_CALLS',
         url: '/trading-engine/margin-calls',
-        permissions: permissions.WE_TRADING.ACCOUNTS_LIST,
+        permissions: [permissions.WE_TRADING.ACCOUNTS_LIST],
       },
       {
         label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.SYMBOLS',
         url: '/trading-engine/symbols',
-        permissions: permissions.WE_TRADING.SYMBOLS_LIST,
+        permissions: [permissions.WE_TRADING.SYMBOLS_LIST],
       },
       {
         label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.GROUPS',
         url: '/trading-engine/groups',
-        permissions: permissions.WE_TRADING.GROUPS_LIST,
+        permissions: [permissions.WE_TRADING.GROUPS_LIST],
       },
       {
         label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.SECURITIES',
         url: '/trading-engine/securities',
-        permissions: permissions.WE_TRADING.SECURITIES_LIST,
+        permissions: [permissions.WE_TRADING.SECURITIES_LIST],
       },
       {
         label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.HOLIDAYS',
         url: '/trading-engine/holidays',
-        permissions: permissions.WE_TRADING.HOLIDAYS_LIST,
+        permissions: [permissions.WE_TRADING.HOLIDAYS_LIST],
       },
       {
         label: 'SIDEBAR.TOP_MENU.TRADING_ENGINE.OPERATORS',
         url: '/trading-engine/operators',
-        permissions: permissions.WE_TRADING.OPERATORS_LIST,
+        permissions: [permissions.WE_TRADING.OPERATORS_LIST],
       },
     ],
   },
@@ -210,7 +261,10 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
     label: 'SIDEBAR.TOP_MENU.IP_WHITELIST',
     icon: 'icon-ip-whitelist',
     url: '/ip-whitelist',
-    permissions: permissions.IP_WHITELIST.LIST,
+    permissions: [
+      permissions.IP_WHITELIST.LIST,
+      permissions.SIDEBAR.IP_WHITELIST,
+    ],
   },
   {
     label: 'SIDEBAR.TOP_MENU.SETTINGS.TITLE',
@@ -220,17 +274,26 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
       {
         label: 'SIDEBAR.TOP_MENU.SETTINGS.EMAIL_TEMPLATES',
         url: '/email-templates',
-        permissions: permissions.EMAIL_TEMPLATES.CREATE_EMAIL_TEMPLATE,
+        permissions: [
+          permissions.EMAIL_TEMPLATES.CREATE_EMAIL_TEMPLATE,
+          permissions.SIDEBAR.SETTINGS_EMAIL_TEMPLATES,
+        ],
       },
       {
         label: 'SIDEBAR.TOP_MENU.SETTINGS.ROLES_AND_PERMISSIONS',
         url: '/roles-and-permissions',
-        permissions: permissions.AUTH.UPDATE_ACTIONS,
+        permissions: [
+          permissions.AUTH.UPDATE_ACTIONS,
+          permissions.SIDEBAR.SETTINGS_RBAC,
+        ],
       },
       {
         label: 'SIDEBAR.TOP_MENU.SETTINGS.ACQUISITION_STATUSES',
         url: '/settings/acquisition-statuses',
-        permissions: permissions.HIERARCHY.GET_ACQUISITION_STATUSES,
+        permissions: [
+          permissions.HIERARCHY.GET_ACQUISITION_STATUSES,
+          permissions.SIDEBAR.SETTINGS_ACQUISITION_STATUSES,
+        ],
       },
     ],
   },

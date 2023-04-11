@@ -1,69 +1,169 @@
 import permissions from './permissions';
 
-type RoutePermissions = Record<string, string>;
+type RoutesPermissions = Record<string, Array<string>>;
 
-export const routePermissions: RoutePermissions = {
-  // Clients
-  '/clients/list': permissions.USER_PROFILE.PROFILES_LIST,
-  '/clients/:id/files': permissions.USER_PROFILE.GET_FILES,
-  '/clients/:id/feed': permissions.AUDIT.AUDIT_LOGS,
+export const routesPermissions: RoutesPermissions = {
+  // =======================
+  // ======= Clients =======
+  // =======================
 
-  // KYC
-  '/kyc-documents': permissions.FILES.SEARCH_FILES,
+  // Clients: List
+  '/clients/list': [
+    permissions.SIDEBAR.CLIENTS_LIST,
+    permissions.USER_PROFILE.PROFILES_LIST,
+  ],
 
-  // Operators
-  '/operators/list': permissions.OPERATORS.OPERATORS_LIST_VIEW,
-  '/operators/:id': permissions.OPERATORS.PROFILE_VIEW,
+  // Client: Details
+  '/clients/:id': [permissions.SIDEBAR.CLIENTS_LIST],
+  '/clients/:id/files': [permissions.USER_PROFILE.GET_FILES],
+  '/clients/:id/feed': [permissions.AUDIT.AUDIT_LOGS],
 
-  // Partners
-  '/partners/list': permissions.PARTNERS.PARTNERS_LIST_VIEW,
-  '/partners/:id': permissions.PARTNERS.PROFILE_VIEW,
+  // Clients: KYC documents
+  '/kyc-documents': [
+    permissions.SIDEBAR.CLIENTS_KYC_DOCUMENTS,
+    permissions.FILES.SEARCH_FILES,
+  ],
 
-  // Leads
-  '/leads/list': permissions.LEADS.GET_LEADS,
-  '/leads/:id': permissions.LEADS.GET_LEAD_BY_ID,
+  // Clients: Trading accounts
+  '/trading-accounts': [permissions.SIDEBAR.CLIENTS_TRADING_ACCOUNTS],
 
-  // Management: offices & teams & desks
-  '/offices/list': permissions.HIERARCHY.GET_OFFICES,
-  '/offices/:id': permissions.HIERARCHY.GET_BRANCH_BY_ID,
-  '/teams/list': permissions.HIERARCHY.GET_TEAMS,
-  '/teams/:id': permissions.HIERARCHY.GET_BRANCH_BY_ID,
-  '/desks/list': permissions.HIERARCHY.GET_DESKS,
-  '/desks/:id': permissions.HIERARCHY.GET_BRANCH_BY_ID,
+  // Clients: Callbacks list
+  '/clients/callbacks': [permissions.SIDEBAR.CLIENTS_CALLBACKS],
 
-  // Sales rules
-  '/sales-rules': permissions.SALES_RULES.GET_RULES,
+  // =====================
+  // ======= Leads =======
+  // =====================
 
-  // Email templates
-  '/email-templates/list': permissions.EMAIL_TEMPLATES.GET_EMAIL_TEMPLATES,
+  // Leads: List
+  '/leads/list': [
+    permissions.SIDEBAR.LEADS_LIST,
+    permissions.LEADS.GET_LEADS,
+  ],
 
-  // Roles and ermissions
-  '/roles-and-permissions': permissions.AUTH.UPDATE_ACTIONS,
+  // Lead: Details
+  '/leads/:id': [
+    permissions.SIDEBAR.LEADS_LIST,
+    permissions.LEADS.GET_LEAD_BY_ID,
+  ],
 
-  // Trading Engine
-  '/trading-engine/accounts': permissions.WE_TRADING.ACCOUNTS_LIST,
-  '/trading-engine/accounts/:id/orders': permissions.WE_TRADING.ORDERS_LIST,
-  '/trading-engine/orders': permissions.WE_TRADING.ORDERS_LIST,
-  '/trading-engine/quotes': permissions.WE_TRADING.SYMBOLS_LIST,
-  '/trading-engine/symbols': permissions.WE_TRADING.SYMBOLS_LIST,
-  '/trading-engine/symbols/new': permissions.WE_TRADING.CREATE_SYMBOL,
-  '/trading-engine/symbols/:id': permissions.WE_TRADING.EDIT_SYMBOL,
-  '/trading-engine/groups': permissions.WE_TRADING.GROUPS_LIST,
-  '/trading-engine/groups/new': permissions.WE_TRADING.CREATE_GROUP,
-  '/trading-engine/groups/:id': permissions.WE_TRADING.EDIT_GROUP,
-  '/trading-engine/securities': permissions.WE_TRADING.SECURITIES_LIST,
-  '/trading-engine/accounts/:id/transactions': permissions.WE_TRADING.TRANSACTIONS_LIST,
-  '/trading-engine/accounts/:id/feed': permissions.AUDIT.AUDIT_LOGS,
-  '/trading-engine/operators': permissions.WE_TRADING.OPERATORS_LIST,
+  // Leads: Callbacks list
+  '/leads/callbacks': [permissions.SIDEBAR.LEADS_CALLBACKS],
 
-  // Settings
-  '/settings/acquisition-statuses': permissions.HIERARCHY.GET_ACQUISITION_STATUSES,
+  // =========================
+  // ======= Hierarchy =======
+  // =========================
 
-  // IP whitelist
-  '/ip-whitelist/list': permissions.IP_WHITELIST.LIST,
-  '/ip-whitelist/feed': permissions.AUDIT.AUDIT_LOGS,
+  '/hierarchy': [permissions.SIDEBAR.HIERARCHY],
+
+  // ==========================
+  // ======= Management =======
+  // ==========================
+
+  // Management: Offices
+  '/offices': [permissions.SIDEBAR.MANAGMENT_OFFICES],
+  '/offices/list': [permissions.HIERARCHY.GET_OFFICES],
+  '/offices/:id': [permissions.HIERARCHY.GET_BRANCH_BY_ID],
+
+  // Management: Desks
+  '/desks': [permissions.SIDEBAR.MANAGMENT_DESKS],
+  '/desks/list': [permissions.HIERARCHY.GET_DESKS],
+  '/desks/:id': [permissions.HIERARCHY.GET_BRANCH_BY_ID],
+
+  // Management: Teams
+  '/teams': [permissions.SIDEBAR.MANAGMENT_TEAMS],
+  '/teams/list': [permissions.HIERARCHY.GET_TEAMS],
+  '/teams/:id': [permissions.HIERARCHY.GET_BRANCH_BY_ID],
+
+  // Management: Sales rules
+  '/sales-rules': [
+    permissions.SIDEBAR.MANAGMENT_SALES_RULES,
+    permissions.SALES_RULES.GET_RULES,
+  ],
+
+  // Management: Operators
+  '/operators': [permissions.SIDEBAR.MANAGMENT_OPERATORS],
+  '/operators/list': [permissions.OPERATORS.OPERATORS_LIST_VIEW],
+  '/operators/:id': [permissions.OPERATORS.PROFILE_VIEW],
+
+  // Management: Partners
+  '/partners': [permissions.SIDEBAR.MANAGMENT_PARTNERS],
+  '/partners/list': [permissions.PARTNERS.PARTNERS_LIST_VIEW],
+  '/partners/:id': [permissions.PARTNERS.PROFILE_VIEW],
+
+  // =========================
+  // ======= Documents =======
+  // =========================
 
   // Documents
-  '/documents/list': permissions.DOCUMENTS.SEARCH_DOCUMENT,
-  '/documents/feed': permissions.AUDIT.AUDIT_LOGS,
+  '/documents': [permissions.SIDEBAR.DOCUMENTS],
+  '/documents/list': [permissions.DOCUMENTS.SEARCH_DOCUMENT],
+  '/documents/feed': [permissions.AUDIT.AUDIT_LOGS],
+
+  // ========================
+  // ======= Payments =======
+  // ========================
+
+  '/payments': [permissions.SIDEBAR.PAYMENTS],
+
+  // =============================
+  // ======= Notifications =======
+  // =============================
+
+  '/notifications': [permissions.SIDEBAR.NOTIFICATIONS],
+
+  // ============================
+  // ======= Distribution =======
+  // ============================
+
+  '/distribution': [permissions.SIDEBAR.CLIENTS_DISTIBUTION],
+
+  // ============================
+  // ======= IP whitelist =======
+  // ============================
+
+  // IP whitelist
+  '/ip-whitelist': [permissions.SIDEBAR.IP_WHITELIST],
+  '/ip-whitelist/list': [permissions.IP_WHITELIST.LIST],
+  '/ip-whitelist/feed': [permissions.AUDIT.AUDIT_LOGS],
+
+  // ========================
+  // ======= Settings =======
+  // ========================
+
+  // Settings: Email templates
+  '/email-templates': [
+    permissions.SIDEBAR.SETTINGS_EMAIL_TEMPLATES,
+    permissions.EMAIL_TEMPLATES.CREATE_EMAIL_TEMPLATE,
+  ],
+
+  // Settings: Roles and permissions
+  '/roles-and-permissions': [
+    permissions.SIDEBAR.SETTINGS_RBAC,
+    permissions.AUTH.UPDATE_ACTIONS,
+  ],
+
+  // Settings: Acquisition statuses
+  '/settings/acquisition-statuses': [
+    permissions.SIDEBAR.SETTINGS_ACQUISITION_STATUSES,
+    permissions.HIERARCHY.GET_ACQUISITION_STATUSES,
+  ],
+
+  // ==============================
+  // ======= Trading Engine =======
+  // ==============================
+
+  '/trading-engine/accounts': [permissions.WE_TRADING.ACCOUNTS_LIST],
+  '/trading-engine/accounts/:id/orders': [permissions.WE_TRADING.ORDERS_LIST],
+  '/trading-engine/orders': [permissions.WE_TRADING.ORDERS_LIST],
+  '/trading-engine/quotes': [permissions.WE_TRADING.SYMBOLS_LIST],
+  '/trading-engine/symbols': [permissions.WE_TRADING.SYMBOLS_LIST],
+  '/trading-engine/symbols/new': [permissions.WE_TRADING.CREATE_SYMBOL],
+  '/trading-engine/symbols/:id': [permissions.WE_TRADING.EDIT_SYMBOL],
+  '/trading-engine/groups': [permissions.WE_TRADING.GROUPS_LIST],
+  '/trading-engine/groups/new': [permissions.WE_TRADING.CREATE_GROUP],
+  '/trading-engine/groups/:id': [permissions.WE_TRADING.EDIT_GROUP],
+  '/trading-engine/securities': [permissions.WE_TRADING.SECURITIES_LIST],
+  '/trading-engine/accounts/:id/transactions': [permissions.WE_TRADING.TRANSACTIONS_LIST],
+  '/trading-engine/accounts/:id/feed': [permissions.AUDIT.AUDIT_LOGS],
+  '/trading-engine/operators': [permissions.WE_TRADING.OPERATORS_LIST],
 };

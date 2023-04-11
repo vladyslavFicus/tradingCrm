@@ -44,8 +44,10 @@ const PermissionsSetting = (props: Props) => {
     const section = { ...sectionItem };
     const [actionKey] = Object.keys(section?.actions || {});
 
-    const sectionAction = section.actions?.[actionKey as ActionKey] as Action;
-    sectionAction.state = authorityActions.includes(sectionAction.action);
+    if (actionKey) {
+      const sectionAction = section.actions?.[actionKey as ActionKey] as Action;
+      sectionAction.state = authorityActions.includes(sectionAction.action);
+    }
 
     const sectionPermissions = section.permissions.map((permissionItem) => {
       const permission = { ...permissionItem };
@@ -93,9 +95,12 @@ const PermissionsSetting = (props: Props) => {
     const switchedOffActions: Array<string> = [];
 
     const [switchSectionActionKey] = Object.keys(switchSection.actions || {});
+
     const switchSectionAction = switchSection.actions[switchSectionActionKey as ActionKey] as Action;
 
-    const relatedPermissions = (switchSectionAction.action === action && switchSection.additional?.permissions) || [];
+    const relatedPermissions = (switchSectionAction
+      && switchSectionAction.action === action
+      && switchSection.additional?.permissions) || [];
 
     // Sections map
     const list = sectionsList.map((sectionItem) => {
@@ -103,18 +108,21 @@ const PermissionsSetting = (props: Props) => {
       const currentSection = isSection && switchSection.id === section.id;
 
       const [sectionActionKey] = Object.keys(section.actions || {});
-      const sectionAction = section.actions[sectionActionKey as ActionKey] as Action;
 
-      // When action matched section action
-      // Then need to switch section
-      if (action === sectionAction.action) {
-        sectionAction.state = enabled;
-      }
+      if (sectionActionKey) {
+        const sectionAction = section.actions[sectionActionKey as ActionKey] as Action;
 
-      // When switchSection has related permission, and switch <ON>
-      // Then need to switch <ON> matched section
-      if (relatedPermissions.includes(sectionAction.action) && enabled) {
-        sectionAction.state = enabled;
+        // When action matched section action
+        // Then need to switch section
+        if (action === sectionAction.action) {
+          sectionAction.state = enabled;
+        }
+
+        // When switchSection has related permission, and switch <ON>
+        // Then need to switch <ON> matched section
+        if (relatedPermissions.includes(sectionAction.action) && enabled) {
+          sectionAction.state = enabled;
+        }
       }
 
       // Section permissions map
@@ -220,7 +228,7 @@ const PermissionsSetting = (props: Props) => {
     );
   };
 
-  const renderSettings = (actions: Actions, section: RbackItem, isSection: boolean) => {
+  const renderSettings = (actions: Actions, withImage: boolean, section: RbackItem, isSection: boolean) => {
     const isDisabled = actions?.view && actions?.edit && !actions?.view?.state;
 
     return (
@@ -235,7 +243,7 @@ const PermissionsSetting = (props: Props) => {
           </div>
         </div>
 
-        <If condition={actions && section?.image !== false}>
+        <If condition={withImage}>
           <div className="PermissionsSetting__preview" onClick={e => handlePreviewClick(e, actions)}>
             <PreviewIcon />
           </div>
@@ -304,7 +312,7 @@ const PermissionsSetting = (props: Props) => {
                       {I18n.t(`ROLES_AND_PERMISSIONS.SECTIONS.${section.id}.TITLE`)}
                     </div>
 
-                    {renderSettings(section.actions, section, true)}
+                    {renderSettings(section.actions, !section.withoutImage, section, true)}
                   </AccordionItemButton>
                 </AccordionItemHeading>
 
@@ -314,7 +322,7 @@ const PermissionsSetting = (props: Props) => {
                       {I18n.t(`ROLES_AND_PERMISSIONS.SECTIONS.${section.id}.PERMISSIONS.${permission.id}`)}
                     </div>
 
-                    {renderSettings(permission.actions, section, false)}
+                    {renderSettings(permission.actions, !permission.withoutImage, section, false)}
                   </AccordionItemPanel>
                 ))}
               </AccordionItem>

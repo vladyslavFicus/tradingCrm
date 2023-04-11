@@ -1725,7 +1725,7 @@ const rback: Array<RbackItem> = [
   // ============================================= //
   {
     id: 'payments-methods',
-    image: false,
+    withoutImage: true,
     actions: {
       view: {
         action: 'payment.getManualPaymentMethods',
@@ -1741,6 +1741,7 @@ const rback: Array<RbackItem> = [
             state: false,
           },
         },
+        withoutImage: true,
       },
       {
         id: 'CHARGEBACK',
@@ -1750,6 +1751,7 @@ const rback: Array<RbackItem> = [
             state: false,
           },
         },
+        withoutImage: true,
       },
       {
         id: 'CREDIT_CARD',
@@ -1759,6 +1761,7 @@ const rback: Array<RbackItem> = [
             state: false,
           },
         },
+        withoutImage: true,
       },
       {
         id: 'ELECTRONIC',
@@ -1768,6 +1771,7 @@ const rback: Array<RbackItem> = [
             state: false,
           },
         },
+        withoutImage: true,
       },
       {
         id: 'EXTERNAL',
@@ -1777,6 +1781,7 @@ const rback: Array<RbackItem> = [
             state: false,
           },
         },
+        withoutImage: true,
       },
       {
         id: 'INTERNAL_TRANSFER',
@@ -1786,6 +1791,7 @@ const rback: Array<RbackItem> = [
             state: false,
           },
         },
+        withoutImage: true,
       },
       {
         id: 'MIGRATION',
@@ -1795,6 +1801,7 @@ const rback: Array<RbackItem> = [
             state: false,
           },
         },
+        withoutImage: true,
       },
       {
         id: 'PAYRETAILERS',
@@ -1804,6 +1811,7 @@ const rback: Array<RbackItem> = [
             state: false,
           },
         },
+        withoutImage: true,
       },
       {
         id: 'RECALL',
@@ -1813,6 +1821,7 @@ const rback: Array<RbackItem> = [
             state: false,
           },
         },
+        withoutImage: true,
       },
       {
         id: 'SYSTEM',
@@ -1822,6 +1831,7 @@ const rback: Array<RbackItem> = [
             state: false,
           },
         },
+        withoutImage: true,
       },
       {
         id: 'WIRE',
@@ -1925,6 +1935,205 @@ const rback: Array<RbackItem> = [
         actions: {
           edit: {
             action: 'hierarchy-updater.acquisition.deleteStatusForBrand',
+            state: false,
+          },
+        },
+      },
+    ],
+  },
+  // ============================================= //
+  // ============ Sidebar Menu =========== //
+  // ============================================= //
+  {
+    id: 'sidebar-menu',
+    actions: {},
+    withoutImage: true,
+    permissions: [
+      {
+        id: 'clientsList',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.clientsList',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'clientsKycDocuments',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.clientsKycDocuments',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'clientsTradingAccounts',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.clientsTradingAccounts',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'clientsCallbacks',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.clientsCallbacks',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'leadsList',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.leadsList',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'leadsCallbacks',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.leadsCallbacks',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'hierarchy',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.hierarchy',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'managmentOffices',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.managmentOffices',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'managmentDesks',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.managmentDesks',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'managmentTeams',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.managmentTeams',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'managmentSalesRules',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.managmentSalesRules',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'managmentOperators',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.managmentOperators',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'managmentPartners',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.managmentPartners',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'documents',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.documents',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'payments',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.payments',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'notifications',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.notifications',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'clientsDistibution',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.clientsDistibution',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'ipWhitelist',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.ipWhitelist',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'settingsEmailTemplates',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.settingsEmailTemplates',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'settingsRbac',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.settingsRbac',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'settingsAcquisitionStatuses',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.settingsAcquisitionStatuses',
             state: false,
           },
         },

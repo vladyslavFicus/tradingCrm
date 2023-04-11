@@ -6112,6 +6112,32 @@
           "create": "Add new acquisition status",
           "delete": "Delete acquisition status"
         }
+      },
+      "sidebar-menu": {
+        "TITLE": "Sidebar menu (visual)",
+        "PERMISSIONS": {
+          "clientsList": "Clients. Search clients",
+          "clientsKycDocuments": "Clients. KYC documents",
+          "clientsTradingAccounts": "Clients. Trading accounts",
+          "clientsCallbacks": "Clients. Callbacks",
+          "leadsList": "Leads. Search lead",
+          "leadsCallbacks": "Leads. Callbacks",
+          "hierarchy": "Hierarchy",
+          "managmentOffices": "Managments. Offices",
+          "managmentDesks": "Managments. Desks",
+          "managmentTeams": "Managments. Teams",
+          "managmentSalesRules": "Managments. Sales rules",
+          "managmentOperators": "Managments. Operators",
+          "managmentPartners": "Managments. Partners",
+          "documents": "Documents",
+          "payments": "Payments",
+          "notifications": "Notifications",
+          "clientsDistibution": "Clients Distibution",
+          "ipWhitelist": "IP Whitelist",
+          "settingsEmailTemplates": "Settings. Email templates",
+          "settingsRbac": "Settings. RBAC",
+          "settingsAcquisitionStatuses": "Settings. Acquisition statuses"
+        }
       }
     }
   }

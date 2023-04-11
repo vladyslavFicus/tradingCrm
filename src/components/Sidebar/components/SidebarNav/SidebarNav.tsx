@@ -19,10 +19,10 @@ const SidebarNav = (props: Props) => {
 
   const checkItemOnPermissions = (item: SidebarMenuItem | SidebarMenuSubItem) => {
     if (item?.conditions === 'OR') {
-      return !item.permissions || permission.allowsAny(item.permissions as Array<string>);
+      return !item.permissions || permission.allowsAny(item.permissions);
     }
 
-    return !item.permissions || permission.allows(item.permissions as string);
+    return !item.permissions || permission.allowsAll(item.permissions);
   };
 
   const getItemsFilteredByPermissions = (menuItems: Array<SidebarMenuItem>) => menuItems
