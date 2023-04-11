@@ -4303,6 +4303,17 @@
     "QUOTES": {
       "HEADLINE": "Quotes",
       "RESTART_STREAMING": "Reconnect streaming",
+      "FILTER_FORM": {
+        "FIELDS": {
+          "SYMBOL_LABEL": "Symbol",
+          "SECURITY_LABEL": "Security",
+          "FAVOURITE_LABEL": "Favorite"
+        },
+        "FAVOURITES": {
+          "FAVOURITE": "Favorite",
+          "NOT_FAVOURITE": "Not Favorite"
+        }
+      },
       "GRID": {
         "SYMBOL": "Symbol",
         "BID": "Bid",

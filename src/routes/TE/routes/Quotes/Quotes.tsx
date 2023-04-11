@@ -1,8 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { useLocation } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
 import compose from 'compose-function';
-import { LevelType, Notify } from 'types';
+import { State, LevelType, Notify } from 'types';
 import { withNotifications } from 'hoc';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
@@ -12,6 +13,7 @@ import { Button } from 'components/Buttons';
 import { maxSelectedFavortieSymbols, tradingEngineTabs } from 'routes/TE/constants';
 import { useSymbolsPricesStream } from 'routes/TE/components/SymbolsPricesStream';
 import { ReactComponent as FavoriteStarIcon } from './icons/favorites-star.svg';
+import QuotesFilter from './components/QuotesFilter/QuotesFilter';
 import { useSymbolsQuery, SymbolsQuery, SymbolsQueryVariables } from './graphql/__generated__/SymbolsQuery';
 import { useAddFavoriteSymbolMutation } from './graphql/__generated__/AddFavoriteSymbolMutation';
 import { useFavoriteSymbolsQuery } from './graphql/__generated__/FavoriteSymbolsQuery';
@@ -25,9 +27,12 @@ type Props = {
 }
 
 const Quotes = ({ notify }: Props) => {
+  const { state } = useLocation<State<SymbolsQueryVariables['args']>>();
+
   const symbolsQuery = useSymbolsQuery({
     variables: {
       args: {
+        ...state?.filters,
         page: {
           from: 0,
           size: 20,
@@ -137,6 +142,8 @@ const Quotes = ({ notify }: Props) => {
           </Button>
         </PermissionContent>
       </div>
+
+      <QuotesFilter onRefresh={symbolsQuery.refetch} />
 
       <Table
         items={content}
