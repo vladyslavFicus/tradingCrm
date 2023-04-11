@@ -2,17 +2,20 @@ import React from 'react';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { withModals } from 'hoc';
-import { Modal } from 'types';
+import {
+  HierarchyUserAcquisition,
+  Operator,
+  AcquisitionStatusTypes__Enum as AcquisitionStatusEnum,
+} from '__generated__/types';
 import permissions from 'config/permissions';
 import { withStorage } from 'providers/StorageProvider';
 import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { salesStatusesColor, salesStatuses } from 'constants/salesStatuses';
 import { retentionStatusesColor, retentionStatuses } from 'constants/retentionStatuses';
 import HideText from 'components/HideText';
-import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
-import { HierarchyUserAcquisition, Operator } from '__generated__/types';
+import UpdateRepresentativeModal, { UpdateRepresentativeModalProps } from 'modals/UpdateRepresentativeModal';
 import './ClientAcquisitionStatus.scss';
 
 type AcquisitionItem = {
@@ -20,7 +23,7 @@ type AcquisitionItem = {
   isActive: boolean,
   statusTitle: string,
   color: string,
-  acquisitionType: string,
+  acquisitionType: AcquisitionStatusEnum,
   availableToUpdate: boolean,
   status?: string,
   operator?: Operator,
@@ -30,18 +33,10 @@ type Props = {
   clientUuid: string,
   clientAcquisition: HierarchyUserAcquisition,
   auth: { department: string },
-  modals: {
-    representativeUpdateModal: Modal,
-  },
 };
 
 const ClientAcquisitionStatus = (props: Props) => {
-  const {
-    clientUuid,
-    clientAcquisition,
-    auth: { department },
-    modals: { representativeUpdateModal },
-  } = props;
+  const { clientUuid, clientAcquisition, auth: { department } } = props;
 
   const {
     salesStatus,
@@ -52,6 +47,9 @@ const ClientAcquisitionStatus = (props: Props) => {
   } = clientAcquisition || {};
 
   const permission = usePermission();
+
+  const changeAcquisition = permission.allows(permissions.USER_PROFILE.CHANGE_ACQUISITION);
+
   const acquisitionItems = {
     SALES: {
       status: salesStatus,
@@ -71,14 +69,16 @@ const ClientAcquisitionStatus = (props: Props) => {
     },
   };
 
-  const handleShowModal = (acquisitionType: string, availableToUpdate: boolean) => {
-    const changeAcquisition = permission.allows(permissions.USER_PROFILE.CHANGE_ACQUISITION);
-    const isAvailableToUpdate = changeAcquisition && availableToUpdate;
+  // ===== Modals ===== //
+  const updateRepresentativeModal = useModal<UpdateRepresentativeModalProps>(UpdateRepresentativeModal);
 
-    if (isAvailableToUpdate) {
-      representativeUpdateModal.show({
-        uuid: clientUuid,
+  // ===== Handlers ===== //
+  const handleShowModal = (acquisitionType: AcquisitionStatusEnum, availableToUpdate: boolean) => {
+    if (changeAcquisition && availableToUpdate) {
+      updateRepresentativeModal.show({
+        isClient: true,
         type: acquisitionType,
+        uuid: clientUuid,
         header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', {
           type: acquisitionType.toLowerCase(),
         }),
@@ -86,6 +86,7 @@ const ClientAcquisitionStatus = (props: Props) => {
     }
   };
 
+  // ===== Renders ===== //
   const renderAcquisitionItem = (item: AcquisitionItem) => {
     let team = null;
     let desk = null;
@@ -182,14 +183,14 @@ const ClientAcquisitionStatus = (props: Props) => {
 
       <div className="ClientAcquisitionStatus__content">
         {
-            aquisitionStatuses.map(({ label, value }) => (
-              renderAcquisitionItem({
-                label,
-                acquisitionType: value, // Sales / Retention
-                ...acquisitionItems[value],
-              } as AcquisitionItem)
-            ))
-          }
+          aquisitionStatuses.map(({ label, value }) => (
+            renderAcquisitionItem({
+              label,
+              acquisitionType: value, // Sales / Retention
+              ...acquisitionItems[value],
+            } as AcquisitionItem)
+          ))
+        }
       </div>
     </div>
   );
@@ -198,7 +199,4 @@ const ClientAcquisitionStatus = (props: Props) => {
 export default compose(
   React.memo,
   withStorage(['auth']),
-  withModals({
-    representativeUpdateModal: RepresentativeUpdateModal,
-  }),
 )(ClientAcquisitionStatus);

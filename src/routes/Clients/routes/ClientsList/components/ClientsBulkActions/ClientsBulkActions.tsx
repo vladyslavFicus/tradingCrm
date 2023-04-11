@@ -2,16 +2,17 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import compose from 'compose-function';
 import I18n from 'i18n-js';
+import { compact } from 'lodash';
 import { QueryResult } from '@apollo/client';
-import { Modal, State } from 'types';
-import { withModals } from 'hoc';
+import { State } from 'types';
+import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import permissions from 'config/permissions';
-import { deskTypes } from 'constants/hierarchyTypes';
 import { departments } from 'constants/brands';
 import { withStorage } from 'providers/StorageProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import UpdateAcquisitionStatusModal from 'modals/UpdateAcquisitionStatusModal';
-import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
+import { useModal } from 'providers/ModalProvider';
+import UpdateAcquisitionStatusModal, { UpdateAcquisitionStatusModalProps } from 'modals/UpdateAcquisitionStatusModal';
+import UpdateRepresentativeModal, { UpdateRepresentativeModalProps } from 'modals/UpdateRepresentativeModal';
 import { Button } from 'components/Buttons';
 import { ClientsListQuery, ClientsListQueryVariables } from '../../graphql/__generated__/ClientsQuery';
 import './ClientsBulkActions.scss';
@@ -24,11 +25,6 @@ type TableSelection = {
   reset: () => void,
 };
 
-type Modals = {
-  representativeUpdateModal: Modal,
-  updateAcquisitionStatusModal: Modal,
-};
-
 type Auth = {
   department: string,
   role: string,
@@ -39,7 +35,6 @@ type Props = {
   select?: TableSelection,
   selectedRowsLength: number,
   auth: Auth,
-  modals: Modals,
   clientsQuery: QueryResult<ClientsListQuery>,
 };
 
@@ -50,41 +45,38 @@ const ClientsBulkActions = (props: Props) => {
     auth: {
       department,
     },
-    modals: {
-      representativeUpdateModal,
-      updateAcquisitionStatusModal,
-    },
     clientsQuery: {
       data,
       refetch,
     },
   } = props;
 
-  const permission = usePermission();
+  const clients = data?.profiles?.content || [];
+  const totalElements = data?.profiles?.totalElements || 0;
 
   const { state } = useLocation<State<ClientsListQueryVariables>>();
-  const clients = data?.profiles?.content || [];
-  const totalElements = data?.profiles?.totalElements;
 
-  const onSubmitSuccess = async () => {
+  // ===== Permissions ===== //
+  const permission = usePermission();
+  const allowChangeAsquisitionStatus = permission.allows(permissions.USER_PROFILE.CHANGE_ACQUISITION);
+
+  // ===== Modals ===== //
+  const updateRepresentativeModal = useModal<UpdateRepresentativeModalProps>(UpdateRepresentativeModal);
+  const updateAcquisitionStatusModal = useModal<UpdateAcquisitionStatusModalProps>(UpdateAcquisitionStatusModal);
+
+  // ===== Handlers ===== //
+  const handleSubmitSuccess = async () => {
     refetch();
     select?.reset();
   };
 
-  const handleTriggerRepModal = (type: string) => () => {
-    representativeUpdateModal.show({
+  const handleTriggerRepModal = (type: AcquisitionStatusTypes) => () => {
+    const uuids = select?.touched ? compact(select?.touched.map(index => clients[index]?.uuid)) : [];
+
+    updateRepresentativeModal.show({
+      isClient: true,
       type,
-      uuids: select?.touched.map(index => clients[index]?.uuid),
-      configs: {
-        allRowsSelected: select?.all,
-        selectedRowsLength,
-        multiAssign: true,
-        ...(state && {
-          searchParams: state.filters,
-          sorts: state.sorts,
-        }),
-      },
-      onSuccess: onSubmitSuccess,
+      uuids,
       header: (
         <>
           {I18n.t(`CLIENTS.MODALS.${type}_MODAL.HEADER`)}
@@ -94,6 +86,16 @@ const ClientsBulkActions = (props: Props) => {
           </div>
         </>
       ),
+      configs: {
+        allRowsSelected: !!select?.all,
+        selectedRowsLength,
+        multiAssign: true,
+        ...(state && {
+          searchParams: state.filters || {},
+          sorts: state.sorts || [],
+        }),
+      },
+      onSuccess: handleSubmitSuccess,
     });
   };
 
@@ -108,7 +110,7 @@ const ClientsBulkActions = (props: Props) => {
         searchParams: state?.filters || {},
         sorts: state?.sorts || [],
       },
-      onSuccess: onSubmitSuccess,
+      onSuccess: handleSubmitSuccess,
     });
   };
 
@@ -118,12 +120,12 @@ const ClientsBulkActions = (props: Props) => {
         {I18n.t('CLIENTS.BULK_ACTIONS')}
       </div>
 
-      <If condition={permission.allows(permissions.USER_PROFILE.CHANGE_ACQUISITION)}>
+      <If condition={allowChangeAsquisitionStatus}>
         <If condition={department !== departments.RETENTION}>
           <Button
             tertiary
             className="ClientsBulkActions__button"
-            onClick={handleTriggerRepModal(deskTypes.SALES)}
+            onClick={handleTriggerRepModal(AcquisitionStatusTypes.SALES)}
           >
             {I18n.t('COMMON.SALES')}
           </Button>
@@ -133,7 +135,7 @@ const ClientsBulkActions = (props: Props) => {
           <Button
             tertiary
             className="ClientsBulkActions__button"
-            onClick={handleTriggerRepModal(deskTypes.RETENTION)}
+            onClick={handleTriggerRepModal(AcquisitionStatusTypes.RETENTION)}
           >
             {I18n.t('COMMON.RETENTION')}
           </Button>
@@ -154,8 +156,4 @@ const ClientsBulkActions = (props: Props) => {
 export default compose(
   React.memo,
   withStorage(['auth']),
-  withModals({
-    representativeUpdateModal: RepresentativeUpdateModal,
-    updateAcquisitionStatusModal: UpdateAcquisitionStatusModal,
-  }),
 )(ClientsBulkActions);

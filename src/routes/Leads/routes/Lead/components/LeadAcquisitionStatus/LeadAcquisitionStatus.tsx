@@ -1,33 +1,20 @@
 import React from 'react';
-import compose from 'compose-function';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { withModals } from 'hoc';
-import { Modal } from 'types';
-import { Lead } from '__generated__/types';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Lead, AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import permissions from 'config/permissions';
+import { usePermission } from 'providers/PermissionsProvider';
+import { useModal } from 'providers/ModalProvider';
 import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
-import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
+import UpdateRepresentativeModal, { UpdateRepresentativeModalProps } from 'modals/UpdateRepresentativeModal';
 import './LeadAcquisitionStatus.scss';
 
 type Props = {
   lead: Lead,
-  modals: {
-    representativeUpdateModal: Modal,
-  },
 };
 
 const LeadAcquisitionStatus = (props: Props) => {
-  const {
-    lead: {
-      uuid,
-      acquisition,
-    },
-    modals: {
-      representativeUpdateModal,
-    },
-  } = props;
+  const { lead: { uuid, acquisition } } = props;
 
   const salesStatus = acquisition?.salesStatus;
   const color = salesStatus && salesStatusesColor[salesStatus];
@@ -52,15 +39,16 @@ const LeadAcquisitionStatus = (props: Props) => {
   const permission = usePermission();
   const allowChangeAsquisitionStatus = permission.allows(permissions.USER_PROFILE.CHANGE_ACQUISITION);
 
+  // ===== Modals ===== //
+  const updateRepresentativeModal = useModal<UpdateRepresentativeModalProps>(UpdateRepresentativeModal);
+
+  // ===== Handlers ===== //
   const handleChangeAsquisitionStatus = () => {
     if (allowChangeAsquisitionStatus) {
-      representativeUpdateModal.show({
+      updateRepresentativeModal.show({
         uuid,
-        type: 'SALES',
-        userType: 'LEAD_CUSTOMER',
-        header: I18n.t('LEAD_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', {
-          type: 'Sales',
-        }),
+        type: AcquisitionStatusTypes.SALES,
+        header: I18n.t('LEAD_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', { type: 'Sales' }),
       });
     }
   };
@@ -127,9 +115,4 @@ const LeadAcquisitionStatus = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    representativeUpdateModal: RepresentativeUpdateModal,
-  }),
-)(LeadAcquisitionStatus);
+export default React.memo(LeadAcquisitionStatus);

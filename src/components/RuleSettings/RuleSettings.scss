@@ -1,9 +1,21 @@
 .RuleSettings {
+  &__spread {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+  }
+
   &__message-error {
     color: var(--state-colors-danger);
+    text-align: center;
 
-    & > div {
-      text-align: center;
+    button {
+      padding: 0;
+      display: block;
+      margin: 0 auto 5px;
+      color: inherit;
+      background: inherit;
+      border-bottom: 1px dashed var(--divider);
     }
   }
 }

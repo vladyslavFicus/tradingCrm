@@ -10,14 +10,13 @@ import { Button } from 'components/Buttons';
 import { useUploadLeadsMutation } from './graphql/__generated__/UploadLeadsMutation';
 import './LeadsUploadModal.scss';
 
-const fileConfig = {
+const FILE_CONFIG = {
   maxSize: 10,
   types: 'text/csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 };
 
 export type Props = {
-  onSuccess: (failedLeads: Array<FailedLeads>,
-    failedLeadsCount?: number | null, createdLeadsCount?: number | null) => void,
+  onSuccess: (failedLeads: Array<FailedLeads>, failedLeadsCount: number, createdLeadsCount: number) => void,
   onCloseModal: () => void,
 };
 
@@ -32,11 +31,11 @@ const LeadsUploadModal = (props: Props) => {
   const [uploadLeadsMutation] = useUploadLeadsMutation();
 
   const handleRejectUpload = ([file]: Array<File>) => {
-    if (file.size > fileConfig.maxSize) {
+    if (file.size > FILE_CONFIG.maxSize) {
       notify({
         level: LevelType.ERROR,
         title: I18n.t('COMMON.UPLOAD_FAILED'),
-        message: I18n.t('error.multipart.max-file-size.exceeded', { size: fileConfig.maxSize }),
+        message: I18n.t('error.multipart.max-file-size.exceeded', { size: FILE_CONFIG.maxSize }),
       });
     }
   };
@@ -48,7 +47,11 @@ const LeadsUploadModal = (props: Props) => {
       const { data } = await uploadLeadsMutation({ variables: { file } });
       const { leads } = data || {};
 
-      if (!leads?.uploadLeads?.failedLeads?.length) {
+      const failedLeads = leads?.uploadLeads?.failedLeads || [];
+      const failedLeadsCount = leads?.uploadLeads?.failedLeadsCount || 0;
+      const createdLeadsCount = leads?.uploadLeads?.createdLeadsCount || 0;
+
+      if (!failedLeads.length) {
         notify({
           level: LevelType.SUCCESS,
           title: I18n.t('COMMON.SUCCESS'),
@@ -59,8 +62,7 @@ const LeadsUploadModal = (props: Props) => {
       setSubmitting(false);
 
       onCloseModal();
-      onSuccess(leads?.uploadLeads?.failedLeads as Array<FailedLeads>,
-        leads?.uploadLeads?.failedLeadsCount, leads?.uploadLeads?.createdLeadsCount);
+      onSuccess(failedLeads, failedLeadsCount, createdLeadsCount);
     } catch (e) {
       const error = parseErrors(e);
 
@@ -99,8 +101,8 @@ const LeadsUploadModal = (props: Props) => {
 
         <Dropzone
           disabled={submitting}
-          accept={fileConfig.types}
-          maxSize={fileConfig.maxSize * 1024 * 1024}
+          accept={FILE_CONFIG.types}
+          maxSize={FILE_CONFIG.maxSize * 1024 * 1024}
           onDropAccepted={handleUploadCSV}
           onDropRejected={handleRejectUpload}
           className={

@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import { useLocation, withRouter } from 'react-router-dom';
-import compose from 'compose-function';
+import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
+import { compact } from 'lodash';
 import { QueryResult } from '@apollo/client';
-import { withModals } from 'hoc';
-import { Modal, State, TableSelection } from 'types';
+import { State, TableSelection } from 'types';
 import { getBrand } from 'config';
-import { LeadUploadResponse__FailedLeads as FailedLeads } from '__generated__/types';
+import {
+  LeadUploadResponse__FailedLeads as FailedLeads,
+  AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
+} from '__generated__/types';
 import permissions from 'config/permissions';
-import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import { userTypes, deskTypes } from 'constants/hierarchyTypes';
+import { useModal } from 'providers/ModalProvider';
 import { Button } from 'components/Buttons';
 import Placeholder from 'components/Placeholder';
-import RepresentativeUpdateModal from 'modals/RepresentativeUpdateModal';
-import LeadsUploadResultModal from 'modals/LeadsUploadResultModal';
+import UpdateRepresentativeModal, { UpdateRepresentativeModalProps } from 'modals/UpdateRepresentativeModal';
+import LeadsUploadResultModal, { LeadsUploadResultModalProps } from 'modals/LeadsUploadResultModal';
 import LeadsUploadModal, { LeadsUploadModalProps } from 'modals/LeadsUploadModal';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import { LeadsListQuery, LeadsListQueryVariables } from '../../graphql/__generated__/LeadsListQuery';
@@ -23,16 +24,9 @@ import {
 } from './graphql/__generated__/LeadsTotalCountQuery';
 import './LeadsHeader.scss';
 
-type Modals = {
-  representativeUpdateModal: Modal,
-  leadsUploadModal: Modal,
-  leadsUploadResultModal: Modal,
-};
-
 type Props = {
   select: TableSelection | null,
   leadsQuery: QueryResult<LeadsListQuery>,
-  modals: Modals,
 };
 
 const MAX_QUERY_LEADS = 10000;
@@ -46,11 +40,22 @@ const LeadsHeader = (props: Props) => {
       variables,
     },
     select,
-    modals: {
-      representativeUpdateModal,
-      leadsUploadResultModal,
-    },
   } = props;
+
+  const { state } = useLocation<State<LeadsListQueryVariables['args']>>();
+
+  const [loadingTotalCount, setLoadingTotalCount] = useState<boolean>(false);
+  const [totalCount, setTotalCount] = useState<number | null>(null);
+
+  // ===== Permissions ===== //
+  const permission = usePermission();
+  const allowChangeAcquisition = permission.allows(permissions.USER_PROFILE.CHANGE_ACQUISITION);
+  const allowUploadLeads = permission.allows(permissions.LEADS.UPLOAD_LEADS_FROM_FILE);
+
+  // ===== Modals ===== //
+  const updateRepresentativeModal = useModal<UpdateRepresentativeModalProps>(UpdateRepresentativeModal);
+  const leadsUploadResultModal = useModal<LeadsUploadResultModalProps>(LeadsUploadResultModal);
+  const leadsUploadModal = useModal<LeadsUploadModalProps>(LeadsUploadModal);
 
   // ===== Requests ===== //
   const [leadsTotalCountQuery] = useLeadsTotalCountQueryLazyQuery({
@@ -60,15 +65,6 @@ const LeadsHeader = (props: Props) => {
   });
 
   const leads = data?.leads?.content || [];
-
-  const [loadingTotalCount, setLoadingTotalCount] = useState<boolean>(false);
-  const [totalCount, setTotalCount] = useState<number | null>(null);
-
-  const { state } = useLocation<State<LeadsListQueryVariables['args']>>();
-  const permission = usePermission();
-
-  const leadsUploadModal = useModal<LeadsUploadModalProps>(LeadsUploadModal);
-
   const totalElements = data?.leads?.totalElements || 0;
   const searchLimit = state?.filters?.searchLimit;
 
@@ -99,17 +95,18 @@ const LeadsHeader = (props: Props) => {
   };
 
   const handleOpenRepresentativeModal = () => {
-    representativeUpdateModal.show({
-      uuids: select?.touched.map(index => leads[index]?.uuid),
-      userType: userTypes.LEAD_CUSTOMER,
-      type: deskTypes.SALES,
+    const uuids = select?.touched ? compact(select.touched.map(index => leads[index]?.uuid)) : [];
+
+    updateRepresentativeModal.show({
+      uuids,
+      type: AcquisitionStatusTypes.SALES,
       configs: {
-        allRowsSelected: select?.all,
-        selectedRowsLength: select?.selected,
+        allRowsSelected: !!select?.all,
+        selectedRowsLength: select?.selected || 0,
         multiAssign: true,
         ...state && {
-          searchParams: state?.filters,
-          sorts: state?.sorts,
+          searchParams: state?.filters || {},
+          sorts: state?.sorts || [],
         },
       },
       onSuccess: () => {
@@ -130,8 +127,7 @@ const LeadsHeader = (props: Props) => {
 
   const handleOpenLeadsUploadModal = () => {
     leadsUploadModal.show({
-      onSuccess: (failedLeads: Array<FailedLeads>,
-        failedLeadsCount?: number | null, createdLeadsCount?: number | null) => {
+      onSuccess: (failedLeads: Array<FailedLeads>, failedLeadsCount: number, createdLeadsCount: number) => {
         refetch();
 
         if (failedLeads.length) {
@@ -140,9 +136,6 @@ const LeadsHeader = (props: Props) => {
       },
     });
   };
-
-  const allowChangeAcquisition = permission.allows(permissions.USER_PROFILE.CHANGE_ACQUISITION);
-  const allowUploadLeads = permission.allows(permissions.LEADS.UPLOAD_LEADS_FROM_FILE);
 
   return (
     <div className="LeadsHeader">
@@ -240,10 +233,4 @@ const LeadsHeader = (props: Props) => {
   );
 };
 
-export default compose(
-  withRouter,
-  withModals({
-    representativeUpdateModal: RepresentativeUpdateModal,
-    leadsUploadResultModal: LeadsUploadResultModal,
-  }),
-)(LeadsHeader);
+export default React.memo(LeadsHeader);

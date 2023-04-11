@@ -7,7 +7,7 @@ import { Sorts } from 'types';
 import {
   AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
   HierarchyUserAcquisition,
-  Profile,
+  ProfileView,
 } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { aquisitionStatuses } from 'constants/aquisitionStatuses';
@@ -31,7 +31,7 @@ type Configs = {
 };
 
 export type Props = {
-  content: Array<Profile>,
+  content: Array<ProfileView>,
   configs: Configs,
   onSuccess: () => void,
   onCloseModal: () => void,

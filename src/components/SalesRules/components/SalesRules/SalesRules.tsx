@@ -1,22 +1,16 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
 import classNames from 'classnames';
 import { useLocation, useParams } from 'react-router-dom';
-import { withModals } from 'hoc';
+import { State } from 'types';
+import { Operator, Partner, Rule } from '__generated__/types';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import CreateRuleModal from 'modals/CreateRuleModal';
-import UpdateRuleModal from 'modals/UpdateRuleModal';
-import { Modal, State } from 'types';
-import {
-  Operator,
-  Partner,
-  Rule,
-} from '__generated__/types';
+import CreateRuleModal, { CreateRuleModalProps } from 'modals/CreateRuleModal';
+import UpdateRuleModal, { UpdateRuleModalProps } from 'modals/UpdateRuleModal';
 import Placeholder from 'components/Placeholder';
 import { Link } from 'components/Link';
 import Uuid from 'components/Uuid';
@@ -27,10 +21,7 @@ import RulesGridFilter from 'components/HierarchyProfileRules/components/RulesGr
 import { OperatorsQueryVariables, useOperatorsQuery } from '../graphql/__generated__/OperatorsQuery';
 import { usePartnersQuery } from '../graphql/__generated__/PartnersQuery';
 import { useDeleteRule } from '../graphql/__generated__/DeleteRuleMutation';
-import {
-  RulesQueryVariables,
-  useRulesQuery,
-} from '../graphql/__generated__/RulesQuery';
+import { RulesQueryVariables, useRulesQuery } from '../graphql/__generated__/RulesQuery';
 import infoConfig, { OPERATORS_SORT } from './constants';
 import './SalesRules.scss';
 
@@ -41,30 +32,24 @@ type RuleInfo = {
   withUpperCase?: boolean,
 };
 
-type Modals = {
-  createRuleModal: Modal,
-  updateRuleModal: Modal,
-};
-
 type Props = {
-  modals: Modals,
   type?: string,
   isTab?: boolean,
 };
 
 const SalesRules = (props: Props) => {
-  const {
-    modals: { createRuleModal, updateRuleModal },
-    type: userType,
-    isTab,
-  } = props;
+  const { type: userType, isTab } = props;
+
+  const { id: parentBranch } = useParams<{ id: string }>();
+
+  const { state } = useLocation<State>();
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
+  const createRuleModal = useModal<CreateRuleModalProps>(CreateRuleModal);
+  const updateRuleModal = useModal<UpdateRuleModalProps>(UpdateRuleModal);
 
-  const { id: parentBranch } = useParams<{ id: string }>();
-  const { state } = useLocation<State>();
-
+  // ===== Requests ===== //
   const [deleteRule] = useDeleteRule();
 
   const rulesQuery = useRulesQuery({
@@ -91,7 +76,8 @@ const SalesRules = (props: Props) => {
 
   const partnersQuery = usePartnersQuery();
 
-  const openCreateRuleModal = () => {
+  // ===== Handlers ===== //
+  const handleOpenCreateRuleModal = () => {
     createRuleModal.show({
       parentBranch,
       userType,
@@ -103,7 +89,7 @@ const SalesRules = (props: Props) => {
     });
   };
 
-  const openUpdateRuleModal = ({ uuid }: Rule) => {
+  const handleOpenUpdateRuleModal = ({ uuid }: Rule) => {
     updateRuleModal.show({
       uuid,
       onSuccess: async () => {
@@ -152,6 +138,7 @@ const SalesRules = (props: Props) => {
     });
   };
 
+  // ===== Renders ===== //
   const renderRule = ({ uuid, name, createdBy }: Rule) => (
     <>
       <div className="SalesRules__text-primary">{name}</div>
@@ -242,9 +229,10 @@ const SalesRules = (props: Props) => {
   const renderActions = (rule: Rule) => (
     <>
       <TrashButton onClick={() => handleDeleteRuleClick(rule)} />
+
       <EditButton
         className="SalesRules__edit-button"
-        onClick={() => openUpdateRuleModal(rule)}
+        onClick={() => handleOpenUpdateRuleModal(rule)}
       />
     </>
   );
@@ -297,7 +285,7 @@ const SalesRules = (props: Props) => {
                     </When>
 
                     <Otherwise>
-                      <span>&mdash;</span>
+                      &mdash;
                     </Otherwise>
                   </Choose>
                 </div>
@@ -308,7 +296,7 @@ const SalesRules = (props: Props) => {
       </When>
 
       <Otherwise>
-        <span>&mdash;</span>
+        &mdash;
       </Otherwise>
     </Choose>
   );
@@ -339,7 +327,7 @@ const SalesRules = (props: Props) => {
             type="submit"
             small
             tertiary
-            onClick={openCreateRuleModal}
+            onClick={handleOpenCreateRuleModal}
           >
             {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
           </Button>
@@ -398,10 +386,4 @@ const SalesRules = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    createRuleModal: CreateRuleModal,
-    updateRuleModal: UpdateRuleModal,
-  }),
-)(SalesRules);
+export default React.memo(SalesRules);

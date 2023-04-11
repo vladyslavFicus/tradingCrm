@@ -1,24 +1,27 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Field, FormikProps, FormikValues } from 'formik';
+import { Field, FormikErrors, FormikValues } from 'formik';
 import { getAvailableLanguages } from 'config';
+import { Operator, Partner, RuleOperatorSpread__Input as RuleOperatorSpread } from '__generated__/types';
+import { SetFieldValue } from 'types/formik';
 import { ruleTypes, priorities } from 'constants/rules';
 import { attributeLabels } from 'constants/ruleModal';
 import countryList from 'utils/countryList';
-import {
-  FormikInputField,
-  FormikSelectField,
-  FormikMultiInputField,
-} from 'components/Formik';
+import { FormikInputField, FormikSelectField, FormikMultiInputField } from 'components/Formik';
 import RuleOperatorSpreads from 'components/RuleOperatorSpreads';
-import { Operator, Partner, RuleOperatorSpread__Input as RuleOperatorSpread } from '__generated__/types';
 import './RuleSettings.scss';
+
+type FormikBag = {
+  isSubmitting: boolean,
+  errors: FormikErrors<FormikValues>,
+  setFieldValue: SetFieldValue<FormikValues>,
+};
 
 type Props = {
   operators: Array<Operator>,
   partners: Array<Partner>,
   operatorSpreads: Array<RuleOperatorSpread>,
-  formikBag: FormikProps<FormikValues>,
+  formikBag: FormikBag,
 };
 
 const RuleSettings = (props: Props) => {
@@ -29,8 +32,6 @@ const RuleSettings = (props: Props) => {
     formikBag: {
       isSubmitting,
       errors,
-    },
-    formikBag: {
       setFieldValue,
     },
   } = props;
@@ -45,7 +46,7 @@ const RuleSettings = (props: Props) => {
   return (
     <div className="RuleSettings">
       <If condition={!!errors.submit}>
-        <div className="mb-2 text-center RuleSettings__message-error">
+        <div className="RuleSettings__message-error">
           {errors.submit}
         </div>
       </If>
@@ -58,13 +59,12 @@ const RuleSettings = (props: Props) => {
         component={FormikInputField}
       />
 
-      <div className="row">
+      <div className="RuleSettings__spread">
         <Field
           name="priority"
           label={I18n.t(attributeLabels.priority)}
           component={FormikSelectField}
           disabled={isSubmitting}
-          className="col-6"
           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
         >
           {priorities.map(item => (
@@ -79,7 +79,6 @@ const RuleSettings = (props: Props) => {
           label={I18n.t(attributeLabels.type)}
           component={FormikSelectField}
           disabled={isSubmitting}
-          className="col-6"
           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
         >
           {ruleTypes.map(({ label, value }) => (

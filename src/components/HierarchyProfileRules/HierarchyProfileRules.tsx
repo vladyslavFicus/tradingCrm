@@ -1,25 +1,24 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import compose from 'compose-function';
 import { useLocation } from 'react-router-dom';
-import { withModals } from 'hoc';
+import { State } from 'types';
+import { Rule } from '__generated__/types';
 import permissions from 'config/permissions';
-import { LevelType, notify } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
+import { LevelType, notify } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
-import { Modal, State } from 'types';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import CreateRuleModal from 'modals/CreateRuleModal';
-import UpdateRuleModal from 'modals/UpdateRuleModal';
+import CreateRuleModal, { CreateRuleModalProps } from 'modals/CreateRuleModal';
+import UpdateRuleModal, { UpdateRuleModalProps } from 'modals/UpdateRuleModal';
 import { Button, EditButton, TrashButton } from 'components/Buttons';
 import { Table, Column } from 'components/Table';
 import TabHeader from 'components/TabHeader';
 import Uuid from 'components/Uuid';
 import { Link } from 'components/Link';
 import infoConfig from './constants';
-import { RulesQuery, RulesQueryVariables, useRulesQuery } from './graphql/__generated__/RulesQuery';
-import { useDeleteRule } from './graphql/__generated__/DeleteRuleMutation';
 import RulesGridFilters from './components/RulesGridFilters';
+import { RulesQueryVariables, useRulesQuery } from './graphql/__generated__/RulesQuery';
+import { useDeleteRule } from './graphql/__generated__/DeleteRuleMutation';
 import './HierarchyProfileRules.scss';
 
 type RuleInfo = {
@@ -29,34 +28,23 @@ type RuleInfo = {
   withUpperCase?: boolean,
 };
 
-type Rule = ExtractApolloTypeFromArray<RulesQuery['rules']>;
-
-type Modals = {
-  createRuleModal: Modal,
-  updateRuleModal: Modal,
-};
-
 type Props = {
-  modals: Modals,
   branchId: string,
   title: string,
 };
 
 const HierarchyProfileRules = (props: Props) => {
-  const {
-    modals: {
-      createRuleModal,
-      updateRuleModal,
-    },
-    branchId,
-    title,
-  } = props;
+  const { branchId, title } = props;
+
+  const { state } = useLocation<State<RulesQueryVariables>>();
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
+  const createRuleModal = useModal<CreateRuleModalProps>(CreateRuleModal);
+  const updateRuleModal = useModal<UpdateRuleModalProps>(UpdateRuleModal);
 
+  // ===== Requests ===== //
   const [DeleteRule] = useDeleteRule();
-  const { state } = useLocation<State<RulesQueryVariables>>();
   const { data, loading, error, refetch } = useRulesQuery({
     variables: {
       ...state?.filters as RulesQueryVariables,
@@ -65,7 +53,8 @@ const HierarchyProfileRules = (props: Props) => {
   });
   const rules = data?.rules || [];
 
-  const openCreateRuleModal = () => {
+  // ===== Handlers ===== //
+  const handleOpenCreateRuleModal = () => {
     createRuleModal.show({
       parentBranch: branchId,
       onSuccess: async () => {
@@ -76,7 +65,7 @@ const HierarchyProfileRules = (props: Props) => {
     });
   };
 
-  const openUpdateRuleModal = (rule: Rule) => {
+  const handleOpenUpdateRuleModal = (rule: Rule) => {
     const { uuid } = rule;
 
     updateRuleModal.show({
@@ -125,6 +114,7 @@ const HierarchyProfileRules = (props: Props) => {
     });
   };
 
+  // ===== Renders ===== //
   const renderRule = ({ uuid, name, createdBy }: Rule) => (
     <div className="HierarchyProfileRules__rule">
       <div className="HierarchyProfileRules__rule-name">
@@ -173,7 +163,7 @@ const HierarchyProfileRules = (props: Props) => {
         </When>
 
         <Otherwise>
-          <span>&mdash;</span>
+          &mdash;
         </Otherwise>
       </Choose>
     );
@@ -219,7 +209,7 @@ const HierarchyProfileRules = (props: Props) => {
         </When>
 
         <Otherwise>
-          <span>&mdash;</span>
+          &mdash;
         </Otherwise>
       </Choose>
     );
@@ -230,7 +220,7 @@ const HierarchyProfileRules = (props: Props) => {
       <TrashButton onClick={() => handleDeleteRuleClick(rule)} />
 
       <EditButton
-        onClick={() => openUpdateRuleModal(rule)}
+        onClick={() => handleOpenUpdateRuleModal(rule)}
         className="HierarchyProfileRules__edit-icon"
       />
     </>
@@ -254,7 +244,7 @@ const HierarchyProfileRules = (props: Props) => {
         <If condition={isCreateRuleAllow}>
           <Button
             type="submit"
-            onClick={openCreateRuleModal}
+            onClick={handleOpenCreateRuleModal}
             tertiary
             small
           >
@@ -308,10 +298,4 @@ const HierarchyProfileRules = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    createRuleModal: CreateRuleModal,
-    updateRuleModal: UpdateRuleModal,
-  }),
-)(HierarchyProfileRules);
+export default React.memo(HierarchyProfileRules);

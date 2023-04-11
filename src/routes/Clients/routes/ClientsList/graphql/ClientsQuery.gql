@@ -16,12 +16,18 @@ query ClientsListQuery(
         retentionStatus
         retentionRepresentative
         retentionOperator {
+          _id
+          uuid
           fullName
           hierarchy {
+            uuid
+            userType
             parentBranches {
+              uuid
               name
               branchType
               parentBranch {
+                uuid
                 name
                 branchType
               }
@@ -31,12 +37,18 @@ query ClientsListQuery(
         salesStatus
         salesRepresentative
         salesOperator {
+          _id
+          uuid
           fullName
           hierarchy {
+            uuid
+            userType
             parentBranches {
+              uuid
               name
               branchType
               parentBranch {
+                uuid
                 name
                 branchType
               }
@@ -52,6 +64,9 @@ query ClientsListQuery(
         source
         campaignId
         partner {
+          _id
+          uuid
+          status
           fullName
         }
       }
@@ -60,15 +75,20 @@ query ClientsListQuery(
         uuid
       }
       balance {
+        credit
         amount
       }
       firstName
       languageCode
       lastName
       lastNote {
+        uuid
         changedAt
         content
+        changedBy
         operator {
+          _id
+          uuid
           fullName
         }
       }
