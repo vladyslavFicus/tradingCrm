@@ -163,10 +163,8 @@ const ClientsGrid = (props: Props) => {
     const amount = balance?.amount || 0;
 
     return (
-      <div>
-        <div className="ClientsGrid__balance">
-          {currency} {I18n.toCurrency(amount, { unit: '' })}
-        </div>
+      <div className="ClientsGrid__balance">
+        {currency} {I18n.toCurrency(amount, { unit: '' })}
       </div>
     );
   };

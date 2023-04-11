@@ -136,8 +136,8 @@ const AdjustableTable = (props: Props) => {
       {renderGridConfig()}
 
       <Choose>
-        <When condition={visibleColumns.length > 0}>
-          <Table {...restProps}>
+        <When condition={!!visibleColumns.length}>
+          <Table {...restProps} allColumns={allColumns}>
             {visibleColumns}
           </Table>
         </When>

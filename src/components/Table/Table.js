@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { withResize } from 'hoc';
+import { withResizeElements } from 'hoc';
 import ShortPreloader from 'components/ShortLoader';
 import Column from './Column';
 import { ReactComponent as SortingArrows } from './img/SortingArrows.svg';
@@ -17,7 +17,7 @@ const TopHeaderHeight = 47;
 class Table extends PureComponent {
   constructor(props) {
     super(props);
-    this.tableRef = React.createRef();
+    this.headTrRef = React.createRef();
     this.headRowRef = React.createRef();
     this.scrollTableRef = React.createRef();
     this.tableFixedRef = React.createRef();
@@ -40,10 +40,10 @@ class Table extends PureComponent {
     withMultiSelect: PropTypes.bool, // Flag to enable multi-select functionality
     maxSelectCount: PropTypes.number, // Maximum of selected rows
     maxHeightColumns: PropTypes.number, // Max
-    elementWidth: PropTypes.number, // We check this value and redraw the table header width
-    observerSize: PropTypes.shape({
-      observe: PropTypes.func.isRequired,
-    }).isRequired, // DOM observer, registers elements that need to be monitored
+    elementsWidth: PropTypes.array, // We check this value and redraw the table header width
+    initResizeObserver: PropTypes.func,
+    reopenResizeObserver: PropTypes.func,
+    allColumns: PropTypes.array,
   };
 
   static defaultProps = {
@@ -61,7 +61,10 @@ class Table extends PureComponent {
     withMultiSelect: false,
     maxSelectCount: Infinity,
     maxHeightColumns: 0,
-    elementWidth: null,
+    elementsWidth: [],
+    initResizeObserver: () => {},
+    reopenResizeObserver: () => {},
+    allColumns: [],
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -74,32 +77,20 @@ class Table extends PureComponent {
     };
   }
 
-  componentDidMount() {
-    const { children, items } = this.props;
-
-    if (items.length && children.length) {
-      this.setWidthTableCells();
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
-    const { children, items, loading, elementWidth } = this.props;
+    const { children, items, loading } = this.props;
 
     // Here a singleton is used to add listeners to the table when there are already elements and no loading
     if (!prevState.firstRenderHead && !loading && items.length) {
       this.mountListeners();
     }
 
-    // Checking when cells in the table header need to be redrawn
+    // Checking when cells in the Resize Observer need to be remount
     if (
       items.length && !loading
-      && (
-        prevProps.elementWidth !== elementWidth // when table change width
-        || prevProps.children.length !== children.length // when table change columns
-        || prevProps.items.length !== items.length // when table change rows
-      )
+      && this.getChildrenLength(prevProps.children) !== this.getChildrenLength(children) // when table change columns
     ) {
-      this.setWidthTableCells();
+      this.remountResizeObserver();
     }
   }
 
@@ -109,20 +100,15 @@ class Table extends PureComponent {
     if (this.tableFixedRef.current) this.tableFixedRef.current.removeEventListener('scroll', this.headerScrolling);
   }
 
-  /**
-   * First render component
-   * Mount listeners scroll and resize
-   *
-   * */
-  mountListeners = () => {
-    const { observerSize } = this.props;
-    this.setState({ firstRenderHead: true });
+  getAvailableChildren = children => [...children || []].filter(item => item);
 
-    this.scrollTableRef.current.addEventListener('scroll', this.tableScrolling);
-    this.tableFixedRef.current.addEventListener('scroll', this.headerScrolling);
-    observerSize.observe(this.tableRef.current);
+  getChildrenLength = children => this.getAvailableChildren(children).length;
 
-    this.setWidthTableCells();
+  getAllColumnsHeader = () => {
+    const { allColumns = [], children } = this.props;
+    const allColumn = this.getChildrenLength(allColumns) > this.getChildrenLength(children) ? allColumns : children;
+
+    return this.getAvailableChildren(allColumn).map(({ props: { header } }) => header);
   };
 
   tableScrolling = (e) => {
@@ -134,30 +120,26 @@ class Table extends PureComponent {
   };
 
   /**
-   * Redrawing the width of the table header cells
-   */
-  setWidthTableCells = () => {
-    const childRef = this.headRowRef.current?.children || [];
+   * First render component
+   * Mount listeners scroll and resize
+   *
+   * */
+  mountListeners = () => {
+    const { initResizeObserver } = this.props;
+    const allColumnsHeader = this.getAllColumnsHeader();
 
-    if (childRef?.length) {
-      const widthTableCells = Array.from(childRef || []).reduce((accum, item, idx) => {
-        if (idx === 0 && this.props.withMultiSelect) {
-          return accum;
-        }
+    this.scrollTableRef.current.addEventListener('scroll', this.tableScrolling);
+    this.tableFixedRef.current.addEventListener('scroll', this.headerScrolling);
+    initResizeObserver(allColumnsHeader, this.headTrRef?.current?.children);
 
-        const { width } = item.getBoundingClientRect();
-        /*
-        * The width from getBoundingClientRect has more than 2 decimal places,
-        * so with this hack we get the width of the element to hundredths,
-        * otherwise the columns will not be counted accurately and there will be friezes when scrolling horizontally
-        */
-        accum.push(Math.round(width * 100) / 100);
+    this.setState({ firstRenderHead: true });
+  };
 
-        return accum;
-      }, []);
+  remountResizeObserver = () => {
+    const { reopenResizeObserver } = this.props;
+    const allColumnsHeader = this.getAllColumnsHeader();
 
-      this.setState({ widthTableCells });
-    }
+    reopenResizeObserver(allColumnsHeader, this.headTrRef?.current?.children);
   };
 
   /**
@@ -176,7 +158,6 @@ class Table extends PureComponent {
 
   state = {
     firstRenderHead: false,
-    widthTableCells: [],
     sorts: [],
     select: {
       all: false,
@@ -333,8 +314,8 @@ class Table extends PureComponent {
    * @return {*}
    */
   renderFixedHead = (columns) => {
-    const { withMultiSelect, items } = this.props;
-    const { select, widthTableCells } = this.state;
+    const { withMultiSelect, items, elementsWidth = [] } = this.props;
+    const { select } = this.state;
 
     return (
       <div className="Table__row-fixed">
@@ -374,7 +355,7 @@ class Table extends PureComponent {
             return (
               <div
                 key={index}
-                style={{ width: widthTableCells[index], minWidth: widthTableCells[index] }}
+                style={{ width: elementsWidth[index], minWidth: elementsWidth[index] }}
                 className={classNames(
                   'Table__cell',
                   'Table__cell-fixed',
@@ -408,7 +389,7 @@ class Table extends PureComponent {
     const { withMultiSelect, items } = this.props;
 
     return (
-      <tr className="Table__head-row">
+      <tr className="Table__head-row" ref={this.headTrRef}>
         <If condition={withMultiSelect && items.length}>
           <th
             className={classNames(
@@ -570,7 +551,7 @@ class Table extends PureComponent {
               'Table__scroll-x': !maxHeightColumns,
             })}
           >
-            <table ref={this.tableRef} className={classNames('Table__table', { 'Table--no-content': !items.length })}>
+            <table className={classNames('Table__table', { 'Table--no-content': !items.length })}>
               <thead className="Table__head">{this.renderHead(columns)}</thead>
 
               <tbody className="Table__body">{this.renderBody(columns)}</tbody>
@@ -582,4 +563,4 @@ class Table extends PureComponent {
   }
 }
 
-export default withResize(Table);
+export default withResizeElements(Table);

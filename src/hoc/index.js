@@ -1,11 +1,11 @@
 import withModals from './withModals';
 import withNotifications from './withNotifications';
 import withMultiCurrencyModal from './withMultiCurrencyModal';
-import withResize from './withResize';
+import withResizeElements from './withResizeElements';
 
 export {
   withModals,
   withNotifications,
   withMultiCurrencyModal,
-  withResize,
+  withResizeElements,
 };
