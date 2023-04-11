@@ -1,21 +1,31 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { Profile } from '__generated__/types';
 import ReactSwitch from 'components/ReactSwitch';
-import {
-  useUpdateConfigurationDepositMutation,
-} from './graphql/__generated__/UpdateConfigurationDepositMutation';
+import { useUpdateConfigurationDepositMutation } from './graphql/__generated__/UpdateConfigurationDepositMutation';
 import './ClientDepositSwitcher.scss';
 
 type Props = {
-  uuid: string,
-  enabled: boolean,
-}
+  profile: Profile,
+};
 
-const ClientDepositSwitcher = ({ uuid, enabled }: Props) => {
+const ClientDepositSwitcher = (props: Props) => {
+  const { profile } = props;
+
+  const playerUUID = profile.uuid;
+  const enabled = !!profile.configuration.depositEnabled;
+
+  // ===== Requests ===== //
   const [updateConfigurationDeposit] = useUpdateConfigurationDepositMutation();
-  const handleSetupDepositMutation = (value: boolean) => updateConfigurationDeposit({
-    variables: { playerUUID: uuid, enabled: value },
-  });
+
+  // ===== Handlers ===== //
+  const handleSetupDepositMutation = (value: boolean) => {
+    try {
+      updateConfigurationDeposit({ variables: { playerUUID, enabled: value } });
+    } catch {
+      // # do nothing...
+    }
+  };
 
   return (
     <div className="ClientDepositSwitcher">
@@ -30,4 +40,4 @@ const ClientDepositSwitcher = ({ uuid, enabled }: Props) => {
   );
 };
 
-export default ClientDepositSwitcher;
+export default React.memo(ClientDepositSwitcher);

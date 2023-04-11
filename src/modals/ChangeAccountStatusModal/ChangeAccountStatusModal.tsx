@@ -8,16 +8,16 @@ import { FormikSelectField, FormikTextAreaField } from 'components/Formik';
 import { Button } from 'components/Buttons';
 import { attributeLabels } from './constants';
 
-type FormValues = {
+export type FormValues = {
   reason: string,
   comment?: string,
 };
 
-type Props = {
+export type Props = {
   onSubmit: (reason: FormValues, action: (submit: boolean) => void) => void,
   onCloseModal: () => void,
   reasons: Record<string, string>,
-  message: string | React.ReactNode,
+  message?: string | React.ReactNode,
   withComment?: boolean,
 };
 

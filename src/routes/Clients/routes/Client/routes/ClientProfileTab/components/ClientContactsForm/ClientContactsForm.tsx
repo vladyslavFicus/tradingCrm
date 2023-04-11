@@ -21,6 +21,13 @@ import { useProfileEmailQueryLazyQuery } from './graphql/__generated__/ProfileEm
 import { useProfileAdditionalEmailQueryLazyQuery } from './graphql/__generated__/ProfileAdditionalEmailQuery';
 import './ClientContactsForm.scss';
 
+const attributeLabels = {
+  email: 'COMMON.EMAIL',
+  phone: 'PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.PHONE',
+  additionalEmail: 'COMMON.EMAIL_ALT',
+  additionalPhone: 'PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.ALT_PHONE',
+};
+
 type FormValues = {
   phone: string | null,
   additionalPhone: string | null,
@@ -29,19 +36,12 @@ type FormValues = {
 };
 
 type Props = {
-  clientData: Profile,
-};
-
-const attributeLabels = {
-  email: 'COMMON.EMAIL',
-  phone: 'PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.PHONE',
-  additionalEmail: 'COMMON.EMAIL_ALT',
-  additionalPhone: 'PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.ALT_PHONE',
+  profile: Profile,
 };
 
 const ClientContactsForm = (props: Props) => {
   const {
-    clientData: {
+    profile: {
       uuid,
       contacts,
       phoneVerified,
@@ -62,6 +62,16 @@ const ClientContactsForm = (props: Props) => {
     additionalPhone: '',
   });
 
+  // ===== Permissions ===== //
+  const permission = usePermission();
+  const isAvailableToSeePhone = permission.allows(permissions.USER_PROFILE.FIELD_PHONE);
+  const isAvailableToSeeAltPhone = permission.allows(permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE);
+  const isAvailableToSeeAltEmail = permission.allows(permissions.USER_PROFILE.FIELD_ADDITIONAL_EMAIL);
+  const isAvailableToSeeEmail = permission.allows(permissions.USER_PROFILE.FIELD_EMAIL);
+  const isAvailableToUpdateContacts = permission.allows(permissions.USER_PROFILE.UPDATE_CONTACTS);
+  const isAvailableToUpdateEmail = permission.allows(permissions.USER_PROFILE.UPDATE_EMAIL);
+
+  // ===== Requests ===== //
   const [profilePhonesQuery] = useProfilePhonesQueryLazyQuery();
   const [profileEmailQuery] = useProfileEmailQueryLazyQuery();
   const [profileAdditionalEmailQuery] = useProfileAdditionalEmailQueryLazyQuery();
@@ -70,8 +80,6 @@ const ClientContactsForm = (props: Props) => {
   const [updateClientEmail] = useUpdateClientEmailMutation();
   const [verifyEmail] = useVerifyEmailMutation();
   const [verifyPhone] = useVerifyPhoneMutation();
-
-  const permission = usePermission();
 
   const getProfilePhones = async () => {
     try {
@@ -131,6 +139,7 @@ const ClientContactsForm = (props: Props) => {
     }
   };
 
+  // ===== Handlers ===== //
   const handleSubmitContacts = async (values: FormValues) => {
     try {
       await updateClientContacts({
@@ -279,14 +288,6 @@ const ClientContactsForm = (props: Props) => {
       });
     }
   };
-
-  const isAvailableToSeePhone = permission.allows(permissions.USER_PROFILE.FIELD_PHONE);
-  const isAvailableToSeeAltPhone = permission.allows(permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE);
-  const isAvailableToSeeAltEmail = permission.allows(permissions.USER_PROFILE.FIELD_ADDITIONAL_EMAIL);
-  const isAvailableToSeeEmail = permission.allows(permissions.USER_PROFILE.FIELD_EMAIL);
-
-  const isAvailableToUpdateContacts = permission.allows(permissions.USER_PROFILE.UPDATE_CONTACTS);
-  const isAvailableToUpdateEmail = permission.allows(permissions.USER_PROFILE.UPDATE_EMAIL);
 
   return (
     <div className="ClientContactsForm">

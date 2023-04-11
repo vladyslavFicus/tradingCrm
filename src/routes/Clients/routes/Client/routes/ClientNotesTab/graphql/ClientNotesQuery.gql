@@ -1,0 +1,44 @@
+
+query ClientNotesQuery(
+  $targetUUID: String!
+  $pinned: Boolean
+  $size: Int
+  $page: Int
+  $changedAtTo: String
+  $changedAtFrom: String
+  $targetType: String
+  $department: String
+) {
+  notes(
+    targetUUID: $targetUUID
+    pinned: $pinned
+    size: $size
+    page: $page
+    changedAtTo: $changedAtTo
+    changedAtFrom: $changedAtFrom
+    targetType: $targetType
+    department: $department
+  ) @connection(key: "ClientNotes") {
+    size
+    page
+    totalElements
+    totalPages
+    number
+    last
+    content {
+      _id
+      noteId
+      targetUUID
+      targetType
+      playerUUID
+      subject
+      content
+      pinned
+      changedAt
+      changedBy
+      operator {
+        fullName
+      }
+    }
+  }
+}

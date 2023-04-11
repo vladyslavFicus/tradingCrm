@@ -8,7 +8,7 @@ import { Button } from 'components/Buttons';
 import { useDeleteFileMutation } from './graphql/__generated__/DeleteFileMutation';
 import './DeleteFileModal.scss';
 
-type Props = {
+export type Props = {
   file: File,
   onCloseModal: () => void,
 }

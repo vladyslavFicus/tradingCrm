@@ -17,7 +17,6 @@ query TradingAccountsQuery(
       name
       login
       group
-      accountUUID
       platformType
       credit
       profile {

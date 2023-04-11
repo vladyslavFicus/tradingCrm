@@ -1,19 +1,19 @@
 import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { Profile } from '__generated__/types';
 import './ClientLastLogin.scss';
 
-type LastSignInSession = {
-  startedAt: string,
-  countryCode: string,
-}
-
 type Props = {
-  lastSignInSession?: LastSignInSession,
-}
+  profile: Profile,
+};
 
 const ClientLastLogin = (props: Props) => {
-  const { lastSignInSession } = props;
+  const { profile } = props;
+
+  const lastSignInSessions = profile.profileView?.lastSignInSessions;
+  const lastSignInSession = lastSignInSessions && lastSignInSessions[lastSignInSessions.length - 1];
+  const { startedAt = '', countryCode = '' } = lastSignInSession || {};
 
   return (
     <div className="ClientLastLogin">
@@ -21,25 +21,27 @@ const ClientLastLogin = (props: Props) => {
 
       <Choose>
         <When condition={!!lastSignInSession}>
-          <If condition={!!lastSignInSession?.startedAt}>
+          <If condition={!!startedAt}>
             <div className="ClientLastLogin__text-primary">
-              {moment.utc(lastSignInSession?.startedAt).local().fromNow()}
+              {moment.utc(startedAt).local().fromNow()}
             </div>
 
             <div className="ClientLastLogin__text-secondary">
-              {moment.utc(lastSignInSession?.startedAt).local().format('DD.MM.YYYY HH:mm')}
+              {moment.utc(startedAt).local().format('DD.MM.YYYY HH:mm')}
             </div>
           </If>
 
-          <If condition={!!lastSignInSession?.countryCode}>
+          <If condition={!!countryCode}>
             <div className="ClientLastLogin__text-secondary">
-              {I18n.t('CLIENT_PROFILE.CLIENT.LAST_LOGIN.FROM_COUNTRY', { country: lastSignInSession?.countryCode })}
+              {I18n.t('CLIENT_PROFILE.CLIENT.LAST_LOGIN.FROM_COUNTRY', { country: countryCode })}
             </div>
           </If>
         </When>
 
         <Otherwise>
-          <div className="ClientLastLogin__text-primary">{I18n.t('COMMON.UNAVAILABLE')}</div>
+          <div className="ClientLastLogin__text-primary">
+            {I18n.t('COMMON.UNAVAILABLE')}
+          </div>
         </Otherwise>
       </Choose>
     </div>

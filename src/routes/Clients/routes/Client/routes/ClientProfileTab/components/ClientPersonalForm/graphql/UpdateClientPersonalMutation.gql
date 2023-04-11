@@ -1,0 +1,42 @@
+mutation UpdateClientPersonalMutation(
+  $playerUUID: String!
+  $firstName: String
+  $lastName: String
+  $languageCode: String
+  $gender: String
+  $birthDate: String
+  $passport: Passport__Input
+  $identificationNumber: String
+  $timeZone: String
+) {
+  profile {
+    updatePersonalInformation(
+      playerUUID: $playerUUID
+      firstName: $firstName
+      lastName: $lastName
+      languageCode: $languageCode
+      gender: $gender
+      birthDate: $birthDate
+      passport: $passport
+      identificationNumber: $identificationNumber
+      timeZone: $timeZone
+    ) {
+      _id
+      firstName
+      lastName
+      birthDate
+      languageCode
+      gender
+      identificationNumber
+      timeZone
+      passport {
+        countryOfIssue
+        countrySpecificIdentifier
+        countrySpecificIdentifierType
+        expirationDate
+        issueDate
+        number
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+mutation UpdateConfigurationMutation(
+  $playerUUID: String!,
+  $crs: Boolean,
+  $fatca: Boolean,
+) {
+  profile {
+    updateConfiguration(
+      playerUUID: $playerUUID,
+      crs: $crs,
+      fatca: $fatca,
+    )
+  }
+}

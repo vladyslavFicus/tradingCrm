@@ -1,6 +1,6 @@
 .ClientTradingAccountsGrid {
   &__cell {
-    &-main-value {
+    &-main {
       font-weight: 700;
       color: var(--text-primary);
 
@@ -13,12 +13,8 @@
       }
     }
 
-    &-sub-value {
+    &-sub {
       font-size: 11px;
-
-      &--mb-5 {
-        margin-bottom: 5px;
-      }
     }
 
     &-button {

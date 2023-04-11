@@ -2,28 +2,21 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { Profile } from '__generated__/types';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import './ClientLastActivity.scss';
 
-type LastActivity = {
-  eventType: string,
-  eventValue: string,
-  location: string,
-  date: string,
-}
-
 type Props = {
-  lastActivity?: LastActivity,
-  onlineStatus: boolean,
-}
+  profile: Profile,
+};
 
 const ClientLastActivity = (props: Props) => {
-  const { onlineStatus, lastActivity } = props;
+  const { profile } = props;
 
+  const lastActivity = profile.profileView?.lastActivity;
   const { eventType, eventValue, location, date } = lastActivity || {};
-
   const lastActivityDate = date ? moment.utc(date).local() : null;
-  const lastActivityType = onlineStatus ? 'ONLINE' : 'OFFLINE';
+  const lastActivityType = profile.profileView?.online ? 'ONLINE' : 'OFFLINE';
 
   return (
     <div className="ClientLastActivity">

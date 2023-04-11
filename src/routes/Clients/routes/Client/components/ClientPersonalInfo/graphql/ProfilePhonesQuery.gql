@@ -1,0 +1,8 @@
+query ProfilePhonesQuery (
+  $playerUUID: String!
+){
+  profileContacts(playerUUID: $playerUUID) {
+    additionalPhone
+    phone
+  }
+}

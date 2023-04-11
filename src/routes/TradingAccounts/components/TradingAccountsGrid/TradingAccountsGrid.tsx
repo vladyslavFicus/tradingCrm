@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { parseErrors } from 'apollo';
 import { Sorts } from 'types';
-import { TradingAccount } from '__generated__/types';
+import { AccountView } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
@@ -20,7 +20,7 @@ import { useUnarchiveAccountMutation } from './graphql/__generated__/UnarchiveAc
 import './TradingAccountsGrid.scss';
 
 type Props = {
-  content: Array<TradingAccount>,
+  content: Array<AccountView>,
   loading: boolean,
   last: boolean,
   onFetchMore: () => void,
@@ -30,11 +30,9 @@ type Props = {
 const TradingAccountsGrid = (props: Props) => {
   const { content, loading, last, onFetchMore, onSort } = props;
 
+  // ===== Permissions ===== //
   const permission = usePermission();
-
   const isUnarchiveAllow = permission.allows(permissions.TRADING_ACCOUNT.UNARCHIVE);
-
-  const isArchivedAccountInContent = () => content.some(({ archived }) => archived);
 
   // ===== Requests ===== //
   const [unarchiveAccountMutation] = useUnarchiveAccountMutation();
@@ -63,7 +61,7 @@ const TradingAccountsGrid = (props: Props) => {
   };
 
   // ===== Renders ===== //
-  const renderLogin = ({ login, group, platformType }: TradingAccount) => (
+  const renderLogin = ({ login, group, platformType }: AccountView) => (
     <>
       <div className="TradingAccountsGrid__general">
         <PlatformTypeBadge platformType={platformType}>
@@ -77,7 +75,7 @@ const TradingAccountsGrid = (props: Props) => {
     </>
   );
 
-  const renderAccount = ({ uuid, name, accountType, platformType, archived }: TradingAccount) => (
+  const renderAccount = ({ uuid, name, accountType, platformType, archived }: AccountView) => (
     <>
       <Badge
         text={I18n.t(archived ? 'CONSTANTS.ARCHIVED' : accountTypesLabels[accountType].label)}
@@ -96,11 +94,11 @@ const TradingAccountsGrid = (props: Props) => {
     </>
   );
 
-  const renderProfile = ({ profile }: TradingAccount) => (
+  const renderProfile = ({ profile }: AccountView) => (
     <GridPlayerInfo profile={profile} />
   );
 
-  const renderAffiliate = ({ affiliate }: TradingAccount) => {
+  const renderAffiliate = ({ affiliate }: AccountView) => {
     if (!affiliate) {
       return <span>&mdash;</span>;
     }
@@ -108,7 +106,7 @@ const TradingAccountsGrid = (props: Props) => {
     return <HideText text={affiliate.source || ''} />;
   };
 
-  const renderCreatedAt = ({ createdAt }: TradingAccount) => {
+  const renderCreatedAt = ({ createdAt }: AccountView) => {
     if (!createdAt) {
       return <span>&mdash;</span>;
     }
@@ -126,27 +124,29 @@ const TradingAccountsGrid = (props: Props) => {
     );
   };
 
-  const renderCredit = ({ credit, currency }: TradingAccount) => (
+  const renderCredit = ({ credit, currency }: AccountView) => (
     <div className="TradingAccountsGrid__general">{currency} {I18n.toCurrency(credit, { unit: '' })}</div>
   );
 
-  const renderLeverage = ({ leverage }: TradingAccount) => (
+  const renderLeverage = ({ leverage }: AccountView) => (
     <div className="TradingAccountsGrid__general">{leverage}</div>
   );
 
-  const renderBalance = ({ balance, currency }: TradingAccount) => (
+  const renderBalance = ({ balance, currency }: AccountView) => (
     <div className="TradingAccountsGrid__general">
       {currency} {I18n.toCurrency(balance, { unit: '' })}
     </div>
   );
 
-  const renderActions = ({ archived, uuid }: TradingAccount) => (
+  const renderActions = ({ archived, uuid }: AccountView) => (
     <If condition={!!archived}>
       <Button tertiary onClick={() => handleUnarchive(uuid)}>
         {I18n.t('TRADING_ACCOUNTS.GRID.UNARCHIVE.BUTTON')}
       </Button>
     </If>
   );
+
+  const isArchivedAccountInContent = () => content.some(({ archived }) => archived);
 
   return (
     <div className="TradingAccountsGrid">

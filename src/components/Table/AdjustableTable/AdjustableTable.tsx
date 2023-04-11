@@ -38,23 +38,23 @@ const getSortedColumns = (columns: ColumnComponents, columnsOrder: string[]) => 
 };
 
 type Props = {
+  items: Array<Object>,
+  loading: boolean,
+  columnsOrder: Array<string>,
+  children: React.ReactNode,
+  stickyFromTop: string | number,
   type?: GridConfigTypes,
   totalCount?: number,
   withMultiSelect?: boolean,
   maxSelectCount?: number,
-  items: Array<Object>,
-  sorts: Array<Sort>,
-  loading: boolean,
-  hasMore: boolean,
   defaultColumns?: Array<string>,
-  columnsOrder: Array<string>,
-  children: React.ReactNode,
-  stickyFromTop: string | number,
-  onMore: () => void,
-  onSort: (sorts: Array<Sort>) => void,
+  hasMore?: boolean,
+  sorts?: Array<Sort>,
+  onMore?: () => void,
+  onSort?: (sorts: Array<Sort>) => void,
   onSelect?: (selected: TableSelection) => void,
   onSelectError?: (select: TableSelection) => void,
-}
+};
 
 /*  Add to Table component ability to show/hide columns and save setting
 *

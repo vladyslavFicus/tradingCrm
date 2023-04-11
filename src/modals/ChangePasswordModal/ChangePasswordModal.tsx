@@ -10,12 +10,12 @@ import { createValidator, translateLabels } from 'utils/validator';
 import { attributeLabels } from './constants';
 import './ChangePasswordModal.scss';
 
-type FormValues = {
+export type FormValues = {
   newPassword: string,
   repeatPassword: string,
 };
 
-type Props = {
+export type Props = {
   onCloseModal: () => void,
   onSubmit: (values: FormValues) => void,
   fullName: string,

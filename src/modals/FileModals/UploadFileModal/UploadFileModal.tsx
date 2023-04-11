@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import I18n from 'i18n-js';
-import { get } from 'lodash';
+import { get, omit } from 'lodash';
 import { Formik, Form } from 'formik';
 import { EditNote } from 'types/Note';
+import { FileCategories } from 'types/fileCategories';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { shortify } from 'utils/uuid';
 import EventEmitter, { FILE_UPLOADED } from 'utils/EventEmitter';
@@ -29,9 +30,9 @@ type FormValues = Record<string, {
   title: string,
   category: string,
   documentType: string,
-}>
+}>;
 
-type Props = {
+export type Props = {
   profileUUID: string,
   onCloseModal: () => void,
 };
@@ -49,6 +50,9 @@ const UploadFileModal = (props: Props) => {
   const [confirmFilesUploadingMutation] = useConfirmFilesUploadingMutation();
   const [addNoteMutation] = useAddNoteMutation();
   const filesCategoriesQuery = useFilesCategoriesQuery();
+
+  const filesCategories = filesCategoriesQuery.data?.filesCategories || {};
+  const categories = omit(filesCategories, '__typename') as FileCategories;
 
   const editFileNote = (data: EditNote) => {
     const { targetUUID } = data;
@@ -194,15 +198,6 @@ const UploadFileModal = (props: Props) => {
     values: FormValues,
   ) => {
     const fileKey = file.fileUuid;
-    const filesCategories = filesCategoriesQuery.data?.filesCategories || {};
-
-    const categories = Object.keys(filesCategories)
-      .filter(category => category !== '__typename')
-      .reduce((acc, key) => {
-        (acc as Record<string, Array<string>>)[key] = (filesCategories as Record<string, Array<string>>)[key];
-
-        return acc;
-      }, {});
 
     return (
       <UploadingFileModal

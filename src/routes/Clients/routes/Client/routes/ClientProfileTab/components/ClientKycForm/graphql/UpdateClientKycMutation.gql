@@ -1,0 +1,11 @@
+mutation UpdateClientKycMutation(
+  $playerUUID: String!
+  $kycStatus: String
+) {
+  profile {
+    updateKYCStatus(
+      playerUUID: $playerUUID
+      kycStatus: $kycStatus
+    )
+  }
+}

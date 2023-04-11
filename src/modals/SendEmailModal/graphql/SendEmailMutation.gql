@@ -1,0 +1,19 @@
+mutation SendEmailMutation(
+  $uuid: String!
+  $field: String!
+  $type: String!
+  $name: String
+  $subject: String!
+  $text: String!
+) {
+  emailTemplates {
+    sendEmail(
+      uuid: $uuid
+      field: $field
+      type: $type
+      templateName: $name
+      subject: $subject
+      text: $text
+    )
+  }
+}

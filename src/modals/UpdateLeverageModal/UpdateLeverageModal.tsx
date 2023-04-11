@@ -13,7 +13,7 @@ import { useUpdateLeverageMutation } from './graphql/__generated__/UpdateLeverag
 import './UpdateLeverageModal.scss';
 
 type FormValue = {
- leverage: string | number,
+ leverage: number,
 };
 
 export type Props = {
@@ -24,7 +24,7 @@ export type Props = {
   group?: string,
   platformType?: string,
   archived?: boolean,
-  leverage?: string,
+  leverage?: number,
   onCloseModal: () => void,
   onSuccess: () => void,
 };
@@ -37,7 +37,7 @@ const UpdateLeverageModal = (props: Props) => {
     group = '',
     archived,
     platformType = '',
-    leverage = '',
+    leverage = 0,
     onCloseModal,
     onSuccess,
     accountUUID,
@@ -47,14 +47,9 @@ const UpdateLeverageModal = (props: Props) => {
 
   const [updateLeverageMutation] = useUpdateLeverageMutation();
 
-  const onSubmit = async ({ leverage: newLeverage }: FormValue) => {
+  const onSubmit = async (values: FormValue) => {
     try {
-      await updateLeverageMutation({
-        variables: {
-          accountUUID,
-          leverage: newLeverage as number,
-        },
-      });
+      await updateLeverageMutation({ variables: { accountUUID, leverage: values.leverage } });
 
       notify({
         level: LevelType.SUCCESS,
@@ -76,7 +71,7 @@ const UpdateLeverageModal = (props: Props) => {
   return (
     <Modal className="UpdateLeverageModal" toggle={onCloseModal} isOpen>
       <Formik
-        initialValues={{ leverage: '' } as FormValue}
+        initialValues={{ leverage }}
         onSubmit={onSubmit}
       >
         {({ dirty, isSubmitting }) => (
@@ -120,8 +115,8 @@ const UpdateLeverageModal = (props: Props) => {
                 component={FormikSelectField}
               >
                 {brand[platformType.toLowerCase()].leveragesChangingRequest
-                  .filter((item: string) => leverage !== item)
-                  .map((value: string) => (
+                  .filter((item: number) => leverage !== item)
+                  .map((value: number) => (
                     <option key={value} value={value}>1:{value}</option>
                   ))}
               </Field>

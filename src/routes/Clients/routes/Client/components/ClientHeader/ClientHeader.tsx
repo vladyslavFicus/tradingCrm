@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import compose from 'compose-function';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { withModals } from 'hoc';
 import { parseErrors } from 'apollo';
+import { LoginLock, Profile } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -13,32 +12,25 @@ import customTimeout from 'utils/customTimeout';
 import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import ChangePasswordModal from 'modals/ChangePasswordModal';
 import CreateClientCallbackModal, { CreateClientCallbackModalProps } from 'modals/CreateClientCallbackModal';
+import ChangePasswordModal, { ChangePasswordModalProps, FormValues } from 'modals/ChangePasswordModal';
 import ActionsDropDown from 'components/ActionsDropDown';
 import { Button } from 'components/Buttons';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
-import { AuthMutationChangePasswordArgs, LoginLock, Profile } from '__generated__/types';
-import { Modal } from 'types';
 import { useClientLockStatusQuery } from './graphql/__generated__/ClientLockStatusQuery';
 import { useClientUnlockLoginMutation } from './graphql/__generated__/ClientUnlockLoginMutation';
 import { useClientResetPasswordMutation } from './graphql/__generated__/ClientResetPasswordMutation';
 import { useClientChangePasswordMutation } from './graphql/__generated__/ClientChangePasswordMutation';
 import './ClientHeader.scss';
 
-type Modals = {
-  changePasswordModal: Modal,
-}
-
 type Props = {
-  client: Profile,
-  modals: Modals,
+  profile: Profile,
 };
 
 const ClientHeader = (props: Props) => {
   const {
-    client: {
+    profile: {
       age,
       uuid,
       status,
@@ -46,18 +38,21 @@ const ClientHeader = (props: Props) => {
       firstName,
       profileVerified,
     },
-    modals: {
-      changePasswordModal,
-    },
   } = props;
 
   const [runningReloadAnimation, setRunningReloadAnimation] = useState<boolean>(false);
 
+  // ===== Permissions ===== //
   const permission = usePermission();
+  const allowCreateCallback = permission.allows(permissions.USER_PROFILE.CREATE_CALLBACK);
+  const allowAddNote = permission.allows(permissions.NOTES.ADD_NOTE);
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
+  const createClientCallbackModal = useModal<CreateClientCallbackModalProps>(CreateClientCallbackModal);
+  const changePasswordModal = useModal<ChangePasswordModalProps>(ChangePasswordModal);
 
+  // ===== Requests ===== //
   const { data, refetch } = useClientLockStatusQuery({
     variables: { playerUUID: uuid },
   });
@@ -67,9 +62,8 @@ const ClientHeader = (props: Props) => {
   const [clientResetPasswordMutation] = useClientResetPasswordMutation();
   const [clientChangePasswordMutation] = useClientChangePasswordMutation();
 
-  const createClientCallbackModal = useModal<CreateClientCallbackModalProps>(CreateClientCallbackModal);
-
-  const onHandleReloadClick = () => {
+  // ===== Handlers ===== //
+  const handleReloadClick = () => {
     setRunningReloadAnimation(true);
     customTimeout(() => {
       setRunningReloadAnimation(false);
@@ -130,7 +124,7 @@ const ClientHeader = (props: Props) => {
     });
   };
 
-  const handleChangePassword = async ({ newPassword }: AuthMutationChangePasswordArgs) => {
+  const handleChangePassword = async ({ newPassword }: FormValues) => {
     try {
       await clientChangePasswordMutation({ variables: { newPassword, clientUuid: uuid } });
 
@@ -190,7 +184,7 @@ const ClientHeader = (props: Props) => {
       </div>
 
       <div className="ClientHeader__actions">
-        <If condition={permission.allows(permissions.USER_PROFILE.CREATE_CALLBACK)}>
+        <If condition={allowCreateCallback}>
           <Button
             data-testid="addCallbackButton"
             small
@@ -213,7 +207,7 @@ const ClientHeader = (props: Props) => {
           </Button>
         </If>
 
-        <If condition={permission.allows(permissions.NOTES.ADD_NOTE)}>
+        <If condition={allowAddNote}>
           <NoteAction
             playerUUID={uuid}
             targetUUID={uuid}
@@ -234,7 +228,7 @@ const ClientHeader = (props: Props) => {
         <Button
           data-testid="refreshButton"
           className="ClientHeader__action"
-          onClick={onHandleReloadClick}
+          onClick={handleReloadClick}
           tertiary
           small
         >
@@ -266,9 +260,4 @@ const ClientHeader = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withModals({
-    changePasswordModal: ChangePasswordModal,
-  }),
-)(ClientHeader);
+export default React.memo(ClientHeader);

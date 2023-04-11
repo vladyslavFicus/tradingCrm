@@ -3,7 +3,7 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import {
-  HierarchyUserAcquisition,
+  Profile,
   Operator,
   AcquisitionStatusTypes__Enum as AcquisitionStatusEnum,
 } from '__generated__/types';
@@ -30,22 +30,17 @@ type AcquisitionItem = {
 };
 
 type Props = {
-  clientUuid: string,
-  clientAcquisition: HierarchyUserAcquisition,
+  profile: Profile,
   auth: { department: string },
 };
 
 const ClientAcquisitionStatus = (props: Props) => {
-  const { clientUuid, clientAcquisition, auth: { department } } = props;
+  const { profile, auth: { department } } = props;
 
-  const {
-    salesStatus,
-    salesOperator,
-    retentionStatus,
-    retentionOperator,
-    acquisitionStatus,
-  } = clientAcquisition || {};
+  const { uuid, acquisition } = profile;
+  const { salesStatus, salesOperator, retentionStatus, retentionOperator, acquisitionStatus } = acquisition || {};
 
+  // ===== Permissions ===== //
   const permission = usePermission();
 
   const changeAcquisition = permission.allows(permissions.USER_PROFILE.CHANGE_ACQUISITION);
@@ -77,8 +72,8 @@ const ClientAcquisitionStatus = (props: Props) => {
     if (changeAcquisition && availableToUpdate) {
       updateRepresentativeModal.show({
         isClient: true,
+        uuid,
         type: acquisitionType,
-        uuid: clientUuid,
         header: I18n.t('CLIENT_PROFILE.MODALS.REPRESENTATIVE_UPDATE.HEADER', {
           type: acquisitionType.toLowerCase(),
         }),
