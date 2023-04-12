@@ -108,7 +108,7 @@ class Table extends PureComponent {
     const { allColumns = [], children } = this.props;
     const allColumn = this.getChildrenLength(allColumns) > this.getChildrenLength(children) ? allColumns : children;
 
-    return this.getAvailableChildren(allColumn).map(({ props: { header } }) => header);
+    return this.getAvailableChildren(allColumn).map(({ props: { header, name } }) => header || name);
   };
 
   tableScrolling = (e) => {
@@ -125,21 +125,21 @@ class Table extends PureComponent {
    *
    * */
   mountListeners = () => {
-    const { initResizeObserver } = this.props;
+    const { initResizeObserver, withMultiSelect } = this.props;
     const allColumnsHeader = this.getAllColumnsHeader();
 
     this.scrollTableRef.current.addEventListener('scroll', this.tableScrolling);
     this.tableFixedRef.current.addEventListener('scroll', this.headerScrolling);
-    initResizeObserver(allColumnsHeader, this.headTrRef?.current?.children);
+    initResizeObserver(allColumnsHeader, this.headTrRef?.current?.children, withMultiSelect);
 
     this.setState({ firstRenderHead: true });
   };
 
   remountResizeObserver = () => {
-    const { reopenResizeObserver } = this.props;
+    const { reopenResizeObserver, withMultiSelect } = this.props;
     const allColumnsHeader = this.getAllColumnsHeader();
 
-    reopenResizeObserver(allColumnsHeader, this.headTrRef?.current?.children);
+    reopenResizeObserver(allColumnsHeader, this.headTrRef?.current?.children, withMultiSelect);
   };
 
   /**

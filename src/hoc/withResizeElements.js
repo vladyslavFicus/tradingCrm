@@ -7,20 +7,22 @@ export default function WithResize(InnerComponent) {
       availableSizes: [],
     };
 
-    initResizeObserver = (columnsName, elements) => {
+    initResizeObserver = (columnsName, elements, withMultiSelect) => {
+      const withIndex = withMultiSelect ? 1 : 0;
       const firstColumns = columnsName.map((item) => {
-        const header = item.toUpperCase();
+        const header = (item || '').toUpperCase();
 
         return { header, size: null };
       });
+
       this.setState({ columns: firstColumns });
 
       this.resizeObserver = new ResizeObserver((entries) => {
         const { columns } = this.state;
         const availableElements = [];
 
-        const newColumns = columns.map(({ header, size }) => {
-          const oneEntry = entries.find(item => item?.target?.innerText === header);
+        const newColumns = columns.map(({ header, size }, idx) => {
+          const oneEntry = entries.find(item => item?.target?.cellIndex - withIndex === idx);
 
           if (oneEntry) {
             const { borderBoxSize: [{ inlineSize }] } = oneEntry;
@@ -29,8 +31,10 @@ export default function WithResize(InnerComponent) {
 
             return { header, size: resultSize };
           }
+
           if (size && !oneEntry) {
             availableElements.push(size);
+
             return { header, size };
           }
 
@@ -45,10 +49,10 @@ export default function WithResize(InnerComponent) {
       });
     };
 
-    reopenResizeObserver = (columns, elements) => {
+    reopenResizeObserver = (columns, elements, withMultiSelect) => {
       this.resizeObserver.disconnect();
 
-      this.initResizeObserver(columns, elements);
+      this.initResizeObserver(columns, elements, withMultiSelect);
     };
 
     componentWillUnmount() {
