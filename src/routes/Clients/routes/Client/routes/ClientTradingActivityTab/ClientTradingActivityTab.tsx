@@ -64,7 +64,11 @@ const ClientTradingActivityTab = () => {
         className="ClientTradingActivityTab__header"
       />
 
-      <TradingActivityGridFilter profileUUID={profileUUID} onRefetch={refetch} />
+      <TradingActivityGridFilter
+        profileUUID={profileUUID}
+        loading={loading}
+        onRefetch={refetch}
+      />
 
       <TradingActivityGrid
         content={content}

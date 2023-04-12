@@ -35,11 +35,12 @@ type FormValues = {
 
 type Props = {
   profileUUID: string,
+  loading: boolean,
   onRefetch: () => void,
 };
 
 const TradingActivityGridFilter = (props: Props) => {
-  const { profileUUID, onRefetch } = props;
+  const { profileUUID, loading, onRefetch } = props;
 
   const { state } = useLocation<State<TradingActivityQueryVariables>>();
 
@@ -65,7 +66,10 @@ const TradingActivityGridFilter = (props: Props) => {
     history.replace({
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: {
+          ...decodeNullValues(values),
+          tradeType: values.tradeType || null,
+        },
       },
     });
   };
@@ -81,17 +85,18 @@ const TradingActivityGridFilter = (props: Props) => {
     resetForm();
   };
 
+  const tradeType = state?.filters && ('tradeType' in state.filters) ? state.filters.tradeType : 'LIVE';
 
   return (
     <Formik
       enableReinitialize
       initialValues={{
         ...state?.filters,
-        tradeType: state?.filters?.tradeType || 'LIVE',
+        tradeType,
       } as FormValues}
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, resetForm, dirty }) => (
+      {({ values, dirty, resetForm }) => (
         <Form className="TradingActivityGridFilter">
           <div className="TradingActivityGridFilter__fields">
             <Field
@@ -286,7 +291,7 @@ const TradingActivityGridFilter = (props: Props) => {
             <Button
               className="TradingActivityGridFilter__button"
               onClick={() => handleReset(resetForm)}
-              disabled={isSubmitting || !dirty}
+              disabled={loading || (!dirty && (Object.keys(values).length === 1 && values.tradeType === 'LIVE'))}
               primary
             >
               {I18n.t('COMMON.RESET')}
@@ -295,7 +300,7 @@ const TradingActivityGridFilter = (props: Props) => {
             <Button
               className="TradingActivityGridFilter__button"
               type="submit"
-              disabled={!dirty || isSubmitting || tradingAccountsLoading}
+              disabled={loading || !dirty || tradingAccountsLoading}
               primary
             >
               {I18n.t('COMMON.APPLY')}
