@@ -48,7 +48,7 @@ const MultiInput = (props: Props) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (!inputValue) return;
 
-    if (['Enter', 'Tab'].includes(event.code)) {
+    if ([13, 9].includes(event.which)) {
       event.preventDefault();
 
       // Сhecking for already existing value
