@@ -50,7 +50,7 @@ export default function WithResize(InnerComponent) {
     };
 
     reopenResizeObserver = (columns, elements, withMultiSelect) => {
-      this.resizeObserver.disconnect();
+      this.resizeObserver?.disconnect();
 
       this.initResizeObserver(columns, elements, withMultiSelect);
     };

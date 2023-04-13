@@ -77,6 +77,15 @@ class Table extends PureComponent {
     };
   }
 
+  componentDidMount() {
+    const { items, loading, initResizeObserver, withMultiSelect } = this.props;
+    const allColumnsHeader = this.getAllColumnsHeader();
+
+    if (!this.state.firstRenderHead && !loading && items.length && allColumnsHeader.length) {
+      initResizeObserver(allColumnsHeader, this.headTrRef?.current?.children, withMultiSelect);
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { children, items, loading } = this.props;
 
@@ -125,12 +134,12 @@ class Table extends PureComponent {
    *
    * */
   mountListeners = () => {
-    const { initResizeObserver, withMultiSelect } = this.props;
+    const { reopenResizeObserver, withMultiSelect } = this.props;
     const allColumnsHeader = this.getAllColumnsHeader();
 
     this.scrollTableRef.current.addEventListener('scroll', this.tableScrolling);
     this.tableFixedRef.current.addEventListener('scroll', this.headerScrolling);
-    initResizeObserver(allColumnsHeader, this.headTrRef?.current?.children, withMultiSelect);
+    reopenResizeObserver(allColumnsHeader, this.headTrRef?.current?.children, withMultiSelect);
 
     this.setState({ firstRenderHead: true });
   };
