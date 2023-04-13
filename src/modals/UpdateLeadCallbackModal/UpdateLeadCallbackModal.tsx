@@ -132,7 +132,13 @@ const UpdateLeadCallbackModal = (props: Props) => {
                 <ModalBody>
                   <div className="UpdateLeadCallbackModal__lead">
                     <div className="UpdateLeadCallbackModal__callback-id">
-                      {I18n.t('CALLBACKS.MODAL.CALLBACK_ID')}: <Uuid uuid={callbackId} uuidPrefix="CB" />
+                      {I18n.t('CALLBACKS.MODAL.CALLBACK_ID')}
+
+                      {': '}
+
+                      <If condition={!!callbackId}>
+                        <Uuid uuid={callbackId} uuidPrefix="CB" />
+                      </If>
                     </div>
 
                     <If condition={!!lead}>
@@ -142,7 +148,13 @@ const UpdateLeadCallbackModal = (props: Props) => {
                     </If>
 
                     <div className="UpdateLeadCallbackModal__lead-author">
-                      {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={operatorId} />
+                      {I18n.t('COMMON.AUTHOR_BY')}
+
+                      {' '}
+
+                      <If condition={!!operatorId}>
+                        <Uuid uuid={operatorId} />
+                      </If>
                     </div>
                   </div>
 
