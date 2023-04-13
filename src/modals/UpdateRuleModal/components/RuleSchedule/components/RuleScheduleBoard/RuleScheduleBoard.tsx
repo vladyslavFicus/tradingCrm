@@ -121,7 +121,7 @@ const RuleScheduleBoard = (props: Props) => {
                   )}
                   namePrefix={`${timeIntervalPrefix}.operatorSpreads`}
                   disabled={isSubmitting}
-                  percentageLimitError={timeIntervalError?.operatorSpreads === 'INVALID_PERCENTAGE'}
+                  validationError={timeIntervalError?.operatorSpreads}
                 />
 
                 <RemoveTimeIntervalButton

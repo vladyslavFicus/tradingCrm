@@ -150,7 +150,7 @@ const RuleSettings = (props: Props) => {
           removeOperatorSpread={removeOperatorSpread}
           namePrefix="operatorSpreads"
           disabled={isSubmitting}
-          percentageLimitError={errors.operatorSpreads === 'INVALID_PERCENTAGE'}
+          validationError={errors.operatorSpreads as string}
         />
       </If>
     </div>

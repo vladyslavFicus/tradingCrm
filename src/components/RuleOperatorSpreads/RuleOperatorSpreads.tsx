@@ -1,6 +1,5 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import classNames from 'classnames';
 import { Field, FieldArray } from 'formik';
 import { attributeLabels } from 'constants/ruleModal';
 import { Operator, RuleOperatorSpread__Input as RuleOperatorSpread } from '__generated__/types';
@@ -9,6 +8,7 @@ import {
   FormikSelectField,
 } from 'components/Formik';
 import { TrashButton } from 'components/Buttons';
+import { validationErrors } from './constants';
 import './RuleOperatorSpreads.scss';
 
 /**
@@ -22,7 +22,7 @@ type Props = {
   operatorSpreads: Array<RuleOperatorSpread>,
   namePrefix: string,
   disabled: boolean,
-  percentageLimitError?: boolean,
+  validationError?: string,
   removeOperatorSpread: (index: number) => void,
 };
 
@@ -32,11 +32,12 @@ const RuleOperatorSpreads = (props: Props) => {
     operatorSpreads,
     namePrefix,
     disabled,
-    percentageLimitError,
+    validationError,
     removeOperatorSpread,
   } = props;
 
   const selectedOperators = operatorSpreads.map(({ parentUser }) => parentUser);
+  const error = validationError && validationErrors[validationError] && I18n.t(validationErrors[validationError]);
 
   return (
     <div className="row">
@@ -77,11 +78,6 @@ const RuleOperatorSpreads = (props: Props) => {
                   placeholder={index === 0 ? '100%' : '0%'}
                   disabled={disabled || !operatorSpreads[index]}
                   component={FormikInputField}
-                  className={
-                    classNames({
-                      'input--has-error': percentageLimitError,
-                    })
-                  }
                 />
 
                 <If condition={operatorSpreads?.length !== index}>
@@ -96,9 +92,9 @@ const RuleOperatorSpreads = (props: Props) => {
         )}
       />
 
-      <If condition={!!percentageLimitError}>
-        <div className="RuleOperatorSpreads__percentage-error">
-          {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.PERCENTAGE_LIMIT_ERROR')}
+      <If condition={!!error}>
+        <div className="RuleOperatorSpreads__validation-error">
+          {error}
         </div>
       </If>
     </div>

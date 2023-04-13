@@ -108,6 +108,15 @@ const getTimeIntervalsErrors = (timeIntervals: Array<RuleTimeInterval>, schedule
   const timeIntervalsErrors = scheduleErrors?.timeIntervals as Array<TimeIntervalError> || [];
 
   timeIntervals.forEach(({ operatorSpreads, timeFrom, timeTo }, timeIntervalIndex) => {
+    if (!operatorSpreads.length) {
+      timeIntervalsErrors[timeIntervalIndex] = {
+        ...timeIntervalsErrors[timeIntervalIndex],
+        // the error of timeInterval is set into operatorSpreads field because of this way
+        // at least one operator is required
+        operatorSpreads: 'REQUIRED',
+      };
+    }
+
     // there makes sense to do intersection validation only if the current time range is valid
     const timeRangeError = validateTimeRange({ timeFrom, timeTo })
       || validateTimeRangeIntersection({ timeFrom, timeTo }, timeIntervalIndex, timeIntervals);
