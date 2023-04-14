@@ -10,7 +10,7 @@ import {
   FormikInputField,
   FormikCheckbox,
 } from 'components/Formik';
-import { baseUnits, MAX_MIGRATED_CLIENTS } from '../../constants';
+import { baseUnits } from '../../constants';
 import { FormValues } from '../../types';
 import { useBrandsQuery } from './graphql/__generated__/BrandsQuery';
 import { usePartnersQuery } from './graphql/__generated__/PartnersQuery';
@@ -113,20 +113,10 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
 
   // Quantity field validation
   const validateQuantity = (value: number) => {
-    const limitAmount = Math.min(totalTargetClientsAmount, MAX_MIGRATED_CLIENTS);
-    const limitAmountPercentage = Math.min(100, Math.floor(MAX_MIGRATED_CLIENTS / totalTargetClientsAmount * 100));
-
-    if (targetBrandConfig.distributionUnit.baseUnit === 'AMOUNT' && value > limitAmount) {
-      return I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_BY_PERCENTAGE', {
-        amount: limitAmount,
-        percentage: limitAmountPercentage,
-      });
-    }
-
-    if (targetBrandConfig.distributionUnit.baseUnit === 'PERCENTAGE' && value > limitAmountPercentage) {
-      return I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_BY_PERCENTAGE', {
-        amount: limitAmount,
-        percentage: limitAmountPercentage,
+    if ((targetBrandConfig.distributionUnit.baseUnit === 'AMOUNT' && value > totalTargetClientsAmount)
+      || (targetBrandConfig.distributionUnit.baseUnit === 'PERCENTAGE' && value > 100)) {
+      return I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.MAX_AVAILABLE_CLIENTS', {
+        max: totalTargetClientsAmount,
       });
     }
 

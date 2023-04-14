@@ -3719,7 +3719,7 @@
         "AUTO_OPERATOR": "Automatic operator",
         "SORT_METHOD": "Sort method",
         "AVAILABLE_CLIENTS_AMOUNT": "Maximum available %{value} clients",
-        "AVAILABLE_CLIENTS_BY_PERCENTAGE": "Maximum available %{amount} clients. You can choose only 10000 clients for migration (%{percentage}%)",
+        "MAX_AVAILABLE_CLIENTS": "Maximum available %{max} clients",
         "ABSOLUTE_CLIENTS_COUNT": "{{value}} clients chosen",
         "BRAND": "Brand",
         "QUANTITY": "Amount of clients",

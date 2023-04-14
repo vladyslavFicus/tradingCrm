@@ -13,7 +13,7 @@ import {
   FormikDateRangePicker,
 } from 'components/Formik';
 import countryList from 'utils/countryList';
-import { baseUnits, periodInDays, periodInHours, sortTypes, MAX_MIGRATED_CLIENTS } from '../../constants';
+import { baseUnits, periodInDays, periodInHours, sortTypes } from '../../constants';
 import { FormValues } from '../../types';
 import { useBrandsQuery } from './graphql/__generated__/BrandsQuery';
 import { useHierarchyBranchesQuery } from './graphql/__generated__/HierarchyBranchesQuery';
@@ -127,20 +127,10 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
 
   // Quantity field validation
   const validateQuantity = (value: number) => {
-    const limitAmount = Math.min(clientsAmount, MAX_MIGRATED_CLIENTS);
-    const limitAmountPercentage = Math.min(100, Math.floor(MAX_MIGRATED_CLIENTS / clientsAmount * 100));
-
-    if (sourceBrandConfig.distributionUnit.baseUnit === 'AMOUNT' && value > limitAmount) {
-      return I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_BY_PERCENTAGE', {
-        amount: limitAmount,
-        percentage: limitAmountPercentage,
-      });
-    }
-
-    if (sourceBrandConfig.distributionUnit.baseUnit === 'PERCENTAGE' && value > limitAmountPercentage) {
-      return I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AVAILABLE_CLIENTS_BY_PERCENTAGE', {
-        amount: limitAmount,
-        percentage: limitAmountPercentage,
+    if ((sourceBrandConfig.distributionUnit.baseUnit === 'AMOUNT' && value > clientsAmount)
+      || (sourceBrandConfig.distributionUnit.baseUnit === 'PERCENTAGE' && value > 100)) {
+      return I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.MAX_AVAILABLE_CLIENTS', {
+        max: clientsAmount,
       });
     }
 

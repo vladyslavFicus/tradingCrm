@@ -1,7 +1,5 @@
 import moment, { Moment } from 'moment';
 
-export const MAX_MIGRATED_CLIENTS = 10000;
-
 export const periodInHours: Array<{ label: string, value: number }> = [
   {
     label: 'CLIENTS_DISTRIBUTION.RULE.FILTERS.REGISTRATION_TIME.LAST_TWO_HOURS',
