@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
 import { withApollo } from '@apollo/client/react/hoc';
 import compose from 'compose-function';
-import { setBrand } from 'config';
+import { withModals } from 'hoc';
+import { getVersion, setBrand } from 'config';
 import IndexRoute from 'routes/IndexRoute';
 import { withStorage } from 'providers/StorageProvider';
 import PropTypes from 'constants/propTypes';
+import UpdateVersionModal from 'modals/UpdateVersionModal';
 
 class App extends PureComponent {
   static propTypes = {
@@ -15,11 +17,17 @@ class App extends PureComponent {
     brand: PropTypes.shape({
       id: PropTypes.string,
     }),
+    modals: PropTypes.shape({
+      updateVersionModal: PropTypes.modalType,
+    }).isRequired,
+    clientVersion: PropTypes.string,
+    ...withStorage.propTypes,
   };
 
   static defaultProps = {
     auth: null,
     brand: null,
+    clientVersion: '',
   };
 
   state = {
@@ -51,6 +59,26 @@ class App extends PureComponent {
     return null;
   }
 
+  checkClientVersion() {
+    const { storage, clientVersion, modals: { updateVersionModal } } = this.props;
+
+    const version = getVersion();
+
+    if (!clientVersion) {
+      storage.set(version);
+    }
+
+    if (clientVersion && clientVersion !== version) {
+      updateVersionModal.show({
+        newVersion: version,
+      });
+    }
+  }
+
+  componentDidMount() {
+    this.checkClientVersion();
+  }
+
   componentDidUpdate(prevProps) {
     // Force reload page in hidden tabs when brand was changed in another tab
     if (document.hidden && prevProps.brand?.id !== this.props.brand?.id) {
@@ -69,5 +97,6 @@ class App extends PureComponent {
 
 export default compose(
   withApollo,
-  withStorage(['auth', 'brand']),
+  withStorage(['auth', 'brand', 'clientVersion']),
+  withModals({ updateVersionModal: UpdateVersionModal }),
 )(App);
