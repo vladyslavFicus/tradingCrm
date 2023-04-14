@@ -65,7 +65,7 @@ class App extends PureComponent {
     const version = getVersion();
 
     if (!clientVersion) {
-      storage.set(version);
+      storage.set('clientVersion', version);
     }
 
     if (clientVersion && clientVersion !== version) {
