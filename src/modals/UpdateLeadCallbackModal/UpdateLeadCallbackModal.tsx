@@ -147,15 +147,15 @@ const UpdateLeadCallbackModal = (props: Props) => {
                       </div>
                     </If>
 
-                    <div className="UpdateLeadCallbackModal__lead-author">
-                      {I18n.t('COMMON.AUTHOR_BY')}
+                    <If condition={!!operatorId}>
+                      <div className="UpdateLeadCallbackModal__lead-author">
+                        {I18n.t('COMMON.AUTHOR_BY')}
 
-                      {' '}
+                        {' '}
 
-                      <If condition={!!operatorId}>
                         <Uuid uuid={operatorId} />
-                      </If>
-                    </div>
+                      </div>
+                    </If>
                   </div>
 
                   <Field

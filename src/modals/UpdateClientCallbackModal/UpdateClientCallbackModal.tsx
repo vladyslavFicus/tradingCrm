@@ -150,15 +150,15 @@ const UpdateClientCallbackModal = (props: Props) => {
                       </div>
                     </If>
 
-                    <div className="UpdateClientCallbackModal__client-author">
-                      {I18n.t('COMMON.AUTHOR_BY')}
+                    <If condition={!!operatorId}>
+                      <div className="UpdateClientCallbackModal__client-author">
+                        {I18n.t('COMMON.AUTHOR_BY')}
 
-                      {' '}
+                        {' '}
 
-                      <If condition={!!operatorId}>
                         <Uuid uuid={operatorId} />
-                      </If>
-                    </div>
+                      </div>
+                    </If>
                   </div>
 
                   <Field
