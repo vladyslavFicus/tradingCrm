@@ -38,6 +38,9 @@ const GroupsGrid = ({
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
+  // New confirmation instance is needed to show an error when archiving a group
+  // since the submit handle works after it is shown again and closes it
+  const confirmErrorModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const { loading, data: groupsListData, refetch } = groupsListQuery || {};
   const {
@@ -96,7 +99,7 @@ const GroupsGrid = ({
           ? I18n.t('TRADING_ENGINE.GROUP.GROUPS_HAS_ACTIVE_ACCOUNTS_AND_OPEN_ORDERS', { accountsCount, ordersCount })
           : I18n.t('TRADING_ENGINE.GROUP.GROUPS_HAS_ACTIVE_ACCOUNTS', { accountsCount });
 
-        confirmActionModal.show({
+        confirmErrorModal.show({
           actionText,
           modalTitle: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${enabled ? 'UNARCHIVE' : 'ARCHIVE'}`, { groupName }),
           submitButtonLabel: I18n.t('COMMON.YES'),
