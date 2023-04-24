@@ -19,7 +19,7 @@ export const routesPermissions: RoutesPermissions = {
   '/clients/:id/feed': [permissions.AUDIT.AUDIT_LOGS],
 
   // Clients: KYC documents
-  '/kyc-documents': [
+  '/clients/kyc-documents': [
     permissions.SIDEBAR.CLIENTS_KYC_DOCUMENTS,
     permissions.FILES.SEARCH_FILES,
   ],
