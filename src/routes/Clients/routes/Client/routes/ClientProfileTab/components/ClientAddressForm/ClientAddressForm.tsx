@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { parseErrors } from 'apollo';
@@ -38,6 +38,14 @@ const ClientAddressForm = (props: Props) => {
   const { profile } = props;
   const { countryCode, city, poBox, postCode, address } = profile.address || {};
 
+  const [clientAddress, setClientAddress] = useState<FormValues>({
+    countryCode: '',
+    city: '',
+    poBox: '',
+    postCode: '',
+    address: '',
+  });
+
   // ===== Permissions ===== //
   const permission = usePermission();
   const allowUpdateAddress = permission.allows(permissions.USER_PROFILE.UPDATE_ADDRESS);
@@ -54,6 +62,8 @@ const ClientAddressForm = (props: Props) => {
           ...decodeNullValues(values),
         },
       });
+
+      setClientAddress(values);
 
       notify({
         level: LevelType.SUCCESS,
@@ -75,12 +85,12 @@ const ClientAddressForm = (props: Props) => {
     <div className="ClientAddressForm">
       <Formik
         initialValues={{
-          countryCode: countryCode || '',
-          city: city || '',
-          poBox: poBox || '',
-          postCode: postCode || '',
-          address: address || '',
-        }}
+          countryCode: clientAddress.countryCode || countryCode,
+          city: clientAddress.city || city,
+          poBox: clientAddress.poBox || poBox,
+          postCode: clientAddress.postCode || postCode,
+          address: clientAddress.address || address,
+        } as FormValues}
         validate={createValidator({
           city: 'min:3',
           postCode: 'min:3',
