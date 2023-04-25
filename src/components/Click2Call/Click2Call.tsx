@@ -85,7 +85,7 @@ const Click2Call = (props: Props) => {
     arrow = 'top',
   } = props;
 
-  const configsQuery = useClickToCallConfigsQuery();
+  const configsQuery = useClickToCallConfigsQuery({ context: { batch: false } });
 
   const [didlogicCreateCall] = useDidLogicCreateCallMutation();
   const [newtelCreateCall] = useNewtelCreateCallMutation();
