@@ -56,10 +56,10 @@ const ClientContactsForm = (props: Props) => {
   const [isEmailShown, setIsEmailShown] = useState<boolean>(false);
   const [isAdditionalEmailShown, setIsAdditionalEmailShown] = useState<boolean>(false);
   const [profileContacts, setProfileContacts] = useState<FormValues>({
-    email: '',
-    phone: '',
-    additionalEmail: '',
-    additionalPhone: '',
+    email: null,
+    phone: null,
+    additionalEmail: null,
+    additionalPhone: null,
   });
 
   // ===== Permissions ===== //
@@ -111,7 +111,7 @@ const ClientContactsForm = (props: Props) => {
 
       setProfileContacts({
         ...profileContacts,
-        email: data?.profileContacts?.email || '',
+        email: data?.profileContacts?.email || null,
       });
 
       setIsEmailShown(true);
@@ -130,7 +130,7 @@ const ClientContactsForm = (props: Props) => {
 
       setProfileContacts({
         ...profileContacts,
-        additionalEmail: data?.profileContacts?.additionalEmail || '',
+        additionalEmail: data?.profileContacts?.additionalEmail || null,
       });
 
       setIsAdditionalEmailShown(true);
@@ -153,9 +153,9 @@ const ClientContactsForm = (props: Props) => {
 
       setProfileContacts({
         ...profileContacts,
-        additionalEmail: isAdditionalEmailShown ? (values.additionalEmail || profileContacts.additionalEmail) : '',
-        additionalPhone: isPhonesShown ? (values.additionalPhone || profileContacts.additionalPhone) : '',
-        phone: isPhonesShown ? (values.phone || profileContacts.phone) : '',
+        additionalEmail: isAdditionalEmailShown ? (values.additionalEmail || profileContacts.additionalEmail) : null,
+        additionalPhone: isPhonesShown ? (values.additionalPhone || profileContacts.additionalPhone) : null,
+        phone: isPhonesShown ? (values.phone || profileContacts.phone) : null,
       });
 
       notify({
