@@ -22,7 +22,10 @@ import { useDesksTeamsQuery } from './graphql/__generated__/DesksTeamsQuery';
 import { useAcquisitionStatusesQuery } from './graphql/__generated__/AcquisitionStatusesQuery';
 import { useBulkUpdateClientsAcquisitionMutation } from './graphql/__generated__/BulkUpdateClientsAcquisitionMutation';
 import { useBulkUpdateLeadsAcquisitionMutation } from './graphql/__generated__/BulkUpdateLeadsAcquisitionMutation';
-import { useUpdateAcquisitionMutation } from './graphql/__generated__/UpdateAcquisitionMutation';
+import {
+  useUpdateAcquisitionMutation,
+  UpdateAcquisitionMutationVariables,
+} from './graphql/__generated__/UpdateAcquisitionMutation';
 
 const attributeLabels = (type: string) => ({
   desk: `CLIENTS.MODALS.${type}_MODAL.DESK`,
@@ -132,12 +135,12 @@ const UpdateRepresentativeModal = (props: Props) => {
     const variables = {
       uuid: id,
       parentOperator,
-      salesStatus: type === AcquisitionStatusTypes.SALES ? status : null,
-      retentionStatus: type === AcquisitionStatusTypes.RETENTION ? status : null,
+      ...(type === AcquisitionStatusTypes.SALES && status && { salesStatus: status }),
+      ...(type === AcquisitionStatusTypes.RETENTION && status && { retentionStatus: status }),
     };
 
     try {
-      await updateAcquisitionMutation({ variables });
+      await updateAcquisitionMutation({ variables: variables as UpdateAcquisitionMutationVariables });
 
       notify({
         level: LevelType.SUCCESS,
