@@ -13,7 +13,6 @@ mutation UpdateClientContactsMutation(
       additionalPhone: $additionalPhone
       additionalEmail: $additionalEmail
     ) {
-      _id
       phoneVerified
       contacts {
       # add contacts fragment after rewriting all files to gql

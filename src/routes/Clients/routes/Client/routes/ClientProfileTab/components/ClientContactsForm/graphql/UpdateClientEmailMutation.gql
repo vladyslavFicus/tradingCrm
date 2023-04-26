@@ -7,7 +7,6 @@ mutation UpdateClientEmailMutation(
       playerUUID: $playerUUID
       email: $email
     ) {
-      _id
       contacts {
         email
       }

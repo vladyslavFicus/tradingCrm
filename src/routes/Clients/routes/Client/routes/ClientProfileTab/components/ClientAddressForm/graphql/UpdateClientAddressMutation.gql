@@ -18,6 +18,14 @@ mutation UpdateClientAddressMutation(
       address: $address
     ) {
       _id
+      address {
+        address
+        city
+        countryCode
+        poBox
+        postCode
+        state
+      }
     }
   }
 }
