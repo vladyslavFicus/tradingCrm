@@ -1,10 +1,13 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { useParams } from 'react-router-dom';
 import { getBrand } from 'config';
-import { Profile } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import TabHeader from 'components/TabHeader';
+import ShortLoader from 'components/ShortLoader/ShortLoader';
+import NotFound from 'routes/NotFound/NotFound';
+import { useClientQuery } from '../../graphql/__generated__/ClientQuery';
 import ClientPersonalForm from './components/ClientPersonalForm';
 import ClientAddressForm from './components/ClientAddressForm';
 import ClientKycForm from './components/ClientKycForm';
@@ -13,12 +16,12 @@ import ClientContactsForm from './components/ClientContactsForm';
 import AffiliateSettings from './components/AffiliateSettings';
 import './ClientProfileTab.scss';
 
-type Props = {
-  profile: Profile,
-};
+const ClientProfileTab = () => {
+  const { id: playerUUID } = useParams<{ id: string }>();
 
-const ClientProfileTab = (props: Props) => {
-  const { profile } = props;
+  // ===== Requests ===== //
+  const { data, loading } = useClientQuery({ variables: { playerUUID }, errorPolicy: 'all' });
+  const profile = data?.profile;
 
   const hasAffiliate = !!profile?.profileView?.affiliate;
   const showFtdToAffiliate = !!profile?.profileView?.affiliate?.ftd?.isVisible;
@@ -32,6 +35,14 @@ const ClientProfileTab = (props: Props) => {
     permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE,
     permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE,
   ]);
+
+  if (loading) {
+    return <ShortLoader />;
+  }
+
+  if (!profile) {
+    return <NotFound />;
+  }
 
   return (
     <div className="ClientProfileTab">

@@ -120,7 +120,7 @@ const Client = ({ match: { path, url } }: RouteComponentProps) => {
       <div className="Client__tab-content">
         <Suspense fallback={null}>
           <Switch>
-            <Route path={`${path}/profile`} component={() => <ClientProfileTab profile={profile} />} />
+            <Route path={`${path}/profile`} component={ClientProfileTab} />
             <Route path={`${path}/payments`} component={ClientPaymentsTab} />
             <Route path={`${path}/trading-activity`} component={ClientTradingActivityTab} />
             <Route path={`${path}/accounts`} component={ClientTradingAccountsTab} />
