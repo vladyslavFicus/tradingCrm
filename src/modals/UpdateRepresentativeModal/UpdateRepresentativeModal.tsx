@@ -134,7 +134,7 @@ const UpdateRepresentativeModal = (props: Props) => {
   const handleUpdateAcquisition = async (id: string, parentOperator: string, status: string) => {
     const variables = {
       uuid: id,
-      parentOperator,
+      ...(parentOperator && { parentOperator }),
       ...(type === AcquisitionStatusTypes.SALES && status && { salesStatus: status }),
       ...(type === AcquisitionStatusTypes.RETENTION && status && { retentionStatus: status }),
     };
