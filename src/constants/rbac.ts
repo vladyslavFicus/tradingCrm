@@ -1944,202 +1944,202 @@ const rback: Array<RbackItem> = [
   // ============================================= //
   // ============ Sidebar Menu =========== //
   // ============================================= //
-  {
-    id: 'sidebar-menu',
-    actions: {},
-    withoutImage: true,
-    permissions: [
-      {
-        id: 'clientsList',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.clientsList',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'clientsKycDocuments',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.clientsKycDocuments',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'clientsTradingAccounts',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.clientsTradingAccounts',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'clientsCallbacks',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.clientsCallbacks',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'leadsList',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.leadsList',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'leadsCallbacks',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.leadsCallbacks',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'hierarchy',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.hierarchy',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'managmentOffices',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.managmentOffices',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'managmentDesks',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.managmentDesks',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'managmentTeams',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.managmentTeams',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'managmentSalesRules',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.managmentSalesRules',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'managmentOperators',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.managmentOperators',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'managmentPartners',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.managmentPartners',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'documents',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.documents',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'payments',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.payments',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'notifications',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.notifications',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'clientsDistibution',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.clientsDistibution',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'ipWhitelist',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.ipWhitelist',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'settingsEmailTemplates',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.settingsEmailTemplates',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'settingsRbac',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.settingsRbac',
-            state: false,
-          },
-        },
-      },
-      {
-        id: 'settingsAcquisitionStatuses',
-        actions: {
-          view: {
-            action: 'backoffice-graphql.sidebar.settingsAcquisitionStatuses',
-            state: false,
-          },
-        },
-      },
-    ],
-  },
+  // {
+  //   id: 'sidebar-menu',
+  //   actions: {},
+  //   withoutImage: true,
+  //   permissions: [
+  //     {
+  //       id: 'clientsList',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.clientsList',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'clientsKycDocuments',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.clientsKycDocuments',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'clientsTradingAccounts',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.clientsTradingAccounts',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'clientsCallbacks',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.clientsCallbacks',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'leadsList',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.leadsList',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'leadsCallbacks',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.leadsCallbacks',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'hierarchy',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.hierarchy',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'managmentOffices',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.managmentOffices',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'managmentDesks',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.managmentDesks',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'managmentTeams',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.managmentTeams',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'managmentSalesRules',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.managmentSalesRules',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'managmentOperators',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.managmentOperators',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'managmentPartners',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.managmentPartners',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'documents',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.documents',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'payments',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.payments',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'notifications',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.notifications',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'clientsDistibution',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.clientsDistibution',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'ipWhitelist',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.ipWhitelist',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'settingsEmailTemplates',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.settingsEmailTemplates',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'settingsRbac',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.settingsRbac',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //     {
+  //       id: 'settingsAcquisitionStatuses',
+  //       actions: {
+  //         view: {
+  //           action: 'backoffice-graphql.sidebar.settingsAcquisitionStatuses',
+  //           state: false,
+  //         },
+  //       },
+  //     },
+  //   ],
+  // },
 ];
 
 export default rback;
