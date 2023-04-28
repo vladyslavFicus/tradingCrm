@@ -137,7 +137,8 @@ const CreatePaymentModal = (props: Props) => {
     accountUUID,
     amount,
   }: PaymentValues) => {
-    if (paymentType === 'WITHDRAW' && accountUUID && amount && tradingAccounts?.length) {
+    if ([paymentTypes.WITHDRAW.name, paymentTypes.COMMISSION.name]
+      .includes(paymentType) && accountUUID && amount && tradingAccounts?.length) {
       const tradingAccount = tradingAccounts.find(account => account?.accountUUID === accountUUID);
 
       return tradingAccount?.balance as number >= amount;
@@ -293,7 +294,9 @@ const CreatePaymentModal = (props: Props) => {
                           />
                         </When>
 
-                        <When condition={paymentType === paymentTypes.CREDIT_OUT.name}>
+                        <When
+                          condition={[paymentTypes.CREDIT_OUT.name, paymentTypes.COMMISSION.name].includes(paymentType)}
+                        >
                           <AccountsSelectField
                             className="CreatePaymentModal__field"
                             name="accountUUID"

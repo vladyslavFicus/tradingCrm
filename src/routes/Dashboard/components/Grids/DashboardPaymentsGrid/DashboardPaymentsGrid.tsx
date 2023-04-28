@@ -157,6 +157,7 @@ const DashboardPaymentsGrid = (props: Props) => {
             'DashboardPaymentsGrid__type--transfer-out': paymentType === tradingTypes.TRANSFER_OUT,
             'DashboardPaymentsGrid__type--credit-in': paymentType === tradingTypes.CREDIT_IN,
             'DashboardPaymentsGrid__type--credit-out': paymentType === tradingTypes.CREDIT_OUT,
+            'DashboardPaymentsGrid__type--commission': paymentType === tradingTypes.COMMISSION,
           },
         )}
       >

@@ -23,6 +23,7 @@ const validation = (values: PaymentValues, tradingAccounts: Array<TradingAccount
   if ([
     paymentTypes.WITHDRAW.name,
     paymentTypes.TRANSFER.name,
+    paymentTypes.COMMISSION.name,
   ].includes(paymentType)
       && currentLogin
       && amount

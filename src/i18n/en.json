@@ -864,7 +864,8 @@
       "TRANSFER_OUT": "Transfer Out",
       "CREDIT_IN": "Credit in",
       "CREDIT_OUT": "Credit out",
-      "TRANSFER": "Transfer"
+      "TRANSFER": "Transfer",
+      "COMMISSION": "Commission"
     },
     "PAYMENT_STATUS": {
       "PENDING": "Pending",
@@ -5895,6 +5896,7 @@
           "payment-withdraw": "Make withdraw transaction",
           "payment-creditIn": "Make credit in transaction",
           "payment-creditOut": "Make credit out transaction",
+          "payment-commission": "Make commission transaction",
           "payment-transfer": "Make transfer transaction",
           "payment-approve": "Approve payment",
           "payment-reject": "Reject payment",

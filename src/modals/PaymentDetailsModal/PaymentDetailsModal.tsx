@@ -376,6 +376,7 @@ const PaymentDetailsModal = (props: Props) => {
                   onSuccess={onSuccess}
                   paymentId={paymentId}
                   onCloseModal={onCloseModal}
+                  paymentType={paymentType}
                 />
               </div>
             </If>

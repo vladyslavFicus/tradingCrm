@@ -339,6 +339,16 @@ const rback: Array<RbackItem> = [
           },
         },
       },
+      // Make commission transaction
+      {
+        id: 'payment-commission',
+        actions: {
+          edit: {
+            action: 'payment.commission',
+            state: false,
+          },
+        },
+      },
       // Make transfer transaction
       {
         id: 'payment-transfer',

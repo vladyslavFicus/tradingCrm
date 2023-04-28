@@ -3,14 +3,14 @@
     font-size: 11px;
     color: var(--text-primary);
   }
-  
+
   &__header-block-middle {
     font-size: 13px;
     font-weight: 700;
     line-height: normal;
     color: var(--text-primary);
   }
-  
+
   &__partner {
     font-size: 13px;
     font-weight: 700;
@@ -21,7 +21,7 @@
   &__payment-method {
     color: var(--state-colors-warning);
   }
-  
+
   &__text-primary {
     font-weight: 700;
     color: var(--text-primary);
@@ -35,7 +35,7 @@
   &__upper {
     text-transform: uppercase
   }
-  
+
   &__type {
     &--deposit,
     &--demo-deposit,
@@ -44,6 +44,7 @@
     }
 
     &--withdraw,
+    &--commission,
     &--inactivity-fee {
       color: var(--state-colors-danger);
     }
