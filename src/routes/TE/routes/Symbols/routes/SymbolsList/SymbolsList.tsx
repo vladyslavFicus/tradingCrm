@@ -39,6 +39,9 @@ const SymbolsList = ({
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
+  // New confirmation instance is needed to show an error when archiving a group
+  // since the submit handle works after it is shown again and closes it
+  const confirmErrorModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   const symbolsQuery = useSymbolsQuery({
     variables: {
@@ -85,7 +88,7 @@ const SymbolsList = ({
       const error = parseErrors(e);
 
       if (error.error === 'error.symbol.has.opened.orders') {
-        confirmActionModal.show({
+        confirmErrorModal.show({
           onSubmit: () => handleDeleteSymbol(symbolName, true),
           modalTitle: I18n.t('TRADING_ENGINE.SYMBOL.CONFIRMATION.DELETE.TITLE'),
           actionText: I18n.t('TRADING_ENGINE.SYMBOL.CONFIRMATION.DELETE.DESCRIPTION_DELETE_SYMBOL',
