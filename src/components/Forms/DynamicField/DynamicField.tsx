@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { get } from 'lodash';
 import { useLocation } from 'react-router-dom';
 import { Field } from 'formik';
@@ -27,10 +27,11 @@ type Props = {
     from: string,
     to: string,
   },
+  onFetch?: () => void,
 };
 
 const DynamicField = (props: Props) => {
-  const { name } = props;
+  const { name, onFetch } = props;
 
   const { state } = useLocation<State>();
 
@@ -39,6 +40,12 @@ const DynamicField = (props: Props) => {
 
     return !!get(state?.filters, fieldName) || state?.filtersFields?.includes(fieldName);
   }, [state?.filters, state?.filtersFields]);
+
+  useEffect(() => {
+    if (shouldFieldRender && onFetch) {
+      onFetch();
+    }
+  }, [shouldFieldRender]);
 
   return (
     <If condition={!!shouldFieldRender}>

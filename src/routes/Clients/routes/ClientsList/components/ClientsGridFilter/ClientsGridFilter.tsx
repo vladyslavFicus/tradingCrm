@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import compose from 'compose-function';
 import { intersection, sortBy } from 'lodash';
@@ -99,32 +99,25 @@ const ClientsGridFilter = (props:Props) => {
     data: acquisitionStatusesData, loading: isAcquisitionStatusesLoading,
   }] = useAcquisitionStatusesQueryLazyQuery({ variables: { brandId: getBrand().id } });
 
-  const isFetchPartnersQuery = useMemo(() => (
-    state?.filtersFields?.includes('affiliateUuids') && !partnersData
-  ), [state?.filtersFields, partnersData]);
+  // For field affiliateUuids
+  const handleFetchPartners = () => {
+    if (!partnersData) getPartnersQuery();
+  };
 
-  const isFetchOperatorsQuery = useMemo(() => (
-    ['salesOperators', 'operators', 'retentionOperators'].some(
-      field => state?.filtersFields?.includes(field),
-    ) && !operatorsData
-  ), [state?.filtersFields, operatorsData]);
+  // For fields salesOperators, operators, retentionOperators
+  const handleFetchOperators = () => {
+    if (!operatorsData) getOperatorsQuery();
+  };
 
-  const isFetchDesksAndTeamsQuery = useMemo(() => (
-    ['desks', 'teams'].some(field => state?.filtersFields?.includes(field)) && !desksAndTeamsData
-  ), [state?.filtersFields, desksAndTeamsData]);
+  // For fields desks, teams
+  const handleFetchDesksAndTeamsQuery = () => {
+    if (!desksAndTeamsData) getDesksAndTeamsQuery();
+  };
 
-  const isFetchAcquisitionStatusesQuery = useMemo(() => (
-    ['salesStatuses', 'retentionStatuses'].some(
-      field => state?.filtersFields?.includes(field),
-    ) && !acquisitionStatusesData
-  ), [state?.filtersFields, acquisitionStatusesData]);
-
-  useEffect(() => {
-    if (isFetchPartnersQuery) getPartnersQuery();
-    if (isFetchOperatorsQuery) getOperatorsQuery();
-    if (isFetchDesksAndTeamsQuery) getDesksAndTeamsQuery();
-    if (isFetchAcquisitionStatusesQuery) getAcquisitionStatusesQuery();
-  });
+  // For fields salesStatuses, retentionStatuses
+  const handleFetchAcquisitionStatuses = () => {
+    if (!acquisitionStatusesData) getAcquisitionStatusesQuery();
+  };
 
   const operators = operatorsData?.operators?.content || [];
 
@@ -458,6 +451,7 @@ const ClientsGridFilter = (props:Props) => {
                       }
                     component={FormikSelectField}
                     disabled={isDesksAndTeamsLoading || !desksOptions.length}
+                    onFetch={handleFetchDesksAndTeamsQuery}
                     searchable
                     withFocus
                     multiple
@@ -480,6 +474,7 @@ const ClientsGridFilter = (props:Props) => {
                       }
                     component={FormikSelectField}
                     disabled={isDesksAndTeamsLoading || !teamsOptions.length}
+                    onFetch={handleFetchDesksAndTeamsQuery}
                     searchable
                     withFocus
                     multiple
@@ -502,6 +497,7 @@ const ClientsGridFilter = (props:Props) => {
                       }
                     component={FormikSelectField}
                     disabled={isOperatorsLoading || !operatorsOptions.length}
+                    onFetch={handleFetchOperators}
                     searchable
                     withFocus
                     multiple
@@ -533,6 +529,7 @@ const ClientsGridFilter = (props:Props) => {
                       }
                     component={FormikSelectField}
                     disabled={isOperatorsLoading || !salesOperatorsOptions.length}
+                    onFetch={handleFetchOperators}
                     searchable
                     withFocus
                     multiple
@@ -564,6 +561,7 @@ const ClientsGridFilter = (props:Props) => {
                       }
                     component={FormikSelectField}
                     disabled={isOperatorsLoading || !retentionOperatorsOptions.length}
+                    onFetch={handleFetchOperators}
                     searchable
                     withFocus
                     multiple
@@ -596,6 +594,7 @@ const ClientsGridFilter = (props:Props) => {
                         }
                       component={FormikSelectField}
                       disabled={isPartnersLoading || !partners.length}
+                      onFetch={handleFetchPartners}
                       searchable
                       withFocus
                       multiple
@@ -708,6 +707,7 @@ const ClientsGridFilter = (props:Props) => {
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
                     disabled={isAcquisitionStatusesLoading}
+                    onFetch={handleFetchAcquisitionStatuses}
                     searchable
                     withFocus
                     multiple
@@ -726,6 +726,7 @@ const ClientsGridFilter = (props:Props) => {
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
                     disabled={isAcquisitionStatusesLoading}
+                    onFetch={handleFetchAcquisitionStatuses}
                     searchable
                     withFocus
                     multiple
