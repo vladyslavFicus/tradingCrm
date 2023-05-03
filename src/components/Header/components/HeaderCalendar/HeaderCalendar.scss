@@ -1,16 +1,10 @@
 .HeaderCalendar {
-  display: inline-block;
-  vertical-align: top;
-
-  &__head {
+  &__button {
     background-color: transparent;
     color: var(--navigation-secondary-color);
     font-size: 18px;
-    line-height: 50px;
     text-align: center;
     transition: color 0.2s ease;
-    height: 49px;
-    width: 40px;
 
     &:hover {
       color: var(--navigation-primary-color);
