@@ -23,8 +23,21 @@
     margin-left: 15px;
     font-weight: 600;
     font-size: 15px;
-    line-height: 40px;
     color: var(--text-tertiary);
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__full-day {
+    margin: 5px 0 10px;
+    line-height: 20px;
+    color: var(--accent);
+    border-bottom: 1px dashed var(--accent);
+
+    &:hover {
+      cursor: pointer;
+      border-bottom-color: transparent;
+    }
   }
 
   &__error {

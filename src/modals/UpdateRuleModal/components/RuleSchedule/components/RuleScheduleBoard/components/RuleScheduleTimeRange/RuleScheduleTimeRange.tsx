@@ -20,6 +20,12 @@ const RuleScheduleTimeRange = (props: Props) => {
     setFieldValue,
   } = props;
 
+  // ===== Handlers ===== //
+  const handleSetFullDay = () => {
+    setFieldValue(`${namePrefix}.timeFrom`, '00:00');
+    setFieldValue(`${namePrefix}.timeTo`, '23:59');
+  };
+
   return (
     <div className="RuleScheduleTimeRange">
       <div className="RuleScheduleTimeRange__counts">
@@ -39,6 +45,13 @@ const RuleScheduleTimeRange = (props: Props) => {
 
         <div className="RuleScheduleTimeRange__unit">
           ({I18n.t('RULE_MODAL.SCHEDULE.FILTERS.TIME_UNIT')})
+
+          <span
+            className="RuleScheduleTimeRange__full-day"
+            onClick={handleSetFullDay}
+          >
+            {I18n.t('RULE_MODAL.SCHEDULE.FILTERS.SET_FULL_DAY')}
+          </span>
         </div>
       </div>
 

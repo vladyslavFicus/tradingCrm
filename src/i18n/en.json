@@ -5789,7 +5789,8 @@
         },
         "TIME_FROM": "Time from:",
         "TIME_TO": "Time to:",
-        "TIME_UNIT": "UTC time"
+        "TIME_UNIT": "UTC time",
+        "SET_FULL_DAY": "Set full day"
       },
       "ADD_SCHEDULE_BUTTON": "+ ADD SHEDULE",
       "ADD_TIME_INTERVAL_BUTTON": "Add Time Interval",
@@ -5797,7 +5798,7 @@
         "DAY_IS_REQUIRED": "At least one day is required",
         "OPERATOR_IS_REQUIRED": "At least one operator is required",
         "TIME_RANGE": {
-          "INVALID_VALUE": "Time from should be earlier time to",
+          "INVALID_VALUE": "Time from should be earlier time to (00:00 - 23:59)",
           "INTERSECTION": "Time intervals should not intersect"
         }
       }
