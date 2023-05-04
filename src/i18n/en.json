@@ -1493,7 +1493,7 @@
       "REFERRAL": "Referral",
       "ACTIVE": "Active",
       "CALLBACK_NA": "Callback NA",
-      "MESSAGER": "Messager"
+      "MESSENGER": "MESSENGER"
     },
     "RETENTION_STATUSES": {
       "NEW": "New",
