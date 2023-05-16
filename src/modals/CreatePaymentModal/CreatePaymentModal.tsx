@@ -71,7 +71,7 @@ const CreatePaymentModal = (props: Props) => {
 
   const resolvePaymentSystemValue = (paymentSystem: string, paymentSystemName: string): string => {
     const isOtherPaymentSystem = paymentSystem === 'OTHER';
-    
+
     return isOtherPaymentSystem ? `Other (${paymentSystemName})` : paymentSystem;
   };
 
