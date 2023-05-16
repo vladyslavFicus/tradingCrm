@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import I18n from 'i18n-js';
-import { Formik, Form, Field } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import { createValidator } from 'utils/validator';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { FormikSelectField } from 'components/Formik';
+import { LevelType, notify } from 'providers/NotificationProvider';
+import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/Buttons';
+import { SetFieldValue } from 'types/formik';
 import { usePaymentSystemQuery } from './graphql/__generated__/PaymentSystemsQuery';
 import { useUpdatePaymentSystemMutation } from './graphql/__generated__/UpdatePaymentSystemMutation';
 import './ChangePaymentSystemForm.scss';
 
 type FormValues = {
   paymentSystem: string,
+  paymentSystemName: string,
 };
 
 type Props = {
@@ -20,15 +22,27 @@ type Props = {
 
 const ChangePaymentSystemForm = (props: Props) => {
   const { paymentId, onSuccess } = props;
+  const [isOtherSelected, setIsOtherSelected] = useState<boolean>(false);
 
   const { data, loading } = usePaymentSystemQuery();
   const paymentSystems = data?.paymentSystems || [];
 
   const [updatePaymentSystemMutation] = useUpdatePaymentSystemMutation();
 
-  const handleSubmit = async ({ paymentSystem }: FormValues) => {
+  const onChangePaymentSystem = (value: string, setFieldValue: SetFieldValue<FormValues>) => {
+    setFieldValue('paymentSystem', value);
+    setIsOtherSelected(value === 'UNDEFINED');
+  };
+
+  const resolvePaymentSystemValue = (paymentSystem: string, paymentSystemName: string): string => {
+    const isOtherPaymentSystem = paymentSystem === 'UNDEFINED';
+    return isOtherPaymentSystem ? `Other (${paymentSystemName})` : paymentSystem;
+  };
+
+  const handleSubmit = async ({ paymentSystem, paymentSystemName }: FormValues) => {
     try {
-      await updatePaymentSystemMutation({ variables: { paymentId, paymentSystem } });
+      const paymentSystemValue = resolvePaymentSystemValue(paymentSystem, paymentSystemName);
+      await updatePaymentSystemMutation({ variables: { paymentId, paymentSystem: paymentSystemValue } });
 
       notify({
         level: LevelType.SUCCESS,
@@ -50,19 +64,22 @@ const ChangePaymentSystemForm = (props: Props) => {
     <Formik
       initialValues={{
         paymentSystem: '',
+        paymentSystemName: '',
       }}
       validate={
-          createValidator({
-            paymentSystem: ['string'],
-          }, {
-            paymentSystem: I18n.t('PAYMENT_DETAILS_MODAL.PAYMENT_SYSTEM'),
-          }, false)
-        }
+        createValidator({
+          paymentSystem: ['string'],
+          paymentSystemName: ['string'],
+        }, {
+          paymentSystem: I18n.t('PAYMENT_DETAILS_MODAL.PAYMENT_SYSTEM'),
+          paymentSystemName: I18n.t('PAYMENT_DETAILS_MODAL.PAYMENT_SYSTEM_NAME'),
+        }, false)
+      }
       validateOnBlur={false}
       validateOnChange={false}
       onSubmit={handleSubmit}
     >
-      {({ dirty, isSubmitting }) => (
+      {({ dirty, isSubmitting, setFieldValue }) => (
         <Form className="ChangePaymentSystemForm">
           <div className="ChangePaymentSystemForm__fields">
             <Field
@@ -72,6 +89,7 @@ const ChangePaymentSystemForm = (props: Props) => {
               placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
               component={FormikSelectField}
               disabled={loading}
+              customOnChange={(value: string) => onChangePaymentSystem(value, setFieldValue)}
             >
               {[
                 <option key="NONE" value="NONE">{I18n.t('COMMON.NONE')}</option>,
@@ -83,6 +101,15 @@ const ChangePaymentSystemForm = (props: Props) => {
                 <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
               ]}
             </Field>
+
+            <If condition={!!isOtherSelected}>
+              <Field
+                name="paymentSystemName"
+                className="ChangePaymentSystemForm__field"
+                label={I18n.t('PAYMENT_DETAILS_MODAL.PAYMENT_SYSTEM_NAME')}
+                component={FormikInputField}
+              />
+            </If>
           </div>
 
           <div className="ChangePaymentSystemForm__buttons">

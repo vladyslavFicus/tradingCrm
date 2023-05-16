@@ -31,6 +31,12 @@ export type Props = {
   onSuccess: () => void,
 };
 
+type WithPaymentSystemName = {
+  paymentSystemName: string | undefined,
+};
+
+type SubmitValues = PaymentValues & WithPaymentSystemName;
+
 const CreatePaymentModal = (props: Props) => {
   const {
     profile: {
@@ -63,9 +69,16 @@ const CreatePaymentModal = (props: Props) => {
     }
   };
 
-  const onSubmit = async (data: PaymentValues) => {
+  const resolvePaymentSystemValue = (paymentSystem: string, paymentSystemName: string): string => {
+    const isOtherPaymentSystem = paymentSystem === 'OTHER';
+    
+    return isOtherPaymentSystem ? `Other (${paymentSystemName})` : paymentSystem;
+  };
+
+  const onSubmit = async (data: SubmitValues) => {
     const variables = {
       ...data as CreatePaymentMutationVariables,
+      paymentSystem: resolvePaymentSystemValue(data.paymentSystem || '', data.paymentSystemName || ''),
       profileUUID: uuid,
     };
 
@@ -159,7 +172,7 @@ const CreatePaymentModal = (props: Props) => {
   return (
     <Modal contentClassName="CreatePaymentModal" toggle={onCloseModal} isOpen>
       <Formik
-        initialValues={{} as PaymentValues}
+        initialValues={{} as SubmitValues}
         validate={values => validation(values, tradingAccounts as Array<TradingAccount>)}
         onSubmit={onSubmit}
       >
@@ -168,7 +181,7 @@ const CreatePaymentModal = (props: Props) => {
           dirty,
           isValid,
           values,
-          values: { paymentType },
+          values: { paymentType, paymentSystem },
           setFieldValue,
           resetForm,
         }) => {
@@ -176,6 +189,11 @@ const CreatePaymentModal = (props: Props) => {
           const paymentMethods = paymentType === paymentTypes.CREDIT_IN.name
             ? ['REFERRAL_BONUS', 'INTERNAL_TRANSFER']
             : manualMethods;
+
+          const isPaymentSystemVisible = paymentType === 'DEPOSIT'
+            && ['CHARGEBACK', 'CREDIT_CARD', 'RECALL', 'WIRE'].includes(values?.paymentMethod as string);
+
+          const isPaymentSystemNameVisible = isPaymentSystemVisible && paymentSystem === 'OTHER';
 
           return (
             <Form>
@@ -234,7 +252,7 @@ const CreatePaymentModal = (props: Props) => {
                                 {manualPaymentMethodsLabels[item as manualPaymentMethods]
                                   ? I18n.t(manualPaymentMethodsLabels[item as manualPaymentMethods])
                                   : item
-                                  }
+                                }
                               </option>
                             ))}
                           </Field>
@@ -308,11 +326,7 @@ const CreatePaymentModal = (props: Props) => {
                       </Choose>
                     </div>
 
-                    <If condition={
-                        paymentType === 'DEPOSIT'
-                        && ['CHARGEBACK', 'CREDIT_CARD', 'RECALL', 'WIRE'].includes(values?.paymentMethod as string)
-                      }
-                    >
+                    <If condition={isPaymentSystemVisible}>
                       <div className="CreatePaymentModal__row">
                         <Field
                           name="paymentSystem"
@@ -324,14 +338,26 @@ const CreatePaymentModal = (props: Props) => {
                         >
                           {[
                             <option key="NONE" value="NONE">{I18n.t('COMMON.NONE')}</option>,
-                            ...paymentSystems.map(({ paymentSystem }) => (
-                              <option key={paymentSystem} value={paymentSystem}>
-                                {paymentSystem}
+                            ...paymentSystems.map(({ paymentSystem: system }) => (
+                              <option key={system} value={system}>
+                                {system}
                               </option>
                             )),
                             <option key="OTHER" value="OTHER">{I18n.t('COMMON.OTHER')}</option>,
                           ]}
                         </Field>
+                      </div>
+                    </If>
+
+                    <If condition={isPaymentSystemNameVisible}>
+                      <div className="CreatePaymentModal__row">
+                        <Field
+                          name="paymentSystemName"
+                          label={attributeLabels.paymentSystemName}
+                          className="CreatePaymentModal__field"
+                          component={FormikInputField}
+                          disabled={paymentSystemsLoading}
+                        />
                       </div>
                     </If>
 
