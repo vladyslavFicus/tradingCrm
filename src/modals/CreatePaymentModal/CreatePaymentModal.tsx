@@ -150,8 +150,7 @@ const CreatePaymentModal = (props: Props) => {
     accountUUID,
     amount,
   }: PaymentValues) => {
-    if ([paymentTypes.WITHDRAW.name, paymentTypes.COMMISSION.name]
-      .includes(paymentType) && accountUUID && amount && tradingAccounts?.length) {
+    if (paymentType === 'WITHDRAW' && accountUUID && amount && tradingAccounts?.length) {
       const tradingAccount = tradingAccounts.find(account => account?.accountUUID === accountUUID);
 
       return tradingAccount?.balance as number >= amount;

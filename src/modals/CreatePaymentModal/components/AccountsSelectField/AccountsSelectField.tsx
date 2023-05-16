@@ -47,7 +47,7 @@ const AccountsSelectField = (props: Props) => {
 
     const isInsufficientBalance = (
       account.balance < amount
-      && [paymentTypes.WITHDRAW.name, paymentTypes.TRANSFER.name, paymentTypes.COMMISSION.name].includes(paymentType)
+      && [paymentTypes.WITHDRAW.name, paymentTypes.TRANSFER.name].includes(paymentType)
       && name !== 'target'
     );
 
