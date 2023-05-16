@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import compose from 'compose-function';
 import { Switch, Redirect } from 'react-router-dom';
 import Helmet from 'react-helmet';
@@ -50,13 +50,15 @@ type Props = {
 const IndexRoute = (props: Props) => {
   const { token, auth } = props;
 
+  const favicon = useMemo(() => (getCrmBrandStaticFileUrl('assets/favicon.ico')), []);
+
   return (
     <CoreLayout>
       <Helmet
         titleTemplate={`${getBackofficeBrand().id.toUpperCase()} | %s`}
         defaultTitle={getBackofficeBrand().id.toUpperCase()}
         link={[
-          { rel: 'shortcut icon', href: getCrmBrandStaticFileUrl('assets/favicon.ico') },
+          { rel: 'shortcut icon', href: favicon },
         ]}
       />
 

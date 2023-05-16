@@ -41,7 +41,7 @@ const AccountProfile = (props: Props) => {
   useEffect(() => {
     // Save last opened account to storage to open it later by request
     props.storage.set('TE.lastOpenedAccountUuid', id);
-  });
+  }, []);
 
   return (
     <div className="AccountProfile">
