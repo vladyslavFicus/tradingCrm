@@ -1214,6 +1214,7 @@
         "WITHDRAW": "Withdraw",
         "TRANSFER_IN": "Transfer in",
         "TRANSFER_OUT": "Transfer out",
+        "COMMISSION": "Commission",
         "FEE": "Fee",
         "INACTIVITY_FEE": "Inactivity fee",
         "TRADING_ACCOUNT_NAME_UPDATED": "Trading account name updated",
