@@ -4,6 +4,7 @@ import { omit } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import { parseErrors } from 'apollo';
 import { Operator, HierarchyBranch } from '__generated__/types';
+import { SetFieldValue } from 'types/formik';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import { branchTypes } from 'constants/hierarchyTypes';
@@ -12,17 +13,20 @@ import { FormikSelectField } from 'components/Formik';
 import { Button } from 'components/Buttons';
 import { createValidator, translateLabels } from 'utils/validator';
 import { useOperatorHierarchyQuery } from './graphql/__generated__/OperatorHierarchyQuery';
-import { useHierarchyUserBranchesQuery } from './graphql/__generated__/HierarchyUserBranchesQuery';
+import { useBrandsQuery } from './graphql/__generated__/BrandsQuery';
+import { useUserBrandHierarchyQueryLazyQuery } from './graphql/__generated__/UserBrandHierarchyQuery';
 import { useAddOperatorToBranchMutation } from './graphql/__generated__/AddOperatorToBranchMutation';
 import { useRemoveOperatorFromBranchMutation } from './graphql/__generated__/RemoveOperatorFromBranchMutation';
 import './OperatorHierarchyBranches.scss';
 
 const attributeLabels = {
+  brandId: 'COMMON.BRAND',
   branchType: 'COMMON.BRANCH_TYPE',
   branch: 'COMMON.BRANCH',
 };
 
 type FormValues = {
+  brandId: string,
   branchType: string,
   branchUuid: string,
 };
@@ -39,6 +43,7 @@ const OperatorHierarchyBranches = (props: Props) => {
 
   const branchTypesOptions = Object.keys(omit(branchTypes, 'COMPANY'));
 
+  const [userBrandHierarchy, setUserBrandHierarchy] = useState<Record<string, HierarchyBranch[] | null>>({});
   const [isVisibleAddBranchForm, setSsVisibleAddBranchForm] = useState(false);
 
   // ===== Modals ===== //
@@ -51,24 +56,25 @@ const OperatorHierarchyBranches = (props: Props) => {
   const operatorBranches = operatorHierarchyQuery.data?.userHierarchyById?.parentBranches || [];
   const operatorBranchesUuids = operatorBranches.map(({ uuid }) => uuid);
 
-  const hierarchyUserBranchesQuery = useHierarchyUserBranchesQuery({ variables: { withoutBrandFilter: true } });
+  const brandsQuery = useBrandsQuery({ variables: { withoutBrandFilter: true } });
+  const brandsList = brandsQuery.data?.userBranches?.BRAND || [];
 
-  const branchesByType: Record<string, HierarchyBranch[] | null> = hierarchyUserBranchesQuery.data?.userBranches || {};
+  const [userBrandHierarchyQuery, { loading: hierarchyLoading }] = useUserBrandHierarchyQueryLazyQuery();
 
   const [addOperatorToBranchMutation] = useAddOperatorToBranchMutation();
 
   const [removeOperatorFromBranchMutation] = useRemoveOperatorFromBranchMutation();
 
-  // ===== Handlers ===== //
-  const toggleAddBranchFormVisibility = () => {
-    setSsVisibleAddBranchForm(!isVisibleAddBranchForm);
-  };
+  const getBranchTypeList = (branchType: string) => userBrandHierarchy[branchType] || [];
 
-  // # As result it must return a chain like: brand -> office -> desk -> ...
+  // ===== Handlers ===== //
+  const toggleAddBranchFormVisibility = () => setSsVisibleAddBranchForm(!isVisibleAddBranchForm);
+
+  // # As result it must return a chain like: office -> desk -> team
   const buildParentsBranchChain = (branch: HierarchyBranch, parentsBranchChain = ''): string => {
     const { branchType, uuid } = branch;
 
-    const { parentBranch } = branchesByType[branchType]?.find(branchItem => branchItem.uuid === uuid) || {};
+    const { parentBranch } = getBranchTypeList(branchType).find(branchItem => branchItem.uuid === uuid) || {};
 
     return parentBranch && parentBranch.branchType !== 'COMPANY'
       ? buildParentsBranchChain(parentBranch, `${parentBranch.name} → ${parentsBranchChain}`)
@@ -99,18 +105,16 @@ const OperatorHierarchyBranches = (props: Props) => {
     action();
   };
 
-  const handleSubmit = ({ branchUuid, branchType }: FormValues) => {
-    const branches = branchesByType[branchType] || [];
-    const branch = branches.find(branchItem => branchItem.uuid === branchUuid);
+  const handleSubmit = ({ brandId, branchType, branchUuid }: FormValues) => {
+    const branchId = branchType === 'BRAND' ? brandId : branchUuid;
+    const branches = branchType === 'BRAND' ? brandsList : getBranchTypeList(branchType);
+    const branch = branches.find(branchItem => branchItem.uuid === branchId);
 
     if (branch) {
       handleConfirmAction(branch, async () => {
         try {
           await addOperatorToBranchMutation({
-            variables: {
-              branchId: branchUuid,
-              operatorId: operatorUuid,
-            },
+            variables: { branchId, operatorId: operatorUuid },
           });
 
           notify({
@@ -165,6 +169,32 @@ const OperatorHierarchyBranches = (props: Props) => {
     });
   };
 
+  const handleBranchTypeChange = (branchType: string, setFieldValue: SetFieldValue<FormValues>) => {
+    setFieldValue('branchType', branchType);
+
+    // Clear branchUuid field while new Branch Type chosen
+    setFieldValue('branchUuid', '');
+  };
+
+  const handleBrandChange = async (brandId: string, setFieldValue: SetFieldValue<FormValues>) => {
+    setFieldValue('brandId', brandId);
+
+    // Clear branchUuid field while new Brand chosen
+    setFieldValue('branchUuid', '');
+
+    const brand = brandsList.find(item => item.uuid === brandId);
+
+    if (brand) {
+      try {
+        const { data } = await userBrandHierarchyQuery({ variables: { brandId: brand.name } });
+
+        setUserBrandHierarchy(data?.userBranches || {});
+      } catch {
+        setUserBrandHierarchy({});
+      }
+    }
+  };
+
   return (
     <div className="OperatorHierarchyBranches">
       {/* Branches list */}
@@ -215,30 +245,57 @@ const OperatorHierarchyBranches = (props: Props) => {
             <hr />
 
             <Formik
-              initialValues={{ branchType: '', branchUuid: '' }}
+              initialValues={{ brandId: '', branchType: '', branchUuid: '' }}
               validate={
                 createValidator({
+                  brandId: ['required'],
                   branchType: ['required'],
-                  branchUuid: ['required'],
+                  branchUuid: [
+                    'required_if:branchType,OFFICE',
+                    'required_if:branchType,DESK',
+                    'required_if:branchType,TEAM',
+                  ],
                 }, translateLabels(attributeLabels))
               }
               validateOnBlur={false}
               validateOnChange={false}
               onSubmit={handleSubmit}
             >
-              {({ isSubmitting, values }) => {
-                const branches = branchesByType[values.branchType] || [];
+              {({ isSubmitting, values, setFieldValue }) => {
+                const branches = getBranchTypeList(values.branchType);
                 const availableBranches = branches.filter(({ uuid }) => !operatorBranchesUuids.includes(uuid));
+                const disabledBranchUuid = !availableBranches.length
+                  || !values.branchType
+                  || values.branchType === 'BRAND'
+                  || hierarchyLoading;
 
                 return (
                   <Form className="OperatorHierarchyBranches__form">
+                    <Field
+                      name="brandId"
+                      className="OperatorHierarchyBranches__form-field"
+                      label={I18n.t(attributeLabels.brandId)}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                      customOnChange={(value: string) => handleBrandChange(value, setFieldValue)}
+                      component={FormikSelectField}
+                      disabled={isSubmitting || brandsQuery.loading}
+                      searchable
+                    >
+                      {brandsList.map(brand => (
+                        <option key={brand.uuid} value={brand.uuid}>
+                          {brand.name}
+                        </option>
+                      ))}
+                    </Field>
+
                     <Field
                       name="branchType"
                       className="OperatorHierarchyBranches__form-field"
                       label={I18n.t(attributeLabels.branchType)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                      customOnChange={(value: string) => handleBranchTypeChange(value, setFieldValue)}
                       component={FormikSelectField}
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || !values.brandId}
                       searchable
                     >
                       {branchTypesOptions.map(branchType => (
@@ -258,7 +315,7 @@ const OperatorHierarchyBranches = (props: Props) => {
                           ? 'COMMON.SELECT_OPTION.NO_ITEMS'
                           : 'COMMON.SELECT_OPTION.DEFAULT',
                       )}
-                      disabled={!availableBranches.length}
+                      disabled={disabledBranchUuid}
                       searchable
                     >
                       {availableBranches.map(branch => (
