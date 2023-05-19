@@ -10,6 +10,7 @@ import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
+import getPaymentDetails from 'utils/getPaymentDetails';
 import { Filter, NotificationType, NotificationSubType } from '../types';
 import { MAX_SELECTED_ROWS } from '../constants';
 import { NotificationQueryQueryResult } from '../../graphql/__generated__/NotificationQuery';
@@ -94,7 +95,9 @@ const NotificationCenterTable = (props: Props) => {
 
       {/* Render custom details for individual type or subtype */}
       <If condition={type === NotificationType.WITHDRAWAL || type === NotificationType.DEPOSIT}>
-        <div className="NotificationCenterTable__text-subtype">{details.amount} {details.currency}</div>
+        <div className="NotificationCenterTable__text-subtype">
+          {getPaymentDetails(details, type)}
+        </div>
       </If>
 
       <If condition={type === NotificationType.ACCOUNT || subtype === NotificationSubType.MARGIN_CALL}>

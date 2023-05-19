@@ -8,6 +8,7 @@ import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import MiniProfilePopover from 'components/MiniProfilePopover';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
+import getPaymentDetails from 'utils/getPaymentDetails';
 import './NotificationsGrid.scss';
 
 type Props = {
@@ -44,7 +45,7 @@ const NotificationsGrid = (props: Props) => {
       {/* Render custom details for individual type or subtype */}
       <If condition={type === 'WITHDRAWAL' || type === 'DEPOSIT'}>
         <div className="NotificationsGrid__text-subtype">
-          {I18n.toCurrency(details.amount, { unit: '' })} {details.currency}
+          {getPaymentDetails(details, type)}
         </div>
       </If>
 
