@@ -54,7 +54,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/clients/list',
         permissions: [
           permissions.USER_PROFILE.PROFILES_LIST,
-          // permissions.SIDEBAR.CLIENTS_LIST,
+          permissions.SIDEBAR.CLIENTS_LIST,
         ],
       },
       {
@@ -62,7 +62,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/clients/kyc-documents',
         permissions: [
           permissions.FILES.SEARCH_FILES,
-          // permissions.SIDEBAR.CLIENTS_KYC_DOCUMENTS,
+          permissions.SIDEBAR.CLIENTS_KYC_DOCUMENTS,
         ],
       },
       {
@@ -70,7 +70,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/trading-accounts/list',
         permissions: [
           permissions.TRADING_ACCOUNTS.GET_TRADING_ACCOUNTS,
-          // permissions.SIDEBAR.CLIENTS_TRADING_ACCOUNTS,
+          permissions.SIDEBAR.CLIENTS_TRADING_ACCOUNTS,
         ],
       },
       {
@@ -78,7 +78,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/clients/callbacks/list',
         permissions: [
           permissions.USER_PROFILE.CALLBACKS_LIST,
-          // permissions.SIDEBAR.CLIENTS_CALLBACKS,
+          permissions.SIDEBAR.CLIENTS_CALLBACKS,
         ],
       },
     ],
@@ -93,7 +93,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/leads/list',
         permissions: [
           permissions.LEADS.GET_LEADS,
-          // permissions.SIDEBAR.LEADS_LIST,
+          permissions.SIDEBAR.LEADS_LIST,
         ],
       },
       {
@@ -101,7 +101,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/leads/callbacks/list',
         permissions: [
           permissions.LEAD_PROFILE.CALLBACKS_LIST,
-          // permissions.SIDEBAR.LEADS_CALLBACKS,
+          permissions.SIDEBAR.LEADS_CALLBACKS,
         ],
       },
     ],
@@ -112,7 +112,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
     url: '/hierarchy/tree',
     permissions: [
       permissions.HIERARCHY.GET_TREE,
-      // permissions.SIDEBAR.HIERARCHY,
+      permissions.SIDEBAR.HIERARCHY,
     ],
   },
   {
@@ -125,7 +125,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/offices/list',
         permissions: [
           permissions.HIERARCHY.GET_OFFICES,
-          // permissions.SIDEBAR.MANAGMENT_OFFICES,
+          permissions.SIDEBAR.MANAGMENT_OFFICES,
         ],
       },
       {
@@ -133,7 +133,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/desks/list',
         permissions: [
           permissions.HIERARCHY.GET_DESKS,
-          // permissions.SIDEBAR.MANAGMENT_DESKS,
+          permissions.SIDEBAR.MANAGMENT_DESKS,
         ],
       },
       {
@@ -141,7 +141,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/teams/list',
         permissions: [
           permissions.HIERARCHY.GET_TEAMS,
-          // permissions.SIDEBAR.MANAGMENT_TEAMS,
+          permissions.SIDEBAR.MANAGMENT_TEAMS,
         ],
       },
       {
@@ -149,7 +149,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/sales-rules',
         permissions: [
           permissions.SALES_RULES.GET_RULES,
-          // permissions.SIDEBAR.MANAGMENT_SALES_RULES,
+          permissions.SIDEBAR.MANAGMENT_SALES_RULES,
         ],
       },
       {
@@ -157,7 +157,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/operators/list',
         permissions: [
           permissions.HIERARCHY.GET_OPERATORS,
-          // permissions.SIDEBAR.MANAGMENT_OPERATORS,
+          permissions.SIDEBAR.MANAGMENT_OPERATORS,
         ],
       },
       {
@@ -165,7 +165,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/partners/list',
         permissions: [
           permissions.PARTNERS.PARTNERS_LIST_VIEW,
-          // permissions.SIDEBAR.MANAGMENT_PARTNERS,
+          permissions.SIDEBAR.MANAGMENT_PARTNERS,
         ],
       },
     ],
@@ -176,7 +176,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
     url: '/documents',
     permissions: [
       permissions.DOCUMENTS.SEARCH_DOCUMENT,
-      // permissions.SIDEBAR.DOCUMENTS,
+      permissions.SIDEBAR.DOCUMENTS,
     ],
   },
   {
@@ -185,7 +185,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
     url: '/payments/list',
     permissions: [
       permissions.PAYMENTS.PAYMENTS_LIST,
-      // permissions.SIDEBAR.PAYMENTS,
+      permissions.SIDEBAR.PAYMENTS,
     ],
   },
   {
@@ -194,7 +194,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
     url: '/notifications',
     permissions: [
       permissions.NOTIFICATION_CENTER.LIST,
-      // permissions.SIDEBAR.NOTIFICATIONS,
+      permissions.SIDEBAR.NOTIFICATIONS,
     ],
   },
   {
@@ -203,7 +203,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
     url: '/distribution',
     permissions: [
       permissions.CLIENTS_DISTRIBUTION.LIST,
-      // permissions.SIDEBAR.CLIENTS_DISTIBUTION,
+      permissions.SIDEBAR.CLIENTS_DISTIBUTION,
     ],
   },
   {
@@ -263,7 +263,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
     url: '/ip-whitelist',
     permissions: [
       permissions.IP_WHITELIST.LIST,
-      // permissions.SIDEBAR.IP_WHITELIST,
+      permissions.SIDEBAR.IP_WHITELIST,
     ],
   },
   {
@@ -276,7 +276,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/email-templates',
         permissions: [
           permissions.EMAIL_TEMPLATES.CREATE_EMAIL_TEMPLATE,
-          // permissions.SIDEBAR.SETTINGS_EMAIL_TEMPLATES,
+          permissions.SIDEBAR.SETTINGS_EMAIL_TEMPLATES,
         ],
       },
       {
@@ -284,7 +284,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/roles-and-permissions',
         permissions: [
           permissions.AUTH.UPDATE_ACTIONS,
-          // permissions.SIDEBAR.SETTINGS_RBAC,
+          permissions.SIDEBAR.SETTINGS_RBAC,
         ],
       },
       {
@@ -292,7 +292,7 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
         url: '/settings/acquisition-statuses',
         permissions: [
           permissions.HIERARCHY.GET_ACQUISITION_STATUSES,
-          // permissions.SIDEBAR.SETTINGS_ACQUISITION_STATUSES,
+          permissions.SIDEBAR.SETTINGS_ACQUISITION_STATUSES,
         ],
       },
     ],

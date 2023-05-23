@@ -9,26 +9,26 @@ export const routesPermissions: RoutesPermissions = {
 
   // Clients: List
   '/clients/list': [
-    // permissions.SIDEBAR.CLIENTS_LIST,
+    permissions.SIDEBAR.CLIENTS_LIST,
     permissions.USER_PROFILE.PROFILES_LIST,
   ],
 
   // Client: Details
-  // '/clients/:id': [permissions.SIDEBAR.CLIENTS_LIST],
+  '/clients/:id': [permissions.SIDEBAR.CLIENTS_LIST],
   '/clients/:id/files': [permissions.USER_PROFILE.GET_FILES],
   '/clients/:id/feed': [permissions.AUDIT.AUDIT_LOGS],
 
   // Clients: KYC documents
   '/clients/kyc-documents': [
-    // permissions.SIDEBAR.CLIENTS_KYC_DOCUMENTS,
+    permissions.SIDEBAR.CLIENTS_KYC_DOCUMENTS,
     permissions.FILES.SEARCH_FILES,
   ],
 
   // Clients: Trading accounts
-  // '/trading-accounts': [permissions.SIDEBAR.CLIENTS_TRADING_ACCOUNTS],
+  '/trading-accounts': [permissions.SIDEBAR.CLIENTS_TRADING_ACCOUNTS],
 
   // Clients: Callbacks list
-  // '/clients/callbacks': [permissions.SIDEBAR.CLIENTS_CALLBACKS],
+  '/clients/callbacks': [permissions.SIDEBAR.CLIENTS_CALLBACKS],
 
   // =====================
   // ======= Leads =======
@@ -36,57 +36,57 @@ export const routesPermissions: RoutesPermissions = {
 
   // Leads: List
   '/leads/list': [
-    // permissions.SIDEBAR.LEADS_LIST,
+    permissions.SIDEBAR.LEADS_LIST,
     permissions.LEADS.GET_LEADS,
   ],
 
   // Lead: Details
   '/leads/:id': [
-    // permissions.SIDEBAR.LEADS_LIST,
+    permissions.SIDEBAR.LEADS_LIST,
     permissions.LEADS.GET_LEAD_BY_ID,
   ],
 
   // Leads: Callbacks list
-  // '/leads/callbacks': [permissions.SIDEBAR.LEADS_CALLBACKS],
+  '/leads/callbacks': [permissions.SIDEBAR.LEADS_CALLBACKS],
 
   // =========================
   // ======= Hierarchy =======
   // =========================
 
-  // '/hierarchy': [permissions.SIDEBAR.HIERARCHY],
+  '/hierarchy': [permissions.SIDEBAR.HIERARCHY],
 
   // ==========================
   // ======= Management =======
   // ==========================
 
   // Management: Offices
-  // '/offices': [permissions.SIDEBAR.MANAGMENT_OFFICES],
+  '/offices': [permissions.SIDEBAR.MANAGMENT_OFFICES],
   '/offices/list': [permissions.HIERARCHY.GET_OFFICES],
   '/offices/:id': [permissions.HIERARCHY.GET_BRANCH_BY_ID],
 
   // Management: Desks
-  // '/desks': [permissions.SIDEBAR.MANAGMENT_DESKS],
+  '/desks': [permissions.SIDEBAR.MANAGMENT_DESKS],
   '/desks/list': [permissions.HIERARCHY.GET_DESKS],
   '/desks/:id': [permissions.HIERARCHY.GET_BRANCH_BY_ID],
 
   // Management: Teams
-  // '/teams': [permissions.SIDEBAR.MANAGMENT_TEAMS],
+  '/teams': [permissions.SIDEBAR.MANAGMENT_TEAMS],
   '/teams/list': [permissions.HIERARCHY.GET_TEAMS],
   '/teams/:id': [permissions.HIERARCHY.GET_BRANCH_BY_ID],
 
   // Management: Sales rules
   '/sales-rules': [
-    // permissions.SIDEBAR.MANAGMENT_SALES_RULES,
+    permissions.SIDEBAR.MANAGMENT_SALES_RULES,
     permissions.SALES_RULES.GET_RULES,
   ],
 
   // Management: Operators
-  // '/operators': [permissions.SIDEBAR.MANAGMENT_OPERATORS],
+  '/operators': [permissions.SIDEBAR.MANAGMENT_OPERATORS],
   '/operators/list': [permissions.OPERATORS.OPERATORS_LIST_VIEW],
   '/operators/:id': [permissions.OPERATORS.PROFILE_VIEW],
 
   // Management: Partners
-  // '/partners': [permissions.SIDEBAR.MANAGMENT_PARTNERS],
+  '/partners': [permissions.SIDEBAR.MANAGMENT_PARTNERS],
   '/partners/list': [permissions.PARTNERS.PARTNERS_LIST_VIEW],
   '/partners/:id': [permissions.PARTNERS.PROFILE_VIEW],
 
@@ -95,7 +95,7 @@ export const routesPermissions: RoutesPermissions = {
   // =========================
 
   // Documents
-  // '/documents': [permissions.SIDEBAR.DOCUMENTS],
+  '/documents': [permissions.SIDEBAR.DOCUMENTS],
   '/documents/list': [permissions.DOCUMENTS.SEARCH_DOCUMENT],
   '/documents/feed': [permissions.AUDIT.AUDIT_LOGS],
 
@@ -103,26 +103,26 @@ export const routesPermissions: RoutesPermissions = {
   // ======= Payments =======
   // ========================
 
-  // '/payments': [permissions.SIDEBAR.PAYMENTS],
+  '/payments': [permissions.SIDEBAR.PAYMENTS],
 
   // =============================
   // ======= Notifications =======
   // =============================
 
-  // '/notifications': [permissions.SIDEBAR.NOTIFICATIONS],
+  '/notifications': [permissions.SIDEBAR.NOTIFICATIONS],
 
   // ============================
   // ======= Distribution =======
   // ============================
 
-  // '/distribution': [permissions.SIDEBAR.CLIENTS_DISTIBUTION],
+  '/distribution': [permissions.SIDEBAR.CLIENTS_DISTIBUTION],
 
   // ============================
   // ======= IP whitelist =======
   // ============================
 
   // IP whitelist
-  // '/ip-whitelist': [permissions.SIDEBAR.IP_WHITELIST],
+  '/ip-whitelist': [permissions.SIDEBAR.IP_WHITELIST],
   '/ip-whitelist/list': [permissions.IP_WHITELIST.LIST],
   '/ip-whitelist/feed': [permissions.AUDIT.AUDIT_LOGS],
 
@@ -132,19 +132,19 @@ export const routesPermissions: RoutesPermissions = {
 
   // Settings: Email templates
   '/email-templates': [
-    // permissions.SIDEBAR.SETTINGS_EMAIL_TEMPLATES,
+    permissions.SIDEBAR.SETTINGS_EMAIL_TEMPLATES,
     permissions.EMAIL_TEMPLATES.CREATE_EMAIL_TEMPLATE,
   ],
 
   // Settings: Roles and permissions
   '/roles-and-permissions': [
-    // permissions.SIDEBAR.SETTINGS_RBAC,
+    permissions.SIDEBAR.SETTINGS_RBAC,
     permissions.AUTH.UPDATE_ACTIONS,
   ],
 
   // Settings: Acquisition statuses
   '/settings/acquisition-statuses': [
-    // permissions.SIDEBAR.SETTINGS_ACQUISITION_STATUSES,
+    permissions.SIDEBAR.SETTINGS_ACQUISITION_STATUSES,
     permissions.HIERARCHY.GET_ACQUISITION_STATUSES,
   ],
 
