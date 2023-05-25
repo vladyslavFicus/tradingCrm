@@ -11,7 +11,7 @@ import { Button, RefreshButton } from 'components/Buttons';
 import { isSales, isRetention, userTypes } from 'constants/hierarchyTypes';
 import { getAvailableLanguages, getBrand } from 'config';
 import permissions from 'config/permissions';
-import { statuses, statusesLabels } from 'constants/user';
+import { statuses, statusesLabels, TERMS_ACCEPTED_FILTER_TYPES } from 'constants/user';
 import { statuses as operatorsStatuses } from 'constants/operators';
 import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses as staticRetentionStatuses } from 'constants/retentionStatuses';
@@ -326,6 +326,7 @@ const ClientsGridFilter = (props:Props) => {
                         searchLimit: I18n.t(attributeLabels.searchLimit),
                         offices: I18n.t(attributeLabels.offices),
                         timeZone: I18n.t(attributeLabels.timeZone),
+                        termsAccepted: I18n.t(attributeLabels.termsAccepted),
                       }}
                     />
                   </If>
@@ -998,15 +999,18 @@ const ClientsGridFilter = (props:Props) => {
                   />
 
                   <Field
-                    name="searchLimit"
-                    type="number"
-                    className="ClientsGridFilter__field ClientsGridFilter__search-limit"
-                    label={I18n.t(attributeLabels.searchLimit)}
-                    placeholder={I18n.t('COMMON.UNLIMITED')}
-                    component={FormikInputField}
-                    min={0}
-                    withFocus
-                  />
+                    name="termsAccepted"
+                    className="ClientsGridFilter__field ClientsGridFilter__select"
+                    label={I18n.t(attributeLabels.termsAccepted)}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                    component={FormikSelectField}
+                  >
+                    {TERMS_ACCEPTED_FILTER_TYPES.map(({ label, value }) => (
+                      <option key={label} value={value}>
+                        {I18n.t(`PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.TERMS_ACCEPTED_TYPES.${label}`)}
+                      </option>
+                    ))}
+                  </Field>
                 </div>
                 <div className="ClientsGridFilter__buttons">
                   <FilterSetsButtons />

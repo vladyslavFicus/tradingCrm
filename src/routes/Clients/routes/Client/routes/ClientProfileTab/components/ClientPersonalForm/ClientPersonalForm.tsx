@@ -10,7 +10,13 @@ import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
-import { COUNTRY_SPECIFIC_IDENTIFIER_TYPES, AGE_YEARS_CONSTRAINT, genders, MIN_BIRTHDATE } from 'constants/user';
+import {
+  COUNTRY_SPECIFIC_IDENTIFIER_TYPES,
+  AGE_YEARS_CONSTRAINT,
+  genders,
+  MIN_BIRTHDATE,
+  TERMS_ACCEPTED_TYPES,
+} from 'constants/user';
 import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -27,6 +33,7 @@ type FormValues = {
   languageCode: string,
   timeZone: string,
   identificationNumber: string,
+  termsAccepted: boolean | null,
   passport: {
     number: string,
     expirationDate: string,
@@ -53,6 +60,7 @@ const ClientPersonalForm = (props: Props) => {
     birthDate,
     languageCode,
     identificationNumber,
+    termsAccepted,
   } = profile;
 
   const {
@@ -108,6 +116,7 @@ const ClientPersonalForm = (props: Props) => {
           birthDate: birthDate || '',
           languageCode: languageCode || '',
           identificationNumber: identificationNumber || '',
+          termsAccepted: !!termsAccepted,
           passport: {
             number: number || '',
             expirationDate: expirationDate || '',
@@ -239,14 +248,31 @@ const ClientPersonalForm = (props: Props) => {
                 </Field>
               </div>
 
-              <Field
-                name="identificationNumber"
-                className="ClientPersonalForm__field"
-                label={I18n.t(attributeLabels.identificationNumber)}
-                placeholder={I18n.t(attributeLabels.identificationNumber)}
-                component={FormikInputField}
-                disabled={isSubmitting || !allowUpdatePersonalInformation}
-              />
+              <div>
+                <Field
+                  name="identificationNumber"
+                  className="ClientPersonalForm__field"
+                  label={I18n.t(attributeLabels.identificationNumber)}
+                  placeholder={I18n.t(attributeLabels.identificationNumber)}
+                  component={FormikInputField}
+                  disabled={isSubmitting || !allowUpdatePersonalInformation}
+                />
+
+                <Field
+                  name="termsAccepted"
+                  className="ClientPersonalForm__field"
+                  label={I18n.t(attributeLabels.termsAccepted)}
+                  placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                  component={FormikSelectField}
+                  disabled={isSubmitting || !allowUpdatePersonalInformation}
+                >
+                  {TERMS_ACCEPTED_TYPES.map(({ label, value }) => (
+                    <option key={label} value={value}>
+                      {I18n.t(`PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.TERMS_ACCEPTED_TYPES.${label}`)}
+                    </option>
+                  ))}
+                </Field>
+              </div>
 
               <div>
                 <Field

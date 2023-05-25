@@ -40,6 +40,7 @@ export const attributeLabels = {
   searchLimit: 'COMMON.FILTERS.SEARCH_LIMIT',
   statuses: 'PROFILE.LIST.FILTERS.STATUS',
   teams: 'PROFILE.LIST.FILTERS.TEAMS',
+  termsAccepted: 'PROFILE.LIST.FILTERS.TERM_ACCEPTED',
   warnings: 'PROFILE.LIST.FILTERS.WARNING',
   timeZone: 'COMMON.TIME_ZONE',
 };

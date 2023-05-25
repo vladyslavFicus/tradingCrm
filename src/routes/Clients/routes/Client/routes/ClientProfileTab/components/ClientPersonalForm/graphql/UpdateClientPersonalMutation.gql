@@ -8,6 +8,7 @@ mutation UpdateClientPersonalMutation(
   $passport: Passport__Input
   $identificationNumber: String
   $timeZone: String
+  $termsAccepted: Boolean
 ) {
   profile {
     updatePersonalInformation(
@@ -20,6 +21,7 @@ mutation UpdateClientPersonalMutation(
       passport: $passport
       identificationNumber: $identificationNumber
       timeZone: $timeZone
+      termsAccepted: $termsAccepted
     ) {
       _id
       firstName
@@ -29,6 +31,7 @@ mutation UpdateClientPersonalMutation(
       gender
       identificationNumber
       timeZone
+      termsAccepted
       passport {
         countryOfIssue
         countrySpecificIdentifier

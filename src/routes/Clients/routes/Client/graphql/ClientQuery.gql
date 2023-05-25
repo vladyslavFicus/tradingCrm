@@ -20,6 +20,7 @@ query ClientQuery(
     emailVerified
     phoneVerified
     profileVerified
+    termsAccepted
     timeZone
     localTime
     address {

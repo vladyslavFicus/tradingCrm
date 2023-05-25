@@ -38,6 +38,7 @@ export const oldFilters = [
   'searchLimit',
   'offices',
   'timeZone',
+  'termsAccepted',
 ];
 
 export const defaultFilters = [

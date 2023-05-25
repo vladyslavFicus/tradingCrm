@@ -194,6 +194,12 @@
           "DATE_OF_BIRTH": "Date of birth",
           "GENDER": "Gender",
           "IDENTIFICATION_NUMBER": "Identification Number",
+          "TERMS_ACCEPTED": "Terms and Condition",
+          "TERMS_ACCEPTED_TYPES": {
+            "any": "Any",
+            "true": "True",
+            "false": "False"
+          },
           "IDENTIFIER": "ID Number",
           "PASSPORT_NUMBER": "Passport/ID number",
           "PASSPORT_EXPARATION_DATE": "Passport/ID expiration date",
@@ -1923,6 +1929,7 @@
         "ACCOUNT_STATUS": "Account Status",
         "DESKS": "Desks",
         "TEAMS": "Teams",
+        "TERM_ACCEPTED": "Term and Condition",
         "OPERATORS": "Operators",
         "OFFICES": "Offices",
         "SALES_STATUS": "Sales status",

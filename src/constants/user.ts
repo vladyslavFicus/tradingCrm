@@ -277,3 +277,14 @@ export const genders: Record<string, string> = {
 export const AGE_YEARS_CONSTRAINT = 18;
 
 export const MIN_BIRTHDATE = '1900-01-01';
+
+export const TERMS_ACCEPTED_FILTER_TYPES: Array<Record<string, any>> = [
+  { label: 'any', value: null },
+  { label: 'true', value: true },
+  { label: 'false', value: false },
+];
+
+export const TERMS_ACCEPTED_TYPES: Array<Record<string, any>> = [
+  { label: 'true', value: true },
+  { label: 'false', value: false },
+];
