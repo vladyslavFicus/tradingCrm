@@ -5384,7 +5384,7 @@
           "INTEGER_RATIO": "The percentage must be an integer",
           "OPERATOR": "The Operator field is required."
         },
-        "PERCENTAGE_LIMIT_ERROR": "Sum of ratios should be equal to 100%. Please, change ratios correspondinly."
+        "PERCENTAGE_LIMIT_ERROR": "Sum of ratios should be equal to 100%. Please, change ratios correspondingly."
       },
       "EDIT_MODAL": {
         "HEADER": "Edit rule",
