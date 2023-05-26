@@ -85,20 +85,30 @@ const CallbacksCalendar = (props: Props) => {
       updateClientCallbackModal.show({
         callbackId,
         onClose: updateClientCallbackModal.hide,
-        onDelete: () => deleteClientCallbackModal.show({
-          callback: callback as ClientCallback,
-          onSuccess: updateClientCallbackModal.hide,
-        }),
+        onDelete: () => {
+          deleteClientCallbackModal.show({
+            callback: callback as ClientCallback,
+            onSuccess: () => {
+              updateClientCallbackModal.hide();
+              clientCallbacksQuery.refetch();
+            },
+          });
+        },
       });
     }
     if (callbackType === CallbackType.LEAD) {
       updateLeadCallbackModal.show({
         callbackId,
         onClose: updateLeadCallbackModal.hide,
-        onDelete: () => deleteLeadCallbackModal.show({
-          callback: callback as LeadCallback,
-          onSuccess: updateLeadCallbackModal.hide,
-        }),
+        onDelete: () => {
+          deleteLeadCallbackModal.show({
+            callback: callback as LeadCallback,
+            onSuccess: () => {
+              updateLeadCallbackModal.hide();
+              leadCallbacksQuery.refetch();
+            },
+          });
+        },
       });
     }
   };
