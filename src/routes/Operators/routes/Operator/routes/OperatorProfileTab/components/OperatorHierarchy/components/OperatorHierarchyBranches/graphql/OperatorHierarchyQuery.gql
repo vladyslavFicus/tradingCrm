@@ -1,13 +1,28 @@
 query OperatorHierarchyQuery(
-  $uuid: String!
+  $userUUID: String!
 ) {
-  userHierarchyById (
-    uuid: $uuid
+  userBranchesTreeUp (
+    userUUID: $userUUID
   ) {
-    parentBranches {
+    branches {
       branchType
       uuid
       name
+      parentBranch {
+        branchType
+        uuid
+        name
+        parentBranch {
+          branchType
+          uuid
+          name
+          parentBranch {
+            branchType
+            uuid
+            name
+          }
+        }
+      }
     }
     statistics {
       totalSubordinatesCount

@@ -50,10 +50,10 @@ const OperatorHierarchyBranches = (props: Props) => {
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
   // ===== Requests ===== //
-  const operatorHierarchyQuery = useOperatorHierarchyQuery({ variables: { uuid: operator.uuid } });
+  const operatorHierarchyQuery = useOperatorHierarchyQuery({ variables: { userUUID: operator.uuid } });
 
-  const totalSubordinates = operatorHierarchyQuery.data?.userHierarchyById?.statistics?.totalSubordinatesCount || 0;
-  const operatorBranches = operatorHierarchyQuery.data?.userHierarchyById?.parentBranches || [];
+  const totalSubordinates = operatorHierarchyQuery.data?.userBranchesTreeUp.statistics.totalSubordinatesCount || 0;
+  const operatorBranches = operatorHierarchyQuery.data?.userBranchesTreeUp.branches || [];
   const operatorBranchesUuids = operatorBranches.map(({ uuid }) => uuid);
 
   const brandsQuery = useBrandsQuery({ variables: { withoutBrandFilter: true } });
@@ -71,13 +71,22 @@ const OperatorHierarchyBranches = (props: Props) => {
   const toggleAddBranchFormVisibility = () => setSsVisibleAddBranchForm(!isVisibleAddBranchForm);
 
   // # As result it must return a chain like: office -> desk -> team
-  const buildParentsBranchChain = (branch: HierarchyBranch, parentsBranchChain = ''): string => {
+  const buildHierarchyParentsBranchChain = (branch: HierarchyBranch, parentsBranchChain = ''): string => {
     const { branchType, uuid } = branch;
 
     const { parentBranch } = getBranchTypeList(branchType).find(branchItem => branchItem.uuid === uuid) || {};
 
     return parentBranch && parentBranch.branchType !== 'COMPANY'
-      ? buildParentsBranchChain(parentBranch, `${parentBranch.name} → ${parentsBranchChain}`)
+      ? buildHierarchyParentsBranchChain(parentBranch, `${parentBranch.name} → ${parentsBranchChain}`)
+      : parentsBranchChain;
+  };
+
+  // # As result it must return a chain like: brand -> office -> desk -> team
+  const buildOperatorParentsBranchChain = (branch: HierarchyBranch, parentsBranchChain = ''): string => {
+    const { parentBranch } = branch;
+
+    return parentBranch && parentBranch.branchType !== 'COMPANY'
+      ? buildOperatorParentsBranchChain(parentBranch, `${parentBranch.name} → ${parentsBranchChain}`)
       : parentsBranchChain;
   };
 
@@ -90,7 +99,7 @@ const OperatorHierarchyBranches = (props: Props) => {
         actionText: I18n.t(`MODALS.${actionKey}.DESCRIPTION`, {
           operator: operator.fullName,
           clients: totalSubordinates,
-          branch: `${buildParentsBranchChain(branch)} ${branch.name}`,
+          branch: branch.name,
         }),
         submitButtonLabel: I18n.t('ACTIONS_LABELS.IGNORE'),
         onSubmit: () => {
@@ -204,7 +213,7 @@ const OperatorHierarchyBranches = (props: Props) => {
             {operatorBranches.map(branchItem => (
               <div className="OperatorHierarchyBranches__branch" key={branchItem.uuid}>
                 <div className="OperatorHierarchyBranches__branch-title">
-                  {`${I18n.t(`COMMON.${branchItem.branchType}`)}: ${buildParentsBranchChain(branchItem)}`}
+                  {`${I18n.t(`COMMON.${branchItem.branchType}`)}: ${buildOperatorParentsBranchChain(branchItem)}`}
 
                   <span className="OperatorHierarchyBranches__branch-name">{branchItem.name}</span>
                 </div>
@@ -321,7 +330,7 @@ const OperatorHierarchyBranches = (props: Props) => {
                       {availableBranches.map(branch => (
                         // @ts-ignore prop "search" does not exist for the tag option
                         <option key={branch.uuid} value={branch.uuid} search={branch.name}>
-                          {buildParentsBranchChain(branch)}
+                          {buildHierarchyParentsBranchChain(branch)}
                           <span className="OperatorHierarchyBranches__branch-name">{branch.name}</span>
                         </option>
                       ))}
