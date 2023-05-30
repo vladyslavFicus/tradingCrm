@@ -25,7 +25,6 @@ type FormValues = {
 
 type Props = {
   paymentId: string,
-  paymentType?: string,
   onCloseModal: () => void,
   onSuccess: () => void,
 };
@@ -33,7 +32,6 @@ type Props = {
 const ChangePaymentStatusForm = (props: Props) => {
   const {
     paymentId,
-    paymentType,
     onCloseModal,
     onSuccess,
   } = props;
@@ -127,22 +125,20 @@ const ChangePaymentStatusForm = (props: Props) => {
                 }
             </Field>
 
-            <If condition={paymentType !== 'COMMISSION'}>
-              <Field
-                name="paymentMethod"
-                className="ChangePaymentStatusForm__field"
-                label={I18n.t('PAYMENT_DETAILS_MODAL.CHANGE_PAYMENT_METHOD')}
-                placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
-                component={FormikSelectField}
-                disabled={loading}
-              >
-                {(manualMethods as Array<string>).map(item => (
-                  <option key={item} value={item}>
-                    {formatLabel(item || '')}
-                  </option>
-                ))}
-              </Field>
-            </If>
+            <Field
+              name="paymentMethod"
+              className="ChangePaymentStatusForm__field"
+              label={I18n.t('PAYMENT_DETAILS_MODAL.CHANGE_PAYMENT_METHOD')}
+              placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
+              component={FormikSelectField}
+              disabled={loading}
+            >
+              {(manualMethods as Array<string>).map(item => (
+                <option key={item} value={item}>
+                  {formatLabel(item || '')}
+                </option>
+              ))}
+            </Field>
           </div>
 
           <div className="ChangePaymentStatusForm__buttons">

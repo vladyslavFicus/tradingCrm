@@ -70,7 +70,6 @@ export enum tradingTypes {
   TRANSFER_IN = 'TRANSFER_IN',
   TRANSFER_OUT = 'TRANSFER_OUT',
   WITHDRAW = 'WITHDRAW',
-  COMMISSION = 'COMMISSION'
 }
 
 export const statusMapper: Record<statuses, Array<tradingStatuses>> = {
@@ -100,7 +99,6 @@ export const tradingTypesLabels: Record<string, string> = {
   [tradingTypes.TRANSFER_OUT]: 'COMMON.PAYMENT_TYPE.TRANSFER_OUT',
   [tradingTypes.CREDIT_IN]: 'COMMON.PAYMENT_TYPE.CREDIT_IN',
   [tradingTypes.CREDIT_OUT]: 'COMMON.PAYMENT_TYPE.CREDIT_OUT',
-  [tradingTypes.COMMISSION]: 'COMMON.PAYMENT_TYPE.COMMISSION',
   // Special type for transaction with type DEMO_DEPOSIT
   DEMO_DEPOSIT: 'COMMON.PAYMENT_TYPE.DEPOSIT',
   // Special type for transaction with type FEE

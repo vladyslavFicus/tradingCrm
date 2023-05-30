@@ -111,7 +111,6 @@ const AccountsSelectField = (props: Props) => {
             paymentTypes.CREDIT_OUT.name,
             paymentTypes.TRANSFER.name,
             paymentTypes.WITHDRAW.name,
-            paymentTypes.COMMISSION.name,
           ].includes(paymentType)
       )
     )), [tradingAccounts]);

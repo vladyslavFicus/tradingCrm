@@ -872,8 +872,7 @@
       "TRANSFER_OUT": "Transfer Out",
       "CREDIT_IN": "Credit in",
       "CREDIT_OUT": "Credit out",
-      "TRANSFER": "Transfer",
-      "COMMISSION": "Commission"
+      "TRANSFER": "Transfer"
     },
     "PAYMENT_STATUS": {
       "PENDING": "Pending",
@@ -1221,7 +1220,6 @@
         "WITHDRAW": "Withdraw",
         "TRANSFER_IN": "Transfer in",
         "TRANSFER_OUT": "Transfer out",
-        "COMMISSION": "Commission",
         "FEE": "Fee",
         "INACTIVITY_FEE": "Inactivity fee",
         "TRADING_ACCOUNT_NAME_UPDATED": "Trading account name updated",
@@ -5909,7 +5907,6 @@
           "payment-withdraw": "Make withdraw transaction",
           "payment-creditIn": "Make credit in transaction",
           "payment-creditOut": "Make credit out transaction",
-          "payment-commission": "Make commission transaction",
           "payment-transfer": "Make transfer transaction",
           "payment-approve": "Approve payment",
           "payment-reject": "Reject payment",

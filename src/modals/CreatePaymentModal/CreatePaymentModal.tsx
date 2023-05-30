@@ -311,9 +311,7 @@ const CreatePaymentModal = (props: Props) => {
                           />
                         </When>
 
-                        <When
-                          condition={[paymentTypes.CREDIT_OUT.name, paymentTypes.COMMISSION.name].includes(paymentType)}
-                        >
+                        <When condition={paymentType === paymentTypes.CREDIT_OUT.name}>
                           <AccountsSelectField
                             className="CreatePaymentModal__field"
                             name="accountUUID"

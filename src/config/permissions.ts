@@ -116,7 +116,6 @@ const permissions: Permissions = {
     CREDIT_IN: 'payment.creditIn',
     CREDIT_OUT: 'payment.creditOut',
     TRANSFER: 'payment.transfer',
-    COMMISSION: 'payment.commission',
     APPROVE: 'payment.approvePayment',
     REJECT: 'payment.rejectPayment',
     CHANGE_STATUS: 'payment.changePaymentStatus',

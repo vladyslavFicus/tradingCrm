@@ -138,7 +138,6 @@ const PaymentsListGrid = (props: Props) => {
             'PaymentsListGrid__type--transfer-out': paymentType === tradingTypes.TRANSFER_OUT,
             'PaymentsListGrid__type--credit-in': paymentType === tradingTypes.CREDIT_IN,
             'PaymentsListGrid__type--credit-out': paymentType === tradingTypes.CREDIT_OUT,
-            'PaymentsListGrid__type--commission': paymentType === tradingTypes.COMMISSION,
           },
         )}
       >

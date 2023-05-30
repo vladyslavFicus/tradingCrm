@@ -33,7 +33,6 @@ const ClientPaymentsTab = () => {
     permissions.PAYMENT.CREDIT_IN,
     permissions.PAYMENT.CREDIT_OUT,
     permissions.PAYMENT.TRANSFER,
-    permissions.PAYMENT.COMMISSION,
   ]);
 
   // ===== Modals ===== //
