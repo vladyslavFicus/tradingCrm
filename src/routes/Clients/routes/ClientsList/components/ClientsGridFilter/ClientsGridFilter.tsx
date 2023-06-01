@@ -999,6 +999,17 @@ const ClientsGridFilter = (props:Props) => {
                   />
 
                   <Field
+                    name="searchLimit"
+                    type="number"
+                    className="ClientsGridFilter__field ClientsGridFilter__search-limit"
+                    label={I18n.t(attributeLabels.searchLimit)}
+                    placeholder={I18n.t('COMMON.UNLIMITED')}
+                    component={FormikInputField}
+                    min={0}
+                    withFocus
+                  />
+
+                  <Field
                     name="termsAccepted"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     label={I18n.t(attributeLabels.termsAccepted)}
