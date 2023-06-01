@@ -138,8 +138,13 @@ class Chart extends PureComponent {
   }
 
   updateNextTickItem = ({ dateTime, ask, bid }) => {
-    this.bidLine.update({ time: chartTimeFormatting(dateTime), value: bid });
-    this.askLine.update({ time: chartTimeFormatting(dateTime), value: ask });
+    try {
+      this.bidLine.update({ time: chartTimeFormatting(dateTime), value: bid });
+      this.askLine.update({ time: chartTimeFormatting(dateTime), value: ask });
+    } catch (e) {
+      // SKIP: Error: Cannot update oldest data, last time=1670268272.234, new time=1670268271.862
+      // We need to skip an error if oldest data received on next tick
+    }
   }
 
   updateChartSize = (width, height) => {
