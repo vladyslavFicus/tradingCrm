@@ -286,6 +286,7 @@ const permissions: Permissions = {
     SETTINGS_EMAIL_TEMPLATES: 'backoffice-graphql.sidebar.settingsEmailTemplates',
     SETTINGS_RBAC: 'backoffice-graphql.sidebar.settingsRbac',
     SETTINGS_ACQUISITION_STATUSES: 'backoffice-graphql.sidebar.settingsAcquisitionStatuses',
+    SETTINGS_FEATURE_TOGGLES: 'backoffice-graphql.sidebar.settingsFeatureToggles',
   },
 };
 

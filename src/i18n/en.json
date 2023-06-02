@@ -111,7 +111,8 @@
         "TITLE": "Settings",
         "ROLES_AND_PERMISSIONS": "Roles & Permissions",
         "EMAIL_TEMPLATES": "Email templates",
-        "ACQUISITION_STATUSES": "Acquisition statuses"
+        "ACQUISITION_STATUSES": "Acquisition statuses",
+        "FEATURE_TOGGLES": "Feature toggles"
       },
       "TRADING_ENGINE": {
         "TITLE": "Trading Engine",
@@ -6160,8 +6161,99 @@
           "ipWhitelist": "IP Whitelist",
           "settingsEmailTemplates": "Settings. Email templates",
           "settingsRbac": "Settings. RBAC",
-          "settingsAcquisitionStatuses": "Settings. Acquisition statuses"
+          "settingsAcquisitionStatuses": "Settings. Acquisition statuses",
+          "settingsFeatureToggles": "Settings. Feature toggles"
         }
+      }
+    }
+  },
+  "FEATURE_TOGGLES": {
+    "TITLE": "Feature toggles",
+    "TABS": {
+      "FEATURES": "Features",
+      "FEED": "Feed"
+    },
+    "FEATURE_FORM": {
+      "COMMON": "Common",
+      "CLIENT_PORTAL": "Client portal",
+      "RESTRICTED_COUNTRIES": {
+        "TITLE": "Restricted countries",
+        "DESCRIPTION": "Feature allows to select countries from which login will be prohibited."
+      },
+      "NOTIFICATION_CLEANUP": {
+        "TITLE": "Notification cleanup (days)",
+        "DESCRIPTION": "Feature allows to set the period after which notifications are deleted from the CRM. The default period is set at 6 months."
+      },
+      "REFERRAL_PROGRAM": {
+        "TITLE": "Refferal program",
+        "DESCRIPTION": "Feature allows to enable or disable the referral program for clients.\n Referral program is configured in the support portal."
+      },
+      "AUTO_CREATING_TA": {
+        "TITLE": "Auto creating trading account (after Sign up)",
+        "LABEL": "Auto creating TA",
+        "DESCRIPTION": "If the feature is enabled, a trading account is automatically created for the client after sign-up."
+      },
+      "DEPOSIT_BY_CLIENT": {
+        "TITLE": "Deposit by client",
+        "DESCRIPTION": "If the feature is enabled clients cannot make a deposit until the operator allows it on the client profile"
+      },
+      "QUICK_DEPOSIT_BUTTONS": {
+        "TITLE": "Quick deposit buttons",
+        "DESCRIPTION": "Setup hint button on deposit modal on Client Portal (3 buttons).",
+        "DEPOSIT_ONE": "Deposit 1",
+        "DEPOSIT_TWO": "Deposit 2",
+        "DEPOSIT_THREE": "Deposit 3",
+        "DEPOSIT_FOUR": "Deposit 4",
+        "DEPOSIT_FIVE": "Deposit 5"
+      },
+      "ACCOUNT_QUANTITY": {
+        "TITLE": "Account quantity",
+        "DESCRIPTION": "Feature allows to set the maximum number of accounts that a client can create from the client portal."
+      },
+      "CHANGE_PASSWORD": {
+        "TITLE": "Change password",
+        "DESCRIPTION": "Feature allows to show client ability to change the password on the client portal."
+      },
+      "AUTO_LOGOUT": {
+        "TITLE": "Auto logout",
+        "DESCRIPTION": "Feature allows to enable automatic logout of a client that came from an affiliate. \n After the 1st login, the system will log out the client and at the next login will ask the client to change the password, after changing the password, the client can work normally without logging out.\n The logout time is configurable"
+      },
+      "LOGOUT_TIME": "Logout time (seconds)",
+      "SUBMIT": {
+        "REQUIRED_FIELD": "The field is required.",
+        "TITLE": "Feature toggles updating",
+        "SUCCESS": "Feature toggles updated successfully",
+        "ERROR": "Feature toggles was not updated for some reason"
+      },
+      "TABLE": {
+        "TITLE": "Max & Min deposit amount",
+        "DESCRIPTION": "Feature allows to specify the values for the minimum and maximum deposits for the client.",
+        "CURRENCY": "Currency",
+        "MIN_DEPOSIT": "Min deposit amount",
+        "MAX_DEPOSIT": "Max deposit amount",
+        "ADD_CURRENCY": "Add",
+        "ACTIONS": "Actions",
+        "CONFIRMATION": {
+          "DELETE": {
+            "TITLE": "Delete currency",
+            "DESCRIPTION": "Are you sure that you want to delete deposit amounts for {{currency}}?"
+          }
+        }
+      }
+    },
+    "MODALS": {
+      "UPDATE_DEPOSIT_AMOUNT": {
+        "TITLE": "Update deposit amount",
+        "CURRENCY": "Currency",
+        "MIN_DEPOSIT": "Min deposit amount",
+        "MAX_DEPOSIT": "Max deposit amount",
+        "NOTIFICATION": {
+          "SUCCESS": "Deposit amounts has been successfully updated"
+        }
+      },
+      "UPDATE_VERSION_MODAL": {
+        "TITLE": "Update your brand config version",
+        "TEXT": "Brand config has been updated. To continue working with it click the button below. It will reload the page and update Brand cofig version."
       }
     }
   }

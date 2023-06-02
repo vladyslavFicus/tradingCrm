@@ -2138,6 +2138,15 @@ const rback: Array<RbackItem> = [
           },
         },
       },
+      {
+        id: 'settingsFeatureToggles',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.settingsFeatureToggles',
+            state: false,
+          },
+        },
+      },
     ],
   },
 ];

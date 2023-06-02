@@ -142,6 +142,13 @@ export const routesPermissions: RoutesPermissions = {
     permissions.AUTH.UPDATE_ACTIONS,
   ],
 
+  // Settings: Feature toggles
+  '/feature-toggles': [
+    permissions.SIDEBAR.SETTINGS_FEATURE_TOGGLES,
+    permissions.BRAND_CONFIG.GET_BRAND_CONFIG,
+  ],
+  '/feature-toggles/feed': [permissions.AUDIT.AUDIT_LOGS],
+
   // Settings: Acquisition statuses
   '/settings/acquisition-statuses': [
     permissions.SIDEBAR.SETTINGS_ACQUISITION_STATUSES,

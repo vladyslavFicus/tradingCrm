@@ -32,9 +32,9 @@ import EmailTemplates from 'routes/EmailTemplates';
 import TradingAccounts from 'routes/TradingAccounts';
 import Notifications from 'routes/Notifications';
 import RolesAndPermissions from 'routes/RolesAndPermissions';
-import { withStorage } from 'providers/StorageProvider';
 import IpWhitelist from 'routes/IpWhitelist';
-
+import FeatureToggles from 'routes/FeatureToggles';
+import { withStorage } from 'providers/StorageProvider';
 
 type Auth = {
   department: string,
@@ -95,6 +95,7 @@ const IndexRoute = (props: Props) => {
         <Route path="/release-notes" layout={AuthorizedLayout} component={ReleaseNotes} isPrivate />
         <Route path="/email-templates" layout={AuthorizedLayout} component={EmailTemplates} isPrivate />
         <Route path="/roles-and-permissions" layout={AuthorizedLayout} component={RolesAndPermissions} isPrivate />
+        <Route path="/feature-toggles" layout={AuthorizedLayout} component={FeatureToggles} isPrivate />
         <Route path="/settings" layout={AuthorizedLayout} component={Settings} isPrivate />
         <Route path="/logout" component={Logout} isPrivate />
 

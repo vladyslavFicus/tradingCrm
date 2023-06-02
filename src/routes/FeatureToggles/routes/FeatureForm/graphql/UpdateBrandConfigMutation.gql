@@ -1,0 +1,52 @@
+mutation UpdateBrandConfigMutation(
+  $version: Int!,
+  $restrictedCountries: [String!]!,
+  $paymentAmounts: [Float!]!,
+  $profileDepositEnable: Boolean!,
+  $notificationCleanUpDays: Int!,
+  $hideChangePasswordCp: Boolean!,
+  $referralEnable: Boolean!,
+  $jwtAccessTtlSeconds: Int,
+  $platformMaxAccounts: [FeatureTogglesUpdate__PlatformMaxAccountsDto__Input!]!,
+  $paymentDeposits: [FeatureTogglesUpdate__PaymentDeposit__Input!]!,
+  $accountAutoCreations: [FeatureTogglesUpdate__AccountAutoCreation__Input!]!
+ ) {
+  featureToggles {
+    updateFeatureToggles(
+      version: $version,
+      restrictedCountries: $restrictedCountries,
+      paymentAmounts: $paymentAmounts,
+      profileDepositEnable: $profileDepositEnable,
+      notificationCleanUpDays: $notificationCleanUpDays,
+      hideChangePasswordCp: $hideChangePasswordCp,
+      referralEnable: $referralEnable,
+      jwtAccessTtlSeconds: $jwtAccessTtlSeconds,
+      platformMaxAccounts: $platformMaxAccounts,
+      paymentDeposits: $paymentDeposits,
+      accountAutoCreations: $accountAutoCreations
+      ){
+      version
+      restrictedCountries
+      paymentAmounts
+      profileDepositEnable
+      notificationCleanUpDays
+      hideChangePasswordCp
+      referralEnable
+      jwtAccessTtlSeconds
+      platformMaxAccounts {
+        platformType
+        maxLiveAccounts
+      }
+      paymentDeposits {
+        min
+        max
+        currency
+      }
+      accountAutoCreations {
+        accountCurrency
+        createOnRegistration
+        platformType
+      }
+    }
+  }
+}

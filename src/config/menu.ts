@@ -295,6 +295,14 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
           permissions.SIDEBAR.SETTINGS_ACQUISITION_STATUSES,
         ],
       },
+      {
+        label: 'SIDEBAR.TOP_MENU.SETTINGS.FEATURE_TOGGLES',
+        url: '/feature-toggles',
+        permissions: [
+          permissions.BRAND_CONFIG.GET_BRAND_CONFIG,
+          permissions.SIDEBAR.SETTINGS_FEATURE_TOGGLES,
+        ],
+      },
     ],
   },
 ];

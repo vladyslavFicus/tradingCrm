@@ -47,10 +47,23 @@ class FeedContent extends PureComponent {
     .map(({ value }) => value)
     .join(', ');
 
+  formatTypeChangedObject = (array, type) => array
+    .filter(({ changeType }) => changeType === type)
+    .map(arr => Object.entries(arr.value)
+      .map(([keyObj, value]) => `${keyObj}-${value},`));
+
   handleTypeChanged = (key, { from, to, elements }) => {
+    let changeTypeRemoved = null;
+    let changeTypeAdded = null;
+
     if (Array.isArray(elements)) {
-      const changeTypeRemoved = this.formatTypeChangedElements(elements, 'REMOVED');
-      const changeTypeAdded = this.formatTypeChangedElements(elements, 'ADDED');
+      if (elements.every(item => typeof item.value === 'object')) {
+        changeTypeRemoved = this.formatTypeChangedObject(elements, 'REMOVED');
+        changeTypeAdded = this.formatTypeChangedObject(elements, 'ADDED');
+      } else {
+        changeTypeRemoved = this.formatTypeChangedElements(elements, 'REMOVED');
+        changeTypeAdded = this.formatTypeChangedElements(elements, 'ADDED');
+      }
 
       return (
         <div key={uuidv4()}>

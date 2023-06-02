@@ -1,0 +1,26 @@
+query BrandConfigQuery {
+  featureToggles {
+    version
+    restrictedCountries
+    paymentAmounts
+    profileDepositEnable
+    notificationCleanUpDays
+    hideChangePasswordCp
+    referralEnable
+    jwtAccessTtlSeconds
+    platformMaxAccounts {
+      platformType
+      maxLiveAccounts
+    }
+    paymentDeposits {
+      min
+      max
+      currency
+    }
+    accountAutoCreations {
+      accountCurrency
+      createOnRegistration
+      platformType
+    }
+  }
+}
