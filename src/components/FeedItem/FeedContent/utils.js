@@ -168,6 +168,7 @@ const prepareCommonValue = (value) => {
 export const prepareValue = (key, value) => {
   const customValues = {
     sessionDuration: humanizeDuration(value, humanizeDurationConfig),
+    inactiveSeconds: `Inactive ${value} seconds`,
   };
 
   return customValues[key] || prepareCommonValue(value);

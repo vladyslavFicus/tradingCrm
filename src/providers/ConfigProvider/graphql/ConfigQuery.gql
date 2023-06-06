@@ -3,6 +3,7 @@ query ConfigQuery($brandId: String!) {
     env
     backoffice {
       dashboards
+      ttl_inactive_seconds
     }
     currencies {
       base

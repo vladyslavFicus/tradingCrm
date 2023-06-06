@@ -1811,6 +1811,7 @@
       "SESSION_DURATION": "Session duration",
       "DEVICE": "Device"
     },
+    "inactiveSeconds": "Reason",
     "PLAYER_PROFILE_SEARCH": {
       "SEARCH_PARAMETERS": "Search parameters"
     },

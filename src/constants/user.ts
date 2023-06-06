@@ -127,6 +127,7 @@ export const attributeLabels: Record<string, string> = {
   initiatorName: 'FEED_ITEM.INITIATOR_NAME',
   initiatorUuid: 'FEED_ITEM.INITIATOR_UUID',
   templateName: 'FEED_ITEM.EMAIL.TEMPLATE_NAME',
+  inactiveSeconds: 'FEED_ITEM.LOG_OUT.INACTIVE_SECONDS',
 };
 
 export const filterLabels: Record<string, string> = {

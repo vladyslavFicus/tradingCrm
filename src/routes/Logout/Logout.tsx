@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import compose from 'compose-function';
 import { useApolloClient } from '@apollo/client';
 import { withStorage } from 'providers/StorageProvider';
@@ -11,6 +12,12 @@ type Props = {
 
 const Logout = (props: Props) => {
   const { storage } = props;
+  const location = useLocation();
+
+  const inactiveSecondsParam = new URLSearchParams(location.search).get('timeout');
+  const inactiveSeconds = (inactiveSecondsParam != null)
+    ? parseInt(inactiveSecondsParam, 10)
+    : null;
 
   const client = useApolloClient();
 
@@ -20,7 +27,7 @@ const Logout = (props: Props) => {
   // ===== Handlers ===== //
   const handleLogout = async () => {
     try {
-      await logoutMutation();
+      await logoutMutation({ variables: { idleTimeoutInSeconds: inactiveSeconds } });
     } catch (e) {
       // Do nothing...
     } finally {
