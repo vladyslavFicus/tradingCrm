@@ -454,7 +454,7 @@ const FeatureForm = () => {
 
                 <div className="FeatureForm__block">
                   <span className="FeatureForm__block-title">
-                    {I18n.t('FEATURE_TOGGLES.FEATURE_FORM.CHANGE_PASSWORD.TITLE')}
+                    {I18n.t('FEATURE_TOGGLES.FEATURE_FORM.HIDE_CHANGE_PASSWORD.TITLE')}
 
                     <i className="FeatureForm__icon-info fa fa-info-circle" id={`password-${id}`} />
 
@@ -464,7 +464,7 @@ const FeatureForm = () => {
                       delay={{ show: 0, hide: 0 }}
                       fade={false}
                     >
-                      {I18n.t('FEATURE_TOGGLES.FEATURE_FORM.CHANGE_PASSWORD.DESCRIPTION')}
+                      {I18n.t('FEATURE_TOGGLES.FEATURE_FORM.HIDE_CHANGE_PASSWORD.DESCRIPTION')}
                     </UncontrolledTooltip>
                   </span>
 

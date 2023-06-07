@@ -6210,9 +6210,9 @@
         "TITLE": "Account quantity",
         "DESCRIPTION": "Feature allows to set the maximum number of accounts that a client can create from the client portal."
       },
-      "CHANGE_PASSWORD": {
-        "TITLE": "Change password",
-        "DESCRIPTION": "Feature allows to show client ability to change the password on the client portal."
+      "HIDE_CHANGE_PASSWORD": {
+        "TITLE": "Hide change password",
+        "DESCRIPTION": "Feature allows to hide client ability to change the password on the client portal."
       },
       "AUTO_LOGOUT": {
         "TITLE": "Auto logout",
