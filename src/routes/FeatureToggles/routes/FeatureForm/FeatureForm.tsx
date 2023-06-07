@@ -71,7 +71,7 @@ const FeatureForm = () => {
   // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues) => {
     const { depositButtons, platformMaxAccounts: updatedPlatform, accountAutoCreations: updatedAccounts } = values;
-    const depositAmounts = Object.values(depositButtons).filter(deposit => deposit !== null);
+    const depositAmounts = Object.values(depositButtons).filter(deposit => !!deposit);
 
     const newPlatformMaxAccounts = platformMaxAccounts?.map((platform) => {
       const updatedMaxLiveAccounts = updatedPlatform[platform?.platformType as PlatformType];
