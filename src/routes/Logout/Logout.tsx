@@ -15,7 +15,7 @@ const Logout = (props: Props) => {
   const location = useLocation();
 
   const inactiveSecondsParam = new URLSearchParams(location.search).get('timeout');
-  const inactiveSeconds = (inactiveSecondsParam != null)
+  const inactiveSeconds = (inactiveSecondsParam !== null)
     ? parseInt(inactiveSecondsParam, 10)
     : null;
 
@@ -27,7 +27,7 @@ const Logout = (props: Props) => {
   // ===== Handlers ===== //
   const handleLogout = async () => {
     try {
-      await logoutMutation({ variables: { idleTimeoutInSeconds: inactiveSeconds } });
+      await logoutMutation({ variables: { inactiveSeconds: inactiveSeconds } });
     } catch (e) {
       // Do nothing...
     } finally {
