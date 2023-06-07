@@ -19,7 +19,7 @@ const AutoLogoutProvider = (props: Props) => {
 
   // ===== Initial IdleTimer setup ===== //
   useEffect(() => {
-    const timeout = getBrand()?.backoffice?.ttl_inactive_seconds || 30;
+    const timeout = getBrand()?.backoffice?.ttl_inactive_seconds || 0;
     const timer = (token && !!timeout) ? new IdleTimer({
       storage: props.storage,
       timeout, // logout after idle seconds
