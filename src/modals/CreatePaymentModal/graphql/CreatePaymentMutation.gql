@@ -2,6 +2,7 @@ mutation CreatePaymentMutation(
   $accountUUID: String
   $amount: Float!
   $country: String
+  $currency: String
   $externalReference: String
   $expirationDate: String
   $login: Int
@@ -23,6 +24,7 @@ mutation CreatePaymentMutation(
       source: $source
       target: $target
       country: $country
+      currency: $currency
       paymentMethod: $paymentMethod
       profileUUID: $profileUUID
       paymentSystem: $paymentSystem

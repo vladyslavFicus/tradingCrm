@@ -1842,6 +1842,15 @@ const rback: Array<RbackItem> = [
           },
         },
       },
+      {
+        id: 'COMMISSION',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.COMMISSION',
+            state: false,
+          },
+        },
+      },
     ],
   },
   // ============================================= //

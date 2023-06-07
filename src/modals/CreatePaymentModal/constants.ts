@@ -4,10 +4,17 @@ import permissions from 'config/permissions';
 
 const TRANSFER = 'TRANSFER';
 
+export enum commissionCurrencies {
+  USDT = 'USDT',
+  BTC = 'BTC',
+  ETH = 'ETH'
+}
+
 export const attributeLabels: Record<string, string> = {
   paymentType: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.TYPE'),
   amount: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.AMOUNT'),
   paymentMethod: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.PAYMENT_METHOD'),
+  commissionCurrency: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.COMMISSION_CURRENCY'),
   paymentSystem: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.PAYMENT_SYSTEM'),
   paymentSystemName: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.PAYMENT_SYSTEM_NAME'),
   externalReference: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.EXTERNAL_REF'),
@@ -36,4 +43,10 @@ export const paymentTypes: Record<string, PaymentTypeDetails> = {
 export const paymentTypesLabels: Record<string, string> = {
   ...tradingTypesLabels,
   [TRANSFER]: 'COMMON.PAYMENT_TYPE.TRANSFER',
+};
+
+export const commissionCurrenciesLabels: Record<string, string> = {
+  [commissionCurrencies.USDT]: 'CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.COMMISSION_CURRENCIES.USDT',
+  [commissionCurrencies.BTC]: 'CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.COMMISSION_CURRENCIES.BTC',
+  [commissionCurrencies.ETH]: 'CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.COMMISSION_CURRENCIES.ETH',
 };

@@ -1351,7 +1351,8 @@
         "CRYPTOCURRENCY_EXTERNAL": "Cryptocurrency external",
         "VOGUEPAY": "Voguepay",
         "INTERNAL_TRANSFER": "Internal transfer",
-        "BONUS": "Bonus"
+        "BONUS": "Bonus",
+        "COMMISSION": "Commission"
       },
       "PAYMENT_AGGREGATORS": {
         "MANUAL": "Manual",
@@ -1426,7 +1427,8 @@
           "RECALL": "Recall",
           "CHARGEBACK": "Chargeback",
           "CASHIER": "CASHIER",
-          "REFERRAL_BONUS": "Referral bonus"
+          "REFERRAL_BONUS": "Referral bonus",
+          "COMMISSION": "Commission"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "Transaction ID, Affiliate ID, Player, External reference",
@@ -3118,6 +3120,7 @@
         "PAYMENT_METHOD": "Payment method",
         "PAYMENT_SYSTEM": "Payment system",
         "PAYMENT_SYSTEM_NAME": "Payment system name",
+        "COMMISSION_CURRENCY": "Currency",
         "EXTERNAL_REF": "External reference ID",
         "EXPIRATION_DATE": "Expiration date & time",
         "FROM_ACC": "From account",
@@ -3125,7 +3128,12 @@
         "NO_MONEY": "Insufficient funds",
         "CREDIT": "Credit",
         "BALANCE": "Balance",
-        "GROUP": "Group"
+        "GROUP": "Group",
+        "COMMISSION_CURRENCIES": {
+          "USDT": "USDT",
+          "BTC": "BTC",
+          "ETH": "ETH"
+        }
       },
       "GRID_COLUMNS": {
         "TRANSACTION": "Transaction",
@@ -6103,7 +6111,8 @@
           "PAYRETAILERS": "Pay Retailers",
           "RECALL": "Recall",
           "SYSTEM": "System",
-          "WIRE": "Wire"
+          "WIRE": "Wire",
+          "COMMISSION": "Commission"
         }
       },
       "ip-white-list": {
