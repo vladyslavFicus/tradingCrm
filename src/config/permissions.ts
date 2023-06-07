@@ -126,6 +126,8 @@ const permissions: Permissions = {
     CHANGE_SHOW_FTD_TO_AFFILIATE: 'payment.changeShowFtdToAffiliate',
     ENABlE_SHOW_FTD_TO_AFFILIATE: 'payment.enableShowFtdToAffiliate',
     DISABLE_SHOW_FTD_TO_AFFILIATE: 'payment.disableShowFtdToAffiliate',
+    SEARCH_PSP: 'payment.searchPaymentSystems',
+    UPDATE_PSP: 'payment.updateBrandFavouritePaymentSystems',
   },
   PAYMENTS: {
     PAYMENTS_LIST: 'payment-view.searchPayments',
@@ -287,6 +289,7 @@ const permissions: Permissions = {
     SETTINGS_RBAC: 'backoffice-graphql.sidebar.settingsRbac',
     SETTINGS_ACQUISITION_STATUSES: 'backoffice-graphql.sidebar.settingsAcquisitionStatuses',
     SETTINGS_FEATURE_TOGGLES: 'backoffice-graphql.sidebar.settingsFeatureToggles',
+    SETTINGS_PAYMENT_SYSTEMS_PROVIDER: 'backoffice-graphql.sidebar.settingsPaymentSystemsProvider',
   },
 };
 

@@ -1951,6 +1951,40 @@ const rback: Array<RbackItem> = [
     ],
   },
   // ============================================= //
+  // ==================== PSP ==================== //
+  // ============================================= //
+  {
+    id: 'psp',
+    actions: {
+      view: {
+        action: 'payment.searchPaymentSystems',
+        state: false,
+      },
+    },
+    permissions: [
+      // List Payment System
+      {
+        id: 'list',
+        actions: {
+          view: {
+            action: 'payment.searchPaymentSystems',
+            state: false,
+          },
+        },
+      },
+      // Update Brand Favourite Payment Systems
+      {
+        id: 'update',
+        actions: {
+          edit: {
+            action: 'payment.updateBrandFavouritePaymentSystems',
+            state: false,
+          },
+        },
+      },
+    ],
+  },
+  // ============================================= //
   // ============ Sidebar Menu =========== //
   // ============================================= //
   {
@@ -2152,6 +2186,15 @@ const rback: Array<RbackItem> = [
         actions: {
           view: {
             action: 'backoffice-graphql.sidebar.settingsFeatureToggles',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'settingsPaymentSystemsProvider',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.settingsPaymentSystemsProvider',
             state: false,
           },
         },

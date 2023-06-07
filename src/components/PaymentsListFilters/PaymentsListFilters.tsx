@@ -39,6 +39,7 @@ import { firstTimeDepositFilter } from './constants';
 import { useOperatorsQuery } from './graphql/__generated__/OperatorsQuery';
 import { useDesksAndTeamsQuery } from './graphql/__generated__/DesksAndTeamsQuery';
 import { usePaymentMethodsQuery } from './graphql/__generated__/PaymentMethodsQuery';
+import { usePaymentSystemsProviderQuery } from './graphql/__generated__/PaymentSystemsProviderQuery';
 import './PaymentsListFilters.scss';
 
 export type FormValues = Omit<PaymentSearch, 'page'> & TimeZone;
@@ -59,6 +60,20 @@ const PaymentsListFilters = (props: Props) => {
   const history = useHistory();
 
   // ===== Requests ===== //
+  const { data: pspData } = usePaymentSystemsProviderQuery({
+    variables: {
+      args: {
+        withFavouriteStatus: true,
+        page: {
+          from: 0,
+          size: 1000,
+        },
+      },
+    },
+  });
+
+  const paymentSystemsProvider = pspData?.settings?.paymentSystemsProvider?.content || [];
+
   const operatorsQuery = useOperatorsQuery({
     variables: {
       page: {
@@ -255,6 +270,22 @@ const PaymentsListFilters = (props: Props) => {
                     {paymentMethods.map(value => (
                       <option key={value} value={value}>
                         {formatLabel(value, false)}
+                      </option>
+                    ))}
+                  </Field>
+
+                  <Field
+                    name="bankName"
+                    className="PaymentsListFilters__field PaymentsListFilters__select"
+                    label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_SYSTEM')}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                    component={FormikSelectField}
+                    withFocus
+                    withGroup={{ firstTitle: 'COMMON.FAVORITE', secondTitle: 'COMMON.OTHER' }}
+                  >
+                    {paymentSystemsProvider.map(({ paymentSystem, isFavourite }) => (
+                      <option key={paymentSystem} value={paymentSystem} data-isFavourite={isFavourite}>
+                        {formatLabel(paymentSystem, false)}
                       </option>
                     ))}
                   </Field>

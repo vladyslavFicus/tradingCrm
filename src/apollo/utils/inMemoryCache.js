@@ -100,6 +100,9 @@ export default new InMemoryCache({
     },
     SettingsQuery: {
       merge: true,
+      fields: {
+        paymentSystemsProvider: pagination('args.page.from'),
+      },
     },
     Lead__Contacts: {
       merge: true,

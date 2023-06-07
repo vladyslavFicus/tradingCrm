@@ -155,6 +155,13 @@ export const routesPermissions: RoutesPermissions = {
     permissions.HIERARCHY.GET_ACQUISITION_STATUSES,
   ],
 
+  // Settings: PSP
+  '/settings/psp/list': [
+    permissions.SIDEBAR.SETTINGS_PAYMENT_SYSTEMS_PROVIDER,
+    permissions.PAYMENT.SEARCH_PSP,
+  ],
+  '/settings/psp/feed': [permissions.AUDIT.AUDIT_LOGS],
+
   // ==============================
   // ======= Trading Engine =======
   // ==============================

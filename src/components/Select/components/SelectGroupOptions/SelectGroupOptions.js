@@ -1,7 +1,8 @@
 import React, { PureComponent, forwardRef } from 'react';
+import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import './SelectSingleOptions.scss';
+import './SelectGroupOptions.scss';
 
 const OptionPropType = PropTypes.shape({
   key: PropTypes.string,
@@ -9,7 +10,7 @@ const OptionPropType = PropTypes.shape({
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object, PropTypes.bool]),
 });
 
-class SelectSingleOptions extends PureComponent {
+class SelectGroupOptions extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     optionClassName: PropTypes.string,
@@ -19,6 +20,10 @@ class SelectSingleOptions extends PureComponent {
     selectedOption: OptionPropType,
     bindActiveOption: PropTypes.func,
     optionComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    withGroup: PropTypes.shape({
+      firstTitle: PropTypes.string,
+      secondTitle: PropTypes.string,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -83,10 +88,15 @@ class SelectSingleOptions extends PureComponent {
     }));
   };
 
+  getFilterOptionsWithFavourite = (options, isFavourite = true) => options.filter(({ props }) => (
+    isFavourite ? !!props['data-isFavourite'] : !props['data-isFavourite']
+  ));
+
   render() {
     const {
       options,
       className,
+      withGroup,
     } = this.props;
 
     if (!options?.length) {
@@ -95,10 +105,16 @@ class SelectSingleOptions extends PureComponent {
 
     return (
       <div className={className}>
-        {this.renderOptions(options)}
+        <p className="SelectSingleOptions__favourite">{I18n.t(withGroup.firstTitle)}</p>
+        {this.renderOptions(this.getFilterOptionsWithFavourite(options))}
+
+        <hr className="SelectSingleOptions__hr" />
+
+        <p className="SelectSingleOptions__favourite">{I18n.t(withGroup.secondTitle)}</p>
+        {this.renderOptions(this.getFilterOptionsWithFavourite(options, false))}
       </div>
     );
   }
 }
 
-export default SelectSingleOptions;
+export default SelectGroupOptions;

@@ -112,7 +112,8 @@
         "ROLES_AND_PERMISSIONS": "Roles & Permissions",
         "EMAIL_TEMPLATES": "Email templates",
         "ACQUISITION_STATUSES": "Acquisition statuses",
-        "FEATURE_TOGGLES": "Feature toggles"
+        "FEATURE_TOGGLES": "Feature toggles",
+        "PSP": "PSP"
       },
       "TRADING_ENGINE": {
         "TITLE": "Trading Engine",
@@ -560,6 +561,7 @@
     "APPLY": "Apply",
     "MARK_AS_READ": "Mark as read",
     "EXPORT": "Export",
+    "FAVORITE": "Favourite",
     "FROM": "from",
     "EMAIL": "Email",
     "EMAIL_ALT": "Alt Email",
@@ -1396,6 +1398,7 @@
           "TYPE": "Transaction type",
           "STATUSES": "Transaction status",
           "PAYMENT_METHOD": "Payment method",
+          "PAYMENT_SYSTEM": "Payment system",
           "PAYMENT_AGGREGATOR": "Payment aggregator",
           "START_DATE": "Start date",
           "END_DATE": "End date",
@@ -5152,6 +5155,28 @@
           }
         }
       }
+    },
+    "PSP": {
+      "HEADLINE": "PSP",
+      "GRID": {
+        "PSP": "PSP",
+        "FAVOURITE": "Favourite"
+      },
+      "TYPES": {
+        "FAVORITE": "Favorite",
+        "NO_FAVORITE": "No favorite"
+      },
+      "TABS": {
+        "LIST": "PSP",
+        "FEED": "Feed"
+      },
+      "FORM": {
+        "FIELDS": {
+          "SEARCH_BY": "Search by",
+          "SEARCH_BY_PLACEHOLDER": "PSP name",
+          "FAVOURITE_PSP": "Favourite PSP"
+        }
+      }
     }
   },
   "IP_WHITELIST": {
@@ -6147,6 +6172,13 @@
           "delete": "Delete acquisition status"
         }
       },
+      "psp": {
+        "TITLE": "PSP",
+        "PERMISSIONS": {
+          "list": "View PSP",
+          "update": "Update favourite payment systems"
+        }
+      },
       "sidebar-menu": {
         "TITLE": "Sidebar menu (visual)",
         "PERMISSIONS": {
@@ -6171,7 +6203,8 @@
           "settingsEmailTemplates": "Settings. Email templates",
           "settingsRbac": "Settings. RBAC",
           "settingsAcquisitionStatuses": "Settings. Acquisition statuses",
-          "settingsFeatureToggles": "Settings. Feature toggles"
+          "settingsFeatureToggles": "Settings. Feature toggles",
+          "settingsPaymentSystemsProvider": "Settings. Payment systems provider"
         }
       }
     }
