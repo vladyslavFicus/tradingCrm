@@ -4,6 +4,7 @@ import { featureTabs } from 'routes/FeatureToggles/constants';
 import FeedsList from 'components/FeedsList';
 import { getBrand } from 'config';
 import { Feed__AuditCategory__Enum as FeedAuditCategoryEnum } from '__generated__/types';
+import './FeatureFeed.scss';
 
 const FeatureFeed = () => (
   <div className="FeatureFeed">
