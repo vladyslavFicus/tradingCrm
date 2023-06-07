@@ -1,4 +1,4 @@
-export const EXPIRATION_TIME_PROP_KEY = '_expiredTime';
+export const EXPIRATION_TIME_PROP_KEY = '_autoLogoutTime';
 const EVENT_NAMES = ['mousemove', 'scroll', 'keydown'];
 
 class IdleTimer {
