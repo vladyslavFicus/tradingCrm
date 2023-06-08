@@ -16,12 +16,17 @@ export const attributeLabels = {
 };
 
 const errorValue = I18n.t('FEATURE_TOGGLES.FEATURE_FORM.SUBMIT.REQUIRED_FIELD');
+const greaterNull = I18n.t('FEATURE_TOGGLES.FEATURE_FORM.SUBMIT.GREATER_NULL');
 
 export const customErrors: Record<string, string> = {
   'required.platformMaxAccounts.MT4': errorValue,
   'required.platformMaxAccounts.MT5': errorValue,
   'required.platformMaxAccounts.TE': errorValue,
   'required.platformMaxAccounts.WET': errorValue,
+  'greater.platformMaxAccounts.MT4': greaterNull,
+  'greater.platformMaxAccounts.MT5': greaterNull,
+  'greater.platformMaxAccounts.TE': greaterNull,
+  'greater.platformMaxAccounts.WET': greaterNull,
   'required.depositButtons.deposit1': errorValue,
   'required.depositButtons.deposit2': errorValue,
   'required.depositButtons.deposit3': errorValue,

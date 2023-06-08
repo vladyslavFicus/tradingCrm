@@ -6265,7 +6265,8 @@
         "REQUIRED_FIELD": "The field is required.",
         "TITLE": "Feature toggles updating",
         "SUCCESS": "Feature toggles updated successfully",
-        "ERROR": "Feature toggles was not updated for some reason"
+        "ERROR": "Feature toggles was not updated for some reason",
+        "GREATER_NULL": "The field must be greater than 0."
       },
       "TABLE": {
         "TITLE": "Max & Min deposit amount",
