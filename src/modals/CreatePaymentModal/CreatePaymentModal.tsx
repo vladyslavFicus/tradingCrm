@@ -8,7 +8,12 @@ import { PaymentMutationCreatePaymentArgs as PaymentValues, Profile, TradingAcco
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { targetTypes } from 'constants/note';
-import { manualPaymentMethods, manualPaymentMethodsLabels } from 'constants/payment';
+import {
+  commissionCurrencies,
+  commissionCurrenciesLabels,
+  manualPaymentMethods,
+  manualPaymentMethodsLabels,
+} from 'constants/payment';
 import { Button } from 'components/Buttons';
 import NoteActionManual from 'components/Note/NoteActionManual';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
@@ -19,8 +24,6 @@ import {
   paymentTypes,
   paymentTypesLabels,
   attributeLabels,
-  commissionCurrencies,
-  commissionCurrenciesLabels,
 } from './constants';
 import { useManualPaymentMethodsQuery } from './graphql/__generated__/ManualPaymentMethodsQuery';
 import { usePaymentSystemQuery } from './graphql/__generated__/PaymentSystemsQuery';
@@ -223,7 +226,9 @@ const CreatePaymentModal = (props: Props) => {
           const isPaymentSystemNameVisible = isPaymentSystemVisible && paymentSystem === 'OTHER';
 
           const rates = ratesQueryData?.rates.rates;
-          const commissionCurrencyRate = !!commissionCurrency && !!rates ? rates[commissionCurrency] : null;
+          const commissionCurrencyValue = !!commissionCurrency
+            && commissionCurrency.substring(0, commissionCurrency.indexOf('_'));
+          const commissionCurrencyRate = !!commissionCurrencyValue && !!rates ? rates[commissionCurrencyValue] : null;
           const commissionAmountInAccountCurrency = !!amount && !!commissionCurrencyRate
             ? amount / commissionCurrencyRate : null;
 

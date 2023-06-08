@@ -3133,9 +3133,10 @@
         "BALANCE": "Balance",
         "GROUP": "Group",
         "COMMISSION_CURRENCIES": {
-          "USDT": "USDT",
-          "BTC": "BTC",
-          "ETH": "ETH"
+          "USDT_TRC20": "USDT (TRC20)",
+          "USDT_ERC20": "USDT (ERC20)",
+          "BTC_BTC": "BTC (BTC)",
+          "ETH_ETH": "ETH (ETH)"
         }
       },
       "GRID_COLUMNS": {

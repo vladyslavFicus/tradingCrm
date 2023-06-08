@@ -73,6 +73,13 @@ export enum tradingTypes {
   WITHDRAW = 'WITHDRAW',
 }
 
+export enum commissionCurrencies {
+  USDT_TRC20 = 'USDT_TRC20',
+  USDT_ERC20 = 'USDT_ERC20',
+  BTC_BTC = 'BTC_BTC',
+  ETH_ETH = 'ETH_ETH'
+}
+
 export const statusMapper: Record<statuses, Array<tradingStatuses>> = {
   [statuses.COMPLETED]: [
     tradingStatuses.PAYMENT_COMPLETED,
@@ -151,4 +158,11 @@ export const manualPaymentMethodsLabels: Record<manualPaymentMethods, string> = 
   [manualPaymentMethods.CHARGEBACK]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.CHARGEBACK',
   [manualPaymentMethods.REFERRAL_BONUS]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.REFERRAL_BONUS',
   [manualPaymentMethods.COMMISSION]: 'CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.COMMISSION',
+};
+
+export const commissionCurrenciesLabels: Record<string, string> = {
+  [commissionCurrencies.USDT_TRC20]: 'CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.COMMISSION_CURRENCIES.USDT_TRC20',
+  [commissionCurrencies.USDT_ERC20]: 'CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.COMMISSION_CURRENCIES.USDT_ERC20',
+  [commissionCurrencies.BTC_BTC]: 'CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.COMMISSION_CURRENCIES.BTC_BTC',
+  [commissionCurrencies.ETH_ETH]: 'CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.COMMISSION_CURRENCIES.ETH_ETH',
 };

@@ -4,12 +4,6 @@ import permissions from 'config/permissions';
 
 const TRANSFER = 'TRANSFER';
 
-export enum commissionCurrencies {
-  USDT = 'USDT',
-  BTC = 'BTC',
-  ETH = 'ETH'
-}
-
 export const attributeLabels: Record<string, string> = {
   paymentType: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.TYPE'),
   amount: I18n.t('CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.AMOUNT'),
@@ -43,10 +37,4 @@ export const paymentTypes: Record<string, PaymentTypeDetails> = {
 export const paymentTypesLabels: Record<string, string> = {
   ...tradingTypesLabels,
   [TRANSFER]: 'COMMON.PAYMENT_TYPE.TRANSFER',
-};
-
-export const commissionCurrenciesLabels: Record<string, string> = {
-  [commissionCurrencies.USDT]: 'CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.COMMISSION_CURRENCIES.USDT',
-  [commissionCurrencies.BTC]: 'CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.COMMISSION_CURRENCIES.BTC',
-  [commissionCurrencies.ETH]: 'CLIENT_PROFILE.TRANSACTIONS.MODAL_CREATE.COMMISSION_CURRENCIES.ETH',
 };

@@ -7,7 +7,14 @@ import { getBrand, getBackofficeBrand } from 'config';
 import { Payment as PaymentInfo, Sort__Input as Sort } from '__generated__/types';
 import { NoteEntity } from 'types/Note';
 import { targetTypes } from 'constants/note';
-import { aggregatorsLabels, tradingTypes, tradingTypesLabels, aggregators } from 'constants/payment';
+import {
+  aggregatorsLabels,
+  tradingTypes,
+  tradingTypesLabels,
+  aggregators,
+  commissionCurrenciesLabels,
+  commissionCurrencies,
+} from 'constants/payment';
 import { AdjustableTable, Column } from 'components/Table';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import Uuid from 'components/Uuid';
@@ -171,7 +178,10 @@ const PaymentsListGrid = (props: Props) => {
         </div>
 
         <If condition={!!cryptoAmount && !!cryptoCurrency}>
-          <span className="PaymentsListGrid__text-secondary">{cryptoCurrency} {cryptoAmount}</span>
+          <span className="PaymentsListGrid__text-secondary-crypto">
+            {I18n.t(commissionCurrenciesLabels[cryptoCurrency as commissionCurrencies])
+              || cryptoCurrency } {cryptoAmount}
+          </span>
         </If>
       </>
     );
