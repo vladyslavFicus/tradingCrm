@@ -373,6 +373,7 @@ const PaymentDetailsModal = (props: Props) => {
             <If condition={canChangeMethod && canChangeStatus && !inPendingStatus}>
               <div className="PaymentDetailsModal__row">
                 <ChangePaymentStatusForm
+                  disablePaymentMethod={payment.paymentMethod === 'COMMISSION'}
                   onSuccess={onSuccess}
                   paymentId={paymentId}
                   onCloseModal={onCloseModal}

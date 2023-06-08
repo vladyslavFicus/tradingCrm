@@ -442,8 +442,8 @@ const CreatePaymentModal = (props: Props) => {
                               label={attributeLabels.amount}
                               className="CreatePaymentModal__field CreatePaymentModal__field--small
                               CreatePaymentModal__field--amount"
-                              placeholder="0.00"
-                              step="0.01"
+                              placeholder="0"
+                              step="0.0000001"
                               min={0}
                               max={999999}
                               component={FormikInputField}
