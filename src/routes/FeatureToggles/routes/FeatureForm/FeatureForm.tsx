@@ -92,7 +92,7 @@ const FeatureForm = () => {
     try {
       await updateBrandConfigMutation({
         variables: {
-          restrictedCountries: values?.restrictedCountries,
+          restrictedCountries: values?.restrictedCountries || [],
           version: version || 0,
           paymentAmounts: depositAmounts as Array<number>,
           profileDepositEnable: !!values?.profileDepositEnable,
