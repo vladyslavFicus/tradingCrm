@@ -27,7 +27,7 @@ const Logout = (props: Props) => {
   // ===== Handlers ===== //
   const handleLogout = async () => {
     try {
-      await logoutMutation({ variables: { inactiveSeconds: inactiveSeconds } });
+      await logoutMutation({ variables: { inactiveSeconds } });
     } catch (e) {
       // Do nothing...
     } finally {
