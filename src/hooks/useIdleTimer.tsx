@@ -2,7 +2,7 @@ import { useRef } from 'react';
 
 const EXPIRATION_TIME_PROP_KEY = '_autoLogoutTime';
 const DEBOUNCE_MILLISECONDS = 300;
-const EVENT_NAMES = ['mousemove', 'scroll', 'keydown'];
+const EVENT_NAMES = ['mousemove', 'scroll', 'keydown', 'wheel', 'DOMMouseScroll', 'mousewheel', 'mousedown'];
 
 function useIdleTimer(storage: Storage, onTimeout: (timeout: number) => void) {
   const idleInterval = useRef<NodeJS.Timer | null>(null);
