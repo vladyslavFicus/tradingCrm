@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import compose from 'compose-function';
-import { useHistory } from 'react-router-dom';
 import { getBrand } from 'config';
 import { withStorage } from 'providers/StorageProvider';
-import IdleTimer from './IdleTimer';
+import useIdleTimer from 'hooks/useIdleTimer';
+import useLogout from 'routes/Logout/useLogout';
 
 type Props = {
   storage: Storage,
@@ -12,21 +12,26 @@ type Props = {
 };
 
 const AutoLogoutProvider = (props: Props) => {
-  const { token, children } = props;
+  const { token, children, storage } = props;
 
-  const history = useHistory();
-  const handleTimerEvent = (timeout: Number) => history.push(`/logout?timeout=${timeout}`);
+  const [handleLogout] = useLogout(storage);
+
+  const handleTimerEvent = (timeout: number) => {
+    handleLogout(timeout);
+  };
+
+  const [startTimer, closeTimer] = useIdleTimer(storage, handleTimerEvent);
 
   // ===== Initial IdleTimer setup ===== //
   useEffect(() => {
     const timeout = getBrand()?.backoffice?.ttl_inactive_seconds || 0;
-    const timer = (token && !!timeout) ? new IdleTimer({
-      storage: props.storage,
-      timeout, // logout after idle seconds
-      onTimeout: handleTimerEvent,
-    }) : null;
 
-    return () => timer?.cleanUp();
+    if (!!token && timeout) {
+      startTimer(timeout);
+
+      return () => closeTimer;
+    }
+    return () => {};
   }, [token]);
 
   return children;
