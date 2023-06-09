@@ -26,13 +26,13 @@ import {
   attributeLabels,
 } from './constants';
 import { useManualPaymentMethodsQuery } from './graphql/__generated__/ManualPaymentMethodsQuery';
-import { usePaymentSystemQuery } from './graphql/__generated__/PaymentSystemsQuery';
 import { useAddNoteMutation } from './graphql/__generated__/AddNoteMutation';
 import {
   CreatePaymentMutationVariables,
   useCreatePaymentMutation,
 } from './graphql/__generated__/CreatePaymentMutation';
 import { useRatesQuery } from './graphql/__generated__/RatesQuery';
+import { usePaymentSystemsProviderQuery } from './graphql/__generated__/PaymentSystemsProviderQuery';
 import './CreatePaymentModal.scss';
 
 export type Props = {
@@ -66,7 +66,18 @@ const CreatePaymentModal = (props: Props) => {
 
   // ===== Requests ===== //
   const { data: manualPaymentMethodsData, loading: manualMethodsLoading } = useManualPaymentMethodsQuery();
-  const { data: paymentSystemsData, loading: paymentSystemsLoading } = usePaymentSystemQuery();
+  const { data: paymentSystemsData, loading: paymentSystemsLoading } = usePaymentSystemsProviderQuery({
+    variables: {
+      args: {
+        withFavouriteStatus: true,
+        page: {
+          from: 0,
+          size: 1000,
+        },
+      },
+    },
+  });
+
   // Get currency rates depends on chosen trading account
   const { data: ratesQueryData } = useRatesQuery({
     variables: {
@@ -195,7 +206,7 @@ const CreatePaymentModal = (props: Props) => {
   };
 
   const manualMethods = manualPaymentMethodsData?.manualPaymentMethods || [];
-  const paymentSystems = paymentSystemsData?.paymentSystems || [];
+  const paymentSystems = paymentSystemsData?.settings?.paymentSystemsProvider?.content || [];
 
   return (
     <Modal contentClassName="CreatePaymentModal" toggle={onCloseModal} isOpen>
@@ -370,11 +381,12 @@ const CreatePaymentModal = (props: Props) => {
                           className="CreatePaymentModal__field"
                           component={FormikSelectField}
                           disabled={paymentSystemsLoading}
+                          withGroup={{ firstTitle: 'COMMON.FAVORITE', secondTitle: 'COMMON.OTHER' }}
                         >
                           {[
                             <option key="NONE" value="NONE">{I18n.t('COMMON.NONE')}</option>,
-                            ...paymentSystems.map(({ paymentSystem: system }) => (
-                              <option key={system} value={system}>
+                            ...paymentSystems.map(({ paymentSystem: system, isFavourite }) => (
+                              <option key={system} value={system} data-isFavourite={isFavourite}>
                                 {system}
                               </option>
                             )),

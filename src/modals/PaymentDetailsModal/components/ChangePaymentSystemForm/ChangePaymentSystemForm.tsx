@@ -6,8 +6,8 @@ import { LevelType, notify } from 'providers/NotificationProvider';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { Button } from 'components/Buttons';
 import { SetFieldValue } from 'types/formik';
-import { usePaymentSystemQuery } from './graphql/__generated__/PaymentSystemsQuery';
 import { useUpdatePaymentSystemMutation } from './graphql/__generated__/UpdatePaymentSystemMutation';
+import { usePaymentSystemsProviderQuery } from './graphql/__generated__/PaymentSystemsProviderQuery';
 import './ChangePaymentSystemForm.scss';
 
 type FormValues = {
@@ -24,8 +24,20 @@ const ChangePaymentSystemForm = (props: Props) => {
   const { paymentId, onSuccess } = props;
   const [isOtherSelected, setIsOtherSelected] = useState<boolean>(false);
 
-  const { data, loading } = usePaymentSystemQuery();
-  const paymentSystems = data?.paymentSystems || [];
+  // ===== Requests ===== //
+  const { data, loading } = usePaymentSystemsProviderQuery({
+    variables: {
+      args: {
+        withFavouriteStatus: true,
+        page: {
+          from: 0,
+          size: 1000,
+        },
+      },
+    },
+  });
+
+  const paymentSystems = data?.settings?.paymentSystemsProvider?.content || [];
 
   const [updatePaymentSystemMutation] = useUpdatePaymentSystemMutation();
 
@@ -89,12 +101,12 @@ const ChangePaymentSystemForm = (props: Props) => {
               placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
               component={FormikSelectField}
               disabled={loading}
+              withGroup={{ firstTitle: 'COMMON.FAVORITE', secondTitle: 'COMMON.OTHER' }}
               customOnChange={(value: string) => onChangePaymentSystem(value, setFieldValue)}
             >
-              {[
-                <option key="NONE" value="NONE">{I18n.t('COMMON.NONE')}</option>,
-                ...paymentSystems.map(({ paymentSystem }) => (
-                  <option key={paymentSystem} value={paymentSystem}>
+              {[<option key="NONE" value="NONE">{I18n.t('COMMON.NONE')}</option>,
+                ...paymentSystems.map(({ paymentSystem, isFavourite }) => (
+                  <option key={paymentSystem} value={paymentSystem} data-isFavourite={isFavourite}>
                     {paymentSystem}
                   </option>
                 )),
