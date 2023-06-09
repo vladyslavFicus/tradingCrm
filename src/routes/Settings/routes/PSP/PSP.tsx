@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { set, cloneDeep } from 'lodash';
 import { useHistory, useLocation } from 'react-router-dom';
+import { cloneDeep, set } from 'lodash';
 import { Sort, State } from 'types';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -48,7 +48,7 @@ const PSP = () => {
     },
   });
 
-  const { content = [], last, number = 0, totalElements = 0 } = data?.settings?.paymentSystemsProvider || {};
+  const { content = [], number = 0, last, totalElements = 0 } = data?.settings?.paymentSystemsProvider || {};
 
   // ===== Handlers ===== //
   const handleFavorite = async (paymentSystem: string, isFavourite?: boolean | null) => {
@@ -97,7 +97,7 @@ const PSP = () => {
   const handlePageChanged = () => {
     if (!loading) {
       fetchMore({
-        variables: set(cloneDeep(variables as PaymentSystemsProviderQueryVariables), 'page.from', number + 1),
+        variables: set(cloneDeep(variables as PaymentSystemsProviderQueryVariables), 'args.page.from', number + 1),
       });
     }
   };
