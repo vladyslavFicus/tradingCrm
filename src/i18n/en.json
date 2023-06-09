@@ -6263,7 +6263,7 @@
         "TITLE": "Auto logout",
         "DESCRIPTION": "Feature allows to enable automatic logout of a client that came from an affiliate. \n After the 1st login, the system will log out the client and at the next login will ask the client to change the password, after changing the password, the client can work normally without logging out.\n The logout time is configurable"
       },
-      "LOGOUT_TIME": "Logout time (seconds)",
+      "LOGOUT_TIME": "Logout time (minutes)",
       "SUBMIT": {
         "REQUIRED_FIELD": "The field is required.",
         "TITLE": "Feature toggles updating",

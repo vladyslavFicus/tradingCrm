@@ -6,10 +6,11 @@ mutation UpdateBrandConfigMutation(
   $notificationCleanUpDays: Int!,
   $hideChangePasswordCp: Boolean!,
   $referralEnable: Boolean!,
-  $jwtAccessTtlSeconds: Int,
   $platformMaxAccounts: [FeatureTogglesUpdate__PlatformMaxAccountsDto__Input!]!,
   $paymentDeposits: [FeatureTogglesUpdate__PaymentDeposit__Input!]!,
   $accountAutoCreations: [FeatureTogglesUpdate__AccountAutoCreation__Input!]!
+  $affiliateClientAutoLogoutEnable: Boolean!
+  $affiliateClientAutoLogoutMinutes: Int
  ) {
   featureToggles {
     updateFeatureToggles(
@@ -20,10 +21,11 @@ mutation UpdateBrandConfigMutation(
       notificationCleanUpDays: $notificationCleanUpDays,
       hideChangePasswordCp: $hideChangePasswordCp,
       referralEnable: $referralEnable,
-      jwtAccessTtlSeconds: $jwtAccessTtlSeconds,
       platformMaxAccounts: $platformMaxAccounts,
       paymentDeposits: $paymentDeposits,
-      accountAutoCreations: $accountAutoCreations
+      accountAutoCreations: $accountAutoCreations,
+      affiliateClientAutoLogoutEnable: $affiliateClientAutoLogoutEnable,
+      affiliateClientAutoLogoutMinutes: $affiliateClientAutoLogoutMinutes
       ){
       version
       restrictedCountries
@@ -32,7 +34,8 @@ mutation UpdateBrandConfigMutation(
       notificationCleanUpDays
       hideChangePasswordCp
       referralEnable
-      jwtAccessTtlSeconds
+      affiliateClientAutoLogoutEnable
+      affiliateClientAutoLogoutMinutes
       platformMaxAccounts {
         platformType
         maxLiveAccounts

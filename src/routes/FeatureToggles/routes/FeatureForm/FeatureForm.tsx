@@ -36,7 +36,7 @@ type FormValues = {
   notificationCleanUpDays: number,
   hideChangePasswordCp: boolean,
   referralEnable: boolean,
-  jwtAccessTtlSeconds: number,
+  affiliateClientAutoLogoutMinutes: number,
   platformMaxAccounts: Record<PlatformType, number>,
   paymentDeposits: Array<PaymentDeposit>,
   accountAutoCreations: Record<string, boolean>,
@@ -58,10 +58,11 @@ const FeatureForm = () => {
     notificationCleanUpDays,
     hideChangePasswordCp,
     referralEnable,
-    jwtAccessTtlSeconds,
     platformMaxAccounts,
     paymentDeposits,
     accountAutoCreations,
+    affiliateClientAutoLogoutEnable,
+    affiliateClientAutoLogoutMinutes,
     version,
   } = brandConfig || {};
 
@@ -99,12 +100,15 @@ const FeatureForm = () => {
           hideChangePasswordCp: values?.hideChangePasswordCp,
           referralEnable: values?.referralEnable,
           notificationCleanUpDays: values?.notificationCleanUpDays || 0,
-          jwtAccessTtlSeconds: values?.jwtAccessTtlSeconds || null,
+          affiliateClientAutoLogoutEnable: values?.autoLogout,
+          affiliateClientAutoLogoutMinutes: values?.autoLogout ? values?.affiliateClientAutoLogoutMinutes : null,
           platformMaxAccounts: newPlatformMaxAccounts || [],
           paymentDeposits: values?.paymentDeposits || [],
           accountAutoCreations: updatedAccountAutoCreations || [],
         },
       });
+
+      await refetch();
 
       notify({
         level: LevelType.SUCCESS,
@@ -147,7 +151,7 @@ const FeatureForm = () => {
       <div className="FeatureForm">
         <Formik
           initialValues={{
-            jwtAccessTtlSeconds: jwtAccessTtlSeconds || '',
+            affiliateClientAutoLogoutMinutes: affiliateClientAutoLogoutMinutes || '',
             platformMaxAccounts: initialPlatformMaxAccounts,
             notificationCleanUpDays,
             depositButtons: {
@@ -163,7 +167,7 @@ const FeatureForm = () => {
             accountAutoCreations: initialAccountAutoCreations,
             profileDepositEnable: !!profileDepositEnable,
             hideChangePasswordCp: !!hideChangePasswordCp,
-            autoLogout: !!jwtAccessTtlSeconds,
+            autoLogout: !!affiliateClientAutoLogoutEnable,
           } as FormValues}
           validate={createValidator({
             restrictedCountries: ['array'],
@@ -185,7 +189,7 @@ const FeatureForm = () => {
             profileDepositEnable: 'boolean',
             hideChangePasswordCp: 'boolean',
             autoLogout: 'boolean',
-            jwtAccessTtlSeconds: ['required_with:autoLogout', 'numeric', 'greater:0'],
+            affiliateClientAutoLogoutMinutes: ['required_with:autoLogout', 'numeric', 'greater:0'],
           }, translateLabels(attributeLabels), false, customErrors)}
           validateOnChange={false}
           validateOnBlur={false}
@@ -500,9 +504,9 @@ const FeatureForm = () => {
                   />
 
                   <Field
-                    name="jwtAccessTtlSeconds"
+                    name="affiliateClientAutoLogoutMinutes"
                     className="FeatureForm__field FeatureForm__field--time"
-                    label={I18n.t(attributeLabels.jwtAccessTtlSeconds)}
+                    label={I18n.t(attributeLabels.affiliateClientAutoLogoutMinutes)}
                     type="number"
                     component={FormikInputField}
                     disabled={isSubmitting || !values.autoLogout}

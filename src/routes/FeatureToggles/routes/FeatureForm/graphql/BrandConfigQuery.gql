@@ -7,7 +7,8 @@ query BrandConfigQuery {
     notificationCleanUpDays
     hideChangePasswordCp
     referralEnable
-    jwtAccessTtlSeconds
+    affiliateClientAutoLogoutEnable
+    affiliateClientAutoLogoutMinutes
     platformMaxAccounts {
       platformType
       maxLiveAccounts
