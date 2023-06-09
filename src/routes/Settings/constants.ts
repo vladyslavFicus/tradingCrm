@@ -4,7 +4,7 @@ export const PSPTabs = [
   {
     url: '/settings/psp/list',
     label: 'SETTINGS.PSP.TABS.LIST',
-    permissions: permissions.DOCUMENTS.SEARCH_DOCUMENT,
+    permissions: permissions.PAYMENT.SEARCH_PSP,
   }, {
     url: '/settings/psp/feed',
     label: 'SETTINGS.PSP.TABS.FEED',
