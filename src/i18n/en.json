@@ -1250,7 +1250,9 @@
         "OPERATOR_TYPE_UPDATED": "Hierarchy changed",
         "OPERATOR_BRANCH_ADDED": "Operator - Branch added",
         "OPERATOR_BRANCH_DELETED": "Operator - Branch deleted",
-        "LEAD_CREATED": "Lead created"
+        "LEAD_CREATED": "Lead created",
+        "FAVOURITE_PAYMENT_SYSTEM_ADDED": "Favourite payment system added",
+        "FAVOURITE_PAYMENT_SYSTEM_DELETED": "Favourite payment system deleted"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
