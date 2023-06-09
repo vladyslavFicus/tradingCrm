@@ -7,7 +7,7 @@ import { ResetForm } from 'types/formik';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Button, RefreshButton } from 'components/Buttons';
-import { favoriteStatuses } from './constant';
+import { favouriteStatuses } from './constant';
 import './PSPFilter.scss';
 
 type FormValues = {
@@ -81,7 +81,7 @@ const PSPFilter = (props: Props) => {
               withFocus
               withAnyOption
             >
-              {favoriteStatuses.map(({ label, value }) => (
+              {favouriteStatuses.map(({ label, value }) => (
                 <option
                   key={label}
                   /* @ts-ignore TS doesn't approve value as boolean type */

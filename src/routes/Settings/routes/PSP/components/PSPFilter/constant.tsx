@@ -1,4 +1,4 @@
-export const favoriteStatuses = [
-  { label: 'FAVORITE', value: true },
-  { label: 'NO_FAVORITE', value: false },
+export const favouriteStatuses = [
+  { label: 'FAVOURITE', value: true },
+  { label: 'NO_FAVOURITE', value: false },
 ];
