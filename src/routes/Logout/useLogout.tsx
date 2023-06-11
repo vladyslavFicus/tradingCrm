@@ -8,7 +8,7 @@ const useLogout = (storage: Storage) => {
   const [logoutMutation] = useLogoutMutation();
 
   // ===== Handlers ===== //
-  const handleLogout = async (inactiveSeconds: number | null) => {
+  const handleLogout = async (inactiveSeconds: number | null = null) => {
     try {
       await logoutMutation({ variables: { inactiveSeconds } });
     } catch (e) {

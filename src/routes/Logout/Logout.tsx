@@ -15,7 +15,7 @@ const Logout = (props: Props) => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    handleLogout(null);
+    handleLogout();
   }, []);
 
   // Redirect implemented inside Route component. If user unauthenticated and asked for private route --> redirect it.

@@ -1,13 +1,41 @@
 import { useRef } from 'react';
 
+/**
+ * hook to use idle timer inside components
+ *
+ * It returns object UseIdleTimer consisting functions:
+ *
+ *  - start(timeout: number) (to start timer)
+ *  - cleanUp to reset timer
+ *
+ * Example of usage:
+ *
+ *  const { start, cleanUp } = useIdleTimer({ storage, onTimeout: handleOnTimeout })
+ *
+ * @param requests {Props} Example: { storage: Storage, onTimeout: (timeout: number) => void }
+ *
+ * @return {start: (timeout: number) => void, cleanUp: () => void}
+ */
 const EXPIRATION_TIME_PROP_KEY = '_autoLogoutTime';
 const DEBOUNCE_MILLISECONDS = 300;
 const EVENT_NAMES = ['mousemove', 'scroll', 'keydown', 'wheel', 'DOMMouseScroll', 'mousewheel', 'mousedown'];
 
-function useIdleTimer(storage: Storage, onTimeout: (timeout: number) => void) {
+type Props = {
+  storage: Storage,
+  onTimeout: (timeout: number) => void,
+}
+
+type UseIdleTimer = {
+  start: (timeout: number) => void,
+  cleanUp: () => void,
+}
+
+function useIdleTimer(props: Props): UseIdleTimer {
   const idleInterval = useRef<NodeJS.Timer | null>(null);
   const timeoutTracker = useRef<NodeJS.Timeout | null>(null);
   const timeout = useRef<number>(0);
+
+  const { storage, onTimeout } = props;
 
   const clearTimeoutTracker = () => {
     if (timeoutTracker.current) {
@@ -57,7 +85,7 @@ function useIdleTimer(storage: Storage, onTimeout: (timeout: number) => void) {
     }, 1000);
   };
 
-  return [start, cleanUp];
+  return { start, cleanUp };
 }
 
 export default useIdleTimer;

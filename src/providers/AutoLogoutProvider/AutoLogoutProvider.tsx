@@ -16,22 +16,24 @@ const AutoLogoutProvider = (props: Props) => {
 
   const [handleLogout] = useLogout(storage);
 
-  const handleTimerEvent = (timeout: number) => {
+  const handleOnTimeout = (timeout: number) => {
     handleLogout(timeout);
   };
 
-  const [startTimer, closeTimer] = useIdleTimer(storage, handleTimerEvent);
+  const { start, cleanUp } = useIdleTimer({ storage, onTimeout: handleOnTimeout });
 
   // ===== Initial IdleTimer setup ===== //
   useEffect(() => {
     const timeout = getBrand()?.backoffice?.ttl_inactive_seconds;
 
     if (!!token && timeout) {
-      startTimer(timeout);
-
-      return () => closeTimer;
+      start(timeout);
     }
-    return () => {};
+    return () => {
+      if (!!token && timeout) {
+        cleanUp();
+      }
+    };
   }, [token]);
 
   return children;
