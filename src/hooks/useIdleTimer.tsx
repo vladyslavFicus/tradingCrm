@@ -52,7 +52,7 @@ function useIdleTimer(props: Props): UseIdleTimer {
   const updateExpiredTime = () => {
     clearTimeoutTracker();
 
-    if (timeout) {
+    if (timeout.current) {
       timeoutTracker.current = setTimeout(() => {
         storage.set(EXPIRATION_TIME_PROP_KEY, Date.now() + timeout.current * 1000);
       }, DEBOUNCE_MILLISECONDS);
