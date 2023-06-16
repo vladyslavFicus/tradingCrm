@@ -6269,7 +6269,7 @@
         "TITLE": "Feature toggles updating",
         "SUCCESS": "Feature toggles updated successfully",
         "ERROR": "Feature toggles was not updated for some reason",
-        "GREATER_NULL": "The field must be greater than 0."
+        "GREATER_THAN_NULL": "Field must be more 0."
       },
       "TABLE": {
         "TITLE": "Max & Min deposit amount",

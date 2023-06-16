@@ -178,8 +178,8 @@ const FeatureForm = () => {
               deposit1: ['required', 'numeric', 'greater:0'],
               deposit2: ['required', 'numeric', 'greater:0'],
               deposit3: ['required', 'numeric', 'greater:0'],
-              deposit4: 'numeric',
-              deposit5: 'numeric',
+              deposit4: ['numeric', 'greater:0'],
+              deposit5: ['numeric', 'greater:0'],
             },
             referralEnable: 'boolean',
             accountAutoCreations: accountAutoCreations?.reduce((acc, account) => (
