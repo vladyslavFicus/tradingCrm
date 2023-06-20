@@ -137,6 +137,7 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
       <div>
         <Field
           name="targetBrandConfig.brand"
+          data-testid="DistributionRuleTargetBrandForm-targetBrandConfigBrandSelect"
           label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.TARGET_BRAND')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_BRAND')}
           component={FormikSelectField}
@@ -166,6 +167,7 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
 
       <Field
         name="targetBrandConfig.targetSalesStatus"
+        data-testid="DistributionRuleTargetBrandForm-targetBrandConfigTargetSalesStatusSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.MIGRATION_STATUS')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
         component={FormikSelectField}
@@ -188,6 +190,7 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
 
       <Field
         name="targetBrandConfig.affiliateUuid"
+        data-testid="DistributionRuleTargetBrandForm-targetBrandConfigAffiliateUuidSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.AFFILIATE_TARGET_BRAND')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
         component={FormikSelectField}
@@ -207,6 +210,7 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
 
       <Field
         name="targetBrandConfig.operator"
+        data-testid="DistributionRuleTargetBrandForm-targetBrandConfigOperatorSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.OPERATOR')}
         placeholder={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AUTO_OPERATOR')}
         component={FormikSelectField}
@@ -230,6 +234,7 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
 
       <Field
         name="targetBrandConfig.copyAffiliateSource"
+        data-testid="DistributionRuleTargetBrandForm-targetBrandConfigCopyAffiliateSourceCheckbox"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.COPY_SOURCE')}
         component={FormikCheckbox}
         className="DistributionRuleTargetBrandForm__field-checkbox"
@@ -240,6 +245,7 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
         <Field
           name="targetBrandConfig.distributionUnit.quantity"
           type="number"
+          data-testid="DistributionRuleTargetBrandForm-targetBrandConfigDistributionUnitQuantityInput"
           label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
           step="1"
           addition={I18n.t(baseUnits[targetBrandConfig?.distributionUnit?.baseUnit as string])}

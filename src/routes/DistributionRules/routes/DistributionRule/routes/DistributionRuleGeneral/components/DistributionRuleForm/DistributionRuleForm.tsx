@@ -156,6 +156,7 @@ const DistributionRuleForm = () => {
             <div className="DistributionRuleForm__common">
               <Field
                 name="executionType"
+                data-testid="DistributionRuleForm-executionTypeSelect"
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.EXECUTION_TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 className="DistributionRuleForm__form-field"
@@ -194,6 +195,7 @@ const DistributionRuleForm = () => {
             <div className="DistributionRuleForm__actions">
               <Button
                 className="DistributionRuleForm__actions-btn"
+                data-testid="DistributionRuleForm-cancelButton"
                 onClick={handleCancel}
                 tertiary
               >
@@ -204,6 +206,7 @@ const DistributionRuleForm = () => {
                 primary
                 type="submit"
                 className="DistributionRule__actions-btn"
+                data-testid="DistributionRuleForm-saveButton"
                 disabled={!formik.dirty}
                 submitting={formik.isSubmitting}
               >

@@ -100,6 +100,7 @@ const UpdateDistributionRuleModal = (props: Props) => {
               <Field
                 name="ruleName"
                 type="text"
+                data-testid="UpdateDistributionRuleModal-ruleNameInput"
                 label={I18n.t('CLIENTS_DISTRIBUTION.MODAL.FIELDS.NAME')}
                 placeholder={I18n.t('CLIENTS_DISTRIBUTION.MODAL.FIELDS.NAME')}
                 component={FormikInputField}
@@ -108,6 +109,7 @@ const UpdateDistributionRuleModal = (props: Props) => {
               <Field
                 name="ruleOrder"
                 type="number"
+                data-testid="UpdateDistributionRuleModal-ruleOrderInput"
                 label={I18n.t('CLIENTS_DISTRIBUTION.MODAL.FIELDS.ORDER')}
                 placeholder={I18n.t('CLIENTS_DISTRIBUTION.MODAL.FIELDS.ORDER')}
                 component={FormikInputField}
@@ -118,6 +120,7 @@ const UpdateDistributionRuleModal = (props: Props) => {
               <Button
                 tertiary
                 onClick={onCloseModal}
+                data-testid="UpdateDistributionRuleModal-cancelButton"
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
@@ -126,6 +129,7 @@ const UpdateDistributionRuleModal = (props: Props) => {
                 primary
                 type="submit"
                 disabled={!isValid || !dirty || isSubmitting}
+                data-testid="UpdateDistributionRuleModal-updateButton"
               >
                 {I18n.t('COMMON.BUTTONS.UPDATE')}
               </Button>

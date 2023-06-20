@@ -142,6 +142,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
       <div>
         <Field
           name="sourceBrandConfig.brand"
+          data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigBrandSelect"
           label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.SOURCE_BRAND')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_BRAND')}
           component={FormikSelectField}
@@ -172,6 +173,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
 
       <Field
         name="sourceBrandConfig.salesStatuses"
+        data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigSalesStatusesSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.SALES_STATUS')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
         component={FormikSelectField}
@@ -187,6 +189,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
 
       <Field
         name="sourceBrandConfig.timeInCurrentStatusInHours"
+        data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigTimeInCurrentStatusInHoursSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.EXECUTION_TIME')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
         component={FormikSelectField}
@@ -202,6 +205,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
 
       <Field
         name="sourceBrandConfig.countries"
+        data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigCountriesSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.COUNTRY')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
         component={FormikSelectField}
@@ -217,8 +221,10 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
           )),
         ]}
       </Field>
+
       <Field
         name="sourceBrandConfig.languages"
+        data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigLanguagesSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.LANGUAGE')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
         component={FormikSelectField}
@@ -241,6 +247,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
       </Field>
 
       <Field
+        data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigRegistrationDateRangePicker"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.REGISTRATION_DATE_RANGE')}
         component={FormikDateRangePicker}
         className="DistributionRuleSourceBrandForm__row DistributionRuleSourceBrandForm__row--large"
@@ -256,6 +263,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
       />
 
       <Field
+        data-testid="DistributionRuleSourceBrandForm-sourceBrandLastNoteDateRangePicker"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.LAST_NOTE_DATE_RANGE')}
         component={FormikDateRangePicker}
         className="DistributionRuleSourceBrandForm__row DistributionRuleSourceBrandForm__row--large"
@@ -272,6 +280,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
 
       <Field
         name="sourceBrandConfig.firstTimeDeposit"
+        data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigFirstTimeDepositSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.FIRST_TIME_DEPOSIT')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
         component={FormikSelectField}
@@ -291,6 +300,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
 
       <Field
         name="sourceBrandConfig.affiliateUuids"
+        data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigAffiliateUuidsSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.AFFILIATE')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
         component={FormikSelectField}
@@ -315,6 +325,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
 
       <Field
         name="sourceBrandConfig.desks"
+        data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigDesksSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.DESKS')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
         component={FormikSelectField}
@@ -331,6 +342,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
 
       <Field
         name="sourceBrandConfig.teams"
+        data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigTeamsSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.TEAMS')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
         component={FormikSelectField}
@@ -348,6 +360,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
       <div className="DistributionRuleSourceBrandForm__row DistributionRuleSourceBrandForm__row--small">
         <Field
           name="sourceBrandConfig.distributionUnit.quantity"
+          data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigDistributionUnitQuantityInput"
           type="number"
           label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AMOUNT_MIGRATED_CLIENTS')}
           step="1"
@@ -357,6 +370,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
         />
         <Field
           name="sourceBrandConfig.distributionUnit.baseUnit"
+          data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigDistributionUnitBaseUnitSelect"
           label="&nbsp;"
           component={FormikSelectField}
           disabled={!clientsAmountQuery.data}
@@ -389,6 +403,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
 
       <Field
         name="sourceBrandConfig.sortType"
+        data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigSortTypeSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.SORT_METHOD')}
         component={FormikSelectField}
         disabled={!sourceBrandConfig?.brand}

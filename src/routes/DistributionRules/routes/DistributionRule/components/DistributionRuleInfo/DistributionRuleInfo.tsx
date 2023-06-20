@@ -179,6 +179,7 @@ const DistributionRuleInfo = (props: Props) => {
       <If condition={status === DistributionRuleStatusesEnum.ACTIVE && executionType === 'MANUAL'}>
         <Button
           className="DistributionRuleInfo__action"
+          data-testid="DistributionRuleInfo-actionButton"
           onClick={handleStartMigration}
         >
           <div className="DistributionRuleInfo__item-label">

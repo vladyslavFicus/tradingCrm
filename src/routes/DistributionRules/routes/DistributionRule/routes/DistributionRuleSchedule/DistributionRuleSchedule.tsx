@@ -86,6 +86,7 @@ const DistributionRuleSchedule = () => {
                 primary
                 type="submit"
                 className="DistributionRuleScheduleForm__actions-btn"
+                data-testid="DistributionRuleSchedule-saveButton"
                 disabled={!formik.dirty || formik.isSubmitting}
               >
                 {I18n.t('COMMON.SAVE')}

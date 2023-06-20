@@ -87,6 +87,7 @@ const DistributionRulesGridFilters = (props: Props) => {
               <Field
                 name="searchParam"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__search"
+                data-testid="DistributionRulesGridFilters-searchParamInput"
                 placeholder={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SEARCH_BY_PLACEHOLDER')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SEARCH_BY')}
                 component={FormikInputField}
@@ -96,6 +97,7 @@ const DistributionRulesGridFilters = (props: Props) => {
               <Field
                 name="ruleStatus"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
+                data-testid="DistributionRulesGridFilters-ruleStatusSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.RULE_STATUS')}
                 component={FormikSelectField}
@@ -112,6 +114,7 @@ const DistributionRulesGridFilters = (props: Props) => {
               <Field
                 name="fromBrand"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
+                data-testid="DistributionRulesGridFilters-fromBrandInput"
                 placeholder={I18n.t('COMMON.NAME')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SOURCE_BRAND')}
                 component={FormikInputField}
@@ -121,6 +124,7 @@ const DistributionRulesGridFilters = (props: Props) => {
               <Field
                 name="toBrand"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
+                data-testid="DistributionRulesGridFilters-toBrandInput"
                 placeholder={I18n.t('COMMON.NAME')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TARGET_BRAND')}
                 component={FormikInputField}
@@ -130,6 +134,7 @@ const DistributionRulesGridFilters = (props: Props) => {
               <Field
                 name="salesStatuses"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
+                data-testid="DistributionRulesGridFilters-salesStatusesSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SALES_STATUS')}
                 component={FormikSelectField}
@@ -147,6 +152,7 @@ const DistributionRulesGridFilters = (props: Props) => {
               <Field
                 name="affiliateUuids"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
+                data-testid="DistributionRulesGridFilters-affiliateUuidsSelect"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.AFFILIATE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -175,6 +181,7 @@ const DistributionRulesGridFilters = (props: Props) => {
               <Field
                 name="languages"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
+                data-testid="DistributionRulesGridFilters-languagesSelect"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.LANGUAGES')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -191,6 +198,7 @@ const DistributionRulesGridFilters = (props: Props) => {
               <Field
                 name="countries"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
+                data-testid="DistributionRulesGridFilters-countriesSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.COUNTRY')}
                 component={FormikSelectField}
@@ -206,6 +214,7 @@ const DistributionRulesGridFilters = (props: Props) => {
               <Field
                 name="firstTimeDeposit"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
+                data-testid="DistributionRulesGridFilters-firstTimeDepositSelect"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.FIRST_TIME_DEPOSIT')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -221,6 +230,7 @@ const DistributionRulesGridFilters = (props: Props) => {
 
               <Field
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__date-range"
+                data-testid="DistributionRulesGridFilters-createdDateRangePicker"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.CREATED_TIME')}
                 component={FormikDateRangePicker}
                 fieldsNames={{
@@ -233,6 +243,7 @@ const DistributionRulesGridFilters = (props: Props) => {
               <Field
                 name="timesInCurrentStatusInHours"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
+                data-testid="DistributionRulesGridFilters-timesInCurrentStatusInHoursSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TIME_IN_STATUS')}
                 component={FormikSelectField}
@@ -249,6 +260,7 @@ const DistributionRulesGridFilters = (props: Props) => {
 
               <Field
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__date-range"
+                data-testid="DistributionRulesGridFilters-lastTimeExecutedDateRangePicker"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.LAST_TIME_EXECUTED')}
                 component={FormikDateRangePicker}
                 fieldsNames={{
@@ -262,11 +274,13 @@ const DistributionRulesGridFilters = (props: Props) => {
             <div className="DistributionRulesGridFilters__buttons">
               <RefreshButton
                 className="DistributionRulesGridFilters__button"
+                data-testid="DistributionRulesGridFilters-refreshButton"
                 onClick={onRefetch}
               />
 
               <Button
                 className="DistributionRulesGridFilters__button"
+                data-testid="DistributionRulesGridFilters-resetButton"
                 disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 onClick={() => handleReset(resetForm)}
                 primary
@@ -276,6 +290,7 @@ const DistributionRulesGridFilters = (props: Props) => {
 
               <Button
                 className="DistributionRulesGridFilters__button"
+                data-testid="DistributionRulesGridFilters-applyButton"
                 disabled={isSubmitting || !dirty}
                 type="submit"
                 primary
