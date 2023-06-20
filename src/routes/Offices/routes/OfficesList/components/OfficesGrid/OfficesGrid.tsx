@@ -91,11 +91,15 @@ const OfficesGrid = (props: Props) => {
         <EditButton
           onClick={() => handleEditClick(data)}
           className="OfficesGrid__edit-button"
+          data-testid="OfficesGrid-editButton"
         />
       </If>
 
       <If condition={isAllowDeleteBranch}>
-        <TrashButton onClick={() => handleDeleteClick(data)} />
+        <TrashButton
+          onClick={() => handleDeleteClick(data)}
+          data-testid="OfficesGrid-trashButton"
+        />
       </If>
     </>
   );

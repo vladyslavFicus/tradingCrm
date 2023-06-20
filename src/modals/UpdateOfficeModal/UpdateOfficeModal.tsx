@@ -87,6 +87,7 @@ const UpdateOfficeModal = (props: Props) => {
             <ModalBody>
               <Field
                 name="name"
+                data-testid="UpdateOfficeModal-nameInput"
                 label={attributeLabels.name}
                 placeholder={I18n.t('COMMON.NAME')}
                 component={FormikInputField}
@@ -95,6 +96,7 @@ const UpdateOfficeModal = (props: Props) => {
 
               <Field
                 name="country"
+                data-testid="UpdateOfficeModal-countrySelect"
                 label={attributeLabels.country}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 component={FormikSelectField}
@@ -112,6 +114,7 @@ const UpdateOfficeModal = (props: Props) => {
             <ModalFooter>
               <Button
                 className="UpdateOfficeModal__button"
+                data-testid="UpdateOfficeModal-cancelButton"
                 onClick={onCloseModal}
                 tertiary
               >
@@ -120,6 +123,7 @@ const UpdateOfficeModal = (props: Props) => {
 
               <Button
                 className="UpdateOfficeModal__button"
+                data-testid="UpdateOfficeModal-createButton"
                 disabled={isSubmitting}
                 type="submit"
                 primary

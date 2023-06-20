@@ -54,6 +54,7 @@ const OfficesList = () => {
             <Button
               tertiary
               onClick={handleOpenAddOfficeModal}
+              data-testid="OfficesList-addOfficeButton"
             >
               {I18n.t('OFFICES.ADD_OFFICE')}
             </Button>
