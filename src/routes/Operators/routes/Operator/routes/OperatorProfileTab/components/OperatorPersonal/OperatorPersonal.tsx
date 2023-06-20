@@ -114,6 +114,7 @@ const OperatorPersonal = (props: Props) => {
                   primary
                   type="submit"
                   className="OperatorPersonal__action"
+                  data-testid="OperatorPersonal-saveChangesButton"
                 >
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </Button>
@@ -125,6 +126,7 @@ const OperatorPersonal = (props: Props) => {
             <Field
               name="firstName"
               className="OperatorPersonal__field"
+              data-testid="OperatorPersonal-firstNameInput"
               label={I18n.t(attributeLabels.firstName)}
               placeholder={I18n.t(attributeLabels.firstName)}
               component={FormikInputField}
@@ -134,6 +136,7 @@ const OperatorPersonal = (props: Props) => {
             <Field
               name="lastName"
               className="OperatorPersonal__field"
+              data-testid="OperatorPersonal-lastNameInput"
               label={I18n.t(attributeLabels.lastName)}
               placeholder={I18n.t(attributeLabels.lastName)}
               component={FormikInputField}
@@ -143,6 +146,7 @@ const OperatorPersonal = (props: Props) => {
             <Field
               name="email"
               className="OperatorPersonal__field"
+              data-testid="OperatorPersonal-emailInput"
               label={I18n.t(attributeLabels.email)}
               placeholder={I18n.t(attributeLabels.email)}
               component={FormikInputField}
@@ -160,6 +164,7 @@ const OperatorPersonal = (props: Props) => {
             <Field
               name="phoneNumber"
               className="OperatorPersonal__field"
+              data-testid="OperatorPersonal-phoneNumberInput"
               label={I18n.t(attributeLabels.phoneNumber)}
               placeholder={I18n.t(attributeLabels.phoneNumber)}
               component={FormikInputField}
@@ -169,6 +174,7 @@ const OperatorPersonal = (props: Props) => {
             <Field
               name="country"
               className="OperatorPersonal__field"
+              data-testid="OperatorPersonal-countrySelect"
               label={I18n.t(attributeLabels.country)}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               component={FormikSelectField}
@@ -198,6 +204,7 @@ const OperatorPersonal = (props: Props) => {
                   key={callSystem}
                   name={`clickToCall.${camelCase(callSystem)}Phone`}
                   className="OperatorPersonal__field"
+                  data-testid="OperatorPersonal-clickToCallPhoneInput"
                   label={`${startCase(callSystem.toLowerCase())} SIP`}
                   placeholder={`${startCase(callSystem.toLowerCase())} SIP`}
                   component={FormikInputField}

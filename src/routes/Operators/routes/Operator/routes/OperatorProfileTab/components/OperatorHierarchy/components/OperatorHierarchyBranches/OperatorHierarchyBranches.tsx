@@ -244,6 +244,7 @@ const OperatorHierarchyBranches = (props: Props) => {
               small
               tertiary
               className="OperatorHierarchyBranches__add-button"
+              data-testid="OperatorHierarchyBranches-addBranchButton"
               onClick={toggleAddBranchFormVisibility}
             >
               {I18n.t('OPERATORS.PROFILE.HIERARCHY.ADD_BRANCH_LABEL')}
@@ -283,6 +284,7 @@ const OperatorHierarchyBranches = (props: Props) => {
                     <Field
                       name="brandId"
                       className="OperatorHierarchyBranches__form-field"
+                      data-testid="OperatorHierarchyBranches-brandIdSelect"
                       label={I18n.t(attributeLabels.brandId)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       customOnChange={(value: string) => handleBrandChange(value, setFieldValue)}
@@ -300,6 +302,7 @@ const OperatorHierarchyBranches = (props: Props) => {
                     <Field
                       name="branchType"
                       className="OperatorHierarchyBranches__form-field"
+                      data-testid="OperatorHierarchyBranches-branchTypeSelect"
                       label={I18n.t(attributeLabels.branchType)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       customOnChange={(value: string) => handleBranchTypeChange(value, setFieldValue)}
@@ -318,6 +321,7 @@ const OperatorHierarchyBranches = (props: Props) => {
                       name="branchUuid"
                       label={I18n.t(attributeLabels.branch)}
                       className="OperatorHierarchyBranches__form-field"
+                      data-testid="OperatorHierarchyBranches-branchUuidSelect"
                       component={FormikSelectField}
                       placeholder={I18n.t(
                         !availableBranches.length
@@ -340,6 +344,7 @@ const OperatorHierarchyBranches = (props: Props) => {
                       <Button
                         primary
                         className="OperatorHierarchyBranches__form-button"
+                        data-testid="OperatorHierarchyBranches-saveButton"
                         disabled={isSubmitting}
                         type="submit"
                       >
@@ -349,6 +354,7 @@ const OperatorHierarchyBranches = (props: Props) => {
                       <Button
                         secondary
                         className="OperatorHierarchyBranches__form-button"
+                        data-testid="OperatorHierarchyBranches-cancelButton"
                         onClick={toggleAddBranchFormVisibility}
                       >
                         {I18n.t('COMMON.CANCEL')}
