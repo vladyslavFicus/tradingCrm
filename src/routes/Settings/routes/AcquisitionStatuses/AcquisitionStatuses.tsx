@@ -134,6 +134,7 @@ const AcquisitionStatuses = () => {
 
         <If condition={permission.allows(permissions.HIERARCHY.CREATE_ACQUISITION_STATUS)}>
           <Button
+            data-testid="AcquisitionStatuses-addStatusButton"
             onClick={handleCreateClick}
             tertiary
             small
@@ -182,7 +183,10 @@ const AcquisitionStatuses = () => {
               render={(acquisitionStatus: AcquisitionStatus) => (
                 // All "NEW" statuses is non-deletable
                 <If condition={acquisitionStatus.status !== 'NEW'}>
-                  <TrashButton onClick={() => handleDeleteStatusClick(acquisitionStatus)} />
+                  <TrashButton
+                    data-testid="AcquisitionStatuses-trashButton"
+                    onClick={() => handleDeleteStatusClick(acquisitionStatus)}
+                  />
                 </If>
               )}
             />
