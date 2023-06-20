@@ -123,6 +123,7 @@ const PartnerHeader = (props: Props) => {
         <If condition={isLock}>
           <Button
             className="PartnerHeader__action"
+            data-testid="PartnerHeader-unlockButton"
             onClick={handleUnlockPartnerLogin}
             primary
             small
@@ -134,6 +135,7 @@ const PartnerHeader = (props: Props) => {
         <If condition={allowChangePassword}>
           <Button
             className="PartnerHeader__action"
+            data-testid="PartnerHeader-changePasswordButton"
             onClick={handleOpenChangePasswordModal}
             secondary
             small

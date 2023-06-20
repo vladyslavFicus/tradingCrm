@@ -153,6 +153,7 @@ const CreatePartnerScheduleModal = (props: Props) => {
               </p>
 
               <Field
+                data-testid="CreatePartnerScheduleModal-workingHoursTimeRange"
                 component={FormikTimeRangeField}
                 fieldsNames={{
                   from: 'workingHoursFrom',
@@ -168,6 +169,7 @@ const CreatePartnerScheduleModal = (props: Props) => {
                 name="totalLimit"
                 type="number"
                 min={0}
+                data-testid="CreatePartnerScheduleModal-totalLimitInput"
                 label={I18n.t(attributeLabels.leadsLimit)}
                 placeholder={I18n.t(attributeLabels.leadsLimit)}
                 component={FormikInputField}
@@ -175,6 +177,7 @@ const CreatePartnerScheduleModal = (props: Props) => {
 
               <FieldArray
                 name="countrySpreads"
+                data-testid="CreatePartnerScheduleModal-countrySpreadsArray"
                 render={arrayHelpers => (
                   <>
                     <div className="CreatePartnerScheduleModal__spread">
@@ -191,6 +194,7 @@ const CreatePartnerScheduleModal = (props: Props) => {
                       <div className="CreatePartnerScheduleModal__spread" key={index}>
                         <Field
                           name={`countrySpreads[${index}].country`}
+                          data-testid={`CreatePartnerScheduleModal-countrySpreads[${index}]CountryInput`}
                           component={FormikSelectField}
                           customOnChange={(value: string) => onHandleSelect(
                             index,
@@ -231,11 +235,13 @@ const CreatePartnerScheduleModal = (props: Props) => {
                               'CreatePartnerScheduleModal__input--has-error': limitError,
                             })
                               }
+                          data-testid={`CreatePartnerScheduleModal-countrySpreads[${index}]LimitInput`}
                         />
 
                         <If condition={selectedCountries.length > 0 && selectedCountries.length !== index}>
                           <TrashButton
                             className="CreatePartnerScheduleModal__button"
+                            data-testid="CreatePartnerScheduleModal-trashButton"
                             onClick={() => {
                               arrayHelpers.remove(index);
                               selectedCountries.splice(selectedCountries.indexOf(country), 1);
@@ -261,6 +267,7 @@ const CreatePartnerScheduleModal = (props: Props) => {
               <Button
                 tertiary
                 onClick={onCloseModal}
+                data-testid="CreatePartnerScheduleModal-cancelButton"
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
@@ -269,6 +276,7 @@ const CreatePartnerScheduleModal = (props: Props) => {
                 primary
                 type="submit"
                 disabled={!dirty || !isValid || isSubmitting}
+                data-testid="CreatePartnerScheduleModal-saveChangesButton"
               >
                 {I18n.t('COMMON.SAVE_CHANGES')}
               </Button>
