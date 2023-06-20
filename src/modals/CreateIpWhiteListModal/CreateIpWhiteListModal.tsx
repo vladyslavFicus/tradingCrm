@@ -84,12 +84,14 @@ const CreateIpWhiteListModal = (props: Props) => {
             <ModalBody>
               <Field
                 name="ip"
+                data-testid="CreateIpWhiteListModal-ipInput"
                 label={I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.IP_ADDRESS')}
                 component={FormikInputField}
               />
 
               <Field
                 name="description"
+                data-testid="CreateIpWhiteListModal-descriptionInput"
                 label={I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.DESCRIPTION')}
                 component={FormikInputField}
               />
@@ -99,6 +101,7 @@ const CreateIpWhiteListModal = (props: Props) => {
               <Button
                 onClick={onCloseModal}
                 className="CreateIpWhiteListModal__button"
+                data-testid="CreateIpWhiteListModal-cancelButton"
                 tertiary
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -106,6 +109,7 @@ const CreateIpWhiteListModal = (props: Props) => {
 
               <Button
                 className="CreateIpWhiteListModal__button"
+                data-testid="CreateIpWhiteListModal-addButton"
                 primary
                 disabled={isSubmitting}
                 type="submit"

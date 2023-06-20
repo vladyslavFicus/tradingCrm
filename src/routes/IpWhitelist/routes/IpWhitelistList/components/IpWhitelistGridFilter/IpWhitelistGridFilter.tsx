@@ -67,6 +67,7 @@ const IpWhitelistGridFilter = (props: Props) => {
             <Field
               name="ip"
               className="IpWhitelistGridFilter__field IpWhitelistGridFilter__search"
+              data-testid="IpWhitelistGridFilter-ipInput"
               label={I18n.t('IP_WHITELIST.GRID.FILTER_FORM.SEARCH_BY_IP')}
               placeholder={I18n.t('IP_WHITELIST.GRID.FILTER_FORM.SEARCH_BY_IP_PLACEHOLDER')}
               component={FormikInputField}
@@ -75,6 +76,7 @@ const IpWhitelistGridFilter = (props: Props) => {
 
             <Field
               name="creationDateRange"
+              data-testid="IpWhitelistGridFilter-creationDateRangePicker"
               label={I18n.t('IP_WHITELIST.GRID.FILTER_FORM.CREATION_DATE_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="IpWhitelistGridFilter__field IpWhitelistGridFilter__date-range"
@@ -89,11 +91,13 @@ const IpWhitelistGridFilter = (props: Props) => {
           <div className="IpWhitelistGridFilter__buttons">
             <RefreshButton
               className="IpWhitelistGridFilter__button"
+              data-testid="IpWhitelistGridFilter-refreshButton"
               onClick={onRefetch}
             />
 
             <Button
               className="IpWhitelistGridFilter__button"
+              data-testid="IpWhitelistGridFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -103,6 +107,7 @@ const IpWhitelistGridFilter = (props: Props) => {
 
             <Button
               className="IpWhitelistGridFilter__button"
+              data-testid="IpWhitelistGridFilter-applyButton"
               type="submit"
               disabled={isSubmitting || !dirty}
               primary

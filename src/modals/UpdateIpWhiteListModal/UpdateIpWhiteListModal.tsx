@@ -82,6 +82,7 @@ const UpdateIpWhiteListModal = (props: Props) => {
             <ModalBody>
               <Field
                 name="ip"
+                data-testid="UpdateIpWhiteListModal-ipInput"
                 label={I18n.t('IP_WHITELIST.MODALS.UPDATE_DESCRIPTION_MODAL.IP_ADDRESS')}
                 component={FormikInputField}
                 disabled
@@ -89,6 +90,7 @@ const UpdateIpWhiteListModal = (props: Props) => {
 
               <Field
                 name="description"
+                data-testid="UpdateIpWhiteListModal-descriptionInput"
                 label={I18n.t('IP_WHITELIST.MODALS.UPDATE_DESCRIPTION_MODAL.DESCRIPTION')}
                 component={FormikInputField}
               />
@@ -98,6 +100,7 @@ const UpdateIpWhiteListModal = (props: Props) => {
               <Button
                 onClick={onCloseModal}
                 className="UpdateIpWhiteListModal__button"
+                data-testid="UpdateIpWhiteListModal-cancelButton"
                 tertiary
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -105,6 +108,7 @@ const UpdateIpWhiteListModal = (props: Props) => {
 
               <Button
                 className="UpdateIpWhiteListModal__button"
+                data-testid="UpdateIpWhiteListModal-updateButton"
                 primary
                 disabled={isSubmitting}
                 type="submit"
