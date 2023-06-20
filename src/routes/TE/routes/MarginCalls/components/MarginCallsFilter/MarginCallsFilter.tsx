@@ -77,6 +77,7 @@ const MarginCallsFilter = (props: Props) => {
           <div className="MarginCallsFilter__fields">
             <Field
               name="keyword"
+              data-testid="MarginCallsFilter-keywordInput"
               label={I18n.t('TRADING_ENGINE.MARGIN_CALLS.FORM.FIELDS.SEARCH_BY')}
               placeholder={I18n.t('TRADING_ENGINE.MARGIN_CALLS.FORM.FIELDS.SEARCH_BY_PLACEHOLDER')}
               className="MarginCallsFilter__field MarginCallsFilter__field--large"
@@ -86,6 +87,7 @@ const MarginCallsFilter = (props: Props) => {
             />
             <Field
               name="groups"
+              data-testid="MarginCallsFilter-groupsSelect"
               label={I18n.t('TRADING_ENGINE.MARGIN_CALLS.FORM.FIELDS.GROUPS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               disabled={groupsQuery.loading}
@@ -105,10 +107,12 @@ const MarginCallsFilter = (props: Props) => {
           <div className="MarginCallsFilter__buttons">
             <RefreshButton
               className="MarginCallsFilter__button"
+              data-testid="MarginCallsFilter-refreshButton"
               onClick={onRefresh}
             />
             <Button
               className="MarginCallsFilter__button"
+              data-testid="MarginCallsFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -117,6 +121,7 @@ const MarginCallsFilter = (props: Props) => {
             </Button>
             <Button
               className="MarginCallsFilter__button"
+              data-testid="MarginCallsFilter-applyButton"
               type="submit"
               disabled={isSubmitting || !dirty}
               primary
