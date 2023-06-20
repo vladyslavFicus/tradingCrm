@@ -81,6 +81,7 @@ const DealingOperatorFeedFilter = ({ handleRefetch }: Props) => {
           <Field
             name="searchBy"
             className="DealingOperatorFeedFilter__field"
+            data-testid="DealingOperatorFeedFilter-searchByInput"
             label={I18n.t(attributeLabels.searchBy)}
             placeholder={I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.FEED.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
             addition={<i className="icon icon-search" />}
@@ -89,6 +90,7 @@ const DealingOperatorFeedFilter = ({ handleRefetch }: Props) => {
           />
           <Field
             name="auditLogType"
+            data-testid="DealingOperatorFeedFilter-auditLogTypeSelect"
             label={I18n.t(attributeLabels.actionType)}
             component={FormikSelectField}
             className="DealingOperatorFeedFilter__field"
@@ -101,6 +103,7 @@ const DealingOperatorFeedFilter = ({ handleRefetch }: Props) => {
           </Field>
           <Field
             className="DealingOperatorFeedFilter__field DealingOperatorFeedFilter__field--date-range"
+            data-testid="DealingOperatorFeedFilter-creationDateRangePicker"
             label={I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
             component={FormikDateRangePicker}
             fieldsNames={{
@@ -112,10 +115,12 @@ const DealingOperatorFeedFilter = ({ handleRefetch }: Props) => {
           <div className="DealingOperatorFeedFilter__buttons-group">
             <RefreshButton
               className="DealingOperatorFeedFilter__button"
+              data-testid="DealingOperatorFeedFilter-refreshButton"
               onClick={handleRefetch}
             />
             <Button
               className="DealingOperatorFeedFilter__button"
+              data-testid="DealingOperatorFeedFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -124,6 +129,7 @@ const DealingOperatorFeedFilter = ({ handleRefetch }: Props) => {
             </Button>
             <Button
               className="DealingOperatorFeedFilter__button"
+              data-testid="DealingOperatorFeedFilter-applyButton"
               disabled={isSubmitting || !dirty}
               primary
               type="submit"
