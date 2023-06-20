@@ -64,6 +64,7 @@ const PSPFilter = (props: Props) => {
             <Field
               name="searchBy"
               className="PSPFilter__field"
+              data-testid="PSPFilter-searchByInput"
               label={I18n.t('SETTINGS.PSP.FORM.FIELDS.SEARCH_BY')}
               placeholder={I18n.t('SETTINGS.PSP.FORM.FIELDS.SEARCH_BY_PLACEHOLDER')}
               addition={<i className="icon icon-search" />}
@@ -74,6 +75,7 @@ const PSPFilter = (props: Props) => {
 
             <Field
               name="favourite"
+              data-testid="PSPFilter-favouriteSelect"
               label={I18n.t('SETTINGS.PSP.FORM.FIELDS.FAVOURITE_PSP')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="PSPFilter__field"
@@ -96,11 +98,13 @@ const PSPFilter = (props: Props) => {
           <div className="PSPFilter__buttons">
             <RefreshButton
               className="PSPFilter__button"
+              data-testid="PSPFilter-refreshButton"
               onClick={onRefresh}
             />
 
             <Button
               className="PSPFilter__button"
+              data-testid="PSPFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -110,6 +114,7 @@ const PSPFilter = (props: Props) => {
 
             <Button
               className="PSPFilter__button"
+              data-testid="PSPFilter-applyButton"
               type="submit"
               disabled={isSubmitting || !dirty}
               primary
