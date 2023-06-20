@@ -147,6 +147,7 @@ const Accounts = (props: Props) => {
           <div className="Accounts__actions">
             <Button
               className="Accounts__action"
+              data-testid="Accounts-newOrderButton"
               onClick={handleNewOrderClick}
               tertiary
               small

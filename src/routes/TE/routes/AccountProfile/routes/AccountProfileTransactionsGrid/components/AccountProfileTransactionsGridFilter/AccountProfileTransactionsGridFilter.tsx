@@ -58,6 +58,7 @@ const AccountProfileTransactionsGrid = ({ handleRefetch }: Props) => {
           <div className="AccountProfileOrdersGridFilter__fields">
             <Field
               name="keyword"
+              data-testid="AccountProfileTransactionsGrid-keywordInput"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.SEARCH_BY')}
               placeholder={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
               className="AccountProfileOrdersGridFilter__field AccountProfileOrdersGridFilter__field--large"
@@ -67,6 +68,7 @@ const AccountProfileTransactionsGrid = ({ handleRefetch }: Props) => {
             />
             <Field
               name="transactionType"
+              data-testid="AccountProfileTransactionsGrid-transactionTypeSelect"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.TYPE_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="AccountProfileOrdersGridFilter__field"
@@ -84,6 +86,7 @@ const AccountProfileTransactionsGrid = ({ handleRefetch }: Props) => {
             <Field
               name="creationDateRange"
               className="AccountProfileOrdersGridFilter__field AccountProfileOrdersGridFilter__date-range"
+              data-testid="AccountProfileTransactionsGrid-creationDateRangePicker"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.TRANSACTION_TIME_RANGE_LABEL')}
               component={FormikDateRangePicker}
               fieldsNames={{
@@ -96,10 +99,12 @@ const AccountProfileTransactionsGrid = ({ handleRefetch }: Props) => {
           <div className="AccountProfileOrdersGridFilter__buttons">
             <RefreshButton
               className="AccountProfileOrdersGridFilter__button"
+              data-testid="AccountProfileTransactionsGrid-refreshButton"
               onClick={handleRefetch}
             />
             <Button
               className="AccountProfileOrdersGridFilter__button"
+              data-testid="AccountProfileTransactionsGrid-resethButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -108,6 +113,7 @@ const AccountProfileTransactionsGrid = ({ handleRefetch }: Props) => {
             </Button>
             <Button
               className="AccountProfileOrdersGridFilter__button"
+              data-testid="AccountProfileTransactionsGrid-applyButton"
               type="submit"
               disabled={!dirty || isSubmitting}
               primary

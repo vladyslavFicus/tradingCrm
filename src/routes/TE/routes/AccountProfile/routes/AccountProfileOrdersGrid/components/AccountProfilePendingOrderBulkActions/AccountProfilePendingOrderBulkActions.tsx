@@ -86,6 +86,7 @@ const AccountProfilePendingOrderBulkActions = (props: Props) => {
       <Button
         tertiary
         className="AccountProfilePendingOrderBulkActions__button"
+        data-testid="AccountProfilePendingOrderBulkActions-cancelOrderButton"
         onClick={handleBulkCloseOrderClick}
       >
         {I18n.t('TRADING_ENGINE.MODALS.BULK_CANCEL_ORDERS.TITLE')}

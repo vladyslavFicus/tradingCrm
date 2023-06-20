@@ -71,6 +71,7 @@ const AccountProfileHistoryGridFilter = ({ handleRefetch }: Props) => {
           <div className="AccountProfileHistoryGridFilter__fields">
             <Field
               name="keyword"
+              data-testid="AccountProfileHistoryGridFilter-keywordInput"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.SEARCH_BY')}
               placeholder={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
               className="AccountProfileHistoryGridFilter__field AccountProfileHistoryGridFilter__field--large"
@@ -80,6 +81,7 @@ const AccountProfileHistoryGridFilter = ({ handleRefetch }: Props) => {
             />
             <Field
               name="type"
+              data-testid="AccountProfileHistoryGridFilter-typeSelect"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.TYPE_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="AccountProfileHistoryGridFilter__field"
@@ -98,6 +100,7 @@ const AccountProfileHistoryGridFilter = ({ handleRefetch }: Props) => {
             </Field>
             <Field
               name="symbol"
+              data-testid="AccountProfileHistoryGridFilter-symbolSelect"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.SYMBOL_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="AccountProfileHistoryGridFilter__field"
@@ -117,6 +120,7 @@ const AccountProfileHistoryGridFilter = ({ handleRefetch }: Props) => {
             <Field
               name="openingDateRange"
               className="AccountProfileHistoryGridFilter__field AccountProfileHistoryGridFilter__date-range"
+              data-testid="AccountProfileHistoryGridFilter-openingDateRangePicker"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.OPEN_TIME_RANGE_LABEL')}
               component={FormikDateRangePicker}
               fieldsNames={{
@@ -128,6 +132,7 @@ const AccountProfileHistoryGridFilter = ({ handleRefetch }: Props) => {
             <Field
               name="closingDateRange"
               className="AccountProfileHistoryGridFilter__field AccountProfileHistoryGridFilter__date-range"
+              data-testid="AccountProfileHistoryGridFilter-closingDateRangePicker"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.CLOSE_TIME_RANGE_LABEL')}
               component={FormikDateRangePicker}
               fieldsNames={{
@@ -140,10 +145,12 @@ const AccountProfileHistoryGridFilter = ({ handleRefetch }: Props) => {
           <div className="AccountProfileHistoryGridFilter__buttons">
             <RefreshButton
               className="AccountProfileHistoryGridFilter__button"
+              data-testid="AccountProfileHistoryGridFilter-refreshButton"
               onClick={handleRefetch}
             />
             <Button
               className="AccountProfileHistoryGridFilter__button"
+              data-testid="AccountProfileHistoryGridFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -152,6 +159,7 @@ const AccountProfileHistoryGridFilter = ({ handleRefetch }: Props) => {
             </Button>
             <Button
               className="AccountProfileHistoryGridFilter__button"
+              data-testid="AccountProfileHistoryGridFilter-applyButton"
               type="submit"
               disabled={!dirty || isSubmitting}
               primary

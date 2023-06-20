@@ -71,6 +71,7 @@ const AccountProfileOrdersGridFilter = ({ onRefresh }: Props) => {
           <div className="AccountProfileOrdersGridFilter__fields">
             <Field
               name="keyword"
+              data-testid="AccountProfileOrdersGridFilter-keywordInput"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.SEARCH_BY')}
               placeholder={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
               className="AccountProfileOrdersGridFilter__field AccountProfileOrdersGridFilter__field--large"
@@ -80,6 +81,7 @@ const AccountProfileOrdersGridFilter = ({ onRefresh }: Props) => {
             />
             <Field
               name="orderType"
+              data-testid="AccountProfileOrdersGridFilter-orderTypeSelect"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.TYPE_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="AccountProfileOrdersGridFilter__field"
@@ -96,6 +98,7 @@ const AccountProfileOrdersGridFilter = ({ onRefresh }: Props) => {
             </Field>
             <Field
               name="symbol"
+              data-testid="AccountProfileOrdersGridFilter-symbolSelect"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.SYMBOL_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="AccountProfileOrdersGridFilter__field"
@@ -113,6 +116,7 @@ const AccountProfileOrdersGridFilter = ({ onRefresh }: Props) => {
             <Field
               name="openingDateRange"
               className="AccountProfileOrdersGridFilter__field AccountProfileOrdersGridFilter__date-range"
+              data-testid="AccountProfileOrdersGridFilter-openingDateRangePicker"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.OPEN_TIME_RANGE_LABEL')}
               component={FormikDateRangePicker}
               fieldsNames={{
@@ -125,10 +129,12 @@ const AccountProfileOrdersGridFilter = ({ onRefresh }: Props) => {
           <div className="AccountProfileOrdersGridFilter__buttons">
             <RefreshButton
               className="AccountProfileOrdersGridFilter__button"
+              data-testid="AccountProfileOrdersGridFilter-refreshButton"
               onClick={onRefresh}
             />
             <Button
               className="AccountProfileOrdersGridFilter__button"
+              data-testid="AccountProfileOrdersGridFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -137,6 +143,7 @@ const AccountProfileOrdersGridFilter = ({ onRefresh }: Props) => {
             </Button>
             <Button
               className="AccountProfileOrdersGridFilter__button"
+              data-testid="AccountProfileOrdersGridFilter-applyButton"
               type="submit"
               disabled={!dirty || isSubmitting}
               primary

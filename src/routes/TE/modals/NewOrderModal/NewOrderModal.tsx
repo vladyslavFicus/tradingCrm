@@ -103,6 +103,7 @@ const NewOrderModal = (props: Props) => {
               <Input
                 autoFocus={!props.login}
                 name="login"
+                data-testid="NewOrderModal-loginInput"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.LOGIN')}
                 value={login}
                 className="NewOrderModal__field"
@@ -111,6 +112,7 @@ const NewOrderModal = (props: Props) => {
               />
               <Button
                 className="NewOrderModal__button NewOrderModal__button--small"
+                data-testid="NewOrderModal-uploadButton"
                 type="button"
                 tertiary
                 submitting={accountQuery.loading}
@@ -182,6 +184,7 @@ const NewOrderModal = (props: Props) => {
                 on={isAlwaysOpen}
                 stopPropagation
                 className="NewOrderModal__always-open-label"
+                data-testid="NewOrderModal-alwaysOpenSwitch"
                 labelPosition="left"
                 onClick={handleAlwaysOpenClick}
               />
