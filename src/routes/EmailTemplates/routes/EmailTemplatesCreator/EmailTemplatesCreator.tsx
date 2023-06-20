@@ -63,6 +63,7 @@ const EmailTemplatesCreator = () => {
         <Button
           tertiary
           className="EmailTemplatesCreator__header-link"
+          data-testid="EmailTemplatesCreator-goToEmailTemplatesButton"
           onClick={handleBackToList}
         >
           {I18n.t('EMAILS.EMAIL_TEMPLATES.LINK_GO_TO_EMAIL_TEMPLATES')}
@@ -86,6 +87,7 @@ const EmailTemplatesCreator = () => {
               <div className="EmailTemplatesCreator__body-form-editor-container">
                 <Field
                   name="text"
+                  data-testid="EmailTemplatesCreator-textHtmlEditor"
                   label={I18n.t('EMAILS.EMAIL_TEMPLATES.INPUT_EDITOR_LABEL')}
                   placeholder={I18n.t('EMAILS.EMAIL_TEMPLATES.INPUT_EDITOR_PLACEHOLDER')}
                   component={FormikHtmlEditorField}
@@ -97,17 +99,25 @@ const EmailTemplatesCreator = () => {
               <div className="EmailTemplatesCreator__body-form-fields-container">
                 <Field
                   name="name"
+                  data-testid="EmailTemplatesCreator-nameInput"
                   label={I18n.t('EMAILS.EMAIL_TEMPLATES.INPUT_NAME_LABEL')}
                   component={FormikInputField}
                 />
 
                 <Field
                   name="subject"
+                  data-testid="EmailTemplatesCreator-subjectInput"
                   label={I18n.t('EMAILS.EMAIL_TEMPLATES.INPUT_SUBJECT_LABEL')}
                   component={FormikInputField}
                 />
 
-                <Button className="EmailTemplatesCreator__button" type="submit" primary disabled={!dirty && isValid}>
+                <Button
+                  className="EmailTemplatesCreator__button"
+                  type="submit"
+                  primary
+                  disabled={!dirty && isValid}
+                  data-testid="EmailTemplatesCreator-createButton"
+                >
                   {I18n.t('EMAILS.EMAIL_TEMPLATES.CREATOR.BUTTONS.CREATE')}
                 </Button>
               </div>
