@@ -427,6 +427,7 @@ const SmartPnLForm = (props: Props) => {
             <div className="SmartPnLForm__field-container">
               <Field
                 name="symbol"
+                data-testid="SmartPnLForm-symbolSelectTree"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SYMBOL')}
                 className="SmartPnLForm__field"
                 component={FormikSelectTreeField}
@@ -440,6 +441,7 @@ const SmartPnLForm = (props: Props) => {
               <Field
                 name="volumeLots"
                 type="number"
+                data-testid="SmartPnLForm-volumeLotsInput"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME')}
                 className="SmartPnLForm__field"
                 placeholder="0.00"
@@ -452,6 +454,7 @@ const SmartPnLForm = (props: Props) => {
               <Field
                 name="openTime"
                 className="SmartPnLForm__field"
+                data-testid="SmartPnLForm-openTimeDatePicker"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_TIME')}
                 component={FormikDatePicker}
                 maxDate={moment()}
@@ -465,6 +468,7 @@ const SmartPnLForm = (props: Props) => {
               <Field
                 name="pnl"
                 type="number"
+                data-testid="SmartPnLForm-pnlInput"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.EXPECTED_PNL')}
                 className="SmartPnLForm__field"
                 placeholder="0.00"
@@ -491,6 +495,7 @@ const SmartPnLForm = (props: Props) => {
               <Field
                 name="sellOpenPrice"
                 type="number"
+                data-testid="SmartPnLForm-sellOpenPriceInputDecimals"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_PRICE_SELL')}
                 className="SmartPnLForm__field"
                 placeholder={placeholder(currentSymbol?.digits || 0)}
@@ -503,8 +508,8 @@ const SmartPnLForm = (props: Props) => {
                 {...decimalsSettings}
               />
               <Button
-                data-testid="sellPriceUpdate"
                 className="SmartPnLForm__button SmartPnLForm__button--small"
+                data-testid="SmartPnLForm-sellPriceUpdateButton"
                 type="button"
                 tertiary
                 disabled={sellAutoOpenPrice || !account || isAccountArchived}
@@ -514,8 +519,8 @@ const SmartPnLForm = (props: Props) => {
               </Button>
               <div className="SmartPnLForm__checkbox-container">
                 <Field
-                  data-testid="sellAutoOpenPrice"
                   name="sellAutoOpenPrice"
+                  data-testid="SmartPnLForm-sellAutoOpenPriceButton"
                   label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.AUTO')}
                   className="SmartPnLForm__auto-checkbox"
                   component={FormikCheckbox}
@@ -527,6 +532,7 @@ const SmartPnLForm = (props: Props) => {
                 disabled
                 type="number"
                 name="sellClosePrice"
+                data-testid="SmartPnLForm-sellClosePriceInput"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.CLOSE_PRICE_SELL')}
                 value={sellClosePrice}
                 className="SmartPnLForm__field"
@@ -541,6 +547,7 @@ const SmartPnLForm = (props: Props) => {
               <Field
                 name="buyOpenPrice"
                 type="number"
+                data-testid="SmartPnLForm-buyOpenPriceInputDecimals"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_PRICE_BUY')}
                 className="SmartPnLForm__field"
                 placeholder={placeholder(currentSymbol?.digits || 0)}
@@ -553,8 +560,8 @@ const SmartPnLForm = (props: Props) => {
                 {...decimalsSettings}
               />
               <Button
-                data-testid="buyPriceUpdate"
                 className="SmartPnLForm__button SmartPnLForm__button--small"
+                data-testid="SmartPnLForm-buyPriceUpdateButton"
                 type="button"
                 tertiary
                 disabled={buyAutoOpenPrice || !account || isAccountArchived}
@@ -564,8 +571,8 @@ const SmartPnLForm = (props: Props) => {
               </Button>
               <div className="SmartPnLForm__checkbox-container SmartPnLForm__checkbox-container--smart-pnl">
                 <Field
-                  data-testid="buyAutoOpenPrice"
                   name="buyAutoOpenPrice"
+                  data-testid="SmartPnLForm-buyAutoOpenPriceButton"
                   label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.AUTO')}
                   className="SmartPnLForm__auto-checkbox"
                   component={FormikCheckbox}
@@ -577,6 +584,7 @@ const SmartPnLForm = (props: Props) => {
                 disabled
                 type="number"
                 name="buyClosePrice"
+                data-testid="SmartPnLForm-buyClosePriceButton"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.CLOSE_PRICE_BUY')}
                 value={buyClosePrice}
                 className="SmartPnLForm__field"
@@ -591,6 +599,7 @@ const SmartPnLForm = (props: Props) => {
                 type="number"
                 step="0.00001"
                 placeholder="0.00"
+                data-testid="SmartPnLForm-commissionInput"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.COMMISSION')}
                 className="SmartPnLForm__field"
                 component={FormikInputField}
@@ -601,6 +610,7 @@ const SmartPnLForm = (props: Props) => {
                 type="number"
                 step="0.00001"
                 placeholder="0.00"
+                data-testid="SmartPnLForm-swapsInput"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SWAPS')}
                 className="SmartPnLForm__field"
                 component={FormikInputField}
@@ -611,6 +621,7 @@ const SmartPnLForm = (props: Props) => {
               <Input
                 disabled
                 name="sellMargin"
+                data-testid="SmartPnLForm-sellMarginInput"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_MARGIN')}
                 value={
                   (account && currentSymbol && currentSymbolPrice)
@@ -629,6 +640,7 @@ const SmartPnLForm = (props: Props) => {
               <Input
                 disabled
                 name="buyMargin"
+                data-testid="SmartPnLForm-buyMarginInput"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_MARGIN')}
                 value={
                   (account && currentSymbol && currentSymbolPrice)
@@ -673,6 +685,7 @@ const SmartPnLForm = (props: Props) => {
               </If>
               <Button
                 className="SmartPnLForm__button"
+                data-testid="SmartPnLForm-sellMarketAtButton"
                 danger
                 disabled={isSellDisabled || isAccountArchived}
                 onClick={() => {
@@ -687,6 +700,7 @@ const SmartPnLForm = (props: Props) => {
               </Button>
               <Button
                 className="SmartPnLForm__button"
+                data-testid="SmartPnLForm-buyMarketAtButton"
                 primary
                 disabled={isBuyDisabled || isAccountArchived}
                 onClick={() => {

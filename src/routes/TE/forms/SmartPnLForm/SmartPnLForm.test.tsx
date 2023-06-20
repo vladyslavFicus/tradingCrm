@@ -161,14 +161,14 @@ it('Render SmartPnLForm and click on "Sell Auto" checkbox', async () => {
   await screen.findByText(`Sell at ${bid.toFixed(5)}`);
 
   // Assert
-  expect(screen.getByTestId('sellAutoOpenPrice')).toBeChecked();
+  expect(screen.getByTestId('SmartPnLForm-sellAutoOpenPriceButton')).toBeChecked();
   expect(screen.getByLabelText(/Sell open price/)).toBeDisabled();
 
   await act(async () => {
-    fireEvent.click(screen.getByTestId('sellAutoOpenPrice'));
+    fireEvent.click(screen.getByTestId('SmartPnLForm-sellAutoOpenPriceButton'));
   });
 
-  expect(screen.getByTestId('sellAutoOpenPrice')).not.toBeChecked();
+  expect(screen.getByTestId('SmartPnLForm-sellAutoOpenPriceButton')).not.toBeChecked();
   expect(screen.getByLabelText(/Sell open price/)).toBeEnabled();
   expect(screen.getByLabelText('Sell close price')).toHaveValue(sellClosePrice);
   expect(screen.getByLabelText('Sell close price')).toBeDisabled();
@@ -198,7 +198,7 @@ it('Render SmartPnLForm and click on "Sell Auto" checkbox and "Update" button', 
   await screen.findByText(`Sell at ${bid.toFixed(5)}`);
 
   await act(async () => {
-    fireEvent.click(screen.getByTestId('sellAutoOpenPrice'));
+    fireEvent.click(screen.getByTestId('SmartPnLForm-sellAutoOpenPriceButton'));
   });
 
   // Assert
@@ -215,7 +215,7 @@ it('Render SmartPnLForm and click on "Sell Auto" checkbox and "Update" button', 
     await new Promise(res => setTimeout(res, 500));
   });
 
-  fireEvent.click(screen.getByTestId('sellPriceUpdate'));
+  fireEvent.click(screen.getByTestId('SmartPnLForm-sellPriceUpdateButton'));
 
   // Wait while rsocket tick will be accepted by component
   await screen.findByText(`Sell at ${newBid.toFixed(5)}`);
@@ -247,14 +247,14 @@ it('Render SmartPnLForm and click on "Buy Auto" checkbox', async () => {
   await screen.findByText(`Sell at ${bid.toFixed(5)}`);
 
   // Assert
-  expect(screen.getByTestId('buyAutoOpenPrice')).toBeChecked();
+  expect(screen.getByTestId('SmartPnLForm-buyAutoOpenPriceButton')).toBeChecked();
   expect(screen.getByLabelText(/Buy open price/)).toBeDisabled();
 
   await act(async () => {
-    fireEvent.click(screen.getByTestId('buyAutoOpenPrice'));
+    fireEvent.click(screen.getByTestId('SmartPnLForm-buyAutoOpenPriceButton'));
   });
 
-  expect(screen.getByTestId('buyAutoOpenPrice')).not.toBeChecked();
+  expect(screen.getByTestId('SmartPnLForm-buyAutoOpenPriceButton')).not.toBeChecked();
   expect(screen.getByLabelText(/Buy open price/)).toBeEnabled();
   expect(screen.getByLabelText('Buy close price')).toHaveValue(buyClosePrice);
   expect(screen.getByLabelText('Buy close price')).toBeDisabled();
@@ -284,7 +284,7 @@ it('Render SmartPnLForm and click on "Buy Auto" checkbox and "Update" button', a
   await screen.findByText(`Sell at ${bid.toFixed(5)}`);
 
   await act(async () => {
-    fireEvent.click(screen.getByTestId('buyAutoOpenPrice'));
+    fireEvent.click(screen.getByTestId('SmartPnLForm-buyAutoOpenPriceButton'));
   });
 
   // Assert
@@ -301,7 +301,7 @@ it('Render SmartPnLForm and click on "Buy Auto" checkbox and "Update" button', a
     await new Promise(res => setTimeout(res, 500));
   });
 
-  fireEvent.click(screen.getByTestId('buyPriceUpdate'));
+  fireEvent.click(screen.getByTestId('SmartPnLForm-buyPriceUpdateButton'));
 
   // Wait while rsocket tick will be accepted by component
   await screen.findByText(`Sell at ${newBid.toFixed(5)}`);
@@ -451,7 +451,7 @@ it('Render SmartPnLForm and configure fields to get negative close price', async
 
   // Change SELL price to get negative sell close price
   await act(async () => {
-    fireEvent.click(screen.getByTestId('sellAutoOpenPrice'));
+    fireEvent.click(screen.getByTestId('SmartPnLForm-sellAutoOpenPriceButton'));
     fireEvent.change(screen.getByLabelText('Sell open price'), { target: { value: -1.05725 } });
   });
 
@@ -466,7 +466,7 @@ it('Render SmartPnLForm and configure fields to get negative close price', async
 
   // Change BUY price to get negative sell close price
   await act(async () => {
-    fireEvent.click(screen.getByTestId('buyAutoOpenPrice'));
+    fireEvent.click(screen.getByTestId('SmartPnLForm-buyAutoOpenPriceButton'));
     fireEvent.change(screen.getByLabelText('Buy open price'), { target: { value: -1.03725 } });
   });
 
@@ -519,12 +519,12 @@ it('Render SmartPnLForm for archived account', async () => {
   expect(screen.getByLabelText('Open time')).toBeDisabled();
   expect(screen.getByLabelText('Symbol')).toBeDisabled();
   expect(screen.getByLabelText('Sell open price')).toBeDisabled();
-  expect(screen.getByTestId('sellPriceUpdate')).toBeDisabled();
-  expect(screen.getByTestId('sellAutoOpenPrice')).toBeDisabled();
+  expect(screen.getByTestId('SmartPnLForm-sellPriceUpdateButton')).toBeDisabled();
+  expect(screen.getByTestId('SmartPnLForm-sellAutoOpenPriceButton')).toBeDisabled();
   expect(screen.getByLabelText('Sell close price')).toBeDisabled();
   expect(screen.getByLabelText('Buy open price')).toBeDisabled();
-  expect(screen.getByTestId('buyPriceUpdate')).toBeDisabled();
-  expect(screen.getByTestId('buyAutoOpenPrice')).toBeDisabled();
+  expect(screen.getByTestId('SmartPnLForm-buyPriceUpdateButton')).toBeDisabled();
+  expect(screen.getByTestId('SmartPnLForm-buyAutoOpenPriceButton')).toBeDisabled();
   expect(screen.getByLabelText('Buy close price')).toBeDisabled();
   expect(screen.getByLabelText('Commission')).toBeDisabled();
   expect(screen.getByLabelText('Swaps')).toBeDisabled();

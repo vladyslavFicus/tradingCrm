@@ -196,7 +196,7 @@ it('Render EditOrderModal without any permissions', async () => {
   expect(screen.getByLabelText('Margin')).toHaveValue(floatingMargin);
   expect(screen.getByLabelText('Comment')).toBeDisabled();
   expect(screen.getByLabelText('Comment')).toHaveValue(comment);
-  expect(screen.queryByTestId('updateOrder')).not.toBeInTheDocument();
+  expect(screen.queryByTestId('EditOrderForm-updateOrderButton')).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Cancel order' })).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Reopen' })).not.toBeInTheDocument();
 });
@@ -262,7 +262,7 @@ it('Render EditOrderModal with MANAGER edit order permission', async () => {
   expect(screen.getByLabelText('Margin')).toHaveValue(floatingMargin);
   expect(screen.getByLabelText('Comment')).toBeEnabled();
   expect(screen.getByLabelText('Comment')).toHaveValue(comment);
-  expect(screen.queryByTestId('updateOrder')).toBeInTheDocument();
+  expect(screen.queryByTestId('EditOrderForm-updateOrderButton')).toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Cancel order' })).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Reopen' })).not.toBeInTheDocument();
 });
@@ -333,7 +333,7 @@ it('Render EditOrderModal with ADMIN edit order permission', async () => {
   expect(screen.getByLabelText('Margin')).toHaveValue(floatingMargin);
   expect(screen.getByLabelText('Comment')).toBeEnabled();
   expect(screen.getByLabelText('Comment')).toHaveValue(comment);
-  expect(screen.queryByTestId('updateOrder')).toBeInTheDocument();
+  expect(screen.queryByTestId('EditOrderForm-updateOrderButton')).toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Cancel order' })).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Reopen' })).not.toBeInTheDocument();
 
@@ -407,7 +407,7 @@ it('Render EditOrderModal with cancel order permission for OPEN order', async ()
   expect(screen.getByLabelText('Margin')).toHaveValue(floatingMargin);
   expect(screen.getByLabelText('Comment')).toBeDisabled();
   expect(screen.getByLabelText('Comment')).toHaveValue(comment);
-  expect(screen.queryByTestId('updateOrder')).not.toBeInTheDocument();
+  expect(screen.queryByTestId('EditOrderForm-updateOrderButton')).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Cancel order' })).toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Cancel order' })).toBeEnabled();
   expect(screen.queryByRole('button', { name: 'Reopen' })).not.toBeInTheDocument();
@@ -493,7 +493,7 @@ it('Render EditOrderModal with reopen order permission for CLOSED order for MANA
   expect(screen.getByLabelText('Margin')).toHaveValue(floatingMargin);
   expect(screen.getByLabelText('Comment')).toBeDisabled();
   expect(screen.getByLabelText('Comment')).toHaveValue(comment);
-  expect(screen.getByTestId('updateOrder')).toBeDisabled();
+  expect(screen.getByTestId('EditOrderForm-updateOrderButton')).toBeDisabled();
   expect(screen.queryByRole('button', { name: 'Cancel order' })).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Reopen' })).toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Reopen' })).toBeEnabled();
@@ -583,7 +583,7 @@ it('Render EditOrderModal with reopen order permission for CLOSED order for ADMI
   expect(screen.getByLabelText('Margin')).toHaveValue(floatingMargin);
   expect(screen.getByLabelText('Comment')).toBeEnabled();
   expect(screen.getByLabelText('Comment')).toHaveValue(comment);
-  expect(screen.getByTestId('updateOrder')).toBeDisabled();
+  expect(screen.getByTestId('EditOrderForm-updateOrderButton')).toBeDisabled();
   expect(screen.queryByRole('button', { name: 'Cancel order' })).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Reopen' })).toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Reopen' })).toBeEnabled();
@@ -638,7 +638,7 @@ it('Render EditOrderModal for OPEN order with BUY type', async () => {
 
   expect(screen.getByLabelText('Volume')).toHaveValue(volumeLots);
   expect(screen.getByLabelText('Volume')).toBeEnabled();
-  expect(screen.getByTestId('closePrice')).toHaveValue(bid);
+  expect(screen.getByTestId('EditOrderModal-closePriceInputDecimals')).toHaveValue(bid);
   expect(screen.getByTestId('PnL')).toHaveTextContent(pnl);
 
   const updateButton = screen.getByRole('button', { name: 'Update' });
@@ -654,7 +654,7 @@ it('Render EditOrderModal for OPEN order with BUY type', async () => {
   fireEvent.click(updateButton);
 
   await waitFor(() => screen.getByText(`Close ${volumeLots} at ${newBid.toFixed(5)}`));
-  expect(screen.getByTestId('closePrice')).toHaveValue(newBid);
+  expect(screen.getByTestId('EditOrderModal-closePriceInputDecimals')).toHaveValue(newBid);
 });
 
 it('Render EditOrderModal for OPEN order with SELL type', async () => {
@@ -690,7 +690,7 @@ it('Render EditOrderModal for OPEN order with SELL type', async () => {
 
   expect(screen.getByLabelText('Volume')).toHaveValue(volumeLots);
   expect(screen.getByLabelText('Volume')).toBeEnabled();
-  expect(screen.getByTestId('closePrice')).toHaveValue(ask);
+  expect(screen.getByTestId('EditOrderModal-closePriceInputDecimals')).toHaveValue(ask);
   expect(screen.getByTestId('PnL')).toHaveTextContent(pnl);
 
   const updateButton = screen.getByRole('button', { name: 'Update' });
@@ -706,7 +706,7 @@ it('Render EditOrderModal for OPEN order with SELL type', async () => {
   fireEvent.click(updateButton);
 
   await waitFor(() => screen.getByText(`Close ${volumeLots} at ${newAsk.toFixed(5)}`));
-  expect(screen.getByTestId('closePrice')).toHaveValue(newAsk);
+  expect(screen.getByTestId('EditOrderModal-closePriceInputDecimals')).toHaveValue(newAsk);
 });
 
 it('Render EditOrderModal for PENDING order with BUY type', async () => {
@@ -747,7 +747,7 @@ it('Render EditOrderModal for PENDING order with BUY type', async () => {
   expect(screen.queryByLabelText('Floating P/L')).not.toBeInTheDocument();
   expect(screen.queryByLabelText('Net Floating P/L')).not.toBeInTheDocument();
   expect(screen.queryByLabelText('Margin')).not.toBeInTheDocument();
-  expect(screen.getByTestId('activationPrice')).toHaveValue(openPrice);
+  expect(screen.getByTestId('EditOrderModal-activationPriceInputDecimals')).toHaveValue(openPrice);
   expect(screen.getByRole('button', { name: 'Update' })).toBeInTheDocument();
   await waitFor(() => expect(screen.getByRole('button', { name: 'Update' })).toBeEnabled());
 
@@ -760,7 +760,7 @@ it('Render EditOrderModal for PENDING order with BUY type', async () => {
   fireEvent.click(screen.getByRole('button', { name: 'Update' }));
 
   await waitFor(() => screen.getByText(`Activate ${volumeLots} at ${newAsk.toFixed(5)}`));
-  expect(screen.getByTestId('activationPrice')).toHaveValue(newAsk);
+  expect(screen.getByTestId('EditOrderModal-activationPriceInputDecimals')).toHaveValue(newAsk);
   expect(screen.getByTestId('Margin')).toHaveTextContent('80.00');
 });
 
@@ -802,7 +802,7 @@ it('Render EditOrderModal for PENDING order with SELL type', async () => {
   expect(screen.queryByLabelText('Floating P/L')).not.toBeInTheDocument();
   expect(screen.queryByLabelText('Net Floating P/L')).not.toBeInTheDocument();
   expect(screen.queryByLabelText('Margin')).not.toBeInTheDocument();
-  expect(screen.getByTestId('activationPrice')).toHaveValue(openPrice);
+  expect(screen.getByTestId('EditOrderModal-activationPriceInputDecimals')).toHaveValue(openPrice);
   expect(screen.getByRole('button', { name: 'Update' })).toBeInTheDocument();
 
   await waitFor(() => expect(screen.getByRole('button', { name: 'Update' })).toBeEnabled());
@@ -816,7 +816,7 @@ it('Render EditOrderModal for PENDING order with SELL type', async () => {
   fireEvent.click(screen.getByRole('button', { name: 'Update' }));
 
   await waitFor(() => screen.getByText(`Activate ${volumeLots} at ${newBid.toFixed(5)}`));
-  expect(screen.getByTestId('activationPrice')).toHaveValue(newBid);
+  expect(screen.getByTestId('EditOrderModal-activationPriceInputDecimals')).toHaveValue(newBid);
   expect(screen.getByTestId('Margin')).toHaveTextContent('80.00');
 });
 
@@ -941,7 +941,7 @@ it('Render EditOrderModal with all permissions for CANCELED order for MANGER', a
   expect(screen.getByLabelText('Margin')).toHaveValue(floatingMargin);
   expect(screen.getByLabelText('Comment')).toBeDisabled();
   expect(screen.getByLabelText('Comment')).toHaveValue(comment);
-  expect(screen.queryByTestId('updateOrder')).not.toBeInTheDocument();
+  expect(screen.queryByTestId('EditOrderForm-updateOrderButton')).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Cancel order' })).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Reopen' })).not.toBeInTheDocument();
 });
@@ -1038,7 +1038,7 @@ it('Render EditOrderModal with all permissions for CANCELED order for ADMIN', as
   expect(screen.getByLabelText('Margin')).toHaveValue(floatingMargin);
   expect(screen.getByLabelText('Comment')).toBeDisabled();
   expect(screen.getByLabelText('Comment')).toHaveValue(comment);
-  expect(screen.queryByTestId('updateOrder')).not.toBeInTheDocument();
+  expect(screen.queryByTestId('EditOrderForm-updateOrderButton')).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Cancel order' })).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Reopen' })).not.toBeInTheDocument();
 });
@@ -1129,7 +1129,7 @@ it('Render EditOrderModal with all permissions for CLOSED order for MANGER for a
   expect(screen.getByLabelText('Margin')).toHaveValue(floatingMargin);
   expect(screen.getByLabelText('Comment')).toBeDisabled();
   expect(screen.getByLabelText('Comment')).toHaveValue(comment);
-  expect(screen.queryByTestId('updateOrder')).not.toBeInTheDocument();
+  expect(screen.queryByTestId('EditOrderForm-updateOrderButton')).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Cancel order' })).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Reopen' })).not.toBeInTheDocument();
 });
@@ -1232,7 +1232,7 @@ it('Render EditOrderModal with all permissions for CLOSED order for ADMIN for ar
   expect(screen.getByLabelText('Margin')).toHaveValue(floatingMargin);
   expect(screen.getByLabelText('Comment')).toBeDisabled();
   expect(screen.getByLabelText('Comment')).toHaveValue(comment);
-  expect(screen.queryByTestId('updateOrder')).not.toBeInTheDocument();
+  expect(screen.queryByTestId('EditOrderForm-updateOrderButton')).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Cancel order' })).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Reopen' })).not.toBeInTheDocument();
 });

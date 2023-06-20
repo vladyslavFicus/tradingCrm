@@ -100,6 +100,7 @@ const OrdersFilter = (props: Props) => {
           <div className="OrdersFilter__fields">
             <Field
               name="keyword"
+              data-testid="OrdersFilter-keywordInput"
               label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.SEARCH_BY')}
               placeholder={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
               className="OrdersFilter__field OrdersFilter__field--large"
@@ -110,6 +111,7 @@ const OrdersFilter = (props: Props) => {
 
             <Field
               name="groups"
+              data-testid="OrdersFilter-groupsSelect"
               label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.GROUP')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="OrdersFilter__field"
@@ -126,6 +128,7 @@ const OrdersFilter = (props: Props) => {
             </Field>
             <Field
               name="orderStatuses"
+              data-testid="OrdersFilter-orderStatusesSelect"
               className="OrdersFilter__field"
               label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.STATUS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
@@ -141,6 +144,7 @@ const OrdersFilter = (props: Props) => {
             </Field>
             <Field
               name="symbol"
+              data-testid="OrdersFilter-symbolSelect"
               label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.SYMBOL_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="OrdersFilter__field"
@@ -158,6 +162,7 @@ const OrdersFilter = (props: Props) => {
             </Field>
             <Field
               name="openingDateRange"
+              data-testid="OrdersFilter-openingDateRangePicker"
               className="OrdersFilter__field OrdersFilter__date-range"
               label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.OPEN_TIME_RANGE_LABEL')}
               component={FormikDateRangePicker}
@@ -169,6 +174,7 @@ const OrdersFilter = (props: Props) => {
             />
             <Field
               name="closingDateRange"
+              data-testid="OrdersFilter-closingDateRangePicker"
               className="OrdersFilter__field OrdersFilter__date-range"
               label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.CLOSE_TIME_RANGE_LABEL')}
               component={FormikDateRangePicker}
@@ -182,10 +188,12 @@ const OrdersFilter = (props: Props) => {
           <div className="OrdersFilter__buttons">
             <RefreshButton
               className="OrdersFilter__button"
+              data-testid="OrdersFilter-refreshButton"
               onClick={onRefresh}
             />
             <Button
               className="OrdersFilter__button"
+              data-testid="OrdersFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -194,6 +202,7 @@ const OrdersFilter = (props: Props) => {
             </Button>
             <Button
               className="OrdersFilter__button"
+              data-testid="OrdersFilter-applyButton"
               type="submit"
               disabled={!dirty || isSubmitting}
               primary
