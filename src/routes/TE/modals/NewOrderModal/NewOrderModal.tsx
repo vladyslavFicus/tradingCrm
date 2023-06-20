@@ -185,7 +185,6 @@ const NewOrderModal = (props: Props) => {
                 stopPropagation
                 data-testid="NewOrderModal-alwaysOpenSwitch"
                 className="NewOrderModal__always-open-label"
-                data-testid="NewOrderModal-alwaysOpenSwitch"
                 labelPosition="left"
                 onClick={handleAlwaysOpenClick}
               />
