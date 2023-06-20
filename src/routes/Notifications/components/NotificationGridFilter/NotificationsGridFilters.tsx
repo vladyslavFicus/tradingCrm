@@ -126,6 +126,7 @@ const NotificationsFilters = (props: Props) => {
               <Field
                 name="searchKeyword"
                 className="NotificationsGridFilter__field NotificationsGridFilter__search"
+                data-testid="NotificationsFilters-searchKeywordInput"
                 label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.SEARCH')}
                 placeholder={I18n.t('NOTIFICATION_CENTER.FILTERS.PLACEHOLDERS.NOTIFICATION_OR_PLAYER')}
                 addition={<i className="icon icon-search" />}
@@ -136,6 +137,7 @@ const NotificationsFilters = (props: Props) => {
               <Field
                 name="operatorDesks"
                 className="NotificationsGridFilter__field NotificationsGridFilter__select"
+                data-testid="NotificationsFilters-operatorDesksSelect"
                 label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.DESKS')}
                 placeholder={
                   I18n.t(
@@ -160,6 +162,7 @@ const NotificationsFilters = (props: Props) => {
               <Field
                 name="operatorTeams"
                 className="NotificationsGridFilter__field NotificationsGridFilter__select"
+                data-testid="NotificationsFilters-operatorTeamsSelect"
                 label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.TEAMS')}
                 placeholder={
                   I18n.t(
@@ -184,6 +187,7 @@ const NotificationsFilters = (props: Props) => {
               <Field
                 name="operators"
                 className="NotificationsGridFilter__field NotificationsGridFilter__select"
+                data-testid="NotificationsFilters-operatorsSelect"
                 label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.OPERATORS')}
                 placeholder={
                   I18n.t(
@@ -214,6 +218,7 @@ const NotificationsFilters = (props: Props) => {
               <Field
                 name="notificationTypes"
                 className="NotificationsGridFilter__field NotificationsGridFilter__select"
+                data-testid="NotificationsFilters-notificationTypesSelect"
                 label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -232,6 +237,7 @@ const NotificationsFilters = (props: Props) => {
               <Field
                 name="notificationSubtypes"
                 className="NotificationsGridFilter__field NotificationsGridFilter__select"
+                data-testid="NotificationsFilters-notificationSubtypesSelect"
                 label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE_DETAILS')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -249,6 +255,7 @@ const NotificationsFilters = (props: Props) => {
 
               <Field
                 className="NotificationsGridFilter__field NotificationsGridFilter__date-range"
+                data-testid="NotificationsFilters-creationDateRangePicker"
                 label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.CREATION_RANGE')}
                 component={FormikDateRangePicker}
                 fieldsNames={{
@@ -262,11 +269,13 @@ const NotificationsFilters = (props: Props) => {
             <div className="NotificationsGridFilter__buttons">
               <RefreshButton
                 className="NotificationsGridFilter__button"
+                data-testid="NotificationsFilters-refreshButton"
                 onClick={onRefetch}
               />
 
               <Button
                 className="NotificationsGridFilter__button"
+                data-testid="NotificationsFilters-resetButton"
                 onClick={() => handleReset(resetForm)}
                 disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
@@ -275,6 +284,7 @@ const NotificationsFilters = (props: Props) => {
               </Button>
 
               <Button
+                data-testid="NotificationsFilters-applyButton"
                 disabled={isSubmitting || !dirty}
                 type="submit"
                 primary
