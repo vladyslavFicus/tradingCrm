@@ -61,17 +61,22 @@ const DocumentFilter = (props: Props) => {
             <Field
               name="searchBy"
               className="DocumentFilter__field DocumentFilter__search"
+              data-testid="DocumentFilter-searchByInput"
               label={I18n.t('DOCUMENTS.GRID.FILTER_FORM.SEARCH')}
               placeholder={I18n.t('DOCUMENTS.GRID.FILTER_FORM.SEARCH_PLACEHOLDER')}
               component={FormikInputField}
               addition={<i className="icon icon-search" />}
             />
 
-            <TimeZoneField className="DocumentFilter__field DocumentFilter__time-zone" />
+            <TimeZoneField
+              className="DocumentFilter__field DocumentFilter__time-zone"
+              data-testid="DocumentFilter-timeZone"
+            />
 
             <Field
               name="uploadDateRange"
               className="DocumentFilter__field DocumentFilter__date-range"
+              data-testid="DocumentFilter-uploadDateRangePicker"
               label={I18n.t('DOCUMENTS.GRID.FILTER_FORM.CREATION_DATE_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               component={FormikDateRangePicker}
@@ -84,11 +89,13 @@ const DocumentFilter = (props: Props) => {
             <div className="DocumentFilter__buttons">
               <RefreshButton
                 className="DocumentFilter__button"
+                data-testid="DocumentFilter-refreshButton"
                 onClick={onRefetch}
               />
 
               <Button
                 className="DocumentFilter__button"
+                data-testid="DocumentFilter-resetButton"
                 onClick={() => handleReset(resetForm)}
                 disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
@@ -98,6 +105,7 @@ const DocumentFilter = (props: Props) => {
 
               <Button
                 className="DocumentFilter__button"
+                data-testid="DocumentFilter-applyButton"
                 type="submit"
                 disabled={isSubmitting || !isValid || !dirty}
                 primary

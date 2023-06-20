@@ -218,6 +218,7 @@ const DocumentsGrid = (props: Props) => {
       <If condition={permission.allows(permissions.DOCUMENTS.DELETE_DOCUMENT)}>
         <TrashButton
           className="DocumentsGrid__action-icon"
+          data-testid="DocumentsGrid-trashButton"
           onClick={() => confirmActionModal.show({
             onSubmit: handleDeleteDocument(item),
             modalTitle: I18n.t('DOCUMENTS.MODALS.DELETE.HEADER'),
@@ -228,18 +229,26 @@ const DocumentsGrid = (props: Props) => {
       </If>
 
       <If condition={isAllowedToDownload}>
-        <DownloadButton onClick={() => handleDownloadDocument(item)} />
+        <DownloadButton
+          data-testid="DocumentsGrid-downloadButton"
+          onClick={() => handleDownloadDocument(item)}
+        />
       </If>
 
       <If condition={permission.allows(permissions.DOCUMENTS.UPDATE_DOCUMENT)}>
         <EditButton
           className="DocumentsGrid__action-icon"
+          data-testid="DocumentsGrid-editButton"
           onClick={() => updateDocumentModal.show({ item, onSuccess: refetch })}
         />
       </If>
 
       <If condition={isClickableFile(item.mediaType) && isAllowedToDownload}>
-        <Button className="DocumentsGrid__icon-eye" onClick={() => handleClickPreview(item.uuid, item.mediaType)}>
+        <Button
+          className="DocumentsGrid__icon-eye"
+          data-testid="DocumentsGrid-previewButton"
+          onClick={() => handleClickPreview(item.uuid, item.mediaType)}
+        >
           <i className="fa fa-eye" />
         </Button>
       </If>
@@ -289,6 +298,7 @@ const DocumentsGrid = (props: Props) => {
           <Button
             secondary
             className="DocumentsGrid__header-button"
+            data-testid="DocumentsGrid-uploadFileButton"
             onClick={() => addDocumentModal.show({ onSuccess: refetch })}
             type="button"
           >
