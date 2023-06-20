@@ -164,6 +164,7 @@ const UpdateClientCallbackModal = (props: Props) => {
                   <Field
                     name="operatorId"
                     className="UpdateClientCallbackModal__field"
+                    data-testid="UpdateClientCallbackModal-operatorIdSelect"
                     placeholder={
                       I18n.t(
                         isOperatorsLoading
@@ -186,6 +187,7 @@ const UpdateClientCallbackModal = (props: Props) => {
                   <Field
                     name="callbackTime"
                     className="UpdateClientCallbackModal__field"
+                    data-testid="UpdateClientCallbackModal-callbackTimeDatePicker"
                     label={I18n.t('CALLBACKS.MODAL.CALLBACK_DATE_AND_TIME')}
                     component={FormikDatePicker}
                     disabled={readOnly}
@@ -196,6 +198,7 @@ const UpdateClientCallbackModal = (props: Props) => {
                   <Field
                     name="status"
                     className="UpdateClientCallbackModal__field"
+                    data-testid="UpdateClientCallbackModal-statusSelect"
                     placeholder={I18n.t('CALLBACKS.MODAL.SELECT_STATUS')}
                     label={I18n.t('CALLBACKS.MODAL.STATUS')}
                     component={FormikSelectField}
@@ -210,6 +213,7 @@ const UpdateClientCallbackModal = (props: Props) => {
 
                   <Field
                     name="reminder"
+                    data-testid="UpdateClientCallbackModal-reminderSelect"
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     label={I18n.t(attributeLabels.reminder)}
                     component={FormikSelectField}
@@ -227,6 +231,7 @@ const UpdateClientCallbackModal = (props: Props) => {
                   <If condition={permission.allows(permissions.USER_PROFILE.DELETE_CALLBACK)}>
                     <Button
                       className="UpdateClientCallbackModal__button--delete"
+                      data-testid="UpdateClientCallbackModal-deleteButton"
                       onClick={onDelete}
                       danger
                     >
@@ -235,6 +240,7 @@ const UpdateClientCallbackModal = (props: Props) => {
                   </If>
 
                   <Button
+                    data-testid="UpdateClientCallbackModal-cancelButton"
                     onClick={handleClose}
                     secondary
                   >
@@ -243,6 +249,7 @@ const UpdateClientCallbackModal = (props: Props) => {
 
                   <If condition={!readOnly}>
                     <Button
+                      data-testid="UpdateClientCallbackModal-saveChangesButton"
                       disabled={isSubmitting}
                       type="submit"
                       primary

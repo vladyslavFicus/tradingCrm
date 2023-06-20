@@ -79,6 +79,7 @@ const FilesGridFilter = (props: Props) => {
             <Field
               name="searchBy"
               className="FilesGridFilter__input FilesGridFilter__search"
+              data-testid="FilesGridFilter-searchByInput"
               label={I18n.t('FILES.FILTER.SEARCH_BY')}
               placeholder={I18n.t('FILES.FILTER.SEARCH_BY_PLACEHOLDER')}
               addition={<i className="icon icon-search" />}
@@ -89,6 +90,7 @@ const FilesGridFilter = (props: Props) => {
             <Field
               name="verificationType"
               className="FilesGridFilter__input FilesGridFilter__select"
+              data-testid="FilesGridFilter-verificationTypeSelect"
               placeholder={I18n.t('FILES.FILTER.CATEGORY_PLACEHOLDER')}
               label={I18n.t('FILES.FILTER.CATEGORY')}
               component={FormikSelectField}
@@ -107,6 +109,7 @@ const FilesGridFilter = (props: Props) => {
             <Field
               name="documentType"
               className="FilesGridFilter__input FilesGridFilter__select"
+              data-testid="FilesGridFilter-documentTypeSelect"
               placeholder={I18n.t('FILES.FILTER.DOCUMENT_TYPE_PLACEHOLDER')}
               label={I18n.t('FILES.FILTER.DOCUMENT_TYPE')}
               component={FormikSelectField}
@@ -124,6 +127,7 @@ const FilesGridFilter = (props: Props) => {
 
             <Field
               className="FilesGridFilter__input FilesGridFilter__dates"
+              data-testid="FilesGridFilter-uploadedDateRangePicker"
               label={I18n.t('FILES.FILTER.UPLOAD_DATA_RANGE')}
               component={FormikDateRangePicker}
               fieldsNames={{
@@ -137,11 +141,13 @@ const FilesGridFilter = (props: Props) => {
           <div className="FilesGridFilter__buttons">
             <RefreshButton
               className="FilesGridFilter__button"
+              data-testid="FilesGridFilter-refreshButton"
               onClick={onRefetch}
             />
 
             <Button
               className="FilesGridFilter__button"
+              data-testid="FilesGridFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -151,6 +157,7 @@ const FilesGridFilter = (props: Props) => {
 
             <Button
               className="FilesGridFilter__button"
+              data-testid="FilesGridFilter-applyButton"
               disabled={isSubmitting || !dirty}
               type="submit"
               primary

@@ -125,6 +125,7 @@ const ClientsBulkActions = (props: Props) => {
           <Button
             tertiary
             className="ClientsBulkActions__button"
+            data-testid="ClientsBulkActions-salesButton"
             onClick={handleTriggerRepModal(AcquisitionStatusTypes.SALES)}
           >
             {I18n.t('COMMON.SALES')}
@@ -135,6 +136,7 @@ const ClientsBulkActions = (props: Props) => {
           <Button
             tertiary
             className="ClientsBulkActions__button"
+            data-testid="ClientsBulkActions-retentionButton"
             onClick={handleTriggerRepModal(AcquisitionStatusTypes.RETENTION)}
           >
             {I18n.t('COMMON.RETENTION')}
@@ -144,6 +146,7 @@ const ClientsBulkActions = (props: Props) => {
         <Button
           tertiary
           className="ClientsBulkActions__button"
+          data-testid="ClientsBulkActions-moveButton"
           onClick={handleTriggerUpdateAcquisitionStatusModal}
         >
           {I18n.t('COMMON.MOVE')}
