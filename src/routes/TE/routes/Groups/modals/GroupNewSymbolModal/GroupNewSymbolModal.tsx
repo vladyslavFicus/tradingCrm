@@ -150,6 +150,7 @@ const GroupNewSymbolModal = ({
                 </ModalBody>
                 <ModalFooter>
                   <Button
+                    data-testid="GroupNewSymbolModal-cancelButton"
                     onClick={onCloseModal}
                     tertiary
                   >
@@ -165,6 +166,7 @@ const GroupNewSymbolModal = ({
                   <Field
                     name="enabled"
                     component={FormikCheckbox}
+                    data-testid="GroupNewSymbolModal-enabledCheckbox"
                     label={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.ENABLE')}
                     className="GroupNewSymbolModal__field  GroupNewSymbolModal__field--center"
                     disabled={baseSymbols.includes(values.symbol)}
@@ -172,6 +174,7 @@ const GroupNewSymbolModal = ({
                   <div className="GroupNewSymbolModal__fields">
                     <Field
                       name="symbol"
+                      data-testid="GroupNewSymbolModal-symbolSelect"
                       label={I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.SYMBOL')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       className="GroupNewSymbolModal__field--large"
@@ -191,6 +194,7 @@ const GroupNewSymbolModal = ({
                   <div className="GroupNewSymbolModal__fields">
                     <Field
                       name="swapLong"
+                      data-testid="GroupNewSymbolModal-swapLongInput"
                       label={I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.LONG_POSITION_SWAP')}
                       className="GroupNewSymbolModal__field"
                       component={FormikInputField}
@@ -198,6 +202,7 @@ const GroupNewSymbolModal = ({
                     />
                     <Field
                       name="swapShort"
+                      data-testid="GroupNewSymbolModal-swapShortInput"
                       label={I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.SHORT_POSITION_SWAP')}
                       className="GroupNewSymbolModal__field"
                       component={FormikInputField}
@@ -205,6 +210,7 @@ const GroupNewSymbolModal = ({
                     />
                     <Field
                       name="percentage"
+                      data-testid="GroupNewSymbolModal-percentageInput"
                       label={I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.MARGIN_PERCENTAGE')}
                       className="GroupNewSymbolModal__field"
                       component={FormikInputField}
@@ -215,6 +221,7 @@ const GroupNewSymbolModal = ({
 
                 <ModalFooter>
                   <Button
+                    data-testid="GroupNewSymbolModal-cancelButton"
                     onClick={onCloseModal}
                     tertiary
                   >
@@ -223,6 +230,7 @@ const GroupNewSymbolModal = ({
                   <Button
                     type="submit"
                     disabled={!dirty || isSubmitting}
+                    data-testid="GroupNewSymbolModal-saveButton"
                     primary
                   >
                     {I18n.t('COMMON.SAVE')}

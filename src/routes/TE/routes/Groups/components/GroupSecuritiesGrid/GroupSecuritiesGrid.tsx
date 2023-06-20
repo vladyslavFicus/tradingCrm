@@ -126,6 +126,7 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
         <Button
           disabled={archived}
           onClick={handleNewGroupSecurityModal}
+          data-testid="GroupSecuritiesGrid-addSecurityButton"
           tertiary
           small
         >
@@ -177,11 +178,13 @@ const GroupSecuritiesGrid = ({ modals, formik }: Props) => {
                   disabled={archived}
                   onClick={() => handleEditGroupSecurityModal(security)}
                   className="GroupSecuritiesGrid__edit-button"
+                  data-testid="GroupSecuritiesGrid-editButton"
                 />
                 <TrashButton
                   disabled={archived}
                   onClick={() => handleDeleteGroupSecurityModal(security)}
                   className="GroupSecuritiesGrid__delete-button"
+                  data-testid="GroupSecuritiesGrid-trashButton"
                 />
               </>
             )}

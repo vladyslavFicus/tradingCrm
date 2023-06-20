@@ -56,6 +56,7 @@ const GroupsGridFilters = ({ groupsListQuery }: Props) => {
           <div className="GroupsGridFilters__fields">
             <Field
               name="keyword"
+              data-testid="GroupsGridFilters-keywordInput"
               label={I18n.t('TRADING_ENGINE.GROUPS.FILTER_FORM.SEARCH_BY')}
               placeholder={I18n.t('TRADING_ENGINE.GROUPS.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
               className="GroupsGridFilters__fields--search"
@@ -68,11 +69,13 @@ const GroupsGridFilters = ({ groupsListQuery }: Props) => {
           <div className="GroupsGridFilters__buttons">
             <RefreshButton
               className="GroupsGridFilters__button"
+              data-testid="GroupsGridFilters-refreshButton"
               onClick={refetch}
             />
 
             <Button
               className="GroupsGridFilters__button"
+              data-testid="GroupsGridFilters-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -82,6 +85,7 @@ const GroupsGridFilters = ({ groupsListQuery }: Props) => {
 
             <Button
               className="GroupsGridFilters__button"
+              data-testid="GroupsGridFilters-applyButton"
               disabled={loading || isSubmitting || !dirty}
               type="submit"
               primary

@@ -38,6 +38,7 @@ const GroupsHeader = ({ groupsListQuery }: Props) => {
       <PermissionContent permissions={permissions.WE_TRADING.CREATE_GROUP}>
         <div className="GroupsHeader__right">
           <Button
+            data-testid="GroupsHeader-newGroupButton"
             onClick={handleCreateClick}
             tertiary
             small

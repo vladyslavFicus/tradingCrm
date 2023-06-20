@@ -26,6 +26,7 @@ const GroupPermissionsForm = (props: Props) => {
         <Field
           name="useSwap"
           component={FormikCheckbox}
+          data-testid="GroupPermissionsForm-useSwapCheckbox"
           label={I18n.t('TRADING_ENGINE.GROUP.PERMISSIONS_GROUP_FORM.ENABLE_CHARGE_OF_SWAPS')}
           className="GroupPermissionsForm__field"
           disabled={archived}
@@ -33,6 +34,7 @@ const GroupPermissionsForm = (props: Props) => {
         <Field
           name="hedgeProhibited"
           component={FormikCheckbox}
+          data-testid="GroupPermissionsForm-hedgeProhibitedCheckbox"
           label={I18n.t('TRADING_ENGINE.GROUP.PERMISSIONS_GROUP_FORM.PROHIBIT_HEDGE_POSITIONS')}
           className="GroupPermissionsForm__field"
           disabled={archived}
