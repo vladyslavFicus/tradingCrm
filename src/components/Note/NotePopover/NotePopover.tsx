@@ -129,7 +129,10 @@ const NotePopover = (props: Props) => {
         </div>
 
         <If condition={deleteAllowed}>
-          <TrashButton onClick={onRemoveNote} />
+          <TrashButton
+            onClick={onRemoveNote}
+            data-testid="NotePopover-trashButton"
+          />
         </If>
       </PopoverHeader>
     );
@@ -179,6 +182,7 @@ const NotePopover = (props: Props) => {
 
                 <Field
                   name="subject"
+                  data-testid="NotePopover-subjectInput"
                   label={I18n.t(attributeLabels.subject)}
                   component={FormikInputField}
                   disabled={note && !updateAllowed}
@@ -186,6 +190,7 @@ const NotePopover = (props: Props) => {
 
                 <Field
                   name="content"
+                  data-testid="NotePopover-contentTextArea"
                   label={I18n.t(attributeLabels.content)}
                   component={FormikTextAreaField}
                   showErrorMessage={false}
@@ -204,6 +209,7 @@ const NotePopover = (props: Props) => {
                     <If condition={!note || updateAllowed}>
                       <Field
                         name="pinned"
+                        data-testid="NotePopover-pinnedSwitch"
                         label={I18n.t(attributeLabels.pin)}
                         component={FormikSwitchField}
                       />
@@ -215,6 +221,7 @@ const NotePopover = (props: Props) => {
                       tertiary
                       small
                       className="NotePopover__cancel-btn"
+                      data-testid="NotePopover-cancelButton"
                       onClick={() => onClose(true)}
                     >
                       {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -227,6 +234,7 @@ const NotePopover = (props: Props) => {
                           primary
                           small
                           className="NotePopover__text-primary"
+                          data-testid="NotePopover-updateButton"
                           disabled={!dirty || isSubmitting || !isValid}
                         >
                           {I18n.t('COMMON.BUTTONS.UPDATE')}
@@ -239,6 +247,7 @@ const NotePopover = (props: Props) => {
                           primary
                           small
                           className="NotePopover__text-primary"
+                          data-testid="NotePopover-saveButton"
                           disabled={!dirty || isSubmitting || !isValid}
                         >
                           {I18n.t('COMMON.BUTTONS.SAVE')}

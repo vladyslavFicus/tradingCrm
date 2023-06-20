@@ -62,6 +62,7 @@ const LeadNotesFilter = (props: Props) => {
         <Form className="LeadNotesFilter">
           <Field
             className="LeadNotesFilter__field LeadNotesFilter__date-range"
+            data-testid="LeadNotesFilter-changeAtDateRangePicker"
             label={I18n.t('LEAD_PROFILE.NOTES.FILTER.LABELS.CREATION_DATE_RANGE')}
             component={FormikDateRangePicker}
             fieldsNames={{
@@ -74,11 +75,13 @@ const LeadNotesFilter = (props: Props) => {
           <div className="LeadNotesFilter__buttons">
             <RefreshButton
               className="LeadNotesFilter__button"
+              data-testid="LeadNotesFilter-refreshButton"
               onClick={onRefetch}
             />
 
             <Button
               className="LeadNotesFilter__button"
+              data-testid="LeadNotesFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -88,6 +91,7 @@ const LeadNotesFilter = (props: Props) => {
 
             <Button
               className="LeadNotesFilter__button"
+              data-testid="LeadNotesFilter-applyButton"
               type="submit"
               primary
               disabled={isSubmitting || !dirty}

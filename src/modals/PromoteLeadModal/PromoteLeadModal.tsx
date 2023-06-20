@@ -167,6 +167,7 @@ const PromoteLeadModal = (props: Props) => {
                 <Field
                   name="firstName"
                   className="PromoteLeadModal__field"
+                  data-testid="PromoteLeadModal-firstNameInput"
                   label={I18n.t(attributeLabels.firstName)}
                   component={FormikInputField}
                   disabled={isSubmitting}
@@ -175,6 +176,7 @@ const PromoteLeadModal = (props: Props) => {
                 <Field
                   name="lastName"
                   className="PromoteLeadModal__field"
+                  data-testid="PromoteLeadModal-lastNameInput"
                   label={I18n.t(attributeLabels.lastName)}
                   component={FormikInputField}
                   disabled={isSubmitting}
@@ -184,11 +186,13 @@ const PromoteLeadModal = (props: Props) => {
                   disabled
                   name="contacts.email"
                   className="PromoteLeadModal__field"
+                  data-testid="PromoteLeadModal-emailInput"
                   label={I18n.t(attributeLabels.email)}
                   value={email || lead.email}
                   addition={allowEmailField && (
                     <Button
                       className="PromoteLeadModal__show-email-button"
+                      data-testid="PromoteLeadModal-showEmailButton"
                       onClick={getLeadEmail}
                     >
                       {I18n.t('COMMON.BUTTONS.SHOW')}
@@ -200,6 +204,7 @@ const PromoteLeadModal = (props: Props) => {
                 <Field
                   name="password"
                   className="PromoteLeadModal__field"
+                  data-testid="PromoteLeadModal-passwordInput"
                   label={I18n.t(attributeLabels.password)}
                   component={FormikInputField}
                   addition={<span className="icon-generate-password" />}
@@ -210,6 +215,7 @@ const PromoteLeadModal = (props: Props) => {
                 <Field
                   name="address.countryCode"
                   className="PromoteLeadModal__field"
+                  data-testid="PromoteLeadModal-countryCodeSelect"
                   label={I18n.t(attributeLabels.country)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   component={FormikSelectField}
@@ -226,6 +232,7 @@ const PromoteLeadModal = (props: Props) => {
                 <Field
                   name="languageCode"
                   className="PromoteLeadModal__field"
+                  data-testid="PromoteLeadModal-languageCodeSelect"
                   label={I18n.t(attributeLabels.language)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   component={FormikSelectField}
@@ -252,6 +259,7 @@ const PromoteLeadModal = (props: Props) => {
             <ModalFooter>
               <Button
                 className="PromoteLeadModal__button"
+                data-testid="PromoteLeadModal-cancelButton"
                 tertiary
                 onClick={onCloseModal}
               >
@@ -261,6 +269,7 @@ const PromoteLeadModal = (props: Props) => {
               <Button
                 type="submit"
                 className="PromoteLeadModal__button"
+                data-testid="PromoteLeadModal-confirmButton"
                 primary
                 disabled={isSubmitting}
               >

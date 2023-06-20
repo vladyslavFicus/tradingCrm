@@ -92,6 +92,7 @@ class FeedItem extends PureComponent {
             <If condition={hasInformation}>
               <Button
                 className="FeedItem__collapse"
+                data-testid="FeedItem-toggleButton"
                 onClick={this.handleToggleClick}
               >
                 {I18n.t(`COMMON.DETAILS_COLLAPSE.${opened ? 'HIDE' : 'SHOW'}`)}

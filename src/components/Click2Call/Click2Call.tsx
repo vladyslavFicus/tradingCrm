@@ -223,7 +223,11 @@ const Click2Call = (props: Props) => {
 
                           {/* Only for NEWTEL need display "auto" button with prefix null */}
                           <If condition={callSystem === CallSystem.NEWTEL}>
-                            <Button primary onClick={handleCreateCall(callSystem, { prefix: null })}>
+                            <Button
+                              primary
+                              data-testid="Click2Call-autoButton"
+                              onClick={handleCreateCall(callSystem, { prefix: null })}
+                            >
                               {I18n.t('PLAYER_PROFILE.PROFILE.CLICK_TO_CALL_AUTO')}
                             </Button>
                           </If>

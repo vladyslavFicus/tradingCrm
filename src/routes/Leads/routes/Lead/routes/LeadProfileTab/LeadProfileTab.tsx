@@ -222,6 +222,7 @@ const LeadProfileTab = (props: Props) => {
                         small
                         primary
                         type="submit"
+                        data-testid="LeadProfileTab-saveChangesButton"
                       >
                         {I18n.t('COMMON.SAVE_CHANGES')}
                       </Button>
@@ -233,6 +234,7 @@ const LeadProfileTab = (props: Props) => {
                   <Field
                     name="name"
                     className="LeadProfileTab__form-field"
+                    data-testid="LeadProfileTab-nameInput"
                     label={I18n.t(attributeLabels.name)}
                     component={FormikInputField}
                     disabled={isSubmitting}
@@ -241,6 +243,7 @@ const LeadProfileTab = (props: Props) => {
                   <Field
                     name="surname"
                     className="LeadProfileTab__form-field"
+                    data-testid="LeadProfileTab-surnameInput"
                     label={I18n.t(attributeLabels.surname)}
                     component={FormikInputField}
                     disabled={isSubmitting}
@@ -249,6 +252,7 @@ const LeadProfileTab = (props: Props) => {
                   <Field
                     name="birthDate"
                     className="LeadProfileTab__form-field"
+                    data-testid="LeadProfileTab-birthDatePicker"
                     label={I18n.t(attributeLabels.birthDate)}
                     component={FormikDatePicker}
                     minDate={moment(MIN_BIRTHDATE)}
@@ -260,6 +264,7 @@ const LeadProfileTab = (props: Props) => {
                   <Field
                     name="gender"
                     className="LeadProfileTab__form-field"
+                    data-testid="LeadProfileTab-genderSelect"
                     label={I18n.t(attributeLabels.gender)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     component={FormikSelectField}
@@ -286,6 +291,7 @@ const LeadProfileTab = (props: Props) => {
                   <Field
                     name="country"
                     className="LeadProfileTab__form-field"
+                    data-testid="LeadProfileTab-countrySelect"
                     label={I18n.t(attributeLabels.country)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.COUNTRY')}
                     component={FormikSelectField}
@@ -301,6 +307,7 @@ const LeadProfileTab = (props: Props) => {
                   <Field
                     name="city"
                     className="LeadProfileTab__form-field"
+                    data-testid="LeadProfileTab-cityInput"
                     label={I18n.t(attributeLabels.city)}
                     component={FormikInputField}
                     disabled={isSubmitting}
@@ -320,12 +327,14 @@ const LeadProfileTab = (props: Props) => {
                   <Field
                     name="phone"
                     className="LeadProfileTab__form-field"
+                    data-testid="LeadProfileTab-phoneInput"
                     label={I18n.t(attributeLabels.phone)}
                     component={FormikInputField}
                     addition={allowPhoneField && (
                       <Button
                         tertiary
                         className="LeadProfileTab__show-contacts-button"
+                        data-testid="LeadProfileTab-showPhoneInputButton"
                         onClick={handleGetLeadPhone}
                         disabled={isPhoneShown}
                       >
@@ -339,12 +348,14 @@ const LeadProfileTab = (props: Props) => {
                   <Field
                     name="mobile"
                     className="LeadProfileTab__form-field"
+                    data-testid="LeadProfileTab-mobileInput"
                     label={I18n.t(attributeLabels.mobile)}
                     component={FormikInputField}
                     addition={allowMobileField && (
                       <Button
                         tertiary
                         className="LeadProfileTab__show-contacts-button"
+                        data-testid="LeadProfileTab-showMobileInputButton"
                         onClick={handleGetLeadMobile}
                         disabled={isMobileShown}
                       >
@@ -359,12 +370,14 @@ const LeadProfileTab = (props: Props) => {
                     name="email"
                     type="email"
                     className="LeadProfileTab__form-field"
+                    data-testid="LeadProfileTab-emailInput"
                     label={I18n.t(attributeLabels.email)}
                     component={FormikInputField}
                     addition={allowEmailField && (
                       <Button
                         tertiary
                         className="LeadProfileTab__show-contacts-button"
+                        data-testid="LeadProfileTab-showEmailInputButton"
                         onClick={handleGetLeadEmail}
                         disabled={isEmailShown}
                       >
