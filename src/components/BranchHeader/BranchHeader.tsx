@@ -125,6 +125,7 @@ const BranchHeader = (props: Props) => {
           <Button
             tertiary
             className="BranchHeader__button"
+            data-testid="BranchHeader-removeBranchManagerButton"
             onClick={handleOpenConfirmActionModal}
           >
             {I18n.t('COMMON.REMOVE_BRANCH_MANAGER')}
@@ -135,6 +136,7 @@ const BranchHeader = (props: Props) => {
           <Button
             tertiary
             className="BranchHeader__button"
+            data-testid="BranchHeader-addManagerToBranchButton"
             onClick={handleOpenManagerModal}
           >
             {I18n.t('COMMON.ADD_MANAGER_TO_BRANCH')}

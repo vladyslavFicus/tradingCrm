@@ -131,6 +131,7 @@ const AddBranchManagerModal = (props: Props) => {
               <Field
                 name="operatorUuid"
                 className="AddBranchManagerModal__select"
+                data-testid="AddBranchManagerModal-operatorUuidSelect"
                 label={I18n.t('COMMON.CHOOSE_OPERATOR')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 component={FormikSelectField}
@@ -147,6 +148,7 @@ const AddBranchManagerModal = (props: Props) => {
 
             <ModalFooter>
               <Button
+                data-testid="AddBranchManagerModal-cancelButton"
                 onClick={onCloseModal}
                 tertiary
               >
@@ -154,6 +156,7 @@ const AddBranchManagerModal = (props: Props) => {
               </Button>
 
               <Button
+                data-testid="AddBranchManagerModal-confirmButton"
                 type="submit"
                 disabled={isSubmitting}
                 primary

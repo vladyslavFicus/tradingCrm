@@ -53,6 +53,7 @@ const RuleSettings = (props: Props) => {
 
       <Field
         name="name"
+        data-testid="RuleSettings-nameInput"
         label={I18n.t(attributeLabels.name)}
         placeholder={I18n.t(attributeLabels.name)}
         disabled={isSubmitting}
@@ -62,6 +63,7 @@ const RuleSettings = (props: Props) => {
       <div className="RuleSettings__spread">
         <Field
           name="priority"
+          data-testid="RuleSettings-prioritySelect"
           label={I18n.t(attributeLabels.priority)}
           component={FormikSelectField}
           disabled={isSubmitting}
@@ -76,6 +78,7 @@ const RuleSettings = (props: Props) => {
 
         <Field
           name="type"
+          data-testid="RuleSettings-typeSelect"
           label={I18n.t(attributeLabels.type)}
           component={FormikSelectField}
           disabled={isSubmitting}
@@ -91,6 +94,7 @@ const RuleSettings = (props: Props) => {
 
       <Field
         name="countries"
+        data-testid="RuleSettings-countriesSelect"
         label={I18n.t(attributeLabels.country)}
         component={FormikSelectField}
         disabled={isSubmitting}
@@ -107,6 +111,7 @@ const RuleSettings = (props: Props) => {
 
       <Field
         name="languages"
+        data-testid="RuleSettings-languagesSelect"
         label={I18n.t(attributeLabels.language)}
         component={FormikSelectField}
         disabled={isSubmitting}
@@ -122,6 +127,7 @@ const RuleSettings = (props: Props) => {
 
       <Field
         name="affiliateUUIDs"
+        data-testid="RuleSettings-affiliateUUIDsSelect"
         label={I18n.t(attributeLabels.partner)}
         component={FormikSelectField}
         disabled={isSubmitting || partners.length === 0}
@@ -138,6 +144,7 @@ const RuleSettings = (props: Props) => {
 
       <Field
         name="sources"
+        data-testid="RuleSettings-sourcesMultiInput"
         label={I18n.t(attributeLabels.source)}
         placeholder={I18n.t(attributeLabels.source)}
         component={FormikMultiInputField}

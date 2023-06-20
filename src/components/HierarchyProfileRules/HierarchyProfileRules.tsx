@@ -217,9 +217,13 @@ const HierarchyProfileRules = (props: Props) => {
 
   const renderActions = (rule: Rule) => (
     <>
-      <TrashButton onClick={() => handleDeleteRuleClick(rule)} />
+      <TrashButton
+        data-testid="HierarchyProfileRules-trashButton"
+        onClick={() => handleDeleteRuleClick(rule)}
+      />
 
       <EditButton
+        data-testid="HierarchyProfileRules-editRuleButton"
         onClick={() => handleOpenUpdateRuleModal(rule)}
         className="HierarchyProfileRules__edit-icon"
       />
@@ -243,6 +247,7 @@ const HierarchyProfileRules = (props: Props) => {
       >
         <If condition={isCreateRuleAllow}>
           <Button
+            data-testid="HierarchyProfileRules-addRuleButton"
             type="submit"
             onClick={handleOpenCreateRuleModal}
             tertiary

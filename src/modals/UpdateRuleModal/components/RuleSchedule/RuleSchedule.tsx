@@ -61,6 +61,7 @@ const RuleSchedule = (props: Props) => {
       <div className="RuleSchedule__header">
         <Field
           name="enableSchedule"
+          data-testid="RuleSchedule-enableScheduleSwitch"
           label={I18n.t('RULE_MODAL.SCHEDULE.FILTERS.ENABLE_SCHEDULE')}
           labelPosition="left"
           component={FormikSwitchField}
@@ -69,6 +70,7 @@ const RuleSchedule = (props: Props) => {
 
       <FieldArray
         name="schedules"
+        data-testid="RuleSchedule-schedulesArray"
         render={({ push, remove }) => (
           <>
             {schedules.map((scheduleBoard, index) => (
@@ -86,6 +88,7 @@ const RuleSchedule = (props: Props) => {
 
             <div className="RuleSchedule__footer">
               <Button
+                data-testid="RuleSchedule-addScheduleButton"
                 tertiary
                 onClick={addScheduleBoard(push)}
                 disabled={isLimitOfBoards}
