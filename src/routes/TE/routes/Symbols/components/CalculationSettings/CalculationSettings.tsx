@@ -19,6 +19,7 @@ const CalculationSettings = (props: FormikProps<FormValues>) => (
       <Field
         type="number"
         name="lotSize"
+        data-testid="CalculationSettings-lotSizeInput"
         label={I18n.t('TRADING_ENGINE.SYMBOL.CONTRACT_SIZE_LABEL')}
         className="CalculationSettings__field"
         component={FormikInputField}
@@ -26,6 +27,7 @@ const CalculationSettings = (props: FormikProps<FormValues>) => (
       <Field
         type="number"
         name="percentage"
+        data-testid="CalculationSettings-percentageInput"
         label={I18n.t('TRADING_ENGINE.SYMBOL.PERCENTAGE_LABEL')}
         className="CalculationSettings__field"
         component={FormikInputField}
@@ -35,12 +37,14 @@ const CalculationSettings = (props: FormikProps<FormValues>) => (
       <Input
         name="margin"
         disabled
+        data-testid="CalculationSettings-marginInput"
         value={I18n.t(`TRADING_ENGINE.SYMBOL.CALCULATION_LABELS.MARGIN_CALCULATION_${props.values.symbolType}`)}
         className="CalculationSettings__field"
       />
       <Input
         name="profit"
         disabled
+        data-testid="CalculationSettings-profitInput"
         value={I18n.t(`TRADING_ENGINE.SYMBOL.CALCULATION_LABELS.PROFIT_CALCULATION_${props.values.symbolType}`)}
         className="CalculationSettings__field"
       />

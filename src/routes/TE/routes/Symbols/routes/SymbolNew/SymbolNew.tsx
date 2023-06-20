@@ -223,6 +223,7 @@ const SymbolNew = (props: Props) => {
                   <Button
                     type="submit"
                     className="SymbolNew__button"
+                    data-testid="SymbolNew-saveChangesButton"
                     small
                     primary
                     disabled={(!formik.dirty && !formik.isSubmitting) || symbolSessionContainsErrors.length > 0}

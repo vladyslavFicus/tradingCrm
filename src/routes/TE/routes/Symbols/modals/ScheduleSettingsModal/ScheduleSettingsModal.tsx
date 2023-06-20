@@ -96,6 +96,7 @@ class ScheduleSettingsModal extends PureComponent<Props> {
                 </p>
                 <Field
                   className="ScheduleSettingsModal__timeRange"
+                  data-testid="ScheduleSettingsModal-openTimeRange"
                   component={FormikTimeRangeField}
                   fieldsNames={{
                     from: 'openTime',
@@ -111,6 +112,7 @@ class ScheduleSettingsModal extends PureComponent<Props> {
                 <Button
                   tertiary
                   onClick={onCloseModal}
+                  data-testid="ScheduleSettingsModal-cancelButton"
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>
@@ -118,6 +120,7 @@ class ScheduleSettingsModal extends PureComponent<Props> {
                   primary
                   type="submit"
                   disabled={!dirty || !isValid || isSubmitting}
+                  data-testid="ScheduleSettingsModal-saveButton"
                 >
                   {I18n.t('COMMON.BUTTONS.SAVE')}
                 </Button>

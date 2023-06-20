@@ -137,6 +137,7 @@ const SymbolsList = ({
           <Link to="/trading-engine/symbols/new">
             <Button
               className="SymbolsList__action"
+              data-testid="SymbolsList-newSymbolButton"
               tertiary
               small
             >
@@ -311,7 +312,10 @@ const SymbolsList = ({
           render={({ symbol, enabled }: SymbolType) => (
             <If condition={enabled}>
               <PermissionContent permissions={permissions.WE_TRADING.DELETE_SYMBOL}>
-                <TrashButton onClick={() => handleDeleteSymbolClick(symbol)} />
+                <TrashButton
+                  data-testid="SymbolsList-trashButton"
+                  onClick={() => handleDeleteSymbolClick(symbol)}
+                />
               </PermissionContent>
             </If>
           )}

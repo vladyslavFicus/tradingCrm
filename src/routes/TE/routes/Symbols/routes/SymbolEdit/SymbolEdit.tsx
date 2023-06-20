@@ -269,6 +269,7 @@ const SymbolEdit = (props: Props) => {
                       <Button
                         type="submit"
                         className="SymbolEdit__button"
+                        data-testid="SymbolEdit-saveChangesButton"
                         small
                         primary
                         disabled={

@@ -24,6 +24,7 @@ const FiltrationSettings = (props: Props) => (
       <div className="FiltrationSettings__field-container">
         <Field
           name="defaultFiltration"
+          data-testid="FiltrationSettings-defaultFiltrationCheckbox"
           className="FiltrationSettings__field"
           component={FormikCheckbox}
           label={I18n.t('TRADING_ENGINE.SYMBOL.DEFAULT')}
@@ -36,6 +37,7 @@ const FiltrationSettings = (props: Props) => (
         disabled={props.values.defaultFiltration}
         type="number"
         name="filtration.softFiltrationLevel"
+        data-testid="FiltrationSettings-filtrationSoftFiltrationLevelInput"
         label={I18n.t('TRADING_ENGINE.SYMBOL.SOFT_FILTRATION_LEVEL')}
         className="FiltrationSettings__field"
         component={FormikInputField}
@@ -43,6 +45,7 @@ const FiltrationSettings = (props: Props) => (
       <Field
         disabled={props.values.defaultFiltration}
         name="filtration.softFilter"
+        data-testid="FiltrationSettings-filtrationSoftFilterSelect"
         label={I18n.t('TRADING_ENGINE.SYMBOL.FILTER')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
         component={FormikSelectField}
@@ -57,6 +60,7 @@ const FiltrationSettings = (props: Props) => (
         disabled={props.values.defaultFiltration}
         type="number"
         name="filtration.hardFiltrationLevel"
+        data-testid="FiltrationSettings-filtrationHardFiltrationLevelInput"
         label={I18n.t('TRADING_ENGINE.SYMBOL.HARD_FILTRATION_LEVEL')}
         className="FiltrationSettings__field"
         component={FormikInputField}
@@ -64,6 +68,7 @@ const FiltrationSettings = (props: Props) => (
       <Field
         disabled={props.values.defaultFiltration}
         name="filtration.hardFilter"
+        data-testid="FiltrationSettings-filtrationHardFilterSelect"
         label={I18n.t('TRADING_ENGINE.SYMBOL.FILTER')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
         component={FormikSelectField}
@@ -78,6 +83,7 @@ const FiltrationSettings = (props: Props) => (
         disabled={props.values.defaultFiltration}
         type="number"
         name="filtration.discardFiltrationLevel"
+        data-testid="FiltrationSettings-filtrationDiscardFiltrationLevelInput"
         label={I18n.t('TRADING_ENGINE.SYMBOL.DISCARD_FILTRATION_LEVEL')}
         className="FiltrationSettings__field"
         component={FormikInputField}
@@ -85,6 +91,7 @@ const FiltrationSettings = (props: Props) => (
       <Field
         disabled={props.values.defaultFiltration}
         name="filtration.filterSmoothing"
+        data-testid="FiltrationSettings-filtrationFilterSmoothingSelect"
         label={I18n.t('TRADING_ENGINE.SYMBOL.SMOOTHING')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
         component={FormikSelectField}
