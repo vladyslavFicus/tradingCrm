@@ -67,6 +67,7 @@ const ExistingOperatorModal = (props: Props) => {
         <Button
           onClick={onCloseModal}
           className="ExistingOperatorModal__button"
+          data-testid="ExistingOperatorModal-cancelButton"
           tertiary
         >
           {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -74,6 +75,7 @@ const ExistingOperatorModal = (props: Props) => {
 
         <Button
           className="ExistingOperatorModal__button"
+          data-testid="ExistingOperatorModal-createAndOpenButton"
           onClick={handleSubmit}
           primary
         >
