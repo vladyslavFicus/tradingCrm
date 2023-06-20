@@ -66,6 +66,7 @@ const HolidaysFilter = (props: Props) => {
           <div className="HolidaysFilter__fields">
             <Field
               name="description"
+              data-testid="HolidaysFilter-descriptionInput"
               label={I18n.t('TRADING_ENGINE.HOLIDAYS.FILTER_FORM.DESCRIPTION')}
               placeholder={I18n.t('TRADING_ENGINE.HOLIDAYS.FILTER_FORM.DESCRIPTION_PLACEHOLDER')}
               className="HolidaysFilter__field HolidaysFilter__field--large"
@@ -76,6 +77,7 @@ const HolidaysFilter = (props: Props) => {
             <Field
               name="dateTimeRange"
               className="HolidaysFilter__field HolidaysFilter__field--large"
+              data-testid="HolidaysFilter-dateTimeRangePicker"
               label={I18n.t('TRADING_ENGINE.HOLIDAYS.FILTER_FORM.DATE_TIME_RANGE')}
               component={FormikDateRangePicker}
               fieldsNames={{
@@ -89,10 +91,12 @@ const HolidaysFilter = (props: Props) => {
           <div className="HolidaysFilter__buttons">
             <RefreshButton
               className="HolidaysFilter__button"
+              data-testid="HolidaysFilter-refreshButton"
               onClick={onRefresh}
             />
             <Button
               className="HolidaysFilter__button"
+              data-testid="HolidaysFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -101,6 +105,7 @@ const HolidaysFilter = (props: Props) => {
             </Button>
             <Button
               className="HolidaysFilter__button"
+              data-testid="HolidaysFilter-applyButton"
               type="submit"
               disabled={!dirty || isSubmitting}
               primary

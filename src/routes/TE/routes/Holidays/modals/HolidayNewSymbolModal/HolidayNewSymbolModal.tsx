@@ -107,6 +107,7 @@ const HolidayNewSymbolModal = (props: Props) => {
                   <div className="HolidayNewSymbolModal__fields">
                     <Field
                       name="symbols"
+                      data-testid="HolidayNewSymbolModal-symbolsSelect"
                       label={I18n.t('TRADING_ENGINE.MODALS.HOLIDAY_NEW_SYMBOL_MODAL.SYMBOL')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       className="HolidayNewSymbolModal__field--large"
@@ -126,6 +127,7 @@ const HolidayNewSymbolModal = (props: Props) => {
 
                 <ModalFooter>
                   <Button
+                    data-testid="HolidayNewSymbolModal-cancelButton"
                     onClick={onCloseModal}
                     tertiary
                   >
@@ -134,6 +136,7 @@ const HolidayNewSymbolModal = (props: Props) => {
                   <Button
                     type="submit"
                     disabled={!dirty || isSubmitting}
+                    data-testid="HolidayNewSymbolModal-saveButton"
                     primary
                   >
                     {I18n.t('COMMON.SAVE')}

@@ -87,6 +87,7 @@ const HolidaySymbolsGrid = (props: Props) => {
           {I18n.t('TRADING_ENGINE.HOLIDAY.SYMBOLS_TABLE.TITLE')}
         </span>
         <Button
+          data-testid="HolidaySymbolsGrid-addSymbolButton"
           onClick={handleNewHolidaySymbolClick}
           tertiary
           small
@@ -128,7 +129,10 @@ const HolidaySymbolsGrid = (props: Props) => {
           width={120}
           header={I18n.t('TRADING_ENGINE.HOLIDAY.SYMBOLS_TABLE.ACTIONS')}
           render={(symbol: string) => (
-            <TrashButton onClick={() => handleDeleteHolidaySymbolClick(symbol)} />
+            <TrashButton
+              data-testid="HolidaySymbolsGrid-trashButton"
+              onClick={() => handleDeleteHolidaySymbolClick(symbol)}
+            />
           )}
         />
       </Table>
