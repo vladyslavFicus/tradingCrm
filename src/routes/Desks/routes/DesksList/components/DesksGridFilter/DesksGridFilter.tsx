@@ -79,6 +79,7 @@ const DesksGridFilter = (props: Props) => {
             <Field
               name="keyword"
               className="DesksGridFilter__field DesksGridFilter__search"
+              data-testid="DesksGridFilter-keywordInput"
               label={I18n.t('DESKS.GRID_FILTERS.SEARCH_BY')}
               placeholder={I18n.t('DESKS.GRID_FILTERS.SEARCH_BY_PLACEHOLDER')}
               addition={<i className="icon icon-search" />}
@@ -89,6 +90,7 @@ const DesksGridFilter = (props: Props) => {
             <Field
               name="officeUuid"
               className="DesksGridFilter__field DesksGridFilter__select"
+              data-testid="DesksGridFilter-officeUuidSelect"
               label={I18n.t('DESKS.GRID_FILTERS.OFFICE')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               component={FormikSelectField}
@@ -104,6 +106,7 @@ const DesksGridFilter = (props: Props) => {
             <Field
               name="deskType"
               className="DesksGridFilter__field DesksGridFilter__select"
+              data-testid="DesksGridFilter-deskTypeSelect"
               label={I18n.t('DESKS.GRID_FILTERS.DESK_TYPE')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               component={FormikSelectField}
@@ -121,11 +124,13 @@ const DesksGridFilter = (props: Props) => {
           <div className="DesksGridFilter__buttons">
             <RefreshButton
               className="DesksGridFilter__button"
+              data-testid="DesksGridFilter-refreshButton"
               onClick={onRefetch}
             />
 
             <Button
               className="DesksGridFilter__button"
+              data-testid="DesksGridFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -135,6 +140,7 @@ const DesksGridFilter = (props: Props) => {
 
             <Button
               className="DesksGridFilter__button"
+              data-testid="DesksGridFilter-applyButton"
               disabled={isSubmitting || !dirty}
               type="submit"
               primary

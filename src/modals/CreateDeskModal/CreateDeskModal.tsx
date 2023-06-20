@@ -104,6 +104,7 @@ const CreateDeskModal = (props: Props) => {
               <Field
                 name="name"
                 className="CreateDeskModal__field CreateDeskModal__name"
+                data-testid="CreateDeskModal-nameInput"
                 label={I18n.t(attributeLabels.name)}
                 placeholder={I18n.t(attributeLabels.name)}
                 component={FormikInputField}
@@ -113,6 +114,7 @@ const CreateDeskModal = (props: Props) => {
               <Field
                 name="deskType"
                 className="CreateDeskModal__field CreateDeskModal__desk-type"
+                data-testid="CreateDeskModal-deskTypeSelect"
                 component={FormikSelectField}
                 label={I18n.t(attributeLabels.deskType)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -128,6 +130,7 @@ const CreateDeskModal = (props: Props) => {
               <Field
                 name="officeUuid"
                 className="CreateDeskModal__field"
+                data-testid="CreateDeskModal-officeUuidSelect"
                 component={FormikSelectField}
                 label={I18n.t(attributeLabels.officeUuid)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -141,6 +144,7 @@ const CreateDeskModal = (props: Props) => {
               <Field
                 name="language"
                 className="CreateDeskModal__field"
+                data-testid="CreateDeskModal-languageSelect"
                 component={FormikSelectField}
                 label={I18n.t(attributeLabels.language)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -158,6 +162,7 @@ const CreateDeskModal = (props: Props) => {
               <Button
                 onClick={onCloseModal}
                 className="CreateDeskModal__button"
+                data-testid="CreateDeskModal-cancelButton"
                 tertiary
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -165,6 +170,7 @@ const CreateDeskModal = (props: Props) => {
 
               <Button
                 className="CreateDeskModal__button"
+                data-testid="CreateDeskModal-createButton"
                 primary
                 disabled={isSubmitting}
                 type="submit"
