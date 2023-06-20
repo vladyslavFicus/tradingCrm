@@ -207,6 +207,7 @@ const FeatureForm = () => {
                   type="submit"
                   disabled={isSubmitting || !dirty}
                   className="FeatureForm__button"
+                  data-testid="FeatureForm-saveChangesButton"
                 >
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </Button>
@@ -236,6 +237,7 @@ const FeatureForm = () => {
                   <Field
                     name="restrictedCountries"
                     className="FeatureForm__field"
+                    data-testid="FeatureForm-restrictedCountriesSelect"
                     label={I18n.t(attributeLabels.restrictedCountries)}
                     component={FormikSelectField}
                     searchable
@@ -267,6 +269,7 @@ const FeatureForm = () => {
                   <Field
                     name="notificationCleanUpDays"
                     className="FeatureForm__field"
+                    data-testid="FeatureForm-notificationCleanUpDaysInput"
                     label={I18n.t(attributeLabels.notificationCleanUpDays)}
                     type="number"
                     component={FormikInputField}
@@ -297,6 +300,7 @@ const FeatureForm = () => {
 
                   <Field
                     name="referralEnable"
+                    data-testid="FeatureForm-referralEnableCheckbox"
                     className="FeatureForm__field-checkbox"
                     label={I18n.t(attributeLabels.referralEnable)}
                     component={FormikCheckbox}
@@ -320,12 +324,13 @@ const FeatureForm = () => {
                       </UncontrolledTooltip>
                     </span>
 
-                    {accountAutoCreations?.map(account => (
+                    {accountAutoCreations?.map(({ accountCurrency, platformType }) => (
                       <Field
-                        key={`${account?.platformType}-${account?.accountCurrency}`}
-                        name={`accountAutoCreations.${account?.platformType}-${account?.accountCurrency}`}
+                        data-testid={`FeatureForm-accountAutoCreations${platformType}-${accountCurrency}`}
+                        key={`${platformType}-${accountCurrency}`}
+                        name={`accountAutoCreations.${platformType}-${accountCurrency}`}
                         className="FeatureForm__field-checkbox FeatureForm__field-checkbox--multi"
-                        label={`${account?.platformType}-${account?.accountCurrency}`}
+                        label={`${platformType}-${accountCurrency}`}
                         component={FormikCheckbox}
                       />
                     ))}
@@ -350,6 +355,7 @@ const FeatureForm = () => {
 
                   <Field
                     name="profileDepositEnable"
+                    data-testid="FeatureForm-profileDepositEnableCheckbox"
                     className="FeatureForm__field-checkbox"
                     label={I18n.t(attributeLabels.profileDepositEnable)}
                     component={FormikCheckbox}
@@ -379,6 +385,7 @@ const FeatureForm = () => {
                   <div className="FeatureForm__deposit-fields">
                     <Field
                       name="depositButtons.deposit1"
+                      data-testid="FeatureForm-depositButtonsDeposit1Input"
                       className="FeatureForm__field FeatureForm__field--quick-deposit"
                       label={I18n.t(attributeLabels['depositButtons.deposit1'])}
                       type="number"
@@ -388,6 +395,7 @@ const FeatureForm = () => {
 
                     <Field
                       name="depositButtons.deposit2"
+                      data-testid="FeatureForm-depositButtonsDeposit2Input"
                       className="FeatureForm__field FeatureForm__field--quick-deposit"
                       label={I18n.t(attributeLabels['depositButtons.deposit2'])}
                       type="number"
@@ -397,6 +405,7 @@ const FeatureForm = () => {
 
                     <Field
                       name="depositButtons.deposit3"
+                      data-testid="FeatureForm-depositButtonsDeposit3Input"
                       className="FeatureForm__field FeatureForm__field--quick-deposit"
                       label={I18n.t(attributeLabels['depositButtons.deposit3'])}
                       type="number"
@@ -406,6 +415,7 @@ const FeatureForm = () => {
 
                     <Field
                       name="depositButtons.deposit4"
+                      data-testid="FeatureForm-depositButtonsDeposit4Input"
                       className="FeatureForm__field FeatureForm__field--quick-deposit"
                       label={I18n.t(attributeLabels['depositButtons.deposit4'])}
                       type="number"
@@ -415,6 +425,7 @@ const FeatureForm = () => {
 
                     <Field
                       name="depositButtons.deposit5"
+                      data-testid="FeatureForm-depositButtonsDeposit5Input"
                       className="FeatureForm__field FeatureForm__field--quick-deposit"
                       label={I18n.t(attributeLabels['depositButtons.deposit5'])}
                       type="number"
@@ -442,11 +453,12 @@ const FeatureForm = () => {
                     </span>
 
                     <div className="FeatureForm__account-fields">
-                      {platformMaxAccounts?.map(platform => (
+                      {platformMaxAccounts?.map(({ platformType }) => (
                         <Field
-                          name={`platformMaxAccounts.${platform?.platformType}`}
+                          name={`platformMaxAccounts.${platformType}`}
+                          data-testid={`FeatureForm-platformMaxAccounts${platformType}`}
                           className="FeatureForm__field FeatureForm__field--account"
-                          label={`${platform?.platformType}.Account Quantity`}
+                          label={`${platformType}.Account Quantity`}
                           type="number"
                           component={FormikInputField}
                           disabled={isSubmitting}
@@ -474,6 +486,7 @@ const FeatureForm = () => {
 
                   <Field
                     name="hideChangePasswordCp"
+                    data-testid="FeatureForm-hideChangePasswordCheckbox"
                     className="FeatureForm__field-checkbox"
                     label={I18n.t(attributeLabels.hideChangePasswordCp)}
                     component={FormikCheckbox}
@@ -498,6 +511,7 @@ const FeatureForm = () => {
 
                   <Field
                     name="autoLogout"
+                    data-testid="FeatureForm-autoLogoutCheckbox"
                     className="FeatureForm__field-checkbox"
                     label={I18n.t(attributeLabels.autoLogout)}
                     component={FormikCheckbox}
@@ -505,6 +519,7 @@ const FeatureForm = () => {
 
                   <Field
                     name="affiliateClientAutoLogoutMinutes"
+                    data-testid="FeatureForm-affiliateClientAutoLogoutMinutesInput"
                     className="FeatureForm__field FeatureForm__field--time"
                     label={I18n.t(attributeLabels.affiliateClientAutoLogoutMinutes)}
                     type="number"
