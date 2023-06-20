@@ -100,6 +100,7 @@ const ConfirmActionModal = (props: Props) => {
           <Button
             tertiary
             onClick={handleClose}
+            data-testid="ConfirmActionModal-cancelButton"
           >
             {cancelButtonLabel || I18n.t('COMMON.CANCEL')}
           </Button>
@@ -112,6 +113,7 @@ const ConfirmActionModal = (props: Props) => {
             type="submit"
             disabled={submit}
             onClick={handleSubmit}
+            data-testid="ConfirmActionModal-confirmButton"
           >
             {submitButtonLabel || I18n.t('COMMON.BUTTONS.CONFIRM')}
           </Button>

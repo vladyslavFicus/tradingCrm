@@ -125,6 +125,7 @@ const LeadsUploadModal = (props: Props) => {
               <Button
                 secondary
                 submitting={submitting}
+                data-testid="LeadsUploadModal-browseFilesButton"
                 className={classNames('LeadsUploadModal__dropzone-button', {
                   'LeadsUploadModal__dropzone-button--submitting': submitting,
                 })}
@@ -138,6 +139,7 @@ const LeadsUploadModal = (props: Props) => {
 
       <ModalFooter>
         <Button
+          data-testid="LeadsUploadModal-cancelButton"
           secondary
           onClick={onCloseModal}
         >
