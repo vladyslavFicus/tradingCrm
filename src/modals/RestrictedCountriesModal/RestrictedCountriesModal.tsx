@@ -65,6 +65,7 @@ const RestrictedCountriesModal = (props: Props) => {
               <Field
                 name="forbiddenCountries"
                 className="RestrictedCountriesModal__field"
+                data-testid="RestrictedCountriesModal-forbiddenCountriesSelect"
                 label={I18n.t('PARTNERS.PROFILE.CONTACTS.FORM.LABELS.RESTRICTED_COUNTRIES')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.COUNTRY')}
                 component={FormikSelectField}
@@ -84,6 +85,7 @@ const RestrictedCountriesModal = (props: Props) => {
               <Button
                 onClick={onCloseModal}
                 className="RestrictedCountriesModal__button"
+                data-testid="RestrictedCountriesModal-cancelButton"
                 tertiary
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -91,6 +93,7 @@ const RestrictedCountriesModal = (props: Props) => {
 
               <Button
                 className="RestrictedCountriesModal__button"
+                data-testid="RestrictedCountriesModal-actionButton"
                 disabled={!values?.forbiddenCountries?.length}
                 type="submit"
                 danger
