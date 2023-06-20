@@ -69,6 +69,7 @@ const ChangeAccountStatusModal = (props: Props) => {
             <ModalBody>
               <Field
                 name="reason"
+                data-testid="ChangeAccountStatusModal-reasonSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.STATUS')}
                 label={I18n.t(attributeLabels.reason)}
                 component={FormikSelectField}
@@ -83,6 +84,7 @@ const ChangeAccountStatusModal = (props: Props) => {
               <If condition={!!withComment}>
                 <Field
                   name="comment"
+                  data-testid="ChangeAccountStatusModal-commentTextArea"
                   placeholder={`${I18n.t('COMMON.COMMENT')}...`}
                   label={I18n.t(attributeLabels.comment)}
                   component={FormikTextAreaField}
@@ -96,6 +98,7 @@ const ChangeAccountStatusModal = (props: Props) => {
 
             <ModalFooter>
               <Button
+                data-testid="ChangeAccountStatusModal-cancelButton"
                 onClick={onCloseModal}
                 secondary
               >
@@ -103,6 +106,7 @@ const ChangeAccountStatusModal = (props: Props) => {
               </Button>
 
               <Button
+                data-testid="ChangeAccountStatusModal-submitButton"
                 disabled={isSubmitting}
                 type="submit"
                 danger

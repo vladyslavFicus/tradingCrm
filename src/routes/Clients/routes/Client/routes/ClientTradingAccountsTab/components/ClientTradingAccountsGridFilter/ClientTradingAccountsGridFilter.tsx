@@ -69,6 +69,7 @@ const ClientTradingAccountsGridFilter = (props: Props) => {
           <Field
             name="accountType"
             className="ClientTradingAccountsGridFilter__field"
+            data-testid="ClientTradingAccountsGridFilter-accountTypeSelect"
             label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE')}
             placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
             component={FormikSelectField}
@@ -84,6 +85,7 @@ const ClientTradingAccountsGridFilter = (props: Props) => {
             <Field
               name="platformType"
               className="ClientTradingAccountsGridFilter__field"
+              data-testid="ClientTradingAccountsGridFilter-platformTypeSelect"
               label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               component={FormikSelectField}
@@ -100,11 +102,13 @@ const ClientTradingAccountsGridFilter = (props: Props) => {
           <div className="ClientTradingAccountsGridFilter__buttons">
             <RefreshButton
               className="ClientTradingAccountsGridFilter__button"
+              data-testid="ClientTradingAccountsGridFilter-refreshButton"
               onClick={onRefetch}
             />
 
             <Button
               className="ClientTradingAccountsGridFilter__button"
+              data-testid="ClientTradingAccountsGridFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -114,6 +118,7 @@ const ClientTradingAccountsGridFilter = (props: Props) => {
 
             <Button
               className="ClientTradingAccountsGridFilter__button"
+              data-testid="ClientTradingAccountsGridFilter-applyButton"
               disabled={isSubmitting || !dirty}
               type="submit"
               primary

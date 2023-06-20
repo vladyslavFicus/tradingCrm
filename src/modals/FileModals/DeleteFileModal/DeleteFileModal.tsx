@@ -61,6 +61,7 @@ const DeleteFileModal = (props: Props) => {
         <Button
           tertiary
           onClick={onCloseModal}
+          data-testid="DeleteFileModal-cancelButton"
         >
           {I18n.t('COMMON.BUTTONS.CANCEL')}
         </Button>
@@ -69,6 +70,7 @@ const DeleteFileModal = (props: Props) => {
           danger
           disabled={loading}
           onClick={handleDelete}
+          data-testid="DeleteFileModal-deleteButton"
         >
           {I18n.t('FILES.DELETE_MODAL.BUTTONS.DELETE')}
         </Button>

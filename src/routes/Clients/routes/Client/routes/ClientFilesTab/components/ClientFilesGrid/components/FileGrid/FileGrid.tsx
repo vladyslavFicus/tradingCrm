@@ -166,6 +166,7 @@ const FileGrid = (props: Props) => {
               // @ts-ignore Select component write by js
               value={selectedVerificationStatus || verificationStatus || ''}
               customClassName="FileGrid__header-status-dropdown"
+              data-testid="FileGrid-statusesCategorySelect"
               onChange={(value: string) => {
                 setSelectedVerificationStatus(value);
                 handleVerificationStatusChange(value);
@@ -244,15 +245,22 @@ const FileGrid = (props: Props) => {
   const renderActions = (file: File) => (
     <>
       <If condition={allowUpdateFile}>
-        <EditButton onClick={() => handleRenameFile(file)} />
+        <EditButton
+          data-testid="FileGrid-editButton"
+          onClick={() => handleRenameFile(file)}
+        />
       </If>
 
       {' '}
-      <DownloadButton onClick={() => onDownloadFileClick(file.uuid, file.fileName)} />
+      <DownloadButton
+        data-testid="FileGrid-downloadButton"
+        onClick={() => onDownloadFileClick(file.uuid, file.fileName)}
+      />
       {' '}
 
       <If condition={allowDeleteFile}>
         <TrashButton
+          data-testid="FileGrid-trashButton"
           onClick={() => handleDeleteClick(file)}
           disabled={file.uploadBy.indexOf('OPERATOR') === -1}
         />

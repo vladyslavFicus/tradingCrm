@@ -161,6 +161,7 @@ const ClientBalance = (props: Props) => {
       <Select
         // @ts-ignore Select component write by js
         customClassName="ClientBalance__select"
+        data-testid="ClientBalance-paymentsSelect"
         onChange={handleDateChange}
         value={selectedDate}
       >

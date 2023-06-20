@@ -13,6 +13,7 @@ type Props = {
   invalidFileType?: string,
   allowedTypes?: Array<string>,
   singleMode?: boolean,
+  'data-testid'?: string,
 };
 
 const FileUpload = (props: Props) => {

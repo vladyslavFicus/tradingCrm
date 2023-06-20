@@ -75,6 +75,7 @@ const ClientKycForm = (props: Props) => {
                   small
                   primary
                   type="submit"
+                  data-testid="ClientKycForm-saveChangesButton"
                 >
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </Button>
@@ -83,6 +84,7 @@ const ClientKycForm = (props: Props) => {
 
             <Field
               name="kycStatus"
+              data-testid="ClientKycForm-kycStatusSelect"
               label={I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS.CURRENT_STATUS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               component={FormikSelectField}

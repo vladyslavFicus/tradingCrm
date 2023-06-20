@@ -76,7 +76,7 @@ const ClientCallbacksTab = () => {
       >
         <PermissionContent permissions={permissions.USER_PROFILE.CREATE_CALLBACK}>
           <Button
-            data-testid="addCallbackButton"
+            data-testid="ClientCallbacksTab-addCallbackButton"
             small
             tertiary
             onClick={handleOpenAddCallbackModal}

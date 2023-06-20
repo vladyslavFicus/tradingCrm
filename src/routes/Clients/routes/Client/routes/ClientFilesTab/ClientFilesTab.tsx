@@ -31,7 +31,7 @@ const ClientFilesTab = () => {
       <TabHeader title={I18n.t('FILES.TITLE')}>
         <If condition={allowUploadFile}>
           <Button
-            data-testid="uploadFileButton"
+            data-testid="ClientFilesTab-uploadFileButton"
             onClick={handleUploadFileClick}
             tertiary
             small

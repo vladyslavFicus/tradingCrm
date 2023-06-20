@@ -82,6 +82,7 @@ const ClientNotesGridFilter = (props: Props) => {
         <Form className="ClientNotesGridFilter">
           <Field
             name="department"
+            data-testid="ClientNotesGridFilter-departmentSelect"
             label={I18n.t(attributeLabels.department)}
             placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
             component={FormikSelectField}
@@ -100,6 +101,7 @@ const ClientNotesGridFilter = (props: Props) => {
 
           <Field
             className="ClientNotesGridFilter__field ClientNotesGridFilter__field--date-range"
+            data-testid="ClientNotesGridFilter-changedAtDateRangePicker"
             label={I18n.t('PLAYER_PROFILE.NOTES.FILTER.LABELS.CREATION_DATE_RANGE')}
             component={FormikDateRangePicker}
             fieldsNames={{
@@ -112,11 +114,13 @@ const ClientNotesGridFilter = (props: Props) => {
           <div className="ClientNotesGridFilter__buttons-group">
             <RefreshButton
               className="ClientNotesGridFilter__button"
+              data-testid="ClientNotesGridFilter-refreshButton"
               onClick={onRefetch}
             />
 
             <Button
               className="ClientNotesGridFilter__button"
+              data-testid="ClientNotesGridFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -126,6 +130,7 @@ const ClientNotesGridFilter = (props: Props) => {
 
             <Button
               className="ClientNotesGridFilter__button"
+              data-testid="ClientNotesGridFilter-applyButton"
               type="submit"
               disabled={isSubmitting || !dirty}
               primary

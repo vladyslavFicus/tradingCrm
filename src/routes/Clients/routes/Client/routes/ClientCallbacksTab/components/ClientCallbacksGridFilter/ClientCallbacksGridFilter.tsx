@@ -67,6 +67,7 @@ const ClientCallbacksGridFilter = (props: Props) => {
           <Field
             name="searchKeyword"
             className="ClientCallbacksGridFilter__field ClientCallbacksGridFilter__search"
+            data-testid="ClientCallbacksGridFilter-searchKeywordInput"
             label={I18n.t('CALLBACKS.FILTER.SEARCH_BY')}
             placeholder={I18n.t('CALLBACKS.FILTER.CALLBACK_OR_OPERATOR')}
             addition={<i className="icon icon-search" />}
@@ -77,6 +78,7 @@ const ClientCallbacksGridFilter = (props: Props) => {
           <Field
             name="statuses"
             className="ClientCallbacksGridFilter__field ClientCallbacksGridFilter__select"
+            data-testid="ClientCallbacksGridFilter-statusesSelect"
             placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
             label={I18n.t('CALLBACKS.FILTER.STATUS')}
             component={FormikSelectField}
@@ -93,6 +95,7 @@ const ClientCallbacksGridFilter = (props: Props) => {
 
           <Field
             className="ClientCallbacksGridFilter__field ClientCallbacksGridFilter__date-range"
+            data-testid="ClientCallbacksGridFilter-callbackTimeDateRangePicker"
             label={I18n.t('CALLBACKS.FILTER.DATE_RANGE')}
             component={FormikDateRangePicker}
             fieldsNames={{
@@ -105,11 +108,13 @@ const ClientCallbacksGridFilter = (props: Props) => {
           <div className="ClientCallbacksGridFilter__buttons">
             <RefreshButton
               className="ClientCallbacksGridFilter__button"
+              data-testid="ClientCallbacksGridFilter-refreshButton"
               onClick={onRefetch}
             />
 
             <Button
               className="ClientCallbacksGridFilter__button"
+              data-testid="ClientCallbacksGridFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -119,6 +124,7 @@ const ClientCallbacksGridFilter = (props: Props) => {
 
             <Button
               className="ClientCallbacksGridFilter__button"
+              data-testid="ClientCallbacksGridFilter-applyButton"
               disabled={isSubmitting || !dirty}
               type="submit"
               primary

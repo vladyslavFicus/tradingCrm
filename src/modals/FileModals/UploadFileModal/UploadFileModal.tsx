@@ -312,6 +312,7 @@ const UploadFileModal = (props: Props) => {
                 <Otherwise>
                   <div className="UploadFileModal__upload">
                     <FileUpload
+                      data-testid="UploadFileModal-fileUploadButton"
                       label={I18n.t('FILES.UPLOAD_MODAL.BUTTONS.ADD_FILES')}
                       allowedSize={ALLOWED_FILE_MAX_SIZE}
                       allowedTypes={ALLOWED_FILE_TYPES}
@@ -325,6 +326,7 @@ const UploadFileModal = (props: Props) => {
 
             <ModalFooter>
               <Button
+                data-testid="UploadFileModal-cancelButton"
                 onClick={onCloseModal}
                 disabled={isSubmitting}
                 tertiary
@@ -334,6 +336,7 @@ const UploadFileModal = (props: Props) => {
 
               <Button
                 type="submit"
+                data-testid="UploadFileModal-confirmButton"
                 disabled={isSubmitting || !dirty || filesToUpload.length === 0}
                 primary
               >

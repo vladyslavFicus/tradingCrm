@@ -31,6 +31,7 @@ const ClientDepositSwitcher = (props: Props) => {
     <div className="ClientDepositSwitcher">
       <ReactSwitch
         className="ClientDepositSwitcher__label"
+        data-testid="ClientDepositSwitcher-canDepositSwitch"
         label={I18n.t('CLIENT_PROFILE.CLIENT.CAN_DEPOSIT')}
         on={enabled}
         stopPropagation

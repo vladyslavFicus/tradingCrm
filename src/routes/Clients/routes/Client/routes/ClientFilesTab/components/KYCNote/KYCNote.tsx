@@ -113,6 +113,7 @@ const KYCNote = (props: Props) => {
             <Field
               name="content"
               className="KYCNote__note-field"
+              data-testid="KYCNote-contentTextArea"
               component={FormikTextAreaField}
               maxLength={1000}
               disabled={!allowsUpdateNote}
@@ -124,6 +125,7 @@ const KYCNote = (props: Props) => {
               secondary
               onClick={handleReset}
               disabled={!dirty || !allowsUpdateNote}
+              data-testid="KYCNote-cancelButton"
             >
               {I18n.t('COMMON.BUTTONS.CANCEL')}
             </Button>
@@ -132,6 +134,7 @@ const KYCNote = (props: Props) => {
               primary
               type="submit"
               disabled={!dirty || !allowsUpdateNote}
+              data-testid="KYCNote-updateCreateButton"
             >
               <Choose>
                 <When condition={!!note}>

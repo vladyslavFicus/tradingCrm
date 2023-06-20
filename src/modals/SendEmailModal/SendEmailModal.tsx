@@ -123,6 +123,7 @@ const SendEmailModal = (props: Props) => {
             <ModalBody>
               <Field
                 name="templateId"
+                data-testid="SendEmailModal-templateIdSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 label={I18n.t('EMAILS.MODALS.EMAIL_SELECT.INPUT_SELECT_LABEL')}
                 component={FormikSelectField}
@@ -139,6 +140,7 @@ const SendEmailModal = (props: Props) => {
                 <div>
                   <Field
                     name="subject"
+                    data-testid="SendEmailModal-subjectInput"
                     label={I18n.t('EMAILS.MODALS.EMAIL_SELECT.INPUT_SUBJECT_LABEL')}
                     disabled={values.templateId !== -1}
                     component={FormikInputField}
@@ -148,6 +150,7 @@ const SendEmailModal = (props: Props) => {
                     <When condition={values.templateId === -1}>
                       <Field
                         name="text"
+                        data-testid="SendEmailModal-textHtmlEditor"
                         label={I18n.t('EMAILS.MODALS.EMAIL_SELECT.INPUT_EDITOR_LABEL')}
                         placeholder={I18n.t('EMAILS.MODALS.EMAIL_SELECT.INPUT_EDITOR_PLACEHOLDER')}
                         component={FormikHtmlEditorField}
@@ -172,6 +175,7 @@ const SendEmailModal = (props: Props) => {
               <Button
                 tertiary
                 onClick={onCloseModal}
+                data-testid="SendEmailModal-cancelButton"
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
@@ -180,6 +184,7 @@ const SendEmailModal = (props: Props) => {
                 primary
                 type="submit"
                 disabled={isSubmitting}
+                data-testid="SendEmailModal-sendButton"
               >
                 {I18n.t('EMAILS.MODALS.BUTTONS.SEND')}
               </Button>

@@ -114,7 +114,7 @@ const ClientPaymentsTab = () => {
       >
         <If condition={allowCreateTransaction}>
           <Button
-            data-testid="addTransactionButton"
+            data-testid="ClientPaymentsTab-addTransactionButton"
             onClick={handleOpenAddPaymentModal}
             tertiary
             small

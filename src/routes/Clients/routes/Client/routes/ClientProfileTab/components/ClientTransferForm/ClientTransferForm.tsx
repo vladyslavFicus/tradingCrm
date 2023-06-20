@@ -74,6 +74,7 @@ const ClientTransferForm = (props: Props) => {
                   small
                   primary
                   type="submit"
+                  data-testid="ClientTransferForm-saveChangesButton"
                 >
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </Button>
@@ -82,6 +83,7 @@ const ClientTransferForm = (props: Props) => {
 
             <Field
               name="internalTransfer"
+              data-testid="ClientTransferForm-internalTransferSelect"
               label={I18n.t('PLAYER_PROFILE.PROFILE.TRANSFER_AVAILABILITY.LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               component={FormikSelectField}

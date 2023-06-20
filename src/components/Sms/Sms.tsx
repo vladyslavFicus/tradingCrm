@@ -25,6 +25,7 @@ const Sms = (props: Props) => {
       <Button
         tertiary
         className="Sms__button"
+        data-testid="Sms-smsButton"
         onClick={() => sendSmsModal.show({
           uuid,
           field,
