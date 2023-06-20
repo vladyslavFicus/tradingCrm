@@ -68,6 +68,7 @@ const QuotesFilter = (props: Props) => {
           <div className="SymbolsFilter__fields">
             <Field
               name="symbolNames"
+              data-testid="QuotesFilter-symbolNamesSelect"
               label={I18n.t('TRADING_ENGINE.QUOTES.FILTER_FORM.FIELDS.SYMBOL_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="SymbolsFilter__field"
@@ -86,6 +87,7 @@ const QuotesFilter = (props: Props) => {
 
             <Field
               name="securityNames"
+              data-testid="QuotesFilter-securityNamesSelect"
               label={I18n.t('TRADING_ENGINE.QUOTES.FILTER_FORM.FIELDS.SECURITY_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="QuotesFilter__field"
@@ -104,6 +106,7 @@ const QuotesFilter = (props: Props) => {
 
             <Field
               name="favorite"
+              data-testid="QuotesFilter-favoriteSelect"
               label={I18n.t('TRADING_ENGINE.QUOTES.FILTER_FORM.FIELDS.FAVOURITE_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="AccountsFilter__field"
@@ -124,11 +127,13 @@ const QuotesFilter = (props: Props) => {
           <div className="QuotesFilter__buttons">
             <RefreshButton
               className="QuotesFilter__button"
+              data-testid="QuotesFilter-refreshButton"
               onClick={props.onRefresh}
             />
 
             <Button
               className="QuotesFilter__button"
+              data-testid="QuotesFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -138,6 +143,7 @@ const QuotesFilter = (props: Props) => {
 
             <Button
               className="QuotesFilter__button"
+              data-testid="QuotesFilter-applyButton"
               type="submit"
               disabled={!dirty || isSubmitting}
               primary

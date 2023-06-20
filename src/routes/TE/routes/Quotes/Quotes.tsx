@@ -137,6 +137,7 @@ const Quotes = ({ notify }: Props) => {
             danger
             disabled={isStreamingRestarting}
             onClick={handleRestartStreaming}
+            data-testid="Quotes-restartStreamingButton"
           >
             {I18n.t('TRADING_ENGINE.QUOTES.RESTART_STREAMING')}
           </Button>
