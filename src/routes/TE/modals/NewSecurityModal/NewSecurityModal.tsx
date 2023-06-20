@@ -92,6 +92,7 @@ const NewSecurityModal = (props: Props) => {
                 <Field
                   name="name"
                   type="text"
+                  data-testid="NewSecurityModal-nameInput"
                   label={I18n.t('TRADING_ENGINE.MODALS.NEW_SECURITY_MODAL.NAME')}
                   component={FormikInputField}
                   disabled={isSubmitting}
@@ -99,6 +100,7 @@ const NewSecurityModal = (props: Props) => {
                 <Field
                   name="description"
                   type="text"
+                  data-testid="NewSecurityModal-descriptionInput"
                   label={I18n.t('TRADING_ENGINE.MODALS.NEW_SECURITY_MODAL.DESCRIPTION')}
                   component={FormikInputField}
                   disabled={isSubmitting}
@@ -106,6 +108,7 @@ const NewSecurityModal = (props: Props) => {
               </ModalBody>
               <ModalFooter>
                 <Button
+                  data-testid="NewSecurityModal-cancelButton"
                   onClick={onCloseModal}
                   tertiary
                 >
@@ -114,6 +117,7 @@ const NewSecurityModal = (props: Props) => {
                 <Button
                   danger
                   disabled={!dirty || isSubmitting}
+                  data-testid="NewSecurityModal-saveButton"
                   type="submit"
                 >
                   {I18n.t('COMMON.BUTTONS.SAVE')}

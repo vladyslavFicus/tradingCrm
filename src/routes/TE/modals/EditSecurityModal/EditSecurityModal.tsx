@@ -104,6 +104,7 @@ const EditSecurityModalFn = (props: Props) => {
                 <Field
                   name="name"
                   type="text"
+                  data-testid="EditSecurityModalFn-nameInput"
                   label={I18n.t('TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.NAME')}
                   component={FormikInputField}
                   disabled={isSubmitting}
@@ -111,6 +112,7 @@ const EditSecurityModalFn = (props: Props) => {
                 <Field
                   name="description"
                   type="text"
+                  data-testid="EditSecurityModalFn-descriptionInput"
                   label={I18n.t('TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.DESCRIPTION')}
                   component={FormikInputField}
                   disabled={isSubmitting}
@@ -118,6 +120,7 @@ const EditSecurityModalFn = (props: Props) => {
               </ModalBody>
               <ModalFooter>
                 <Button
+                  data-testid="EditSecurityModalFn-cancelButton"
                   onClick={onCloseModal}
                   tertiary
                 >
@@ -126,6 +129,7 @@ const EditSecurityModalFn = (props: Props) => {
                 <Button
                   danger
                   disabled={!dirty || isSubmitting}
+                  data-testid="EditSecurityModalFn-saveButton"
                   type="submit"
                 >
                   {I18n.t('COMMON.BUTTONS.SAVE')}
