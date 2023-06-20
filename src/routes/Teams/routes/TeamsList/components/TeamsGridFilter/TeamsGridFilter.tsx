@@ -81,6 +81,7 @@ const TeamsGridFilter = (props: Props) => {
               <Field
                 name="keyword"
                 className="TeamsGridFilter__field TeamsGridFilter__search"
+                data-testid="TeamsGridFilter-keywordInput"
                 label={I18n.t('TEAMS.GRID_FILTERS.SEARCH_BY')}
                 placeholder={I18n.t('TEAMS.GRID_FILTERS.SEARCH_BY_PLACEHOLDER')}
                 addition={<i className="icon icon-search" />}
@@ -91,6 +92,7 @@ const TeamsGridFilter = (props: Props) => {
               <Field
                 name="officeUuid"
                 className="TeamsGridFilter__field TeamsGridFilter__select"
+                data-testid="TeamsGridFilter-officeUuidSelect"
                 label={I18n.t('TEAMS.GRID_FILTERS.OFFICE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -107,6 +109,7 @@ const TeamsGridFilter = (props: Props) => {
               <Field
                 name="deskUuid"
                 className="TeamsGridFilter__field TeamsGridFilter__select"
+                data-testid="TeamsGridFilter-deskUuidSelect"
                 label={I18n.t('TEAMS.GRID_FILTERS.DESK')}
                 placeholder={I18n.t(
                   !desksByOffice.length
@@ -128,11 +131,13 @@ const TeamsGridFilter = (props: Props) => {
             <div className="TeamsGridFilter__buttons">
               <RefreshButton
                 className="TeamsGridFilter__button"
+                data-testid="TeamsGridFilter-refreshButton"
                 onClick={onRefetch}
               />
 
               <Button
                 className="TeamsGridFilter__button"
+                data-testid="TeamsGridFilter-resetButton"
                 onClick={() => handleReset(resetForm)}
                 disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
@@ -142,6 +147,7 @@ const TeamsGridFilter = (props: Props) => {
 
               <Button
                 className="TeamsGridFilter__button"
+                data-testid="TeamsGridFilter-applyButton"
                 disabled={isSubmitting || !dirty}
                 type="submit"
                 primary

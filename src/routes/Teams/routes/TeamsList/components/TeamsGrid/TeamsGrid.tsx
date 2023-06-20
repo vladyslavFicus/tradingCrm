@@ -112,11 +112,15 @@ const TeamsGrid = (props: Props) => {
         <EditButton
           onClick={() => handleEditClick(data)}
           className="TeamsGrid__edit-button"
+          data-testid="TeamsGrid-editButton"
         />
       </If>
 
       <If condition={isAllowDeleteBranch}>
-        <TrashButton onClick={() => handleDeleteClick(data)} />
+        <TrashButton
+          data-testid="TeamsGrid-trashButton"
+          onClick={() => handleDeleteClick(data)}
+        />
       </If>
     </>
   );
