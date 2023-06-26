@@ -1,5 +1,4 @@
-.FeedContent {
-
+.FeedDetails {
   &__wrapper {
     padding-left: 5px;
   }
@@ -40,6 +39,14 @@
   &__arrow {
     color: var(--state-colors-success);
     font-weight: bolder;
+
+    &:before {
+      content: '→';
+    }
+
+    &--down:before {
+      content: '↓';
+    }
   }
 
    &__changes {

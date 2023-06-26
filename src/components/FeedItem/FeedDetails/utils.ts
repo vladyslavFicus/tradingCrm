@@ -1,6 +1,6 @@
-import i18n from 'i18n-js';
+import I18n from 'i18n-js';
 import moment from 'moment';
-import { toNumber, startCase } from 'lodash';
+import { startCase } from 'lodash';
 import humanizeDuration from 'humanize-duration';
 import { departments, roles } from 'constants/operators';
 import { kycStatuses } from 'constants/kycStatuses';
@@ -23,7 +23,13 @@ import {
 import { salesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses } from 'constants/retentionStatuses';
 
-const humanizeDurationConfig = {
+const SUPPORTED_DATE_FORMATES = [
+  'YYYY-MM-DDTHH:mm:ss.SSS',
+  'YYYY-MM-DDTHH:mm:ss.SSSSSS',
+  'YYYY-MM-DDTHH:mm:ss',
+];
+
+const HUMANIZE_DURATION_CONFIG = {
   language: 'en',
   largest: 2,
   conjunction: ' ',
@@ -40,27 +46,27 @@ const documentCategoriesPath = 'FILES.CATEGORIES';
 const tradingStatusesPath = 'FEED_ITEM.TRADING_STATUSES';
 const paymentStatusesPath = 'COMMON.PAYMENT_STATUS';
 
-const transformConstFromArr = (arr, path) => arr.reduce((acc, value) => ({
+const transformConstFromArr = (arr: Array<string>, path: string) => arr.reduce((acc, value) => ({
   ...acc,
-  [value]: i18n.t(`${path}.${value}`),
+  [value]: I18n.t(`${path}.${value}`),
 }), {});
 
-const transformConstFromObj = (obj, path) => Object.keys(obj).reduce((acc, key) => ({
+const transformConstFromObj = (obj: Record<string, string>, path: string) => Object.keys(obj).reduce((acc, key) => ({
   ...acc,
-  [key]: i18n.t(`${path}.${key}`),
+  [key]: I18n.t(`${path}.${key}`),
 }), {});
 
-const translateObject = obj => Object.keys(obj).reduce((acc, key) => ({
+const translateObject = (obj: Record<string, string>) => Object.keys(obj).reduce((acc, key) => ({
   ...acc,
-  [key]: i18n.t(obj[key]),
+  [key]: I18n.t(obj[key]),
 }), {});
 
-const rbacLocaleString = (section, permission) => i18n.t(
+const rbacLocaleString = (section: string, permission: string) => I18n.t(
   `ROLES_AND_PERMISSIONS.SECTIONS.${section}.PERMISSIONS.${permission}`,
 );
 
 export const translateRbac = () => {
-  const result = {};
+  const result: Record<string, string> = {};
   rbac.forEach(({ id: sId, permissions }) => permissions.forEach(({ id: pId, actions }) => {
     if (actions?.view?.action) {
       result[actions?.view?.action] = rbacLocaleString(sId, pId);
@@ -85,8 +91,8 @@ export const translateRbac = () => {
 
 const rbacI18n = translateRbac();
 
-const translateValue = (value) => {
-  const detailsValues = {
+const translateValue = (value: any) => {
+  const detailsValues: Record<string, string> = {
     ...(transformConstFromArr(COUNTRY_SPECIFIC_IDENTIFIER_TYPES, countryIdentifierTypesPath)),
     ...(transformConstFromObj(statuses, statusesPath)),
     ...(transformConstFromObj(kycStatuses, kycStatusesPath)),
@@ -105,72 +111,32 @@ const translateValue = (value) => {
     ...(translateObject(genders)),
     ...(translateObject(orderTypes)),
     ...(translateObject(orderStatuses)),
-    INDIVIDUAL_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_RETAIL'),
-    INDIVIDUAL_PROFESSIONAL: i18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_PROFESSIONAL'),
-    CORPORATE_RETAIL: i18n.t('CLIENT_PROFILE.DETAILS.CORPORATE_RETAIL'),
-    CORPORATE_PROFESSIONAL: i18n.t('CLIENT_PROFILE.DETAILS.CORPORATE_PROFESSIONAL'),
-    'Phone verified': i18n.t('PLAYER_PROFILE.PROFILE.VERIFIED_PHONE'),
-    'E-mail verified': i18n.t('PLAYER_PROFILE.PROFILE.VERIFIED_EMAIL'),
+    INDIVIDUAL_RETAIL: I18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_RETAIL'),
+    INDIVIDUAL_PROFESSIONAL: I18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_PROFESSIONAL'),
+    CORPORATE_RETAIL: I18n.t('CLIENT_PROFILE.DETAILS.CORPORATE_RETAIL'),
+    CORPORATE_PROFESSIONAL: I18n.t('CLIENT_PROFILE.DETAILS.CORPORATE_PROFESSIONAL'),
+    'Phone verified': I18n.t('PLAYER_PROFILE.PROFILE.VERIFIED_PHONE'),
+    'E-mail verified': I18n.t('PLAYER_PROFILE.PROFILE.VERIFIED_EMAIL'),
     ...rbacI18n,
   };
 
-  return detailsValues[value] || value;
-};
-
-const isValueBool = value => typeof value === 'boolean';
-
-const isValueNumber = value => !Number.isNaN(toNumber(value));
-
-const isValueMomentValid = (value) => {
-  if (isValueBool(value)) {
-    return false;
-  }
-
-  return isValueNumber(value)
-    ? false
-    : value;
-};
-
-const handleDate = (date) => {
-  const supportedFormates = [
-    'YYYY-MM-DDTHH:mm:ss.SSS',
-    'YYYY-MM-DDTHH:mm:ss.SSSSSS',
-    'YYYY-MM-DDTHH:mm:ss',
-  ];
-
-  if (moment(date, supportedFormates, true).isValid()) {
-    return moment.utc(date).local().format('DD.MM.YYYY \\a\\t HH:mm:ss');
-  }
-
-  return 'Invalid date';
-};
-
-const transformBoolToString = bool => (bool === true
-  ? 'true'
-  : 'false');
-
-const prepareCommonValue = (value) => {
-  const date = isValueMomentValid(value)
-    ? handleDate(value)
-    : 'Invalid date';
-
-  // If value is not a date then conduct it through next transform chain step
-  if (date === 'Invalid date') {
-    return isValueBool(value)
-      ? transformBoolToString(value)
-      : translateValue(value);
-  }
-
-  return date;
+  return detailsValues[value] || value?.toString();
 };
 
 // Define that key is a custom and return corresponding value
-export const prepareValue = (key, value) => {
-  const customValues = {
-    sessionDuration: humanizeDuration(value, humanizeDurationConfig),
-  };
+export const renderValue = (label: string, value: any) => {
+  if (moment(value, SUPPORTED_DATE_FORMATES, true).isValid()) {
+    return moment.utc(value).local().format('DD.MM.YYYY \\a\\t HH:mm:ss');
+  }
 
-  return customValues[key] || prepareCommonValue(value);
+  switch (label) {
+    case 'sessionDuration':
+      return humanizeDuration(value, HUMANIZE_DURATION_CONFIG);
+    case 'amount':
+      return I18n.toCurrency(value, { unit: '' });
+    default:
+      return translateValue(value);
+  }
 };
 
-export const renderLabel = label => i18n.t(`FEED_ITEM.${label}`, { defaultValue: startCase(label) });
+export const renderLabel = (label: string) => I18n.t(`FEED_ITEM.${label}`, { defaultValue: startCase(label) });

@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
 import { State } from 'types';
+import { Feed } from '__generated__/types';
 import ListView from 'components/ListView/index';
 import FeedItem from 'components/FeedItem';
 import DealingOperatorFeedTabFilter from './components/DealingOperatorFeedFilter';
@@ -42,7 +43,7 @@ const DealingOperatorFeedTab = () => {
           content={content}
           loading={loading}
           last={last}
-          render={(item: React.ReactNode) => <FeedItem data={item} />}
+          render={(item: React.ReactNode) => <FeedItem data={item as Feed} />}
           onLoadMore={handleLoadMore}
         />
       </div>

@@ -31,6 +31,7 @@
     "@types/draftjs-to-html": "^0.8.1",
     "@types/filesize": "^5.0.0",
     "@types/html-to-draftjs": "^1.4.0",
+    "@types/humanize-duration": "^3.27.1",
     "@types/react-draft-wysiwyg": "^1.13.4",
     "apollo-upload-client": "^10.0.0",
     "bignumber.js": "^9.0.2",
