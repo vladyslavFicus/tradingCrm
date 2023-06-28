@@ -132,6 +132,8 @@ export const renderValue = (label: string, value: any) => {
   switch (label) {
     case 'sessionDuration':
       return humanizeDuration(value, HUMANIZE_DURATION_CONFIG);
+    case 'inactiveSeconds':
+      return `Inactive ${value} seconds`;
     case 'amount':
       return I18n.toCurrency(value, { unit: '' });
     default:

@@ -929,7 +929,20 @@
           {
             "name": "logout",
             "description": null,
-            "args": [],
+            "args": [
+              {
+                "name": "inactiveSeconds",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
             "type": {
               "kind": "SCALAR",
               "name": "Boolean",
@@ -1805,6 +1818,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "Object",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ttl_inactive_seconds",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "isDeprecated": false,

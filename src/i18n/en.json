@@ -1792,6 +1792,7 @@
     "operatorsName": "Operator's name",
     "invitationSent": "Invitation",
     "attemptDateTime": "Attempt date & time",
+    "inactiveSeconds": "Reason",
     "LOG_IN": {
       "UPLOADED_FILE": "Uploaded file",
       "SESSION_ID": "Session ID",
