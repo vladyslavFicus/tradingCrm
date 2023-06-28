@@ -98,6 +98,7 @@ const PartnerSchedule = (props: Props) => {
   const renderActivate = (value: Schedule, setFieldValue: SetFieldValue<ScheduleDays>) => (
     <Field
       name={value.day}
+      data-testid={`PartnerSchedule-${value.day}Button`}
       disabled={!value.configId}
       onChange={() => handleChangeActivate(value.day, setFieldValue)}
       component={FormikCheckbox}
@@ -164,7 +165,12 @@ const PartnerSchedule = (props: Props) => {
   );
 
   const renderActions = (value: Schedule) => (
-    <Button icon className="PartnerSchedule__edit" onClick={() => hansleShowEditScheduleModal(value)}>
+    <Button
+      icon
+      className="PartnerSchedule__edit"
+      data-testid="PartnerSchedule-editButton"
+      onClick={() => hansleShowEditScheduleModal(value)}
+    >
       <i className="fa fa-edit" />
     </Button>
   );
@@ -181,7 +187,11 @@ const PartnerSchedule = (props: Props) => {
             <div className="PartnerSchedule__header-container">
               <div className="PartnerSchedule__heading">{I18n.t('PARTNERS.SCHEDULE.TITLE')}</div>
               <If condition={dirty || isSubmitting}>
-                <Button primary type="submit">
+                <Button
+                  primary
+                  type="submit"
+                  data-testid="PartnerSchedule-saveChangesButton"
+                >
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </Button>
               </If>

@@ -29,6 +29,7 @@ const HolidayHeader = ({ formik }: Props) => {
         small
         primary
         disabled={!dirty || isSubmitting}
+        data-testid="HolidayHeader-saveButton"
         type="submit"
       >
         {I18n.t('COMMON.SAVE')}

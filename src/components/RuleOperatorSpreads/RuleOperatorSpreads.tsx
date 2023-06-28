@@ -54,6 +54,7 @@ const RuleOperatorSpreads = (props: Props) => {
               <div className="RuleOperatorSpreads__spread" key={index}>
                 <Field
                   name={`${namePrefix}[${index}].parentUser`}
+                  data-testid="RuleOperatorSpreads-parentUserSelect"
                   component={FormikSelectField}
                   disabled={disabled}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -74,6 +75,7 @@ const RuleOperatorSpreads = (props: Props) => {
 
                 <Field
                   name={`${namePrefix}[${index}].percentage`}
+                  data-testid="RuleOperatorSpreads-percentageInput"
                   type="number"
                   placeholder={index === 0 ? '100%' : '0%'}
                   disabled={disabled || !operatorSpreads[index]}
@@ -83,6 +85,7 @@ const RuleOperatorSpreads = (props: Props) => {
                 <If condition={operatorSpreads?.length !== index}>
                   <TrashButton
                     className="RuleOperatorSpreads__button"
+                    data-testid="RuleOperatorSpreads-trashButton"
                     onClick={() => removeOperatorSpread(index)}
                   />
                 </If>

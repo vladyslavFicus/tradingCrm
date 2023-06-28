@@ -40,53 +40,62 @@ class SelectSingleOptions extends PureComponent {
     );
   };
 
-  render() {
+  renderOptions = (options) => {
     const {
-      options,
       selectedOption,
-      className,
       optionClassName,
       onChange,
       handleSelectHide,
       bindActiveOption,
       optionComponent,
     } = this.props;
+
     const OptionCustomComponent = optionComponent && this.withRef(optionComponent);
 
-    if (options.length === 0) {
+    return (options.map((option) => {
+      const isActive = selectedOption && selectedOption.value === option.value;
+      const optionProps = {
+        key: option.key,
+        ...option.props,
+        className: classNames(optionClassName, option.props?.className, {
+          'is-selected': isActive,
+          'is-disabled': option.props.disabled,
+        }),
+      };
+
+      if (isActive && bindActiveOption) {
+        optionProps.ref = bindActiveOption;
+      } else {
+        optionProps.onClick = () => onChange(option);
+      }
+
+      return (
+        <Choose>
+          <When condition={OptionCustomComponent}>
+            <OptionCustomComponent hideSelect={() => handleSelectHide()} {...optionProps} />
+          </When>
+
+          <Otherwise>
+            <div {...optionProps}>{option.label}</div>
+          </Otherwise>
+        </Choose>
+      );
+    }));
+  };
+
+  render() {
+    const {
+      options,
+      className,
+    } = this.props;
+
+    if (!options?.length) {
       return null;
     }
 
     return (
       <div className={className}>
-        {options.map((option) => {
-          const isActive = selectedOption && selectedOption.value === option.value;
-          const optionProps = {
-            key: option.key,
-            ...option.props,
-            className: classNames(optionClassName, option.props?.className, {
-              'is-selected': isActive,
-              'is-disabled': option.props.disabled,
-            }),
-          };
-
-          if (isActive && bindActiveOption) {
-            optionProps.ref = bindActiveOption;
-          } else {
-            optionProps.onClick = () => onChange(option);
-          }
-
-          return (
-            <Choose>
-              <When condition={OptionCustomComponent}>
-                <OptionCustomComponent hideSelect={() => handleSelectHide()} {...optionProps} />
-              </When>
-              <Otherwise>
-                <div {...optionProps}>{option.label}</div>
-              </Otherwise>
-            </Choose>
-          );
-        })}
+        {this.renderOptions(options)}
       </div>
     );
   }

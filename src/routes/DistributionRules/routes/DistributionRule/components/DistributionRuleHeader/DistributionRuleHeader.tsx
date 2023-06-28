@@ -31,7 +31,10 @@ const DistributionRuleHeader = (props: Props) => {
         onClick={() => updateDistributionRuleModal.show({ uuid })}
       >
         {name}
-        <EditButton className="DistributionRuleHeader__edit-icon" />
+        <EditButton
+          className="DistributionRuleHeader__edit-icon"
+          data-testid="DistributionRuleHeader-editButton"
+        />
       </div>
       <Uuid uuid={uuid} uuidPrefix="RL" />
     </div>

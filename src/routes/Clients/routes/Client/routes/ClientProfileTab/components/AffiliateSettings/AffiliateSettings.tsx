@@ -72,6 +72,7 @@ const AffiliateSettings = (props: Props) => {
         stopPropagation
         disabled={isToggleDisabled()}
         className="AffiliateSettings__switcher"
+        data-testid="AffiliateSettings-ftdToAffiliateSwitch"
         label={I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.FTD_TO_AFFILIATE_TOGGLE.LABEL')}
         labelPosition="right"
         onClick={showFtdToAffiliate ? handleDisableShowFTD : handleEnableShowFTD}

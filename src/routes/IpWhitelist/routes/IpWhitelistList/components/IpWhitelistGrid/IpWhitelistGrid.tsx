@@ -100,6 +100,7 @@ const IpWhitelistGrid = (props: Props) => {
       <If condition={allowDeleteIp}>
         <TrashButton
           className="IpWhitelistGrid__action-icon"
+          data-testid="IpWhitelistGrid-trashButton"
           onClick={() => confirmActionModal.show({
             onSubmit: handleDeleteIp(item),
             modalTitle: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.HEADER'),
@@ -112,6 +113,7 @@ const IpWhitelistGrid = (props: Props) => {
       <If condition={allowUpdateIp}>
         <EditButton
           className="IpWhitelistGrid__action-icon"
+          data-testid="IpWhitelistGrid-editButton"
           onClick={() => updateIpWhiteListModal.show({ item, onSuccess: onRefetch })}
         />
       </If>

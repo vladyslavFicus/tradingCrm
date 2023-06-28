@@ -420,6 +420,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
                         danger
                         type="submit"
                         onClick={() => handleCloseOrderClick(order, OrderCloseByEnum.MARKET)}
+                        data-testid="AccountProfileOrdersGrid-closeButton"
                       >
                         {I18n.t('COMMON.CLOSE')}
                       </Button>

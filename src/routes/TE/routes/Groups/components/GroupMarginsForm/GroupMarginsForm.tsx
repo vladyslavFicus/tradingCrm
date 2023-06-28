@@ -27,6 +27,7 @@ const GroupMarginsForm = (props: Props) => {
           name="marginCallLevel"
           component={FormikInputField}
           type="number"
+          data-testid="GroupMarginsForm-marginCallLevelInput"
           label={I18n.t('TRADING_ENGINE.GROUP.MARGINS_GROUP_FORM.MARGIN_CALL_LEVEL')}
           className="GroupMarginsForm__field"
           disabled={archived}
@@ -35,6 +36,7 @@ const GroupMarginsForm = (props: Props) => {
           name="stopoutLevel"
           component={FormikInputField}
           type="number"
+          data-testid="GroupMarginsForm-stopoutLevelInput"
           label={I18n.t('TRADING_ENGINE.GROUP.MARGINS_GROUP_FORM.STOP_OUT_LEVEL')}
           className="GroupMarginsForm__field"
           disabled={archived}

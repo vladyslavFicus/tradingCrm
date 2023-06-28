@@ -83,6 +83,7 @@ const RulesGridFilter = (props: Props) => {
             <Field
               name="createdByOrUuid"
               className="RulesGridFilter__field RulesGridFilter__search"
+              data-testid="RulesGridFilter-createdByOrUuidInput"
               placeholder={I18n.t('RULES.FILTERS.RULE')}
               label={I18n.t(filterLabels.searchValue)}
               addition={<i className="icon icon-search" />}
@@ -93,6 +94,7 @@ const RulesGridFilter = (props: Props) => {
             <Field
               name="country"
               className="RulesGridFilter__field RulesGridFilter__select"
+              data-testid="RulesGridFilter-countrySelect"
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               label={I18n.t(filterLabels.country)}
               component={FormikSelectField}
@@ -112,6 +114,7 @@ const RulesGridFilter = (props: Props) => {
             <Field
               name="language"
               className="RulesGridFilter__field RulesGridFilter__select"
+              data-testid="RulesGridFilter-languageSelect"
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               label={I18n.t(filterLabels.language)}
               component={FormikSelectField}
@@ -130,6 +133,7 @@ const RulesGridFilter = (props: Props) => {
               <Field
                 name="affiliateId"
                 className="RulesGridFilter__field RulesGridFilter__select"
+                data-testid="RulesGridFilter-affiliateIdSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('RULES.FILTERS.PARTNER')}
                 component={FormikSelectField}
@@ -150,6 +154,7 @@ const RulesGridFilter = (props: Props) => {
               <Field
                 name="operatorUuids"
                 className="RulesGridFilter__field RulesGridFilter__select"
+                data-testid="RulesGridFilter-operatorUuidsSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('RULES.FILTERS.OPERATORS')}
                 component={FormikSelectField}
@@ -177,6 +182,7 @@ const RulesGridFilter = (props: Props) => {
             <If condition={!!handleRefetch}>
               <RefreshButton
                 className="RulesGridFilter__button"
+                data-testid="RulesGridFilter-refreshButton"
                 onClick={handleRefetch}
               />
             </If>
@@ -184,6 +190,7 @@ const RulesGridFilter = (props: Props) => {
             <Button
               primary
               className="RulesGridFilter__button"
+              data-testid="RulesGridFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
             >
@@ -194,6 +201,7 @@ const RulesGridFilter = (props: Props) => {
               primary
               type="submit"
               className="RulesGridFilter__button"
+              data-testid="RulesGridFilter-applyButton"
               disabled={isSubmitting || !dirty}
             >
               {I18n.t('COMMON.APPLY')}

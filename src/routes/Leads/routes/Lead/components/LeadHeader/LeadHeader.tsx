@@ -60,7 +60,7 @@ const LeadHeader = (props: Props) => {
       <div className="LeadHeader__actions">
         <If condition={allowCreateCallback}>
           <Button
-            data-testid="addCallbackButton"
+            data-testid="LeadHeader-addCallbackButton"
             small
             tertiary
             className="LeadHeader__action"
@@ -81,6 +81,7 @@ const LeadHeader = (props: Props) => {
               small
               tertiary
               className="LeadHeader__action"
+              data-testid="LeadHeader-addNoteButton"
             >
               {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.ADD_NOTE')}
             </Button>
@@ -93,6 +94,7 @@ const LeadHeader = (props: Props) => {
             tertiary
             className="LeadHeader__action"
             onClick={handleOpenPromoteLeadModal}
+            data-testid="LeadHeader-promoteToClientButton"
           >
             {I18n.t('LEAD_PROFILE.HEADER.PROMOTE_TO_CLIENT')}
           </Button>

@@ -158,6 +158,7 @@ const CloseOpenOrderForm = (props: Props) => {
                 label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
                 className="EditOrderModal__field EditOrderModal__field--volumeLots"
                 classNameError="EditOrderModal__field--customError"
+                data-testid="EditOrderModal-volumeLotsInput"
                 component={FormikInputField}
                 disabled={!order.symbolConfig}
               />
@@ -171,13 +172,14 @@ const CloseOpenOrderForm = (props: Props) => {
                 min={0}
                 max={999999}
                 component={FormikInputDecimalsField}
-                data-testid="closePrice"
+                data-testid="EditOrderModal-closePriceInputDecimals"
                 {...decimalsSettings}
               />
               <Button
                 tertiary
                 type="button"
                 className="EditOrderModal__button EditOrderModal__button--update"
+                data-testid="EditOrderModal-editOrderButton"
                 disabled={!initialSymbolPrice.current || !order.symbolConfig}
                 onClick={() => {
                   const _closePrice = direction === OrderDirection.SELL
@@ -192,6 +194,7 @@ const CloseOpenOrderForm = (props: Props) => {
                 type="submit"
                 disabled={!initialSymbolPrice.current || !isValid || !order.symbolConfig}
                 className="EditOrderModal__button"
+                data-testid="EditOrderModal-closeOrderButton"
                 danger
               >
                 {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_CLOSE_ORDER', {

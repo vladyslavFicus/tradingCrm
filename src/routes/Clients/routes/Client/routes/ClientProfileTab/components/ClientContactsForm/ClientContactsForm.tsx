@@ -316,6 +316,7 @@ const ClientContactsForm = (props: Props) => {
                   primary
                   type="submit"
                   className="ClientContactsForm__actions"
+                  data-testid="ClientContactsForm-saveChangesPhoneButton"
                 >
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </Button>
@@ -327,6 +328,7 @@ const ClientContactsForm = (props: Props) => {
                 <Field
                   name="phone"
                   className="ClientContactsForm__field"
+                  data-testid="ClientContactsForm-phoneInput"
                   label={I18n.t(attributeLabels.phone)}
                   placeholder={I18n.t(attributeLabels.phone)}
                   component={FormikInputField}
@@ -347,6 +349,7 @@ const ClientContactsForm = (props: Props) => {
                 <If condition={!phoneVerified && permission.allows(permissions.USER_PROFILE.VERIFY_PHONE)}>
                   <Button
                     className="ClientContactsForm__field-button"
+                    data-testid="ClientContactsForm-verifyPhoneButton"
                     onClick={handleVerifyPhone}
                     primary
                   >
@@ -359,6 +362,7 @@ const ClientContactsForm = (props: Props) => {
                 >
                   <Button
                     className="ClientContactsForm__field-button"
+                    data-testid="ClientContactsForm-verifiedPhonesButton"
                     primary
                   >
                     <i className="fa fa-check-circle-o" />
@@ -372,6 +376,7 @@ const ClientContactsForm = (props: Props) => {
                 <Field
                   name="additionalPhone"
                   className="ClientContactsForm__field"
+                  data-testid="ClientContactsForm-additionalPhoneInput"
                   label={I18n.t(attributeLabels.additionalPhone)}
                   placeholder={I18n.t(attributeLabels.additionalPhone)}
                   component={FormikInputField}
@@ -407,6 +412,7 @@ const ClientContactsForm = (props: Props) => {
                   primary
                   type="submit"
                   className="ClientContactsForm__actions"
+                  data-testid="ClientContactsForm-saveChangesEmailButton"
                 >
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </Button>
@@ -418,6 +424,7 @@ const ClientContactsForm = (props: Props) => {
                 <Field
                   name="email"
                   className="ClientContactsForm__field"
+                  data-testid="ClientContactsForm-emailInput"
                   label={I18n.t(attributeLabels.email)}
                   placeholder={I18n.t(attributeLabels.email)}
                   component={FormikInputField}
@@ -434,6 +441,7 @@ const ClientContactsForm = (props: Props) => {
                 <If condition={!emailVerified && permission.allows(permissions.USER_PROFILE.VERIFY_EMAIL)}>
                   <Button
                     className="ClientContactsForm__field-button"
+                    data-testid="ClientContactsForm-verifyEmailButton"
                     onClick={handleVerifyEmail}
                     primary
                   >
@@ -444,6 +452,7 @@ const ClientContactsForm = (props: Props) => {
                 <If condition={profileContacts.email === values.email && emailVerified}>
                   <Button
                     className="ClientContactsForm__field-button"
+                    data-testid="ClientContactsForm-verifiedEmailsButton"
                     primary
                   >
                     <i className="fa fa-check-circle-o" />
@@ -476,6 +485,7 @@ const ClientContactsForm = (props: Props) => {
                   primary
                   type="submit"
                   className="ClientContactsForm__actions"
+                  data-testid="ClientContactsForm-saveChangesAdditionalEmailButton"
                 >
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </Button>
@@ -487,6 +497,7 @@ const ClientContactsForm = (props: Props) => {
                 <Field
                   name="additionalEmail"
                   className="ClientContactsForm__field"
+                  data-testid="ClientContactsForm-additionalEmailInput"
                   label={I18n.t(attributeLabels.additionalEmail)}
                   placeholder={I18n.t(attributeLabels.additionalEmail)}
                   component={FormikInputField}

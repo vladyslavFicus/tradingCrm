@@ -62,6 +62,7 @@ const PartnersHeader = (props: Props) => {
 
         <If condition={permission.allows(permissions.PARTNERS.CREATE)}>
           <Button
+            data-testid="PartnersHeader-createPartnerButton"
             onClick={handleOpenCreatePartnerModal}
             tertiary
           >

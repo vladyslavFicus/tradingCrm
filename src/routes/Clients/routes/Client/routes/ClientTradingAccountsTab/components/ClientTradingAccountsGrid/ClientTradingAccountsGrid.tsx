@@ -286,6 +286,7 @@ const ClientTradingAccountsGrid = (props: Props) => {
         <If condition={status === 'PENDING'}>
           <Button
             className="ClientTradingAccountsGrid__cell-button"
+            data-testid="ClientTradingAccountsGrid-rejectButton"
             onClick={handleRejectChangeLeverage(accountUUID)}
             tertiary
             small
@@ -295,6 +296,7 @@ const ClientTradingAccountsGrid = (props: Props) => {
 
           <Button
             className="ClientTradingAccountsGrid__cell-button"
+            data-testid="ClientTradingAccountsGrid-approveButton"
             onClick={handleApproveChangeLeverage(accountUUID)}
             tertiary
             small

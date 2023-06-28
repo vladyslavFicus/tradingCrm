@@ -19,6 +19,7 @@ const HolidayCommonForm = () => (
     <div className="HolidayCommonForm__fields">
       <Field
         name="enabled"
+        data-testid="HolidayCommonForm-enabledCheckbox"
         component={FormikCheckbox}
         label={I18n.t('TRADING_ENGINE.HOLIDAY.COMMON_HOLIDAY_FORM.ENABLE')}
         className="HolidayCommonForm__field HolidayCommonForm__field"
@@ -28,6 +29,7 @@ const HolidayCommonForm = () => (
       <Field
         name="description"
         type="text"
+        data-testid="HolidayCommonForm-descriptionInput"
         label={I18n.t('TRADING_ENGINE.HOLIDAY.COMMON_HOLIDAY_FORM.DESCRIPTION')}
         component={FormikInputField}
         className="HolidayCommonForm__field HolidayCommonForm__field--large"
@@ -36,6 +38,7 @@ const HolidayCommonForm = () => (
     <div className="HolidayCommonForm__fields">
       <Field
         name="annual"
+        data-testid="HolidayCommonForm-annualCheckbox"
         component={FormikCheckbox}
         label={I18n.t('TRADING_ENGINE.HOLIDAY.COMMON_HOLIDAY_FORM.EVERY_YEAR')}
         className="HolidayCommonForm__field HolidayCommonForm__field--checkbox-center"
@@ -43,11 +46,13 @@ const HolidayCommonForm = () => (
       <Field
         name="date"
         className="HolidayCommonForm__field"
+        data-testid="HolidayCommonForm-datePicker"
         label={I18n.t('TRADING_ENGINE.HOLIDAY.COMMON_HOLIDAY_FORM.DATE')}
         component={FormikDatePicker}
       />
       <Field
         className="HolidayCommonForm__field"
+        data-testid="HolidayCommonForm-timeRange"
         component={FormikTimeRangeField}
         fieldsNames={{
           from: 'timeRange.from',

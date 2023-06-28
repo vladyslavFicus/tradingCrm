@@ -45,6 +45,7 @@ const SymbolSettings = (props: Props) => {
         <Field
           disabled={!!initialValues.symbol} // Disable field only if it's edit symbol page
           name="symbol"
+          data-testid="SymbolSettings-symbolInput"
           label={I18n.t('TRADING_ENGINE.SYMBOL.SYMBOL_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}
@@ -52,6 +53,7 @@ const SymbolSettings = (props: Props) => {
         <Field
           disabled={!!initialValues.symbol} // Disable field only if it's edit symbol page
           name="source"
+          data-testid="SymbolSettings-sourceSelect"
           label={I18n.t('TRADING_ENGINE.SYMBOL.SOURCE_LABEL')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
@@ -68,6 +70,7 @@ const SymbolSettings = (props: Props) => {
         <Field
           disabled // Field should be disabled on new symbol and edit symbol page
           name="digits"
+          data-testid="SymbolSettings-digitsInput"
           label={I18n.t('TRADING_ENGINE.SYMBOL.DIGITS_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}
@@ -76,6 +79,7 @@ const SymbolSettings = (props: Props) => {
       <div className="SymbolSettings__field-container">
         <Field
           name="description"
+          data-testid="SymbolSettings-descriptionTextArea"
           label={I18n.t('TRADING_ENGINE.SYMBOL.DESCRIPTION_LABEL')}
           className="SymbolSettings__field"
           component={FormikTextAreaField}
@@ -84,6 +88,7 @@ const SymbolSettings = (props: Props) => {
       <div className="SymbolSettings__field-container">
         <Field
           name="securityName"
+          data-testid="SymbolSettings-securityNameSelect"
           label={I18n.t('TRADING_ENGINE.SYMBOL.SECURITY_LABEL')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
@@ -99,6 +104,7 @@ const SymbolSettings = (props: Props) => {
         <Field
           disabled // Field should be disabled on new symbol and edit symbol page
           name="symbolType"
+          data-testid="SymbolSettings-symbolTypeInput"
           label={I18n.t('TRADING_ENGINE.SYMBOL.TYPE_LABEL')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
@@ -110,6 +116,7 @@ const SymbolSettings = (props: Props) => {
         <Field
           disabled // Field should be disabled on new symbol and edit symbol page
           name="baseCurrency"
+          data-testid="SymbolSettings-baseCurrencyInput"
           label={I18n.t('TRADING_ENGINE.SYMBOL.BASE_CURRENCY_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}
@@ -117,6 +124,7 @@ const SymbolSettings = (props: Props) => {
         <Field
           disabled // Field should be disabled on new symbol and edit symbol page
           name="quoteCurrency"
+          data-testid="SymbolSettings-quoteCurrencyInput"
           label={I18n.t('TRADING_ENGINE.SYMBOL.QUOTE_CURRENCY_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}
@@ -126,6 +134,7 @@ const SymbolSettings = (props: Props) => {
         <Field
           type="number"
           name="bidSpread"
+          data-testid="SymbolSettings-bidSpreadInput"
           label={I18n.t('TRADING_ENGINE.SYMBOL.SPREAD_BID_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}
@@ -133,6 +142,7 @@ const SymbolSettings = (props: Props) => {
         <Field
           type="number"
           name="askSpread"
+          data-testid="SymbolSettings-askSpreadInput"
           label={I18n.t('TRADING_ENGINE.SYMBOL.SPREAD_ASK_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}
@@ -140,6 +150,7 @@ const SymbolSettings = (props: Props) => {
         <Field
           type="number"
           name="stopsLevel"
+          data-testid="SymbolSettings-stopsLevelInput"
           label={I18n.t('TRADING_ENGINE.SYMBOL.LIMIT_STOP_LABEL')}
           className="SymbolSettings__field"
           component={FormikInputField}

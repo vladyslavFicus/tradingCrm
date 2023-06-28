@@ -68,6 +68,7 @@ const OperatorHierarchyUserType = (props: Props) => {
           <Field
             name="userType"
             className="OperatorHierarchyUserType__field"
+            data-testid="OperatorHierarchyUserType-userTypeSelect"
             label={I18n.t('OPERATORS.PROFILE.HIERARCHY.FORM_LABEL.USER_TYPE')}
             component={FormikSelectField}
             disabled={isSubmitting || !allowToUpdateHierarchy}
@@ -85,6 +86,7 @@ const OperatorHierarchyUserType = (props: Props) => {
               <Button
                 primary
                 className="OperatorHierarchyUserType__button"
+                data-testid="OperatorHierarchyUserType-saveButton"
                 type="submit"
               >
                 {I18n.t('COMMON.SAVE')}

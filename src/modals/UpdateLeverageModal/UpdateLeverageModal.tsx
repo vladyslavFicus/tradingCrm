@@ -110,6 +110,7 @@ const UpdateLeverageModal = (props: Props) => {
 
               <Field
                 name="leverage"
+                data-testid="UpdateLeverageModal-leverageSelect"
                 label={I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.FORM.CHANGE_LEVERAGE')}
                 placeholder={I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.FORM.CHANGE_LEVERAGE')}
                 component={FormikSelectField}
@@ -126,6 +127,7 @@ const UpdateLeverageModal = (props: Props) => {
               <div className="UpdateLeverageModal__buttons">
                 <Button
                   className="UpdateLeverageModal__button"
+                  data-testid="UpdateLeverageModal-cancelButton"
                   onClick={onCloseModal}
                   tertiary
                 >
@@ -134,6 +136,7 @@ const UpdateLeverageModal = (props: Props) => {
 
                 <Button
                   className="UpdateLeverageModal__button"
+                  data-testid="UpdateLeverageModal-changeLeverageButton"
                   disabled={!dirty || isSubmitting}
                   type="submit"
                   primary

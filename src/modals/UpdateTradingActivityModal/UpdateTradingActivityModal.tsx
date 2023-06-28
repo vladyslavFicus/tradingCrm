@@ -72,6 +72,7 @@ const UpdateTradingActivityModal = (props: Props) => {
                 name="agentId"
                 component={FormikSelectField}
                 label={I18n.t('CHANGE_ORIGINAL_AGENT.TITLE')}
+                data-testid="UpdateTradingActivityModal-agentIdSelect"
                 disabled={loading}
               >
                 {operators.map(({ uuid, fullName, operatorStatus }) => (
@@ -87,6 +88,7 @@ const UpdateTradingActivityModal = (props: Props) => {
                 primary
                 type="submit"
                 disabled={!dirty || isSubmitting}
+                data-testid="UpdateTradingActivityModal-saveButton"
               >
                 {I18n.t('COMMON.SAVE')}
               </Button>

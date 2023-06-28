@@ -122,6 +122,7 @@ const Securities = (props: Props) => {
 
         <PermissionContent permissions={permissions.WE_TRADING.CREATE_SECURITIES}>
           <Button
+            data-testid="Securities-newSecurityButton"
             onClick={handleNewSecurityClick}
             tertiary
             small
@@ -189,7 +190,10 @@ const Securities = (props: Props) => {
             render={({ name }: Security) => (
               <>
                 <PermissionContent permissions={permissions.WE_TRADING.DELETE_SECURITY}>
-                  <TrashButton onClick={() => handleDeleteSecurityClick(name)} />
+                  <TrashButton
+                    data-testid="Securities-trashButton"
+                    onClick={() => handleDeleteSecurityClick(name)}
+                  />
                 </PermissionContent>
               </>
             )}

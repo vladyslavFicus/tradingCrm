@@ -122,6 +122,7 @@ const CreateClientCallbackModal = (props: Props) => {
               <Field
                 name="operatorId"
                 className="CreateClientCallbackModal__field"
+                data-testid="CreateClientCallbackModal-operatorIdSelect"
                 component={FormikSelectField}
                 label={I18n.t(attributeLabels.operatorId)}
                 placeholder={
@@ -140,6 +141,7 @@ const CreateClientCallbackModal = (props: Props) => {
               <Field
                 name="callbackTime"
                 className="CreateClientCallbackModal__field"
+                data-testid="CreateClientCallbackModal-callbackTimeDatePicker"
                 label={I18n.t(attributeLabels.callbackTime)}
                 component={FormikDatePicker}
                 withTime
@@ -149,6 +151,7 @@ const CreateClientCallbackModal = (props: Props) => {
               <Field
                 name="reminder"
                 className="CreateClientCallbackModal__field"
+                data-testid="CreateClientCallbackModal-reminderSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 label={I18n.t(attributeLabels.reminder)}
                 component={FormikSelectField}
@@ -175,6 +178,7 @@ const CreateClientCallbackModal = (props: Props) => {
 
             <ModalFooter>
               <Button
+                data-testid="CreateClientCallbackModal-cancelButton"
                 onClick={onCloseModal}
                 tertiary
               >
@@ -185,6 +189,7 @@ const CreateClientCallbackModal = (props: Props) => {
                 primary
                 disabled={isSubmitting}
                 type="submit"
+                data-testid="CreateClientCallbackModal-createButton"
               >
                 {I18n.t('COMMON.BUTTONS.CREATE')}
               </Button>

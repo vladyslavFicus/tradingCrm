@@ -72,6 +72,7 @@ const DistributionRuleList = (props: Props) => {
             small
             tertiary
             onClick={handleCreateRule}
+            data-testid="DistributionRuleList-addRuleButton"
           >
             {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
           </Button>

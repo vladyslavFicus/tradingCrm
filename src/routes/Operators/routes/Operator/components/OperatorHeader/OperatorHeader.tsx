@@ -168,6 +168,7 @@ const OperatorHeader = (props: Props) => {
         <If condition={isLock}>
           <Button
             className="OperatorHeader__action"
+            data-testid="OperatorHeader-unlockButton"
             onClick={handleUnlockOperatorLogin}
             primary
             small
@@ -179,6 +180,7 @@ const OperatorHeader = (props: Props) => {
         <If condition={allowResetPassword && operatorStatus === 'ACTIVE'}>
           <Button
             className="OperatorHeader__action"
+            data-testid="OperatorHeader-resetPasswordButton"
             onClick={handleOpenResetPasswordModal}
             primary
             small
@@ -190,6 +192,7 @@ const OperatorHeader = (props: Props) => {
         <If condition={allowChangePassword}>
           <Button
             className="OperatorHeader__action"
+            data-testid="OperatorHeader-changePasswordButton"
             onClick={handleOpenChangePasswordModal}
             primary
             small

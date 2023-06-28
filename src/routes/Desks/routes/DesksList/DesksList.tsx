@@ -50,6 +50,7 @@ const DesksList = () => {
 
         <If condition={allowCreateBranch}>
           <Button
+            data-testid="DesksList-addDeskButton"
             onClick={handleOpenAddDeskModal}
             tertiary
           >

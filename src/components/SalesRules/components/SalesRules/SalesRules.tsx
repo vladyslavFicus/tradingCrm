@@ -212,7 +212,6 @@ const SalesRules = (props: Props) => {
             </Otherwise>
           </Choose>
         </div>
-        k
         {partners.map(({ uuid, fullName }) => (
           <div key={uuid}>
             <Link to={`/partners/${uuid}/profile`}>{fullName}</Link>
@@ -228,10 +227,14 @@ const SalesRules = (props: Props) => {
 
   const renderActions = (rule: Rule) => (
     <>
-      <TrashButton onClick={() => handleDeleteRuleClick(rule)} />
+      <TrashButton
+        data-testid="SalesRules-trashButton"
+        onClick={() => handleDeleteRuleClick(rule)}
+      />
 
       <EditButton
         className="SalesRules__edit-button"
+        data-testid="SalesRules-editButton"
         onClick={() => handleOpenUpdateRuleModal(rule)}
       />
     </>
@@ -328,6 +331,7 @@ const SalesRules = (props: Props) => {
             small
             tertiary
             onClick={handleOpenCreateRuleModal}
+            data-testid="SalesRules-addRuleButton"
           >
             {`+ ${I18n.t('HIERARCHY.PROFILE_RULE_TAB.ADD_RULE')}`}
           </Button>

@@ -71,6 +71,7 @@ const DeleteClientCallbackModal = (props: Props) => {
 
       <ModalFooter>
         <Button
+          data-testid="DeleteClientCallbackModal-cancelButton"
           onClick={onCloseModal}
           secondary
         >
@@ -78,6 +79,7 @@ const DeleteClientCallbackModal = (props: Props) => {
         </Button>
 
         <Button
+          data-testid="DeleteClientCallbackModal-deleteButton"
           disabled={loading}
           onClick={handleSubmit}
           type="submit"

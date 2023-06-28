@@ -347,6 +347,7 @@ const ClientPersonalInfo = (props: Props) => {
                 <Button
                   tertiary
                   className="ClientPersonalInfo__show-contacts-button"
+                  data-testid="ClientPersonalInfo-showPhonesButton"
                   onClick={getProfilePhones}
                 >
                   {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW')}
@@ -390,6 +391,7 @@ const ClientPersonalInfo = (props: Props) => {
               <Button
                 tertiary
                 className="ClientPersonalInfo__show-contacts-button"
+                data-testid="ClientPersonalInfo-showEmailButton"
                 onClick={getProfileEmail}
               >
                 {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW')}
@@ -409,6 +411,7 @@ const ClientPersonalInfo = (props: Props) => {
               <Button
                 tertiary
                 className="ClientPersonalInfo__show-contacts-button"
+                data-testid="ClientPersonalInfo-showAdditionalEmailButton"
                 onClick={getProfileAdditionalEmail}
               >
                 {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.SHOW')}
@@ -465,6 +468,7 @@ const ClientPersonalInfo = (props: Props) => {
               <Form>
                 <Field
                   name="fatca"
+                  data-testid="ClientPersonalInfo-fatcaSwitch"
                   label={I18n.t('CLIENT_PROFILE.FATCA.TITLE')}
                   component={FormikSwitchField}
                   onChange={submitForm}
@@ -472,6 +476,7 @@ const ClientPersonalInfo = (props: Props) => {
 
                 <Field
                   name="crs"
+                  data-testid="ClientPersonalInfo-crsSwitch"
                   label={I18n.t('CLIENT_PROFILE.CRS.TITLE')}
                   component={FormikSwitchField}
                   onChange={submitForm}

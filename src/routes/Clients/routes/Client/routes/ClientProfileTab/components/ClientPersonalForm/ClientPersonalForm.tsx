@@ -163,6 +163,7 @@ const ClientPersonalForm = (props: Props) => {
                   small
                   primary
                   type="submit"
+                  data-testid="ClientPersonalForm-saveChangesButton"
                 >
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </Button>
@@ -174,6 +175,7 @@ const ClientPersonalForm = (props: Props) => {
                 <Field
                   name="firstName"
                   className="ClientPersonalForm__field"
+                  data-testid="ClientPersonalForm-firstNameInput"
                   label={I18n.t(attributeLabels.firstName)}
                   placeholder={I18n.t(attributeLabels.firstName)}
                   component={FormikInputField}
@@ -183,6 +185,7 @@ const ClientPersonalForm = (props: Props) => {
                 <Field
                   name="lastName"
                   className="ClientPersonalForm__field"
+                  data-testid="ClientPersonalForm-lastNameInput"
                   label={I18n.t(attributeLabels.lastName)}
                   placeholder={I18n.t(attributeLabels.lastName)}
                   component={FormikInputField}
@@ -192,6 +195,7 @@ const ClientPersonalForm = (props: Props) => {
                 <Field
                   name="gender"
                   className="ClientPersonalForm__field"
+                  data-testid="ClientPersonalForm-genderSelect"
                   label={I18n.t(attributeLabels.gender)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   component={FormikSelectField}
@@ -209,6 +213,7 @@ const ClientPersonalForm = (props: Props) => {
                 <Field
                   name="birthDate"
                   className="ClientPersonalForm__field"
+                  data-testid="ClientPersonalForm-birthDatePicker"
                   label={I18n.t(attributeLabels.birthDate)}
                   component={FormikDatePicker}
                   minDate={moment(MIN_BIRTHDATE)}
@@ -220,6 +225,7 @@ const ClientPersonalForm = (props: Props) => {
                 <Field
                   name="languageCode"
                   className="ClientPersonalForm__field"
+                  data-testid="ClientPersonalForm-languageCodeSelect"
                   label={I18n.t(attributeLabels.language)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   component={FormikSelectField}
@@ -235,6 +241,7 @@ const ClientPersonalForm = (props: Props) => {
                 <Field
                   name="timeZone"
                   className="ClientPersonalForm__field"
+                  data-testid="ClientPersonalForm-timeZoneSelect"
                   label={I18n.t(attributeLabels.timeZone)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   component={FormikSelectField}
@@ -252,6 +259,7 @@ const ClientPersonalForm = (props: Props) => {
                 <Field
                   name="identificationNumber"
                   className="ClientPersonalForm__field"
+                  data-testid="ClientPersonalForm-identificationNumberInput"
                   label={I18n.t(attributeLabels.identificationNumber)}
                   placeholder={I18n.t(attributeLabels.identificationNumber)}
                   component={FormikInputField}
@@ -261,6 +269,7 @@ const ClientPersonalForm = (props: Props) => {
                 <Field
                   name="termsAccepted"
                   className="ClientPersonalForm__field"
+                  data-testid="ClientPersonalForm-termsAcceptedSelect"
                   label={I18n.t(attributeLabels.termsAccepted)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   component={FormikSelectField}
@@ -278,6 +287,7 @@ const ClientPersonalForm = (props: Props) => {
                 <Field
                   name="passport.number"
                   className="ClientPersonalForm__field"
+                  data-testid="ClientPersonalForm-passportNumberInput"
                   label={I18n.t(attributeLabels.passportNumber)}
                   placeholder={I18n.t(attributeLabels.passportNumber)}
                   component={FormikInputField}
@@ -287,6 +297,7 @@ const ClientPersonalForm = (props: Props) => {
                 <Field
                   name="passport.expirationDate"
                   className="ClientPersonalForm__field"
+                  data-testid="ClientPersonalForm-passportExpirationDatePicker"
                   label={I18n.t(attributeLabels.expirationDate)}
                   component={FormikDatePicker}
                   disabled={isSubmitting || !allowUpdatePersonalInformation}
@@ -298,6 +309,7 @@ const ClientPersonalForm = (props: Props) => {
                 <Field
                   name="passport.countryOfIssue"
                   className="ClientPersonalForm__field"
+                  data-testid="ClientPersonalForm-passportCountryOfIssueSelect"
                   label={I18n.t(attributeLabels.countryOfIssue)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   component={FormikSelectField}
@@ -313,6 +325,7 @@ const ClientPersonalForm = (props: Props) => {
                 <Field
                   name="passport.issueDate"
                   className="ClientPersonalForm__field"
+                  data-testid="ClientPersonalForm-passportIssueDatePicker"
                   label={I18n.t(attributeLabels.passportIssueDate)}
                   component={FormikDatePicker}
                   disabled={isSubmitting || !allowUpdatePersonalInformation}
@@ -324,6 +337,7 @@ const ClientPersonalForm = (props: Props) => {
                 <Field
                   name="passport.countrySpecificIdentifier"
                   className="ClientPersonalForm__field"
+                  data-testid="ClientPersonalForm-passportCountrySpecificIdentifierInput"
                   label={I18n.t(attributeLabels.countrySpecificIdentifier)}
                   placeholder={I18n.t(attributeLabels.countrySpecificIdentifier)}
                   component={FormikInputField}
@@ -333,6 +347,7 @@ const ClientPersonalForm = (props: Props) => {
                 <Field
                   name="passport.countrySpecificIdentifierType"
                   className="ClientPersonalForm__field"
+                  data-testid="ClientPersonalForm-passportCountrySpecificIdentifierTypeSelect"
                   label={I18n.t(attributeLabels.countrySpecificIdentifierType)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   component={FormikSelectField}

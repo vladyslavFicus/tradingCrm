@@ -116,6 +116,7 @@ const AccountProfileOpenOrderBulkActions = (props: Props) => {
       <Button
         tertiary
         className="AccountProfileOpenOrderBulkActions__button"
+        data-testid="AccountProfileOpenOrderBulkActions-closeByMpButton"
         onClick={() => handleBulkCloseOrderClick(closeByEnum.MARKET_PRICE)}
       >
         {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.BULK_CLOSE_BY_MP')}
@@ -124,6 +125,7 @@ const AccountProfileOpenOrderBulkActions = (props: Props) => {
       <Button
         tertiary
         className="AccountProfileOpenOrderBulkActions__button"
+        data-testid="AccountProfileOpenOrderBulkActions-closeByTpButton"
         onClick={() => handleBulkCloseOrderClick(closeByEnum.TAKE_PROFIT)}
       >
         {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.BULK_CLOSE_BY_TP')}
@@ -132,6 +134,7 @@ const AccountProfileOpenOrderBulkActions = (props: Props) => {
       <Button
         tertiary
         className="AccountProfileOpenOrderBulkActions__button"
+        data-testid="AccountProfileOpenOrderBulkActions-closeByStButton"
         onClick={() => handleBulkCloseOrderClick(closeByEnum.STOP_LOSS)}
       >
         {I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.BULK_CLOSE_BY_SL')}

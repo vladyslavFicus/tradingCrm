@@ -100,11 +100,15 @@ const DesksGrid = (props: Props) => {
         <EditButton
           onClick={() => handleEditClick(desk)}
           className="DesksGrid__edit-button"
+          data-testid="DesksGrid-editButton"
         />
       </If>
 
       <If condition={isAllowDeleteBranch}>
-        <TrashButton onClick={() => handleDeleteClick(desk)} />
+        <TrashButton
+          data-testid="DesksGrid-trashButton"
+          onClick={() => handleDeleteClick(desk)}
+        />
       </If>
     </>
   );

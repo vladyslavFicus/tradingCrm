@@ -120,6 +120,7 @@ const OperatorsGridFilter = (props: Props) => {
               <Field
                 name="searchBy"
                 className="OperatorsGridFilter__field OperatorsGridFilter__search"
+                data-testid="OperatorsGridFilter-searchByInput"
                 label={I18n.t('OPERATORS.GRID_FILTERS.SEARCH_BY')}
                 placeholder={I18n.t('OPERATORS.GRID_FILTERS.SEARCH_BY_PLACEHOLDER')}
                 addition={<i className="icon icon-search" />}
@@ -130,6 +131,7 @@ const OperatorsGridFilter = (props: Props) => {
               <Field
                 name="country"
                 className="OperatorsGridFilter__field OperatorsGridFilter__select"
+                data-testid="OperatorsGridFilter-countrySelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('OPERATORS.GRID_FILTERS.COUNTRY')}
                 component={FormikSelectField}
@@ -149,6 +151,7 @@ const OperatorsGridFilter = (props: Props) => {
               <Field
                 name="status"
                 className="OperatorsGridFilter__field OperatorsGridFilter__select"
+                data-testid="OperatorsGridFilter-statusSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('PARTNERS.GRID_FILTERS.STATUS')}
                 component={FormikSelectField}
@@ -163,6 +166,7 @@ const OperatorsGridFilter = (props: Props) => {
 
               <Field
                 className="OperatorsGridFilter__field OperatorsGridFilter__date-range"
+                data-testid="OperatorsGridFilter-registrationDateRangePicker"
                 label={I18n.t('OPERATORS.GRID_FILTERS.REGISTRATION_DATE_RANGE')}
                 component={FormikDateRangePicker}
                 fieldsNames={{
@@ -175,6 +179,7 @@ const OperatorsGridFilter = (props: Props) => {
               <Field
                 name="offices"
                 className="OperatorsGridFilter__field OperatorsGridFilter__select"
+                data-testid="OperatorsGridFilter-officesSelect"
                 label={I18n.t('OPERATORS.GRID_FILTERS.OFFICES')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -193,6 +198,7 @@ const OperatorsGridFilter = (props: Props) => {
               <Field
                 name="desks"
                 className="OperatorsGridFilter__field OperatorsGridFilter__select"
+                data-testid="OperatorsGridFilter-desksSelect"
                 label={I18n.t('OPERATORS.GRID_FILTERS.DESKS')}
                 placeholder={
                   I18n.t(
@@ -215,6 +221,7 @@ const OperatorsGridFilter = (props: Props) => {
               <Field
                 name="teams"
                 className="OperatorsGridFilter__field OperatorsGridFilter__select"
+                data-testid="OperatorsGridFilter-teamsSelect"
                 label={I18n.t('OPERATORS.GRID_FILTERS.TEAMS')}
                 placeholder={
                   I18n.t(
@@ -237,6 +244,7 @@ const OperatorsGridFilter = (props: Props) => {
               <Field
                 name="authorities.department"
                 className="OperatorsGridFilter__field OperatorsGridFilter__select"
+                data-testid="OperatorsGridFilter-authoritiesDepartmentSelect"
                 label={I18n.t(attributeLabels.department)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
@@ -255,6 +263,7 @@ const OperatorsGridFilter = (props: Props) => {
 
               <Field
                 name="authorities.roles"
+                data-testid="OperatorsGridFilter-authoritiesRolesSelect"
                 label={I18n.t(attributeLabels.roles)}
                 className="OperatorsGridFilter__field OperatorsGridFilter__select"
                 component={FormikSelectField}
@@ -275,11 +284,13 @@ const OperatorsGridFilter = (props: Props) => {
             <div className="OperatorsGridFilter__buttons">
               <RefreshButton
                 className="OperatorsGridFilter__button"
+                data-testid="OperatorsGridFilter-refreshButton"
                 onClick={onRefetch}
               />
 
               <Button
                 className="OperatorsGridFilter__button"
+                data-testid="OperatorsGridFilter-resetButton"
                 onClick={() => handleReset(resetForm)}
                 disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                 primary
@@ -289,6 +300,7 @@ const OperatorsGridFilter = (props: Props) => {
 
               <Button
                 className="OperatorsGridFilter__button"
+                data-testid="OperatorsGridFilter-applyButton"
                 disabled={isSubmitting || !dirty}
                 type="submit"
                 primary

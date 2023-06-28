@@ -72,6 +72,7 @@ const UpdateDepositAmountModal = (props: Props) => {
               <div className="UpdateDepositAmountModal__fields">
                 <Field
                   name="currency"
+                  data-testid="UpdateDepositAmountModal-currencySelect"
                   label={I18n.t('FEATURE_TOGGLES.MODALS.UPDATE_DEPOSIT_AMOUNT.CURRENCY')}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   className="UpdateDepositAmountModal__field--large"
@@ -87,6 +88,7 @@ const UpdateDepositAmountModal = (props: Props) => {
 
                 <Field
                   name="min"
+                  data-testid="UpdateDepositAmountModal-minInput"
                   label={I18n.t('FEATURE_TOGGLES.MODALS.UPDATE_DEPOSIT_AMOUNT.MIN_DEPOSIT')}
                   className="UpdateDepositAmountModal__field"
                   component={FormikInputField}
@@ -96,6 +98,7 @@ const UpdateDepositAmountModal = (props: Props) => {
 
                 <Field
                   name="max"
+                  data-testid="UpdateDepositAmountModal-maxInput"
                   label={I18n.t('FEATURE_TOGGLES.MODALS.UPDATE_DEPOSIT_AMOUNT.MAX_DEPOSIT')}
                   className="UpdateDepositAmountModal__field"
                   component={FormikInputField}
@@ -107,6 +110,7 @@ const UpdateDepositAmountModal = (props: Props) => {
 
             <ModalFooter>
               <Button
+                data-testid="UpdateDepositAmountModal-cancelButton"
                 onClick={onCloseModal}
                 tertiary
               >
@@ -114,6 +118,7 @@ const UpdateDepositAmountModal = (props: Props) => {
               </Button>
 
               <Button
+                data-testid="UpdateDepositAmountModal-saveButton"
                 type="submit"
                 disabled={!dirty || isSubmitting}
                 primary

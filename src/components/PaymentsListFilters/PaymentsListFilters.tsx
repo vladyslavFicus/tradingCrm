@@ -39,6 +39,7 @@ import { firstTimeDepositFilter } from './constants';
 import { useOperatorsQuery } from './graphql/__generated__/OperatorsQuery';
 import { useDesksAndTeamsQuery } from './graphql/__generated__/DesksAndTeamsQuery';
 import { usePaymentMethodsQuery } from './graphql/__generated__/PaymentMethodsQuery';
+import { usePaymentSystemsProviderQuery } from './graphql/__generated__/PaymentSystemsProviderQuery';
 import './PaymentsListFilters.scss';
 
 export type FormValues = Omit<PaymentSearch, 'page'> & TimeZone;
@@ -59,6 +60,20 @@ const PaymentsListFilters = (props: Props) => {
   const history = useHistory();
 
   // ===== Requests ===== //
+  const { data: pspData } = usePaymentSystemsProviderQuery({
+    variables: {
+      args: {
+        withFavouriteStatus: true,
+        page: {
+          from: 0,
+          size: 1000,
+        },
+      },
+    },
+  });
+
+  const paymentSystemsProvider = pspData?.settings?.paymentSystemsProvider?.content || [];
+
   const operatorsQuery = useOperatorsQuery({
     variables: {
       page: {
@@ -181,6 +196,7 @@ const PaymentsListFilters = (props: Props) => {
                   <Field
                     name="searchParam"
                     className="PaymentsListFilters__field PaymentsListFilters__search"
+                    data-testid="PaymentsListFilters-searchParamInput"
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.KEYWORD')}
                     placeholder={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_PLACEHOLDERS.KEYWORD')}
                     addition={<i className="icon icon-search" />}
@@ -190,6 +206,7 @@ const PaymentsListFilters = (props: Props) => {
 
                   <Field
                     className="PaymentsListFilters__field PaymentsListFilters__date-range"
+                    data-testid="PaymentsListFilters-creationTimeDateRangePicker"
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.CREATION_DATE_RANGE')}
                     component={FormikDateRangePicker}
                     fieldsNames={{
@@ -201,6 +218,7 @@ const PaymentsListFilters = (props: Props) => {
 
                   <Field
                     className="PaymentsListFilters__field PaymentsListFilters__date-range"
+                    data-testid="PaymentsListFilters-modificationTimeDateRangePicker"
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.MODIFICATION_DATE_RANGE')}
                     component={FormikDateRangePicker}
                     fieldsNames={{
@@ -212,6 +230,7 @@ const PaymentsListFilters = (props: Props) => {
 
                   <Field
                     className="PaymentsListFilters__field PaymentsListFilters__date-range"
+                    data-testid="PaymentsListFilters-statusChangedTimeDateRangePicker"
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUS_DATE_RANGE')}
                     component={FormikDateRangePicker}
                     fieldsNames={{
@@ -222,12 +241,16 @@ const PaymentsListFilters = (props: Props) => {
                   />
 
                   <If condition={!clientView}>
-                    <TimeZoneField className="PaymentsListFilters__field PaymentsListFilters__select" />
+                    <TimeZoneField
+                      className="PaymentsListFilters__field PaymentsListFilters__select"
+                      data-testid="PaymentsListFilters-timeZone"
+                    />
                   </If>
 
                   <Field
                     name="paymentAggregator"
                     className="PaymentsListFilters__field PaymentsListFilters__select"
+                    data-testid="PaymentsListFilters-paymentAggregatorSelect"
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_AGGREGATOR')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -244,6 +267,7 @@ const PaymentsListFilters = (props: Props) => {
                   <Field
                     name="paymentMethods"
                     className="PaymentsListFilters__field PaymentsListFilters__select"
+                    data-testid="PaymentsListFilters-paymentMethodsSelect"
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_METHOD')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     disabled={paymentMethodsLoading}
@@ -260,8 +284,26 @@ const PaymentsListFilters = (props: Props) => {
                   </Field>
 
                   <Field
+                    name="bankName"
+                    className="PaymentsListFilters__field PaymentsListFilters__select"
+                    data-testid="PaymentsListFilters-bankNameSelect"
+                    label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_SYSTEM')}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                    component={FormikSelectField}
+                    withFocus
+                    withGroup={{ firstTitle: 'COMMON.FAVORITE', secondTitle: 'COMMON.OTHER' }}
+                  >
+                    {paymentSystemsProvider.map(({ paymentSystem, isFavourite }) => (
+                      <option key={paymentSystem} value={paymentSystem} data-isFavourite={isFavourite}>
+                        {formatLabel(paymentSystem, false)}
+                      </option>
+                    ))}
+                  </Field>
+
+                  <Field
                     name="paymentTypes"
                     className="PaymentsListFilters__field PaymentsListFilters__select"
+                    data-testid="PaymentsListFilters-paymentTypesSelect"
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -281,6 +323,7 @@ const PaymentsListFilters = (props: Props) => {
                   <Field
                     name="statuses"
                     className="PaymentsListFilters__field PaymentsListFilters__select"
+                    data-testid="PaymentsListFilters-statusesSelect"
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUSES')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -300,6 +343,7 @@ const PaymentsListFilters = (props: Props) => {
                     <Field
                       name="countries"
                       className="PaymentsListFilters__field PaymentsListFilters__select"
+                      data-testid="PaymentsListFilters-countriesSelect"
                       label={I18n.t('PROFILE.LIST.FILTERS.COUNTRY')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
@@ -319,6 +363,7 @@ const PaymentsListFilters = (props: Props) => {
                     <Field
                       name="affiliateUuids"
                       className="PaymentsListFilters__field PaymentsListFilters__select"
+                      data-testid="PaymentsListFilters-affiliateUuidsSelect"
                       label={I18n.t('PROFILE.LIST.FILTERS.AFFILIATES')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
@@ -338,6 +383,7 @@ const PaymentsListFilters = (props: Props) => {
                   <Field
                     name="desks"
                     className="PaymentsListFilters__field PaymentsListFilters__select"
+                    data-testid="PaymentsListFilters-desksSelect"
                     label={I18n.t('PROFILE.LIST.FILTERS.DESKS')}
                     placeholder={
                       I18n.t(
@@ -362,6 +408,7 @@ const PaymentsListFilters = (props: Props) => {
                   <Field
                     name="teams"
                     className="PaymentsListFilters__field PaymentsListFilters__select"
+                    data-testid="PaymentsListFilters-teamsSelect"
                     label={I18n.t('PROFILE.LIST.FILTERS.TEAMS')}
                     placeholder={
                       I18n.t(
@@ -386,6 +433,7 @@ const PaymentsListFilters = (props: Props) => {
                   <Field
                     name="agentIds"
                     className="PaymentsListFilters__field PaymentsListFilters__select"
+                    data-testid="PaymentsListFilters-agentIdsSelect"
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ORIGINAL_AGENT')}
                     placeholder={
                       I18n.t(
@@ -416,6 +464,7 @@ const PaymentsListFilters = (props: Props) => {
                   <Field
                     name="accountType"
                     className="PaymentsListFilters__field PaymentsListFilters__select"
+                    data-testid="PaymentsListFilters-accountTypeSelect"
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -432,6 +481,7 @@ const PaymentsListFilters = (props: Props) => {
                   <If condition={platformTypes.length > 1}>
                     <Field
                       name="platformType"
+                      data-testid="PaymentsListFilters-platformTypeSelect"
                       label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       className="PaymentsListFilters__field PaymentsListFilters__select"
@@ -448,6 +498,7 @@ const PaymentsListFilters = (props: Props) => {
                   <Field
                     name="warnings"
                     className="PaymentsListFilters__field PaymentsListFilters__select"
+                    data-testid="PaymentsListFilters-warningsSelect"
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.WARNING')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -464,6 +515,7 @@ const PaymentsListFilters = (props: Props) => {
                   <Field
                     name="firstTimeDeposit"
                     className="PaymentsListFilters__field PaymentsListFilters__select"
+                    data-testid="PaymentsListFilters-firstTimeDepositSelect"
                     label={I18n.t('PROFILE.LIST.FILTERS.FIRST_DEPOSIT')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -480,6 +532,7 @@ const PaymentsListFilters = (props: Props) => {
 
                   <RangeGroup
                     className="PaymentsListFilters__field PaymentsListFilters__range-inputs"
+                    data-testid="PaymentsListFilters-amountRangeGroup"
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.AMOUNT')}
                   >
                     <Field
@@ -490,6 +543,7 @@ const PaymentsListFilters = (props: Props) => {
                       placeholder="0.0"
                       component={FormikInputField}
                       className="PaymentsListFilters__field"
+                      data-testid="PaymentsListFilters-amountFromInput"
                       withFocus
                     />
 
@@ -501,6 +555,7 @@ const PaymentsListFilters = (props: Props) => {
                       placeholder="0.0"
                       component={FormikInputField}
                       className="PaymentsListFilters__field"
+                      data-testid="PaymentsListFilters-amountToInput"
                       withFocus
                     />
                   </RangeGroup>
@@ -508,6 +563,7 @@ const PaymentsListFilters = (props: Props) => {
                   <Field
                     name="currency"
                     className="PaymentsListFilters__field PaymentsListFilters__select"
+                    data-testid="PaymentsListFilters-currencySelect"
                     label={I18n.t('COMMON.CURRENCY')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -522,17 +578,19 @@ const PaymentsListFilters = (props: Props) => {
                   </Field>
 
                   <div className="PaymentsListFilters__buttons">
-                    <FilterSetsButtons />
+                    <FilterSetsButtons data-testid="PaymentsListFilters-filterSetsButtons" />
 
                     <div className="PaymentsListFilters__buttons-group">
                       <RefreshButton
                         onClick={onRefetch}
                         className="PaymentsListFilters__button"
+                        data-testid="PaymentsListFilters-refreshButton"
                       />
 
                       <Button
                         onClick={handleReset}
                         className="PaymentsListFilters__button"
+                        data-testid="PaymentsListFilters-resetButton"
                         disabled={paymentsLoading || isSubmitting || !checkIsDirty(values)}
                         primary
                       >
@@ -542,6 +600,7 @@ const PaymentsListFilters = (props: Props) => {
                       <Button
                         type="submit"
                         className="PaymentsListFilters__button"
+                        data-testid="PaymentsListFilters-applyButton"
                         disabled={paymentsLoading || isSubmitting || !dirty}
                         primary
                       >

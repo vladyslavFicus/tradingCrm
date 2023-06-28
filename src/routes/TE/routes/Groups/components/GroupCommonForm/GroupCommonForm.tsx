@@ -30,6 +30,7 @@ const GroupCommonForm = (props: Props) => {
       <div className="GroupCommonForm__fields">
         <Field
           name="accountCreationAllowed"
+          data-testid="GroupCommonForm-accountCreationAllowedCheckbox"
           component={FormikCheckbox}
           label={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.ACCOUNT_CREATION_ALLOWED')}
           className="GroupCommonForm__field GroupCommonForm__field--center"
@@ -41,6 +42,7 @@ const GroupCommonForm = (props: Props) => {
           component={FormikInputField}
           type="text"
           className="GroupCommonForm__field"
+          data-testid="GroupCommonForm-groupNameInput"
           disabled={!!groupName || archived}
         />
         <Field
@@ -49,11 +51,13 @@ const GroupCommonForm = (props: Props) => {
           component={FormikInputField}
           type="text"
           className="GroupCommonForm__field"
+          data-testid="GroupCommonForm-descriptionInput"
           disabled={archived}
         />
         <Field
           label={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.DEPOSIT_CURRENCY')}
           name="currency"
+          data-testid="GroupCommonForm-currencySelect"
           component={FormikSelectField}
           className="GroupCommonForm__field"
           disabled={!!groupName || archived}
@@ -69,6 +73,7 @@ const GroupCommonForm = (props: Props) => {
           name="defaultLeverage"
           component={FormikSelectField}
           className="GroupCommonForm__field"
+          data-testid="GroupCommonForm-defaultLeverageSelect"
           disabled={archived}
         >
           {enumToArray(DefaultLeverage).map(value => (

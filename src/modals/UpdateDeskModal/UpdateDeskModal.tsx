@@ -93,6 +93,7 @@ const UpdateDeskModal = (props: Props) => {
               <Field
                 name="name"
                 className="UpdateDeskModal__field UpdateDeskModal__name"
+                data-testid="UpdateDeskModal-nameInput"
                 label={I18n.t(attributeLabels.name)}
                 placeholder={I18n.t(attributeLabels.name)}
                 component={FormikInputField}
@@ -102,6 +103,7 @@ const UpdateDeskModal = (props: Props) => {
               <Field
                 name="deskType"
                 className="UpdateDeskModal__field UpdateDeskModal__desk-type"
+                data-testid="UpdateDeskModal-deskTypeSelect"
                 component={FormikSelectField}
                 label={I18n.t(attributeLabels.deskType)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -117,6 +119,7 @@ const UpdateDeskModal = (props: Props) => {
               <Field
                 name="language"
                 className="UpdateDeskModal__field"
+                data-testid="UpdateDeskModal-languageSelect"
                 component={FormikSelectField}
                 label={I18n.t(attributeLabels.language)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -134,6 +137,7 @@ const UpdateDeskModal = (props: Props) => {
               <Button
                 onClick={onCloseModal}
                 className="UpdateDeskModal__button"
+                data-testid="UpdateDeskModal-cancelButton"
                 tertiary
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -141,6 +145,7 @@ const UpdateDeskModal = (props: Props) => {
 
               <Button
                 className="UpdateDeskModal__button"
+                data-testid="UpdateDeskModal-updateButton"
                 primary
                 disabled={isSubmitting}
                 type="submit"

@@ -64,6 +64,7 @@ const AcquisitionStatusesFilter = (props: Props) => {
             <Field
               name="statusName"
               className="AcquisitionStatusesFilter__field"
+              data-testid="AcquisitionStatusesFilter-statusNameInput"
               label={I18n.t('SETTINGS.ACQUISITION_STATUSES.FORM.FIELDS.SEARCH_BY')}
               placeholder={I18n.t('SETTINGS.ACQUISITION_STATUSES.FORM.FIELDS.SEARCH_BY_PLACEHOLDER')}
               addition={<i className="icon icon-search" />}
@@ -74,6 +75,7 @@ const AcquisitionStatusesFilter = (props: Props) => {
 
             <Field
               name="type"
+              data-testid="AcquisitionStatusesFilter-typeSelect"
               label={I18n.t('SETTINGS.ACQUISITION_STATUSES.FORM.FIELDS.ACQUISITION_STATUS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="AcquisitionStatusesFilter__field"
@@ -93,11 +95,13 @@ const AcquisitionStatusesFilter = (props: Props) => {
           <div className="AcquisitionStatusesFilter__buttons">
             <RefreshButton
               className="AcquisitionStatusesFilter__button"
+              data-testid="AcquisitionStatusesFilter-refreshButton"
               onClick={onRefresh}
             />
 
             <Button
               className="AcquisitionStatusesFilter__button"
+              data-testid="AcquisitionStatusesFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -107,6 +111,7 @@ const AcquisitionStatusesFilter = (props: Props) => {
 
             <Button
               className="AcquisitionStatusesFilter__button"
+              data-testid="AcquisitionStatusesFilter-applyButton"
               type="submit"
               disabled={isSubmitting || !dirty}
               primary

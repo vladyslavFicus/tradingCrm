@@ -112,7 +112,8 @@
         "ROLES_AND_PERMISSIONS": "Roles & Permissions",
         "EMAIL_TEMPLATES": "Email templates",
         "ACQUISITION_STATUSES": "Acquisition statuses",
-        "FEATURE_TOGGLES": "Feature toggles"
+        "FEATURE_TOGGLES": "Feature toggles",
+        "PSP": "PSP"
       },
       "TRADING_ENGINE": {
         "TITLE": "Trading Engine",
@@ -560,6 +561,7 @@
     "APPLY": "Apply",
     "MARK_AS_READ": "Mark as read",
     "EXPORT": "Export",
+    "FAVORITE": "Favourite",
     "FROM": "from",
     "EMAIL": "Email",
     "EMAIL_ALT": "Alt Email",
@@ -1248,7 +1250,9 @@
         "OPERATOR_TYPE_UPDATED": "Hierarchy changed",
         "OPERATOR_BRANCH_ADDED": "Operator - Branch added",
         "OPERATOR_BRANCH_DELETED": "Operator - Branch deleted",
-        "LEAD_CREATED": "Lead created"
+        "LEAD_CREATED": "Lead created",
+        "FAVOURITE_PAYMENT_SYSTEM_ADDED": "Favourite payment system added",
+        "FAVOURITE_PAYMENT_SYSTEM_DELETED": "Favourite payment system deleted"
       },
       "KYC_CONFIRMATION": {
         "TRANSACTION": "Transaction ID",
@@ -1351,7 +1355,8 @@
         "CRYPTOCURRENCY_EXTERNAL": "Cryptocurrency external",
         "VOGUEPAY": "Voguepay",
         "INTERNAL_TRANSFER": "Internal transfer",
-        "BONUS": "Bonus"
+        "BONUS": "Bonus",
+        "COMMISSION": "Commission"
       },
       "PAYMENT_AGGREGATORS": {
         "MANUAL": "Manual",
@@ -1395,6 +1400,7 @@
           "TYPE": "Transaction type",
           "STATUSES": "Transaction status",
           "PAYMENT_METHOD": "Payment method",
+          "PAYMENT_SYSTEM": "Payment system",
           "PAYMENT_AGGREGATOR": "Payment aggregator",
           "START_DATE": "Start date",
           "END_DATE": "End date",
@@ -1426,7 +1432,8 @@
           "RECALL": "Recall",
           "CHARGEBACK": "Chargeback",
           "CASHIER": "CASHIER",
-          "REFERRAL_BONUS": "Referral bonus"
+          "REFERRAL_BONUS": "Referral bonus",
+          "COMMISSION": "Commission"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "Transaction ID, Affiliate ID, Player, External reference",
@@ -3119,6 +3126,7 @@
         "PAYMENT_METHOD": "Payment method",
         "PAYMENT_SYSTEM": "Payment system",
         "PAYMENT_SYSTEM_NAME": "Payment system name",
+        "COMMISSION_CURRENCY": "Currency",
         "EXTERNAL_REF": "External reference ID",
         "EXPIRATION_DATE": "Expiration date & time",
         "FROM_ACC": "From account",
@@ -3126,7 +3134,13 @@
         "NO_MONEY": "Insufficient funds",
         "CREDIT": "Credit",
         "BALANCE": "Balance",
-        "GROUP": "Group"
+        "GROUP": "Group",
+        "COMMISSION_CURRENCIES": {
+          "USDT_TRC20": "USDT (TRC20)",
+          "USDT_ERC20": "USDT (ERC20)",
+          "BTC_BTC": "BTC (BTC)",
+          "ETH_ETH": "ETH (ETH)"
+        }
       },
       "GRID_COLUMNS": {
         "TRANSACTION": "Transaction",
@@ -5145,6 +5159,28 @@
           }
         }
       }
+    },
+    "PSP": {
+      "HEADLINE": "PSP",
+      "GRID": {
+        "PSP": "PSP",
+        "FAVOURITE": "Favourite"
+      },
+      "TYPES": {
+        "FAVOURITE": "Favourite",
+        "NO_FAVOURITE": "No favourite"
+      },
+      "TABS": {
+        "LIST": "PSP",
+        "FEED": "Feed"
+      },
+      "FORM": {
+        "FIELDS": {
+          "SEARCH_BY": "Search by",
+          "SEARCH_BY_PLACEHOLDER": "PSP name",
+          "FAVOURITE_PSP": "Favourite PSP"
+        }
+      }
     }
   },
   "IP_WHITELIST": {
@@ -6104,7 +6140,8 @@
           "PAYRETAILERS": "Pay Retailers",
           "RECALL": "Recall",
           "SYSTEM": "System",
-          "WIRE": "Wire"
+          "WIRE": "Wire",
+          "COMMISSION": "Commission"
         }
       },
       "ip-white-list": {
@@ -6139,6 +6176,13 @@
           "delete": "Delete acquisition status"
         }
       },
+      "psp": {
+        "TITLE": "PSP",
+        "PERMISSIONS": {
+          "list": "View PSP",
+          "update": "Update favourite payment systems"
+        }
+      },
       "sidebar-menu": {
         "TITLE": "Sidebar menu (visual)",
         "PERMISSIONS": {
@@ -6163,7 +6207,8 @@
           "settingsEmailTemplates": "Settings. Email templates",
           "settingsRbac": "Settings. RBAC",
           "settingsAcquisitionStatuses": "Settings. Acquisition statuses",
-          "settingsFeatureToggles": "Settings. Feature toggles"
+          "settingsFeatureToggles": "Settings. Feature toggles",
+          "settingsPaymentSystemsProvider": "Settings. Payment systems provider"
         }
       }
     }
@@ -6211,20 +6256,21 @@
         "TITLE": "Account quantity",
         "DESCRIPTION": "Feature allows to set the maximum number of accounts that a client can create from the client portal."
       },
-      "CHANGE_PASSWORD": {
-        "TITLE": "Change password",
-        "DESCRIPTION": "Feature allows to show client ability to change the password on the client portal."
+      "HIDE_CHANGE_PASSWORD": {
+        "TITLE": "Hide change password",
+        "DESCRIPTION": "Feature allows to hide client ability to change the password on the client portal."
       },
       "AUTO_LOGOUT": {
         "TITLE": "Auto logout",
         "DESCRIPTION": "Feature allows to enable automatic logout of a client that came from an affiliate. \n After the 1st login, the system will log out the client and at the next login will ask the client to change the password, after changing the password, the client can work normally without logging out.\n The logout time is configurable"
       },
-      "LOGOUT_TIME": "Logout time (seconds)",
+      "LOGOUT_TIME": "Logout time (minutes)",
       "SUBMIT": {
         "REQUIRED_FIELD": "The field is required.",
         "TITLE": "Feature toggles updating",
         "SUCCESS": "Feature toggles updated successfully",
-        "ERROR": "Feature toggles was not updated for some reason"
+        "ERROR": "Feature toggles was not updated for some reason",
+        "GREATER_THAN_NULL": "Field must be more 0."
       },
       "TABLE": {
         "TITLE": "Max & Min deposit amount",

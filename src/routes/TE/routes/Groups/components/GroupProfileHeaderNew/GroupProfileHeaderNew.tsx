@@ -60,6 +60,7 @@ const GroupProfileHeaderNew = (props: Props) => {
             disabled={groupTemplates.loading}
             onChange={onChangeHandler}
             value={templateNameGroup}
+            data-testid="GroupProfileHeaderNew-groupTemplateSelect"
             placeholder={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.GROUP_TEMPLATE')}
           >
             {content.map((group: Group) => (
@@ -76,6 +77,7 @@ const GroupProfileHeaderNew = (props: Props) => {
           disabled={!dirty || isSubmitting || !isValid}
           type="submit"
           className="GroupProfileHeaderNew__button"
+          data-testid="GroupProfileHeaderNew-saveButton"
         >
           {I18n.t('COMMON.SAVE')}
         </Button>

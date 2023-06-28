@@ -278,6 +278,7 @@ const UpdateRepresentativeModal = (props: Props) => {
               <ModalBody>
                 <Field
                   name="desk"
+                  data-testid="UpdateRepresentativeModal-deskSelect"
                   label={I18n.t(attributeLabels(type).desk)}
                   placeholder={
                     !isDesksTeamsLoading && !desks.length
@@ -299,6 +300,7 @@ const UpdateRepresentativeModal = (props: Props) => {
 
                 <Field
                   name="team"
+                  data-testid="UpdateRepresentativeModal-teamSelect"
                   label={I18n.t(attributeLabels(type).team)}
                   placeholder={
                     !isDesksTeamsLoading && !teams.length
@@ -320,6 +322,7 @@ const UpdateRepresentativeModal = (props: Props) => {
 
                 <Field
                   name="operators"
+                  data-testid="UpdateRepresentativeModal-operatorsSelect"
                   label={I18n.t(attributeLabels(type).operator)}
                   placeholder={
                     !isOperatorsLoading && !filteredOperators.length
@@ -340,6 +343,7 @@ const UpdateRepresentativeModal = (props: Props) => {
 
                 <Field
                   name="status"
+                  data-testid="UpdateRepresentativeModal-statusSelect"
                   label={I18n.t(attributeLabels(type).status)}
                   component={FormikSelectField}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -367,12 +371,17 @@ const UpdateRepresentativeModal = (props: Props) => {
               </ModalBody>
 
               <ModalFooter>
-                <Button onClick={onCloseModal} tertiary>
+                <Button
+                  data-testid="UpdateRepresentativeModal-cancelButton"
+                  onClick={onCloseModal}
+                  tertiary
+                >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </Button>
 
                 <Button
                   type="submit"
+                  data-testid="UpdateRepresentativeModal-submitButton"
                   disabled={!dirty || isSubmitting}
                   primary
                 >

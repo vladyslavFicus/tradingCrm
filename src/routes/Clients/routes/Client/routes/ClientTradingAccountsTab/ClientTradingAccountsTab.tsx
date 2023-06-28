@@ -63,7 +63,7 @@ const ClientTradingAccountsTab = () => {
       >
         <If condition={allowCreateTradingAccount}>
           <Button
-            data-testid="addAccountButton"
+            data-testid="ClientTradingAccountsTab-addAccountButton"
             onClick={handleOpenCreateTradingAccountModal}
             tertiary
             small

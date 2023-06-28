@@ -174,6 +174,7 @@ const CreateOperatorModal = (props: Props) => {
                 <Field
                   name="firstName"
                   className="CreateOperatorModal__field"
+                  data-testid="CreateOperatorModal-firstNameInput"
                   label={I18n.t(attributeLabels.firstName)}
                   placeholder={I18n.t(attributeLabels.firstName)}
                   component={FormikInputField}
@@ -183,6 +184,7 @@ const CreateOperatorModal = (props: Props) => {
                 <Field
                   name="lastName"
                   className="CreateOperatorModal__field"
+                  data-testid="CreateOperatorModal-lastNameInput"
                   label={I18n.t(attributeLabels.lastName)}
                   placeholder={I18n.t(attributeLabels.lastName)}
                   component={FormikInputField}
@@ -192,6 +194,7 @@ const CreateOperatorModal = (props: Props) => {
                 <Field
                   name="email"
                   className="CreateOperatorModal__field"
+                  data-testid="CreateOperatorModal-emailInput"
                   label={I18n.t(attributeLabels.email)}
                   placeholder={I18n.t(attributeLabels.email)}
                   component={FormikInputField}
@@ -201,6 +204,7 @@ const CreateOperatorModal = (props: Props) => {
                 <Field
                   name="password"
                   className="CreateOperatorModal__field"
+                  data-testid="CreateOperatorModal-passwordInput"
                   label={I18n.t(attributeLabels.password)}
                   placeholder={I18n.t(attributeLabels.password)}
                   addition={<span className="icon-generate-password" />}
@@ -212,6 +216,7 @@ const CreateOperatorModal = (props: Props) => {
                 <Field
                   name="phone"
                   className="CreateOperatorModal__field"
+                  data-testid="CreateOperatorModal-phoneInput"
                   label={I18n.t(attributeLabels.phone)}
                   placeholder={I18n.t(attributeLabels.phone)}
                   component={FormikInputField}
@@ -221,6 +226,7 @@ const CreateOperatorModal = (props: Props) => {
                 <Field
                   name="userType"
                   className="CreateOperatorModal__field"
+                  data-testid="CreateOperatorModal-userTypeSelect"
                   label={I18n.t(attributeLabels.userType)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   component={FormikSelectField}
@@ -237,6 +243,7 @@ const CreateOperatorModal = (props: Props) => {
                 <Field
                   name="department"
                   className="CreateOperatorModal__field"
+                  data-testid="CreateOperatorModal-departmentSelect"
                   label={I18n.t(attributeLabels.department)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   component={FormikSelectField}
@@ -253,6 +260,7 @@ const CreateOperatorModal = (props: Props) => {
                 <Field
                   name="role"
                   className="CreateOperatorModal__field"
+                  data-testid="CreateOperatorModal-roleSelect"
                   label={I18n.t(attributeLabels.role)}
                   placeholder={
                     rolesOptions.length
@@ -273,6 +281,7 @@ const CreateOperatorModal = (props: Props) => {
                 <Field
                   name="branchType"
                   className="CreateOperatorModal__field"
+                  data-testid="CreateOperatorModal-branchTypeSelect"
                   label={I18n.t(attributeLabels.branchType)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   component={FormikSelectField}
@@ -289,6 +298,7 @@ const CreateOperatorModal = (props: Props) => {
                 <Field
                   name="branchId"
                   className="CreateOperatorModal__field"
+                  data-testid="CreateOperatorModal-branchIdSelect"
                   label={I18n.t(attributeLabels.branch)}
                   placeholder={
                     values.branchType
@@ -318,6 +328,7 @@ const CreateOperatorModal = (props: Props) => {
                   <Button
                     onClick={onCloseModal}
                     className="CreateOperatorModal__button"
+                    data-testid="CreateOperatorModal-cancelButton"
                     tertiary
                   >
                     {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -325,6 +336,7 @@ const CreateOperatorModal = (props: Props) => {
 
                   <Button
                     className="CreateOperatorModal__button"
+                    data-testid="CreateOperatorModal-createAndOpenButton"
                     primary
                     disabled={isSubmitting}
                     type="submit"

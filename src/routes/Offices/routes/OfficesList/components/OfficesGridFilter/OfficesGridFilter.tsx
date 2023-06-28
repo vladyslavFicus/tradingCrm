@@ -61,6 +61,7 @@ const OfficesGridFilter = (props: Props) => {
             <Field
               name="keyword"
               className="OfficesGridFilter__field OfficesGridFilter__search"
+              data-testid="OfficesGridFilter-keywordInput"
               label={I18n.t(filterLabels.searchValue)}
               placeholder={I18n.t('COMMON.NAME')}
               addition={<i className="icon icon-search" />}
@@ -71,6 +72,7 @@ const OfficesGridFilter = (props: Props) => {
             <Field
               name="country"
               className="OfficesGridFilter__field OfficesGridFilter__select"
+              data-testid="OfficesGridFilter-countrySelect"
               label={I18n.t(filterLabels.country)}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               component={FormikSelectField}
@@ -87,11 +89,13 @@ const OfficesGridFilter = (props: Props) => {
           <div className="OfficesGridFilter__buttons">
             <RefreshButton
               className="OfficesGridFilter__button"
+              data-testid="OfficesGridFilter-refreshButton"
               onClick={onRefetch}
             />
 
             <Button
               className="OfficesGridFilter__button"
+              data-testid="OfficesGridFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -101,6 +105,7 @@ const OfficesGridFilter = (props: Props) => {
 
             <Button
               className="OfficesGridFilter__button"
+              data-testid="OfficesGridFilter-applyButton"
               disabled={isSubmitting || !dirty}
               type="submit"
               primary

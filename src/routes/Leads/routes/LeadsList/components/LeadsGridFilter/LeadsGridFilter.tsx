@@ -127,6 +127,7 @@ const LeadsGridFilter = (props:Props) => {
                 placeholder={I18n.t('COMMON.SEARCH_BY.LEAD')}
                 addition={<i className="icon icon-search" />}
                 component={FormikInputField}
+                data-testid="LeadsGridFilter-searchKeywordInput"
                 withFocus
               />
 
@@ -136,6 +137,7 @@ const LeadsGridFilter = (props:Props) => {
                 label={I18n.t(attributeLabels.languages)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
+                data-testid="LeadsGridFilter-languagesSelect"
                 searchable
                 withFocus
                 multiple
@@ -153,6 +155,7 @@ const LeadsGridFilter = (props:Props) => {
                 label={I18n.t(attributeLabels.countries)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
+                data-testid="LeadsGridFilter-countriesSelect"
                 searchable
                 withFocus
                 multiple
@@ -179,6 +182,7 @@ const LeadsGridFilter = (props:Props) => {
                   }
                 component={FormikSelectField}
                 disabled={isDesksAndTeamsLoading || desks.length === 0}
+                data-testid="LeadsGridFilter-desksSelect"
                 searchable
                 withFocus
                 multiple
@@ -203,6 +207,7 @@ const LeadsGridFilter = (props:Props) => {
                   }
                 component={FormikSelectField}
                 disabled={isDesksAndTeamsLoading || teamsOptions.length === 0}
+                data-testid="LeadsGridFilter-teamsSelect"
                 searchable
                 withFocus
                 multiple
@@ -227,6 +232,7 @@ const LeadsGridFilter = (props:Props) => {
                   }
                 component={FormikSelectField}
                 disabled={isOperatorsLoading || operatorsOptions.length === 0}
+                data-testid="LeadsGridFilter-salesAgentsSelect"
                 searchable
                 withFocus
                 multiple
@@ -252,6 +258,7 @@ const LeadsGridFilter = (props:Props) => {
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
                 disabled={isAcquisitionStatusesLoading}
+                data-testid="LeadsGridFilter-salesStatusesSelect"
                 searchable
                 withFocus
                 multiple
@@ -269,6 +276,7 @@ const LeadsGridFilter = (props:Props) => {
                 label={I18n.t(attributeLabels.status)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
+                data-testid="LeadsGridFilter-statusSelect"
                 withAnyOption
                 searchable
                 withFocus
@@ -287,6 +295,7 @@ const LeadsGridFilter = (props:Props) => {
                 label={I18n.t(attributeLabels.isNeverCalled)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 component={FormikSelectField}
+                data-testid="LeadsGridFilter-isNeverCalledSelect"
                 withAnyOption
                 withFocus
               >
@@ -305,6 +314,7 @@ const LeadsGridFilter = (props:Props) => {
                 label={I18n.t(attributeLabels.searchLimit)}
                 placeholder={I18n.t('COMMON.UNLIMITED')}
                 component={FormikInputField}
+                data-testid="LeadsGridFilter-searchLimitInput"
                 withFocus
                 min={0}
               />
@@ -314,6 +324,7 @@ const LeadsGridFilter = (props:Props) => {
                 label={I18n.t(attributeLabels.affiliate)}
                 placeholder={I18n.t('LEADS.FILTER.AFFILIATE_PLACEHOLDER')}
                 component={FormikInputField}
+                data-testid="LeadsGridFilter-affiliateInput"
                 withFocus
               />
 
@@ -327,6 +338,7 @@ const LeadsGridFilter = (props:Props) => {
                   from: 'registrationDateStart',
                   to: 'registrationDateEnd',
                 }}
+                data-testid="LeadsGridFilter-registrationDateRangePicker"
                 withFocus
               />
 
@@ -338,6 +350,7 @@ const LeadsGridFilter = (props:Props) => {
                   from: 'lastNoteDateFrom',
                   to: 'lastNoteDateTo',
                 }}
+                data-testid="LeadsGridFilter-lastNoteDateRangePicker"
                 withFocus
               />
 
@@ -351,6 +364,7 @@ const LeadsGridFilter = (props:Props) => {
                   to: 'lastCallDateTo',
                 }}
                 anchorDirection="right"
+                data-testid="LeadsGridFilter-lastCallDateRangePicker"
                 withFocus
               />
 
@@ -358,12 +372,14 @@ const LeadsGridFilter = (props:Props) => {
                 <RefreshButton
                   className="LeadsGridFilter__button"
                   onClick={onRefetch}
+                  data-testid="LeadsGridFilter-refreshButton"
                 />
 
                 <Button
                   className="LeadsGridFilter__button"
                   disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
                   onClick={handleReset}
+                  data-testid="LeadsGridFilter-resetButton"
                   primary
                 >
                   {I18n.t('COMMON.RESET')}
@@ -373,6 +389,7 @@ const LeadsGridFilter = (props:Props) => {
                   className="LeadsGridFilter__button"
                   disabled={isSubmitting || !dirty}
                   type="submit"
+                  data-testid="LeadsGridFilter-submitButton"
                   primary
                 >
                   {I18n.t('COMMON.APPLY')}

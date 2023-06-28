@@ -125,6 +125,7 @@ const TradingAccountAddModal = (props: Props) => {
                 <If condition={platformTypes.length > 1}>
                   <Field
                     name="platformType"
+                    data-testid="TradingAccountAddModal-platformTypeSelect"
                     component={FormikSelectField}
                     label={I18n.t(attributeLabels.platformType)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -139,6 +140,7 @@ const TradingAccountAddModal = (props: Props) => {
                 <If condition={accountTypes.length > 1}>
                   <Field
                     name="accountType"
+                    data-testid="TradingAccountAddModal-accountTypeSelect"
                     component={FormikSelectField}
                     label={attributeLabels.accountType}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -152,6 +154,7 @@ const TradingAccountAddModal = (props: Props) => {
                 <Field
                   name="name"
                   type="text"
+                  data-testid="TradingAccountAddModal-nameInput"
                   label={attributeLabels.name}
                   component={FormikInputField}
                   placeholder={attributeLabels.name}
@@ -160,6 +163,7 @@ const TradingAccountAddModal = (props: Props) => {
                 <If condition={values.accountType === 'DEMO'}>
                   <Field
                     name="amount"
+                    data-testid="TradingAccountAddModal-amountSelect"
                     component={FormikSelectField}
                     label={attributeLabels.amount}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -174,6 +178,7 @@ const TradingAccountAddModal = (props: Props) => {
 
                 <Field
                   name="currency"
+                  data-testid="TradingAccountAddModal-currencySelect"
                   component={FormikSelectField}
                   label={attributeLabels.currency}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
@@ -188,6 +193,7 @@ const TradingAccountAddModal = (props: Props) => {
                 <If condition={values.platformType !== 'WET'}>
                   <Field
                     name="password"
+                    data-testid="TradingAccountAddModal-passwordInput"
                     component={FormikInputField}
                     label={attributeLabels.password}
                     placeholder={attributeLabels.password}
@@ -201,6 +207,7 @@ const TradingAccountAddModal = (props: Props) => {
                 <Button
                   tertiary
                   onClick={onCloseModal}
+                  data-testid="TradingAccountAddModal-cancelButton"
                 >
                   {I18n.t('COMMON.CANCEL')}
                 </Button>
@@ -209,6 +216,7 @@ const TradingAccountAddModal = (props: Props) => {
                   type="submit"
                   primary
                   disabled={isSubmitting}
+                  data-testid="TradingAccountAddModal-confirmButton"
                 >
                   {I18n.t('COMMON.CONFIRM')}
                 </Button>

@@ -101,6 +101,7 @@ const DepositGrid = (props: Props) => {
         </span>
 
         <Button
+          data-testid="DepositGrid-addCurrencyButton"
           onClick={addNewDepositAmount}
           tertiary
           small
@@ -153,11 +154,13 @@ const DepositGrid = (props: Props) => {
                 <EditButton
                   onClick={() => editDepositAmount(depositAmount)}
                   className="DepositGrid__edit-button"
+                  data-testid="DepositGrid-editButton"
                 />
 
                 <TrashButton
                   onClick={() => deleteDepositAmount(depositAmount)}
                   className="DepositGrid__delete-button"
+                  data-testid="DepositGrid-trashButton"
                 />
               </>
             )}

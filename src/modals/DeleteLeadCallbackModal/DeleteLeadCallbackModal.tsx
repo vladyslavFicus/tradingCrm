@@ -71,6 +71,7 @@ const DeleteLeadCallbackModal = (props: Props) => {
 
       <ModalFooter>
         <Button
+          data-testid="DeleteLeadCallbackModal-cancelButton"
           onClick={onCloseModal}
           secondary
         >
@@ -78,6 +79,7 @@ const DeleteLeadCallbackModal = (props: Props) => {
         </Button>
 
         <Button
+          data-testid="DeleteLeadCallbackModal-deleteButton"
           disabled={loading}
           onClick={handleSubmit}
           type="submit"

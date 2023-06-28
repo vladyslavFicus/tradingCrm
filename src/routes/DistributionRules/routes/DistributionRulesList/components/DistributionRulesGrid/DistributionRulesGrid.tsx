@@ -321,6 +321,7 @@ const DistributionRulesGrid = (props: Props) => {
         icon
         stopPropagation
         className="DistributionRulesList__action"
+        data-testid="DistributionRulesList-actionButton"
         onClick={
           executionType === 'AUTO' || latestMigration?.status === 'IN_PROGRESS'
             ? () => {}

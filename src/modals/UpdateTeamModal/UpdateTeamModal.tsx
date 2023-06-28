@@ -88,6 +88,7 @@ const UpdateTeamModal = (props: Props) => {
             <ModalBody>
               <Field
                 name="name"
+                data-testid="UpdateTeamModal-nameInput"
                 label={I18n.t(attributeLabels.teamName)}
                 placeholder={I18n.t('MODALS.UPDATE_TEAM_MODAL.PLACEHOLDERS.TYPE_IN_TEAM_NAME')}
                 component={FormikInputField}
@@ -99,6 +100,7 @@ const UpdateTeamModal = (props: Props) => {
               <Button
                 onClick={onCloseModal}
                 className="UpdateTeamModal__button"
+                data-testid="UpdateTeamModal-cancelButton"
                 tertiary
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -106,6 +108,7 @@ const UpdateTeamModal = (props: Props) => {
 
               <Button
                 className="UpdateTeamModal__button"
+                data-testid="UpdateTeamModal-updateButton"
                 primary
                 disabled={isSubmitting}
                 type="submit"

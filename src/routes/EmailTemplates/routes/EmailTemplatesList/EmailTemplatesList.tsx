@@ -73,6 +73,7 @@ const EmailTemplatesList = () => {
         <If condition={allowCreateTemplate}>
           <Button
             className="EmailTemplatesList__header-button"
+            data-testid="EmailTemplatesList-addTemplateButton"
             onClick={handleCreateTemplate}
             type="button"
             tertiary

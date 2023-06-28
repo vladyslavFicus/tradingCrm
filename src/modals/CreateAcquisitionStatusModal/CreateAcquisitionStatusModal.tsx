@@ -133,6 +133,7 @@ const CreateAcquisitionStatusModal = (props: Props) => {
                   <div className="CreateAcquisitionStatusModal__fields">
                     <Field
                       name="type"
+                      data-testid="CreateAcquisitionStatusModal-typeSelect"
                       label={I18n.t('SETTINGS.ACQUISITION_STATUSES.MODALS.NEW_ACQUISITION_STATUS.FORM.ACQUISITION')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       className="CreateAcquisitionStatusModal__field--large"
@@ -149,6 +150,7 @@ const CreateAcquisitionStatusModal = (props: Props) => {
 
                     <Field
                       name="status"
+                      data-testid="CreateAcquisitionStatusModal-statusSelect"
                       label={I18n.t('SETTINGS.ACQUISITION_STATUSES.MODALS.NEW_ACQUISITION_STATUS.FORM.STATUS')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       className="CreateAcquisitionStatusModal__field--large"
@@ -185,6 +187,7 @@ const CreateAcquisitionStatusModal = (props: Props) => {
                   <Button
                     tertiary
                     onClick={onCloseModal}
+                    data-testid="CreateAcquisitionStatusModal-cancelButton"
                   >
                     {I18n.t('COMMON.CANCEL')}
                   </Button>
@@ -193,6 +196,7 @@ const CreateAcquisitionStatusModal = (props: Props) => {
                     type="submit"
                     disabled={!dirty || isSubmitting}
                     primary
+                    data-testid="CreateAcquisitionStatusModal-saveButton"
                   >
                     {I18n.t('COMMON.SAVE')}
                   </Button>

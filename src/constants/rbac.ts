@@ -1842,6 +1842,15 @@ const rback: Array<RbackItem> = [
           },
         },
       },
+      {
+        id: 'COMMISSION',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.payment.field.manual-methods.values.COMMISSION',
+            state: false,
+          },
+        },
+      },
     ],
   },
   // ============================================= //
@@ -1935,6 +1944,40 @@ const rback: Array<RbackItem> = [
         actions: {
           edit: {
             action: 'hierarchy-updater.acquisition.deleteStatusForBrand',
+            state: false,
+          },
+        },
+      },
+    ],
+  },
+  // ============================================= //
+  // ==================== PSP ==================== //
+  // ============================================= //
+  {
+    id: 'psp',
+    actions: {
+      view: {
+        action: 'payment.searchPaymentSystems',
+        state: false,
+      },
+    },
+    permissions: [
+      // List Payment System
+      {
+        id: 'list',
+        actions: {
+          view: {
+            action: 'payment.searchPaymentSystems',
+            state: false,
+          },
+        },
+      },
+      // Update Brand Favourite Payment Systems
+      {
+        id: 'update',
+        actions: {
+          edit: {
+            action: 'payment.updateBrandFavouritePaymentSystems',
             state: false,
           },
         },
@@ -2143,6 +2186,15 @@ const rback: Array<RbackItem> = [
         actions: {
           view: {
             action: 'backoffice-graphql.sidebar.settingsFeatureToggles',
+            state: false,
+          },
+        },
+      },
+      {
+        id: 'settingsPaymentSystemsProvider',
+        actions: {
+          view: {
+            action: 'backoffice-graphql.sidebar.settingsPaymentSystemsProvider',
             state: false,
           },
         },

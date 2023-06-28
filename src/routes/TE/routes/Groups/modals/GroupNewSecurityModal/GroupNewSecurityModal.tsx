@@ -97,6 +97,7 @@ const GroupNewSecurityModal = ({
 
                   <Field
                     name="idx"
+                    data-testid="GroupNewSecurityModal-idxSelect"
                     label={I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.SECURITY')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     component={FormikSelectField}
@@ -113,6 +114,7 @@ const GroupNewSecurityModal = ({
 
                 <ModalFooter>
                   <Button
+                    data-testid="GroupNewSecurityModal-cancelButton"
                     onClick={onCloseModal}
                     tertiary
                   >
@@ -121,6 +123,7 @@ const GroupNewSecurityModal = ({
                   <Button
                     type="submit"
                     disabled={!dirty || isSubmitting}
+                    data-testid="GroupNewSecurityModal-saveButton"
                     primary
                   >
                     {I18n.t('COMMON.SAVE')}

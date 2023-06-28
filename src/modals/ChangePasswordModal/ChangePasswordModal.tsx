@@ -97,6 +97,7 @@ const ChangePasswordModal = (props: Props) => {
                 label={I18n.t(attributeLabels.newPassword)}
                 component={FormikInputField}
                 classNameError="ChangePasswordModal__error"
+                data-testid="ChangePasswordModal-newPasswordInput"
                 disabled={isSubmitting}
               />
 
@@ -106,12 +107,14 @@ const ChangePasswordModal = (props: Props) => {
                 label={I18n.t(attributeLabels.repeatPassword)}
                 component={FormikInputField}
                 classNameError="ChangePasswordModal__error"
+                data-testid="ChangePasswordModal-repeatPasswordInput"
                 disabled={isSubmitting}
               />
             </ModalBody>
 
             <ModalFooter>
               <Button
+                data-testid="ChangePasswordModal-cancelButton"
                 onClick={onCloseModal}
                 tertiary
               >
@@ -122,6 +125,7 @@ const ChangePasswordModal = (props: Props) => {
                 danger
                 disabled={!dirty || isSubmitting}
                 type="submit"
+                data-testid="ChangePasswordModal-saveNewPasswordButton"
               >
                 {I18n.t('COMMON.BUTTONS.SAVE_NEW_PASSWORD')}
               </Button>

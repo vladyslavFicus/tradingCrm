@@ -183,6 +183,7 @@ const Orders = (props: Props) => {
           <div className="Orders__actions">
             <Button
               className="Orders__action"
+              data-testid="Orders-newOrderButton"
               onClick={handleNewOrderClick}
               tertiary
               small
@@ -499,6 +500,7 @@ const Orders = (props: Props) => {
                       small
                       danger
                       type="submit"
+                      data-testid="Orders-closeOrderButton"
                       onClick={() => handleCloseOrderClick(order, OrderCloseByEnum.MARKET)}
                     >
                       {I18n.t('COMMON.CLOSE')}

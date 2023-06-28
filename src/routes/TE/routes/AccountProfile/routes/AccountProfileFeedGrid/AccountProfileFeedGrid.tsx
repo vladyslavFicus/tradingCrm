@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
 import { State } from 'types';
+import { Feed } from '__generated__/types';
 import ListView from 'components/ListView/index';
 import FeedItem from 'components/FeedItem';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
@@ -52,7 +53,7 @@ const AccountProfileFeedGrid = () => {
           content={content}
           loading={loading}
           last={last}
-          render={(item: React.ReactNode) => <FeedItem data={item} />}
+          render={(item: React.ReactNode) => <FeedItem data={item as Feed} />}
           onLoadMore={handleLoadMore}
         />
       </div>

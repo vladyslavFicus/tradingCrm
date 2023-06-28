@@ -62,6 +62,7 @@ const RenameFileModal = (props: Props) => {
 
               <Field
                 name="title"
+                data-testid="RenameFileModal-titleInput"
                 placeholder={I18n.t('FILES.RENAME_MODAL.PLACEHOLDERS.TITLE')}
                 component={FormikInputField}
               />
@@ -71,6 +72,7 @@ const RenameFileModal = (props: Props) => {
               <Button
                 tertiary
                 onClick={onCloseModal}
+                data-testid="RenameFileModal-cancelButton"
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
@@ -79,6 +81,7 @@ const RenameFileModal = (props: Props) => {
                 danger
                 type="submit"
                 disabled={!dirty || !isValid || isSubmitting}
+                data-testid="RenameFileModal-confirmButton"
               >
                 {I18n.t('COMMON.BUTTONS.CONFIRM')}
               </Button>

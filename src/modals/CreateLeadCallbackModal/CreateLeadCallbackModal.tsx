@@ -122,6 +122,7 @@ const CreateLeadCallbackModal = (props: Props) => {
               <Field
                 name="operatorId"
                 className="CreateLeadCallbackModal__field"
+                data-testid="CreateLeadCallbackModal-operatorIdSelect"
                 component={FormikSelectField}
                 label={I18n.t(attributeLabels.operatorId)}
                 placeholder={
@@ -140,6 +141,7 @@ const CreateLeadCallbackModal = (props: Props) => {
               <Field
                 name="callbackTime"
                 className="CreateLeadCallbackModal__field"
+                data-testid="CreateLeadCallbackModal-callbackTimeDatePicker"
                 label={I18n.t(attributeLabels.callbackTime)}
                 component={FormikDatePicker}
                 withTime
@@ -149,6 +151,7 @@ const CreateLeadCallbackModal = (props: Props) => {
               <Field
                 name="reminder"
                 className="CreateLeadCallbackModal__field"
+                data-testid="CreateLeadCallbackModal-reminderSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 label={I18n.t(attributeLabels.reminder)}
                 component={FormikSelectField}
@@ -175,6 +178,7 @@ const CreateLeadCallbackModal = (props: Props) => {
 
             <ModalFooter>
               <Button
+                data-testid="CreateLeadCallbackModal-cancelButton"
                 onClick={onCloseModal}
                 tertiary
               >
@@ -182,6 +186,7 @@ const CreateLeadCallbackModal = (props: Props) => {
               </Button>
 
               <Button
+                data-testid="CreateLeadCallbackModal-createButton"
                 primary
                 disabled={isSubmitting}
                 type="submit"

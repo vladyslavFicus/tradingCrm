@@ -145,12 +145,14 @@ const AddDocumentModal = (props: Props) => {
               <div className="AddDocumentModal__header">
                 <Field
                   name="title"
+                  data-testid="AddDocumentModal-titleInput"
                   label={`${I18n.t('DOCUMENTS.MODALS.ADD_DOCUMENT.TITLE')}`}
                   component={FormikInputField}
                 />
 
                 <Field
                   name="description"
+                  data-testid="AddDocumentModal-descriptionInput"
                   label={I18n.t('DOCUMENTS.MODALS.ADD_DOCUMENT.DESCRIPTION')}
                   component={FormikInputField}
                 />
@@ -204,6 +206,7 @@ const AddDocumentModal = (props: Props) => {
                           className={classNames('AddDocumentModal__dropzone-button', {
                             'AddDocumentModal__dropzone-button--submitting': submitting,
                           })}
+                          data-testid="AddDocumentModal-browseFileButton"
                         >
                           {I18n.t('FILE_DROPZONE.BROWSE_FILES')}
                         </Button>
@@ -217,6 +220,7 @@ const AddDocumentModal = (props: Props) => {
             <ModalFooter>
               <If condition={!!values?.file}>
                 <Button
+                  data-testid="AddDocumentModal-resetButton"
                   onClick={() => handleReset(resetForm)}
                   danger
                 >
@@ -227,11 +231,13 @@ const AddDocumentModal = (props: Props) => {
               <Button
                 secondary
                 onClick={onCloseModal}
+                data-testid="AddDocumentModal-cancelButton"
               >
                 {I18n.t('COMMON.CANCEL')}
               </Button>
 
               <Button
+                data-testid="AddDocumentModal-confirmButton"
                 disabled={!fileUuid || !values.title}
                 secondary
                 type="submit"

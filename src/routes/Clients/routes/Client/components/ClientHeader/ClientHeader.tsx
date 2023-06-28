@@ -186,10 +186,10 @@ const ClientHeader = (props: Props) => {
       <div className="ClientHeader__actions">
         <If condition={allowCreateCallback}>
           <Button
-            data-testid="addCallbackButton"
             small
             tertiary
             className="ClientHeader__action"
+            data-testid="ClientHeader-addCallbackButton"
             onClick={handleOpenAddCallbackModal}
           >
             {I18n.t('CLIENT_PROFILE.CALLBACKS.ADD_CALLBACK')}
@@ -199,6 +199,7 @@ const ClientHeader = (props: Props) => {
         <If condition={isMaxLoginAttemptReached(locks as LoginLock) && status?.type !== 'BLOCKED'}>
           <Button
             className="ClientHeader__action"
+            data-testid="ClientHeader-unlockButton"
             onClick={handleUnlockClientLogin}
             tertiary
             small
@@ -215,7 +216,7 @@ const ClientHeader = (props: Props) => {
             placement="bottom-end"
           >
             <Button
-              data-testid="addNoteButton"
+              data-testid="ClientHeader-addNoteButton"
               className="ClientHeader__action"
               tertiary
               small
@@ -226,7 +227,7 @@ const ClientHeader = (props: Props) => {
         </If>
 
         <Button
-          data-testid="refreshButton"
+          data-testid="ClientHeader-refreshButton"
           className="ClientHeader__action"
           onClick={handleReloadClick}
           tertiary

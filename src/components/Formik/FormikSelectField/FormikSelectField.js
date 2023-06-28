@@ -28,6 +28,10 @@ class FormikSelectField extends PureComponent {
     showErrorMessage: PropTypes.bool,
     customOnChange: PropTypes.func,
     singleOptionComponent: PropTypes.func,
+    withGroup: PropTypes.shape({
+      firstTitle: PropTypes.string,
+      secondTitle: PropTypes.string,
+    }),
     field: PropTypes.shape({
       name: PropTypes.string.isRequired,
       value: PropTypes.oneOfType([
@@ -45,7 +49,7 @@ class FormikSelectField extends PureComponent {
       setFieldTouched: PropTypes.func.isRequired,
       initialValues: PropTypes.object,
     }).isRequired,
-  }
+  };
 
   static defaultProps = {
     className: '',
@@ -61,6 +65,7 @@ class FormikSelectField extends PureComponent {
     singleOptionComponent: null,
     withAnyOption: false,
     withFocus: false,
+    withGroup: null,
   };
 
   id = `select-${v4()}`;
@@ -78,7 +83,7 @@ class FormikSelectField extends PureComponent {
       await setFieldValue(name, value);
     }
     setFieldTouched(name, true);
-  }
+  };
 
   render() {
     const {
@@ -104,6 +109,7 @@ class FormikSelectField extends PureComponent {
       singleOptionComponent,
       withAnyOption,
       withFocus,
+      withGroup,
     } = this.props;
 
     const error = getIn(errors, name);
@@ -148,6 +154,7 @@ class FormikSelectField extends PureComponent {
             showSearch={searchable}
             singleOptionComponent={singleOptionComponent}
             value={!value && multiple ? [] : value}
+            withGroup={withGroup}
           >
             {
               [

@@ -78,6 +78,7 @@ const ClientCallHistoryGridFilter = (props: Props) => {
             <Field
               name="operatorUuid"
               className="ClientCallHistoryGridFilter__field ClientCallHistoryGridFilter__search"
+              data-testid="ClientCallHistoryGridFilter-operatorUuidInput"
               label={I18n.t('CLIENT_PROFILE.CALL_HISTORY.GRID.FILTERS.SEARCH_BY')}
               placeholder={I18n.t('CLIENT_PROFILE.CALL_HISTORY.GRID.FILTERS.SEARCH_BY_PLACEHOLDER')}
               addition={<i className="icon icon-search" />}
@@ -89,6 +90,7 @@ const ClientCallHistoryGridFilter = (props: Props) => {
               name="callSystems"
               disabled={clickToCallConfigQuery.loading}
               className="ClientCallHistoryGridFilter__field ClientCallHistoryGridFilter__select"
+              data-testid="ClientCallHistoryGridFilter-callSystemsSelect"
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               label={I18n.t('CLIENT_PROFILE.CALL_HISTORY.GRID.FILTERS.CALL_SYSTEM')}
               component={FormikSelectField}
@@ -106,6 +108,7 @@ const ClientCallHistoryGridFilter = (props: Props) => {
             <Field
               name="callStatus"
               className="ClientCallHistoryGridFilter__field ClientCallHistoryGridFilter__select"
+              data-testid="ClientCallHistoryGridFilter-callStatusSelect"
               component={FormikSelectField}
               label={I18n.t('CLIENT_PROFILE.CALL_HISTORY.GRID.FILTERS.CALL_STATUS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
@@ -121,6 +124,7 @@ const ClientCallHistoryGridFilter = (props: Props) => {
 
             <Field
               className="ClientCallHistoryGridFilter__field ClientCallHistoryGridFilter__date-range"
+              data-testid="ClientCallHistoryGridFilter-callDateRangePicker"
               label={I18n.t('CLIENT_PROFILE.CALL_HISTORY.GRID.FILTERS.DATE_RANGE')}
               component={FormikDateRangePicker}
               fieldsNames={{
@@ -133,11 +137,13 @@ const ClientCallHistoryGridFilter = (props: Props) => {
           <div className="ClientCallHistoryGridFilter__buttons">
             <RefreshButton
               className="ClientCallHistoryGridFilter__button"
+              data-testid="ClientCallHistoryGridFilter-refreshButton"
               onClick={onRefetch}
             />
 
             <Button
               className="ClientCallHistoryGridFilter__button"
+              data-testid="ClientCallHistoryGridFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -147,6 +153,7 @@ const ClientCallHistoryGridFilter = (props: Props) => {
 
             <Button
               className="ClientCallHistoryGridFilter__button"
+              data-testid="ClientCallHistoryGridFilter-applyButton"
               disabled={isSubmitting || !dirty}
               type="submit"
               primary

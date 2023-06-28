@@ -95,6 +95,7 @@ const RuleScheduleBoard = (props: Props) => {
   const renderTimeIntervalList = () => (
     <FieldArray
       name={`${namePrefix}.timeIntervals`}
+      data-testid="RuleScheduleBoard-timeIntervalsArray"
       render={({ remove }) => (
         <>
           {timeIntervals.map(({ operatorSpreads, timeFrom, timeTo }, timeIntervalIndex) => {
@@ -126,6 +127,7 @@ const RuleScheduleBoard = (props: Props) => {
 
                 <RemoveTimeIntervalButton
                   className="RuleScheduleBoard__remove-time-interval"
+                  data-testid="RuleScheduleBoard-removeTimeIntervalButton"
                   onClick={timeIntervals[1] ? () => remove(timeIntervalIndex) : undefined}
                 />
               </div>
@@ -143,6 +145,7 @@ const RuleScheduleBoard = (props: Props) => {
 
         <RemoveBoardButton
           className="RuleScheduleBoard__remove-shedule"
+          data-testid="RuleScheduleBoard-removeBoardButton"
           onClick={removeScheduleBoard}
         />
       </div>
@@ -153,6 +156,7 @@ const RuleScheduleBoard = (props: Props) => {
 
       <AddTimeIntervalButton
         className="RuleScheduleBoard__footer"
+        data-testid="RuleScheduleBoard-addTimeIntervalButton"
         onClick={addTimeInterval}
       />
     </div>

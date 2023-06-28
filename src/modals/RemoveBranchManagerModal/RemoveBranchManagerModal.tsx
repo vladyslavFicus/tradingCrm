@@ -96,6 +96,7 @@ const RemoveBranchManagerModal = (props: Props) => {
               <Field
                 name="uuid"
                 className="RemoveBranchManagerModal__select"
+                data-testid="RemoveBranchManagerModal-uuidSelect"
                 label={I18n.t('COMMON.CHOOSE_OPERATOR')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 component={FormikSelectField}
@@ -112,6 +113,7 @@ const RemoveBranchManagerModal = (props: Props) => {
 
             <ModalFooter>
               <Button
+                data-testid="RemoveBranchManagerModal-cancelButton"
                 onClick={onCloseModal}
                 tertiary
               >
@@ -119,6 +121,7 @@ const RemoveBranchManagerModal = (props: Props) => {
               </Button>
 
               <Button
+                data-testid="RemoveBranchManagerModal-confirmButton"
                 type="submit"
                 disabled={isSubmitting}
                 danger

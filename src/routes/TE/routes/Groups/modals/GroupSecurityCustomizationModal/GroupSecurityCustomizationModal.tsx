@@ -86,6 +86,7 @@ const GroupSecurityCustomizationModal = ({
             <ModalBody>
               <Field
                 name="show"
+                data-testid="GroupSecurityCustomizationModal-showCheckbox"
                 label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.ENABLE')}
                 className="GroupSecurityCustomizationModal__field"
                 component={FormikCheckbox}
@@ -95,6 +96,7 @@ const GroupSecurityCustomizationModal = ({
                 <Field
                   name="spreadDiff"
                   type="number"
+                  data-testid="GroupSecurityCustomizationModal-spreadDiffInput"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.SPREAD_DIFFERENCE')}
                   className="GroupSecurityCustomizationModal__field"
                   component={FormikInputField}
@@ -107,6 +109,7 @@ const GroupSecurityCustomizationModal = ({
 
               <Field
                 name="defaultLots"
+                data-testid="GroupSecurityCustomizationModal-defaultLotsCheckbox"
                 label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.DEFAULT')}
                 className="GroupSecurityCustomizationModal__field"
                 component={FormikCheckbox}
@@ -114,6 +117,7 @@ const GroupSecurityCustomizationModal = ({
               <div className="GroupSecurityCustomizationModal__fields">
                 <Field
                   name="lotMin"
+                  data-testid="GroupSecurityCustomizationModal-lotMinSelect"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_MIN')}
                   className="GroupSecurityCustomizationModal__field"
                   component={FormikSelectField}
@@ -127,6 +131,7 @@ const GroupSecurityCustomizationModal = ({
                 </Field>
                 <Field
                   name="lotMax"
+                  data-testid="GroupSecurityCustomizationModal-lotMaxSelect"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_MAX')}
                   className="GroupSecurityCustomizationModal__field"
                   component={FormikSelectField}
@@ -140,6 +145,7 @@ const GroupSecurityCustomizationModal = ({
                 </Field>
                 <Field
                   name="lotStep"
+                  data-testid="GroupSecurityCustomizationModal-lotStepSelect"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_STEP')}
                   className="GroupSecurityCustomizationModal__field"
                   component={FormikSelectField}
@@ -160,6 +166,7 @@ const GroupSecurityCustomizationModal = ({
               <div className="GroupSecurityCustomizationModal__fields">
                 <Field
                   name="commissionBase"
+                  data-testid="GroupSecurityCustomizationModal-commissionBaseInput"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.STANDART')}
                   className="GroupSecurityCustomizationModal__field--small"
                   classNameError="GroupSecurityCustomizationModal__field--errorMessage"
@@ -168,6 +175,7 @@ const GroupSecurityCustomizationModal = ({
                 />
                 <Field
                   name="commissionType"
+                  data-testid="GroupSecurityCustomizationModal-commissionTypeSelect"
                   className="GroupSecurityCustomizationModal__field--small"
                   component={FormikSelectField}
                 >
@@ -179,6 +187,7 @@ const GroupSecurityCustomizationModal = ({
                 </Field>
                 <Field
                   name="commissionLots"
+                  data-testid="GroupSecurityCustomizationModal-commissionLotsSelect"
                   className="GroupSecurityCustomizationModal__field--small"
                   component={FormikSelectField}
                 >
@@ -193,6 +202,7 @@ const GroupSecurityCustomizationModal = ({
 
             <ModalFooter>
               <Button
+                data-testid="GroupSecurityCustomizationModal-cancelButton"
                 onClick={onCloseModal}
                 tertiary
               >
@@ -201,6 +211,7 @@ const GroupSecurityCustomizationModal = ({
               <Button
                 type="submit"
                 disabled={!dirty || isSubmitting || !isValid}
+                data-testid="GroupSecurityCustomizationModal-saveButton"
                 primary
               >
                 {I18n.t('COMMON.SAVE')}

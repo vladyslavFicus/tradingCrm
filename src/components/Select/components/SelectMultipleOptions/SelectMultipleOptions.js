@@ -68,7 +68,7 @@ class SelectMultipleOptions extends PureComponent {
       headerButtonOnClick,
     } = this.props;
 
-    if (options.length === 0) {
+    if (!options?.length) {
       return null;
     }
 

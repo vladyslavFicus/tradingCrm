@@ -76,6 +76,7 @@ const UpdateTradingAccountPasswordModal = (props: Props) => {
               <Field
                 name="password"
                 type="password"
+                data-testid="UpdateTradingAccountPasswordModal-passwordInput"
                 label={attributeLabels.password}
                 placeholder={attributeLabels.password}
                 component={FormikInputField}
@@ -84,6 +85,7 @@ const UpdateTradingAccountPasswordModal = (props: Props) => {
               <Field
                 name="repeatPassword"
                 type="password"
+                data-testid="UpdateTradingAccountPasswordModal-repeatPasswordInput"
                 label={attributeLabels.repeatPassword}
                 placeholder={attributeLabels.repeatPassword}
                 component={FormikInputField}
@@ -92,6 +94,7 @@ const UpdateTradingAccountPasswordModal = (props: Props) => {
 
             <ModalFooter>
               <Button
+                data-testid="UpdateTradingAccountPasswordModal-cancelButton"
                 onClick={onCloseModal}
                 tertiary
               >
@@ -99,6 +102,7 @@ const UpdateTradingAccountPasswordModal = (props: Props) => {
               </Button>
 
               <Button
+                data-testid="UpdateTradingAccountPasswordModal-saveNewPasswordButton"
                 disabled={isSubmitting}
                 type="submit"
                 danger

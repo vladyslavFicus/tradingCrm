@@ -14,12 +14,13 @@ import SelectSearchBox, {
   filterOptionsByQueryWithMultiple,
 } from '../SelectSearchBox/SelectSearchBox';
 import SelectSingleOptions from '../SelectSingleOptions/SelectSingleOptions';
+import SelectGroupOptions from '../SelectGroupOptions/SelectGroupOptions';
 import SelectMultipleOptions from '../SelectMultipleOptions/SelectMultipleOptions';
 import './Select.scss';
 
-const filterOptions = options => (Array.isArray(options)
+const filterOptions = options => options && (Array.isArray(options)
   ? options
-    .filter(option => option.type === 'option')
+    .filter(option => option?.type === 'option')
     .map(({ key, props: { value, children, ...props } }) => ({
       label: children,
       value,
@@ -67,6 +68,10 @@ class Select extends PureComponent {
     withArrowDown: PropTypes.bool,
     customArrowComponent: PropTypes.object,
     hasTargetPortal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    withGroup: PropTypes.shape({
+      firstTitle: PropTypes.string,
+      secondTitle: PropTypes.string,
+    }),
   };
 
   static defaultProps = {
@@ -90,6 +95,7 @@ class Select extends PureComponent {
     customArrowComponent: null,
     isFocused: false,
     hasTargetPortal: null,
+    withGroup: null,
   };
 
   mounted = false;
@@ -577,6 +583,7 @@ class Select extends PureComponent {
       multiple,
       singleOptionComponent,
       name,
+      withGroup,
     } = this.props;
 
     const filteredOptions = filterOptionsByQuery(query, originalSelectedOptions);
@@ -620,6 +627,19 @@ class Select extends PureComponent {
             name={name}
           />
         </When>
+
+        <When condition={withGroup}>
+          <SelectGroupOptions
+            withGroup={withGroup}
+            options={options}
+            selectedOption={toSelectOptions[0] || originalSelectedOptions[0]}
+            onChange={this.handleSelectSingleOption}
+            bindActiveOption={this.bindActiveOptionRef}
+            handleSelectHide={this.handleHideSelect}
+            optionComponent={singleOptionComponent}
+          />
+        </When>
+
         <Otherwise>
 
           {/* Single option */}

@@ -178,6 +178,7 @@ const PartnersBulkActions = (props: Props) => {
                 'PartnersBulkActions__button--success': action === actionStatus.ACTIVE,
                 'PartnersBulkActions__button--danger': action === actionStatus.CLOSED,
               })}
+              data-testid="PartnersBulkActions-updateStatusButton"
               onClick={() => updateStatuses(reasons, action)}
             >
               {I18n.t(label)}
@@ -189,6 +190,7 @@ const PartnersBulkActions = (props: Props) => {
       <If condition={permission.allows(permissions.PARTNERS.BULK_CHANGE_AFFILIATES_COUNTRIES)}>
         <Button
           className="PartnersBulkActions__button PartnersBulkActions__button--success"
+          data-testid="PartnersBulkActions-allowCountriesButton"
           tertiary
           onClick={() => restrictedCountriesModal.show({
             type: TypesRestrictedCountriesModal.ADD, onSuccess: submitAddCountries,
@@ -200,6 +202,7 @@ const PartnersBulkActions = (props: Props) => {
         <Button
           tertiary
           className="PartnersBulkActions__button PartnersBulkActions__button--danger"
+          data-testid="PartnersBulkActions-restrictCountriesButton"
           onClick={() => restrictedCountriesModal.show({
             type: TypesRestrictedCountriesModal.DELETE, onSuccess: submitDeleteCountries,
           })}

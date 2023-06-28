@@ -1,0 +1,10 @@
+query RatesQuery(
+  $currency: String!
+) {
+  rates(
+    currency: $currency
+  ) {
+    base
+    rates
+  }
+}

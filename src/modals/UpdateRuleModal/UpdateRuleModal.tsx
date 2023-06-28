@@ -223,6 +223,7 @@ const UpdateRuleModal = (props: Props) => {
 
             <ModalFooter>
               <Button
+                data-testid="UpdateRuleModal-cancelButton"
                 tertiary
                 onClick={onCloseModal}
               >
@@ -230,6 +231,7 @@ const UpdateRuleModal = (props: Props) => {
               </Button>
 
               <Button
+                data-testid="UpdateRuleModal-saveChangesButton"
                 primary
                 type="submit"
                 disabled={!dirty || isSubmitting}

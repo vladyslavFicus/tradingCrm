@@ -82,12 +82,14 @@ const UpdateDocumentModal = (props: Props) => {
             <ModalBody>
               <Field
                 name="title"
+                data-testid="UpdateDocumentModal-titleInput"
                 label={`${I18n.t('DOCUMENTS.MODALS.UPDATE.TITLE_FIELD')}`}
                 component={FormikInputField}
               />
 
               <Field
                 name="description"
+                data-testid="UpdateDocumentModal-descriptionInput"
                 label={I18n.t('DOCUMENTS.MODALS.UPDATE.DESCRIPTION')}
                 component={FormikInputField}
               />
@@ -97,6 +99,7 @@ const UpdateDocumentModal = (props: Props) => {
               <Button
                 onClick={onCloseModal}
                 className="UpdateDoсumentModal__button"
+                data-testid="UpdateDocumentModal-cancelButton"
                 tertiary
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -104,6 +107,7 @@ const UpdateDocumentModal = (props: Props) => {
 
               <Button
                 className="UpdateDoсumentModal__button"
+                data-testid="UpdateDocumentModal-updateButton"
                 primary
                 disabled={!dirty || isSubmitting || !isValid}
                 type="submit"

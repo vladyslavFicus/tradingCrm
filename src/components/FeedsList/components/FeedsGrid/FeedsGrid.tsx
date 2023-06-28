@@ -20,7 +20,7 @@ const FeedsGrid = (props: Props) => {
         content={content}
         loading={loading}
         last={last}
-        render={(item: ReactNode) => <FeedItem data={item} />}
+        render={(item: ReactNode) => <FeedItem data={item as Feed} />}
         onLoadMore={onLoadMore}
       />
     </div>

@@ -23,6 +23,7 @@ const VolumeSettings = () => (
     <div className="VolumeSettings__field-container">
       <Field
         name="lotMin"
+        data-testid="VolumeSettings-lotMinSelect"
         label={I18n.t('TRADING_ENGINE.SYMBOL.LOT_MIN')}
         className="VolumeSettings__field"
         component={FormikSelectField}
@@ -35,6 +36,7 @@ const VolumeSettings = () => (
       </Field>
       <Field
         name="lotMax"
+        data-testid="VolumeSettings-lotMaxSelect"
         label={I18n.t('TRADING_ENGINE.SYMBOL.LOT_MAX')}
         className="VolumeSettings__field"
         component={FormikSelectField}
@@ -47,6 +49,7 @@ const VolumeSettings = () => (
       </Field>
       <Field
         name="lotStep"
+        data-testid="VolumeSettings-lotStepSelect"
         label={I18n.t('TRADING_ENGINE.SYMBOL.LOT_STEP')}
         className="VolumeSettings__field"
         component={FormikSelectField}

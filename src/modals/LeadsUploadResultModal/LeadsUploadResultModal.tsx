@@ -50,6 +50,7 @@ const LeadsUploadResultModal = (props: Props) => {
 
       <ModalFooter>
         <Button
+          data-testid="LeadsUploadResultModal-cancelButton"
           tertiary
           onClick={onCloseModal}
         >
@@ -57,6 +58,7 @@ const LeadsUploadResultModal = (props: Props) => {
         </Button>
 
         <Button
+          data-testid="LeadsUploadResultModal-downloadButton"
           danger
           onClick={handleCreateCsvFile}
         >

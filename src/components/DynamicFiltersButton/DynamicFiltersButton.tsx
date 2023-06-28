@@ -49,9 +49,14 @@ const DynamicFiltersButton = (props: Props) => {
       customClassName={className}
       customSelectBlockClassName="DynamicFiltersButton__select-block"
       customSelectBlockContainerClassName="DynamicFiltersButton__select-block-container"
-      customArrowComponent={
-        <Button primary>{I18n.t('COMMON.BUTTONS.ADD_FILTER')}</Button>
-      }
+      customArrowComponent={(
+        <Button
+          primary
+          data-testid="DynamicFiltersButton-addFilterButton"
+        >
+          {I18n.t('COMMON.BUTTONS.ADD_FILTER')}
+        </Button>
+      )}
     >
       {Object.keys(filters).map(key => (
         <option key={key} value={key}>{filters[key]}</option>

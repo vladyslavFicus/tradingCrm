@@ -67,6 +67,7 @@ const LeadCallbacksGridFilter = (props: Props) => {
           <Field
             name="searchKeyword"
             className="LeadCallbacksGridFilter__field LeadCallbacksGridFilter__search"
+            data-testid="LeadCallbacksGridFilter-searchKeywordInput"
             label={I18n.t('CALLBACKS.FILTER.SEARCH_BY')}
             placeholder={I18n.t('CALLBACKS.FILTER.CALLBACK_OR_OPERATOR')}
             addition={<i className="icon icon-search" />}
@@ -77,6 +78,7 @@ const LeadCallbacksGridFilter = (props: Props) => {
           <Field
             name="statuses"
             className="LeadCallbacksGridFilter__field LeadCallbacksGridFilter__select"
+            data-testid="LeadCallbacksGridFilter-statusesSelect"
             placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
             label={I18n.t('CALLBACKS.FILTER.STATUS')}
             component={FormikSelectField}
@@ -93,6 +95,7 @@ const LeadCallbacksGridFilter = (props: Props) => {
 
           <Field
             className="LeadCallbacksGridFilter__field LeadCallbacksGridFilter__date-range"
+            data-testid="LeadCallbacksGridFilter-callbackTimeDateRangePicker"
             label={I18n.t('CALLBACKS.FILTER.DATE_RANGE')}
             component={FormikDateRangePicker}
             fieldsNames={{
@@ -105,11 +108,13 @@ const LeadCallbacksGridFilter = (props: Props) => {
           <div className="LeadCallbacksGridFilter__buttons">
             <RefreshButton
               className="LeadCallbacksGridFilter__button"
+              data-testid="LeadCallbacksGridFilter-refreshButton"
               onClick={onRefetch}
             />
 
             <Button
               className="LeadCallbacksGridFilter__button"
+              data-testid="LeadCallbacksGridFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -119,6 +124,7 @@ const LeadCallbacksGridFilter = (props: Props) => {
 
             <Button
               className="LeadCallbacksGridFilter__button"
+              data-testid="LeadCallbacksGridFilter-applyButton"
               disabled={isSubmitting || !dirty}
               type="submit"
               primary

@@ -113,6 +113,7 @@ const CreateTeamModal = (props: Props) => {
               <ModalBody>
                 <Field
                   name="teamName"
+                  data-testid="CreateTeamModal-teamNameInput"
                   label={I18n.t(attributeLabels.teamName)}
                   placeholder={I18n.t('MODALS.ADD_TEAM_MODAL.PLACEHOLDERS.TYPE_IN_TEAM_NAME')}
                   component={FormikInputField}
@@ -123,6 +124,7 @@ const CreateTeamModal = (props: Props) => {
                   <Field
                     name="officeUuid"
                     className="CreateTeamModal__select"
+                    data-testid="CreateTeamModal-officeUuidSelect"
                     label={I18n.t(attributeLabels.officeUuid)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_OFFICE')}
                     component={FormikSelectField}
@@ -138,6 +140,7 @@ const CreateTeamModal = (props: Props) => {
                   <Field
                     name="deskUuid"
                     className="CreateTeamModal__select"
+                    data-testid="CreateTeamModal-deskUuidSelect"
                     component={FormikSelectField}
                     label={I18n.t(attributeLabels.deskUuid)}
                     placeholder={I18n.t(
@@ -158,6 +161,7 @@ const CreateTeamModal = (props: Props) => {
                 <Button
                   onClick={onCloseModal}
                   className="CreateTeamModal__button"
+                  data-testid="CreateTeamModal-cancelButton"
                   tertiary
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -165,6 +169,7 @@ const CreateTeamModal = (props: Props) => {
 
                 <Button
                   className="CreateTeamModal__button"
+                  data-testid="CreateTeamModal-createButton"
                   primary
                   disabled={isSubmitting}
                   type="submit"

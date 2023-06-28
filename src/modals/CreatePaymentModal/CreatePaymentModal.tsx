@@ -8,21 +8,31 @@ import { PaymentMutationCreatePaymentArgs as PaymentValues, Profile, TradingAcco
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { targetTypes } from 'constants/note';
-import { manualPaymentMethods, manualPaymentMethodsLabels } from 'constants/payment';
+import {
+  commissionCurrencies,
+  commissionCurrenciesLabels,
+  manualPaymentMethods,
+  manualPaymentMethodsLabels,
+} from 'constants/payment';
 import { Button } from 'components/Buttons';
 import NoteActionManual from 'components/Note/NoteActionManual';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
 import Currency from 'components/Currency';
 import AccountsSelectField from './components/AccountsSelectField';
 import { validation } from './utils';
-import { paymentTypes, paymentTypesLabels, attributeLabels } from './constants';
+import {
+  paymentTypes,
+  paymentTypesLabels,
+  attributeLabels,
+} from './constants';
 import { useManualPaymentMethodsQuery } from './graphql/__generated__/ManualPaymentMethodsQuery';
-import { usePaymentSystemQuery } from './graphql/__generated__/PaymentSystemsQuery';
 import { useAddNoteMutation } from './graphql/__generated__/AddNoteMutation';
 import {
   CreatePaymentMutationVariables,
   useCreatePaymentMutation,
 } from './graphql/__generated__/CreatePaymentMutation';
+import { useRatesQuery } from './graphql/__generated__/RatesQuery';
+import { usePaymentSystemsProviderQuery } from './graphql/__generated__/PaymentSystemsProviderQuery';
 import './CreatePaymentModal.scss';
 
 export type Props = {
@@ -33,6 +43,7 @@ export type Props = {
 
 type WithPaymentSystemName = {
   paymentSystemName: string | undefined,
+  commissionCurrency: string | undefined,
 };
 
 type SubmitValues = PaymentValues & WithPaymentSystemName;
@@ -49,12 +60,33 @@ const CreatePaymentModal = (props: Props) => {
 
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [note, setNote] = useState<EditNote | null>(null);
+  const [selectedTradingAccount, setSelectedTradingAccount] = useState<TradingAccount | undefined>();
 
   const permission = usePermission();
 
   // ===== Requests ===== //
   const { data: manualPaymentMethodsData, loading: manualMethodsLoading } = useManualPaymentMethodsQuery();
-  const { data: paymentSystemsData, loading: paymentSystemsLoading } = usePaymentSystemQuery();
+  const { data: paymentSystemsData, loading: paymentSystemsLoading } = usePaymentSystemsProviderQuery({
+    variables: {
+      args: {
+        withFavouriteStatus: true,
+        page: {
+          from: 0,
+          size: 1000,
+        },
+      },
+    },
+  });
+
+  // Get currency rates depends on chosen trading account
+  const { data: ratesQueryData } = useRatesQuery({
+    variables: {
+      currency: selectedTradingAccount?.currency as string,
+    },
+    // Skip query if fetching rates of currency isn't available
+    skip: !selectedTradingAccount,
+  });
+
 
   const [createPaymentMutation] = useCreatePaymentMutation();
   const [addNoteMutation] = useAddNoteMutation();
@@ -79,6 +111,7 @@ const CreatePaymentModal = (props: Props) => {
     const variables = {
       ...data as CreatePaymentMutationVariables,
       paymentSystem: resolvePaymentSystemValue(data.paymentSystem || '', data.paymentSystemName || ''),
+      currency: data.commissionCurrency || null,
       profileUUID: uuid,
     };
 
@@ -145,6 +178,13 @@ const CreatePaymentModal = (props: Props) => {
     setFieldValue('paymentType', value);
   };
 
+  const handleCommissionCurrencyChanged = (
+    value: String,
+    { setFieldValue }: FormikHelpers<String>,
+  ) => {
+    setFieldValue('commissionCurrency', value);
+  };
+
   const isValidTransaction = ({
     paymentType,
     accountUUID,
@@ -166,7 +206,7 @@ const CreatePaymentModal = (props: Props) => {
   };
 
   const manualMethods = manualPaymentMethodsData?.manualPaymentMethods || [];
-  const paymentSystems = paymentSystemsData?.paymentSystems || [];
+  const paymentSystems = paymentSystemsData?.settings?.paymentSystemsProvider?.content || [];
 
   return (
     <Modal contentClassName="CreatePaymentModal" toggle={onCloseModal} isOpen>
@@ -180,11 +220,13 @@ const CreatePaymentModal = (props: Props) => {
           dirty,
           isValid,
           values,
-          values: { paymentType, paymentSystem },
+          values: { paymentType, paymentSystem, paymentMethod, commissionCurrency, amount },
           setFieldValue,
           resetForm,
         }) => {
           const sourceAccount = getSourceAccount(values as PaymentValues);
+          setSelectedTradingAccount(sourceAccount);
+
           const paymentMethods = paymentType === paymentTypes.CREDIT_IN.name
             ? ['REFERRAL_BONUS', 'INTERNAL_TRANSFER']
             : manualMethods;
@@ -193,6 +235,13 @@ const CreatePaymentModal = (props: Props) => {
             && ['CHARGEBACK', 'CREDIT_CARD', 'RECALL', 'WIRE'].includes(values?.paymentMethod as string);
 
           const isPaymentSystemNameVisible = isPaymentSystemVisible && paymentSystem === 'OTHER';
+
+          const rates = ratesQueryData?.rates.rates;
+          const commissionCurrencyValue = !!commissionCurrency
+            && commissionCurrency.substring(0, commissionCurrency.indexOf('_'));
+          const commissionCurrencyRate = !!commissionCurrencyValue && !!rates ? rates[commissionCurrencyValue] : null;
+          const commissionAmountInAccountCurrency = !!amount && !!commissionCurrencyRate
+            ? amount / commissionCurrencyRate : null;
 
           return (
             <Form>
@@ -332,11 +381,12 @@ const CreatePaymentModal = (props: Props) => {
                           className="CreatePaymentModal__field"
                           component={FormikSelectField}
                           disabled={paymentSystemsLoading}
+                          withGroup={{ firstTitle: 'COMMON.FAVORITE', secondTitle: 'COMMON.OTHER' }}
                         >
                           {[
                             <option key="NONE" value="NONE">{I18n.t('COMMON.NONE')}</option>,
-                            ...paymentSystems.map(({ paymentSystem: system }) => (
-                              <option key={system} value={system}>
+                            ...paymentSystems.map(({ paymentSystem: system, isFavourite }) => (
+                              <option key={system} value={system} data-isFavourite={isFavourite}>
                                 {system}
                               </option>
                             )),
@@ -358,44 +408,111 @@ const CreatePaymentModal = (props: Props) => {
                       </div>
                     </If>
 
-                    <div className="CreatePaymentModal__row">
-                      <Field
-                        name="amount"
-                        type="number"
-                        label={attributeLabels.amount}
-                        className="CreatePaymentModal__field CreatePaymentModal__field--small"
-                        placeholder="0.00"
-                        step="0.01"
-                        min={0}
-                        max={999999}
-                        addition={sourceAccount && <Currency code={sourceAccount.currency as string} />}
-                        component={FormikInputField}
-                        showErrorMessage={false}
-                      />
+                    <Choose>
+                      <When condition={paymentType === paymentTypes.DEPOSIT.name && paymentMethod === 'COMMISSION'}>
+                        <div className="CreatePaymentModal__row">
+                          <Field
+                            name="externalReference"
+                            type="text"
+                            label={attributeLabels.externalReference}
+                            className="CreatePaymentModal__field"
+                            component={FormikInputField}
+                            showErrorMessage={false}
+                          />
+                        </div>
 
-                      <If condition={paymentType === paymentTypes.DEPOSIT.name}>
-                        <Field
-                          name="externalReference"
-                          type="text"
-                          label={attributeLabels.externalReference}
-                          className="CreatePaymentModal__field"
-                          component={FormikInputField}
-                          showErrorMessage={false}
-                        />
-                      </If>
+                        <div className="CreatePaymentModal__row">
+                          <Field
+                            name="commissionCurrency"
+                            label={attributeLabels.commissionCurrency}
+                            className="CreatePaymentModal__field CreatePaymentModal__field--small"
+                            placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
+                            component={FormikSelectField}
+                            customOnChange={(value: String) => (
+                              handleCommissionCurrencyChanged(value, {
+                                setFieldValue,
+                              } as FormikHelpers<String>)
+                            )}
+                            showErrorMessage={false}
+                          >
+                            {Object
+                              .values(commissionCurrencies)
+                              .map(cur => (
+                                <option key={cur} value={cur}>
+                                  {I18n.t(commissionCurrenciesLabels[cur])}
+                                </option>
+                              ))}
+                          </Field>
 
-                      <If condition={paymentType === paymentTypes.CREDIT_IN.name}>
-                        <Field
-                          name="expirationDate"
-                          label={attributeLabels.expirationDate}
-                          className="CreatePaymentModal__field"
-                          component={FormikDatePicker}
-                          showErrorMessage={false}
-                          withTime
-                          withUtc
-                        />
-                      </If>
-                    </div>
+                          <div
+                            className="CreatePaymentModal__field CreatePaymentModal__field--small
+                            CreatePaymentModal__amount"
+                          >
+                            <Field
+                              name="amount"
+                              type="number"
+                              label={attributeLabels.amount}
+                              className="CreatePaymentModal__field CreatePaymentModal__field--small
+                              CreatePaymentModal__field--amount"
+                              placeholder="0"
+                              step="0.0000001"
+                              min={0}
+                              max={999999}
+                              component={FormikInputField}
+                              showErrorMessage={false}
+                            />
+
+                            <If condition={!!commissionAmountInAccountCurrency && !!sourceAccount}>
+                              <span className="CreatePaymentModal__amount-footer-message">
+                                {commissionAmountInAccountCurrency?.toFixed(2)} {sourceAccount?.currency as string}
+                              </span>
+                            </If>
+                          </div>
+                        </div>
+                      </When>
+
+                      <Otherwise>
+                        <div className="CreatePaymentModal__row">
+                          <Field
+                            name="amount"
+                            type="number"
+                            label={attributeLabels.amount}
+                            className="CreatePaymentModal__field CreatePaymentModal__field--small"
+                            placeholder="0.00"
+                            step="0.01"
+                            min={0}
+                            max={999999}
+                            addition={sourceAccount && <Currency code={sourceAccount.currency as string} />}
+                            component={FormikInputField}
+                            showErrorMessage={false}
+                          />
+
+                          <If condition={paymentType === paymentTypes.DEPOSIT.name}>
+                            <Field
+                              name="externalReference"
+                              type="text"
+                              label={attributeLabels.externalReference}
+                              className="CreatePaymentModal__field"
+                              component={FormikInputField}
+                              showErrorMessage={false}
+                            />
+                          </If>
+
+                          <If condition={paymentType === paymentTypes.CREDIT_IN.name}>
+                            <Field
+                              name="expirationDate"
+                              label={attributeLabels.expirationDate}
+                              className="CreatePaymentModal__field"
+                              component={FormikDatePicker}
+                              showErrorMessage={false}
+                              withTime
+                              withUtc
+                            />
+                          </If>
+                        </div>
+                      </Otherwise>
+                    </Choose>
+
 
                     <div className="CreatePaymentModal__row CreatePaymentModal__row--note">
                       <NoteActionManual

@@ -93,6 +93,7 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
         </span>
         <Button
           disabled={archived}
+          data-testid="GroupSymbolsGrid-addSymbolButton"
           onClick={handleNewGroupSymbolModal}
           tertiary
           small
@@ -167,11 +168,13 @@ const GroupSymbolsGrid = ({ modals, formik }: Props) => {
                   disabled={archived}
                   onClick={() => handleEditGroupSymbolModal(symbol)}
                   className="GroupSymbolsGrid__edit-button"
+                  data-testid="GroupSymbolsGrid-editButton"
                 />
                 <TrashButton
                   disabled={archived}
                   onClick={() => handleDeleteGroupSymbolModal(symbol)}
                   className="GroupSymbolsGrid__delete-button"
+                  data-testid="GroupSymbolsGrid-trashButton"
                 />
               </>
             )}

@@ -116,6 +116,7 @@ const CreateRuleModal = (props: Props) => {
           <>
             <Button
               type="button"
+              data-testid="CreateRuleModal-errorButton"
               onClick={() => handleFindDuplicate(error.errorParameters.ruleUuid)}
             >
               {I18n.t(`rules.${error.error}`, error.errorParameters)}
@@ -196,6 +197,7 @@ const CreateRuleModal = (props: Props) => {
               <Button
                 tertiary
                 onClick={onCloseModal}
+                data-testid="CreateRuleModal-cancelButton"
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
@@ -205,6 +207,7 @@ const CreateRuleModal = (props: Props) => {
                 type="submit"
                 disabled={!formikBag.dirty || formikBag.isSubmitting}
                 onClick={() => setValidationOnChangeEnabled(true)}
+                data-testid="CreateRuleModal-createButton"
               >
                 {I18n.t('HIERARCHY.PROFILE_RULE_TAB.MODAL.CREATE_BUTTON')}
               </Button>

@@ -102,6 +102,7 @@ const TradingActivityGridFilter = (props: Props) => {
             <Field
               name="tradeId"
               type="number"
+              data-testid="TradingActivityGridFilter-tradeIdInput"
               label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TRADE_LABEL')}
               placeholder={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TRADE_PLACEHOLDER')}
               className="TradingActivityGridFilter__field TradingActivityGridFilter__field--large"
@@ -112,6 +113,7 @@ const TradingActivityGridFilter = (props: Props) => {
 
             <Field
               name="loginIds"
+              data-testid="TradingActivityGridFilter-loginIdsSelect"
               label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.LOGIN_IDS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ALL')}
               className="TradingActivityGridFilter__field"
@@ -131,6 +133,7 @@ const TradingActivityGridFilter = (props: Props) => {
 
             <Field
               name="operationType"
+              data-testid="TradingActivityGridFilter-operationTypeSelect"
               label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPE_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="TradingActivityGridFilter__field"
@@ -148,6 +151,7 @@ const TradingActivityGridFilter = (props: Props) => {
 
             <Field
               name="symbol"
+              data-testid="TradingActivityGridFilter-symbolSelect"
               label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.SYMBOL_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="TradingActivityGridFilter__field"
@@ -165,6 +169,7 @@ const TradingActivityGridFilter = (props: Props) => {
 
             <Field
               name="agentIds"
+              data-testid="TradingActivityGridFilter-agentIdsSelect"
               label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.ORIGINAL_AGENT_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="TradingActivityGridFilter__field"
@@ -189,6 +194,7 @@ const TradingActivityGridFilter = (props: Props) => {
 
             <RangeGroup
               className="TradingActivityGridFilter__field"
+              data-testid="TradingActivityGridFilter-volumeRangeGroup"
               label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.VOLUME_LABEL')}
             >
               <Field
@@ -199,6 +205,7 @@ const TradingActivityGridFilter = (props: Props) => {
                 placeholder="0"
                 component={FormikInputField}
                 className="TradingActivityGridFilter__field"
+                data-testid="TradingActivityGridFilter-volumeFromInput"
                 withFocus
               />
               <Field
@@ -209,12 +216,14 @@ const TradingActivityGridFilter = (props: Props) => {
                 placeholder="0"
                 component={FormikInputField}
                 className="TradingActivityGridFilter__field"
+                data-testid="TradingActivityGridFilter-volumeToInput"
                 withFocus
               />
             </RangeGroup>
 
             <Field
               name="status"
+              data-testid="TradingActivityGridFilter-statusSelect"
               label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUS_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="TradingActivityGridFilter__field"
@@ -228,8 +237,10 @@ const TradingActivityGridFilter = (props: Props) => {
                 </option>
               ))}
             </Field>
+
             <Field
               name="tradeType"
+              data-testid="TradingActivityGridFilter-tradeTypeSelect"
               label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="TradingActivityGridFilter__field"
@@ -247,6 +258,7 @@ const TradingActivityGridFilter = (props: Props) => {
             <If condition={platformTypes.length > 1}>
               <Field
                 name="platformType"
+                data-testid="TradingActivityGridFilter-platformTypeSelect"
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="TradingActivityGridFilter__field"
@@ -262,6 +274,7 @@ const TradingActivityGridFilter = (props: Props) => {
 
             <Field
               className="TradingActivityGridFilter__field TradingActivityGridFilter__field--large"
+              data-testid="TradingActivityGridFilter-openTimeDateRangePicker"
               label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.OPEN_TIME_RANGE_LABEL')}
               component={FormikDateRangePicker}
               fieldsNames={{
@@ -272,6 +285,7 @@ const TradingActivityGridFilter = (props: Props) => {
             />
             <Field
               className="TradingActivityGridFilter__field TradingActivityGridFilter__field--large"
+              data-testid="TradingActivityGridFilter-closeTimeDateRangePicker"
               label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.CLOSE_TIME_RANGE_LABEL')}
               component={FormikDateRangePicker}
               fieldsNames={{
@@ -285,11 +299,13 @@ const TradingActivityGridFilter = (props: Props) => {
           <div className="TradingActivityGridFilter__buttons">
             <RefreshButton
               className="TradingActivityGridFilter__button"
+              data-testid="TradingActivityGridFilter-refreshButton"
               onClick={onRefetch}
             />
 
             <Button
               className="TradingActivityGridFilter__button"
+              data-testid="TradingActivityGridFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={loading || (!dirty && (Object.keys(values).length === 1 && values.tradeType === 'LIVE'))}
               primary
@@ -299,6 +315,7 @@ const TradingActivityGridFilter = (props: Props) => {
 
             <Button
               className="TradingActivityGridFilter__button"
+              data-testid="TradingActivityGridFilter-applyButton"
               type="submit"
               disabled={loading || !dirty || tradingAccountsLoading}
               primary

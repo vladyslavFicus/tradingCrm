@@ -240,6 +240,7 @@ const GroupsGrid = ({
                 <PermissionContent permissions={permissions.WE_TRADING.DELETE_GROUP}>
                   <TrashButton
                     className="GroupsGrid__trash"
+                    data-testid="GroupsGrid-trashButton"
                     onClick={() => handleDeleteGroupModal(groupName)}
                   />
                 </PermissionContent>
@@ -249,6 +250,7 @@ const GroupsGrid = ({
                     danger={enabled}
                     tertiary={!enabled}
                     className="GroupsGrid__button"
+                    data-testid="GroupsGrid-toggleArchiveButton"
                     onClick={() => handleArchiveClick(groupName, !enabled)}
                   >
                     {I18n.t(`TRADING_ENGINE.GROUPS.${enabled ? 'ARCHIVE' : 'UNARCHIVE'}`)}

@@ -43,12 +43,14 @@ const DistributionRuleScheduleSettings = (props: Props) => {
     <div className="DistributionRuleScheduleSettings">
       <FieldArray
         name="schedules"
+        data-testid="DistributionRuleScheduleSettings-schedulesArray"
         render={() => weekDays.map(day => (
           <Field
             name={day}
             component={FormikCheckbox}
             label={I18n.t(`CLIENTS_DISTRIBUTION.RULE.FILTERS.DAYS.${day}`)}
             className="DistributionRuleScheduleSettings__days-item"
+            data-testid={`DistributionRuleScheduleSettings-${day}Input`}
             onChange={() => selectDay(day)}
             value={currentDays.includes(day)}
             vertical

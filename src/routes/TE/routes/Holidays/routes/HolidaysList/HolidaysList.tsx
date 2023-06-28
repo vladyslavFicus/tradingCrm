@@ -123,6 +123,7 @@ const Holidays = (props: Props) => {
         <PermissionContent permissions={permissions.WE_TRADING.HOLIDAYS_CREATE}>
           <div>
             <Button
+              data-testid="Holidays-newHolidayButton"
               onClick={handleCreateClick}
               tertiary
               small
@@ -206,10 +207,14 @@ const Holidays = (props: Props) => {
                   <EditButton
                     onClick={() => handleHolidayEditClick(holiday)}
                     className="HolidaysList__edit-button"
+                    data-testid="Holidays-editButton"
                   />
                 </PermissionContent>
                 <PermissionContent permissions={permissions.WE_TRADING.HOLIDAYS_DELETE}>
-                  <TrashButton onClick={() => handleHolidayDeleteClick(holiday)} />
+                  <TrashButton
+                    data-testid="Holidays-trashButton"
+                    onClick={() => handleHolidayDeleteClick(holiday)}
+                  />
                 </PermissionContent>
               </>
             )}

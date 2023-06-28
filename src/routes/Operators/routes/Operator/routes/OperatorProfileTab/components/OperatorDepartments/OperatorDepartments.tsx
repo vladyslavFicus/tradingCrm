@@ -152,6 +152,7 @@ const OperatorDepartments = (props: Props) => {
               small
               tertiary
               className="OperatorDepartments__add-button"
+              data-testid="OperatorDepartments-addDepartmentButton"
               onClick={toggleVisibilityCreationForm}
             >
               {I18n.t('OPERATORS.PROFILE.DEPARTMENTS.ADD_BUTTON_LABEL')}
@@ -181,6 +182,7 @@ const OperatorDepartments = (props: Props) => {
                     <Field
                       name="department"
                       className="OperatorDepartments__form-field"
+                      data-testid="OperatorDepartments-departmentSelect"
                       label={I18n.t(attributeLabels.department)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       component={FormikSelectField}
@@ -197,6 +199,7 @@ const OperatorDepartments = (props: Props) => {
                       name="role"
                       label={I18n.t(attributeLabels.role)}
                       className="OperatorDepartments__form-field"
+                      data-testid="OperatorDepartments-roleSelect"
                       component={FormikSelectField}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       disabled={!availableRoles.length}
@@ -212,6 +215,7 @@ const OperatorDepartments = (props: Props) => {
                       <Button
                         primary
                         className="OperatorDepartments__form-button"
+                        data-testid="OperatorDepartments-saveButton"
                         disabled={isSubmitting}
                         type="submit"
                       >
@@ -221,6 +225,7 @@ const OperatorDepartments = (props: Props) => {
                       <Button
                         secondary
                         className="OperatorDepartments__form-button"
+                        data-testid="OperatorDepartments-cancelButton"
                         onClick={toggleVisibilityCreationForm}
                       >
                         {I18n.t('COMMON.CANCEL')}

@@ -89,6 +89,7 @@ const OperatorsList = (props: Props) => {
         <If condition={allowCreateOperator}>
           <div className="OperatorsList__header-right">
             <Button
+              data-testid="OperatorsList-createOperatorButton"
               onClick={handleOpenCreateOperatorModal}
               tertiary
             >

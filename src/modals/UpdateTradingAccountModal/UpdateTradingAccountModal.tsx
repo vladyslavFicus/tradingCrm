@@ -72,6 +72,7 @@ const UpdateTradingAccountModal = (props: Props) => {
             <ModalBody>
               <Field
                 name="name"
+                data-testid="UpdateTradingAccountModal-nameInput"
                 label={I18n.t(attributeLabels.name)}
                 placeholder={I18n.t('COMMON.NAME')}
                 component={FormikInputField}
@@ -82,6 +83,7 @@ const UpdateTradingAccountModal = (props: Props) => {
             <ModalFooter>
               <Button
                 className="UpdateTradingAccountModal__button"
+                data-testid="UpdateTradingAccountModal-cancelButton"
                 onClick={onCloseModal}
                 tertiary
               >
@@ -90,6 +92,7 @@ const UpdateTradingAccountModal = (props: Props) => {
 
               <Button
                 className="UpdateTradingAccountModal__button"
+                data-testid="UpdateTradingAccountModal-updateButton"
                 disabled={isSubmitting}
                 type="submit"
                 primary

@@ -303,6 +303,14 @@ export const sidebarTopMenu: Array<SidebarMenuItem> = [
           permissions.SIDEBAR.SETTINGS_FEATURE_TOGGLES,
         ],
       },
+      {
+        label: 'SIDEBAR.TOP_MENU.SETTINGS.PSP',
+        url: '/settings/psp/list',
+        permissions: [
+          permissions.PAYMENT.SEARCH_PSP,
+          permissions.SIDEBAR.SETTINGS_PAYMENT_SYSTEMS_PROVIDER,
+        ],
+      },
     ],
   },
 ];

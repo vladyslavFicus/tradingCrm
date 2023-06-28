@@ -80,6 +80,7 @@ const SendSmsModal = (props: Props) => {
               <Field
                 searchable
                 name="from"
+                data-testid="SendSmsModal-fromSelect"
                 label={I18n.t('SMS.SMS_SEND_MODAL.FROM_NUMBER')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_PHONE_NUMBER')}
                 component={FormikSelectField}
@@ -93,6 +94,7 @@ const SendSmsModal = (props: Props) => {
 
               <Field
                 name="message"
+                data-testid="SendSmsModal-messageTextArea"
                 label={I18n.t('SMS.SMS_SEND_MODAL.TEXT_MESSAGE')}
                 component={FormikTextAreaField}
               />
@@ -102,6 +104,7 @@ const SendSmsModal = (props: Props) => {
               <Button
                 tertiary
                 onClick={onCloseModal}
+                data-testid="SendSmsModal-cancelButton"
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
               </Button>
@@ -110,6 +113,7 @@ const SendSmsModal = (props: Props) => {
                 type="submit"
                 primary
                 disabled={isSubmitting || !isValid}
+                data-testid="SendSmsModal-sendButton"
               >
                 {I18n.t('COMMON.BUTTONS.SEND')}
               </Button>

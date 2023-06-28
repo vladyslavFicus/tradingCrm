@@ -110,6 +110,7 @@ const ClientAddressForm = (props: Props) => {
                   small
                   primary
                   type="submit"
+                  data-testid="ClientAddressForm-saveChangesButton"
                 >
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </Button>
@@ -120,6 +121,7 @@ const ClientAddressForm = (props: Props) => {
               <Field
                 name="countryCode"
                 className="ClientAddressForm__field"
+                data-testid="ClientAddressForm-countryCodeSelect"
                 label={I18n.t(attributeLabels.country)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 component={FormikSelectField}
@@ -135,6 +137,7 @@ const ClientAddressForm = (props: Props) => {
               <Field
                 name="city"
                 className="ClientAddressForm__field"
+                data-testid="ClientAddressForm-cityInput"
                 label={I18n.t(attributeLabels.city)}
                 placeholder={I18n.t(attributeLabels.city)}
                 component={FormikInputField}
@@ -144,6 +147,7 @@ const ClientAddressForm = (props: Props) => {
               <Field
                 name="poBox"
                 className="ClientAddressForm__field"
+                data-testid="ClientAddressForm-poBoxInput"
                 label={I18n.t(attributeLabels.poBox)}
                 placeholder={I18n.t(attributeLabels.poBox)}
                 component={FormikInputField}
@@ -153,6 +157,7 @@ const ClientAddressForm = (props: Props) => {
               <Field
                 name="postCode"
                 className="ClientAddressForm__field"
+                data-testid="ClientAddressForm-postCodeInput"
                 label={I18n.t(attributeLabels.postCode)}
                 placeholder={I18n.t(attributeLabels.postCode)}
                 component={FormikInputField}
@@ -162,6 +167,7 @@ const ClientAddressForm = (props: Props) => {
               <Field
                 name="address"
                 className="ClientAddressForm__field ClientAddressForm__text-area"
+                data-testid="ClientAddressForm-addressTextArea"
                 label={I18n.t(attributeLabels.address)}
                 placeholder={I18n.t(attributeLabels.address)}
                 component={FormikTextAreaField}

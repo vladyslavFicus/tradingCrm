@@ -65,6 +65,7 @@ const PartnersGridFilter = (props: Props) => {
             <Field
               name="searchBy"
               className="PartnersGridFilter__field PartnersGridFilter__search"
+              data-testid="PartnersGridFilter-searchByInput"
               label={I18n.t('PARTNERS.GRID_FILTERS.SEARCH_BY')}
               placeholder={I18n.t('PARTNERS.GRID_FILTERS.SEARCH_BY_PLACEHOLDER')}
               addition={<i className="icon icon-search" />}
@@ -75,6 +76,7 @@ const PartnersGridFilter = (props: Props) => {
             <Field
               name="country"
               className="PartnersGridFilter__field PartnersGridFilter__select"
+              data-testid="PartnersGridFilter-countrySelect"
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               label={I18n.t('PARTNERS.GRID_FILTERS.COUNTRY')}
               component={FormikSelectField}
@@ -94,6 +96,7 @@ const PartnersGridFilter = (props: Props) => {
             <Field
               name="status"
               className="PartnersGridFilter__field PartnersGridFilter__select"
+              data-testid="PartnersGridFilter-statusSelect"
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               label={I18n.t('PARTNERS.GRID_FILTERS.STATUS')}
               component={FormikSelectField}
@@ -108,6 +111,7 @@ const PartnersGridFilter = (props: Props) => {
 
             <Field
               className="PartnersGridFilter__field PartnersGridFilter__date-range"
+              data-testid="PartnersGridFilter-registrationDateRangePicker"
               label={I18n.t('PARTNERS.GRID_FILTERS.REGISTRATION_DATE_RANGE')}
               component={FormikDateRangePicker}
               fieldsNames={{
@@ -121,11 +125,13 @@ const PartnersGridFilter = (props: Props) => {
           <div className="PartnersGridFilter__buttons">
             <RefreshButton
               className="PartnersGridFilter__button"
+              data-testid="PartnersGridFilter-refreshButton"
               onClick={onRefetch}
             />
 
             <Button
               className="PartnersGridFilter__button"
+              data-testid="PartnersGridFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -135,6 +141,7 @@ const PartnersGridFilter = (props: Props) => {
 
             <Button
               className="PartnersGridFilter__button"
+              data-testid="PartnersGridFilter-applyButton"
               disabled={isSubmitting || !dirty}
               type="submit"
               primary

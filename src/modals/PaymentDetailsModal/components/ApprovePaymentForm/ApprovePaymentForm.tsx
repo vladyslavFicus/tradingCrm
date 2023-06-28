@@ -83,14 +83,16 @@ const ApprovePaymentForm = (props: Props) => {
             placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
             component={FormikSelectField}
           >
-            {(manualMethods as Array<manualPaymentMethods>).map(item => (
-              <option key={item} value={item}>
-                {manualPaymentMethodsLabels[item]
-                  ? I18n.t(manualPaymentMethodsLabels[item])
-                  : formatLabel(item || '')
+            {(manualMethods as Array<manualPaymentMethods>)
+              .filter(item => item !== manualPaymentMethods.COMMISSION)
+              .map(item => (
+                <option key={item} value={item}>
+                  {manualPaymentMethodsLabels[item]
+                    ? I18n.t(manualPaymentMethodsLabels[item])
+                    : formatLabel(item || '')
                   }
-              </option>
-            ))}
+                </option>
+              ))}
           </Field>
 
           <Button

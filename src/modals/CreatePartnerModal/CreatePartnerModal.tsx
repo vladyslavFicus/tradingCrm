@@ -141,6 +141,7 @@ const CreatePartnerModal = (props: Props) => {
                 <Field
                   name="firstName"
                   className="CreatePartnerModal__field"
+                  data-testid="CreatePartnerModal-firstNameInput"
                   label={I18n.t(attributeLabels.firstName)}
                   placeholder={I18n.t(attributeLabels.firstName)}
                   component={FormikInputField}
@@ -150,6 +151,7 @@ const CreatePartnerModal = (props: Props) => {
                 <Field
                   name="lastName"
                   className="CreatePartnerModal__field"
+                  data-testid="CreatePartnerModal-lastNameInput"
                   label={I18n.t(attributeLabels.lastName)}
                   placeholder={I18n.t(attributeLabels.lastName)}
                   component={FormikInputField}
@@ -159,6 +161,7 @@ const CreatePartnerModal = (props: Props) => {
                 <Field
                   name="email"
                   className="CreatePartnerModal__field"
+                  data-testid="CreatePartnerModal-emailInput"
                   label={I18n.t(attributeLabels.email)}
                   placeholder={I18n.t(attributeLabels.email)}
                   component={FormikInputField}
@@ -168,6 +171,7 @@ const CreatePartnerModal = (props: Props) => {
                 <Field
                   name="password"
                   className="CreatePartnerModal__field"
+                  data-testid="CreatePartnerModal-passwordInput"
                   label={I18n.t(attributeLabels.password)}
                   placeholder={I18n.t(attributeLabels.password)}
                   addition={<span className="icon-generate-password" />}
@@ -179,6 +183,7 @@ const CreatePartnerModal = (props: Props) => {
                 <Field
                   name="phone"
                   className="CreatePartnerModal__field"
+                  data-testid="CreatePartnerModal-phoneInput"
                   label={I18n.t(attributeLabels.phone)}
                   placeholder={I18n.t(attributeLabels.phone)}
                   component={FormikInputField}
@@ -188,6 +193,7 @@ const CreatePartnerModal = (props: Props) => {
                 <Field
                   name="externalAffiliateId"
                   className="CreatePartnerModal__field"
+                  data-testid="CreatePartnerModal-externalAffiliateIdInput"
                   label={I18n.t(attributeLabels.externalAffiliateId)}
                   placeholder={I18n.t(attributeLabels.externalAffiliateId)}
                   addition={<span className="icon-generate-password" />}
@@ -199,6 +205,7 @@ const CreatePartnerModal = (props: Props) => {
 
               <Field
                 name="public"
+                data-testid="CreatePartnerModal-publicCheckbox"
                 component={FormikCheckbox}
                 label={I18n.t(attributeLabels.public)}
               />
@@ -208,6 +215,7 @@ const CreatePartnerModal = (props: Props) => {
               <Button
                 onClick={onCloseModal}
                 className="CreatePartnerModal__button"
+                data-testid="CreatePartnerModal-cancelButton"
                 tertiary
               >
                 {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -215,6 +223,7 @@ const CreatePartnerModal = (props: Props) => {
 
               <Button
                 className="CreatePartnerModal__button"
+                data-testid="CreatePartnerModal-createAndOpenButton"
                 primary
                 disabled={isSubmitting}
                 type="submit"

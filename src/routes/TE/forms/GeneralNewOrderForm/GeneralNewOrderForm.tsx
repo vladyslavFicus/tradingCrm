@@ -393,6 +393,7 @@ const GeneralNewOrderForm = (props: Props) => {
             <div className="GeneralNewOrderForm__field-container">
               <Field
                 name="pendingOrder"
+                data-testid="GeneralNewOrderForm-pendingOrderCheckbox"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.PENDING_ORDER')}
                 className="GeneralNewOrderForm__pending-order-checkbox"
                 component={FormikCheckbox}
@@ -400,9 +401,11 @@ const GeneralNewOrderForm = (props: Props) => {
                 disabled={!account || isAccountArchived}
               />
             </div>
+
             <div className="GeneralNewOrderForm__field-container">
               <Field
                 name="symbol"
+                data-testid="GeneralNewOrderForm-symbolSelectTree"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SYMBOL')}
                 className="GeneralNewOrderForm__field"
                 favorites={favoriteSymbols}
@@ -412,10 +415,12 @@ const GeneralNewOrderForm = (props: Props) => {
                 nodes={allowedSymbolsTree}
               />
             </div>
+
             <div className="GeneralNewOrderForm__field-container">
               <Field
                 name="volumeLots"
                 type="number"
+                data-testid="GeneralNewOrderForm-volumeLotsInput"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.VOLUME')}
                 className="GeneralNewOrderForm__field"
                 placeholder="0.00"
@@ -438,10 +443,12 @@ const GeneralNewOrderForm = (props: Props) => {
                 </If>
               </div>
             </div>
+
             <div className="GeneralNewOrderForm__field-container">
               <Field
                 name="stopLoss"
                 type="number"
+                data-testid="GeneralNewOrderForm-stopLossInputDecimals"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.STOP_LOSS')}
                 className="GeneralNewOrderForm__field"
                 placeholder={placeholder(currentSymbol?.digits || 0)}
@@ -452,9 +459,11 @@ const GeneralNewOrderForm = (props: Props) => {
                 disabled={!account || accountSymbolsQuery.loading || isAccountArchived}
                 {...decimalsSettings}
               />
+
               <Field
                 name="takeProfit"
                 type="number"
+                data-testid="GeneralNewOrderForm-takeProfitInputDecimals"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TAKE_PROFIT')}
                 className="GeneralNewOrderForm__field"
                 placeholder={placeholder(currentSymbol?.digits || 0)}
@@ -466,10 +475,12 @@ const GeneralNewOrderForm = (props: Props) => {
                 {...decimalsSettings}
               />
             </div>
+
             <div className="GeneralNewOrderForm__field-container">
               <Field
                 name="openPrice"
                 type="number"
+                data-testid="GeneralNewOrderForm-openPriceInputDecimals"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.OPEN_PRICE')}
                 className="GeneralNewOrderForm__field"
                 placeholder={placeholder(currentSymbol?.digits || 0)}
@@ -481,8 +492,10 @@ const GeneralNewOrderForm = (props: Props) => {
                 component={FormikInputDecimalsField}
                 {...decimalsSettings}
               />
+
               <Button
                 className="GeneralNewOrderForm__button GeneralNewOrderForm__button--small"
+                data-testid="GeneralNewOrderForm-updateButton"
                 type="button"
                 tertiary
                 disabled={autoOpenPrice || !account || isAccountArchived}
@@ -490,8 +503,10 @@ const GeneralNewOrderForm = (props: Props) => {
               >
                 {I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.UPDATE')}
               </Button>
+
               <Field
                 name="autoOpenPrice"
+                data-testid="GeneralNewOrderForm-autoOpenPriceCheckbox"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.AUTO')}
                 className="GeneralNewOrderForm__auto-checkbox"
                 component={FormikCheckbox}
@@ -499,11 +514,13 @@ const GeneralNewOrderForm = (props: Props) => {
                 disabled={!account || pendingOrder || isAccountArchived}
               />
             </div>
+
             <If condition={!pendingOrder}>
               <div className="GeneralNewOrderForm__field-container">
                 <Input
                   disabled
                   name="sellPnl"
+                  data-testid="GeneralNewOrderForm-sellPnlInput"
                   label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_PNL')}
                   value={
                     (account && currentSymbol && currentSymbolPrice)
@@ -519,9 +536,11 @@ const GeneralNewOrderForm = (props: Props) => {
                       : 0}
                   className="GeneralNewOrderForm__field"
                 />
+
                 <Input
                   disabled
                   name="buyPnl"
+                  data-testid="GeneralNewOrderForm-buyPnlInput"
                   label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_PNL')}
                   value={
                     (account && currentSymbol && currentSymbolPrice)
@@ -538,10 +557,12 @@ const GeneralNewOrderForm = (props: Props) => {
                   className="GeneralNewOrderForm__field"
                 />
               </div>
+
               <div className="GeneralNewOrderForm__field-container">
                 <Input
                   disabled
                   name="sellMargin"
+                  data-testid="GeneralNewOrderForm-sellMarginInput"
                   label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.SELL_MARGIN')}
                   value={
                     (account && currentSymbol && currentSymbolPrice)
@@ -557,9 +578,11 @@ const GeneralNewOrderForm = (props: Props) => {
                       : 0}
                   className="GeneralNewOrderForm__field"
                 />
+
                 <Input
                   disabled
                   name="buyMargin"
+                  data-testid="GeneralNewOrderForm-buyMarginInput"
                   label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.BUY_MARGIN')}
                   value={
                     (account && currentSymbol && currentSymbolPrice)
@@ -577,9 +600,11 @@ const GeneralNewOrderForm = (props: Props) => {
                 />
               </div>
             </If>
+
             <div className="GeneralNewOrderForm__field-container">
               <Field
                 name="comment"
+                data-testid="GeneralNewOrderForm-commentInput"
                 label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.COMMENT')}
                 className="GeneralNewOrderForm__field"
                 maxLength={1000}
@@ -615,8 +640,10 @@ const GeneralNewOrderForm = (props: Props) => {
                   }}
                 />
               </If>
+
               <Button
                 className="GeneralNewOrderForm__button"
+                data-testid="GeneralNewOrderForm-sellButton"
                 danger
                 disabled={isSellDisabled || isAccountArchived}
                 onClick={() => {
@@ -630,8 +657,10 @@ const GeneralNewOrderForm = (props: Props) => {
                   type: I18n.t(`TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.${sellType}`),
                 })}
               </Button>
+
               <Button
                 className="GeneralNewOrderForm__button"
+                data-testid="GeneralNewOrderForm-buyButton"
                 primary
                 disabled={isBuyDisabled || isAccountArchived}
                 onClick={() => {

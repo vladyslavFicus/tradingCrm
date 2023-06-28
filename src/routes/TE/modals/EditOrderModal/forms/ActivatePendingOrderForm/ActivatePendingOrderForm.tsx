@@ -29,7 +29,7 @@ type FormValues = {
   activationPrice: number,
 }
 
-const ActivatePendingOrderForm = (props: Props) => {
+const EditOrderModal = (props: Props) => {
   const {
     order,
     onSuccess,
@@ -141,6 +141,7 @@ const ActivatePendingOrderForm = (props: Props) => {
                 label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME')}
                 className="EditOrderModal__field EditOrderModal__field--volumeLots"
                 classNameError="EditOrderModal__field--customError"
+                data-testid="EditOrderModal-volumeLotsInput"
                 component={FormikInputField}
                 disabled
               />
@@ -153,12 +154,13 @@ const ActivatePendingOrderForm = (props: Props) => {
                 min={0}
                 max={999999}
                 component={FormikInputDecimalsField}
-                data-testid="activationPrice"
+                data-testid="EditOrderModal-activationPriceInputDecimals"
                 {...decimalsSettings}
               />
               <Button
                 type="button"
                 tertiary
+                data-testid="EditOrderModal-updateOrderButton"
                 className="EditOrderModal__button EditOrderModal__button--update"
                 onClick={() => {
                   const _activationPrice = direction === OrderDirection.SELL
@@ -172,6 +174,7 @@ const ActivatePendingOrderForm = (props: Props) => {
               <Button
                 type="submit"
                 className="EditOrderModal__button"
+                data-testid="EditOrderModal-activatePendingOrderButton"
                 danger
               >
                 {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.BUTTON_ACTIVATE_PENDING_ORDER', {
@@ -205,4 +208,4 @@ const ActivatePendingOrderForm = (props: Props) => {
 export default compose(
   React.memo,
   withNotifications,
-)(ActivatePendingOrderForm);
+)(EditOrderModal);

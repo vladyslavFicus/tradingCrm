@@ -1,0 +1,5 @@
+mutation DeletePaymentSystemsProviderMutation($paymentSystem: String!) {
+  settings {
+    deletePaymentSystemsProvider(paymentSystem: $paymentSystem)
+  }
+}

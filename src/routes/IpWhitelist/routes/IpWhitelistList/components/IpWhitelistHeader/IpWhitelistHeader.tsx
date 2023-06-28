@@ -126,6 +126,7 @@ const IpWhitelistHeader = (props: Props) => {
           <Button
             secondary
             className="IpWhitelistHeader__actions-button"
+            data-testid="IpWhitelistHeader-addIpButton"
             onClick={() => createIpWhiteListModal.show({ onSuccess: onRefetch })}
             type="button"
           >
@@ -136,6 +137,7 @@ const IpWhitelistHeader = (props: Props) => {
             <Button
               danger
               className="IpWhitelistHeader__actions-button"
+              data-testid="IpWhitelistHeader-deleteIpsButton"
               onClick={handleOpenBulkDeleteModal}
               type="button"
             >

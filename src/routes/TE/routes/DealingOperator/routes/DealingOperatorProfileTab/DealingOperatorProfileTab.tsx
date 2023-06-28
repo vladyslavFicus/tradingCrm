@@ -120,6 +120,7 @@ const DealingOperatorProfileTab = ({ notify }: Props) => {
                     primary
                     type="submit"
                     className="DealingOperatorProfileForm__action"
+                    data-testid="DealingOperatorProfileTab-saveChangesButton"
                   >
                     {I18n.t('COMMON.SAVE_CHANGES')}
                   </Button>
@@ -131,6 +132,7 @@ const DealingOperatorProfileTab = ({ notify }: Props) => {
               <Field
                 name="firstName"
                 className="DealingOperatorProfileForm__field"
+                data-testid="DealingOperatorProfileTab-firstNameInput"
                 label={I18n.t(attributeLabels.firstName)}
                 placeholder={I18n.t(attributeLabels.firstName)}
                 component={FormikInputField}
@@ -140,6 +142,7 @@ const DealingOperatorProfileTab = ({ notify }: Props) => {
               <Field
                 name="lastName"
                 className="DealingOperatorProfileForm__field"
+                data-testid="DealingOperatorProfileTab-lastNameInput"
                 label={I18n.t(attributeLabels.lastName)}
                 placeholder={I18n.t(attributeLabels.lastName)}
                 component={FormikInputField}
@@ -149,6 +152,7 @@ const DealingOperatorProfileTab = ({ notify }: Props) => {
               <Field
                 name="email"
                 className="DealingOperatorProfileForm__field"
+                data-testid="DealingOperatorProfileTab-emailInput"
                 label={I18n.t(attributeLabels.email)}
                 placeholder={I18n.t(attributeLabels.email)}
                 component={FormikInputField}
@@ -166,6 +170,7 @@ const DealingOperatorProfileTab = ({ notify }: Props) => {
               <Field
                 name="phone"
                 className="DealingOperatorProfileForm__field"
+                data-testid="DealingOperatorProfileTab-phoneInput"
                 label={I18n.t(attributeLabels.phone)}
                 placeholder={I18n.t(attributeLabels.phone)}
                 component={FormikInputField}
@@ -175,6 +180,7 @@ const DealingOperatorProfileTab = ({ notify }: Props) => {
               <Field
                 name="role"
                 className="DealingOperatorProfileForm__field"
+                data-testid="DealingOperatorProfileTab-roleSelect"
                 label={I18n.t(attributeLabels.role)}
                 component={FormikSelectField}
                 disabled={isSubmitting || isReadOnly}
@@ -190,6 +196,7 @@ const DealingOperatorProfileTab = ({ notify }: Props) => {
               <Field
                 name="groupNames"
                 className="DealingOperatorProfileForm__field"
+                data-testid="DealingOperatorProfileTab-groupNamesSelect"
                 label={I18n.t(attributeLabels.groups)}
                 component={FormikSelectField}
                 searchable

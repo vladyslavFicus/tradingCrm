@@ -71,6 +71,7 @@ const SymbolsFilter = (props: Props) => {
           <div className="SymbolsFilter__fields">
             <Field
               name="symbolNames"
+              data-testid="SymbolsFilter-symbolNamesSelect"
               label={I18n.t('TRADING_ENGINE.SYMBOLS.FILTER_FORM.SYMBOL_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="SymbolsFilter__field"
@@ -88,6 +89,7 @@ const SymbolsFilter = (props: Props) => {
             </Field>
             <Field
               name="securityNames"
+              data-testid="SymbolsFilter-securityNamesSelect"
               label={I18n.t('TRADING_ENGINE.SYMBOL.SECURITY_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="SymbolsFilter__field"
@@ -106,10 +108,12 @@ const SymbolsFilter = (props: Props) => {
           <div className="SymbolsFilter__buttons">
             <RefreshButton
               className="SymbolsFilter__button"
+              data-testid="SymbolsFilter-refreshButton"
               onClick={props.onRefresh}
             />
             <Button
               className="SymbolsFilter__button"
+              data-testid="SymbolsFilter-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -118,6 +122,7 @@ const SymbolsFilter = (props: Props) => {
             </Button>
             <Button
               className="SymbolsFilter__button"
+              data-testid="SymbolsFilter-applyButton"
               type="submit"
               disabled={!dirty || isSubmitting}
               primary

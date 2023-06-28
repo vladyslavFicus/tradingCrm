@@ -213,6 +213,7 @@ const FixBalanceModal = (props: Props) => {
                     <Input
                       disabled
                       name="login"
+                      data-testid="FixBalanceModal-loginInput"
                       label={I18n.t('TRADING_ENGINE.MODALS.FIX_ORDER_MODAL.LOGIN')}
                       value={login}
                       className="FixBalanceModal__field"
@@ -222,6 +223,7 @@ const FixBalanceModal = (props: Props) => {
                   <div className="FixBalanceModal__field-container">
                     <Field
                       name="operation"
+                      data-testid="FixBalanceModal-operationSelect"
                       label={I18n.t('TRADING_ENGINE.MODALS.FIX_ORDER_MODAL.OPERATION')}
                       className="FixBalanceModal__field"
                       disabled={accountQuery.loading}
@@ -238,6 +240,7 @@ const FixBalanceModal = (props: Props) => {
                     <Field
                       name="amount"
                       type="number"
+                      data-testid="FixBalanceModal-amountInput"
                       label={I18n.t('TRADING_ENGINE.MODALS.FIX_ORDER_MODAL.AMOUNT')}
                       placeholder="0.00"
                       step="0.01"
@@ -255,6 +258,7 @@ const FixBalanceModal = (props: Props) => {
               <Button
                 tertiary
                 onClick={onCloseModal}
+                data-testid="FixBalanceModal-cancelButton"
               >
                 {I18n.t('COMMON.CANCEL')}
               </Button>
@@ -262,6 +266,7 @@ const FixBalanceModal = (props: Props) => {
                 primary
                 type="submit"
                 disabled={!isValid || !dirty || isSubmitting}
+                data-testid="FixBalanceModal-confirmButton"
               >
                 {I18n.t('COMMON.BUTTONS.CONFIRM')}
               </Button>

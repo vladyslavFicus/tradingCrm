@@ -143,6 +143,7 @@ const AccountProfileGroup = (props: Props) => {
                   <Input
                     autoFocus
                     name="groupName"
+                    data-testid="AccountProfileGroup-groupNameInput"
                     className="AccountProfileGroup__filter-input"
                     addition={<i className="icon icon-search" />}
                     value={searchVal}

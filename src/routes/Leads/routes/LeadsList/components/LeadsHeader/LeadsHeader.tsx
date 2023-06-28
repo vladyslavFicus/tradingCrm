@@ -214,6 +214,7 @@ const LeadsHeader = (props: Props) => {
             <Button
               tertiary
               onClick={handleOpenRepresentativeModal}
+              data-testid="LeadsHeader-bulkActionsSalesButton"
             >
               {I18n.t('COMMON.SALES')}
             </Button>
@@ -224,6 +225,7 @@ const LeadsHeader = (props: Props) => {
           <Button
             tertiary
             onClick={handleOpenLeadsUploadModal}
+            data-testid="LeadsHeader-uploadLeadsButton"
           >
             {I18n.t('COMMON.UPLOAD')}
           </Button>

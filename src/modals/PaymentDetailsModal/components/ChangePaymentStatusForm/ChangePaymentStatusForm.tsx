@@ -24,6 +24,7 @@ type FormValues = {
 };
 
 type Props = {
+  disablePaymentMethod: boolean,
   paymentId: string,
   onCloseModal: () => void,
   onSuccess: () => void,
@@ -31,6 +32,7 @@ type Props = {
 
 const ChangePaymentStatusForm = (props: Props) => {
   const {
+    disablePaymentMethod,
     paymentId,
     onCloseModal,
     onSuccess,
@@ -131,9 +133,9 @@ const ChangePaymentStatusForm = (props: Props) => {
               label={I18n.t('PAYMENT_DETAILS_MODAL.CHANGE_PAYMENT_METHOD')}
               placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
               component={FormikSelectField}
-              disabled={loading}
+              disabled={loading || disablePaymentMethod}
             >
-              {(manualMethods as Array<string>).map(item => (
+              {(manualMethods as Array<string>).filter(item => item !== 'COMMISSION').map(item => (
                 <option key={item} value={item}>
                   {formatLabel(item || '')}
                 </option>

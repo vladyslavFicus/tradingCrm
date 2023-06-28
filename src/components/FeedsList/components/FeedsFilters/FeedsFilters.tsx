@@ -102,6 +102,7 @@ const FeedsFilters = (props: Props) => {
           <Field
             name="searchBy"
             className="FeedsFilters__field FeedsFilters__field--search-by"
+            data-testid="FeedsFilters-searchByInput"
             label={I18n.t('COMMON.FEEDS.FILTERS.SEARCH_BY')}
             placeholder={I18n.t('COMMON.FEEDS.FILTERS.SEARCH_BY_PLACEHOLDER')}
             addition={<i className="icon icon-search" />}
@@ -112,10 +113,11 @@ const FeedsFilters = (props: Props) => {
           <If condition={!skipCategoryFilter}>
             <Field
               name="auditLogType"
+              className="FeedsFilters__field"
+              data-testid="FeedsFilters-auditLogTypeSelect"
               label={I18n.t('COMMON.FEEDS.FILTERS.ACTION_TYPE')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               component={FormikSelectField}
-              className="FeedsFilters__field"
               withAnyOption
               withFocus
             >
@@ -127,6 +129,7 @@ const FeedsFilters = (props: Props) => {
 
           <Field
             className="FeedsFilters__field FeedsFilters__field--date-range"
+            data-testid="FeedsFilters-creationDateRangePicker"
             label={I18n.t('COMMON.FEEDS.FILTERS.ACTION_DATE_RANGE')}
             component={FormikDateRangePicker}
             fieldsNames={{
@@ -139,11 +142,13 @@ const FeedsFilters = (props: Props) => {
           <div className="FeedsFilters__buttons-group">
             <RefreshButton
               className="FeedsFilters__button"
+              data-testid="FeedsFilters-refreshButton"
               onClick={onRefetch}
             />
 
             <Button
               className="FeedsFilters__button"
+              data-testid="FeedsFilters-resetButton"
               onClick={() => handleReset(resetForm)}
               disabled={isSubmitting || (!dirty && !Object.keys(values).length)}
               primary
@@ -153,6 +158,7 @@ const FeedsFilters = (props: Props) => {
 
             <Button
               className="FeedsFilters__button"
+              data-testid="FeedsFilters-applyButton"
               disabled={isSubmitting || !dirty}
               primary
               type="submit"

@@ -51,6 +51,7 @@ const StaticTabs = (props: Props) => {
           {_children.map(({ props: { label, ...rest } }, index) => (
             <Button
               key={index}
+              data-testid="StaticTabs-button"
               className={classNames('StaticTabs__nav-item', navItemClassName, {
                 'StaticTabs__nav-item--active': activeIndex === index,
                 [navActiveItemClassName]: activeIndex === index,

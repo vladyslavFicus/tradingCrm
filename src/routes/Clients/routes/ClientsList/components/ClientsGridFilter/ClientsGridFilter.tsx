@@ -338,6 +338,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="searchByIdentifiers"
                     className="ClientsGridFilter__field ClientsGridFilter__search"
+                    data-testid="ClientsGridFilter-searchByIdentifiersInput"
                     label={I18n.t(attributeLabels.searchByIdentifiers)}
                     labelTooltip={I18n.t('COMMON.SEARCH_BY.TOOLTIP')}
                     placeholder={I18n.t('COMMON.SEARCH_BY.CLIENT')}
@@ -350,6 +351,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="searchByAffiliateIdentifiers"
                     className="ClientsGridFilter__field ClientsGridFilter__search"
+                    data-testid="ClientsGridFilter-searchByAffiliateIdentifiersInput"
                     label={I18n.t(attributeLabels.searchByAffiliateIdentifiers)}
                     placeholder={I18n.t('COMMON.SEARCH_BY.AFFILIATE')}
                     addition={<i className="icon icon-search" />}
@@ -361,6 +363,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="migrationId"
                     className="ClientsGridFilter__field ClientsGridFilter__migration-id"
+                    data-testid="ClientsGridFilter-migrationIdInput"
                     label={I18n.t(attributeLabels.migrationId)}
                     placeholder={I18n.t('COMMON.SEARCH_BY.MIGRATION_ID')}
                     addition={<i className="icon icon-search" />}
@@ -372,6 +375,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="activityStatus"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-activityStatusSelect"
                     label={I18n.t(attributeLabels.activityStatus)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -386,6 +390,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="languages"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-languagesSelect"
                     label={I18n.t(attributeLabels.languages)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -406,6 +411,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="countries"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-countriesSelect"
                     label={I18n.t(attributeLabels.countries)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -425,6 +431,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="offices"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-officesSelect"
                     label={I18n.t(attributeLabels.offices)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -442,6 +449,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="desks"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-desksSelect"
                     label={I18n.t(attributeLabels.desks)}
                     placeholder={
                         I18n.t(
@@ -465,6 +473,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="teams"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-teamsSelect"
                     label={I18n.t(attributeLabels.teams)}
                     placeholder={
                         I18n.t(
@@ -488,6 +497,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="operators"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-operatorsSelect"
                     label={I18n.t(attributeLabels.operators)}
                     placeholder={
                         I18n.t(
@@ -520,6 +530,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="salesOperators"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-salesOperatorsSelect"
                     label={I18n.t(attributeLabels.salesOperators)}
                     placeholder={
                         I18n.t(
@@ -552,6 +563,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="retentionOperators"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-retentionOperatorsSelect"
                     label={I18n.t(attributeLabels.retentionOperators)}
                     placeholder={
                         I18n.t(
@@ -585,6 +597,7 @@ const ClientsGridFilter = (props:Props) => {
                     <Field
                       name="affiliateUuids"
                       className="ClientsGridFilter__field ClientsGridFilter__select"
+                      data-testid="ClientsGridFilter-affiliateUuidsSelect"
                       label={I18n.t(attributeLabels.affiliateUuids)}
                       placeholder={
                           I18n.t(
@@ -619,6 +632,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="isReferrered"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-isReferreredSelect"
                     label={I18n.t(attributeLabels.isReferrered)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -636,6 +650,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="statuses"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-statusesSelect"
                     label={I18n.t(attributeLabels.statuses)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -652,6 +667,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="affiliateFtd"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-affiliateFtdSelect"
                     label={I18n.t(attributeLabels.affiliateFtd)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -669,6 +685,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="acquisitionStatus"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-acquisitionStatusSelect"
                     label={I18n.t(attributeLabels.acquisitionStatus)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -685,6 +702,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="passportCountriesOfIssue"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-passportCountriesOfIssueSelect"
                     label={I18n.t(attributeLabels.passportCountryOfIssue)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -704,6 +722,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="salesStatuses"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-salesStatusesSelect"
                     label={I18n.t(attributeLabels.salesStatuses)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -723,6 +742,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="retentionStatuses"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-retentionStatusesSelect"
                     label={I18n.t(attributeLabels.retentionStatuses)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -749,6 +769,7 @@ const ClientsGridFilter = (props:Props) => {
                     <Field
                       name="assignStatus"
                       className="ClientsGridFilter__field ClientsGridFilter__select"
+                      data-testid="ClientsGridFilter-assignStatusSelect"
                       label={I18n.t(attributeLabels.assignStatus)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                       component={FormikSelectField}
@@ -766,6 +787,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="kycStatuses"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-kycStatusesSelect"
                     label={I18n.t(attributeLabels.kycStatuses)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -783,6 +805,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="firstTimeDeposit"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-firstTimeDepositSelect"
                     label={I18n.t(attributeLabels.firstTimeDeposit)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -800,6 +823,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="warnings"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-warningsSelect"
                     label={I18n.t(attributeLabels.warnings)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -816,6 +840,7 @@ const ClientsGridFilter = (props:Props) => {
                   <RangeGroup
                     name="balanceRange"
                     className="ClientsGridFilter__field ClientsGridFilter__range-inputs"
+                    data-testid="ClientsGridFilter-balanceRangeGroup"
                     label={I18n.t(attributeLabels.balance)}
                   >
                     <Field
@@ -826,6 +851,7 @@ const ClientsGridFilter = (props:Props) => {
                       placeholder="0.0"
                       component={FormikInputField}
                       className="ClientsGridFilter__field"
+                      data-testid="ClientsGridFilter-balanceRangeFromInput"
                       withFocus
                     />
                     <Field
@@ -836,6 +862,7 @@ const ClientsGridFilter = (props:Props) => {
                       placeholder="0.0"
                       component={FormikInputField}
                       className="ClientsGridFilter__field"
+                      data-testid="ClientsGridFilter-balanceRangeToInput"
                       withFocus
                     />
                   </RangeGroup>
@@ -843,6 +870,7 @@ const ClientsGridFilter = (props:Props) => {
                   <RangeGroup
                     name="depositsCountRange"
                     className="ClientsGridFilter__field ClientsGridFilter__range-inputs"
+                    data-testid="ClientsGridFilter-depositsCountRangeGroup"
                     label={I18n.t(attributeLabels.deposit)}
                   >
                     <Field
@@ -852,6 +880,7 @@ const ClientsGridFilter = (props:Props) => {
                       min={0}
                       component={FormikInputField}
                       className="ClientsGridFilter__field"
+                      data-testid="ClientsGridFilter-depositsCountRangeFromInput"
                       withFocus
                     />
                     <Field
@@ -861,6 +890,7 @@ const ClientsGridFilter = (props:Props) => {
                       placeholder="0"
                       component={FormikInputField}
                       className="ClientsGridFilter__field"
+                      data-testid="ClientsGridFilter-depositsCountRangeToInput"
                       withFocus
                     />
                   </RangeGroup>
@@ -868,6 +898,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="isNeverCalled"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-isNeverCalledSelect"
                     label={I18n.t(attributeLabels.isNeverCalled)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -885,12 +916,14 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="timeZone"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-timeZone"
                     component={TimeZoneField}
                   />
 
                   <Field
                     name="registrationDateRange"
                     className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                    data-testid="ClientsGridFilter-registrationDateRangePicker"
                     label={I18n.t(attributeLabels.registrationDate)}
                     component={FormikDateRangePicker}
                     fieldsNames={{
@@ -903,6 +936,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="affiliateFtdDateRange"
                     className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                    data-testid="ClientsGridFilter-affiliateFtdDateRangePicker"
                     label={I18n.t(attributeLabels.affiliateFtdDateRange)}
                     component={FormikDateRangePicker}
                     fieldsNames={{
@@ -915,6 +949,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="firstDepositDateRange"
                     className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                    data-testid="ClientsGridFilter-firstDepositDateRangePicker"
                     label={I18n.t(attributeLabels.firstDepositDateRange)}
                     component={FormikDateRangePicker}
                     fieldsNames={{
@@ -927,6 +962,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="firstNoteDateRange"
                     className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                    data-testid="ClientsGridFilter-firstNoteDateRangePicker"
                     label={I18n.t(attributeLabels.firstNoteDateRange)}
                     component={FormikDateRangePicker}
                     fieldsNames={{
@@ -940,6 +976,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="lastNoteDateRange"
                     className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                    data-testid="ClientsGridFilter-lastNoteDateRangePicker"
                     label={I18n.t(attributeLabels.lastNoteDateRange)}
                     component={FormikDateRangePicker}
                     fieldsNames={{
@@ -952,6 +989,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="lastTradeDateRange"
                     className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                    data-testid="ClientsGridFilter-lastTradeDateRangePicker"
                     label={I18n.t(attributeLabels.lastTradeDateRange)}
                     component={FormikDateRangePicker}
                     fieldsNames={{
@@ -964,6 +1002,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="lastLoginDateRange"
                     className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                    data-testid="ClientsGridFilter-lastLoginDateRangePicker"
                     label={I18n.t(attributeLabels.lastLoginDateRange)}
                     component={FormikDateRangePicker}
                     fieldsNames={{
@@ -977,6 +1016,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="lastModificationDateRange"
                     className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                    data-testid="ClientsGridFilter-lastModificationDateRangePicker"
                     label={I18n.t(attributeLabels.lastModificationDateRange)}
                     component={FormikDateRangePicker}
                     fieldsNames={{
@@ -989,6 +1029,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="lastCallDateRange"
                     className="ClientsGridFilter__field ClientsGridFilter__date-range"
+                    data-testid="ClientsGridFilter-lastCallDateRangePicker"
                     label={I18n.t(attributeLabels.lastCallDateRange)}
                     component={FormikDateRangePicker}
                     fieldsNames={{
@@ -1002,6 +1043,7 @@ const ClientsGridFilter = (props:Props) => {
                     name="searchLimit"
                     type="number"
                     className="ClientsGridFilter__field ClientsGridFilter__search-limit"
+                    data-testid="ClientsGridFilter-searchLimitInput"
                     label={I18n.t(attributeLabels.searchLimit)}
                     placeholder={I18n.t('COMMON.UNLIMITED')}
                     component={FormikInputField}
@@ -1012,6 +1054,7 @@ const ClientsGridFilter = (props:Props) => {
                   <Field
                     name="termsAccepted"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-termsAcceptedSelect"
                     label={I18n.t(attributeLabels.termsAccepted)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
@@ -1030,11 +1073,13 @@ const ClientsGridFilter = (props:Props) => {
                     <RefreshButton
                       onClick={handleRefetch}
                       className="ClientsGridFilter__button"
+                      data-testid="ClientsGridFilter-refreshButton"
                     />
 
                     <Button
                       onClick={handleReset}
                       className="ClientsGridFilter__button"
+                      data-testid="ClientsGridFilter-resetButton"
                       disabled={clientsLoading || isSubmitting || !Object.keys(values).length}
                       primary
                     >
@@ -1044,6 +1089,7 @@ const ClientsGridFilter = (props:Props) => {
                     <Button
                       type="submit"
                       className="ClientsGridFilter__button"
+                      data-testid="ClientsGridFilter-applyButton"
                       disabled={clientsLoading || isSubmitting || !dirty}
                       primary
                     >

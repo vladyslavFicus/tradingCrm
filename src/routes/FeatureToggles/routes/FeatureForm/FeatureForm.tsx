@@ -36,7 +36,7 @@ type FormValues = {
   notificationCleanUpDays: number,
   hideChangePasswordCp: boolean,
   referralEnable: boolean,
-  jwtAccessTtlSeconds: number,
+  affiliateClientAutoLogoutMinutes: number,
   platformMaxAccounts: Record<PlatformType, number>,
   paymentDeposits: Array<PaymentDeposit>,
   accountAutoCreations: Record<string, boolean>,
@@ -58,10 +58,11 @@ const FeatureForm = () => {
     notificationCleanUpDays,
     hideChangePasswordCp,
     referralEnable,
-    jwtAccessTtlSeconds,
     platformMaxAccounts,
     paymentDeposits,
     accountAutoCreations,
+    affiliateClientAutoLogoutEnable,
+    affiliateClientAutoLogoutMinutes,
     version,
   } = brandConfig || {};
 
@@ -71,7 +72,7 @@ const FeatureForm = () => {
   // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues) => {
     const { depositButtons, platformMaxAccounts: updatedPlatform, accountAutoCreations: updatedAccounts } = values;
-    const depositAmounts = Object.values(depositButtons).filter(deposit => deposit !== null);
+    const depositAmounts = Object.values(depositButtons).filter(deposit => !!deposit);
 
     const newPlatformMaxAccounts = platformMaxAccounts?.map((platform) => {
       const updatedMaxLiveAccounts = updatedPlatform[platform?.platformType as PlatformType];
@@ -92,19 +93,22 @@ const FeatureForm = () => {
     try {
       await updateBrandConfigMutation({
         variables: {
-          restrictedCountries: values?.restrictedCountries,
+          restrictedCountries: values?.restrictedCountries || [],
           version: version || 0,
           paymentAmounts: depositAmounts as Array<number>,
           profileDepositEnable: !!values?.profileDepositEnable,
           hideChangePasswordCp: values?.hideChangePasswordCp,
           referralEnable: values?.referralEnable,
           notificationCleanUpDays: values?.notificationCleanUpDays || 0,
-          jwtAccessTtlSeconds: values?.jwtAccessTtlSeconds || null,
+          affiliateClientAutoLogoutEnable: values?.autoLogout,
+          affiliateClientAutoLogoutMinutes: values?.autoLogout ? values?.affiliateClientAutoLogoutMinutes : null,
           platformMaxAccounts: newPlatformMaxAccounts || [],
           paymentDeposits: values?.paymentDeposits || [],
           accountAutoCreations: updatedAccountAutoCreations || [],
         },
       });
+
+      await refetch();
 
       notify({
         level: LevelType.SUCCESS,
@@ -147,7 +151,7 @@ const FeatureForm = () => {
       <div className="FeatureForm">
         <Formik
           initialValues={{
-            jwtAccessTtlSeconds: jwtAccessTtlSeconds || '',
+            affiliateClientAutoLogoutMinutes: affiliateClientAutoLogoutMinutes || '',
             platformMaxAccounts: initialPlatformMaxAccounts,
             notificationCleanUpDays,
             depositButtons: {
@@ -163,7 +167,7 @@ const FeatureForm = () => {
             accountAutoCreations: initialAccountAutoCreations,
             profileDepositEnable: !!profileDepositEnable,
             hideChangePasswordCp: !!hideChangePasswordCp,
-            autoLogout: !!jwtAccessTtlSeconds,
+            autoLogout: !!affiliateClientAutoLogoutEnable,
           } as FormValues}
           validate={createValidator({
             restrictedCountries: ['array'],
@@ -174,8 +178,8 @@ const FeatureForm = () => {
               deposit1: ['required', 'numeric', 'greater:0'],
               deposit2: ['required', 'numeric', 'greater:0'],
               deposit3: ['required', 'numeric', 'greater:0'],
-              deposit4: 'numeric',
-              deposit5: 'numeric',
+              deposit4: ['numeric', 'greater:0'],
+              deposit5: ['numeric', 'greater:0'],
             },
             referralEnable: 'boolean',
             accountAutoCreations: accountAutoCreations?.reduce((acc, account) => (
@@ -185,7 +189,7 @@ const FeatureForm = () => {
             profileDepositEnable: 'boolean',
             hideChangePasswordCp: 'boolean',
             autoLogout: 'boolean',
-            jwtAccessTtlSeconds: ['required_with:autoLogout', 'numeric', 'greater:0'],
+            affiliateClientAutoLogoutMinutes: ['required_with:autoLogout', 'numeric', 'greater:0'],
           }, translateLabels(attributeLabels), false, customErrors)}
           validateOnChange={false}
           validateOnBlur={false}
@@ -203,6 +207,7 @@ const FeatureForm = () => {
                   type="submit"
                   disabled={isSubmitting || !dirty}
                   className="FeatureForm__button"
+                  data-testid="FeatureForm-saveChangesButton"
                 >
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </Button>
@@ -232,6 +237,7 @@ const FeatureForm = () => {
                   <Field
                     name="restrictedCountries"
                     className="FeatureForm__field"
+                    data-testid="FeatureForm-restrictedCountriesSelect"
                     label={I18n.t(attributeLabels.restrictedCountries)}
                     component={FormikSelectField}
                     searchable
@@ -263,6 +269,7 @@ const FeatureForm = () => {
                   <Field
                     name="notificationCleanUpDays"
                     className="FeatureForm__field"
+                    data-testid="FeatureForm-notificationCleanUpDaysInput"
                     label={I18n.t(attributeLabels.notificationCleanUpDays)}
                     type="number"
                     component={FormikInputField}
@@ -293,6 +300,7 @@ const FeatureForm = () => {
 
                   <Field
                     name="referralEnable"
+                    data-testid="FeatureForm-referralEnableCheckbox"
                     className="FeatureForm__field-checkbox"
                     label={I18n.t(attributeLabels.referralEnable)}
                     component={FormikCheckbox}
@@ -316,12 +324,13 @@ const FeatureForm = () => {
                       </UncontrolledTooltip>
                     </span>
 
-                    {accountAutoCreations?.map(account => (
+                    {accountAutoCreations?.map(({ accountCurrency, platformType }) => (
                       <Field
-                        key={`${account?.platformType}-${account?.accountCurrency}`}
-                        name={`accountAutoCreations.${account?.platformType}-${account?.accountCurrency}`}
+                        data-testid={`FeatureForm-accountAutoCreations${platformType}-${accountCurrency}`}
+                        key={`${platformType}-${accountCurrency}`}
+                        name={`accountAutoCreations.${platformType}-${accountCurrency}`}
                         className="FeatureForm__field-checkbox FeatureForm__field-checkbox--multi"
-                        label={`${account?.platformType}-${account?.accountCurrency}`}
+                        label={`${platformType}-${accountCurrency}`}
                         component={FormikCheckbox}
                       />
                     ))}
@@ -346,6 +355,7 @@ const FeatureForm = () => {
 
                   <Field
                     name="profileDepositEnable"
+                    data-testid="FeatureForm-profileDepositEnableCheckbox"
                     className="FeatureForm__field-checkbox"
                     label={I18n.t(attributeLabels.profileDepositEnable)}
                     component={FormikCheckbox}
@@ -375,6 +385,7 @@ const FeatureForm = () => {
                   <div className="FeatureForm__deposit-fields">
                     <Field
                       name="depositButtons.deposit1"
+                      data-testid="FeatureForm-depositButtonsDeposit1Input"
                       className="FeatureForm__field FeatureForm__field--quick-deposit"
                       label={I18n.t(attributeLabels['depositButtons.deposit1'])}
                       type="number"
@@ -384,6 +395,7 @@ const FeatureForm = () => {
 
                     <Field
                       name="depositButtons.deposit2"
+                      data-testid="FeatureForm-depositButtonsDeposit2Input"
                       className="FeatureForm__field FeatureForm__field--quick-deposit"
                       label={I18n.t(attributeLabels['depositButtons.deposit2'])}
                       type="number"
@@ -393,6 +405,7 @@ const FeatureForm = () => {
 
                     <Field
                       name="depositButtons.deposit3"
+                      data-testid="FeatureForm-depositButtonsDeposit3Input"
                       className="FeatureForm__field FeatureForm__field--quick-deposit"
                       label={I18n.t(attributeLabels['depositButtons.deposit3'])}
                       type="number"
@@ -402,6 +415,7 @@ const FeatureForm = () => {
 
                     <Field
                       name="depositButtons.deposit4"
+                      data-testid="FeatureForm-depositButtonsDeposit4Input"
                       className="FeatureForm__field FeatureForm__field--quick-deposit"
                       label={I18n.t(attributeLabels['depositButtons.deposit4'])}
                       type="number"
@@ -411,6 +425,7 @@ const FeatureForm = () => {
 
                     <Field
                       name="depositButtons.deposit5"
+                      data-testid="FeatureForm-depositButtonsDeposit5Input"
                       className="FeatureForm__field FeatureForm__field--quick-deposit"
                       label={I18n.t(attributeLabels['depositButtons.deposit5'])}
                       type="number"
@@ -438,11 +453,12 @@ const FeatureForm = () => {
                     </span>
 
                     <div className="FeatureForm__account-fields">
-                      {platformMaxAccounts?.map(platform => (
+                      {platformMaxAccounts?.map(({ platformType }) => (
                         <Field
-                          name={`platformMaxAccounts.${platform?.platformType}`}
+                          name={`platformMaxAccounts.${platformType}`}
+                          data-testid={`FeatureForm-platformMaxAccounts${platformType}`}
                           className="FeatureForm__field FeatureForm__field--account"
-                          label={`${platform?.platformType}.Account Quantity`}
+                          label={`${platformType}.Account Quantity`}
                           type="number"
                           component={FormikInputField}
                           disabled={isSubmitting}
@@ -454,7 +470,7 @@ const FeatureForm = () => {
 
                 <div className="FeatureForm__block">
                   <span className="FeatureForm__block-title">
-                    {I18n.t('FEATURE_TOGGLES.FEATURE_FORM.CHANGE_PASSWORD.TITLE')}
+                    {I18n.t('FEATURE_TOGGLES.FEATURE_FORM.HIDE_CHANGE_PASSWORD.TITLE')}
 
                     <i className="FeatureForm__icon-info fa fa-info-circle" id={`password-${id}`} />
 
@@ -464,12 +480,13 @@ const FeatureForm = () => {
                       delay={{ show: 0, hide: 0 }}
                       fade={false}
                     >
-                      {I18n.t('FEATURE_TOGGLES.FEATURE_FORM.CHANGE_PASSWORD.DESCRIPTION')}
+                      {I18n.t('FEATURE_TOGGLES.FEATURE_FORM.HIDE_CHANGE_PASSWORD.DESCRIPTION')}
                     </UncontrolledTooltip>
                   </span>
 
                   <Field
                     name="hideChangePasswordCp"
+                    data-testid="FeatureForm-hideChangePasswordCheckbox"
                     className="FeatureForm__field-checkbox"
                     label={I18n.t(attributeLabels.hideChangePasswordCp)}
                     component={FormikCheckbox}
@@ -494,15 +511,17 @@ const FeatureForm = () => {
 
                   <Field
                     name="autoLogout"
+                    data-testid="FeatureForm-autoLogoutCheckbox"
                     className="FeatureForm__field-checkbox"
                     label={I18n.t(attributeLabels.autoLogout)}
                     component={FormikCheckbox}
                   />
 
                   <Field
-                    name="jwtAccessTtlSeconds"
+                    name="affiliateClientAutoLogoutMinutes"
+                    data-testid="FeatureForm-affiliateClientAutoLogoutMinutesInput"
                     className="FeatureForm__field FeatureForm__field--time"
-                    label={I18n.t(attributeLabels.jwtAccessTtlSeconds)}
+                    label={I18n.t(attributeLabels.affiliateClientAutoLogoutMinutes)}
                     type="number"
                     component={FormikInputField}
                     disabled={isSubmitting || !values.autoLogout}

@@ -172,6 +172,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
                   primary
                   type="submit"
                   className="PartnerPersonalInfoForm__actions"
+                  data-testid="PartnerPersonalInfoForm-saveChangesButton"
                 >
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </Button>
@@ -182,6 +183,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
               <Field
                 name="firstName"
                 className="PartnerPersonalInfoForm__field"
+                data-testid="PartnerPersonalInfoForm-firstNameInput"
                 label={I18n.t(attributeLabels.firstName)}
                 placeholder={I18n.t(attributeLabels.firstName)}
                 component={FormikInputField}
@@ -191,6 +193,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
               <Field
                 name="lastName"
                 className="PartnerPersonalInfoForm__field"
+                data-testid="PartnerPersonalInfoForm-lastNameInput"
                 label={I18n.t(attributeLabels.lastName)}
                 placeholder={I18n.t(attributeLabels.lastName)}
                 component={FormikInputField}
@@ -200,6 +203,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
               <Field
                 name="email"
                 className="PartnerPersonalInfoForm__field"
+                data-testid="PartnerPersonalInfoForm-emailInput"
                 label={I18n.t(attributeLabels.email)}
                 placeholder={I18n.t(attributeLabels.email)}
                 component={FormikInputField}
@@ -209,6 +213,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
               <Field
                 name="externalAffiliateId"
                 className="PartnerPersonalInfoForm__field"
+                data-testid="PartnerPersonalInfoForm-externalAffiliateIdInput"
                 label={I18n.t(attributeLabels.externalAffiliateId)}
                 placeholder={I18n.t(attributeLabels.externalAffiliateId)}
                 component={FormikInputField}
@@ -217,6 +222,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
 
               <Field
                 name="public"
+                data-testid="PartnerPersonalInfoForm-publicCheckbox"
                 component={FormikCheckbox}
                 label={I18n.t('PARTNERS.MODALS.NEW_PARTNER.PUBLIC_CHECKBOX')}
                 disabled={isSubmitting || deniesUpdate}
@@ -257,6 +263,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
               <Field
                 name="phone"
                 className="PartnerPersonalInfoForm__field"
+                data-testid="PartnerPersonalInfoForm-phoneInput"
                 label={I18n.t(attributeLabels.phone)}
                 placeholder={I18n.t(attributeLabels.phone)}
                 component={FormikInputField}
@@ -266,6 +273,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
               <Field
                 name="country"
                 className="PartnerPersonalInfoForm__field"
+                data-testid="PartnerPersonalInfoForm-countrySelect"
                 label={I18n.t(attributeLabels.country)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.COUNTRY')}
                 component={FormikSelectField}
@@ -282,6 +290,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
               <Field
                 name="permission.allowedIpAddresses"
                 className="PartnerPersonalInfoForm__field"
+                data-testid="PartnerPersonalInfoForm-permissionAllowedIpAddressesMultiInput"
                 label={I18n.t(attributeLabels.allowedIpAddresses)}
                 placeholder={I18n.t(attributeLabels.allowedIpAddresses)}
                 component={FormikMultiInputField}
@@ -291,6 +300,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
               <Field
                 name="permission.forbiddenCountries"
                 className="PartnerPersonalInfoForm__field"
+                data-testid="PartnerPersonalInfoForm-permissionForbiddenCountriesSelect"
                 label={I18n.t(attributeLabels.forbiddenCountries)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.COUNTRY')}
                 component={FormikSelectField}
@@ -308,6 +318,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
               <Field
                 name="permission.restrictedSources"
                 className="PartnerPersonalInfoForm__field"
+                data-testid="PartnerPersonalInfoForm-permissionRestrictedSourcesMultiInput"
                 label={I18n.t(attributeLabels.restrictedSources)}
                 placeholder={I18n.t(attributeLabels.restrictedSources)}
                 component={FormikMultiInputField}
@@ -317,6 +328,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
               <Field
                 name="permission.restrictedReferrals"
                 className="PartnerPersonalInfoForm__field"
+                data-testid="PartnerPersonalInfoForm-permissionRestrictedReferralsMultiInput"
                 label={I18n.t(attributeLabels.restrictedReferrals)}
                 placeholder={I18n.t(attributeLabels.restrictedReferrals)}
                 component={FormikMultiInputField}
@@ -325,6 +337,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
 
               <Field
                 name="permission.showNotes"
+                data-testid="PartnerPersonalInfoForm-permissionShowNotesCheckbox"
                 component={FormikCheckbox}
                 label={I18n.t(attributeLabels.showNotes)}
                 disabled={isSubmitting || deniesUpdate}
@@ -332,6 +345,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
 
               <Field
                 name="permission.showSalesStatus"
+                data-testid="PartnerPersonalInfoForm-permissionShowSalesStatusCheckbox"
                 component={FormikCheckbox}
                 label={I18n.t(attributeLabels.showSalesStatus)}
                 disabled={isSubmitting || deniesUpdate}
@@ -339,6 +353,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
 
               <Field
                 name="permission.showFTDAmount"
+                data-testid="PartnerPersonalInfoForm-permissionShowFTDAmountCheckbox"
                 component={FormikCheckbox}
                 label={I18n.t(attributeLabels.showFTDAmount)}
                 disabled={isSubmitting || deniesUpdate}
@@ -346,6 +361,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
 
               <Field
                 name="permission.showKycStatus"
+                data-testid="PartnerPersonalInfoForm-permissionShowKycStatusCheckbox"
                 component={FormikCheckbox}
                 label={I18n.t(attributeLabels.showKycStatus)}
                 disabled={isSubmitting || deniesUpdate}
@@ -354,6 +370,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
               <If condition={department === 'ADMINISTRATION' && role === 'ADMINISTRATION'}>
                 <Field
                   name="cdeAffiliate"
+                  data-testid="PartnerPersonalInfoForm-cdeAffiliateCheckbox"
                   component={FormikCheckbox}
                   label={I18n.t(attributeLabels.cdeAffiliate)}
                   disabled={isSubmitting}
@@ -362,6 +379,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
 
               <Field
                 name="permission.showAutologinUrl"
+                data-testid="PartnerPersonalInfoForm-permissionShowAutologinUrlCheckbox"
                 component={FormikCheckbox}
                 label={I18n.t(attributeLabels.showAutologinUrl)}
                 disabled={isSubmitting || deniesUpdate}
@@ -371,6 +389,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
                 <Field
                   name="permission.minFtdDeposit"
                   className="PartnerPersonalInfoForm__field"
+                  data-testid="PartnerPersonalInfoForm-permissionMinFtdDepositInputRange"
                   label={I18n.t(attributeLabels.minFtdDeposit)}
                   placeholder={I18n.t(attributeLabels.minFtdDeposit)}
                   component={FormikInputRangeField}
@@ -387,6 +406,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
 
                 <Field
                   name="permission.cumulativeDeposit"
+                  data-testid="PartnerPersonalInfoForm-permissionCumulativeDepositCheckbox"
                   component={FormikCheckbox}
                   label={I18n.t(attributeLabels.cumulativeDeposit)}
                   hint={!values.permission.minFtdDeposit && I18n.t(attributeLabels.cumulativeDepositHint)}

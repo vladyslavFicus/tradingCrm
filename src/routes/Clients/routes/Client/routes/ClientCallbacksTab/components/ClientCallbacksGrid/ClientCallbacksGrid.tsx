@@ -131,6 +131,7 @@ const ClientCallbacksGrid = (props: Props) => {
         <PermissionContent permissions={permissions.USER_PROFILE.DELETE_CALLBACK}>
           <TrashButton
             className="ClientCallbacksGrid__actions--remove"
+            data-testid="ClientCallbacksGrid-trashButton"
             onClick={() => deleteClientCallbackModal.show({ callback })}
           />
         </PermissionContent>

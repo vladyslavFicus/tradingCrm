@@ -145,6 +145,7 @@ const DealingOperatorHeader = (props: Props) => {
           <If condition={isMaxLoginAttemptReached(locks) && status !== 'CLOSED'}>
             <Button
               className="DealingOperatorHeader__action"
+              data-testid="DealingOperatorHeader-unlockButton"
               onClick={handleUnlockOperatorLogin}
               primary
               small
@@ -158,6 +159,7 @@ const DealingOperatorHeader = (props: Props) => {
           <PermissionContent permissions={permissions.WE_TRADING.OPERATORS_RESET_PASSWORD}>
             <Button
               className="DealingOperatorHeader__action"
+              data-testid="DealingOperatorHeader-resetPasswordButton"
               onClick={handleResetAction}
               primary
               small
@@ -170,6 +172,7 @@ const DealingOperatorHeader = (props: Props) => {
         <PermissionContent permissions={permissions.WE_TRADING.OPERATORS_CHANGE_PASSWORD}>
           <Button
             className="DealingOperatorHeader__action"
+            data-testid="DealingOperatorHeader-changePasswordButton"
             onClick={handleChangedAction}
             primary
             small

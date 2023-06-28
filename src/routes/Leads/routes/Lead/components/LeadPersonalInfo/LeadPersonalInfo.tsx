@@ -135,6 +135,7 @@ const LeadPersonalInfo = (props: Props) => {
                 <Button
                   tertiary
                   className="LeadPersonalInfo__show-contacts-button"
+                  data-testid="LeadPersonalInfo-showPhoneButton"
                   onClick={handleGetLeadPhones}
                 >
                   {I18n.t('COMMON.BUTTONS.SHOW')}
@@ -167,6 +168,7 @@ const LeadPersonalInfo = (props: Props) => {
               <Button
                 tertiary
                 className="LeadPersonalInfo__show-contacts-button"
+                data-testid="LeadPersonalInfo-showEmailButton"
                 onClick={handleGetLeadEmail}
               >
                 {I18n.t('COMMON.BUTTONS.SHOW')}

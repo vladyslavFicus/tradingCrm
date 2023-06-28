@@ -50,6 +50,7 @@ const TeamsList = () => {
 
         <If condition={allowCreateBranch}>
           <Button
+            data-testid="TeamsList-addTeamButton"
             onClick={handleOpenAddTeamModal}
             tertiary
           >

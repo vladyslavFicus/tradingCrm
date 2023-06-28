@@ -154,7 +154,10 @@ const ClientsHeader = (props: Props) => {
           />
         </If>
 
-        <FiltersTogglerButton className="ClientsHeader__filters-toggler-button" />
+        <FiltersTogglerButton
+          className="ClientsHeader__filters-toggler-button"
+          data-testid="ClientsHeader-filtersTogglerButton"
+        />
       </div>
     </div>
   );

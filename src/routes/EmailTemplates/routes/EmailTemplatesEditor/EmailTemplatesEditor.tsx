@@ -77,6 +77,7 @@ const EmailTemplatesEditor = () => {
         <Button
           tertiary
           className="EmailTemplatesEditor__header-link"
+          data-testid="EmailTemplatesEditor-goToEmailTemplatesButton"
           onClick={handleBackToList}
         >
           {I18n.t('EMAILS.EMAIL_TEMPLATES.LINK_GO_TO_EMAIL_TEMPLATES')}
@@ -101,6 +102,7 @@ const EmailTemplatesEditor = () => {
               <div className="EmailTemplatesEditor__body-form-editor-container">
                 <Field
                   name="text"
+                  data-testid="EmailTemplatesEditor-textHtmlEditor"
                   label={I18n.t('EMAILS.EMAIL_TEMPLATES.INPUT_EDITOR_LABEL')}
                   placeholder={I18n.t('EMAILS.EMAIL_TEMPLATES.INPUT_EDITOR_PLACEHOLDER')}
                   component={FormikHtmlEditorField}
@@ -112,17 +114,24 @@ const EmailTemplatesEditor = () => {
               <div className="EmailTemplatesEditor__body-form-fields-container">
                 <Field
                   name="name"
+                  data-testid="EmailTemplatesEditor-nameInput"
                   label={I18n.t('EMAILS.EMAIL_TEMPLATES.INPUT_NAME_LABEL')}
                   component={FormikInputField}
                 />
 
                 <Field
                   name="subject"
+                  data-testid="EmailTemplatesEditor-subjectInput"
                   label={I18n.t('EMAILS.EMAIL_TEMPLATES.INPUT_SUBJECT_LABEL')}
                   component={FormikInputField}
                 />
 
-                <Button type="submit" primary disabled={!dirty && isValid}>
+                <Button
+                  type="submit"
+                  primary
+                  disabled={!dirty && isValid}
+                  data-testid="EmailTemplatesEditor-updateButton"
+                >
                   {I18n.t('EMAILS.EMAIL_TEMPLATES.EDITOR.BUTTONS.UPDATE')}
                 </Button>
               </div>

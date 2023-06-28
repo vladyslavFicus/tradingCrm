@@ -245,6 +245,7 @@ const EditOrderForm = (props: Props) => {
                   <If condition={[OrderStatus.OPEN, OrderStatus.CLOSED].includes(status)}>
                     <Field
                       name="type"
+                      data-testid="EditOrderForm-typeSelect"
                       component={FormikSelectField}
                       className="EditOrderModal__field"
                       label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TYPE')}
@@ -259,6 +260,7 @@ const EditOrderForm = (props: Props) => {
 
                   <Field
                     name="reason"
+                    data-testid="EditOrderForm-reasonSelect"
                     component={FormikSelectField}
                     className="EditOrderModal__field"
                     label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.REASON')}
@@ -279,6 +281,7 @@ const EditOrderForm = (props: Props) => {
                     name="volume"
                     type="number"
                     placeholder="0.00"
+                    data-testid="EditOrderForm-volumeInput"
                     min={symbolConfig?.lotStep}
                     max={symbolConfig?.lotMax}
                     step={symbolConfig?.lotStep}
@@ -290,6 +293,7 @@ const EditOrderForm = (props: Props) => {
                   <Field
                     disabled
                     name="symbol"
+                    data-testid="EditOrderForm-symbolSelect"
                     component={FormikSelectField}
                     className="EditOrderModal__field"
                     label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.SYMBOL')}
@@ -306,6 +310,7 @@ const EditOrderForm = (props: Props) => {
                   name="openPrice"
                   type="number"
                   step="0.00001"
+                  data-testid="EditOrderForm-openPriceInputDecimals"
                   placeholder={`0.${'0'.repeat(digits || 4)}`}
                   label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_PRICE')}
                   className="EditOrderModal__field"
@@ -315,6 +320,7 @@ const EditOrderForm = (props: Props) => {
                 />
                 <Field
                   name="openTime"
+                  data-testid="EditOrderForm-openTimeDatePicker"
                   className="EditOrderModal__field"
                   label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.OPEN_TIME')}
                   component={FormikDatePicker}
@@ -329,6 +335,7 @@ const EditOrderForm = (props: Props) => {
                   name="stopLoss"
                   type="number"
                   step="0.00001"
+                  data-testid="EditOrderForm-stopLossInputDecimals"
                   placeholder={`0.${'0'.repeat(digits || 4)}`}
                   label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.STOP_LOSS')}
                   className="EditOrderModal__field"
@@ -340,6 +347,7 @@ const EditOrderForm = (props: Props) => {
                   name="takeProfit"
                   type="number"
                   step="0.00001"
+                  data-testid="EditOrderForm-takeProfitInputDecimals"
                   placeholder={`0.${'0'.repeat(digits || 4)}`}
                   label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TAKE_PROFIT')}
                   className="EditOrderModal__field"
@@ -367,6 +375,7 @@ const EditOrderForm = (props: Props) => {
                     type="number"
                     step="0.00001"
                     placeholder="0.00"
+                    data-testid="EditOrderForm-closePriceInput"
                     label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CLOSE_PRICE')}
                     className="EditOrderModal__field"
                     value={_closePrice}
@@ -376,6 +385,7 @@ const EditOrderForm = (props: Props) => {
                     disabled={isOrderEditDisabled}
                     name="closeTime"
                     className="EditOrderModal__field"
+                    data-testid="EditOrderForm-closeTimeDatePicker"
                     label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.CLOSE_TIME')}
                     component={FormikDatePicker}
                     withTime
@@ -389,6 +399,7 @@ const EditOrderForm = (props: Props) => {
                   <Input
                     disabled
                     name="expiry"
+                    data-testid="EditOrderForm-expiryInput"
                     // @ts-expect-error 'time.closing' can be null and TS not working with JSX control statements
                     value={moment.utc(time.expiration).local().format('DD.MM.YYYY HH:mm:ss')}
                     label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.EXPIRY')}
@@ -403,6 +414,7 @@ const EditOrderForm = (props: Props) => {
                   type="number"
                   step="0.00001"
                   placeholder="0.00"
+                  data-testid="EditOrderForm-commissionInput"
                   label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.COMMISSION')}
                   className="EditOrderModal__field"
                   component={FormikInputField}
@@ -413,6 +425,7 @@ const EditOrderForm = (props: Props) => {
                   type="number"
                   step="0.00001"
                   placeholder="0.00"
+                  data-testid="EditOrderForm-swapsInput"
                   label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.SWAPS')}
                   className="EditOrderModal__field"
                   component={FormikInputField}
@@ -426,6 +439,7 @@ const EditOrderForm = (props: Props) => {
                     disabled
                     name="pnl"
                     type="number"
+                    data-testid="EditOrderForm-pnlInput"
                     value={floatingPnL.toFixed(2)}
                     label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.FLOATING_PL')}
                     className="EditOrderModal__field"
@@ -435,6 +449,7 @@ const EditOrderForm = (props: Props) => {
                     disabled
                     name="netPnL"
                     type="number"
+                    data-testid="EditOrderForm-netPnLInput"
                     value={(floatingPnL + commission + swaps).toFixed(2)}
                     label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NET_FLOATING')}
                     className="EditOrderModal__field"
@@ -444,6 +459,7 @@ const EditOrderForm = (props: Props) => {
                     disabled
                     name="margin"
                     type="number"
+                    data-testid="EditOrderForm-marginInput"
                     label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.MARGIN')}
                     className="EditOrderModal__field"
                     value={floatingMargin}
@@ -454,6 +470,7 @@ const EditOrderForm = (props: Props) => {
               <div className="EditOrderModal__field-container">
                 <Field
                   name="comment"
+                  data-testid="EditOrderForm-commentInput"
                   label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.COMMENT')}
                   className="EditOrderModal__field"
                   component={FormikInputField}
@@ -475,19 +492,27 @@ const EditOrderForm = (props: Props) => {
                       danger
                       type="submit"
                       className="EditOrderModal__button"
+                      data-testid="EditOrderForm-updateOrderButton"
                       disabled={!dirty || isSubmitting || !isEditAllowed || !isValid}
-                      data-testid="updateOrder"
                     >
                       {I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.UPDATE')}
                     </Button>
                   </If>
 
                   <If condition={status === OrderStatus.CLOSED && isReopenAllowed}>
-                    <ReopenOrderButton order={order} onSuccess={onSuccess} />
+                    <ReopenOrderButton
+                      data-testid="EditOrderForm-reopenOrderButton"
+                      order={order}
+                      onSuccess={onSuccess}
+                    />
                   </If>
 
                   <If condition={isCancelAllowed}>
-                    <CancelOrderButton order={order} onSuccess={onSuccess} />
+                    <CancelOrderButton
+                      data-testid="EditOrderForm-cancelOrderButton"
+                      order={order}
+                      onSuccess={onSuccess}
+                    />
                   </If>
                 </div>
               </If>
