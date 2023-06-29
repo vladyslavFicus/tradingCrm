@@ -3,6 +3,7 @@ import compose from 'compose-function';
 import classNames from 'classnames';
 import RSocketProvider from 'rsocket';
 import { getBrand, getBackofficeBrand } from 'config';
+import AutoLogoutProvider from 'providers/AutoLogoutProvider';
 import ConfigProvider from 'providers/ConfigProvider';
 import { withStorage } from 'providers/StorageProvider';
 import PermissionProvider from 'providers/PermissionsProvider';
@@ -50,52 +51,54 @@ const AuthorizedLayout = (props: Props) => {
   return (
     <RSocketProvider>
       <ConfigProvider>
-        <PermissionProvider key={auth.department}>
-          <ModalProvider>
-            <Notifications />
+        <AutoLogoutProvider>
+          <PermissionProvider key={auth.department}>
+            <ModalProvider>
+              <Notifications />
 
-            <Header />
+              <Header />
 
-            <Sidebar
-            // @ts-ignore Component withRouter HOC types issue
-              position={sidebarPosition}
-            />
+              <Sidebar
+                // @ts-ignore Component withRouter HOC types issue
+                position={sidebarPosition}
+              />
 
-            <main className={classNames(
-              'content-container',
-              `content-container--padding-${sidebarPosition}`,
-              {
-                'content-container--padding-bottom': isShowProductionAlert && downtime.show,
-              },
-            )}
-            >
-              <ErrorBoundary>
-                <Suspense fallback={<ShortLoader />}>
-                  {children}
-                </Suspense>
-              </ErrorBoundary>
-            </main>
+              <main className={classNames(
+                'content-container',
+                `content-container--padding-${sidebarPosition}`,
+                {
+                  'content-container--padding-bottom': isShowProductionAlert && downtime.show,
+                },
+              )}
+              >
+                <ErrorBoundary>
+                  <Suspense fallback={<ShortLoader />}>
+                    {children}
+                  </Suspense>
+                </ErrorBoundary>
+              </main>
 
-            <BackToTop position={sidebarPosition} />
+              <BackToTop position={sidebarPosition} />
 
-            {/* Notify users about downtime */}
-            <If condition={downtime.show}>
-              <div className="downtime-footer">
-                {downtime.title}
-              </div>
-            </If>
+              {/* Notify users about downtime */}
+              <If condition={downtime.show}>
+                <div className="downtime-footer">
+                  {downtime.title}
+                </div>
+              </If>
 
-            {/* Notify ADMINISTRATION role if it's production environment */}
-            <If condition={isShowProductionAlert}>
-              <div className="production-footer">
-                <span role="img" aria-label="fire">==== 🔥 PRODUCTION 🔥 ====</span>
-              </div>
-            </If>
+              {/* Notify ADMINISTRATION role if it's production environment */}
+              <If condition={isShowProductionAlert}>
+                <div className="production-footer">
+                  <span role="img" aria-label="fire">==== 🔥 PRODUCTION 🔥 ====</span>
+                </div>
+              </If>
 
-            {/* Show debug mode alert */}
-            <DebugMode />
-          </ModalProvider>
-        </PermissionProvider>
+              {/* Show debug mode alert */}
+              <DebugMode />
+            </ModalProvider>
+          </PermissionProvider>
+        </AutoLogoutProvider>
       </ConfigProvider>
     </RSocketProvider>
   );

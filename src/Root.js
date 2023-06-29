@@ -1,8 +1,7 @@
 import 'i18n';
-import React, { Suspense, PureComponent } from 'react';
+import React, { PureComponent, Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import ApolloProvider from 'apollo/ApolloProvider';
-import AutoLogoutProvider from 'providers/AutoLogoutProvider';
 import TrackifyProvider from 'providers/TrackifyProvider';
 import StorageProvider from 'providers/StorageProvider';
 import LocaleProvider from 'providers/LocaleProvider';
@@ -21,9 +20,7 @@ class Root extends PureComponent {
                 <NotificationProvider>
                   <ApolloProvider>
                     <TrackifyProvider>
-                      <AutoLogoutProvider>
-                        <App />
-                      </AutoLogoutProvider>
+                      <App />
                     </TrackifyProvider>
                   </ApolloProvider>
                 </NotificationProvider>
