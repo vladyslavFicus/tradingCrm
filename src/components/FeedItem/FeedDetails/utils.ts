@@ -1,6 +1,6 @@
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { startCase } from 'lodash';
+import { startCase, isArray, isObject, isEmpty } from 'lodash';
 import humanizeDuration from 'humanize-duration';
 import { departments, roles } from 'constants/operators';
 import { kycStatuses } from 'constants/kycStatuses';
@@ -92,6 +92,14 @@ export const translateRbac = () => {
 const rbacI18n = translateRbac();
 
 const translateValue = (value: any) => {
+  if (isObject(value) && isEmpty(value)) {
+    return '';
+  }
+
+  if (isArray(value)) {
+    return value.join(', ');
+  }
+
   const detailsValues: Record<string, string> = {
     ...(transformConstFromArr(COUNTRY_SPECIFIC_IDENTIFIER_TYPES, countryIdentifierTypesPath)),
     ...(transformConstFromObj(statuses, statusesPath)),

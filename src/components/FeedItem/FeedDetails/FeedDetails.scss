@@ -3,8 +3,10 @@
     padding-left: 5px;
   }
 
-  &__label {
-    margin-right: 5px;
+  &__columns {
+    display: flex;
+    column-gap: 5px;
+    flex-wrap: wrap;
   }
 
   &__value {
@@ -13,26 +15,21 @@
       word-break: break-all;
     }
 
-    &-from {
-      margin-right: 5px;
-    }
-
     &-to {
       font-weight: 700;
-      margin-left: 5px;
     }
 
     &-added {
       color: var(--state-colors-success);
+      display: flex;
+      column-gap: 5px;
     }
 
     &-removed {
       text-decoration: line-through;
       color: var(--state-colors-danger);
-    }
-
-    &-comma {
-      color: var(--state-colors-danger);
+      display: flex;
+      column-gap: 5px;
     }
   }
 

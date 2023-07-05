@@ -1,5 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { v4 as uuidv4 } from 'uuid';
 import { isObject } from 'lodash';
 import { renderValue, renderLabel } from './utils';
 import './FeedDetails.scss';
@@ -18,24 +19,30 @@ type Details = {
 
 type Props = {
   details: Details,
+  separator?: boolean,
 };
 
 const FeedDetails = (props: Props) => {
-  const { details } = props;
+  const { details, separator } = props;
 
   const formatTypeChangedElements = (array: Array<Detail>, type: string) => array
     .filter(({ changeType }) => changeType === type)
-    .map(({ value }) => value);
+    .map(({ value }) => ({ value, type }));
+
+  const getChangedElements = (array: Array<Detail>) => [
+    ...formatTypeChangedElements(array, 'REMOVED'),
+    ...formatTypeChangedElements(array, 'ADDED'),
+  ];
 
   return (
     <>
       {Object.entries(details).map(([key, detailValue]) => (
-        <div key={key}>
+        <div key={`${uuidv4()}-${key}`}>
           <Choose>
             {/* Render markup for field which was added */}
             <When condition={detailValue?.changeType === 'ADDED'}>
               <div>
-                <span className="FeedDetails__label">{renderLabel(key)}:</span>
+                <span className="FeedDetails__label">{renderLabel(key)}: </span>
                 <span className="FeedDetails__value-to">{renderValue(key, detailValue?.value)}</span>
               </div>
             </When>
@@ -43,7 +50,7 @@ const FeedDetails = (props: Props) => {
             {/* Render markup for field which was removed */}
             <When condition={detailValue?.changeType === 'REMOVED'}>
               <div>
-                <span className="FeedDetails__label">{renderLabel(key)}:</span>
+                <span className="FeedDetails__label">{renderLabel(key)}: </span>
                 <span className="FeedDetails__value-from">{renderValue(key, detailValue?.value)}</span>
                 <span className="FeedDetails__arrow" />
                 <span className="FeedDetails__value-to">&laquo; &raquo;</span>
@@ -55,23 +62,30 @@ const FeedDetails = (props: Props) => {
               <Choose>
                 {/* In CHANGED type can be an array which also has REMOVED and ADDED elements in array */}
                 <When condition={Array.isArray(detailValue?.elements)}>
-                  <span className="FeedDetails__label">{renderLabel(key)}:</span>
+                  <div className="FeedDetails__columns">
+                    <span className="FeedDetails__label">{renderLabel(key)}: </span>
 
-                  {/* Render removed elements from array */}
-                  {formatTypeChangedElements(detailValue.elements as Array<Detail>, 'REMOVED').map(value => (
-                    <span className="FeedDetails__value-removed">{value}</span>
-                  ))}
+                    {/* Render removed and added elements from array */}
+                    {getChangedElements(detailValue.elements as Array<Detail>).map(({ value, type }) => (
+                      <span key={uuidv4()} className={`FeedDetails__value-${type.toLowerCase()}`}>
+                        <Choose>
+                          <When condition={isObject(value)}>
+                            <FeedDetails details={value as Details} separator />
+                          </When>
 
-                  {/* Render added elements to array */}
-                  {formatTypeChangedElements(detailValue.elements as Array<Detail>, 'ADDED').map(value => (
-                    <span className="FeedDetails__value-added">{value}</span>
-                  ))}
+                          <Otherwise>
+                            {value},
+                          </Otherwise>
+                        </Choose>
+                      </span>
+                    ))}
+                  </div>
                 </When>
 
                 {/* If CHANGED type and field isn't array -> render default changed field markup */}
                 <Otherwise>
                   <div>
-                    <span className="FeedDetails__label">{renderLabel(key)}:</span>
+                    <span className="FeedDetails__label">{renderLabel(key)}: </span>
                     <span className="FeedDetails__value-from">{renderValue(key, detailValue?.from)}</span>
                     <span className="FeedDetails__arrow" />
                     <span className="FeedDetails__value-to">{renderValue(key, detailValue?.to)}</span>
@@ -98,8 +112,12 @@ const FeedDetails = (props: Props) => {
             {/* In all other cases (simple string, number, boolean) -> just render simple default markup */}
             <When condition={detailValue !== null}>
               <div>
-                <span className="FeedDetails__label">{renderLabel(key)}:</span>
+                <span className="FeedDetails__label">{renderLabel(key)}: </span>
                 <span className="FeedDetails__value-to">{renderValue(key, detailValue)}</span>
+
+                <If condition={!!separator}>
+                  {', '}
+                </If>
               </div>
             </When>
           </Choose>
