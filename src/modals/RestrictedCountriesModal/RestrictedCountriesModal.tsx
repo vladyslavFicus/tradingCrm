@@ -1,5 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import classNames from 'classnames';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { FormikSelectField } from 'components/Formik';
@@ -52,11 +53,11 @@ const RestrictedCountriesModal = (props: Props) => {
             <ModalHeader toggle={onCloseModal}>
               <Choose>
                 <When condition={type === TypesRestrictedCountriesModal.ADD}>
-                  {I18n.t('MODALS.RESTRICTED_COUNTRIES.HEADER_ADD')}
+                  {I18n.t('MODALS.RESTRICTED_COUNTRIES.HEADER_ALLOW')}
                 </When>
 
                 <Otherwise>
-                  {I18n.t('MODALS.RESTRICTED_COUNTRIES.HEADER_DELETE')}
+                  {I18n.t('MODALS.RESTRICTED_COUNTRIES.HEADER_DISALLOW')}
                 </Otherwise>
               </Choose>
             </ModalHeader>
@@ -92,19 +93,22 @@ const RestrictedCountriesModal = (props: Props) => {
               </Button>
 
               <Button
-                className="RestrictedCountriesModal__button"
+                className={classNames('RestrictedCountriesModal__button', {
+                  'RestrictedCountriesModal__button--success': type === TypesRestrictedCountriesModal.DELETE,
+                  'RestrictedCountriesModal__button--danger': type === TypesRestrictedCountriesModal.ADD,
+                })}
                 data-testid="RestrictedCountriesModal-actionButton"
                 disabled={!values?.forbiddenCountries?.length}
                 type="submit"
-                danger
+                tertiary
               >
                 <Choose>
                   <When condition={type === TypesRestrictedCountriesModal.ADD}>
-                    {I18n.t('COMMON.ADD')}
+                    {I18n.t('MODALS.RESTRICTED_COUNTRIES.RESTRICT')}
                   </When>
 
                   <Otherwise>
-                    {I18n.t('COMMON.BUTTONS.DELETE')}
+                    {I18n.t('MODALS.RESTRICTED_COUNTRIES.ALLOW')}
                   </Otherwise>
                 </Choose>
               </Button>

@@ -2813,9 +2813,10 @@
       }
     },
     "RESTRICTED_COUNTRIES": {
-      "HEADER_ADD": "Add restricted countries",
-      "HEADER_DELETE": "Delete restricted countries",
-      "ADD_BUTTON": "Add",
+      "HEADER_ALLOW": "Restrict countries",
+      "HEADER_DISALLOW": "Allow restricted countries",
+      "ALLOW": "Allow",
+      "RESTRICT": "Restrict",
       "LABEL_FIELD": "Restricted countries",
       "NOTIFICATIONS": {
         "SUCCESS_ADD": "Restricted countries was successfully added",

@@ -189,25 +189,25 @@ const PartnersBulkActions = (props: Props) => {
 
       <If condition={permission.allows(permissions.PARTNERS.BULK_CHANGE_AFFILIATES_COUNTRIES)}>
         <Button
-          className="PartnersBulkActions__button PartnersBulkActions__button--success"
+          className="PartnersBulkActions__button PartnersBulkActions__button--danger"
           data-testid="PartnersBulkActions-allowCountriesButton"
           tertiary
           onClick={() => restrictedCountriesModal.show({
             type: TypesRestrictedCountriesModal.ADD, onSuccess: submitAddCountries,
           })}
         >
-          {I18n.t('PARTNERS.ALLOW_COUNTRIES')}
+          {I18n.t('PARTNERS.RESTRICT_COUNTRIES')}
         </Button>
 
         <Button
           tertiary
-          className="PartnersBulkActions__button PartnersBulkActions__button--danger"
+          className="PartnersBulkActions__button PartnersBulkActions__button--success"
           data-testid="PartnersBulkActions-restrictCountriesButton"
           onClick={() => restrictedCountriesModal.show({
             type: TypesRestrictedCountriesModal.DELETE, onSuccess: submitDeleteCountries,
           })}
         >
-          {I18n.t('PARTNERS.RESTRICT_COUNTRIES')}
+          {I18n.t('PARTNERS.ALLOW_COUNTRIES')}
         </Button>
       </If>
     </div>

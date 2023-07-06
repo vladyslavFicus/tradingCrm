@@ -4,4 +4,20 @@
   &__button + &__button {
     margin-left: 15px;
   }
+
+  &__button {
+    &--danger,
+    &--success {
+      border-color: transparent;
+      color: var(--bs-white);
+    }
+
+    &--success {
+      background-color: var(--state-colors-success);
+    }
+
+    &--danger {
+      background-color: var(--state-colors-danger);
+    }
+  }
 }
