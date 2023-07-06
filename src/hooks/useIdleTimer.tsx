@@ -21,7 +21,6 @@ const DEBOUNCE_MILLISECONDS = 300;
 const EVENT_NAMES = ['mousemove', 'scroll', 'keydown', 'wheel', 'DOMMouseScroll', 'mousewheel', 'mousedown'];
 
 type Props = {
-  storage: Storage,
   onTimeout: (timeout: number) => void,
 }
 
@@ -31,11 +30,11 @@ type UseIdleTimer = {
 }
 
 function useIdleTimer(props: Props): UseIdleTimer {
+  const { onTimeout } = props;
   const idleInterval = useRef<NodeJS.Timer | null>(null);
   const timeoutTracker = useRef<NodeJS.Timeout | null>(null);
   const timeout = useRef<number>(0);
-
-  const { storage, onTimeout } = props;
+  const storage = window.localStorage;
 
   const clearTimeoutTracker = () => {
     if (timeoutTracker.current) {
@@ -54,13 +53,13 @@ function useIdleTimer(props: Props): UseIdleTimer {
 
     if (timeout.current) {
       timeoutTracker.current = setTimeout(() => {
-        storage.set(EXPIRATION_TIME_PROP_KEY, Date.now() + timeout.current * 1000);
+        storage.setItem(EXPIRATION_TIME_PROP_KEY, `${Date.now() + timeout.current * 1000}`);
       }, DEBOUNCE_MILLISECONDS);
     }
   };
 
   const cleanUp = () => {
-    storage.remove(EXPIRATION_TIME_PROP_KEY);
+    storage.removeItem(EXPIRATION_TIME_PROP_KEY);
 
     clearTimeoutTracker();
     clearIdleInterval();
@@ -77,7 +76,7 @@ function useIdleTimer(props: Props): UseIdleTimer {
     EVENT_NAMES.forEach(event => window.addEventListener(event, updateExpiredTime));
 
     idleInterval.current = setInterval(() => {
-      const expirationTime = parseInt(storage.get(EXPIRATION_TIME_PROP_KEY) || '0', 10);
+      const expirationTime = parseInt(storage.getItem(EXPIRATION_TIME_PROP_KEY) || '0', 10);
       if (expirationTime && expirationTime < Date.now()) {
         cleanUp();
         onTimeout(_timeout);

@@ -20,7 +20,7 @@ const AutoLogoutProvider = (props: Props) => {
     handleLogout(timeout);
   };
 
-  const { start, cleanUp } = useIdleTimer({ storage, onTimeout: handleOnTimeout });
+  const { start, cleanUp } = useIdleTimer({ onTimeout: handleOnTimeout });
 
   // ===== Initial IdleTimer setup ===== //
   useEffect(() => {
