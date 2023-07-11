@@ -3140,7 +3140,9 @@
           "USDT_TRC20": "USDT (TRC20)",
           "USDT_ERC20": "USDT (ERC20)",
           "BTC_BTC": "BTC (BTC)",
-          "ETH_ETH": "ETH (ETH)"
+          "ETH_ETH": "ETH (ETH)",
+          "BUSD_TRC20": "BUSD (TRC20)",
+          "BUSD_ERC20": "BUSD (ERC20)"
         }
       },
       "GRID_COLUMNS": {
