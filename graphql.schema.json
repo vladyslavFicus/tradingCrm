@@ -48154,6 +48154,28 @@
         ]
       },
       {
+        "name": "auth_hide_not_required_argument",
+        "description": null,
+        "isRepeatable": false,
+        "locations": [
+          "ARGUMENT_DEFINITION"
+        ],
+        "args": [
+          {
+            "name": "action",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ]
+      },
+      {
         "name": "auth_mask_field",
         "description": null,
         "isRepeatable": false,

@@ -72,14 +72,14 @@ const LeadProfileTab = (props: Props) => {
   // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues) => {
     const phone = (isPhoneShown && values.phone) ? values.phone : null;
-    const mobile = (isMobileShown && values.mobile) ? values.mobile : null;
+    const mobile = (isMobileShown && values.mobile !== null) ? values.mobile : null;
     const email = (isEmailShown && values.email) ? values.email : null;
 
     try {
       await updateLeadMutation({
         variables: {
-          uuid,
           ...values,
+          uuid,
           phone,
           mobile,
           email,
