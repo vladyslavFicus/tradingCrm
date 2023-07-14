@@ -134,7 +134,6 @@
     "@typescript-eslint/parser": "^5.9.1",
     "babel-jest": "26.6.3",
     "babel-plugin-jsx-control-statements": "^4.1.2",
-    "caniuse-lite": "^1.0.30001435",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
     "env-cmd": "8.0.2",

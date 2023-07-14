@@ -83,6 +83,7 @@ const LeadProfileTab = (props: Props) => {
           phone,
           mobile,
           email,
+          country: values?.country || null,
         },
       });
 
