@@ -5,14 +5,13 @@ import { groupBy, sumBy } from 'lodash';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { getBrand } from 'config';
-import { Profile, StatisticDetalization__Enum as StatisticDetalization } from '__generated__/types';
+import { Profile } from '__generated__/types';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import Select from 'components/Select';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import { selectOptions } from './constants';
-import { usePaymentStatisticDepositQuery } from './graphql/__generated__/PaymentStatisticDepositQuery';
-import { usePaymentStatisticWithdrawQuery } from './graphql/__generated__/PaymentStatisticWithdrawQuery';
+import { usePaymentGeneralStatisticQuery } from './graphql/__generated__/PaymentGeneralStatisticQuery';
 import './ClientBalance.scss';
 
 type Props = {
@@ -44,24 +43,9 @@ const ClientBalance = (props: Props) => {
   const allowBalance = permission.allows(permissions.USER_PROFILE.BALANCE);
 
   // ===== Requests ===== //
-  const paymentStatisticDepositQuery = usePaymentStatisticDepositQuery({
+  const { data, refetch: refetchPaymentGeneralStatistic } = usePaymentGeneralStatisticQuery({
     variables: {
       profileId,
-      detalization: StatisticDetalization.PER_DAYS,
-      additionalStatistics: [],
-      paymentType: 'DEPOSIT',
-      dateFrom: moment(registrationDate || '').utc().format(),
-      dateTo: moment().utc().add(2, 'day').startOf('day')
-        .format(),
-    },
-  });
-
-  const paymentStatisticWithdrawQuery = usePaymentStatisticWithdrawQuery({
-    variables: {
-      profileId,
-      paymentType: 'WITHDRAW',
-      detalization: StatisticDetalization.PER_DAYS,
-      additionalStatistics: [],
       dateFrom: moment(registrationDate || '').utc().format(),
       dateTo: moment().utc().add(2, 'day').startOf('day')
         .format(),
@@ -71,28 +55,20 @@ const ClientBalance = (props: Props) => {
   const {
     totalAmount: depositAmount,
     totalCount: depositCount,
-  } = paymentStatisticDepositQuery.data?.paymentsStatistic?.itemsTotal || {};
+    first: firstDepositDate,
+    last: lastDepositDate,
+  } = data?.paymentsGeneralStatistic?.deposits || {};
 
   const {
     totalAmount: withdrawAmount,
     totalCount: withdrawCount,
-  } = paymentStatisticWithdrawQuery.data?.paymentsStatistic?.itemsTotal || {};
-
-  const deposits = paymentStatisticDepositQuery.data?.paymentsStatistic?.items || [];
-  const withdraws = paymentStatisticWithdrawQuery.data?.paymentsStatistic?.items || [];
-
-  const depositsWithAmounts = deposits.filter(deposit => deposit.amount > 0);
-  const withdrawsWithAmounts = withdraws.filter(withdraw => withdraw.amount > 0);
-
-  const firstDeposit = depositsWithAmounts[0];
-  const firstWithdraw = withdrawsWithAmounts[0];
-
-  const lastDeposit = depositsWithAmounts[depositsWithAmounts.length - 1];
-  const lastWithdraw = withdrawsWithAmounts[withdrawsWithAmounts.length - 1];
+    first: firstWithdrawDate,
+    last: lastWithdrawDate,
+  } = data?.paymentsGeneralStatistic?.withdrawals || {};
 
   const toggleDropdown = () => setIsDropDownOpen(!isDropDownOpen);
 
-  const getFormatedDate = (value: string) => moment(value).format('DD.MM.YYYY');
+  const getFormattedDate = (value?: string | null) => (value ? moment(value).format('DD.MM.YYYY') : '');
 
   //  // ===== Handlers ===== //
   const handleDateChange = async (value: string) => {
@@ -105,8 +81,7 @@ const ClientBalance = (props: Props) => {
         .format(),
     };
 
-    await paymentStatisticDepositQuery.refetch(refetchData);
-    await paymentStatisticWithdrawQuery.refetch(refetchData);
+    await refetchPaymentGeneralStatistic(refetchData);
   };
 
   // ===== Renders ===== //
@@ -181,15 +156,15 @@ const ClientBalance = (props: Props) => {
 
           <div className="ClientBalance__text-primary">{depositCount}</div>
 
-          <If condition={!!firstDeposit}>
+          <If condition={!!firstDepositDate}>
             <div className="ClientBalance__text-secondary">
-              {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.FIRST')} {getFormatedDate(firstDeposit.entryDate)}
+              {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.FIRST')} {getFormattedDate(firstDepositDate)}
             </div>
           </If>
 
-          <If condition={!!lastDeposit}>
+          <If condition={!!lastDepositDate}>
             <div className="ClientBalance__text-secondary">
-              {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')} {getFormatedDate(lastDeposit.entryDate)}
+              {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')} {getFormattedDate(lastDepositDate)}
             </div>
           </If>
         </div>
@@ -202,15 +177,15 @@ const ClientBalance = (props: Props) => {
 
           <div className="ClientBalance__text-primary">{withdrawCount}</div>
 
-          <If condition={!!firstWithdraw}>
+          <If condition={!!firstWithdrawDate}>
             <div className="ClientBalance__text-secondary">
-              {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.FIRST')} {getFormatedDate(firstWithdraw.entryDate)}
+              {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.FIRST')} {getFormattedDate(firstWithdrawDate)}
             </div>
           </If>
 
-          <If condition={!!lastWithdraw}>
+          <If condition={!!lastWithdrawDate}>
             <div className="ClientBalance__text-secondary">
-              {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')} {getFormatedDate(lastWithdraw.entryDate)}
+              {I18n.t('CLIENT_PROFILE.CLIENT.BALANCES.LAST')} {getFormattedDate(lastWithdrawDate)}
             </div>
           </If>
         </div>
@@ -251,17 +226,12 @@ const ClientBalance = (props: Props) => {
     </>
   );
 
-  const onClientReload = () => {
-    paymentStatisticDepositQuery.refetch();
-    paymentStatisticWithdrawQuery.refetch();
-  };
-
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CLIENT_RELOAD, onClientReload);
+    EventEmitter.on(CLIENT_RELOAD, refetchPaymentGeneralStatistic);
 
     return () => {
-      EventEmitter.off(CLIENT_RELOAD, onClientReload);
+      EventEmitter.off(CLIENT_RELOAD, refetchPaymentGeneralStatistic);
     };
   }, []);
 
