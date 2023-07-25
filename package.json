@@ -1,5 +1,10 @@
 {
-  "name": "backoffice",
+  "name": "monorepo-backoffice",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "packages/master"
+  ],
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,7 +19,7 @@
     "codegen": "graphql-codegen",
     "schema": "graphql-codegen -c ./codegen.download.yml"
   },
-  "author": "nassoft",
+  "author": "crmteam",
   "license": "MIT",
   "dependencies": {
     "@apollo/client": "^3.5.10",
@@ -102,6 +107,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/introspection": "^2.1.1",
     "@graphql-codegen/near-operation-file-preset": "^2.2.5",

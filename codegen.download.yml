@@ -1,7 +1,11 @@
 schema:
-  - "http://localhost:3333/api":
+  - http://localhost:3333/api:
       headers:
-        "x-client-application": "qa"
+        x-client-application: "qa"
+  - https://api-d1.trading-crm.dev/backoffice-graphql-ws/ws:
+      headers:
+        x-client-application: "qa"
+
 overwrite: true
 
 generates:

@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   parser: 'babel-eslint',
   env: {
     jest: true,
@@ -96,7 +97,7 @@ module.exports = {
         cjs: 'never',
       },
     ],
-
+    'import/no-extraneous-dependencies': 0,
     'max-len': [2, 120],
     'react/prefer-stateless-function': 0,
     'react/forbid-foreign-prop-types': 0,
