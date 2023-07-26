@@ -52,6 +52,7 @@ import { usePartnersQueryLazyQuery } from './graphql/__generated__/PartnersQuery
 import { useOperatorsQueryLazyQuery } from './graphql/__generated__/OperatorsQuery';
 import { useDesksAndTeamsQueryLazyQuery } from './graphql/__generated__/DesksAndTeamsQuery';
 import { useAcquisitionStatusesQueryLazyQuery } from './graphql/__generated__/AcquisitionStatusesQuery';
+import { useAffiliateReferralsQueryLazyQuery } from './graphql/__generated__/AffiliateReferralsQuery';
 import { oldFilters, defaultFilters } from './constants';
 import './ClientsGridFilter.scss';
 
@@ -99,9 +100,18 @@ const ClientsGridFilter = (props:Props) => {
     data: acquisitionStatusesData, loading: isAcquisitionStatusesLoading,
   }] = useAcquisitionStatusesQueryLazyQuery({ variables: { brandId: getBrand().id } });
 
+  const [getAffiliateReferralsQuery, {
+    data: affiliateReferralsData, loading: isAffiliateReferralsLoading,
+  }] = useAffiliateReferralsQueryLazyQuery();
+
   // For field affiliateUuids
   const handleFetchPartners = () => {
     if (!partnersData) getPartnersQuery();
+  };
+
+  // For field affiliate referrals
+  const handleFetchAffiliateReferrals = () => {
+    if (!affiliateReferralsData) getAffiliateReferralsQuery();
   };
 
   // For fields salesOperators, operators, retentionOperators
@@ -223,6 +233,7 @@ const ClientsGridFilter = (props:Props) => {
   const desks = desksAndTeamsData?.userBranches?.DESK || [];
   const teams = desksAndTeamsData?.userBranches?.TEAM || [];
   const partners = partnersData?.partners?.content || [];
+  const affiliateReferrals = affiliateReferralsData?.affiliateReferrals?.referrals || [];
   const salesStatuses = sortBy(acquisitionStatusesData?.settings.salesStatuses || [], 'status');
   const retentionStatuses = sortBy(acquisitionStatusesData?.settings.retentionStatuses || [], 'status');
 
@@ -283,17 +294,18 @@ const ClientsGridFilter = (props:Props) => {
                         searchByAffiliateIdentifiers: I18n.t('COMMON.SEARCH_BY.AFFILIATE'),
                         migrationId: I18n.t('COMMON.SEARCH_BY.MIGRATION_ID'),
                         activityStatus: I18n.t(attributeLabels.activityStatus),
+                        ...(
+                          permission.allows(permissions.PARTNERS.PARTNERS_LIST_VIEW)
+                          && { affiliateUuids: I18n.t(attributeLabels.affiliateUuids) }
+                        ),
                         affiliateFtd: I18n.t(attributeLabels.affiliateFtd),
                         affiliateFtdDateRange: I18n.t(attributeLabels.affiliateFtdDateRange),
+                        affiliateReferrals: I18n.t(attributeLabels.affiliateReferrals),
                         languages: I18n.t(attributeLabels.languages),
                         countries: I18n.t(attributeLabels.countries),
                         desks: I18n.t(attributeLabels.desks),
                         teams: I18n.t(attributeLabels.teams),
                         operators: I18n.t(attributeLabels.operators),
-                        ...(
-                          permission.allows(permissions.PARTNERS.PARTNERS_LIST_VIEW)
-                          && { affiliateUuids: I18n.t(attributeLabels.affiliateUuids) }
-                        ),
                         salesOperators: I18n.t(attributeLabels.salesOperators),
                         retentionOperators: I18n.t(attributeLabels.retentionOperators),
                         isReferrered: I18n.t(attributeLabels.isReferrered),
@@ -527,72 +539,6 @@ const ClientsGridFilter = (props:Props) => {
                     ))}
                   </Field>
 
-                  <Field
-                    name="salesOperators"
-                    className="ClientsGridFilter__field ClientsGridFilter__select"
-                    data-testid="ClientsGridFilter-salesOperatorsSelect"
-                    label={I18n.t(attributeLabels.salesOperators)}
-                    placeholder={
-                        I18n.t(
-                          (!isOperatorsLoading && !salesOperatorsOptions.length)
-                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
-                            : 'COMMON.SELECT_OPTION.ANY',
-                        )
-                      }
-                    component={FormikSelectField}
-                    disabled={isOperatorsLoading || !salesOperatorsOptions.length}
-                    onFetch={handleFetchOperators}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {salesOperatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
-                      <option
-                        key={uuid}
-                        value={uuid}
-                        className={classNames('ClientsGridFilter__select-option', {
-                          'ClientsGridFilter__select-option--inactive': operatorStatus === operatorsStatuses.INACTIVE
-                              || operatorStatus === operatorsStatuses.CLOSED,
-                        })}
-                      >
-                        {fullName}
-                      </option>
-                    ))}
-                  </Field>
-
-                  <Field
-                    name="retentionOperators"
-                    className="ClientsGridFilter__field ClientsGridFilter__select"
-                    data-testid="ClientsGridFilter-retentionOperatorsSelect"
-                    label={I18n.t(attributeLabels.retentionOperators)}
-                    placeholder={
-                        I18n.t(
-                          (!isOperatorsLoading && !retentionOperatorsOptions.length)
-                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
-                            : 'COMMON.SELECT_OPTION.ANY',
-                        )
-                      }
-                    component={FormikSelectField}
-                    disabled={isOperatorsLoading || !retentionOperatorsOptions.length}
-                    onFetch={handleFetchOperators}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {retentionOperatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
-                      <option
-                        key={uuid}
-                        value={uuid}
-                        className={classNames('ClientsGridFilter__select-option', {
-                          'ClientsGridFilter__select-option--inactive': operatorStatus === operatorsStatuses.INACTIVE
-                              || operatorStatus === operatorsStatuses.CLOSED,
-                        })}
-                      >
-                        {fullName}
-                      </option>
-                    ))}
-                  </Field>
-
                   <If condition={permission.allows(permissions.PARTNERS.PARTNERS_LIST_VIEW)}>
                     <Field
                       name="affiliateUuids"
@@ -600,12 +546,12 @@ const ClientsGridFilter = (props:Props) => {
                       data-testid="ClientsGridFilter-affiliateUuidsSelect"
                       label={I18n.t(attributeLabels.affiliateUuids)}
                       placeholder={
-                          I18n.t(
-                            (!isPartnersLoading && !partners.length)
-                              ? 'COMMON.SELECT_OPTION.NO_ITEMS'
-                              : 'COMMON.SELECT_OPTION.ANY',
-                          )
-                        }
+                        I18n.t(
+                          (!isPartnersLoading && !partners.length)
+                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                            : 'COMMON.SELECT_OPTION.ANY',
+                        )
+                      }
                       component={FormikSelectField}
                       disabled={isPartnersLoading || !partners.length}
                       onFetch={handleFetchPartners}
@@ -628,6 +574,56 @@ const ClientsGridFilter = (props:Props) => {
                         ))}
                     </Field>
                   </If>
+
+                  <If condition={permission.allows(permissions.PARTNERS.AFFILIATE_REFERRALS)}>
+                    <Field
+                      name="affiliateReferrals"
+                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      data-testid="ClientsGridFilter-affiliateaffiliateReferralsSelect"
+                      label={I18n.t(attributeLabels.affiliateReferrals)}
+                      placeholder={
+                        I18n.t(
+                          (!isAffiliateReferralsLoading && !affiliateReferrals.length)
+                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                            : 'COMMON.SELECT_OPTION.ANY',
+                        )
+                      }
+                      component={FormikSelectField}
+                      disabled={isAffiliateReferralsLoading || !affiliateReferrals.length}
+                      onFetch={handleFetchAffiliateReferrals}
+                      searchable
+                      withFocus
+                      multiple
+                    >
+                      {affiliateReferrals.map((name, idx) => (
+                        <option
+                          key={idx}
+                          value={name as string}
+                          className="ClientsGridFilter__select-option"
+                        >
+                          {name}
+                        </option>
+                      ))}
+                    </Field>
+                  </If>
+
+                  <Field
+                    name="affiliateFtd"
+                    className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-affiliateFtdSelect"
+                    label={I18n.t(attributeLabels.affiliateFtd)}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                    component={FormikSelectField}
+                    withAnyOption
+                    withFocus
+                  >
+                    {radioSelect.map(({ value, label }) => (
+                      // @ts-ignore TS doesn't approve value as boolean type
+                      <option key={`affiliateFTD-${value}`} value={value}>
+                        {I18n.t(label)}
+                      </option>
+                    ))}
+                  </Field>
 
                   <Field
                     name="isReferrered"
@@ -665,22 +661,47 @@ const ClientsGridFilter = (props:Props) => {
                   </Field>
 
                   <Field
-                    name="affiliateFtd"
+                    name="kycStatuses"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
-                    data-testid="ClientsGridFilter-affiliateFtdSelect"
-                    label={I18n.t(attributeLabels.affiliateFtd)}
+                    data-testid="ClientsGridFilter-kycStatusesSelect"
+                    label={I18n.t(attributeLabels.kycStatuses)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
-                    withAnyOption
+                    searchable
                     withFocus
+                    multiple
                   >
-                    {radioSelect.map(({ value, label }) => (
-                      // @ts-ignore TS doesn't approve value as boolean type
-                      <option key={`affiliateFTD-${value}`} value={value}>
-                        {I18n.t(label)}
+                    {Object.keys(kycStatusesLabels).map(status => (
+                      <option key={status} value={status}>
+                        {I18n.t(kycStatusesLabels[status as kycStatuses])}
                       </option>
                     ))}
                   </Field>
+
+                  {/* Only Admin and CS Head of department can see unassigned clients */}
+                  <If
+                    condition={
+                      ['ADMINISTRATION', 'CS'].includes(department)
+                      && ['ADMINISTRATION', 'HEAD_OF_DEPARTMENT'].includes(role)
+                    }
+                  >
+                    <Field
+                      name="assignStatus"
+                      className="ClientsGridFilter__field ClientsGridFilter__select"
+                      data-testid="ClientsGridFilter-assignStatusSelect"
+                      label={I18n.t(attributeLabels.assignStatus)}
+                      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                      component={FormikSelectField}
+                      withAnyOption
+                      withFocus
+                    >
+                      {assignStatuses.map(({ value, label }) => (
+                        <option key={value} value={value}>
+                          {I18n.t(label)}
+                        </option>
+                      ))}
+                    </Field>
+                  </If>
 
                   <Field
                     name="acquisitionStatus"
@@ -697,26 +718,6 @@ const ClientsGridFilter = (props:Props) => {
                         {I18n.t(label)}
                       </option>
                     ))}
-                  </Field>
-
-                  <Field
-                    name="passportCountriesOfIssue"
-                    className="ClientsGridFilter__field ClientsGridFilter__select"
-                    data-testid="ClientsGridFilter-passportCountriesOfIssueSelect"
-                    label={I18n.t(attributeLabels.passportCountryOfIssue)}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {[
-                      <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                      ...Object.keys(countries)
-                        .map(country => (
-                          <option key={country} value={country}>{countries[country]}</option>
-                        )),
-                    ]}
                   </Field>
 
                   <Field
@@ -759,45 +760,83 @@ const ClientsGridFilter = (props:Props) => {
                     ))}
                   </Field>
 
-                  {/* Only Admin and CS Head of department can see unassigned clients */}
-                  <If
-                    condition={
-                        ['ADMINISTRATION', 'CS'].includes(department)
-                        && ['ADMINISTRATION', 'HEAD_OF_DEPARTMENT'].includes(role)
-                      }
-                  >
-                    <Field
-                      name="assignStatus"
-                      className="ClientsGridFilter__field ClientsGridFilter__select"
-                      data-testid="ClientsGridFilter-assignStatusSelect"
-                      label={I18n.t(attributeLabels.assignStatus)}
-                      placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                      component={FormikSelectField}
-                      withAnyOption
-                      withFocus
-                    >
-                      {assignStatuses.map(({ value, label }) => (
-                        <option key={value} value={value}>
-                          {I18n.t(label)}
-                        </option>
-                      ))}
-                    </Field>
-                  </If>
-
                   <Field
-                    name="kycStatuses"
+                    name="retentionOperators"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
-                    data-testid="ClientsGridFilter-kycStatusesSelect"
-                    label={I18n.t(attributeLabels.kycStatuses)}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                    data-testid="ClientsGridFilter-retentionOperatorsSelect"
+                    label={I18n.t(attributeLabels.retentionOperators)}
+                    placeholder={
+                        I18n.t(
+                          (!isOperatorsLoading && !retentionOperatorsOptions.length)
+                            ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                            : 'COMMON.SELECT_OPTION.ANY',
+                        )
+                      }
                     component={FormikSelectField}
+                    disabled={isOperatorsLoading || !retentionOperatorsOptions.length}
+                    onFetch={handleFetchOperators}
                     searchable
                     withFocus
                     multiple
                   >
-                    {Object.keys(kycStatusesLabels).map(status => (
-                      <option key={status} value={status}>
-                        {I18n.t(kycStatusesLabels[status as kycStatuses])}
+                    {retentionOperatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
+                      <option
+                        key={uuid}
+                        value={uuid}
+                        className={classNames('ClientsGridFilter__select-option', {
+                          'ClientsGridFilter__select-option--inactive': operatorStatus === operatorsStatuses.INACTIVE
+                              || operatorStatus === operatorsStatuses.CLOSED,
+                        })}
+                      >
+                        {fullName}
+                      </option>
+                    ))}
+                  </Field>
+
+                  <Field
+                    name="salesOperators"
+                    className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-salesOperatorsSelect"
+                    label={I18n.t(attributeLabels.salesOperators)}
+                    placeholder={
+                      I18n.t(
+                        (!isOperatorsLoading && !salesOperatorsOptions.length)
+                          ? 'COMMON.SELECT_OPTION.NO_ITEMS'
+                          : 'COMMON.SELECT_OPTION.ANY',
+                      )
+                    }
+                    component={FormikSelectField}
+                    disabled={isOperatorsLoading || !salesOperatorsOptions.length}
+                    onFetch={handleFetchOperators}
+                    searchable
+                    withFocus
+                    multiple
+                  >
+                    {salesOperatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
+                      <option
+                        key={uuid}
+                        value={uuid}
+                        className={classNames('ClientsGridFilter__select-option', {
+                          'ClientsGridFilter__select-option--inactive': operatorStatus === operatorsStatuses.INACTIVE
+                            || operatorStatus === operatorsStatuses.CLOSED,
+                        })}
+                      >
+                        {fullName}
+                      </option>
+                    ))}
+                  </Field>
+
+                  <Field
+                    name="termsAccepted"
+                    className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-termsAcceptedSelect"
+                    label={I18n.t(attributeLabels.termsAccepted)}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                    component={FormikSelectField}
+                  >
+                    {TERMS_ACCEPTED_FILTER_TYPES.map(({ label, value }) => (
+                      <option key={label} value={value}>
+                        {I18n.t(`PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.TERMS_ACCEPTED_TYPES.${label}`)}
                       </option>
                     ))}
                   </Field>
@@ -816,23 +855,6 @@ const ClientsGridFilter = (props:Props) => {
                       // @ts-ignore TS doesn't approve value as boolean type
                       <option key={`firstTimeDeposit-${value}`} value={value}>
                         {I18n.t(label)}
-                      </option>
-                    ))}
-                  </Field>
-
-                  <Field
-                    name="warnings"
-                    className="ClientsGridFilter__field ClientsGridFilter__select"
-                    data-testid="ClientsGridFilter-warningsSelect"
-                    label={I18n.t(attributeLabels.warnings)}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withAnyOption
-                    withFocus
-                  >
-                    {Object.keys(warningLabels).map(warning => (
-                      <option key={warning} value={warning}>
-                        {I18n.t(warningLabels[warning as warningValues])}
                       </option>
                     ))}
                   </Field>
@@ -1040,6 +1062,43 @@ const ClientsGridFilter = (props:Props) => {
                   />
 
                   <Field
+                    name="passportCountriesOfIssue"
+                    className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-passportCountriesOfIssueSelect"
+                    label={I18n.t(attributeLabels.passportCountryOfIssue)}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                    component={FormikSelectField}
+                    searchable
+                    withFocus
+                    multiple
+                  >
+                    {[
+                      <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
+                      ...Object.keys(countries)
+                        .map(country => (
+                          <option key={country} value={country}>{countries[country]}</option>
+                        )),
+                    ]}
+                  </Field>
+
+                  <Field
+                    name="warnings"
+                    className="ClientsGridFilter__field ClientsGridFilter__select"
+                    data-testid="ClientsGridFilter-warningsSelect"
+                    label={I18n.t(attributeLabels.warnings)}
+                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+                    component={FormikSelectField}
+                    withAnyOption
+                    withFocus
+                  >
+                    {Object.keys(warningLabels).map(warning => (
+                      <option key={warning} value={warning}>
+                        {I18n.t(warningLabels[warning as warningValues])}
+                      </option>
+                    ))}
+                  </Field>
+
+                  <Field
                     name="searchLimit"
                     type="number"
                     className="ClientsGridFilter__field ClientsGridFilter__search-limit"
@@ -1050,21 +1109,6 @@ const ClientsGridFilter = (props:Props) => {
                     min={0}
                     withFocus
                   />
-
-                  <Field
-                    name="termsAccepted"
-                    className="ClientsGridFilter__field ClientsGridFilter__select"
-                    data-testid="ClientsGridFilter-termsAcceptedSelect"
-                    label={I18n.t(attributeLabels.termsAccepted)}
-                    placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                  >
-                    {TERMS_ACCEPTED_FILTER_TYPES.map(({ label, value }) => (
-                      <option key={label} value={value}>
-                        {I18n.t(`PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.TERMS_ACCEPTED_TYPES.${label}`)}
-                      </option>
-                    ))}
-                  </Field>
                 </div>
                 <div className="ClientsGridFilter__buttons">
                   <FilterSetsButtons />

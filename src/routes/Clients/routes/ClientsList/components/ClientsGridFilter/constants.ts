@@ -12,6 +12,7 @@ export const oldFilters = [
   'teams',
   'operators',
   'affiliateUuids',
+  'affiliateReferrals',
   'salesOperators',
   'retentionOperators',
   'isReferrered',
