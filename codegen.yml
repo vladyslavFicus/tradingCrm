@@ -1,7 +1,9 @@
 schema:
   - graphql.schema.json
 overwrite: true
-documents: "src/**/*.gql"
+documents:
+  - "src/**/*.gql"
+  - "packages/*/src/**/*.gql"
 
 generates:
   src/__generated__/types.ts:
@@ -20,11 +22,11 @@ generates:
     plugins:
       - add:
           content:
-            - '// 🛑 NOTICE: __generated__ folders should be added to .gitignore'
+            - "// 🛑 NOTICE: __generated__ folders should be added to .gitignore"
       - typescript-operations
       - typescript-react-apollo
     config:
-      documentMode: 'documentNodeImportFragments'
+      documentMode: "documentNodeImportFragments"
       skipTypename: true
       omitOperationSuffix: true
       avoidOptionals: true
