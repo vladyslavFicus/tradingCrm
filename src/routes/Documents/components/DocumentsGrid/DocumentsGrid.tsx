@@ -3,13 +3,13 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { useHistory, useLocation } from 'react-router-dom';
-import compose from 'compose-function';
 import { getGraphQLUrl, getVersion } from 'config';
 import { Sort, State } from 'types';
 import { DocumentFile } from '__generated__/types';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { LevelType, notify } from 'providers/NotificationProvider';
+import { useLightbox } from 'providers/LightboxProvider/useLightbox';
 import { useModal } from 'providers/ModalProvider';
 import downloadBlob from 'utils/downloadBlob';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
@@ -19,7 +19,6 @@ import { Column, Table } from 'components/Table';
 import { Button, DownloadButton, EditButton, TrashButton } from 'components/Buttons';
 import Tabs from 'components/Tabs';
 import ShortLoader from 'components/ShortLoader';
-import { withImages } from 'components/ImageViewer';
 import { fieldTimeZoneOffset } from 'utils/timeZoneOffset';
 import { DocumentsTabs } from '../../constants';
 import { FormValues } from './types';
@@ -32,20 +31,7 @@ import {
 import DocumentFilter from './components/DocumentFilter';
 import './DocumentsGrid.scss';
 
-type ShowProps = {
-  src: string,
-};
-
-type Props = {
-  images: {
-    show: (prop: Array<ShowProps>) => void,
-    close: () => void,
-  },
-};
-
-const DocumentsGrid = (props: Props) => {
-  const { images } = props;
-
+const DocumentsGrid = () => {
   const { state } = useLocation<State<FormValues>>();
 
   const history = useHistory();
@@ -53,6 +39,9 @@ const DocumentsGrid = (props: Props) => {
   // ===== Permissions ===== //
   const permission = usePermission();
   const isAllowedToDownload = permission.allows(permissions.DOCUMENTS.DOWNLOAD_DOCUMENT);
+
+  // ===== Image Preview ===== //
+  const lightbox = useLightbox();
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
@@ -112,7 +101,7 @@ const DocumentsGrid = (props: Props) => {
       if (mediaType === 'application/pdf') {
         window.open(fileUrl, '_blank');
       } else {
-        images.show([{ src: fileUrl }]);
+        lightbox.show(fileUrl);
       }
     } catch (e) {
       // Do nothing...
@@ -342,7 +331,4 @@ const DocumentsGrid = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withImages,
-)(DocumentsGrid);
+export default React.memo(DocumentsGrid);

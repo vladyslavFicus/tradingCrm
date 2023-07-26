@@ -3,6 +3,7 @@ import I18n from 'i18n-js';
 import { useParams } from 'react-router-dom';
 import { omit } from 'lodash';
 import { getGraphQLUrl, getVersion } from 'config';
+import { File } from '__generated__/types';
 import { FileCategories } from 'types/fileCategories';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import downloadBlob from 'utils/downloadBlob';
@@ -195,13 +196,12 @@ const ClientFilesGrid = () => {
       {
         verificationData.map(({ documents, verificationType }) => (
           documents.map(({ documentType, files, verificationStatus }) => (
-            // @ts-ignore
             <FileGrid
               key={`${verificationType}-${documentType}-${files.length}`}
-              data={files}
+              data={files as Array<File>}
               categories={categories}
               verificationType={verificationType}
-              verificationStatus={verificationStatus}
+              verificationStatus={verificationStatus || ''}
               documentType={documentType}
               onRefetch={refetch}
               onUpdateFileMeta={handleUpdateFileMeta}

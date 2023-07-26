@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import compose from 'compose-function';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
@@ -7,17 +6,16 @@ import { getGraphQLUrl, getVersion } from 'config';
 import { FileCategories } from 'types/fileCategories';
 import { File } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
+import { useLightbox } from 'providers/LightboxProvider/useLightbox';
 import { usePermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import { targetTypes } from 'constants/note';
 import { shortifyInMiddle } from 'utils/stringFormat';
-import { Image } from 'components/ImageViewer/types';
 import { Table, Column } from 'components/Table';
 import { EditButton, DownloadButton, TrashButton } from 'components/Buttons';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
 import Uuid from 'components/Uuid';
-import { withImages } from 'components/ImageViewer';
 import { DeleteFileModal, RenameFileModal } from 'modals/FileModals';
 import { DeleteFileModalProps } from 'modals/FileModals/DeleteFileModal';
 import { RenameFileModalProps } from 'modals/FileModals/RenameFileModal';
@@ -43,7 +41,6 @@ type Props = {
   onVerificationTypeActionClick: (uuid: string, verificationType: string, documentType: string) => void,
   onChangeFileStatusActionClick: (uuid: string, status: string) => void,
   onDownloadFileClick: (uuid: string, fileName: string) => void,
-  images: Image,
 };
 
 const FileGrid = (props: Props) => {
@@ -60,7 +57,6 @@ const FileGrid = (props: Props) => {
     onVerificationTypeActionClick,
     onChangeFileStatusActionClick,
     onDownloadFileClick,
-    images,
   } = props;
 
   const [previewFileUuid, setPreviewFileUuid] = useState<string | null>(null);
@@ -70,6 +66,9 @@ const FileGrid = (props: Props) => {
   const permission = usePermission();
   const allowUpdateFile = permission.allows(permissions.USER_PROFILE.UPLOAD_FILE);
   const allowDeleteFile = permission.allows(permissions.USER_PROFILE.DELETE_FILE);
+
+  // ===== Image Preview ===== //
+  const lightbox = useLightbox();
 
   // ===== Modals ===== //
   const deleteFileModal = useModal<DeleteFileModalProps>(DeleteFileModal);
@@ -118,7 +117,7 @@ const FileGrid = (props: Props) => {
         if (mediaType === 'application/pdf') {
           window.open(fileUrl, '_blank');
         } else {
-          images.show([{ src: fileUrl }]);
+          lightbox.show(fileUrl);
         }
       }
     } catch (e) {
@@ -345,7 +344,4 @@ const FileGrid = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withImages,
-)(FileGrid);
+export default React.memo(FileGrid);
