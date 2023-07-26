@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import compose from 'compose-function';
 import I18n from 'i18n-js';
 import {
   Accordion,
@@ -13,9 +12,8 @@ import { ActionKey, RbackItem, Actions, Action } from 'types/rbac';
 import rbac from 'constants/rbac';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
+import { useLightbox } from 'providers/LightboxProvider/useLightbox';
 import { Button } from 'components/Buttons';
-import { withImages } from 'components/ImageViewer';
-import { Image } from 'components/ImageViewer/types';
 import ShortLoader from 'components/ShortLoader';
 import ReactSwitch from 'components/ReactSwitch';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
@@ -27,15 +25,17 @@ import { ReactComponent as PreviewIcon } from './preview-icon.svg';
 import './PermissionsSetting.scss';
 
 type Props = {
-  images: Image,
   department: string,
   role: string,
 };
 
 const PermissionsSetting = (props: Props) => {
-  const { images, department, role } = props;
+  const { department, role } = props;
 
   const [sectionsList, setSectionsList] = useState<RbackItem[]>([]);
+
+  // ===== Image Preview ===== //
+  const lightbox = useLightbox();
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
@@ -179,7 +179,7 @@ const PermissionsSetting = (props: Props) => {
 
     if (action) {
       try {
-        images.show([{ src: `/img/rbac/${action}.png` }]);
+        lightbox.show(`/img/rbac/${action}.png`);
       } catch {
         // Do nothing...
       }
@@ -334,7 +334,4 @@ const PermissionsSetting = (props: Props) => {
   );
 };
 
-export default compose(
-  React.memo,
-  withImages,
-)(PermissionsSetting);
+export default React.memo(PermissionsSetting);

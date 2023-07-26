@@ -19,6 +19,7 @@ const permissions: Permissions = {
     RESET_PASSWORD: 'auth2.user.resetPassword',
   },
   PARTNERS: {
+    AFFILIATE_REFERRALS: 'profile.admin.getAllBrandAffiliateReferrals',
     PARTNERS_LIST_VIEW: 'affiliate.searchAffiliate',
     PROFILE_VIEW: 'affiliate.getAffiliate',
     CREATE: 'affiliate.createAffiliate',
