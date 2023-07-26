@@ -17,6 +17,7 @@
     "schema": "graphql-codegen -c ../../codegen.download.yml"
   },
   "dependencies": {
+    "@monorepo-backoffice/common": "*",
     "@types/react-notification-system": "^0.2.42",
     "apollo-upload-client": "^17.0.0",
     "react-router-dom": "^6.8.1",
@@ -27,7 +28,6 @@
     "@types/rsocket-core": "^0.0.7",
     "@types/rsocket-flowable": "^0.0.5",
     "@types/rsocket-websocket-client": "^0.0.4",
-    "caniuse-lite": "^1.0.30001435",
     "eslint-plugin-react-hooks": "^4.6.0"
   },
   "cracoConfig": "../../craco.config.js"
