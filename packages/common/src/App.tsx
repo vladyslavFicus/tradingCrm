@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
 
-const App: React.FC = () => <>Playground</>;
+const App: React.FC = () => <div>Playground</div>;
 
 export default App;
