@@ -1,0 +1,50 @@
+.PSPList {
+  &__header {
+    position: sticky;
+    top: 47px;
+    padding: 25px;
+    background-color: var(--surface-page-background);
+    border-bottom: 1px solid var(--divider);
+    font-size: 20px;
+    z-index: var(--z-index-sticky);
+  }
+
+  &__text-primary {
+    font-weight: 700;
+  }
+
+  &__text-secondary {
+    font-size: 11px;
+  }
+
+  &__table-row {
+    height: 70px;
+  }
+
+  &__favourite {
+    width: 20px;
+    height: 20px;
+    transition: 0.3s ease;
+    cursor: pointer;
+    opacity: .3;
+
+    &--deactivated {
+      opacity: .3 !important;
+      cursor: default;
+
+      &.PSP__favourite--active {
+        opacity: 1 !important;
+      }
+    }
+
+    &--active,
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__cell-name {
+    max-width: 400px;
+    font-weight: 700;
+  }
+}

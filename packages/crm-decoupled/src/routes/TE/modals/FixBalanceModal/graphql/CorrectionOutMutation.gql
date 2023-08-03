@@ -1,0 +1,8 @@
+mutation CorrectionOutMutation($accountUuid: String!, $amount: Float!) {
+  tradingEngine {
+    createCorrectionOut(accountUuid: $accountUuid, amount: $amount) {
+      _id
+      balance
+    }
+  }
+}

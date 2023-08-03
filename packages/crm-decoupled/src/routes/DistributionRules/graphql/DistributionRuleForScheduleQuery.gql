@@ -1,0 +1,8 @@
+query DistributionRuleForScheduleQuery($uuid: String!) {
+  distributionRule (uuid: $uuid) {
+    _id
+    uuid
+    executionType
+    executionDaysOfWeek
+  }
+}

@@ -1,0 +1,7 @@
+mutation TokenRenewMutation {
+  auth {
+    tokenRenew {
+      token
+    }
+  }
+}

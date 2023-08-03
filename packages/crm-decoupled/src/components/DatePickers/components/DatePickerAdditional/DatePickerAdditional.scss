@@ -1,0 +1,33 @@
+.DatePickerAdditional {
+  padding: 10px 0 0 15px;
+  border-left: 1px solid var(--divider);
+
+  &__items {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__item {
+    color: var(--dropdown-options-color-default);
+    width: 50%;
+    font-size: 15px;
+    line-height: 30px;
+    margin-bottom: 5px;
+    padding: 0 15px;
+    white-space: nowrap;
+    height: 30px;
+
+    &:not(.DatePickerAdditional__item--selected) {
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--dropdown-options-background-hover);
+      }
+    }
+
+    &--selected {
+      color: var(--dropdown-options-color-focus);
+      background-color: var(--dropdown-options-background-focus);
+    }
+  }
+}

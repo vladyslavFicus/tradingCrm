@@ -1,0 +1,3 @@
+query DistributionRuleClientsCountQuery($uuid: String) {
+  distributionClientsAmount(uuid: $uuid)
+}

@@ -1,0 +1,11 @@
+mutation UpdatePaymentMethodMutation(
+  $paymentId: String!,
+  $paymentMethod: String,
+) {
+  payment {
+    changePaymentMethod (
+      paymentId: $paymentId,
+      paymentMethod: $paymentMethod,
+    )
+  }
+}

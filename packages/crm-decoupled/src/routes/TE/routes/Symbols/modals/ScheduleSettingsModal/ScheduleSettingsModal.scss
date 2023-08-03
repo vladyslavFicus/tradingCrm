@@ -1,0 +1,29 @@
+.ScheduleSettingsModal {
+  &--is-disabled {
+    color: var(--text-primary);
+    pointer-events: none;
+  }
+
+  &__message {
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  &__button {
+    width: 0;
+  }
+
+  &__timeRange {
+    margin: auto;
+    width: 51%;
+  }
+
+  &__limit-error {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+    text-align: right;
+  }
+}

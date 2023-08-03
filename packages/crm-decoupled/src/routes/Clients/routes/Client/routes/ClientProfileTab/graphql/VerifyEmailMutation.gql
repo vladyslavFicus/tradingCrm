@@ -1,0 +1,10 @@
+mutation VerifyEmailMutation(
+  $playerUUID: String!
+) {
+  profile {
+    verifyEmail(playerUUID: $playerUUID) {
+      _id
+      emailVerified
+    }
+  }
+}

@@ -1,0 +1,15 @@
+mutation UpdateFileStatusMutation(
+  $uuid: String!
+  $verificationType: String
+  $documentType: String
+  $verificationStatus: String
+) {
+  file {
+    updateFileStatus(
+      uuid: $uuid,
+      verificationType: $verificationType,
+      documentType: $documentType,
+      verificationStatus: $verificationStatus
+    )
+  }
+}

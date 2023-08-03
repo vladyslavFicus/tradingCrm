@@ -1,0 +1,44 @@
+.PartnersBulkActions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--surface-filters-background);
+  border: 1px solid var(--divider);
+  border-radius: 5px;
+  margin-right: 15px;
+
+  &__title {
+    top: 2px;
+    margin-right: 15px;
+    color: var(--accent);
+    font-size: 13px;
+    text-transform: uppercase;
+  }
+
+  &__button {
+    font-weight: 700;
+    text-transform: uppercase;
+
+    + .PartnersBulkActions__button {
+      margin-left: 10px;
+    }
+
+    &--success {
+      color: var(--state-colors-success);
+    }
+
+    &--inactive {
+      color: var(--text-secondary);
+    }
+
+    &--danger {
+      color: var(--state-colors-danger);
+    }
+  }
+
+  &__modal-subtitle {
+    font-size: 13px;
+    color: var(--window-header-color);
+  }
+}

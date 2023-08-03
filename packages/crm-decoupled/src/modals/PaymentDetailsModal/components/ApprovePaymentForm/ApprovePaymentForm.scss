@@ -1,0 +1,11 @@
+.ApprovePaymentForm {
+  text-align: right;
+  display: inline-block;
+  vertical-align: top;
+  width: calc(50% - 7.5px);
+
+  &__approve-button {
+    align-self: flex-end;
+    margin-left: auto;
+  }
+}

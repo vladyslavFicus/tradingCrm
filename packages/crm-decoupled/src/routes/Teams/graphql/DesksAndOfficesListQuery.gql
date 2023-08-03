@@ -1,0 +1,29 @@
+query DesksAndOfficesListQuery {
+  userBranches {
+    OFFICE {
+      name
+      uuid
+      branchType
+      defaultUser
+      defaultBranch
+      country
+      brandId
+      parentBranch {
+        uuid
+      }
+    }
+    DESK {
+      name
+      uuid
+      branchType
+      defaultUser
+      defaultBranch
+      deskType
+      language
+      brandId
+      parentBranch {
+        uuid
+      }
+    }
+  }
+}

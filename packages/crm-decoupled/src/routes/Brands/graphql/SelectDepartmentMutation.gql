@@ -1,0 +1,16 @@
+mutation SelectDepartmentMutation(
+  $brand: String!
+  $department: String!
+  $role: String!
+) {
+  auth {
+    chooseDepartment(
+      brand: $brand
+      department: $department
+      role: $role
+    ) {
+      uuid
+      token
+    }
+  }
+}

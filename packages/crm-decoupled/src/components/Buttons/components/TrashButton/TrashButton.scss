@@ -1,0 +1,15 @@
+.TrashButton {
+  padding: 0;
+  border: none;
+  background: none !important;
+
+  &--disabled {
+    opacity: 0.6;
+  }
+
+  &__icon {
+    display: block;
+    line-height: 1;
+    color: var(--state-colors-danger);
+  }
+}

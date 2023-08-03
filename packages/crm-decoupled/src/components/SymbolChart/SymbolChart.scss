@@ -1,0 +1,47 @@
+.SymbolChart {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 12px;
+
+  &--loading {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__icon {
+    width: 300px;
+  }
+
+  &__label {
+    position: absolute;
+    left: 0;
+    z-index: var(--z-index-sub-sticky);
+    padding: 0 10px;
+    background: var(--active);
+    width: auto;
+    background: red;
+    color: var(--state-colors-content);
+  }
+
+  &__error-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+    box-shadow: 0px 5px 25px var(--box-shadow-color);
+    background: var(--state-colors-danger);
+    word-break: break-word;
+  }
+
+  &__error-icon {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+}

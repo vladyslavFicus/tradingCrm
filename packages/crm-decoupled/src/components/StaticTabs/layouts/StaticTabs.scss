@@ -1,0 +1,42 @@
+.StaticTabs {
+  &__nav {
+    padding: 30px 15px 0;
+    background: var(--surface-gradient-background);
+  }
+
+  &__nav-item {
+    border: none;
+    border-top: 3px solid transparent;
+    background-color: transparent;
+    color: var(--tab-color-default);
+    font-size: 15px;
+    font-weight: 700;
+    padding: 10px 20px;
+    display: inline-block;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:not(&--active):hover {
+      color: var(--tab-color-hover);
+    }
+  }
+
+  &__nav-item--active,
+  &__nav-item--active:focus {
+    background-color: var(--tab-background-focus);
+    border-top-color: var(--tab-color-focus);
+    box-shadow: 0px 5px 25px var(--box-shadow-color);
+    color: var(--tab-color-focus);
+
+    &:hover {
+      color: var(--tab-color-focus);
+    }
+  }
+
+  &__content {
+    padding: 20px 15px;
+    background: var(--surface-page-background);
+  }
+}

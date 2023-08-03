@@ -1,0 +1,13 @@
+mutation EmailTemplateCreateMutation(
+  $name: String!
+  $subject: String!
+  $text: String!
+) {
+  emailTemplates {
+    createEmailTemplate(
+      name: $name
+      subject: $subject
+      text: $text
+    )
+  }
+}

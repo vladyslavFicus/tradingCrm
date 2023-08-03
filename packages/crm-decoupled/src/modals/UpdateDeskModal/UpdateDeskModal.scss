@@ -1,0 +1,20 @@
+.UpdateDeskModal {
+  &__field {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 15px;
+    width: calc(50% - 7.5px);
+
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+  }
+
+  &__name {
+    width: 60%;
+  }
+
+  &__desk-type {
+    width: calc(40% - 15px);
+  }
+}

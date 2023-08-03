@@ -1,0 +1,9 @@
+mutation AddDocumentMutation(
+   $file: Upload!
+) {
+  document {
+    add(file: $file) {
+      fileUuid
+    }
+  }
+}

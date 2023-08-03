@@ -1,0 +1,33 @@
+.GroupProfileHeaderEdit {
+  background-color: var(--surface-page-background);
+  border-bottom: 1px solid var(--divider);
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 48px;
+  z-index: var(--z-index-sticky);
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  &__uuid {
+    color: var(--text-tertiary);
+  }
+
+  &__button {
+    margin-top: 25px;
+
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
+}

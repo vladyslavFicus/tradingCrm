@@ -1,0 +1,18 @@
+subscription NotificationSubscription {
+    onNotification {
+      notification {
+        uuid
+        targetUuid
+        type
+        subtype
+        priority
+        profileUuid
+        operatorUuid
+        details
+      }
+      configuration {
+        popUpDelayMs
+      }
+      totalUnreadNotificationsCount
+    }
+  }

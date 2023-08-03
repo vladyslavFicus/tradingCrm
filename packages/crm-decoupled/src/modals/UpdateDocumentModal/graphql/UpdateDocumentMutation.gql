@@ -1,0 +1,9 @@
+mutation UpdateDocumentMutation(
+  $args: Document__Input
+) {
+  document {
+    edit(
+      args: $args
+    )
+  }
+}

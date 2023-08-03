@@ -1,0 +1,10 @@
+query SecurityQuery($securityName: String!) {
+  tradingEngine {
+    security(securityName: $securityName) {
+      id
+      name
+      description
+    }
+  }
+}
+

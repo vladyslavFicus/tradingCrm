@@ -1,0 +1,61 @@
+.OperatorHierarchyBranches {
+  &__branches {
+    margin-bottom: 20px;
+  }
+
+  &__branch {
+    margin-bottom: 10px;
+
+    &-title,
+    &-remove {
+      display: inline-block;
+    }
+
+    &-title {
+      font-weight: 700;
+    }
+
+    &-name {
+      color: var(--accent);
+    }
+
+    &-remove {
+      margin-left: 15px;
+      top: 1px;
+      color: var(--state-colors-danger);
+      cursor: pointer;
+    }
+  }
+
+  &__no-branches {
+    font-weight: 700;
+  }
+
+  &__form {
+    width: 100%;
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: repeat(12, calc(8.33% - 15px * 11 / 12));
+
+    &-field {
+      margin-bottom: 0;
+      grid-column: span 4;
+    }
+
+    &-buttons {
+      grid-column-start: 11;
+      grid-column-end: 13;
+      display: flex;
+      margin-left: auto;
+      align-self: flex-end;
+    }
+
+    &-button {
+      margin-right: 15px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

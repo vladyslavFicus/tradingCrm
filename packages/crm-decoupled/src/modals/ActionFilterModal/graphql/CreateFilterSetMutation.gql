@@ -1,0 +1,18 @@
+mutation CreateFilterSetMutation(
+  $name: String!
+  $fields: String!
+  $type: String!
+  $favourite: Boolean!
+) {
+  filterSet {
+    create(
+      name: $name
+      fields: $fields
+      type: $type
+      favourite: $favourite
+    ) {
+      name
+      uuid
+    }
+  }
+}

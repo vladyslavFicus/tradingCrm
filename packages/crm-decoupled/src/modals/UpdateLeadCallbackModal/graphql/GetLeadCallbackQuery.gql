@@ -1,0 +1,29 @@
+query GetLeadCallbackQuery(
+  $id: String!,
+) {
+  leadCallback(
+    id: $id,
+  ) {
+    _id
+    operatorId
+    userId
+    callbackId
+    callbackTime
+    status
+    creationTime
+    updateTime
+    reminder
+    operator {
+      fullName
+    }
+    lead {
+      fullName
+    }
+    note {
+      _id
+      noteId
+      content
+      pinned
+    }
+  }
+}

@@ -1,0 +1,221 @@
+.DateRangePicker {
+  position: relative;
+
+  &__label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  &__input {
+    background-color: var(--form-background-default);
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+    width: 100%;
+
+    &:hover {
+      cursor: pointer;
+
+      & .DateRangePicker__input {
+        &-left,
+        &-right {
+          border-color: var(--form-border-hover);
+        }
+
+        &-calendar {
+          color: var(--form-icon-button-hover);
+        }
+      }
+    }
+
+    &--in-focus,
+    &--in-focus:hover {
+      & .DateRangePicker__input {
+        &-left,
+        &-right {
+          border-color: var(--form-border-focus);
+        }
+
+        &-calendar {
+          color: var(--form-icon-button-focus);
+        }
+      }
+    }
+
+    &--has-error,
+    &--has-error:hover {
+      & .DateRangePicker__input {
+        &-left,
+        &-right {
+          border-color: var(--state-colors-danger);
+        }
+      }
+    }
+
+    &--is-disable,
+    &--is-disable:hover {
+      cursor: default;
+
+      & .DateRangePicker__input {
+        &-left,
+        &-right {
+          border-color: var(--form-border-disabled);
+          background-color: var(--form-background-disabled);
+        }
+
+        &-additional-value,
+        &-devider,
+        &-date,
+        &-calendar {
+          color: var(--form-color-disabled);
+        }
+      }
+    }
+
+    &-left,
+    &-right {
+      transition: border-color 0.2s ease;
+      height: 100%;
+    }
+
+    &-left {
+      border-radius: 3px 0 0 3px;
+      border: 1px solid var(--form-border-default);
+      width: calc(100% - 40px);
+    }
+
+    &-right {
+      border-radius: 0 3px 3px 0;
+      border: 1px solid var(--form-border-default);
+      border-left: none;
+      color: var(--form-icon-button-default);
+      line-height: 42px;
+      padding: 0 8px;
+      text-align: center;
+      transition: border-color 0.1s ease, color 0.1s ease;
+      user-select: none;
+      width: 40px;
+
+      &:hover {
+        color: var(--form-icon-button-hover);
+      }
+    }
+
+    &-additional-value,
+    &-devider,
+    &-date input {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      line-height: 38px;
+    }
+
+    &-additional-value {
+      color: var(--form-color-hover);
+      padding: 0 8px;
+    }
+
+    &-devider,
+    &-date {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    &-devider {
+      color: var(--divider);
+      margin: 0 2px;
+    }
+
+    &-date {
+      width: calc(50% - 5px); // 5px is a half of devider width
+      min-width: 140px;
+
+      &--in-focus {
+        background-color: var(--dropdown-options-background-hover);
+      }
+
+      & input {
+        background-color: transparent;
+        color: var(--form-color-default);
+        padding: 0 6px 0 8px;
+
+        display: block;
+        width: 100%;
+
+        &::placeholder {
+          color: var(--form-color-placeholder);
+        }
+      }
+    }
+
+    &-calendar {
+      font-size: 18px;
+    }
+
+    &-error {
+      color: var(--state-colors-danger);
+      font-size: 12px;
+      position: absolute;
+      top: calc(100% + 4px);
+
+      &-icon {
+        font-size: 14px;
+        margin-right: 5px;
+        top: -3px;
+        display: inline-block;
+        vertical-align: bottom;
+      }
+    }
+  }
+
+  &__popup {
+    background-color: var(--form-background-default);
+    border: 1px solid var(--form-border-default);
+    border-radius: 5px;
+    padding: 15px;
+
+    position: absolute;
+    top: calc(100% + 7px);
+    left: 0;
+
+    display: grid;
+    grid-gap: 25px;
+    grid-template-columns: 350px;
+    z-index: var(--z-index-popover);
+
+    &--with-additional {
+      grid-template-columns: 350px 350px;
+      grid-auto-flow: column;
+    }
+
+    &--anchor-right {
+      left: auto;
+      right: 0;
+    }
+
+    &-column {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    &-times {
+      & > div {
+        margin-right: 20px;
+      }
+    }
+
+    &-buttons {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+
+    &-button {
+      &:not(:last-child) {
+        margin-right: 15px;
+      }
+    }
+  }
+}

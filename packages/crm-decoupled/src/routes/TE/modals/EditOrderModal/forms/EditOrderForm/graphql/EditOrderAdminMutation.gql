@@ -1,0 +1,5 @@
+mutation EditOrderAdminMutation($args: TradingEngineEditOrderAdmin__Input) {
+  tradingEngine {
+    editOrderAdmin(args: $args)
+  }
+}

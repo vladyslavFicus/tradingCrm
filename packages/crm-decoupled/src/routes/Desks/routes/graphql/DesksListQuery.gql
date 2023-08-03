@@ -1,0 +1,24 @@
+query DesksListQuery (
+  $branchType: String!
+  $keyword: String
+  $officeUuid: String
+  $deskType: Desk__Types__Enum
+) {
+  branch (
+    branchType: $branchType
+    keyword: $keyword
+    officeUuid: $officeUuid
+    deskType: $deskType
+  ) {
+    uuid
+    name
+    branchType
+    deskType
+    language
+    parentBranch {
+      uuid
+      name
+      branchType
+    }
+  }
+}

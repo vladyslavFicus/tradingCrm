@@ -1,0 +1,5 @@
+query filterSetByIdQuery($uuid: String!) {
+  filterSet(
+    uuid: $uuid
+  )
+}

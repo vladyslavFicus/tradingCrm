@@ -1,0 +1,47 @@
+query OrderQuery($orderId: Int!) {
+  tradingEngine {
+    order(orderId: $orderId) {
+      id
+      accountLogin
+      accountUuid
+      symbol
+      direction
+      digits
+      takeProfit
+      stopLoss
+      openPrice
+      closePrice
+      closeRate
+      marginRate
+      volumeLots
+      commission
+      swaps
+      status
+      reason
+      time {
+        creation
+        modification
+        expiration
+        closing
+      }
+      comment
+      type
+      account {
+        currency
+        leverage
+        enable
+      }
+      symbolConfig {
+        lotSize
+        lotStep
+        lotMax
+        bidAdjustment
+        askAdjustment
+        percentage
+      }
+      symbolEntity {
+         symbolType
+      }
+    }
+  }
+}

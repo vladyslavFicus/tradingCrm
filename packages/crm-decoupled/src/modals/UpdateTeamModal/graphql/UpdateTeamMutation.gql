@@ -1,0 +1,11 @@
+mutation UpdateTeamMutation(
+  $uuid: String!
+  $name: String!
+) {
+  hierarchy {
+    updateBranch (
+      uuid: $uuid
+      name: $name
+    )
+  }
+}

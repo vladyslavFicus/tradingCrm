@@ -1,0 +1,12 @@
+query EmailTemplateQuery(
+  $id: ID!
+) {
+  emailTemplate(
+    id: $id
+  ) {
+    id
+    name
+    text
+    subject
+  }
+}

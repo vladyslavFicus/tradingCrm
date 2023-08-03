@@ -1,0 +1,75 @@
+.CreatePaymentModal {
+  &__error-message {
+    margin-bottom: 15px;
+    display: block;
+    text-align: center;
+    color: var(--state-colors-danger);
+  }
+
+  &__row {
+    display: flex;
+
+    &--note {
+      justify-content: center;
+    }
+
+    &--field {
+      align-items: center;
+    }
+  }
+
+  &__field {
+    flex: 2;
+
+    &--small {
+      flex: 1;
+    }
+
+    &--amount {
+      margin-bottom: 5px;
+    }
+
+    &+& {
+      margin-left: 15px;
+    }
+  }
+
+  &__amount {
+    margin-bottom: 15px;
+  }
+
+  &__direction-icon {
+    display: flex;
+    align-items: center;
+    margin: 7px 10px 0;
+
+    .icon-arrow-down {
+      display: block;
+      transform: rotate(-90deg);
+      font-size: 20px;
+    }
+  }
+
+  &__amount-footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    &-message {
+      font-size: 12px;
+      font-weight: 700;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    &-message {
+      padding-right: 20px;
+      font-size: 12px;
+      color: var(--state-colors-none);
+    }
+  }
+}

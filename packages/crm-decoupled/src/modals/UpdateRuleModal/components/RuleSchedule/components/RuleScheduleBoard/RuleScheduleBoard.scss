@@ -1,0 +1,78 @@
+.RuleScheduleBoard {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: var(--surface-page-background);
+  border-bottom: 1px solid var(--divider);
+
+  &__header, &__footer {
+    padding: 20px 15px;
+  }
+
+  &__header, &__body {
+    position: relative;
+  }
+
+  &__header {
+    padding-bottom: 0;
+  }
+
+  &__body {
+    border-top: 1px solid var(--surface-page-border);
+    border-bottom: 1px solid var(--divider);
+  }
+
+  &__remove-shedule {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+  }
+
+  &__days {
+    position: relative;
+    padding-bottom: 20px;
+  }
+
+  &__days-list {
+    display: flex;
+  }
+
+  &__days-item {
+    margin-right: 35px;
+    text-transform: uppercase;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__time-interval {
+    position: relative;
+    padding: 20px 15px 0px;
+    border-bottom: 1px solid var(--divider);
+
+    &:last-child {
+      border: none; 
+    }
+  }
+
+  &__remove-time-interval {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+  }
+
+  &__error-message {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 12px;
+    color: var(--state-colors-danger);
+  }
+
+  &__error-message-icon {
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 16px;
+    vertical-align: middle;
+  }
+}

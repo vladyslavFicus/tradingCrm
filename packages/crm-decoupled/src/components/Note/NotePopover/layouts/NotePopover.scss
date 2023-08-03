@@ -1,0 +1,91 @@
+.NotePopover {
+  &__popper {
+    min-width: 475px;
+    right: 10px;
+    background-color: var(--surface-note) !important;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    background-color: transparent;
+    border-bottom: 0;
+    border-radius: 0;
+    padding: 0;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  &__title {
+    font-size: 16px;
+    line-height: normal;
+    margin-bottom: 10px;
+  }
+
+  &__text-primary {
+    font-weight: 700;
+  }
+
+  &__subtitle-container {
+    font-size: 11px;
+  }
+
+  &__author {
+    font-size: 13px;
+    line-height: normal;
+  }
+
+  &__content-size {
+    margin-right: 10px;
+  }
+
+  &__pin-label {
+    display: inline-block;
+    padding: 0;
+    border: none;
+    background: none;
+    vertical-align: middle;
+    font-size: 12px;
+  }
+
+  &__cancel-btn {
+    margin-right: 10px;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  & label {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  input,
+  textarea {
+    border-color: var(--form-border-default);
+    border-radius: 0;
+    font-size: 14px;
+    line-height: 21px;
+    padding: 2px;
+  }
+
+  input {
+    background: var(--surface-note);
+    height: 26px;
+  }
+
+  textarea {
+    margin-bottom: 8px;
+    height: 200px;
+    background-attachment: local;
+    background: var(--surface-note);
+  }
+
+  .popover-body {
+    color: var(--text-primary);
+  }
+}

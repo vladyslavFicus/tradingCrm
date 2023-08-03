@@ -1,0 +1,19 @@
+query ProfileQuery($playerUUID: String!) {
+  profile(playerUUID: $playerUUID) {
+    _id
+    uuid
+    tradingAccounts {
+      accountUUID
+      accountType
+      archived
+      balance
+      credit
+      currency
+      group
+      login
+      margin
+      name
+      platformType
+    }
+  }
+}

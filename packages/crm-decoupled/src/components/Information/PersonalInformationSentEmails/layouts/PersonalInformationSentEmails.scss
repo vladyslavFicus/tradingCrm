@@ -1,0 +1,12 @@
+.PersonalInformationSentEmails {
+  &__emails {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__name {
+    display: block;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

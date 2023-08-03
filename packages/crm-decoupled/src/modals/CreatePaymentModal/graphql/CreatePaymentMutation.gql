@@ -1,0 +1,35 @@
+mutation CreatePaymentMutation(
+  $accountUUID: String
+  $amount: Float!
+  $country: String
+  $currency: String
+  $externalReference: String
+  $expirationDate: String
+  $login: Int
+  $paymentType: String!
+  $paymentMethod: String
+  $profileUUID: String
+  $source: String
+  $target: String
+  $paymentSystem: String
+) {
+  payment {
+    createPayment(
+      accountUUID: $accountUUID
+      amount: $amount
+      paymentType: $paymentType
+      externalReference: $externalReference
+      expirationDate: $expirationDate
+      login: $login
+      source: $source
+      target: $target
+      country: $country
+      currency: $currency
+      paymentMethod: $paymentMethod
+      profileUUID: $profileUUID
+      paymentSystem: $paymentSystem
+    ) {
+      paymentId
+    }
+  }
+}

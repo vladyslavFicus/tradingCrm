@@ -1,0 +1,19 @@
+.IpWhitelistGrid {
+  &__cell-primary {
+    font-weight: 700;
+  }
+
+  &__cell-primary-date {
+    font-weight: 700
+  }
+
+  &__cell-primary-time {
+    font-size: 11px;
+  }
+
+  &__action-icon {
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+  }
+}

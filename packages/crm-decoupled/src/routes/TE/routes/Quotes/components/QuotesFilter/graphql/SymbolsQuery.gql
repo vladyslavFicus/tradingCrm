@@ -1,0 +1,9 @@
+query SymbolsQuery($args: TradingEngineSymbols__Input) {
+  tradingEngine {
+    symbols(args: $args) @connection(key: "QuotesFilter") {
+      content {
+        symbol
+      }
+    }
+  }
+}

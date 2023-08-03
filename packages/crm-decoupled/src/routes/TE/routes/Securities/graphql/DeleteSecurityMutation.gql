@@ -1,0 +1,5 @@
+mutation DeleteSecurityMutation($securityName: String!) {
+  tradingEngine {
+    deleteSecurity(securityName: $securityName)
+  }
+}

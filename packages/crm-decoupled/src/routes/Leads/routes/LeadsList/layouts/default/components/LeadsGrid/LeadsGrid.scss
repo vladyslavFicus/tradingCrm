@@ -1,0 +1,53 @@
+.LeadsGrid {
+  &__name {
+    cursor: pointer;
+  }
+
+  &__general {
+    font-weight: 700;
+  }
+
+  &__additional {
+    font-size: 11px;
+  }
+
+  &__last-note {
+    max-width: 200px;
+
+    &-author {
+      display: block;
+      font-weight: bolder;
+    }
+
+    &-content {
+      margin-top: 5px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__status {
+    &-title {
+      font-weight: 700;
+      text-transform: uppercase;
+
+      &--new {
+        color: var(--state-colors-info);
+      }
+
+      &--converted {
+        color: var(--state-colors-success);
+      }
+    }
+
+    &-converted {
+      color: var(--text-primary);
+    }
+
+    &-converted,
+    &-operator {
+      font-size: 11px;
+    }
+  }
+}

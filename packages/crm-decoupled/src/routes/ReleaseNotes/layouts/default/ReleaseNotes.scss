@@ -1,0 +1,45 @@
+.ReleaseNotes {
+  &__headline {
+    margin-bottom: 25px;
+  }
+
+  &__item {
+    margin-bottom: 25px;
+    padding: 0 15px;
+    background-color: var(--surface-frame-background);
+    border: solid 1px var(--surface-frame-border);
+   
+    &-headline {
+      padding: 15px 0;
+      cursor: pointer;
+    }
+
+    &-content {
+      overflow: hidden;
+      max-height: 0px;
+      transition: .2s;
+
+      // trick to add bottom padding to include this height to scrollHeight prop
+      &:after {
+        content: '';
+        display: block;
+        height: 15px;
+      }
+    }
+  }
+
+  h3:not(:first-child) {
+    margin-top: 15px;
+  }
+
+  ul>li {
+    position: relative;
+    padding-left: 1em;
+
+    &:before {
+      position: absolute;
+      left: 0;
+      content: '\2022';
+    }
+  }
+}

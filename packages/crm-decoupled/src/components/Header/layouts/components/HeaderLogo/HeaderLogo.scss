@@ -1,0 +1,13 @@
+.HeaderLogo {
+  padding: 5px;
+  display: inline-block;
+  vertical-align: top;
+  height: 100%;
+  width: 60px;
+
+  & img {
+    object-fit: contain;
+    height: 100%;
+    width: 100%;
+  }
+}

@@ -1,0 +1,15 @@
+mutation NotificationUpdateMutation(
+  $incUuids: [String!]!
+  $selectAll: Boolean!
+  $totalElements: Int!
+  $searchParams: NotificationCenterSearch__Input!
+) {
+  notificationCenter {
+    update(
+      incUuids: $incUuids
+      selectAll: $selectAll
+      totalElements: $totalElements
+      searchParams: $searchParams
+    )
+  }
+}

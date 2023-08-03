@@ -1,0 +1,40 @@
+query OperatorsQuery(
+  $searchBy: String
+  $country: String
+  $status: String
+  $registrationDateFrom: String
+  $registrationDateTo: String
+  $offices: [String]
+  $desks: [String]
+  $teams: [String]
+  $page: Page__Input
+  $authorities: TradingEngineOperatorSearch__Authorities__Input
+) {
+  operators(
+    searchBy: $searchBy
+    country: $country
+    status: $status
+    registrationDateFrom: $registrationDateFrom
+    registrationDateTo: $registrationDateTo
+    page: $page
+    authorities: $authorities
+    offices: $offices
+    desks: $desks
+    teams: $teams
+  ) {
+    page
+    number
+    totalElements
+    size
+    last
+    content {
+      _id
+      uuid
+      fullName
+      country
+      registrationDate
+      operatorStatus
+      statusChangeDate
+    }
+  }
+}

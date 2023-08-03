@@ -1,0 +1,57 @@
+.Accounts {
+  border: 1px solid var(--surface-page-border);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 47px;
+    padding: 25px;
+    background-color: var(--surface-page-background);
+    border-bottom: 1px solid var(--divider);
+    font-size: 20px;
+    z-index: var(--z-index-sticky);
+  }
+
+  &__header-block-small {
+    font-size: 11px;
+    color: var(--text-primary);
+  }
+
+  &__header-block-middle {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: normal;
+    color: var(--text-primary);
+  }
+
+  &__partner {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: normal;
+    color: var(--text-primary);
+  }
+
+  &__payment-method {
+    color: var(--state-colors-warning);
+  }
+
+  &__text-primary {
+    font-weight: 700;
+  }
+
+  &__text-secondary {
+    font-size: 11px;
+  }
+
+  &__upper {
+    text-transform: uppercase;
+  }
+
+  &__action {
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
+  }
+}

@@ -1,0 +1,14 @@
+.Files {
+  background-color: var(--surface-page-background);
+  border: 1px solid var(--surface-page-border);
+
+  &__header {
+    font-size: 20px;
+    background-color: var(--surface-page-background);
+    border-bottom: 1px solid var(--divider);
+    padding: 25px;
+    position: sticky;
+    top: 48px;
+    z-index: var(--z-index-sticky);
+  }
+}

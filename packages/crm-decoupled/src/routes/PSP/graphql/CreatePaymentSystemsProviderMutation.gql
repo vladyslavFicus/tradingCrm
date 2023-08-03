@@ -1,0 +1,5 @@
+mutation CreatePaymentSystemsProviderMutation($paymentSystem: String!) {
+  settings {
+    createPaymentSystemsProvider(paymentSystem: $paymentSystem)
+  }
+}

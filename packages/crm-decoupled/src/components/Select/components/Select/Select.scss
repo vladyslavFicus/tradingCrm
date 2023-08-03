@@ -1,0 +1,222 @@
+.Select {
+  position: relative;
+  cursor: pointer;
+
+  &__popover {
+    &.popover {
+      margin-bottom: -8px;
+      max-width: 300px;
+      z-index: var(--z-index-popover);
+
+      .popover-arrow {
+        display: none;
+      }
+    }
+
+    .Select__content {
+      position: static;
+      width: auto;
+    }
+
+    .MoveFileDropDown {
+      width: auto;
+    }
+  }
+
+  &__is-opened {
+    .Select__icon {
+      transform: rotate(180deg);
+    }
+
+    .Select__content {
+      opacity: 1;
+      display: block;
+      z-index: var(--z-index-popover);
+    }
+  }
+
+  &__is-focused {
+    .Select__label {
+      border: 1px solid var(--form-border-focus);
+    }
+  }
+
+  &__with-option {
+    font-weight: 600;
+    color: var(--form-color-default);
+
+    .Select__icon {
+      color: var(--form-icon-button-default);
+    }
+  }
+
+  &__is-disabled {
+    pointer-events: none;
+
+    .Select__label {
+      background-color: var(--form-background-disabled);
+      border: 1px solid var(--form-border-disabled);
+    }
+  }
+
+  &__placeholder-option {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    background: var(--form-background-selected);
+    color: var(--form-color-focus);
+  }
+
+  &__content {
+    width: 100%;
+    position: absolute;
+    top: 95%;
+    left: 0;
+    border-top: 1px solid var(--form-border-default);
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    opacity: 0;
+    display: none;
+    background-color: var(--form-background-default);
+    box-shadow: 0 5px 15px 0 var(--form-border-default);
+    transition: all 0.25s ease;
+    cursor: default;
+  }
+
+  &__container {
+    background: var(--surface-page-background);
+    max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 5px 8px;
+    border-right: 1px solid var(--form-border-default);
+    border-bottom: 1px solid var(--form-border-default);
+    border-left: 1px solid var(--form-border-default);
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+
+  &__heading {
+    margin-top: 6px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+  }
+
+  &__selected-options {
+    position: relative;
+  }
+
+  &__placeholder-options {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__placeholder-option-delete {
+    margin: 0 5px 0 5px;
+    color: var(--state-colors-danger);
+
+    &:hover {
+      color: var(--state-colors-danger);
+    }
+  }
+
+  &__form-control {
+    color: var(--form-color-default);
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 600;
+    min-height: 40px;
+    height: auto;
+    background-clip: padding-box;
+    background-color: var(--form-background-default);
+    display: block;
+    line-height: 1.5;
+    border: 1px solid var(--form-border-default);
+    padding: 0.45rem 0.75rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    width: 100%;
+
+    &:focus {
+      border-color: var(--form-border-focus);
+      box-shadow: 0px 5px 25px var(--box-shadow-color);
+    }
+  }
+
+  &__label {
+    width: 0;
+    min-width: 100%;
+    position: relative;
+    padding-right: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 40px;
+
+    &--multipleLabel {
+      padding-bottom: 0;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    top: 11px;
+    right: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 16px;
+    color: var(--button-icon-button-default);
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  &__selected-options {
+    position: relative;
+  }
+
+  &__clear-selected-options {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: var(--state-colors-danger);
+    i {
+      font-size: 11px;
+    }
+  }
+
+  &__select-all-options {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: var(--dropdown-options-color-default);
+
+    &:hover {
+      color: var(--dropdown-options-color-hover);
+    }
+
+    i {
+      font-size: 11px;
+    }
+  }
+
+  &__not-found {
+    color: var(--dropdown-options-color-default);
+    font-size: 10px;
+    margin: 10px;
+  }
+}

@@ -1,0 +1,22 @@
+.GroupsGrid {
+  background-color: #fff;
+
+  &__cell-primary {
+    font-weight: 700;
+  }
+
+  &__cell-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  &__trash {
+    margin-right: 15px;
+  }
+
+  &__button {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}

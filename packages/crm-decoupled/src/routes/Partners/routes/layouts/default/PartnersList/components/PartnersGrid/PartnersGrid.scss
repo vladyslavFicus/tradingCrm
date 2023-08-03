@@ -1,0 +1,54 @@
+.PartnersGrid {
+  &__name {
+    font-weight: 700;
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
+
+  &__uuid {
+    font-size: 12px;
+  }
+
+  &__partner-type {
+    font-weight: 700;
+
+    &--affiliate {
+      color: var(--state-colors-success);
+    }
+  }
+
+  &__registration {
+    &-date {
+      font-weight: 700;
+    }
+
+    &-time {
+      font-size: 12px;
+    }
+  }
+
+  &__status {
+    &-name {
+      font-weight: 700;
+      text-transform: uppercase;
+
+      &--active {
+        color: var(--state-colors-success);
+      }
+
+      &--inactive {
+        color: var(--text-secondary);
+      }
+
+      &--closed {
+        color: var(--state-colors-danger);
+      }
+    }
+
+    &-date {
+      font-size: 12px;
+    }
+  }
+}

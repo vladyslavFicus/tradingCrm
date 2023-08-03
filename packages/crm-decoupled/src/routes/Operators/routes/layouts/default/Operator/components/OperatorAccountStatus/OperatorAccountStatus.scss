@@ -1,0 +1,126 @@
+.OperatorAccountStatus {
+  border-right: 1px solid var(--divider);
+  padding: 5px 0;
+  flex: 1;
+  min-height: 60px;
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -8px;
+    right: 0;
+    height: 3px;
+    width: calc(100% + 15px);
+  }
+
+  &--with-open-dropdown {
+    &:before {
+      background-color: var(--active);
+    }
+
+    & .OperatorAccountStatus__arrow {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__title {
+    color: var(--text-secondary);
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  &__status {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    &--inactive {
+      color: var(--state-colors-info);
+    }
+
+    &--active {
+      color: var(--state-colors-success);
+    }
+
+    &--closed {
+      color: var(--state-colors-danger);
+    }
+  }
+
+  &__additional {
+    color: var(--text-primary);
+    font-size: 11px;
+  }
+
+  &__arrow {
+    color: var(--button-icon-button-default);
+    transition: transform 0.2s;
+    position: absolute;
+    top: 3px;
+    right: 10px;
+  }
+
+  &__dropdown {
+    &-menu {
+      box-shadow: 0px 5px 25px var(--box-shadow-color);
+      border-color: var(--dropdown-surface-border);
+      background-color: var(--dropdown-surface-background);
+      padding: 0;
+      left: auto !important;
+      right: 0 !important;
+      width: calc(100% + 15px);
+    }
+
+    &-item {
+      padding: 10px 15px;
+      color: var(--dropdown-options-color-default);
+
+      &:hover {
+        background: var(--dropdown-options-background-hover);
+        color: var(--dropdown-options-color-hover);
+      }
+
+      &:focus {
+        background: var(--dropdown-options-background-focus);
+        color: var(--dropdown-options-color-focus);
+      }
+    }
+  }
+
+  &__modal-warning {
+    & li {
+      display: inline;
+      line-height: 1.3em;
+    }
+
+    & b {
+      margin-right: 5px;
+    }
+
+    & a {
+      color: var(--accent);
+    }
+
+    &--list {
+      & b {
+        display: block;
+        margin: 0 0 5px 0;
+      }
+
+      & li {
+        display: block;
+        position: relative;
+        padding-left: 20px;
+        line-height: 1.4em;
+
+        &:before {
+          content: "\26AC";
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      }
+    }
+  }
+}

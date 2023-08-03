@@ -1,0 +1,21 @@
+query LeadCallbacksCalendarListQuery(
+  $callbackTimeFrom: String
+  $callbackTimeTo: String
+  $page: Page__Input
+) {
+  leadCallbacks(
+    callbackTimeFrom: $callbackTimeFrom
+    callbackTimeTo: $callbackTimeTo
+    page: $page
+    ) @connection(key: "LEAD_CALLBACKS_CALENDAR") {
+    totalElements
+    content {
+      _id
+      callbackId
+      callbackTime
+      lead {
+        fullName
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+.UpdateTeamModal {
+  &__select {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(50% - 10px);
+
+    &:nth-child(2n) {
+      margin-left: 20px;
+    }
+  }
+}

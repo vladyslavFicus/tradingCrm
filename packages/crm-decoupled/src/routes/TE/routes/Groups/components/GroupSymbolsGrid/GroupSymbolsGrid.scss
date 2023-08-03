@@ -1,0 +1,41 @@
+.GroupSymbolsGrid {
+  padding: 25px;
+
+  &__row {
+    // On hover we dont need to change bg color when Row is Disabled
+    &--disabled{
+      background-color: var(--table-background-disabled) !important;
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  &__title {
+    color: var(--text-primary);
+    font-size: 18px;
+    margin-bottom: 25px;
+  }
+
+  &__cell {
+    &-primary {
+      font-weight: 700;
+    }
+
+    &--disabled {
+      color: grey;
+    }
+  }
+
+  &__edit-button {
+    margin-right: 15px;
+  }
+
+  &__scrollableTarget {
+    border-top: 1px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
+  }
+}

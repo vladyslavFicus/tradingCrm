@@ -1,0 +1,14 @@
+mutation UpdateOperatorAndChangeRoleMutation(
+  $uuid: String!,
+  $args: TradingEngineUpdateOperator__Input!,
+) {
+  tradingEngine {
+    updateOperator(uuid: $uuid, args: $args) {
+      firstName
+      lastName
+      email
+      phone
+      role
+    }
+  }
+}

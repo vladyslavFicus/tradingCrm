@@ -1,0 +1,14 @@
+#import "apollo/fragments/Payment"
+
+query PaymentsQuery($args: PaymentSearch__Input) {
+  clientPayments(args: $args) {
+    page
+    number
+    totalElements
+    size
+    last
+    content {
+      ...PaymentFragment
+    }
+  }
+}

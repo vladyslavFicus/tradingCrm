@@ -1,0 +1,11 @@
+mutation RemoveBranchManagerMutation(
+  $branchUuid: String!,
+  $managerUuid: String!
+) {
+  hierarchy {
+    removeBranchManager(
+      branchUuid: $branchUuid,
+      managerUuid: $managerUuid
+    )
+  }
+}

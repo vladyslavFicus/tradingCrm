@@ -1,0 +1,57 @@
+query DistributionRulesQuery($args: DistributionRuleSearch__Input) {
+  distributionRules (args: $args) {
+    content {
+      _id
+      uuid
+      name
+      order
+      status
+      createdBy
+      statusChangedAt
+      createdAt
+      updatedAt
+      executionType
+      latestMigration {
+        uuid
+        startDate
+        clientsAmount
+        status
+        ruleUuid
+      }
+      sourceBrandConfigs {
+        uuid
+        brand
+        countries
+        languages
+        salesStatuses
+        timeInCurrentStatusInHours
+        registrationPeriodInHours
+        registrationDateRange {
+          from
+          to
+        }
+        distributionUnit {
+          quantity
+          baseUnit
+        }
+        sortType
+      }
+      targetBrandConfigs {
+        uuid
+        brand
+        targetSalesStatus
+        distributionUnit {
+          quantity
+          baseUnit
+        }
+        operator
+        country
+      }
+    }
+    page
+    number
+    totalElements
+    size
+    last
+  }
+}

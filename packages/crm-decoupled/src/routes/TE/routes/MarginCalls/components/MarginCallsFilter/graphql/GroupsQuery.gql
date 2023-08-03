@@ -1,0 +1,9 @@
+query GroupsQuery($args: TradingEngineGroupsSearch__Input) {
+  tradingEngine {
+    groups(args: $args) {
+      content {
+        groupName
+      }
+    }
+  }
+}

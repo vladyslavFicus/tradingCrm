@@ -1,0 +1,49 @@
+.MiniProfile {
+  font-size: 12px;
+  border-radius: 5px;
+
+  // Statuses
+  &.not_verified {
+    border-color: var(--surface-frame-border);
+    background-color: var(--surface-frame-background);
+
+    .MiniProfileHeader__label {
+      background: var(--state-colors-none);
+      color: var(--state-colors-content);
+    }
+  }
+
+  &.verified,
+  &.active {
+    border-color: var(--state-colors-success);
+    background-color: var(--surface-frame-background);
+
+    .MiniProfileHeader__label {
+      background: var(--state-colors-success);
+      color: var(--state-colors-content);
+    }
+  }
+
+  &.closed,
+  &.blocked,
+  &.suspended,
+  &.cooloff {
+    border-color: var(--state-colors-warning);
+    background-color: var(--surface-frame-background);
+
+    .MiniProfileHeader__label {
+      background: var(--state-colors-warning);
+      color: var(--state-colors-content);
+    }
+  }
+
+  &.dormant {
+    border-color: var(--surface-frame-border);
+    background-color: var(--surface-frame-background);
+
+    .MiniProfileHeader__label {
+      background: var(--text-primary);
+      color: var(--state-colors-content);
+    }
+  }
+}

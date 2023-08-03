@@ -1,0 +1,47 @@
+.LeadPersonalInfo {
+  margin-right: 15px;
+  width: calc(33.3% - 10px);
+
+  &__title {
+    color: var(--text-secondary);
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  &__content {
+    background-color: var(--surface-frame-background);
+    border: 1px solid var(--surface-frame-border);
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 7px;
+    height: 200px;
+    overflow: hidden;
+    overflow-y: auto;
+
+    & > div {
+      margin-bottom: 1px;
+    }
+  }
+
+  &__phone {
+    display: flex;
+
+    & svg {
+      cursor: pointer;
+      margin-left: auto;
+    }
+  }
+
+  &__country {
+    & img {
+      height: 10px;
+    }
+  }
+
+  &__show-contacts-button {
+    padding: 0 7px;
+    margin-left: 5px;
+    border-radius: 10px;
+    font-size: 11px;
+  }
+}

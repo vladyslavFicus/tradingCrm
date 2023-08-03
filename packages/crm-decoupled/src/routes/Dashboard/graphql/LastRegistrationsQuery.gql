@@ -1,0 +1,64 @@
+query LastRegistrationsQuery {
+  dashboard {
+    lastRegistration {
+      uuid
+      firstName
+      lastName
+      languageCode
+      acquisition {
+        acquisitionStatus
+        retentionStatus
+        retentionOperator {
+          fullName
+          hierarchy {
+            parentBranches {
+              name
+              branchType
+              parentBranch {
+                name
+                branchType
+              }
+            }
+          }
+        }
+        salesStatus
+        salesOperator {
+          fullName
+          hierarchy {
+            parentBranches {
+              name
+              branchType
+              parentBranch {
+                name
+                branchType
+              }
+            }
+          }
+        }
+      }
+      address {
+        countryCode
+      }
+      affiliate {
+        uuid
+        partner {
+          fullName
+        }
+      }
+      balance {
+        amount
+      }
+      paymentDetails {
+        depositsCount
+        lastDepositTime
+      }
+      registrationDetails {
+        registrationDate
+      }
+      status {
+        changedAt
+        type
+      }
+    }
+  }
+}

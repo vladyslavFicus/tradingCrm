@@ -1,0 +1,11 @@
+query ClickToCallConfigsQuery {
+  clickToCall {
+    configs {
+      callSystem
+      prefixes {
+        label
+        prefix
+      }
+    }
+  }
+}

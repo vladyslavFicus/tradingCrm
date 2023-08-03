@@ -1,0 +1,63 @@
+.DistributionRuleSourceBrandForm {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 30px;
+
+  &__row {
+    margin-bottom: 20px;
+
+    &--large {
+      @media (max-width: 1397px) {
+        grid-column : span 2;
+      }
+    }
+
+    &--small {
+      display: grid;
+      grid-template-columns: 1fr 0.8fr;
+      grid-column-gap: 30px;
+      align-items: start;
+    }
+  }
+
+  &__message {
+    margin: -20px 0 20px;
+    font-size: 14px;
+    color: var(--accent);
+  }
+
+  &__message-spinner {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    color: transparent;
+
+    &:before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: '...';
+      color: var(--accent);
+      animation: spinner steps(3) 1.5s infinite;
+    }
+  }
+
+  &__absolute-clients-count {
+    margin-top: -20px;
+    margin-bottom: 10px;
+    color: var(--accent);
+  }
+
+  &__option {
+    &--inactive {
+      color: var(--form-color-disabled) !important;
+    }
+  }
+}
+
+@keyframes spinner {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}

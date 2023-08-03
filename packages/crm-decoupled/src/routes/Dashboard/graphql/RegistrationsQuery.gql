@@ -1,0 +1,24 @@
+query RegistrationsQuery(
+  $dateFrom: String
+  $dateTo: String
+  $zoneId: String
+  $summary: [ChartDataSummary__Input]
+) {
+  dashboard {
+    registrationStatistic(
+      dateFrom: $dateFrom
+      dateTo: $dateTo
+      zoneId: $zoneId
+      summary: $summary
+    ) {
+      items {
+        entryValue
+        entryDate
+      }
+      summary {
+        value
+        type
+      }
+    }
+  }
+}

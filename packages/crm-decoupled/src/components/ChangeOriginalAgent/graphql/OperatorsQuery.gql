@@ -1,0 +1,16 @@
+query OperatorsQuery (
+  $page: Page__Input
+) {
+  operators(page: $page) {
+    page
+    number
+    totalElements
+    size
+    last
+    content {
+      uuid
+      fullName
+      operatorStatus
+    }
+  }
+}

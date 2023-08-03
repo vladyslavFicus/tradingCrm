@@ -1,0 +1,43 @@
+import { useCallback } from 'react';
+import { Note } from 'types/Note';
+import { useModal } from 'providers/ModalProvider';
+import { UpdateNoteModalProps } from 'modals/UpdateNoteModal';
+import UpdateNoteModal from 'modals/UpdateNoteModal/UpdateNoteModal';
+import EventEmitter, { NOTE_RELOAD } from 'utils/EventEmitter';
+import { useRemoveNoteMutation } from '../../NoteAction/graphql/__generated__/RemoveNoteMutation';
+
+type Props = {
+  note: Note,
+};
+
+const useNoteItem = (props: Props) => {
+  const { note } = props;
+
+  // ===== Modals ===== //
+  const updateNoteModal = useModal<UpdateNoteModalProps>(UpdateNoteModal);
+
+  // ===== Requests ===== //
+  const [removeNoteMutation] = useRemoveNoteMutation();
+
+  // ===== Handlers ===== //
+  const handleEditNote = useCallback(() => {
+    updateNoteModal.show({ note });
+  }, [updateNoteModal, note]);
+
+  const handleRemoveNote = useCallback(async () => {
+    try {
+      await removeNoteMutation({ variables: { noteId: note.noteId } });
+
+      EventEmitter.emit(NOTE_RELOAD, { targetType: note.targetType });
+    } catch (e) {
+      // Do nothing...
+    }
+  }, [note]);
+
+  return {
+    handleEditNote,
+    handleRemoveNote,
+  };
+};
+
+export default useNoteItem;

@@ -1,0 +1,152 @@
+.ReactSwitch {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  &--label-top {
+    flex-direction: column-reverse;
+
+    .ReactSwitch__label {
+      margin-bottom: 2px;
+    }
+  }
+
+  &--label-bottom {
+    flex-direction: column;
+
+    .ReactSwitch__label {
+      margin-top: 2px;
+    }
+  }
+
+  &--label-right {
+    flex-direction: row;
+
+    .ReactSwitch__label {
+      margin-left: 7px;
+    }
+  }
+
+  &--label-left {
+    flex-direction: row-reverse;
+
+    .ReactSwitch__label {
+      margin-right: 7px;
+    }
+  }
+
+  &__button {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 16px;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--switch-unselected-background-default);
+    vertical-align: middle;
+
+    &:hover {
+      background-color: var(--switch-unselected-background-hover);
+
+      .ReactSwitch__switch-toggle{
+        background-color: var(--switch-unselected-toggle-hover);
+      }
+    }
+
+    &:focus {
+      background-color: var(--switch-unselected-background-focus);
+
+      .ReactSwitch__switch-toggle{
+        background-color: var(--switch-unselected-toggle-focus);
+      }
+    }
+
+    &--on {
+      background-color: var(--switch-selected-background-default);
+
+      .ReactSwitch__switch-toggle {
+        left: 16px;
+        background-color: var(--switch-selected-toggle-default);
+      }
+
+      &:hover {
+        background-color: var(--switch-selected-background-hover);
+
+        .ReactSwitch__switch-toggle{
+          background-color: var(--switch-selected-toggle-hover);
+        }
+      }
+
+      &:focus {
+        background-color: var(--switch-selected-background-focus);
+
+        .ReactSwitch__switch-toggle{
+          background-color: var(--switch-selected-toggle-focus);
+        }
+      }
+
+      &.ReactSwitch__button--disabled {
+        background-color: var(--switch-selected-background-disabled);
+
+        .ReactSwitch__switch-toggle{
+          background-color: var(--switch-selected-toggle-disabled);
+        }
+
+        &:hover {
+          background-color: var(--switch-selected-background-disabled);
+
+          .ReactSwitch__switch-toggle{
+            background-color: var(--switch-selected-toggle-disabled);
+          }
+        }
+        
+        &:focus {
+          background-color: var(--switch-selected-background-disabled);
+          
+          .ReactSwitch__switch-toggle{
+            background-color: var(--switch-selected-toggle-disabled);
+          }
+        }
+      }
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+      background-color: var(--switch-unselected-background-disabled);
+
+      .ReactSwitch__switch-toggle{
+        background-color: var(--switch-unselected-toggle-disabled);
+      }
+
+      &:hover {
+        background-color: var(--switch-unselected-background-disabled);
+
+        .ReactSwitch__switch-toggle{
+          background-color: var(--switch-unselected-toggle-disabled);
+        }
+      }
+      
+      &:focus {
+        background-color: var(--switch-unselected-background-disabled);
+
+        .ReactSwitch__switch-toggle{
+          background-color: var(--switch-unselected-toggle-disabled);
+        }
+      }
+    }
+  }
+
+  &__switch-toggle {
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--switch-unselected-toggle-default);
+    transition: left .2s ease-in-out;
+  }
+}

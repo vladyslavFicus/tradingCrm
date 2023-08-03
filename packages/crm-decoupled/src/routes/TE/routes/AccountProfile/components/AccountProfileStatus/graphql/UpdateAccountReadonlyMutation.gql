@@ -1,0 +1,15 @@
+mutation UpdateAccountReadonlyMutation(
+   $accountUuid: String!
+   $readOnly: Boolean
+) {
+  tradingEngine {
+    updateAccountReadonly(
+      accountUuid: $accountUuid
+      readOnly: $readOnly
+    ) {
+      _id
+      readOnly
+    }
+  }
+}
+

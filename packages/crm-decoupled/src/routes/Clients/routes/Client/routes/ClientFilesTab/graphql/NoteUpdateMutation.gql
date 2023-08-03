@@ -1,0 +1,12 @@
+mutation NoteUpdateMutation(
+  $noteId: String!
+  $content: String!
+) {
+  note {
+    update(
+      noteId: $noteId
+      content: $content
+      pinned: false
+    )
+  }
+}

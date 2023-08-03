@@ -1,0 +1,9 @@
+.ClientCallbacksCalendar {
+  background-color: var(--surface-page-background);
+  border: 1px solid var(--surface-page-border);
+  border-radius: 5px;
+
+  &__calendar {
+    height: 1200px !important;
+  }
+}

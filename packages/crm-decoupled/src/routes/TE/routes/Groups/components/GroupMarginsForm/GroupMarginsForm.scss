@@ -1,0 +1,35 @@
+.GroupMarginsForm {
+  padding: 25px;
+
+  &__title {
+    color: var(--text-primary);
+    font-size: 18px;
+    margin-bottom: 25px;
+  }
+
+  &__fields {
+    background-color: var(--surface-frame-background);
+    border: 1px solid var(--surface-frame-border);
+    border-radius: 5px;
+    padding: 25px 25px 5px 25px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: baseline;
+    width: 100%;
+  }
+
+  &__field {
+    margin-right: 15px;
+    width: calc(33.3% - 10px);
+    display: inline-block;
+    vertical-align: top;
+
+    &--center {
+      align-self: center;
+    }
+
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+  }
+}

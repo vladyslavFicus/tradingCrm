@@ -1,0 +1,5 @@
+query ConfigurationQuery {
+  notificationCenterConfiguration {
+    showNotificationsPopUp
+  }
+}

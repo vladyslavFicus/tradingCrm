@@ -1,0 +1,15 @@
+.OfficesGrid {
+  &__cell {
+    &-primary {
+      font-weight: 700;
+    }
+
+    &-secondary {
+      font-size: 11px;
+    }
+  }
+
+  &__edit-button {
+    margin-right: 15px;
+  }
+}

@@ -1,0 +1,24 @@
+query AccountsQuery($args: TradingEngineAccountSearch__Input) {
+  tradingEngine {
+    accounts (args: $args) {
+      content {
+        uuid
+        name
+        login
+        group
+        credit
+        profileUuid
+        registrationDate
+        leverage
+        balance
+        accountType
+        enable
+      }
+      page
+      number
+      totalElements
+      size
+      last
+    }
+  }
+}

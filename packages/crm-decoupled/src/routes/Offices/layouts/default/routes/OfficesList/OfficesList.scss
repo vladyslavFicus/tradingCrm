@@ -1,0 +1,22 @@
+.OfficesList {
+  background-color: var(--surface-page-background);
+  border: 1px solid var(--surface-page-border);
+  border-radius: 5px;
+
+  &__header {
+    background-color: var(--surface-page-background);
+    border-bottom: 1px solid var(--divider);
+    padding: 25px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 48px;
+    z-index: var(--z-index-sticky);
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+}

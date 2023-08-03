@@ -1,0 +1,55 @@
+.GeneralNewOrderForm {
+  width: 100%;
+
+  &__field-container {
+    display: flex;
+    align-items: flex-end;
+
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+
+  &__field {
+    width: 100%;
+    margin-right: 15px;
+    margin-bottom: 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .input__error, .DatePicker__input-error {
+      position: absolute;
+      white-space: pre;
+    }
+  }
+
+  &__units {
+    margin-bottom: 11px;
+    font-weight: bold;
+  }
+
+  &__pending-order-checkbox {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+
+  &__auto-checkbox {
+    top: 4px;
+    margin-right: 35px;
+  }
+
+  &__button {
+    width: 100%;
+    text-align: center;
+
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
+
+    &--small {
+      width: 33%;
+    }
+  }
+}

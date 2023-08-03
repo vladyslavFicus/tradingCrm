@@ -1,0 +1,22 @@
+.Notifications {
+  &__toast {
+    .Toastify {
+      &__toast {
+        padding: 0;
+        border-radius: 5px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      }
+
+      &__toast-body {
+        margin: 0;
+      }
+
+      &__close-button {
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        color: var(--state-colors-content);
+      }
+    }
+  }
+}

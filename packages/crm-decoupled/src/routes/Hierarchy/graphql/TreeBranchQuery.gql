@@ -1,0 +1,31 @@
+query TreeBranchQuery($uuid: String!, $brand: String) {
+  treeBranch(uuid: $uuid) {
+    children {
+      uuid
+      name
+      brandId
+      branchType
+      managers {
+        _id
+        uuid
+        fullName
+      }
+      usersCount
+      childrenCount
+    }
+    users {
+      uuid
+      operator {
+        _id
+        uuid
+        fullName
+        authorities(brand: $brand) {
+          id
+          brand
+          department
+          role
+        }
+      }
+    }
+  }
+}

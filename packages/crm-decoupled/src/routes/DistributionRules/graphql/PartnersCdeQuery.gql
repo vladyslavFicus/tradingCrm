@@ -1,0 +1,8 @@
+query PartnersCdeQuery {
+  cdePartners {
+    uuid
+    fullName
+    brand
+    status
+  }
+}

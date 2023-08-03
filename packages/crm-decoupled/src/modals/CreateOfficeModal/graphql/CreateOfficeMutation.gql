@@ -1,0 +1,11 @@
+mutation CreateOfficeMutation(
+  $name: String!
+  $country: String!
+) {
+  hierarchy {
+    createOffice (
+      name: $name
+      country: $country
+    )
+  }
+}

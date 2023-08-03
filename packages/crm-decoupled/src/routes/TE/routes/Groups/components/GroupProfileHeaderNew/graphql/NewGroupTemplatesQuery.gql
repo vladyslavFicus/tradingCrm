@@ -1,0 +1,48 @@
+query NewGroupTemplatesQuery($args: TradingEngineGroupsSearch__Input) {
+  tradingEngine {
+    groups(args: $args) {
+      content {
+        groupName
+        defaultLeverage
+        currency
+        useSwap
+        enabled
+        archivationEnabled
+        accountCreationAllowed
+        hedgeProhibited
+        archivePeriodDays
+        archiveMaxBalance
+        marginCallLevel
+        stopoutLevel
+        groupSecurities {
+          security {
+            name
+            id
+          }
+          spreadDiff
+          show
+          defaultLots
+          lotMin
+          lotMax
+          lotStep
+          commissionLots
+          commissionBase
+          commissionType
+        }
+        groupSymbols {
+          symbol
+          securityId
+          swapShort
+          swapLong
+          percentage
+          enabled
+        }
+      }
+      page
+      number
+      totalElements
+      size
+      last
+    }
+  }
+}

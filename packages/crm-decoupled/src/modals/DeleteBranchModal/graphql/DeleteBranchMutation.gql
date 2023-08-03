@@ -1,0 +1,5 @@
+mutation DeleteBranchMutation($uuid: String!) {
+  hierarchy {
+    deleteBranch (uuid: $uuid)
+  }
+}

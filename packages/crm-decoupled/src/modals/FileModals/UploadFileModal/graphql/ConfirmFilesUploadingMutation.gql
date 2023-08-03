@@ -1,0 +1,11 @@
+mutation ConfirmFilesUploadingMutation(
+  $documents: [FileUpload__Input]!
+  $profileUuid: String!
+) {
+  file {
+    confirmFilesUploading(
+      documents: $documents
+      profileUuid: $profileUuid
+    )
+  }
+}

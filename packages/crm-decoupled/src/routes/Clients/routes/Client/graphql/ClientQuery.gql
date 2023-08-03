@@ -1,0 +1,212 @@
+query ClientQuery(
+  $playerUUID: String!
+) {
+  profile(playerUUID: $playerUUID) {
+    _id
+    uuid
+    age
+    birthDate
+    brandId
+    clientType
+    convertedFromLeadUuid
+    firstName
+    gender
+    identificationNumber
+    languageCode
+    lastUpdatedBy
+    lastUpdatedDate
+    lastName
+    migrationId
+    emailVerified
+    phoneVerified
+    profileVerified
+    termsAccepted
+    timeZone
+    localTime
+    address {
+      address
+      city
+      countryCode
+      poBox
+      postCode
+      state
+    }
+    acquisition {
+      acquisitionStatus
+      retentionRepresentative
+      retentionStatus
+      retentionOperator {
+        _id
+        uuid
+        fullName
+        hierarchy {
+          uuid
+          userType
+          parentBranches {
+            uuid
+            name
+            branchType
+            parentBranch {
+              uuid
+              name
+              branchType
+            }
+          }
+        }
+      }
+      salesRepresentative
+      salesStatus
+      salesOperator {
+        _id
+        uuid
+        fullName
+        hierarchy {
+          uuid
+          userType
+          parentBranches {
+            uuid
+            name
+            branchType
+            parentBranch {
+              uuid
+              name
+              branchType
+            }
+          }
+        }
+      }
+    }
+    affiliate {
+      uuid
+      externalId
+      referral
+      sms
+      source
+      campaignId
+      partner {
+        _id
+        status
+        uuid
+        fullName
+        permission {
+          minFtdDeposit
+          restrictedReferrals
+          restrictedSources
+        }
+      }
+    }
+    configuration {
+      crs
+      fatca
+      internalTransfer
+      depositEnabled
+      gdpr {
+        sms
+        email
+        phone
+        socialMedia
+      }
+      subscription {
+        marketNews
+        information
+        educational
+        promosAndOffers
+        statisticsAndSummary
+      }
+      webCookies {
+        enabled
+      }
+    }
+    contacts {
+      additionalEmail
+      additionalPhone
+      email
+      phone
+    }
+    passport {
+      countryOfIssue
+      countrySpecificIdentifier
+      countrySpecificIdentifierType
+      expirationDate
+      issueDate
+      number
+    }
+    kyc {
+      status
+      uuid
+    }
+    registrationDetails {
+      deviceDetails {
+        deviceType
+        operatingSystem
+      }
+      inetDetails {
+        host
+        ipAddress
+        referer
+      }
+      locationDetails {
+        city
+        countryCode
+        region
+      }
+      registeredBy
+      registrationDate
+      userAgent
+    }
+    status {
+      changedAt
+      changedBy
+      comment
+      reason
+      type
+    }
+    profileView {
+      uuid
+      languageCode
+      paymentDetails {
+        depositsCount
+      }
+      affiliate {
+        uuid
+        ftd {
+          isVisible
+        }
+      }
+      balance {
+        amount
+        credit
+      }
+      lastSignInSessions {
+        ip
+        countryCode
+        startedAt
+      }
+      lastActivity {
+        location
+        date
+        eventType,
+        eventValue,
+      }
+      online
+    }
+    tradingAccounts {
+      accountUUID
+      accountType
+      archived
+      balance
+      credit
+      currency
+      group
+      login
+      margin
+      name
+      platformType
+      leverage
+    }
+    referrer {
+      fullName
+      uuid
+    }
+  }
+}

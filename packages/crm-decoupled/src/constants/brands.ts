@@ -1,0 +1,12 @@
+export enum departments {
+  ADMINISTRATION = 'ADMINISTRATION',
+  CS = 'CS',
+  RFP = 'RFP',
+  MARKETING = 'MARKETING',
+  BI = 'BI',
+  SALES = 'SALES',
+  RETENTION = 'RETENTION',
+  DEALING = 'DEALING',
+  COMPLIANCE = 'COMPLIANCE',
+  FINANCE = 'FINANCE',
+}

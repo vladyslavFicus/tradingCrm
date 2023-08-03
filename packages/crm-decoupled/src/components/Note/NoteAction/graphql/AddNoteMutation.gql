@@ -1,0 +1,19 @@
+mutation AddNoteMutation(
+  $playerUUID: String!
+  $subject: String
+  $content: String!
+  $targetUUID: String!
+  $targetType: String!
+  $pinned: Boolean!
+) {
+  note {
+    add(
+      playerUUID: $playerUUID
+      subject: $subject
+      content: $content
+      targetUUID: $targetUUID
+      targetType: $targetType
+      pinned: $pinned
+    )
+  }
+}

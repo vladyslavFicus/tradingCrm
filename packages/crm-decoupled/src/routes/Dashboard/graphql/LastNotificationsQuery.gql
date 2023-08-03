@@ -1,0 +1,18 @@
+query LastNotificationsQuery {
+  dashboard {
+    lastNotifications {
+      uuid
+      read
+      priority
+      createdAt
+      type
+      subtype
+      details
+      client {
+        uuid
+        fullName
+        languageCode
+      }
+    }
+  }
+}

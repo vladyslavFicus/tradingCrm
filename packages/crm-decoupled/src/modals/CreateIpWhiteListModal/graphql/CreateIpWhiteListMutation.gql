@@ -1,0 +1,11 @@
+mutation CreateIpWhiteListMutation(
+   $ip: String!
+   $description: String!
+) {
+  ipWhitelist {
+    add(
+      ip: $ip
+      description: $description
+    )
+  }
+}

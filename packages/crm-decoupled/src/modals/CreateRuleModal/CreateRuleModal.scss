@@ -1,0 +1,13 @@
+.CreateRuleModal{
+  &__body {
+    padding: 0;
+
+    .StaticTabs__nav {
+      padding: 10px 0 0;
+    }
+
+    .StaticTabs__content {
+      padding: 20px 0;
+    }
+  }
+}

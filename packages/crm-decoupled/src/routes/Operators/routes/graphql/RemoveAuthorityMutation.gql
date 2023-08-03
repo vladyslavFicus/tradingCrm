@@ -1,0 +1,13 @@
+mutation RemoveAuthorityMutation(
+  $uuid: String!
+  $department: String!
+  $role: String!
+) {
+  auth {
+    removeAuthority(
+      uuid: $uuid
+      department: $department
+      role: $role
+    )
+  }
+}

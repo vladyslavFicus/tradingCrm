@@ -1,0 +1,24 @@
+.AccountProfileOpenOrderBulkActions {
+  display: flex;
+  width: fit-content;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--surface-filters-background);
+  border: 1px solid var(--divider);
+  border-radius: 5px;
+
+  &__title {
+    top: 2px;
+    margin-right: 15px;
+    color: var(--accent);
+    font-size: 13px;
+    text-transform: uppercase;
+  }
+
+  &__button {
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+}

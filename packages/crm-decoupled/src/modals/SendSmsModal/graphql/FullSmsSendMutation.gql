@@ -1,0 +1,19 @@
+mutation FullSmsSendMutation(
+  $uuid: String!
+  $field: String!
+  $type: String!
+  $from: String!
+  $message: String!
+) {
+  sms {
+    fullSms {
+      sendSms(
+        uuid: $uuid
+        field: $field
+        type: $type
+        from: $from
+        message: $message
+      )
+    }
+  }
+}

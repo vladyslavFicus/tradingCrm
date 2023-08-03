@@ -1,0 +1,12 @@
+.SidebarSubNav {
+  height: 0;
+  opacity: 0;
+
+  overflow: hidden;
+  padding-top: 2px;
+  padding-right: 5px;
+  padding-left: 20px;
+  background-color: var(--navigation-secondary-background);
+
+  transition: .3s;
+}

@@ -1,0 +1,11 @@
+mutation ActivatePendingOrderMutation(
+  $orderId: Int!
+  $activationPrice: Float!
+) {
+  tradingEngine {
+    activatePendingOrder(
+      orderId: $orderId
+      activationPrice: $activationPrice
+    )
+  }
+}

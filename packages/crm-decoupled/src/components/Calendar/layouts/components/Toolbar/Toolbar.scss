@@ -1,0 +1,22 @@
+.Toolbar {
+  background: var(--surface-frame-background);
+  padding: 20px 20px;
+
+  &__label {
+    margin: 0 20px;
+    font-size: 20px;
+    font-weight: 600;
+    min-width: 300px;
+    text-align: center;
+  }
+
+  &__arrow {
+    font-size: 40px;
+    color: var(--button-icon-button-default);
+    background-color: transparent;
+
+    &:hover {
+      color: var(--button-icon-button-hover);
+    }
+  }
+}

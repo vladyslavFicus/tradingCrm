@@ -1,0 +1,26 @@
+.GridConfig {
+  background-color: var(--surface-page-background);
+  width: 46px;
+  height: 41px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  transform: translateY(-41px);
+  z-index: var(--z-index-sub-sticky);
+  border-top: 1px solid var(--divider);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-right: 1px solid var(--divider);
+  border-bottom: 1px solid var(--divider);
+
+  &__select-block {
+    width: 300px;
+  }
+
+  &__select-block-container {
+    max-height: 300px;
+  }
+}

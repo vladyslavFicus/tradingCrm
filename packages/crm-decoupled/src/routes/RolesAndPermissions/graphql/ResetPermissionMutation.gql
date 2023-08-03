@@ -1,0 +1,11 @@
+mutation ResetPermissionMutation(
+  $department: String!
+  $role: String!
+) {
+  auth {
+    resetPermission(
+      department: $department
+      role: $role
+    )
+  }
+}

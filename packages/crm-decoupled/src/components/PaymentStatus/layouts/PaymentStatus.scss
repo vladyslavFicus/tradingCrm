@@ -1,0 +1,27 @@
+.PaymentStatus {
+  &__general {
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  &__additional {
+    font-size: 11px;
+  }
+
+  &__status {
+    &--approved,
+    &--pending {
+      color: var(---state-colors-info);
+    }
+
+    &--rejected,
+    &--canceled,
+    &--failed {
+      color: var(--state-colors-danger);
+    }
+
+    &--completed {
+      color: var(--state-colors-success);
+    }
+  }
+}

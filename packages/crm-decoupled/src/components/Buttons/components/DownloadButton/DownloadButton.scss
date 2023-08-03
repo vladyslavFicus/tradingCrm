@@ -1,0 +1,11 @@
+.DownloadButton {
+  padding: 0;
+  border: none;
+  color: var(--button-icon-button-default);
+
+  &__icon {
+    display: block;
+    line-height: 1;
+    color: var(--button-icon-button-default);
+  }
+}

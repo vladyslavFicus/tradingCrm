@@ -1,0 +1,7 @@
+.ClientCallbacksTab {
+  &__header {
+    position: sticky;
+    top: 124px;
+    z-index: var(--z-index-sub-sticky);
+  }
+}

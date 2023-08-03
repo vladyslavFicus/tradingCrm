@@ -1,0 +1,9 @@
+mutation ConfigurationUpdateMutation(
+  $showNotificationsPopUp: Boolean
+) {
+  notificationCenter {
+    updateConfiguration(
+      showNotificationsPopUp: $showNotificationsPopUp
+    )
+  }
+}

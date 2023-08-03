@@ -1,0 +1,37 @@
+.PartnerSchedule {
+  margin-top: 25px;
+
+  &__general {
+    font-weight: 700;
+  }
+
+  &--is-disabled {
+    td:not(:last-child) {
+      opacity: 0.5;
+    }
+  }
+
+  &__countrySpreads {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    min-height: 39px;
+  }
+
+  &__heading {
+    font-size: 18px;
+    font-weight: normal;
+    color: var(--text-primary);
+  }
+
+  &__edit {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}

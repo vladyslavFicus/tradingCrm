@@ -1,0 +1,13 @@
+mutation EditSecurityMutation(
+  $securityName: String!
+  $name: String!
+  $description: String
+) {
+  tradingEngine {
+    editSecurity(
+      securityName: $securityName
+      name: $name
+      description: $description
+    )
+  }
+}

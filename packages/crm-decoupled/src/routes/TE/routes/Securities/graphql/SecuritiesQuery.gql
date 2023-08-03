@@ -1,0 +1,10 @@
+query SecuritiesQuery {
+  tradingEngine {
+    securities {
+      id
+      name
+      symbols
+      description
+    }
+  }
+}

@@ -1,0 +1,17 @@
+mutation UpdateFileMetaMutation(
+  $uuid: String!
+  $title: String
+  $verificationType: String
+  $documentType: String
+  $status: String
+) {
+  file {
+    updateFileMeta(
+      uuid: $uuid,
+      title: $title,
+      verificationType: $verificationType,
+      documentType: $documentType,
+      status: $status
+    )
+  }
+}

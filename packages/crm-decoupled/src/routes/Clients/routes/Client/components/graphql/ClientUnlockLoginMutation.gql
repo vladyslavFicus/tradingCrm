@@ -1,0 +1,7 @@
+mutation ClientUnlockLoginMutation(
+  $playerUUID: String!
+) {
+  auth {
+    unlockLogin(uuid: $playerUUID)
+  }
+}

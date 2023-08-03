@@ -1,0 +1,27 @@
+.ConfirmActionModal {
+  &__description {
+    text-align: center;
+  }
+
+  &__row {
+    text-align: center;
+  }
+
+  &__action-text {
+    font-weight: 700;
+    line-height: 1.3em;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__additional-text {
+    margin-left: 5px;
+  }
+
+  &__action-text,
+  &__additional-text,
+  &__fullname {
+    font-weight: 700;
+  }
+}

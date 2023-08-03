@@ -1,0 +1,15 @@
+.MiniProfilePopover {
+  &.popover {
+    min-width: 325px;
+    max-width: none;
+    z-index: var(--z-index-popover);
+    inset: unset;
+    background-color: var(--surface-frame-background);
+    border: 1px solid var(--surface-frame-border);
+    box-shadow: 0 5px 25px var(--box-shadow-color);
+
+    .popover-body {
+      padding: 0;
+    }
+  }
+}

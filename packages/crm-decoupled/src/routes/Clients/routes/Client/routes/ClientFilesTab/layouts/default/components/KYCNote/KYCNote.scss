@@ -1,0 +1,26 @@
+.KYCNote {
+  padding: 0 25px 15px;
+  width: 50%;
+
+  &__note {
+    &-title {
+      margin-bottom: 5px;
+      font-size: 20px;
+    }
+
+    &-field {
+      height: 128px;
+      border-radius: 5px;
+    }
+  }
+
+  &__buttons-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+
+    :first-child {
+      margin-right: 10px;
+    }
+  }
+}

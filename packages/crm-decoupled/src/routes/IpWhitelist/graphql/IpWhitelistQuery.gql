@@ -1,0 +1,15 @@
+query IpWhitelistQuery($args: IpWhitelistSearch__Input) {
+  ipWhitelistSearch(args:$args) {
+    content {
+      uuid
+      ip
+      createdAt
+      description
+    }
+    page
+    number
+    totalElements
+    size
+    last
+  }
+}

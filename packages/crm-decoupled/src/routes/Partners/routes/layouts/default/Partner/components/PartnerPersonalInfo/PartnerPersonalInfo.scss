@@ -1,0 +1,21 @@
+.PartnerPersonalInfo {
+  margin-right: 15px;
+  width: calc(33.3% - 10px);
+
+  &__title {
+    color: var(--text-secondary);
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  &__content {
+    background-color: var(--surface-frame-background);
+    border: 1px solid var(--surface-frame-border);
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 7px;
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+  }
+}

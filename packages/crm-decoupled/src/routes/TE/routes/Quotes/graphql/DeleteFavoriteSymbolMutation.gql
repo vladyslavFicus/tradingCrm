@@ -1,0 +1,9 @@
+mutation DeleteFavoriteSymbolMutation(
+  $symbol: String!
+) {
+  tradingEngine {
+    deleteFavoriteSymbols(
+      symbol: $symbol
+    )
+  }
+}

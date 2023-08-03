@@ -1,0 +1,20 @@
+query ClientCallbacksQuery(
+  $callbackTimeFrom: String
+  $callbackTimeTo: String
+  $page: Page__Input
+) {
+  clientCallbacks(
+    callbackTimeFrom: $callbackTimeFrom
+    callbackTimeTo: $callbackTimeTo
+    page: $page
+  ) @connection(key: "CLIENT_CALLBACKS_HEADER_CALENDAR") {
+    content {
+      _id
+      callbackId
+      callbackTime
+      client {
+        fullName
+      }
+    }
+  }
+}

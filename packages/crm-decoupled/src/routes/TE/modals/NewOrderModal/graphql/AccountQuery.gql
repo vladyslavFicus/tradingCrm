@@ -1,0 +1,19 @@
+query AccountQuery($identifier: String!) {
+  tradingEngine {
+    account(identifier: $identifier) {
+      uuid
+      name
+      login
+      group
+      currency
+      credit
+      balance
+      accountType
+      leverage
+      enable
+      statistic {
+        freeMargin
+      }
+    }
+  }
+}

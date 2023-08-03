@@ -1,0 +1,10 @@
+query ClientLockStatusQuery(
+  $playerUUID: String!
+) {
+  loginLock(uuid: $playerUUID) {
+    isLocked
+    locks {
+      lockReason
+    }
+  }
+}

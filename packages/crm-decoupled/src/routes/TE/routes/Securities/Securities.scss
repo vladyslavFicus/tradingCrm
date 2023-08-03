@@ -1,0 +1,33 @@
+.Securities {
+  border: 1px solid var(--divider);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 47px;
+    padding: 25px;
+    background-color: var(--surface-page-background);
+    font-size: 20px;
+    z-index: var(--z-index-sticky);
+  }
+
+  &__cell-primary {
+    font-weight: 700;
+
+    &--pointer {
+      cursor: pointer;
+    }
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+
+  &__action {
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
+  }
+}

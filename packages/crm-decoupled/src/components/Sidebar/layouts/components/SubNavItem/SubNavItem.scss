@@ -1,0 +1,29 @@
+.SubNavItem {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  font-size: 13px;
+  color: var(--navigation-secondary-color);
+  transition: color .175s linear;
+  cursor: pointer;
+
+  &:focus,
+  &:hover {
+    color: var(--navigation-primary-color);
+  }
+
+  &--active {
+    color: var(--navigation-primary-color);
+    font-weight: bold;
+  }
+
+  &__icon {
+    flex: 0 0 35px;
+    display: inline-block;
+    width: 35px;
+    margin-right: 5px;
+    text-align: center;
+    font-size: 7px;
+    transform: rotate(-90deg);
+  }
+}

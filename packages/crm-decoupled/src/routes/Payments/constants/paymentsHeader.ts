@@ -1,0 +1,1 @@
+export const MAX_QUERY_PAYMENTS = 10000;

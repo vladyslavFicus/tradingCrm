@@ -1,0 +1,11 @@
+query symbolsQuery(
+  $args: TradingEngineSymbols__Input
+) {
+  tradingEngine {
+    symbols(args: $args) {
+      content {
+        name
+      }
+    }
+  }
+}

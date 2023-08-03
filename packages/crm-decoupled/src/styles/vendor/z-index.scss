@@ -1,0 +1,15 @@
+:root {
+  --z-index-negative: -1;
+  --z-index-overlap: 1;
+  --z-index-table-header: 100;
+  --z-index-sub-sticky: 200;
+  --z-index-popover: 300;
+  --z-index-sticky: 400;
+  --z-index-layout: 500;
+  --z-index-modal: 600;
+  --z-index-note: 700;
+}
+
+.dropdown-menu {
+  z-index: var(--z-index-popover);
+}

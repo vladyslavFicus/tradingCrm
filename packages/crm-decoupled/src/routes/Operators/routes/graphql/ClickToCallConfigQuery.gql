@@ -1,0 +1,7 @@
+query ClickToCallConfigQuery {
+  clickToCall {
+    configs {
+      callSystem
+    }
+  }
+}

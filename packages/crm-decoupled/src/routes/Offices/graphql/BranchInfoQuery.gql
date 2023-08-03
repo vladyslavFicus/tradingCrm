@@ -1,0 +1,10 @@
+#import "apollo/fragments/branchInfo"
+
+query BranchInfoQuery($branchId: String!) {
+  branchInfo (branchId: $branchId) {
+    ...BranchInfoFragment
+    parentBranch {
+      ...BranchInfoFragment
+    }
+  }
+}

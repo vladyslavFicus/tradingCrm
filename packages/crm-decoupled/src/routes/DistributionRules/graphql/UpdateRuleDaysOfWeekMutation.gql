@@ -1,0 +1,14 @@
+mutation UpdateRuleDaysOfWeekMutation(
+  $uuid: String!
+  $executionDaysOfWeek: [String!]!
+) {
+  distributionRule {
+    updateRuleDaysOfWeek (
+      uuid: $uuid
+      executionDaysOfWeek: $executionDaysOfWeek
+    ) {
+      _id
+      executionDaysOfWeek
+    }
+  }
+}

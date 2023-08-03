@@ -1,0 +1,36 @@
+.CreatePartnerScheduleModal {
+  &--is-disabled {
+    color: var(--dropdown-options-color-disabled);
+    pointer-events: none;
+  }
+
+  &__description {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  &__label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  &__spread {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 0.2fr;
+    grid-gap: 20px;
+  }
+
+  &__button {
+    margin-top: -22px;
+  }
+
+  &__limit-error {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+    text-align: right;
+    color: var(--state-colors-danger);
+  }
+}

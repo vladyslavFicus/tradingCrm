@@ -1,0 +1,15 @@
+mutation UpdateAcquisitionMutation(
+  $uuid: String!
+  $parentOperator: String
+  $salesStatus: String
+  $retentionStatus: String
+) {
+  hierarchy {
+    updateAcquisition(
+      uuid: $uuid
+      parentOperator: $parentOperator
+      salesStatus: $salesStatus
+      retentionStatus: $retentionStatus
+    )
+  }
+}

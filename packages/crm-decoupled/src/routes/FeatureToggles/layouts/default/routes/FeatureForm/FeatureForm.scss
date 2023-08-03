@@ -1,0 +1,88 @@
+.FeatureForm {
+  &__main-header {
+    position: sticky;
+    top: 40px;
+    z-index: var(--z-index-sticky);
+    display: flex;
+    justify-content: space-between;
+    background: var(--surface-page-background);
+    border-bottom: 1px solid var(--divider);
+    padding: 25px;
+    font-size: 20px;
+  }
+
+  &__button {
+    height: 40px;
+  }
+
+  &__header {
+    padding: 15px 25px;
+    color: var(--text-primary);
+    font-size: 18px;
+  }
+
+  &__not-saved-message {
+    color: var(--state-colors-danger);
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  &__icon-alert {
+    margin-right: 3px;
+  }
+
+  &__block {
+    display: flex;
+    height: 102px;
+    margin: 30px;
+    border: 1px solid var(--surface-page-border);
+  }
+
+  &__block-title {
+    width: 35%;
+    font-size: 16px;
+    margin: auto 0 auto 20px;
+    font-weight: 600;
+  }
+
+  &__account-fields,
+  &__deposit-fields {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  &__field {
+    margin: 10px 0 15px;
+    width: 25%;
+
+    &--account {
+      width: 170px;
+      margin-right: 24px;
+    }
+
+    &--deposit{
+      margin-right: 5%;
+    }
+
+    &--quick-deposit {
+      width: 130px;
+      margin-right: 18px;
+    }
+
+    &--time {
+      margin-left: 10%;
+    }
+  }
+
+  &__field-checkbox {
+    margin: auto 0;
+
+    &--multi {
+      margin-right: 10px;
+    }
+  }
+
+  &__icon-info {
+    margin-left: 5px;
+  }
+}

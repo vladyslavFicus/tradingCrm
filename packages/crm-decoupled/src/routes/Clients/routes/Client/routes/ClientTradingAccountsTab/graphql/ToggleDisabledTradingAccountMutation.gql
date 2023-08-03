@@ -1,0 +1,11 @@
+mutation ToggleDisabledTradingAccountMutation(
+  $accountUUID: String!
+  $readOnly: Boolean!
+) {
+  tradingAccount {
+    toggleDisabled(
+      accountUUID: $accountUUID,
+      readOnly: $readOnly,
+    )
+  }
+}

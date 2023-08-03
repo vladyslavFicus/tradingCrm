@@ -1,0 +1,57 @@
+.FeedDetails {
+  &__wrapper {
+    padding-left: 5px;
+  }
+
+  &__columns {
+    display: flex;
+    column-gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  &__value {
+    &-from,
+    &-to {
+      word-break: break-all;
+    }
+
+    &-to {
+      font-weight: 700;
+    }
+
+    &-added {
+      color: var(--state-colors-success);
+      display: flex;
+      column-gap: 5px;
+    }
+
+    &-removed {
+      text-decoration: line-through;
+      color: var(--state-colors-danger);
+      display: flex;
+      column-gap: 5px;
+    }
+  }
+
+  &__arrow {
+    color: var(--state-colors-success);
+    font-weight: bolder;
+
+    &:before {
+      content: '→';
+    }
+
+    &--down:before {
+      content: '↓';
+    }
+  }
+
+   &__changes {
+     width: 150px;
+     margin: 5px 0;
+     padding: 2px;
+     text-align: center;
+     border: 2px dashed var(--state-colors-success);
+     text-transform: uppercase;
+   }
+}

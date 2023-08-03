@@ -1,0 +1,7 @@
+query FilesCategoriesQuery {
+  filesCategories {
+    DOCUMENT_VERIFICATION
+    ADDRESS_VERIFICATION
+    OTHER
+  }
+}

@@ -1,0 +1,24 @@
+query PaymentGeneralStatisticQuery(
+  $profileId: String
+  $dateFrom: String
+  $dateTo: String
+) {
+  paymentsGeneralStatistic(
+    profileId: $profileId
+    dateFrom: $dateFrom
+    dateTo: $dateTo
+  ) {
+    deposits {
+      totalAmount
+      totalCount
+      first
+      last
+    }
+    withdrawals {
+      totalAmount
+      totalCount
+      first
+      last
+    }
+  }
+}

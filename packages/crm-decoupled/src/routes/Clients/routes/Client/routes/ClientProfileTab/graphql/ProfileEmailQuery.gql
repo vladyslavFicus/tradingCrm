@@ -1,0 +1,8 @@
+query ProfileEmailQuery (
+  $playerUUID: String!
+){
+  profileContacts(playerUUID: $playerUUID) {
+    email
+  }
+}
+

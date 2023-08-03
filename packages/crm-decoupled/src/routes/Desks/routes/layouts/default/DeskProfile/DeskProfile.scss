@@ -1,0 +1,11 @@
+.DeskProfile {
+  width: 94%;
+  min-width: 960px;
+  margin: auto;
+  background-color: var(--surface-page-background);
+  border: 1px solid var(--surface-page-border);
+
+  &__body {
+    background-color: var(--surface-page-background);
+  }
+}

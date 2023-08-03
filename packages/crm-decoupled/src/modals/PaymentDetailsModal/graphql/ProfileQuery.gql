@@ -1,0 +1,15 @@
+query ProfileQuery($playerUUID: String!){
+  profile(playerUUID: $playerUUID) {
+    uuid
+    firstName
+    lastName
+    birthDate
+    profileView {
+      uuid
+      balance {
+        amount
+        credit
+      }
+    }
+  }
+}

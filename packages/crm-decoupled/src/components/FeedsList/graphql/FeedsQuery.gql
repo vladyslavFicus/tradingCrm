@@ -1,0 +1,40 @@
+query FeedsQuery(
+  $searchBy: String,
+  $creationDateFrom: String,
+  $creationDateTo: String,
+  $page: Int,
+  $limit: Int,
+  $targetUUID: String,
+  $auditLogType: String,
+  $auditCategory: Feed__AuditCategory__Enum
+) {
+  feeds (
+    searchBy: $searchBy,
+    creationDateFrom: $creationDateFrom,
+    creationDateTo: $creationDateTo,
+    page: $page,
+    limit: $limit,
+    targetUUID: $targetUUID,
+    auditLogType: $auditLogType,
+    auditCategory: $auditCategory,
+  ) {
+    page
+    size
+    last
+    totalElements
+    number
+    content {
+      id
+      brandId
+      authorFullName
+      authorUuid
+      creationDate
+      details
+      ip
+      targetFullName
+      targetUuid
+      type
+      uuid
+    }
+  }
+}

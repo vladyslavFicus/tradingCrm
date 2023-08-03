@@ -1,0 +1,15 @@
+query TreeTopQuery {
+  treeTop {
+    uuid
+    name
+    brandId
+    branchType
+    managers {
+      _id
+      uuid
+      fullName
+    }
+    usersCount
+    childrenCount
+  }
+}

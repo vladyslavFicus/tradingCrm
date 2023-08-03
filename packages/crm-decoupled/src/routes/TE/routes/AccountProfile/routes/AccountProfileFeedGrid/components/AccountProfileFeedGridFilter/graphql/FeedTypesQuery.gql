@@ -1,0 +1,3 @@
+query FeedFilterFormQuery($uuid: String!) {
+  feedTypes(uuid: $uuid)
+}

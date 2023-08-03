@@ -1,0 +1,11 @@
+query BranchUsersQuery($branchUuid: String!) {
+  branchUsers(branchUuid: $branchUuid) {
+    uuid
+    operator {
+      firstName
+      lastName
+      fullName
+      operatorStatus
+    }
+  }
+}

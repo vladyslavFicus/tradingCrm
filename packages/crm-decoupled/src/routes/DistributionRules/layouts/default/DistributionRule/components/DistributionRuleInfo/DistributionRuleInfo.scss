@@ -1,0 +1,119 @@
+.DistributionRuleInfo {
+  display: flex;
+  padding: 10px 25px;
+  border-bottom: 1px solid var(--divider);
+  background: var(--surface-page-background);
+
+  &__item {
+    min-width: 165px;
+    padding: 10px 20px 25px;
+    border-right: 1px solid var(--divider);
+
+    &:first-child {
+      padding-left: 0;
+    }
+  }
+
+  &__item-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+  }
+
+  &__item-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: uppercase;
+  }
+
+  &__item-small-text {
+    font-size: 11px;
+    color: var(--text-primary);
+  }
+
+  &__status {
+    cursor: pointer;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      transition: 0.2s;
+    }
+
+    &.show::before {
+      background-color: var(--active);
+    }
+
+    &__toggle-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__arrow {
+      margin-left: 15px;
+      transition: 0.2s;
+      color: var(--button-icon-button-default);
+    }
+
+    &.show &__arrow {
+      transform: rotate(180deg);
+    }
+
+    &__dropdown-menu {
+      width: 100%;
+      left: auto !important;
+      right: 0 !important;
+      padding: 0;
+      border-left: none;
+      border-color: var(--dropdown-surface-border);
+      background-color: var(--dropdown-surface-background);
+      box-shadow: 0px 5px 25px var(--box-shadow-color);
+    }
+
+    &__dropdown-item {
+      padding: 10px 20px 10px 10px;
+
+      &:hover {
+        background: var(--dropdown-options-background-hover);
+        color: var(--dropdown-options-color-hover);
+      }
+
+      &:focus {
+        background: var(--dropdown-options-background-focus);
+        color: var(--dropdown-options-color-focus);
+      }
+    }
+  }
+
+  &__status-item {
+    &--active {
+      color: var(--state-colors-success);
+    }
+
+    &--inactive {
+      color: var(--form-color-disabled);
+    }
+  }
+
+  &__action {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0px 10px 12px;
+    flex-direction: column;
+    background-color: transparent;
+
+    &:hover {
+      svg {
+        color: var(--active);
+      }
+    }
+  }
+}

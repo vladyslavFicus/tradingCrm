@@ -1,0 +1,14 @@
+query PaymentSystemsProviderQuery($args: PaymentSystemsProvider_Input) {
+  settings {
+    paymentSystemsProvider(args: $args) {
+      totalPages
+      totalElements
+      last
+      number
+      content {
+        paymentSystem
+        isFavourite
+      }
+    }
+  }
+}

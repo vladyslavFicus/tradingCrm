@@ -1,0 +1,5 @@
+export const attributeLabels = {
+  name: 'MODALS.UPDATE_DESK_MODAL.LABELS.DESK_NAME',
+  deskType: 'MODALS.UPDATE_DESK_MODAL.LABELS.DESK_TYPE',
+  language: 'MODALS.UPDATE_DESK_MODAL.LABELS.LANGUAGE',
+};

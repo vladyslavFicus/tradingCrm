@@ -1,0 +1,31 @@
+.AccountProfileStatistics {
+  padding: 20px 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 5px 5px var(--box-shadow-color);
+
+  &__statistics-block {
+    display: flex;
+  }
+
+  &__statistics {
+    width: 100%;
+  }
+
+  &__divider {
+    border-right: 1px solid var(--divider);
+    margin-right: 30px;
+    margin-left: 50px;
+  }
+
+  &__value {
+    &--positive {
+      font-weight: 600;
+      color: var(--state-colors-success);
+    }
+
+    &--negative {
+      font-weight: 600;
+      color: var(--state-colors-danger);
+    }
+  }
+}

@@ -1,0 +1,51 @@
+.DocumentsGrid {
+  &__cell-buttons {
+    display: flex;
+    align-items: center;
+  }
+
+  &__cell-name {
+    max-width: 400px;
+    font-weight: 700;
+
+    &--hoverable {
+      cursor: pointer;
+
+      &:hover {
+        color: var(--accent);
+      }
+    }
+  }
+
+  &__file-name {
+    font-size: 11px;
+  }
+
+  &__cell-description {
+    max-width: 800px;
+  }
+
+  &__cell-primary-date {
+    font-weight: 700
+  }
+
+  &__cell-primary-time {
+    font-size: 11px;
+  }
+
+  &__action-icon {
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+  }
+
+  &__icon-eye {
+    background: transparent;
+  }
+
+  .DownloadButton {
+    background: transparent;
+    padding: 10px;
+    margin: 0 5px;
+  }
+}

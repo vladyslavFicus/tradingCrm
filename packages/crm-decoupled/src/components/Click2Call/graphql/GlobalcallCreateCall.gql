@@ -1,0 +1,18 @@
+mutation GlobalcallCreateCallMutation(
+  $uuid: String!
+  $phoneType: ClickToCall__Phone__Type__Enum!
+  $customerType: ClickToCall__Customer__Type__Enum!
+  $prefix: String!
+) {
+  clickToCall {
+    globalcall {
+      createCall(
+        uuid: $uuid
+        phoneType: $phoneType
+        customerType: $customerType
+        prefix: $prefix
+      )
+    }
+  }
+}
+

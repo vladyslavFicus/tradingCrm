@@ -1,0 +1,66 @@
+.ClientTradingAccountsGrid {
+  &__cell {
+    &-main {
+      font-weight: 700;
+      color: var(--text-primary);
+
+      &--upper {
+        text-transform: uppercase;
+      }
+
+      &--small {
+        font-size: 11px;
+      }
+    }
+
+    &-sub {
+      font-size: 11px;
+    }
+
+    &-button {
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &__leverage-status {
+    &--pending {
+      color: var(--state-colors-info);
+    }
+
+    &--completed {
+      color: var(--state-colors-success);
+    }
+
+    &--canceled {
+      color: var(--state-colors-warning);
+    }
+
+    &--rejected {
+      color: var(--state-colors-danger);
+    }
+
+    &--failed {
+      color: var(--state-colors-danger);
+    }
+  }
+
+  &__status {
+    &--enabled {
+      color: var(--state-colors-success);
+    }
+
+    &--disabled {
+      color: var(--state-colors-danger);
+    }
+  }
+
+  &__actions {
+    &--loader {
+      margin: 0 auto;
+    }
+  }
+}

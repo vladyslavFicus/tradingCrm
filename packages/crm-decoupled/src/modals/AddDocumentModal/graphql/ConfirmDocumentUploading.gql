@@ -1,0 +1,7 @@
+mutation ConfirmDocumentUploadingMutation(
+  $args: Document__Input
+) {
+  document {
+    confirm(args: $args)
+  }
+}

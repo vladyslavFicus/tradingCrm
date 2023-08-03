@@ -1,0 +1,22 @@
+.ClientCallbacksHeader {
+  background-color: var(--surface-page-background);
+  border-bottom: 1px solid var(--divider);
+  border-radius: 5px 5px 0 0;
+  font-size: 20px;
+  padding: 25px;
+  position: sticky;
+  top: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: var(--z-index-sticky);
+
+  &__calendar {
+    cursor: pointer;
+    transition: color 0.1s ease;
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
+}

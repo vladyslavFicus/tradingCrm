@@ -1,0 +1,46 @@
+.ClientContactsForm {
+  background-color: var(--surface-frame-background);
+  border: 1px solid var(--surface-frame-border);
+  border-radius: 5px;
+  padding: 25px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__actions {
+    height: 30px;
+    margin-left: auto;
+  }
+
+  &__title {
+    color: var(--text-primary);
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  &__field {
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+
+    &:not(:last-child) {
+      width: calc(100% - 117px);
+    }
+  }
+
+  &__field-button {
+    margin: 28px 0 0 15px;
+    text-align: center;
+    width: 102px;
+
+    & > i {
+      margin-right: 3px;
+    }
+  }
+
+  &__field-addition {
+    border-color: var(--form-border-default) !important;
+  }
+}

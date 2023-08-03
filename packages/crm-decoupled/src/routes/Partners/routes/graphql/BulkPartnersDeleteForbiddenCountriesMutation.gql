@@ -1,0 +1,9 @@
+mutation BulkPartnersDeleteForbiddenCountriesMutation(
+  $args: BulkPartnersCountries__Input
+) {
+  partner {
+    bulkPartnersDeleteForbiddenCountries(
+      args: $args
+    )
+  }
+}

@@ -1,0 +1,32 @@
+.NotificationCenterForm {
+  display: flex;
+  align-items: flex-end;
+
+  &__field {
+    position: relative;
+    flex-grow: 1;
+    max-width: 300px;
+    margin-right: 30px;
+    margin-bottom: 0;
+  }
+
+  &__label {
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    font: 600 14px/20px 'Open Sans', Arial, sans-serif;
+    color: var(--text-primary);
+  }
+
+  &__button-group {
+    display: flex;
+  }
+
+  &__button {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

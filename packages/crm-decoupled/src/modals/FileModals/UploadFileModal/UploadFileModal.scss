@@ -1,0 +1,25 @@
+.UploadFileModal {
+  &__action-text {
+    text-align: center;
+  }
+
+  &__head-cell {
+    padding: 5px 10px;
+  }
+
+  &__no-upload {
+    text-align: center;
+    opacity: 1;
+    color: #6c757d;
+    font-size: 12px;
+    margin: 1.5rem 0;
+  }
+
+  &__upload {
+    text-align: center;
+  }
+
+  &__uploading-files {
+    margin: 1.5rem 0;
+  }
+}

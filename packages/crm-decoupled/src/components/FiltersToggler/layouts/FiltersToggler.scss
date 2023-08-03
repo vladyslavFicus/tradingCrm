@@ -1,0 +1,43 @@
+.FiltersToggler {
+  background-color: var(--surface-filters-background);
+  height: auto;
+  width: 100%;
+
+  &--collapsed {
+    & .FiltersToggler__actions {
+      padding-bottom: 20px;
+    }
+
+    & .FiltersToggler__icon {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__actions {
+    padding: 20px 25px 0;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 39px;
+    height: 39px;
+    padding: 0;
+
+    &:hover {
+      & .FiltersToggler__icon {
+        fill: var(--button-tertiary-color-hover);
+      }
+    }
+  }
+
+  &__icon {
+    fill: var(--button-tertiary-color-default);
+    transition: color 0.2s ease;
+    height: 17px;
+    width: 8px;
+  }
+}

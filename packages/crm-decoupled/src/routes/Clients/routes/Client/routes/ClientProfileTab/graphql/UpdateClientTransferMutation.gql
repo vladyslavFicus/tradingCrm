@@ -1,0 +1,11 @@
+mutation UpdateClientTransferMutation(
+  $playerUUID: String!
+  $internalTransfer: Boolean
+) {
+  profile {
+    updateConfiguration(
+      playerUUID: $playerUUID
+      internalTransfer: $internalTransfer
+    )
+  }
+}

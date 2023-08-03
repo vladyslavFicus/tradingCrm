@@ -1,0 +1,10 @@
+query AccountQuery($identifier: String!) {
+  tradingEngine {
+    account(identifier: $identifier) {
+      uuid
+      currency
+      leverage
+      enable
+    }
+  }
+}

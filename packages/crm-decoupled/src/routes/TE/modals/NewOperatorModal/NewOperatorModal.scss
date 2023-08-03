@@ -1,0 +1,48 @@
+.NewOperatorModal {
+  width: 655px;
+
+  &__field {
+    display: inline-block;
+    vertical-align: top;
+
+    margin-right: 15px;
+    width: calc(50% - 7.5px);
+
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+  }
+
+  &__wide_field {
+    display: inline-block;
+    vertical-align: top;
+
+    margin-right: 15px;
+    width: calc(100% - 7.5px);
+
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+  }
+
+  &__note {
+    color: var(--state-colors-danger);
+    font-size: 14px;
+    max-width: 90%;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 50%;
+  }
+
+  &__button {
+    margin: 0;
+
+    &:first-child {
+      margin-right: 15px;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+.SelectSearchBox {
+  background-color: var(--form-background-default);
+  border-left: 1px solid var(--form-border-default);
+  border-right: 1px solid var(--form-border-default);
+  padding: 10px 5px;
+  position: relative;
+
+  &__input {
+    width: 100%;
+    border: 1px solid var(--form-border-default);
+    background-color: var(--form-background-default);
+    border-radius: 3px;
+    color: var(--form-color-default);
+    font-size: 13px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 29px;
+    padding-right: 25px;
+    height: 40px;
+
+    &:focus {
+      border-color: var(--form-border-focus);
+    }
+  }
+
+  i {
+    color: var(--form-icon-button-default);
+    font-size: 13px;
+
+    position: absolute;
+    top: 24px;
+    z-index: var(--z-index-overlap);
+  }
+
+  &__icon-left {
+    left: 15px;
+  }
+
+  &__icon-right {
+    right: 12px;
+  }
+}

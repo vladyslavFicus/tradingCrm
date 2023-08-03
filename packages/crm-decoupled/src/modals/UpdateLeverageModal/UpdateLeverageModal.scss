@@ -1,0 +1,18 @@
+.UpdateLeverageModal {
+  &__title {
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+
+  &__account-name {
+    font-weight: 600;
+  }
+
+  &__account-details {
+    font-size: 11px;
+  }
+
+  &__message {
+    margin: 15px 0;
+  }
+}

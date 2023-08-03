@@ -1,0 +1,22 @@
+.RuleOperatorSpreads {
+  &__label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  &__spread {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 0.2fr;
+    grid-gap: 20px;
+  }
+
+  &__button {
+    margin-top: -22px;
+  }
+
+  &__validation-error {
+    text-align: center;
+    color: var(--state-colors-danger);
+  }
+}

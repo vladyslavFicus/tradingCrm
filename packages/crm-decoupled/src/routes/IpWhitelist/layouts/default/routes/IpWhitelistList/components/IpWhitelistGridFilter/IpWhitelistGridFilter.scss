@@ -1,0 +1,54 @@
+.IpWhitelistGridFilter {
+  padding: 20px 25px 40px;
+  background-color: var(--surface-filters-background);
+
+  &__fields {
+    display: grid;
+    column-gap: 15px;
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  &__field {
+    grid-column: span 2;
+    margin-bottom: 0;
+
+    &--large {
+      grid-column: span 4;
+    }
+  }
+
+  &__search {
+    flex-grow: 0.75;
+    flex-basis: 250px;
+    min-width: 250px;
+    grid-column: span 4;
+  }
+
+  &__date-range {
+    grid-column: span 4;
+  }
+
+  &__add-button {
+    grid-column: span 4;
+  }
+
+  &__field-inactive-option {
+    color: var(--dropdown-options-color-disabled);
+  }
+
+  &__buttons {
+    grid-column-start: 10;
+    grid-column-end: 13;
+    display: flex;
+    margin-left: auto;
+    align-self: flex-end;
+  }
+
+  &__button {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

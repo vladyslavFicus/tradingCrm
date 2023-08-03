@@ -1,0 +1,57 @@
+.GridAcquisitionStatus {
+  &--active {
+    padding: 2px 5px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+  }
+
+  &--info {
+    border-color: var(--state-colors-info);
+  }
+
+  &--success {
+    border-color: var(--state-colors-success);
+  }
+
+  &--warning {
+    border-color: var(--state-colors-warning);
+  }
+
+  &--danger {
+    border-color: var(--state-colors-danger);
+  }
+
+  &--undefined {
+    border-color: var(--state-colors-none);
+  }
+
+  &__general {
+    font-weight: 700;
+    text-transform: uppercase;
+
+    &--info {
+      color: var(--state-colors-info);
+    }
+
+    &--success {
+      color: var(--state-colors-success);
+    }
+
+    &--warning {
+      color: var(--state-colors-warning);
+    }
+
+    &--danger {
+      color: var(--state-colors-danger);
+    }
+    
+    &--undefined {
+      border-color: var(--state-colors-none);
+    }
+  }
+
+  &__additional {
+    font-size: 11px;
+    color: var(--text-primary);
+  }
+}

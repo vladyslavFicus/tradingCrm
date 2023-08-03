@@ -1,0 +1,11 @@
+query PartnersQuery(
+  $page: Page__Input,
+) {
+  partners (page: $page) {
+    content {
+      uuid
+      fullName
+      status
+    }
+  }
+}
