@@ -1,3 +1,3 @@
 import { lazy } from 'react';
 
-export default lazy(() => import(`./layouts/${process.env.REACT_APP_THEME}/ClientNotesTab`));
+export default lazy(() => import('./layouts/default/ClientNotesTab'));

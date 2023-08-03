@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
+import { useIdleTimer } from '@crm/common';
 import { getBrand } from 'config';
-import useIdleTimer from 'hooks/useIdleTimer';
 import useLogout from 'routes/Logout/useLogout';
 import { useStorage } from '../StorageProvider';
 
