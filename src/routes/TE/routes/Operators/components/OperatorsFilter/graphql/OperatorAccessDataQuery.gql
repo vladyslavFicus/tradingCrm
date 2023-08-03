@@ -1,7 +1,0 @@
-query OperatorAccessDataQuery {
-  tradingEngine {
-    operatorAccessData {
-      accessibleGroupNames
-    }
-  }
-}

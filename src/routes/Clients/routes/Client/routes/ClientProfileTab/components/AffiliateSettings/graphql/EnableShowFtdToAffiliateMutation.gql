@@ -1,9 +1,0 @@
-mutation EnableShowFtdToAffiliateMutation(
-  $profileUuid: String!
-) {
-  payment {
-    enableShowFtdToAffiliate(
-      profileUuid: $profileUuid
-    )
-  }
-}

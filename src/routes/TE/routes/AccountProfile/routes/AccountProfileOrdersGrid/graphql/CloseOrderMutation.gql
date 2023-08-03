@@ -1,5 +1,0 @@
-mutation CloseOrderMutation($orderId: Int!, $closePrice: Float) {
-  tradingEngine {
-    closeOrder(orderId: $orderId, closePrice: $closePrice)
-  }
-}

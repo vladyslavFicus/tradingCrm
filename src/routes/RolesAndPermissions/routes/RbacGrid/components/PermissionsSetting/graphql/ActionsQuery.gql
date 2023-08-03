@@ -1,3 +1,0 @@
-query ActionsQuery($department: String!, $role: String!) {
-  authorityActions(department: $department, role: $role)
-}

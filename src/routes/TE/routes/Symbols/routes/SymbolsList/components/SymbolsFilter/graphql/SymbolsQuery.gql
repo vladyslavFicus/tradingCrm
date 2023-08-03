@@ -1,9 +1,0 @@
-query SymbolsQuery($args: TradingEngineSymbols__Input) {
-  tradingEngine {
-    symbols(args: $args) @connection(key: "SymbolsFilter") {
-      content {
-        symbol
-      }
-    }
-  }
-}

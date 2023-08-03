@@ -1,7 +1,0 @@
-mutation CreateGroupMutation(
-   $args: TradingEngineCreateGroup__Input!
-) {
-  tradingEngine {
-    createGroup(args: $args)
-  }
-}

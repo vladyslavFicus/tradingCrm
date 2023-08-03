@@ -1,3 +1,0 @@
-query ClientsCountQuery($args: ClientSearch__Input) {
-  profilesCount(args: $args)
-}

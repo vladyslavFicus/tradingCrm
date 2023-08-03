@@ -1,7 +1,0 @@
-mutation CreateOperatorMutation($args: TradingEngineCreateOperator__Input){
-  tradingEngine {
-    createOperator(args: $args) {
-      uuid
-    }
-  }
-}

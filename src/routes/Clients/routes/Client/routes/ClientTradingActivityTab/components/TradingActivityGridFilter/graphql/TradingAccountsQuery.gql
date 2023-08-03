@@ -1,6 +1,0 @@
-query TradingAccountsQuery($profileUUID: String!) {
-  clientTradingAccounts(profileUUID: $profileUUID) {
-    login
-    platformType
-  }
-}

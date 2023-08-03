@@ -1,3 +1,0 @@
-query NotificationUnreadQuery {
-  notificationCenterUnread
-}

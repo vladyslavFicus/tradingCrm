@@ -1,7 +1,0 @@
-mutation DeleteGroupMutation(
-  $groupName: String!
-  ) {
-  tradingEngine {
-    deleteGroup(groupName: $groupName)
-  }
-}

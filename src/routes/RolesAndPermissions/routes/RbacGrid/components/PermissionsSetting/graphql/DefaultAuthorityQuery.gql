@@ -1,3 +1,0 @@
-query DefaultAuthorityQuery($department: String!, $role: String!) {
-  isDefaultAuthority(department: $department, role: $role)
-}

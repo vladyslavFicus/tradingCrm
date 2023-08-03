@@ -1,5 +1,0 @@
-mutation DistributionRuleMigrationMutation($uuid: String!) {
-  distributionRule {
-    migration(uuid: $uuid)
-  }
-}

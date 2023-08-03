@@ -1,7 +1,0 @@
-query PaymentsTotalCountQuery(
-  $args: PaymentSearch__Input
-) {
-  paymentsTotalCount(
-    args: $args
-  )
-}

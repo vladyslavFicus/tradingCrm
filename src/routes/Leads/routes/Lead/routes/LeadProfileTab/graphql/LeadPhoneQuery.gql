@@ -1,5 +1,0 @@
-query LeadPhoneQuery($uuid: String!) {
-  leadContacts(uuid: $uuid) {
-    phone
-  }
-}

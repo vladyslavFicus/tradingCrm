@@ -1,5 +1,0 @@
-mutation CancelOrderMutation($orderId: Int!) {
-  tradingEngine {
-    cancelOrder(orderId: $orderId)
-  }
-}

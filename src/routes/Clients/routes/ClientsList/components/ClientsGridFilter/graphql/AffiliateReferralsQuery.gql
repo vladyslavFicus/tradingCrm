@@ -1,5 +1,0 @@
-query AffiliateReferralsQuery {
-  affiliateReferrals {
-    referrals
-  }
-}

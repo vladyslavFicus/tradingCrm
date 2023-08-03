@@ -1,8 +1,0 @@
-query BranchInfoQuery($branchId: String!) {
-  branchInfo (
-    branchId: $branchId,
-  ) {
-    defaultUser
-  }
-}
-

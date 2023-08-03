@@ -1,8 +1,0 @@
-query SecuritiesQuery {
-  tradingEngine {
-    securities {
-      id
-      name
-    }
-  }
-}

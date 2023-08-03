@@ -1,9 +1,0 @@
-query GetOperatorsQuery {
-  operators {
-    content {
-      uuid
-      fullName
-      operatorStatus
-    }
-  }
-}

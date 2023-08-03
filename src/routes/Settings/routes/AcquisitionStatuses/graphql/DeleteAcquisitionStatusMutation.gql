@@ -1,5 +1,0 @@
-mutation DeleteAcquisitionStatusMutation($type: AcquisitionStatusTypes__Enum!, $status: String!) {
-  settings {
-    deleteAcquisitionStatus(type: $type, status: $status)
-  }
-}

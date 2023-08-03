@@ -1,8 +1,0 @@
-query DistributionRuleQuery($uuid: String!) {
-  distributionRule (uuid: $uuid) {
-    _id
-    uuid
-    name
-    order
-  }
-}

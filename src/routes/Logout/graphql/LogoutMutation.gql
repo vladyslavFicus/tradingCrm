@@ -1,5 +1,0 @@
-mutation LogoutMutation($inactiveSeconds: Int) {
-  auth {
-    logout(inactiveSeconds: $inactiveSeconds)
-  }
-}

@@ -1,7 +1,0 @@
-mutation CreateGridConfigMutation($type: GridConfig__Types__Enum!, $columns: [String]!) {
-  gridConfig {
-    create(columns: $columns, type: $type) {
-      uuid
-    }
-  }
-}

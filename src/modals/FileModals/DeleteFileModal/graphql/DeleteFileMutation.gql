@@ -1,7 +1,0 @@
-mutation DeleteFileMutation($uuid: String!) {
-  file {
-    delete (
-      uuid: $uuid
-    )
-  }
-}

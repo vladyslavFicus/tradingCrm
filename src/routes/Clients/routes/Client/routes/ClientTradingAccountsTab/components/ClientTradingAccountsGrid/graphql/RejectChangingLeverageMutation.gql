@@ -1,9 +1,0 @@
-mutation RejectChangingLeverageMutation(
-  $accountUUID: String!
-) {
-  tradingAccount {
-    rejectChangingLeverage(
-      accountUUID: $accountUUID
-    )
-  }
-}

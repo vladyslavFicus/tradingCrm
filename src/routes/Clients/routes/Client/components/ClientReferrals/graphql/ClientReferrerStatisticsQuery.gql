@@ -1,9 +1,0 @@
-query ClientReferrerStatisticsQuery(
-  $uuid: String!
-) {
-  referrerStatistics(uuid: $uuid) {
-    referralsCount
-    ftdCount
-    remunerationTotalAmount
-  }
-}

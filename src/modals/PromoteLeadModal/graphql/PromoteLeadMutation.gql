@@ -1,7 +1,0 @@
-mutation PromoteLeadMutation(
-  $args: PromoteLead__Input
-) {
-  leads {
-    promote(args: $args)
-  }
-}

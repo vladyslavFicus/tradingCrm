@@ -1,5 +1,0 @@
-mutation TrackifyMutation($args: [Analytics__Input]) {
-  analytics {
-    track(args: $args)
-  }
-}

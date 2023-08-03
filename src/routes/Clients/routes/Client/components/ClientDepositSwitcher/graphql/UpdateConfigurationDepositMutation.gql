@@ -1,7 +1,0 @@
-mutation UpdateConfigurationDepositMutation ($playerUUID: String!, $enabled: Boolean!) {
-  profile {
-    updateConfigurationDeposit(playerUUID: $playerUUID, enabled: $enabled) {
-      depositEnabled
-    }
-  }
-}

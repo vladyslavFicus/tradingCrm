@@ -1,7 +1,0 @@
-query OperatorRelationsCountQuery($uuid: String!) {
-  operatorRelationsCount(uuid: $uuid) {
-    customersCount
-    leadsCount
-    rulesCount
-  }
-}

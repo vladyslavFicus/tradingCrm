@@ -1,6 +1,0 @@
-query FeedTypesQuery($uuid: String!, $filters: FeedCategorySearch_Input) {
-  feedTypes (
-    uuid: $uuid
-    filters: $filters
-  )
-}

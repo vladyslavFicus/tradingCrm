@@ -1,8 +1,0 @@
-query EmailTemplatesQuery{
-  emailTemplates {
-    id
-    name
-    text
-    subject
-  }
-}

@@ -1,5 +1,0 @@
-mutation DeleteHolidayMutation($id: ID!) {
-  tradingEngine {
-    deleteHoliday(id: $id)
-  }
-}

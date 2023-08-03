@@ -1,5 +1,0 @@
-mutation CreateSymbolMutation($args: TradingEngineCreateSymbol__Input) {
-  tradingEngine {
-    createSymbol(args: $args)
-  }
-}

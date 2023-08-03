@@ -1,5 +1,0 @@
-mutation deleteRule($uuid: String!) {
-  rule {
-    deleteRule(uuid: $uuid)
-  }
-}

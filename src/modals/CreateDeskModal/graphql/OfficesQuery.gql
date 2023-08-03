@@ -1,8 +1,0 @@
-query OfficesQuery {
-  userBranches {
-    OFFICE {
-      name
-      uuid
-    }
-  }
-}

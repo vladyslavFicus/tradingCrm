@@ -1,7 +1,0 @@
-mutation UnlockPartnerLoginMutation(
-  $uuid: String!
-) {
-  auth {
-    unlockLogin(uuid: $uuid)
-  }
-}

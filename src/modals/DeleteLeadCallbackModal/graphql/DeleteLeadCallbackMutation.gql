@@ -1,9 +1,0 @@
-mutation DeleteLeadCallbackMutation(
-  $callbackId: String!
-) {
-  callback {
-    deleteLeadCallback(
-      callbackId: $callbackId
-    )
-  }
-}

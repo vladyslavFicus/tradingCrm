@@ -1,7 +1,0 @@
-query LeadsTotalCountQuery(
-  $args: LeadSearch__Input
-) {
-  leadsTotalCount (
-    args: $args
-  )
-}

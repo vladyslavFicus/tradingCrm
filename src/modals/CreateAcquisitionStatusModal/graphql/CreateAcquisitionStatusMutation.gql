@@ -1,5 +1,0 @@
-mutation CreateAcquisitionStatusMutation($type: AcquisitionStatusTypes__Enum!, $status: String!) {
-  settings {
-    createAcquisitionStatus(type: $type, status: $status)
-  }
-}

@@ -1,7 +1,0 @@
-mutation DeleteDocumentMutation($uuid: String!) {
-  document {
-    delete(
-      uuid: $uuid
-    )
-  }
-}

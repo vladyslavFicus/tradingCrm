@@ -1,8 +1,0 @@
-query PartnersQuery {
-  partners {
-    content {
-      uuid
-      fullName
-    }
-  }
-}

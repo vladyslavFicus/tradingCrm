@@ -1,7 +1,0 @@
-query BranchChildrenQuery($uuid: String!) {
-  branchChildren(
-    uuid: $uuid
-    ) {
-    uuid
-  }
-}

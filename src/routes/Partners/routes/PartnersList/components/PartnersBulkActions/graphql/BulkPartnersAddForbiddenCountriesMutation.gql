@@ -1,9 +1,0 @@
-mutation BulkPartnersAddForbiddenCountriesMutation(
-  $args: BulkPartnersCountries__Input
-) {
-  partner {
-    bulkPartnersAddForbiddenCountries(
-      args: $args
-    )
-  }
-}

@@ -1,6 +1,0 @@
-query GridConfigQuery($type: GridConfig__Types__Enum) {
-  gridConfig(type: $type) {
-    uuid
-    columns
-  }
-}

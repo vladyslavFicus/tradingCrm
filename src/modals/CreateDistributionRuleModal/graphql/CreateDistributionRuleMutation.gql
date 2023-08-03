@@ -1,7 +1,0 @@
-mutation CreateDistributionRuleMutation($ruleName: String!, $ruleOrder: Int!) {
-  distributionRule {
-    create(ruleName: $ruleName, ruleOrder: $ruleOrder) {
-      uuid
-    }
-  }
-}

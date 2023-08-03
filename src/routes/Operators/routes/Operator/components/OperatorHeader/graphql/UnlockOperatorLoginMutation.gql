@@ -1,7 +1,0 @@
-mutation UnlockOperatorLoginMutation(
-  $uuid: String!
-) {
-  auth {
-    unlockLogin(uuid: $uuid)
-  }
-}
