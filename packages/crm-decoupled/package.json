@@ -1,5 +1,5 @@
 {
-  "name": "@monorepo-backoffice/decoupled",
+  "name": "@crm/crm-decoupled",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,23 +12,13 @@
     "test:jenkins": "echo no jenkins test",
     "eslint": "eslint \"src/**/*.{js,jsx,ts,tsx,json,gql}\" --resolve-plugins-relative-to=./node_modules/react-scripts/config --cache",
     "sentry-release": "node ../../docker/scripts/sentry.js",
-    "analyse": "node analyse.js",
+    "analyse": "node ../../analyse.js",
     "codegen": "graphql-codegen",
     "schema": "graphql-codegen -c ../../codegen.download.yml"
   },
   "dependencies": {
-    "@monorepo-backoffice/common": "*",
-    "@types/react-notification-system": "^0.2.42",
-    "apollo-upload-client": "^17.0.0",
-    "react-router-dom": "^6.8.1",
-    "rsocket-types": "^0.0.27"
+    "@crm/common": "*"
   },
-  "devDependencies": {
-    "@types/apollo-upload-client": "^17.0.2",
-    "@types/rsocket-core": "^0.0.7",
-    "@types/rsocket-flowable": "^0.0.5",
-    "@types/rsocket-websocket-client": "^0.0.4",
-    "eslint-plugin-react-hooks": "^4.6.0"
-  },
+  "devDependencies": {},
   "cracoConfig": "../../craco.config.js"
 }

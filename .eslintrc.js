@@ -18,7 +18,10 @@ module.exports = {
     {
       parser: '@typescript-eslint/parser',
       files: ['*.ts', '*.tsx'],
-      plugins: ['@typescript-eslint'],
+      plugins: [
+        'import',
+        '@typescript-eslint',
+      ],
       extends: [
         'plugin:import/recommended',
         'plugin:import/typescript',
@@ -52,13 +55,13 @@ module.exports = {
       extends: ['plugin:@graphql-eslint/operations-recommended'],
       parserOptions: {
         skipGraphQLConfig: true,
-        schema: './graphql.schema.json',
+        schema: './packages/*/graphql.schema.json',
         operations: [
-          './src/**/*.gql',
-          './src/**/*.js',
-          './src/**/*.jsx',
-          './src/**/*.ts',
-          './src/**/*.tsx',
+          './packages/*/src/**/*.gql',
+          './packages/*/src/**/*.js',
+          './packages/*/src/**/*.jsx',
+          './packages/*/src/**/*.ts',
+          './packages/*/src/**/*.tsx',
         ],
       },
       rules: {
@@ -146,9 +149,15 @@ module.exports = {
     ExtractApolloTypeFromPageable: false,
   },
   settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
     'import/resolver': {
+      typescript: {
+        project: ['tsconfig.json', 'packages/*/tsconfig.json'],
+      },
       node: {
-        paths: 'src',
+        paths: 'packages/*/src',
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },

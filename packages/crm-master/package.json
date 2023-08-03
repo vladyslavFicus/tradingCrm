@@ -1,0 +1,19 @@
+{
+  "name": "@crm/crm-master",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run schema && concurrently -k \"npm:codegen -- --watch\" \"craco start\"",
+    "build": "npm run codegen & craco build",
+    "test": "craco test",
+    "test:jenkins": "echo no jenkins test",
+    "sentry-release": "node ../../docker/scripts/sentry.js",
+    "analyse": "node ../../analyse.js",
+    "codegen": "graphql-codegen",
+    "schema": "graphql-codegen -c ../../codegen.download.yml"
+  },
+  "author": "crmteam",
+  "license": "MIT",
+  "cracoConfig": "../../craco.config.js"
+}
