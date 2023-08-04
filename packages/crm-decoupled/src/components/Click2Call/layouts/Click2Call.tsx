@@ -7,9 +7,10 @@ import {
   ClickToCall__Customer__Type__Enum as CustomerType,
   ClickToCall__CallSystem__Enum as CallSystem,
 } from '__generated__/types';
+import { Position } from 'types/position';
 import CircleLoader from 'components/CircleLoader';
 import { Button } from 'components/Buttons';
-import { Arrow, Position } from 'components/Click2Call/types';
+import { Arrow } from 'components/Click2Call/types';
 import useClick2Call from 'components/Click2Call/hooks/useClick2Call';
 import { ICONS, TOOLTIP_STYLE } from './constants';
 import { ReactComponent as PhoneSVG } from './icons/phone.svg';

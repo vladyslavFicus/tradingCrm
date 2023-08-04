@@ -305,7 +305,7 @@ const ClientTradingAccountsGrid = (props: Props) => {
       return <CircleLoader className="ClientTradingAccountsGrid__actions--loader" />;
     }
 
-    if (platformType !== 'WET') {
+    if (platformType !== 'WET' && platformType !== 'TE') {
       dropDownActions.push({
         label: I18n.t('CLIENT_PROFILE.ACCOUNTS.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
         onClick: () => updateTradingAccountPasswordModal.show({

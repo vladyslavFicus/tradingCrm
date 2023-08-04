@@ -1,6 +1,5 @@
 import { ClickToCall__CallSystem__Enum as CallSystem } from '__generated__/types';
-
-export type Position = 'top' | 'right' | 'bottom' | 'left';
+import { Position } from 'types/position';
 
 export type Arrow = Position & null | 'center';
 

@@ -41,7 +41,7 @@ const apolloMockResponseData = {
   accountUuid: 'WET-4fdfd959-e853-4cca-bfc8-6469fa6acd16',
   closePrice: null,
   comment: '',
-  commission: 0,
+  commission: null,
   digits: 5,
   direction: 'BUY',
   symbolConfig: {
@@ -60,7 +60,7 @@ const apolloMockResponseData = {
   openPrice: 1.1345,
   status: 'OPEN',
   stopLoss: null,
-  swaps: 0,
+  swaps: null,
   symbol: 'EURUSD',
   takeProfit: null,
   closeRate: 0,

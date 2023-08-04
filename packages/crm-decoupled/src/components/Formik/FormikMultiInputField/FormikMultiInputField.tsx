@@ -2,16 +2,12 @@ import React from 'react';
 import { getIn, FieldProps } from 'formik';
 import classNames from 'classnames';
 import { FieldLabel } from 'components/Forms';
+import { DefaultFieldProps } from '../types';
 import MultiInput from '../../MultiInput';
 import { createTagOption } from '../../MultiInput/constants';
 import './FormikMultiInputField.scss';
 
-type Props = {
-  disabled?: boolean,
-  placeholder?: string,
-  className?: string,
-  label?: string,
-} & FieldProps;
+type Props = DefaultFieldProps & FieldProps;
 
 const FormikMultiInputField = (props: Props) => {
   const {

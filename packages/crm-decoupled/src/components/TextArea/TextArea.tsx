@@ -18,7 +18,7 @@ type Props = {
   maxLength?: number,
   helpText?: React.ReactNode,
   resize?: Resize,
-  onChange?: () => void,
+  onChange?: React.ChangeEventHandler<HTMLTextAreaElement>,
 }
 
 const TextArea = (props: Props) => {

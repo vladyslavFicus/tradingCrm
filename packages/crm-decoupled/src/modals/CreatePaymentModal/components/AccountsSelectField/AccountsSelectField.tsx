@@ -41,7 +41,7 @@ const AccountsSelectField = (props: Props) => {
     },
   } = props;
 
-  const renderOption = () => (singleOption: SingleOption) => {
+  const renderOption = (singleOption: SingleOption) => {
     const { onClick, forwardedRef } = singleOption;
     const account = singleOption['data-account'] as TradingAccount;
 
@@ -113,7 +113,7 @@ const AccountsSelectField = (props: Props) => {
             paymentTypes.WITHDRAW.name,
           ].includes(paymentType)
       )
-    )), [tradingAccounts]);
+    )), [paymentType, tradingAccounts]);
 
   return (
     <Field
@@ -124,7 +124,7 @@ const AccountsSelectField = (props: Props) => {
         ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
         : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
         }
-      singleOptionComponent={renderOption()}
+      singleOptionComponent={renderOption}
       disabled={!tradingAccounts.length}
       component={FormikSelectField}
       showErrorMessage={false}

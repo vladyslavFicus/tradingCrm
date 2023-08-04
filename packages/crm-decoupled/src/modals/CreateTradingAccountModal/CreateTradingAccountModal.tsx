@@ -51,8 +51,8 @@ const TradingAccountAddModal = (props: Props) => {
   const handleSubmit = async (values: FormValues) => {
     const variables = { ...values, profileId } as CreateTradingAccountMutationVariables;
 
-    if (values.platformType === 'WET') {
-      // Remove password field from request for WET accounts
+    if (values.platformType === 'WET' || values.platformType === 'TE') {
+      // Remove password field from request for WET and TE accounts
       variables.password = null;
     }
 
@@ -103,7 +103,9 @@ const TradingAccountAddModal = (props: Props) => {
       validate={values => createValidator({
         name: ['required', 'string', 'max:50', 'min:4'],
         currency: ['required', 'string'],
-        password: values.platformType !== 'WET' && ['required', `regex:${getBrand().password.mt4_pattern}`],
+        password: values.platformType !== 'WET'
+          && values.platformType !== 'TE'
+          && ['required', `regex:${getBrand().password.mt4_pattern}`],
         amount: values.accountType === 'DEMO' && 'required',
       }, translateLabels(attributeLabels), false)(values)}
       validateOnBlur={false}
@@ -190,7 +192,7 @@ const TradingAccountAddModal = (props: Props) => {
                 ))}
               </Field>
 
-              <If condition={values.platformType !== 'WET'}>
+              <If condition={values.platformType !== 'WET' && values.platformType !== 'TE'}>
                 <Field
                   name="password"
                   data-testid="TradingAccountAddModal-passwordInput"

@@ -1,20 +1,19 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Position } from 'types/position';
 import useReactSwitch from '../hooks/useReactSwitch';
 import './ReactSwitch.scss';
 
-type LabelPosition = 'top' | 'bottom' | 'right' | 'left';
-
 type Props = {
   on?: boolean,
-  onClick: (on: boolean) => void,
-  onError?: () => void,
   className?: string,
   disabled?: boolean,
   stopPropagation?: boolean,
   id?: string,
   label?: string,
-  labelPosition?: LabelPosition,
+  labelPosition?: Position,
+  onError?: () => void,
+  onClick: (on: boolean) => void,
 };
 
 const ReactSwitch = (props: Props) => {
