@@ -1,7 +1,7 @@
-/// <reference types="react-scripts" />
+// / <reference types="react-scripts" />
 
 // ==== Conditional rendering declarations ==== //
-declare var If: React.FC<{ condition: boolean }>;
-declare var Choose: React.FC;
-declare var When: React.FC<{ condition: boolean }>;
-declare var Otherwise: React.FC;
+declare let If: React.FC<{ condition: boolean }>;
+declare let Choose: React.FC;
+declare let When: React.FC<{ condition: boolean }>;
+declare let Otherwise: React.FC;

@@ -4,6 +4,7 @@ import { QueryResult } from '@apollo/client';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { UncontrolledTooltip } from 'components';
 import { TableSelection } from 'types';
 import { getBrand } from 'config';
 import Uuid from 'components/Uuid';
@@ -15,7 +16,6 @@ import Click2Call from 'components/Click2Call';
 import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { AdjustableTable, Column } from 'components/Table';
-import { UncontrolledTooltip } from 'components';
 import renderLabel from 'utils/renderLabel';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,

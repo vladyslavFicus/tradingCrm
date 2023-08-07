@@ -1,12 +1,11 @@
 import React from 'react';
 import { Field, Form, Formik } from 'formik';
 import I18n from 'i18n-js';
-import { Button } from 'components';
+import { Button, UncontrolledTooltip } from 'components';
 import { PaymentDeposit } from '__generated__/types';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikCheckbox, FormikInputField, FormikSelectField } from 'components/Formik';
-import { UncontrolledTooltip } from 'components';
 import useFeatureForm from 'routes/FeatureToggles/hooks/useFeatureForm';
 import { FormValues } from 'routes/FeatureToggles/types/featureForm';
 import DepositeGrid from './components/DepositGrid';
