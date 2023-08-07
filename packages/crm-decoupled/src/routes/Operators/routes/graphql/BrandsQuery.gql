@@ -1,9 +1,7 @@
-query BrandsQuery($withoutBrandFilter: Boolean) {
-  userBranches (withoutBrandFilter: $withoutBrandFilter) {
-    BRAND {
-      name
-      uuid
-      branchType
-    }
+query BrandsQuery($branchType: String!) {
+  branch (branchType: $branchType) {
+    name
+    uuid
+    branchType
   }
 }

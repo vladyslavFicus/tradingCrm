@@ -65,8 +65,8 @@ const useOperatorHierarchyBranches = (props: Props): UseOperatorHierarchyBranche
   const operatorBranchesUuids = useMemo(() => operatorBranches
     .map(({ uuid }: branches) => uuid), [operatorBranches]);
 
-  const brandsQuery = useBrandsQuery({ variables: { withoutBrandFilter: true } });
-  const brandsList = brandsQuery.data?.userBranches?.BRAND || [];
+  const brandsQuery = useBrandsQuery({ variables: { branchType: 'brand' } });
+  const brandsList = brandsQuery.data?.branch || [];
   const brandsLoading = brandsQuery.loading;
 
   const [userBrandHierarchyQuery, { loading: hierarchyLoading }] = useUserBrandHierarchyQueryLazyQuery();
