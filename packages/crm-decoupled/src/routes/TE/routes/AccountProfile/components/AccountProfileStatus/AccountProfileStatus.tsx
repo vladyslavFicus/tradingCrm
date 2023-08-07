@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Account } from '../../AccountProfile';

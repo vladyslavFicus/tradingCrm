@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
 import Trackify from '@hrzn/trackify';
+import { permissions } from 'config';
 import { parseErrors } from 'apollo';
-import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useLeadEmailQueryLazyQuery } from '../graphql/__generated__/LeadEmailQuery';

@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'components';
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
 import Placeholder from 'components/Placeholder';
 import { GroupsQueryQueryResult } from '../../graphql/__generated__/GroupsQuery';

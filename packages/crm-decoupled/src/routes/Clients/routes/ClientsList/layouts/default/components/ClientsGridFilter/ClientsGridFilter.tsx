@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { Formik, Form } from 'formik';
 import I18n from 'i18n-js';
 import { Button, RefreshButton } from 'components';
+import { getAvailableLanguages } from 'config';
 import useFilter from 'hooks/useFilter';
 import {
   FormikInputField,
@@ -26,7 +27,6 @@ import {
   radioSelect,
 } from 'routes/Clients/routes/ClientsList/constants';
 import { FormValues } from 'routes/Clients/routes/ClientsList/types';
-import { getAvailableLanguages } from 'config';
 import useClientsGridFilter from 'routes/Clients/routes/ClientsList/hooks/useClientsGridFilter';
 import { filterSetTypes } from 'constants/filterSet';
 import { warningLabels, warningValues } from 'constants/warnings';

@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { parseErrors } from 'apollo';
 import { getAvailableLanguages } from 'config';
+import { parseErrors } from 'apollo';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import enumToArray from 'utils/enumToArray';

@@ -1,4 +1,4 @@
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
 
 const useLeadPinnedNotes = () => {

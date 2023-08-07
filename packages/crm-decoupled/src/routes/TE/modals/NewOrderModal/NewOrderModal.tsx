@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { Button, Input } from 'components';
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
 import { accountTypesLabels } from 'constants/accountTypes';
 import StaticTabs from 'components/StaticTabs';

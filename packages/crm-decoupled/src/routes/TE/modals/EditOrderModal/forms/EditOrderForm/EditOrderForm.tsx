@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import moment from 'moment';
 import { Button, Input } from 'components';
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 import { OrderStatus, OrderType } from 'types/trading-engine';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';

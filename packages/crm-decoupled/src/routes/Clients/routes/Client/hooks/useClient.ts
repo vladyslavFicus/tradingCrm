@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Trackify from '@hrzn/trackify';
-import { getBrand } from 'config';
+import { getBrand, permissions } from 'config';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 import { useClientQuery } from '../graphql/__generated__/ClientQuery';
 
 const useClient = () => {

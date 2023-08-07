@@ -4,7 +4,7 @@ import Hotkeys from 'react-hot-keys';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { Button } from 'components';
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 import { Sort, State } from 'types';
 import { useModal } from 'providers/ModalProvider';
 import { useStorage } from 'providers/StorageProvider';

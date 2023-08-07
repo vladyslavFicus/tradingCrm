@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
+import { permissions } from 'config';
 import EventEmitter, { NOTIFICATION_CLICKED } from 'utils/EventEmitter';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 
 const useNotificationCenter = () => {
   const [isOpen, setIsOpen] = useState(false);

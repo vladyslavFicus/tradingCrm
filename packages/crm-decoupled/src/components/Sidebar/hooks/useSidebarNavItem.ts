@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { SidebarMenuSubItem } from 'config/menu';
+import { SidebarMenuSubItem } from 'config';
 
 type Props = {
   isSidebarOpen: boolean,

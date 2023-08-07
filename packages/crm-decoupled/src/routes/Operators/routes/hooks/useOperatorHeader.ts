@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
+import { permissions } from 'config';
 import { parseErrors } from 'apollo';
 import { Operator } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
-import permissions from 'config/permissions';
 import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import { passwordPattern, passwordMaxSize, passwordCustomError } from 'constants/operators';
 import ChangePasswordModal, { ChangePasswordModalProps } from 'modals/ChangePasswordModal';

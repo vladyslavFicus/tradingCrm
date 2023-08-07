@@ -3,13 +3,12 @@ import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { compact } from 'lodash';
 import { QueryResult } from '@apollo/client';
+import { permissions, getBrand } from 'config';
 import { State, TableSelection } from 'types';
-import { getBrand } from 'config';
 import {
   LeadUploadResponse__FailedLeads as FailedLeads,
   AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
 } from '__generated__/types';
-import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import UpdateRepresentativeModal, { UpdateRepresentativeModalProps } from 'modals/UpdateRepresentativeModal';

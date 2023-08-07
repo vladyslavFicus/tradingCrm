@@ -1,8 +1,8 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import classNames from 'classnames';
-import RSocketProvider from 'rsocket';
 import { getBrand, getBackofficeBrand } from 'config';
+import RSocketProvider from 'rsocket';
 import AutoLogoutProvider from 'providers/AutoLogoutProvider';
 import ConfigProvider from 'providers/ConfigProvider';
 import { useStorageState, Auth } from 'providers/StorageProvider';

@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { useParams } from 'react-router-dom';
 import { Button } from 'components';
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator, translateLabels } from 'utils/validator';

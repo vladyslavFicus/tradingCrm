@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
+import { permissions } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 import { CommonCallback } from 'types/common';
 import useCalendar from 'components/Calendar/hooks/useCalendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';

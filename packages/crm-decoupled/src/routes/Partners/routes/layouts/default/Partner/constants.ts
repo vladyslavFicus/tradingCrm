@@ -1,4 +1,4 @@
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 
 export const partnerTabs = [
   {

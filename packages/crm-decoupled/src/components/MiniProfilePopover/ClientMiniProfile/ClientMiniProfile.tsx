@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { getBrand } from 'config';
+import { getBrand, permissions } from 'config';
 import { parseErrors } from 'apollo';
-import permissions from 'config/permissions';
 import renderLabel from 'utils/renderLabel';
 import ShortLoader from 'components/ShortLoader';
 import { usePermission } from 'providers/PermissionsProvider';

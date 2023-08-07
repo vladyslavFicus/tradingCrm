@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
+import { permissions } from 'config';
 import { parseErrors } from 'apollo';
 import customTimeout from 'utils/customTimeout';
-import permissions from 'config/permissions';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';

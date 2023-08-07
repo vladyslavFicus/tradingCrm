@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import config, { getCrmBrandStaticFileUrl } from 'config';
+import { config, getCrmBrandStaticFileUrl } from 'config';
 import Preloader from 'components/Preloader';
 import { importLink } from 'utils/dom';
 import { addCRMCustomLocale } from 'utils/locale';

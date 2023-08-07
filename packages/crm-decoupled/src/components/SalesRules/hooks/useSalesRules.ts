@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import I18n from 'i18n-js';
+import { permissions } from 'config';
 import { State } from 'types';
-import permissions from 'config/permissions';
 import { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal/ConfirmActionModal';
 import { CreateRuleModalProps } from 'modals/CreateRuleModal';

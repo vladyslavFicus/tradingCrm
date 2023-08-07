@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
+import { permissions } from 'config';
 import { ClientCallback } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 import UpdateClientCallbackModal, { UpdateClientCallbackModalProps } from 'modals/UpdateClientCallbackModal';
 import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import {

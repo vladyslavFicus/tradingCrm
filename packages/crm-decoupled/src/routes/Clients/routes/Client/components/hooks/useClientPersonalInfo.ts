@@ -1,8 +1,7 @@
 import { useCallback, useState } from 'react';
 import Trackify from '@hrzn/trackify';
 import I18n from 'i18n-js';
-import { getBrand } from 'config';
-import permissions from 'config/permissions';
+import { getBrand, permissions } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';

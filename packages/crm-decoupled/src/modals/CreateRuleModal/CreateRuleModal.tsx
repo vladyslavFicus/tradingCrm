@@ -3,8 +3,8 @@ import I18n from 'i18n-js';
 import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'components';
-import { parseErrors } from 'apollo';
 import { getAvailableLanguages } from 'config';
+import { parseErrors } from 'apollo';
 import {
   Operator,
   Partner,

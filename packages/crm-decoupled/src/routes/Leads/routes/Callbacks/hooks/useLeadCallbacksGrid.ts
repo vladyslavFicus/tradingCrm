@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
+import { permissions } from 'config';
 import { LeadCallback } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 import UpdateLeadCallbackModal, { UpdateLeadCallbackModalProps } from 'modals/UpdateLeadCallbackModal';
 import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
 import {

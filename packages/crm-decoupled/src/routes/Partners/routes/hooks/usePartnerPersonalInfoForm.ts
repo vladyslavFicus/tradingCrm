@@ -1,12 +1,11 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { getBrand } from 'config';
+import { getBrand, permissions } from 'config';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useStorageState, Auth } from 'providers/StorageProvider';
 import { Partner } from '__generated__/types';
-import permissions from 'config/permissions';
 import { useUpdatePartnerMutation } from '../graphql/__generated__/UpdatePartnerMutation';
 
 type PartnerPermission = {

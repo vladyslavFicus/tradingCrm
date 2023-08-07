@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { useLocation, matchPath } from 'react-router-dom';
-import { routesPermissions } from 'config/routes';
+import { routesPermissions } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
 import './ForbiddenChecker.scss';
 

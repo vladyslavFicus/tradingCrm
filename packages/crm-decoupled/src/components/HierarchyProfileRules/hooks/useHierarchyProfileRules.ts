@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
+import { permissions } from 'config';
 import { Rule } from '__generated__/types';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 import { State } from 'types';
 import { useModal } from 'providers/ModalProvider';
 import { ConfirmActionModalProps } from 'modals/ConfirmActionModal';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SidebarMenuSubItem } from 'config/menu';
+import { SidebarMenuSubItem } from 'config';
 import useSidebarSubNav from 'components/Sidebar/hooks/useSidebarSubNav';
 import SubNavItem from '../SubNavItem';
 import './SidebarSubNav.scss';

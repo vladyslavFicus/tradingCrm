@@ -1,4 +1,4 @@
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 
 export const MAX_SELECTED_ACCOUNT_ORDERS = 1000;
 

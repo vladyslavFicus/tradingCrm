@@ -1,8 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import moment from 'moment';
-import { getBrand } from 'config';
+import { getBrand, permissions } from 'config';
 import { Profile } from '__generated__/types';
-import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import { usePaymentGeneralStatisticQuery } from '../graphql/__generated__/PaymentGeneralStatisticQuery';

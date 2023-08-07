@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { permissions } from 'config';
 import { PaymentSystemProvider } from '__generated__/types';
 import { Sort, State } from 'types';
-import permissions from 'config/permissions';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import { usePermission } from 'providers/PermissionsProvider';
 import {

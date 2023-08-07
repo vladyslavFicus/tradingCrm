@@ -1,10 +1,10 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { permissions } from 'config';
 import { Sort__Input as Sort } from '__generated__/types';
 import { State } from 'types';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 import EventEmitter, { CREATE_CLIENT_CALLBACK } from 'utils/EventEmitter';
 import CreateClientCallbackModal, { CreateClientCallbackModalProps } from 'modals/CreateClientCallbackModal';
 import {

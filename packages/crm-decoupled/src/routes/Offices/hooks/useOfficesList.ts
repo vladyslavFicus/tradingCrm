@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
+import { permissions } from 'config';
 import { State } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
-import permissions from 'config/permissions';
 import CreateOfficeModal, { CreateOfficeModalProps } from 'modals/CreateOfficeModal';
 import { useOfficesListQuery, OfficesListQueryVariables } from '../graphql/__generated__/OfficesListQuery';
 

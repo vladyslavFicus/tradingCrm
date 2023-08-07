@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
+import { permissions } from 'config';
 import { Lead, AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import { salesStatusesColor } from 'constants/salesStatuses';

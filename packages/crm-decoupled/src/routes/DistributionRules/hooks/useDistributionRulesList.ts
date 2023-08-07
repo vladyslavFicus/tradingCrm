@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { set, cloneDeep } from 'lodash';
+import { permissions } from 'config';
 import { State } from 'types';
-import permissions from 'config/permissions';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import CreateDistributionRuleModal, { CreateDistributionRuleModalProps } from 'modals/CreateDistributionRuleModal';

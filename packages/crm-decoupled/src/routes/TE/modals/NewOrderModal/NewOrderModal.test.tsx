@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 import { render as testingLibraryRender, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { permissions } from 'config';
 import MockedApolloProvider from 'apollo/MockedApolloProvider';
-import permissions from 'config/permissions';
 import StorageProvider from 'providers/StorageProvider';
 import { MockedPermissionProvider } from 'providers/PermissionsProvider';
 import CoreLayout from 'layouts/CoreLayout';

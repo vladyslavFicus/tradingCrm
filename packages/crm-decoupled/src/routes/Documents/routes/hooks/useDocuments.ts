@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
+import { permissions } from 'config';
 import { State } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import AddDocumentModal, { AddDocumentModalProps } from 'modals/AddDocumentModal';
 import { fieldTimeZoneOffset } from 'utils/timeZoneOffset';
-import permissions from 'config/permissions';
 import { FormValues } from '../types';
 import {
   DocumentSearchQuery,

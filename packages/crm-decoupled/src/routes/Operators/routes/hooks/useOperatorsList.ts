@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
+import { permissions } from 'config';
 import { Sorts, State } from 'types';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 import CreateOperatorModal, { CreateOperatorModalProps, ExistValues as FormValues } from 'modals/CreateOperatorModal';
 import ExistingOperatorModal, { ExistingOperatorModalProps } from 'modals/ExistingOperatorModal';
 import { OPERATORS_SORT } from '../../constants';
