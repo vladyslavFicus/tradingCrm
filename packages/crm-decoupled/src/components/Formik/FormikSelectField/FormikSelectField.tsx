@@ -5,7 +5,7 @@ import { eq, isNil } from 'lodash';
 import I18n from 'i18n-js';
 import { v4 } from 'uuid';
 import Select from 'components/Select';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import { UncontrolledTooltip } from 'components';
 import { DefaultFieldProps } from '../types';
 import './FormikSelectField.scss';
 

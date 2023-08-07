@@ -13,7 +13,7 @@ import { usePermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import { tradingTypes, statusMapper, tradingStatuses } from 'constants/payment';
 import { FormikDatePicker } from 'components/Formik';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import { UncontrolledTooltip } from 'components';
 import ChangeOriginalAgent from 'components/ChangeOriginalAgent';
 import PaymentStatus from 'components/PaymentStatus';
 import ShortLoader from 'components/ShortLoader';

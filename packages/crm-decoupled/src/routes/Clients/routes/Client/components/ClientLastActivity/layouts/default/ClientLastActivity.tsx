@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { Profile } from '__generated__/types';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import { UncontrolledTooltip } from 'components';
 import useClientLastActivity from 'routes/Clients/routes/Client/components/hooks/useClientLastActivity';
 import './ClientLastActivity.scss';
 

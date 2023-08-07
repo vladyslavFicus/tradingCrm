@@ -15,7 +15,7 @@ import {
   FormikDatePicker,
   FormikSelectTreeField,
 } from 'components/Formik';
-import Input from 'components/Input';
+import { Input } from 'components';
 import { Node } from 'components/SelectTree';
 import { OrderDirection, OrderType } from 'types/trading-engine';
 import { createValidator } from 'utils/validator';

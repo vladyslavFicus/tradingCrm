@@ -5,6 +5,8 @@ import {
   DownloadButton,
   TrashButton,
   CircleLoader,
+  Input,
+  UncontrolledTooltip,
 } from '@crm/common';
 
 export {
@@ -14,4 +16,6 @@ export {
   DownloadButton,
   TrashButton,
   CircleLoader,
+  Input,
+  UncontrolledTooltip,
 };

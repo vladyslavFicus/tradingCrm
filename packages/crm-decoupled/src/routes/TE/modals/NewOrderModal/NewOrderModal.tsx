@@ -12,7 +12,7 @@ import StaticTabsItem from 'components/StaticTabsItem';
 import ReactSwitch from 'components/ReactSwitch';
 import SymbolChart from 'components/SymbolChart';
 import Badge from 'components/Badge';
-import Input from 'components/Input';
+import { Input } from 'components';
 import SmartPnLForm from 'routes/TE/forms/SmartPnLForm';
 import GeneralNewOrderForm from 'routes/TE/forms/GeneralNewOrderForm';
 import { useAccountQueryLazyQuery, AccountQuery } from './graphql/__generated__/AccountQuery';

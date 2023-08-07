@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { HierarchyTreeUser } from '__generated__/types';
 import capitalize from 'utils/capitalize';
 import Link from 'components/Link';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import { UncontrolledTooltip } from 'components';
 import useHierarchyItemUser from 'routes/Hierarchy/hooks/useHierarchyItemUser';
 import { ReactComponent as OperatorIcon } from '../img/OperatorIcon.svg';
 import './HierarchyItemUser.scss';

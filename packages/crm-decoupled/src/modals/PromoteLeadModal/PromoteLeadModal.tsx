@@ -14,7 +14,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import countryList, { getCountryCode } from 'utils/countryList';
 import { generate } from 'utils/password';
 import Modal from 'components/Modal';
-import Input from 'components/Input';
+import { Input } from 'components';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { attributeLabels } from './constants';
 import { useLeadEmailQueryLazyQuery } from './graphql/__generated__/LeadEmailQuery';

@@ -6,7 +6,7 @@ import { PaymentDeposit } from '__generated__/types';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikCheckbox, FormikInputField, FormikSelectField } from 'components/Formik';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import { UncontrolledTooltip } from 'components';
 import useFeatureForm from 'routes/FeatureToggles/hooks/useFeatureForm';
 import { FormValues } from 'routes/FeatureToggles/types/featureForm';
 import DepositeGrid from './components/DepositGrid';

@@ -2,7 +2,7 @@ import React from 'react';
 import CheckboxTree from 'react-checkbox-tree';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import Input from 'components/Input';
+import { Input } from 'components';
 import { Props } from '../types';
 import useSelectTree from '../hooks/useSelectTree';
 import 'react-checkbox-tree/lib/react-checkbox-tree.css';

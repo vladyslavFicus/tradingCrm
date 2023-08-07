@@ -4,7 +4,7 @@ import { QueryResult } from '@apollo/client';
 import { Button } from 'components';
 import { TableSelection } from 'types';
 import Placeholder from 'components/Placeholder';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import { UncontrolledTooltip } from 'components';
 import { MAX_QUERY_LEADS } from 'routes/Leads/routes/LeadsList/constants/leadsHeader';
 import useLeadsHeader from 'routes/Leads/routes/LeadsList/hooks/useLeadsHeader';
 import { LeadsListQuery } from 'routes/Leads/routes/LeadsList/graphql/__generated__/LeadsListQuery';

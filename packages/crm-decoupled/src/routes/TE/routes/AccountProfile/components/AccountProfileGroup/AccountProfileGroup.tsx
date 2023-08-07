@@ -5,7 +5,7 @@ import I18n from 'i18n-js';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
-import Input from 'components/Input';
+import { Input } from 'components';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';

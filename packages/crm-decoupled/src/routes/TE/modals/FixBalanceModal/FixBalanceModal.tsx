@@ -9,7 +9,7 @@ import { accountTypesLabels } from 'constants/accountTypes';
 import { usePermission } from 'providers/PermissionsProvider';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import Badge from 'components/Badge';
-import Input from 'components/Input';
+import { Input } from 'components';
 import ShortLoader from 'components/ShortLoader';
 import enumToArray from 'utils/enumToArray';
 import { createValidator } from 'utils/validator';

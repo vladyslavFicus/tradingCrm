@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from 'components/Input';
+import { Input } from 'components';
 
 class InputDecimals extends React.Component {
   static propTypes = {

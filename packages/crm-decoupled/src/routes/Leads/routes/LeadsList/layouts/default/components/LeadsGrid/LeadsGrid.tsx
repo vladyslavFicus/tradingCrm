@@ -12,7 +12,7 @@ import GridEmptyValue from 'components/GridEmptyValue';
 import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import Uuid from 'components/Uuid';
 import MiniProfilePopover from 'components/MiniProfilePopover';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import { UncontrolledTooltip } from 'components';
 import { Hierarchy } from 'components/GridAcquisitionStatus/hooks/useGridAcquisitionStatus';
 import { MAX_SELECTED_LEADS, leadStatuses } from 'routes/Leads/routes/LeadsList/constants/leadsGrid';
 import useLeadsGrid from 'routes/Leads/routes/LeadsList/hooks/useLeadsGrid';

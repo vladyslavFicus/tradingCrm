@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { v4 } from 'uuid';
-import { UncontrolledTooltip } from 'components';
+import { UncontrolledTooltip } from 'components/Uncontrolled/Uncontrolled';
 import './Input.scss';
 
 type Props = {

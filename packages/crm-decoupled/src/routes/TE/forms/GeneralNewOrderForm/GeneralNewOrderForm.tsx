@@ -13,7 +13,7 @@ import {
   FormikInputField,
   FormikSelectTreeField,
 } from 'components/Formik';
-import Input from 'components/Input';
+import { Input } from 'components';
 import { Node } from 'components/SelectTree';
 import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
 import { OrderDirection } from 'types/trading-engine';

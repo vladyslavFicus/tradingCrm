@@ -15,7 +15,7 @@ import Click2Call from 'components/Click2Call';
 import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { AdjustableTable, Column } from 'components/Table';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import { UncontrolledTooltip } from 'components';
 import renderLabel from 'utils/renderLabel';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,

@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { EditButton, TrashButton, Button } from 'components';
 import { PaymentDeposit } from '__generated__/types';
 import { Table, Column } from 'components/Table';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import { UncontrolledTooltip } from 'components';
 import './DepositGrid.scss';
 import useDepositGrid from '../../../../../../hooks/useDepositGrid';
 

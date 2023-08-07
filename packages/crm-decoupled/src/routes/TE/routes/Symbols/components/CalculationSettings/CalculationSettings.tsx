@@ -4,7 +4,7 @@ import I18n from 'i18n';
 import {
   FormikInputField,
 } from 'components/Formik';
-import Input from 'components/Input';
+import { Input } from 'components';
 import { FormValues } from '../../types';
 import './CalculationSettings.scss';
 

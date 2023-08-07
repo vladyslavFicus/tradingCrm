@@ -9,7 +9,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import Input from 'components/Input';
+import { Input } from 'components';
 import { FormikDatePicker, FormikInputDecimalsField, FormikInputField, FormikSelectField } from 'components/Formik';
 import { createValidator } from 'utils/validator';
 import { round } from 'utils/round';
