@@ -6,7 +6,7 @@ import useFilter from 'hooks/useFilter';
 import { CallHistory__Status__Enum as CallHistoryStatusEnum } from '__generated__/types';
 import enumToArray from 'utils/enumToArray';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import useLeadCallHistoryGridFilter from 'routes/Leads/routes/Lead/hooks/useLeadCallHistoryGridFilter';
 import { FormValues } from 'routes/Leads/routes/Lead/types/leadCallHistoryGridFilter';
 import './LeadCallHistoryGridFilter.scss';

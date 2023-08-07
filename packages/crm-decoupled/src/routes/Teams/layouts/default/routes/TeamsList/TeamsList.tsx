@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useTeamsList from 'routes/Teams/hooks/useTeamsList';
 import TeamsGridFilter from './components/TeamsGridFilter';
 import TeamsGrid from './components/TeamsGrid';

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { ClientCallback, Sort__Input as Sort } from '__generated__/types';
 import { shortify } from 'utils/uuid';
 import { Table, Column } from 'components/Table';
-import { TrashButton } from 'components/Buttons';
+import { TrashButton } from 'components';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
 import {

@@ -4,7 +4,7 @@ import { HierarchyBranch } from '__generated__/types';
 import Link from 'components/Link';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
-import { EditButton, TrashButton } from 'components/Buttons';
+import { EditButton, TrashButton } from 'components';
 import useDesksGrid from 'routes/Desks/routes/hooks/useDesksGrid';
 import useDesks from 'routes/Desks/routes/hooks/useDesks';
 import './DesksGrid.scss';

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { Email } from '__generated__/types';
-import { TrashButton, Button } from 'components/Buttons';
+import { TrashButton, Button } from 'components';
 import { Table, Column } from 'components/Table';
 import useEmailTemplatesList from 'routes/EmailTemplates/routes/hooks/useEmailTemplatesList';
 import './EmailTemplatesList.scss';

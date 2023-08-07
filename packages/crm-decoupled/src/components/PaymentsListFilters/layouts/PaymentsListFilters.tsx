@@ -21,7 +21,7 @@ import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'comp
 import { RangeGroup } from 'components/Forms';
 import { FiltersToggler } from 'components/FiltersToggler';
 import { FilterSetsDecorator, FilterSetsButtons } from 'components/FilterSetsDecorator';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import TimeZoneField from 'components/TimeZoneField';
 import { firstTimeDepositFilter } from 'components/PaymentsListFilters/constants';
 import usePaymentsListFilters from 'components/PaymentsListFilters/hooks/usePaymentsListFilters';

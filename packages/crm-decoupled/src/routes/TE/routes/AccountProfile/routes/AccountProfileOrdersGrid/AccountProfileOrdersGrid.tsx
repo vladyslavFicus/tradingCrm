@@ -6,7 +6,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { State, Sort, TableSelection } from 'types';
 import { OrderCloseByEnum } from 'types/trading-engine';
 import { TradingEngine__OrderStatuses__Enum as OrderStatusesEnum } from '__generated__/types';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import permissions from 'config/permissions';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';

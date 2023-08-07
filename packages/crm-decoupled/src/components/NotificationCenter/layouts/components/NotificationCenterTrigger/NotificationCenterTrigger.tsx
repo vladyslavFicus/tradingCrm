@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useNotificationCenterTrigger from 'components/NotificationCenter/hooks/useNotificationCenterTrigger';
 import './NotificationCenterTrigger.scss';
 

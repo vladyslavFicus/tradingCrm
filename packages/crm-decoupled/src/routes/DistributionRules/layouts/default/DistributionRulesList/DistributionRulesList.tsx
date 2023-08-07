@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Placeholder from 'components/Placeholder';
 import useDistributionRuleList from 'routes/DistributionRules/hooks/useDistributionRulesList';
 import DistributionRulesGrid from './components/DistributionRulesGrid';

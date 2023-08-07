@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { FormikProps } from 'formik';
 import Select from 'components/Select';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { FormValues } from '../../types';
 import { useNewGroupTemplatesQuery, NewGroupTemplatesQuery } from './graphql/__generated__/NewGroupTemplatesQuery';
 import './GroupProfileHeaderNew.scss';

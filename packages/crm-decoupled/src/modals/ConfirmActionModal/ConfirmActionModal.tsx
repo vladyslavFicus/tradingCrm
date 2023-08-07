@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import Modal from 'components/Modal';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { shortify } from 'utils/uuid';
 import './ConfirmActionModal.scss';
 

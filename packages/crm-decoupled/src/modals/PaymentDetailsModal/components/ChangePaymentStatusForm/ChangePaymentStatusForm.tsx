@@ -7,7 +7,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import formatLabel from 'utils/formatLabel';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { useUpdatePaymentMethodMutation } from './graphql/__generated__/UpdatePaymentMethodMutation';
 import { useUpdatePaymentStatusMutation } from './graphql/__generated__/UpdatePaymentStatusMutation';
 import { useManualPaymentMethodsQuery } from './graphql/__generated__/ManualPaymentMethodsQuery';

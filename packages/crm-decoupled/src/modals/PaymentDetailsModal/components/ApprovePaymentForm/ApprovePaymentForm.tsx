@@ -7,7 +7,7 @@ import { manualPaymentMethods, manualPaymentMethodsLabels } from 'constants/paym
 import { createValidator, translateLabels } from 'utils/validator';
 import formatLabel from 'utils/formatLabel';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { useApprovePaymentMutation } from './graphql/__generated__/ApprovePaymentMutation';
 import { useManualPaymentMethodsQuery } from './graphql/__generated__/ManualPaymentMethodsQuery';
 import './ApprovePaymentForm.scss';

@@ -8,7 +8,7 @@ import {
   FormikSelectField,
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import { useGroupsQuery } from './graphql/__generated__/GroupsQuery';
 import './MarginCallsFilter.scss';
 

@@ -15,7 +15,7 @@ import {
 } from 'constants/user';
 import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useClientPersonalForm from 'routes/Clients/routes/Client/routes/ClientProfileTab/hooks/useClientPersonalForm';
 import {
   attributeLabels,

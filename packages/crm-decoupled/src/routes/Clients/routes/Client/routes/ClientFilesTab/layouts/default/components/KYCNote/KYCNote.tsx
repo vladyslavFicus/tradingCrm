@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import FormikTextAreaField from 'components/Formik/FormikTextAreaField';
 import useKYCNote from 'routes/Clients/routes/Client/routes/ClientFilesTab/hooks/useKYCNote';
 import './KYCNote.scss';

@@ -11,7 +11,7 @@ import { usePermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import Modal from 'components/Modal';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import ShortLoader from 'components/ShortLoader';
 import Uuid from 'components/Uuid';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';

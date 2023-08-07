@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import TabHeader from 'components/TabHeader';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useClientCallbacksTab from 'routes/Clients/routes/Client/routes/ClientCallbacksTab/hooks/useClientCallbacksTab';
 import ClientCallbacksGridFilter from './components/ClientCallbacksGridFilter';
 import ClientCallbacksGrid from './components/ClientCallbacksGrid';

@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import useFilter from 'hooks/useFilter';
 import { FormikDateRangePicker, FormikInputField } from 'components/Formik';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import { FormValues } from 'routes/IpWhitelist/types/ipWhitelistGridFilter';
 import './IpWhitelistGridFilter.scss';
 

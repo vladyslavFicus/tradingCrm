@@ -7,7 +7,7 @@ import {
   ClickToCall__Customer__Type__Enum as CustomerType,
   Lead,
 } from '__generated__/types';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import Click2Call from 'components/Click2Call';
 import { PersonalInformationItem } from 'components/Information';

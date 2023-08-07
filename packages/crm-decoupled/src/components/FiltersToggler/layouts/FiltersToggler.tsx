@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { InView } from 'react-intersection-observer';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useFiltersToggler from 'components/FiltersToggler/hooks/useFiltersToggler';
 import { ReactComponent as SwitcherIcon } from './icons/switcher.svg';
 import './FiltersToggler.scss';

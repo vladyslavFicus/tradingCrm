@@ -6,7 +6,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator, translateLabels } from 'utils/validator';
 import formatLabel from 'utils/formatLabel';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { useRejectPaymentMutation } from './graphql/__generated__/RejectPaymentMutation';
 import './RejectPaymentForm.scss';
 

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { Formik, Form } from 'formik';
 import I18n from 'i18n-js';
 import useFilter from 'hooks/useFilter';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import {
   FormikInputField,
   FormikSelectField,

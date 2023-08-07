@@ -4,7 +4,7 @@ import { Field, Form, Formik } from 'formik';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { FormikInputField, FormikSwitchField, FormikTextAreaField } from 'components/Formik';
-import { Button, TrashButton } from 'components/Buttons';
+import { Button, TrashButton } from 'components';
 import { createValidator, translateLabels } from 'utils/validator';
 import { entities, entitiesPrefixes } from 'constants/uuid';
 import Uuid from 'components/Uuid';

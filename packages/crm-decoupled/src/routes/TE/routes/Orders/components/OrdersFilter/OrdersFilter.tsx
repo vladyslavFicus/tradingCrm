@@ -9,7 +9,7 @@ import {
   FormikDateRangePicker,
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import { statuses } from '../../attributes/constants';
 import { useGroupsQuery } from './graphql/__generated__/GroupsQuery';
 import { useSymbolsQuery } from './graphql/__generated__/SymbolsQuery';

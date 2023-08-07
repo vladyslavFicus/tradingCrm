@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { PaymentDeposit } from '__generated__/types';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { FormikCheckbox, FormikInputField, FormikSelectField } from 'components/Formik';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import useFeatureForm from 'routes/FeatureToggles/hooks/useFeatureForm';

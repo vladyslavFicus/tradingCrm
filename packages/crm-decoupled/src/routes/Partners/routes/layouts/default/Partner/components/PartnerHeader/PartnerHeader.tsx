@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Partner } from '__generated__/types';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import usePartnerHeader from 'routes/Partners/routes/hooks/usePartnerHeader';
 import './PartnerHeader.scss';

@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { TableSelection } from 'types';
 import { IpWhitelistAddress } from '__generated__/types';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useIpWhitelistHeader from 'routes/IpWhitelist/hooks/useIpWhitelistHeader';
 import './IpWhitelistHeader.scss';
 

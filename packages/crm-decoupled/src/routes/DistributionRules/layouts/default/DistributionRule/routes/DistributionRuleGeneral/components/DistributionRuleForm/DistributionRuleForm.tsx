@@ -3,7 +3,7 @@ import { Field, Form, Formik } from 'formik';
 import I18n from 'i18n-js';
 import { createValidator } from 'utils/validator';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { FormValues } from 'routes/DistributionRules/types';
 import useDistributionRuleForm from 'routes/DistributionRules/hooks/useDistributionRuleForm';
 import { executionTypes } from './constants';

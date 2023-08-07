@@ -7,7 +7,7 @@ import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import NotFound from 'routes/NotFound';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';

@@ -9,7 +9,7 @@ import {
 } from 'react-accessible-accordion';
 import classNames from 'classnames';
 import { RbackItem, Actions, Action } from 'types/rbac';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import ShortLoader from 'components/ShortLoader';
 import ReactSwitch from 'components/ReactSwitch';
 import usePermissionsSetting from 'routes/RolesAndPermissions/hooks/usePermissionsSetting';

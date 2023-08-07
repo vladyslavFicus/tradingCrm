@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Navigate } from '@hrzn/react-big-calendar';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import './Toolbar.scss';
 
 type Message = Record<string, string>;

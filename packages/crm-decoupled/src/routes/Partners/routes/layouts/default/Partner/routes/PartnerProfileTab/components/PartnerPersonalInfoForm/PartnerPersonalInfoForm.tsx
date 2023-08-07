@@ -11,7 +11,7 @@ import {
   FormikCheckbox,
   FormikMultiInputField,
   FormikInputRangeField } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import usePartnerPersonalInfoForm, { FormValues } from 'routes/Partners/routes/hooks/usePartnerPersonalInfoForm';
 import { attributeLabels } from './constants';
 import './PartnerPersonalInfoForm.scss';

@@ -7,7 +7,7 @@ import { filterLabels } from 'constants/user';
 import { statuses as operatorsStatuses } from 'constants/operators';
 import { Operator, Partner } from '__generated__/types';
 import countryList from 'utils/countryList';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import useRulesGridFilter from '../hooks/useRulesGridFilter';
 import './RulesGridFilter.scss';

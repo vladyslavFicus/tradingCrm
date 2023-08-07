@@ -5,7 +5,7 @@ import I18n from 'i18n-js';
 import useFilter from 'hooks/useFilter';
 import enumToArray from 'utils/enumToArray';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import { CallHistory__Status__Enum as CallHistoryStatusEnum } from '__generated__/types';
 import useClientCallHistoryGridFilter
   from 'routes/Clients/routes/Client/routes/ClientCallHistoryTab/hooks/useClientCallHistoryGridFilter';

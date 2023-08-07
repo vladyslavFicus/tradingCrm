@@ -2,7 +2,7 @@ import React from 'react';
 import ReactModal from 'react-modal';
 import classNames, { Argument } from 'classnames';
 import I18n from 'i18n-js';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { ReactComponent as CloseIcon } from './img/close.svg';
 import './Modal.scss';
 

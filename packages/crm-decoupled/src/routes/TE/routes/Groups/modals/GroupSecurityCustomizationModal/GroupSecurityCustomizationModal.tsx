@@ -6,7 +6,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import enumToArray from 'utils/enumToArray';
 import { createValidator } from 'utils/validator';
 import { FormikInputField, FormikSelectField, FormikCheckbox } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import {
   Commission__Type__Enum as GroupCommissionType,
   Commission__Lots__Enum as GroupCommissionLots,

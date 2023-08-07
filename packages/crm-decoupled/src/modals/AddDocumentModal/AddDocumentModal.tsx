@@ -7,7 +7,7 @@ import { parseErrors } from 'apollo';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FILE_CONFIG, RULES, TRANSLATED_LABELS } from './constants';
 import { useAddDocumentMutation } from './graphql/__generated__/AddDocumentMutation';

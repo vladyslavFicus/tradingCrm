@@ -13,7 +13,7 @@ import { createValidator, translateLabels } from 'utils/validator';
 import countryList, { getCountryCode } from 'utils/countryList';
 import { generate } from 'utils/password';
 import Modal from 'components/Modal';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Input from 'components/Input';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { attributeLabels } from './constants';

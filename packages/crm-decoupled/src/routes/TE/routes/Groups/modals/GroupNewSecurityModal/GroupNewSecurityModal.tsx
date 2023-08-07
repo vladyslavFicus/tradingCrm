@@ -7,7 +7,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import {
   GroupSecurity,
   Security,

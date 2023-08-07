@@ -15,7 +15,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import { round } from 'utils/round';
 import { Table, Column } from 'components/Table';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import Tabs from 'components/Tabs';
 import ActionsDropDown from 'components/ActionsDropDown';

@@ -7,20 +7,19 @@ import { withStreams } from 'rsocket';
 import { TradingAccount } from '__generated__/types';
 import { getPlatformTypeLabel } from 'utils/tradingAccount';
 import Link from 'components/Link';
-import { Button } from 'components/Buttons';
-import { accountTypesLabels, leverageStatuses } from 'constants/accountTypes';
+import { Button, CircleLoader } from 'components';
 import { AdjustableTable, Column } from 'components/Table';
 import ActionsDropDown from 'components/ActionsDropDown';
 import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Uuid from 'components/Uuid';
-import CircleLoader from 'components/CircleLoader';
 import {
   Statistic,
   StreamData,
 } from 'routes/Clients/routes/Client/routes/ClientTradingAccountsTab/types/clientTradingAccountsGrid';
 import useClientTradingAccountsGrid
   from 'routes/Clients/routes/Client/routes/ClientTradingAccountsTab/hooks/useClientTradingAccountsGrid';
+import { accountTypesLabels, leverageStatuses } from 'constants/accountTypes';
 import './ClientTradingAccountsGrid.scss';
 
 type Props = {

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import { Button, EditButton, TrashButton } from 'components/Buttons';
+import { Button, EditButton, TrashButton } from 'components';
 import GroupNewSymbolModal, { GroupNewSymbolModalProps } from '../../modals/GroupNewSymbolModal';
 import { GroupSymbol, FormValues } from '../../types';
 import './GroupSymbolsGrid.scss';

@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import useFilter from 'hooks/useFilter';
 import { FormikDateRangePicker } from 'components/Formik';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import { FormValues } from 'routes/Leads/routes/Lead/types/leadNotesFilter';
 import './LeadNotesFilter.scss';
 

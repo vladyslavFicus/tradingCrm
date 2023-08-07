@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Sorts } from 'types';
 import { IpWhitelistAddress } from '__generated__/types';
 import { Table, Column } from 'components/Table';
-import { TrashButton, EditButton } from 'components/Buttons';
+import { TrashButton, EditButton } from 'components';
 import useIpWhitelistGrid from 'routes/IpWhitelist/hooks/useIpWhitelistGrid';
 import './IpWhitelistGrid.scss';
 

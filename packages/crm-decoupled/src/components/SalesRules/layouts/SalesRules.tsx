@@ -5,7 +5,7 @@ import { Rule } from '__generated__/types';
 import Placeholder from 'components/Placeholder';
 import Link from 'components/Link';
 import Uuid from 'components/Uuid';
-import { Button, EditButton, TrashButton } from 'components/Buttons';
+import { Button, EditButton, TrashButton } from 'components';
 import RulesGridFilter from 'components/RulesGridFilter';
 import { Column, Table } from 'components/Table';
 import infoConfig from '../constants';

@@ -8,7 +8,7 @@ import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import HideText from 'components/HideText';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
 import { getPlatformTypeLabel } from 'utils/tradingAccount';

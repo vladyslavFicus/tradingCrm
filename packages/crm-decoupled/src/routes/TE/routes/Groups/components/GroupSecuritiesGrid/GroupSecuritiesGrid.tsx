@@ -8,7 +8,7 @@ import {
 import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import { EditButton, TrashButton, Button } from 'components/Buttons';
+import { EditButton, TrashButton, Button } from 'components';
 import GroupNewSecurityModal, { GroupNewSecurityModalProps } from '../../modals/GroupNewSecurityModal';
 import GroupSecurityCustomizationModal, {
   GroupSecurityCustomizationModalProps,

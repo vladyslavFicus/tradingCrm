@@ -3,12 +3,12 @@ import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { getCrmBrandStaticFileUrl } from 'config';
 import { createValidator, translateLabels } from 'utils/validator';
-import { passwordPattern, passwordMaxSize, passwordCustomError } from 'constants/operators';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Copyrights from 'components/Copyrights';
 import { FormikInputField } from 'components/Formik';
 import { attributeLabels } from 'routes/ResetPassword/constants/resetPassword';
 import useResetPassword from 'routes/ResetPassword/hooks/useResetPassword';
+import { passwordPattern, passwordMaxSize, passwordCustomError } from 'constants/operators';
 import './ResetPassword.scss';
 
 const ResetPassword = () => {

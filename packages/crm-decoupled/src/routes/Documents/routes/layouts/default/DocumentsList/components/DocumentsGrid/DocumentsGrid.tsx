@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { DocumentFile } from '__generated__/types';
 import permissions from 'config/permissions';
 import { Table, Column } from 'components/Table';
-import { TrashButton, EditButton, DownloadButton, Button } from 'components/Buttons';
+import { TrashButton, EditButton, DownloadButton, Button } from 'components';
 import ShortLoader from 'components/ShortLoader';
 import useDocuments from 'routes/Documents/routes/hooks/useDocuments';
 import useDocumentsGrid from 'routes/Documents/routes/hooks/useDocumentsGrid';

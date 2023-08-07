@@ -10,7 +10,7 @@ import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import Input from 'components/Input';
 import { FormikDatePicker, FormikInputDecimalsField, FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { createValidator } from 'utils/validator';
 import { round } from 'utils/round';
 import { calculateMargin, calculatePnL } from 'routes/TE/utils/formulas';

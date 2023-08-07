@@ -7,13 +7,13 @@ import {
   DistributionRule__SourceBrandConfig as DistributionRuleSourceBrandConfig,
   DistributionRule__TargetBrandConfig as DistributionRuleTargetBrandConfig,
 } from '__generated__/types';
-import { salesStatuses } from 'constants/salesStatuses';
-import { clientDistributionStatuses } from 'constants/clientsDistribution';
 import Uuid from 'components/Uuid';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { Table, Column } from 'components/Table';
 import useDistributionRulesGrid from 'routes/DistributionRules/hooks/useDistributionRulesGrid';
+import { clientDistributionStatuses } from 'constants/clientsDistribution';
+import { salesStatuses } from 'constants/salesStatuses';
 import { ReactComponent as PlayIcon } from './img/play-icon.svg';
 import { ReactComponent as PauseIcon } from './img/pause-icon.svg';
 import { ReactComponent as TimeIcon } from './img/time-icon.svg';

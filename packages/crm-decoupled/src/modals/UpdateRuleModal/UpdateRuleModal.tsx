@@ -11,7 +11,7 @@ import { attributeLabels, customErrors, nestedFieldsNames } from 'constants/rule
 import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Modal from 'components/Modal';
 import StaticTabs from 'components/StaticTabs';
 import StaticTabsItem from 'components/StaticTabsItem';

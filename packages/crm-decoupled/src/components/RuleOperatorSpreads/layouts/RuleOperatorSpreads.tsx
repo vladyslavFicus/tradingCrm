@@ -4,7 +4,7 @@ import { Field, FieldArray } from 'formik';
 import { attributeLabels } from 'constants/ruleModal';
 import { Operator, RuleOperatorSpread__Input as RuleOperatorSpread } from '__generated__/types';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { TrashButton } from 'components/Buttons';
+import { TrashButton } from 'components';
 import useRuleOperatorSpreads from '../hooks/useRuleOperatorSpreads';
 import './RuleOperatorSpreads.scss';
 

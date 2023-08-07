@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import { State } from 'types';
 import { FormikSelectField } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import { useSecuritiesQuery } from './graphql/__generated__/SecuritiesQuery';
 import { useSymbolsQuery, SymbolsQueryVariables } from './graphql/__generated__/SymbolsQuery';
 import './SymbolsFilter.scss';

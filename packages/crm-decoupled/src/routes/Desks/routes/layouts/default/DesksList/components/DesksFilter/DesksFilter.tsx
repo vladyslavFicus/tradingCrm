@@ -6,7 +6,7 @@ import { Desk__Types__Enum as DeskTypesEnum, HierarchyBranch } from '__generated
 import enumToArray from 'utils/enumToArray';
 import { createValidator } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import useDesks from 'routes/Desks/routes/hooks/useDesks';
 import useDesksFilter from 'routes/Desks/routes/hooks/useDesksFilter';
 import { FormValues } from 'routes/Desks/types';

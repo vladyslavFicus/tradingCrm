@@ -1,7 +1,7 @@
 import React from 'react';
 import './DesksHeader.scss';
 import I18n from 'i18n-js';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useDesks from 'routes/Desks/routes/hooks/useDesks';
 
 const DesksHeader = () => {

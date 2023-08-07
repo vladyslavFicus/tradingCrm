@@ -3,7 +3,7 @@ import QRCode from 'react-qr-code';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { getCrmBrandStaticFileUrl } from 'config';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Copyrights from 'components/Copyrights';
 import { FormikInputField } from 'components/Formik';
 import { createValidator } from 'utils/validator';

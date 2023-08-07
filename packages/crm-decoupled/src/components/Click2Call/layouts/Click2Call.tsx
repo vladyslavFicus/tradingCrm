@@ -8,8 +8,7 @@ import {
   ClickToCall__CallSystem__Enum as CallSystem,
 } from '__generated__/types';
 import { Position } from 'types/position';
-import CircleLoader from 'components/CircleLoader';
-import { Button } from 'components/Buttons';
+import { Button, CircleLoader } from 'components';
 import { Arrow } from 'components/Click2Call/types';
 import useClick2Call from 'components/Click2Call/hooks/useClick2Call';
 import { ICONS, TOOLTIP_STYLE } from './constants';

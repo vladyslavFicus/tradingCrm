@@ -6,7 +6,7 @@ import { FileCategories } from 'types/fileCategories';
 import { File } from '__generated__/types';
 import { shortifyInMiddle } from 'utils/stringFormat';
 import { Table, Column } from 'components/Table';
-import { EditButton, DownloadButton, TrashButton } from 'components/Buttons';
+import { EditButton, DownloadButton, TrashButton } from 'components';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
 import Uuid from 'components/Uuid';

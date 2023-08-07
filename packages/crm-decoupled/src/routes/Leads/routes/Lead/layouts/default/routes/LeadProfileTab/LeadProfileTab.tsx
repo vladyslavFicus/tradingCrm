@@ -5,14 +5,14 @@ import { Formik, Form, Field } from 'formik';
 import { Lead } from '__generated__/types';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
 import TabHeader from 'components/TabHeader';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { createValidator, translateLabels } from 'utils/validator';
 import formatLabel from 'utils/formatLabel';
 import countryList, { getCountryCode } from 'utils/countryList';
-import { MIN_BIRTHDATE } from 'constants/user';
 import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';
 import { attributeLabels, genders, AGE_YEARS_CONSTRAINT } from 'routes/Leads/routes/Lead/constants/leadProfileTab';
 import useLeadProfileTab from 'routes/Leads/routes/Lead/hooks/useLeadProfileTab';
+import { MIN_BIRTHDATE } from 'constants/user';
 import './LeadProfileTab.scss';
 
 type Props = {

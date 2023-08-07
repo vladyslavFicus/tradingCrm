@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { Agent } from 'components/ChangeOriginalAgent/types';
 import useChangeOriginalAgent from 'components/ChangeOriginalAgent/hooks/useChangeOriginalAgent';
 import './ChangeOriginalAgent.scss';

@@ -7,7 +7,7 @@ import onClickOutside from 'react-onclickoutside';
 import momentPropTypes from 'react-moment-proptypes';
 import { isEqual } from 'lodash';
 import { v4 } from 'uuid';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import DateCalendarPicker from '../DateCalendarPicker';
 import DateTimePicker from '../DateTimePicker';
 import {

@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Field, Form, Formik } from 'formik';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { Filter } from 'components/NotificationCenter/types';
 import { readTypes } from 'components/NotificationCenter/constants';
 import useNotificationCenterForm from 'components/NotificationCenter/hooks/useNotificationCenterForm';

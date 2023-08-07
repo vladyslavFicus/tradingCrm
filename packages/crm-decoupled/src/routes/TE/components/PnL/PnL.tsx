@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
-import CircleLoader from 'components/CircleLoader';
+import { CircleLoader } from 'components';
 import { calculatePnL } from 'routes/TE/utils/formulas';
 import PnLDebug from './PnLDebug';
 import './PnL.scss';

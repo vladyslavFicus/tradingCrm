@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Operator } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { OPERATORS_SORT } from './constants';

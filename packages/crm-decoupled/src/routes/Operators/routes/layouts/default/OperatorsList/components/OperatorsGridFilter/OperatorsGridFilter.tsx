@@ -6,7 +6,7 @@ import { departmentsLabels, rolesLabels, statusesLabels, statuses } from 'consta
 import countryList from 'utils/countryList';
 import renderLabel from 'utils/renderLabel';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import useOperatorsGridFilter from 'routes/Operators/routes/hooks/useOperatorsGridFilter';
 import { FormValues } from 'routes/Operators/routes/types';
 import './OperatorsGridFilter.scss';

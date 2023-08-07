@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
 import momentPropTypes from 'react-moment-proptypes';
 import { isEqual } from 'lodash';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import DateCalendarPicker from '../DateCalendarPicker';
 import DateTimePicker from '../DateTimePicker';
 import DatePickerAdditional from '../DatePickerAdditional';

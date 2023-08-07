@@ -6,7 +6,7 @@ import { Operator } from '__generated__/types';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useOperatorPersonal from 'routes/Operators/routes/hooks/useOperatorPersonal';
 import './OperatorPersonal.scss';
 

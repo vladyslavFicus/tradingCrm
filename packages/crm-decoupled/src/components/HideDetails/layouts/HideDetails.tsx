@@ -1,7 +1,7 @@
 import React from 'react';
 import { Collapse } from 'reactstrap';
 import I18n from 'i18n-js';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useHideDetails from '../hooks/useHideDetails';
 import './HideDetails.scss';
 

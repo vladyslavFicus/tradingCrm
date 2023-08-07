@@ -2,7 +2,7 @@ import React from 'react';
 import {
   TradingEngine__SymbolTypes__Enum as SymbolType,
 } from '__generated__/types';
-import CircleLoader from 'components/CircleLoader';
+import { CircleLoader } from 'components';
 import { calculateMargin } from 'routes/TE/utils/formulas';
 import MarginDebug from './MarginDebug';
 import './Margin.scss';

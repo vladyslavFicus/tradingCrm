@@ -5,7 +5,7 @@ import I18n from 'i18n-js';
 import { Feed } from '__generated__/types';
 import { types, typesLabels } from 'constants/audit';
 import formatLabel from 'utils/formatLabel';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import useFeedItem from 'components/FeedItem/hooks/useFeedItem';
 import FeedDetails from './components/FeedDetails';

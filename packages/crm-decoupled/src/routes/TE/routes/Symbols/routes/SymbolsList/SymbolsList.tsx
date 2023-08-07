@@ -12,7 +12,7 @@ import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import { usePermission } from 'providers/PermissionsProvider';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
-import { Button, TrashButton } from 'components/Buttons';
+import { Button, TrashButton } from 'components';
 import Link from 'components/Link';
 import Badge from 'components/Badge';
 import { tradingEngineTabs } from 'routes/TE/constants';

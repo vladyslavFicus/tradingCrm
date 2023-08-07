@@ -10,7 +10,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Modal from 'components/Modal';
 import ShortLoader from 'components/ShortLoader';
 import Uuid from 'components/Uuid';

@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import { salesStatuses } from 'constants/salesStatuses';
-import { retentionStatuses } from 'constants/retentionStatuses';
-import { TrashButton } from 'components/Buttons';
+import { TrashButton } from 'components';
 import { Table, Column } from 'components/Table';
 import useAcquisitionStatuses, {
   AcquisitionStatus,
 } from 'routes/AcquisitionStatuses/hooks/useAcquisitionStatuses';
+import { retentionStatuses } from 'constants/retentionStatuses';
+import { salesStatuses } from 'constants/salesStatuses';
 import './AcquisitionStatusesGrid.scss';
 
 const AcquisitionStatusesGrid = () => {

@@ -2,12 +2,12 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Operator } from '__generated__/types';
-import { departmentsLabels, rolesLabels } from 'constants/operators';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useOperatorDepartments from 'routes/Operators/routes/hooks/useOperatorDepartments';
+import { departmentsLabels, rolesLabels } from 'constants/operators';
 import './OperatorDepartments.scss';
 
 const attributeLabels = {

@@ -6,10 +6,8 @@ import { getAvailableLanguages } from 'config';
 import useFilter from 'hooks/useFilter';
 import countries from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
-import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
-import { statuses as operatorsStasuses } from 'constants/operators';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import TimeZoneField from 'components/TimeZoneField';
 import {
   attributeLabels,
@@ -19,6 +17,8 @@ import {
 } from 'routes/Leads/routes/LeadsList/constants/leadsGridFilter';
 import useLeadsGridFilter from 'routes/Leads/routes/LeadsList/hooks/useLeadsGridFilter';
 import { FormValues } from 'routes/Leads/routes/LeadsList/types/leadsGridFilter';
+import { statuses as operatorsStasuses } from 'constants/operators';
+import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
 import './LeadsGridFilter.scss';
 
 type Props = {

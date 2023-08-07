@@ -9,7 +9,7 @@ import {
   ClickToCall__Customer__Type__Enum as CustomerType,
   Profile,
 } from '__generated__/types';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import CopyToClipboard from 'components/CopyToClipboard';
 import Click2Call from 'components/Click2Call';

@@ -6,7 +6,7 @@ import { TradingEngineOrderAccountBulkClose__OrderInput as BulkCloseInput } from
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { OrdersQueryQueryResult, OrdersQuery } from '../../graphql/__generated__/OrdersQuery';
 import { useBulkCloseOrderMutation } from './graphql/__generated__/BulkCloseOrderMutation';
 import './AccountProfileOpenOrderBulkActions.scss';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditButton } from 'components/Buttons';
+import { EditButton } from 'components';
 import Uuid from 'components/Uuid';
 import { useModal } from 'providers/ModalProvider';
 import UpdateDistributionRuleModal, { UpdateDistributionRuleModalProps } from 'modals/UpdateDistributionRuleModal';

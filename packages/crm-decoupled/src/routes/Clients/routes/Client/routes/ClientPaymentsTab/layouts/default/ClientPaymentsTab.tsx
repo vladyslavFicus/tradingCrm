@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import PaymentsListFilters from 'components/PaymentsListFilters';
 import PaymentsListGrid from 'components/PaymentsListGrid';
 import TabHeader from 'components/TabHeader';

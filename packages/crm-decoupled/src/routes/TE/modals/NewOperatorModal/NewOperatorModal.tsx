@@ -9,7 +9,7 @@ import { useModal } from 'providers/ModalProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { passwordMaxSize, passwordPattern } from '../../constants';
 import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAccessDataQuery';

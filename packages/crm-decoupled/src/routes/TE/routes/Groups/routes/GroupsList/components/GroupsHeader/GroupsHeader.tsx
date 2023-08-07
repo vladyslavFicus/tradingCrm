@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { useNavigate } from 'react-router-dom';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Placeholder from 'components/Placeholder';
 import { GroupsQueryQueryResult } from '../../graphql/__generated__/GroupsQuery';
 import './GroupsHeader.scss';

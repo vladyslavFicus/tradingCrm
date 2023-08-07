@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { SetFieldValue } from 'types/formik';
 import { Partner, Partner__Schedule as Schedule } from '__generated__/types';
 import countryList from 'utils/countryList';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { Table, Column } from 'components/Table';
 import { FormikCheckbox } from 'components/Formik';
 import usePartnerSchedule from 'routes/Partners/routes/hooks/usePartnerSchedule';

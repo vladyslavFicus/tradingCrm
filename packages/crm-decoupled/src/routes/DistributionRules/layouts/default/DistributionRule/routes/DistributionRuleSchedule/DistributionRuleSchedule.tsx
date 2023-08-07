@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, FormikProps } from 'formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useDistributionRuleSchedule, {
   FormValues,
 } from 'routes/DistributionRules/hooks/useDistributionRuleSchedule';

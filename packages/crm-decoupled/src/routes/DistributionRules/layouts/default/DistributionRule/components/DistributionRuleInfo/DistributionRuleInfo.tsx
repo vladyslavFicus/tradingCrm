@@ -3,11 +3,11 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { DistributionRule__Statuses__Enum as DistributionRuleStatusesEnum } from '__generated__/types';
-import { clientDistributionStatuses } from 'constants/clientsDistribution';
 import useDistributionRuleInfo from 'routes/DistributionRules/hooks/useDistributionRuleInfo';
 import { DistributionRuleType } from 'routes/DistributionRules/hooks/useDistributionRule';
+import { clientDistributionStatuses } from 'constants/clientsDistribution';
 import { ReactComponent as PlayIcon } from './play-icon.svg';
 import './DistributionRuleInfo.scss';
 

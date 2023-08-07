@@ -8,7 +8,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import permissions from 'config/permissions';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { usePermission } from 'providers/PermissionsProvider';
 import { FormValues } from '../../types';
 import { useArchiveMutation } from './graphql/__generated__/ArchiveMutation';

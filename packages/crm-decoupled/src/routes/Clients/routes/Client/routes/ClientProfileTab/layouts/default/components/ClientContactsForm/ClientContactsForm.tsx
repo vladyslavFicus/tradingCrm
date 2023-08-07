@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import permissions from 'config/permissions';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { Profile } from '__generated__/types';
 import { attributeLabels } from 'routes/Clients/routes/Client/routes/ClientProfileTab/constants/clientContactsForm';
 import { FormValues } from 'routes/Clients/routes/Client/routes/ClientProfileTab/types/clientContactsForm';

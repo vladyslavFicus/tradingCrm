@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { parseErrors } from 'apollo';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import { OrderQuery } from '../../graphql/__generated__/OrderQuery';

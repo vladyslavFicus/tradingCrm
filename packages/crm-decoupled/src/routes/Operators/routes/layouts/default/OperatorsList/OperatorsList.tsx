@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useOperatorsList from 'routes/Operators/routes/hooks/useOperatorsList';
 import OperatorsGridFilter from './components/OperatorsGridFilter';
 import OperatorsGrid from './components/OperatorsGrid';

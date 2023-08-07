@@ -6,7 +6,7 @@ import { SetFieldValue } from 'types/formik';
 import { Partner__Schedule__CountrySpreads as CountrySpreads } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import countryList from 'utils/countryList';
-import { TrashButton } from 'components/Buttons';
+import { TrashButton } from 'components';
 import Modal from 'components/Modal';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField, FormikSelectField, FormikTimeRangeField } from 'components/Formik';

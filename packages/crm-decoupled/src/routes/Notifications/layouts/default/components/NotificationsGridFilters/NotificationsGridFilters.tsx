@@ -3,11 +3,11 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import classNames from 'classnames';
 import useFilter from 'hooks/useFilter';
-import { statuses as operatorsStasuses } from 'constants/operators';
 import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import useNotificationsGridFilters from 'routes/Notifications/hooks/useNotificationsGridFilters';
 import { FormValues } from 'routes/Notifications/types/notificationGridFilters';
+import { statuses as operatorsStasuses } from 'constants/operators';
 import './NotificationsGridFilters.scss';
 
 type Props = {

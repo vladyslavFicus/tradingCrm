@@ -7,7 +7,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import EventEmitter, { OPERATOR_RELOAD } from 'utils/EventEmitter';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import { LoginLock } from '__generated__/types';
 import { isMaxLoginAttemptReached } from 'utils/profileLock';

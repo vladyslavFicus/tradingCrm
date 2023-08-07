@@ -9,7 +9,7 @@ import { useModal } from 'providers/ModalProvider';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import { usePermission } from 'providers/PermissionsProvider';
 import { Sort, State } from 'types';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';

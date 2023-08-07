@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { createValidator } from 'utils/validator';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { FormikTimeRangeField } from 'components/Formik';
 import { DayOfWeek, SessionType } from '../../types';
 import './ScheduleSettingsModal.scss';

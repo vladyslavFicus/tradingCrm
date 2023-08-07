@@ -6,7 +6,7 @@ import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { accountTypesLabels } from 'constants/accountTypes';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import StaticTabs from 'components/StaticTabs';
 import StaticTabsItem from 'components/StaticTabsItem';
 import ReactSwitch from 'components/ReactSwitch';

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { parseErrors } from 'apollo';
 import { LeadUploadResponse__FailedLeads as FailedLeads } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Modal from 'components/Modal';
 import { useUploadLeadsMutation } from './graphql/__generated__/UploadLeadsMutation';
 import { FILE_CONFIG } from './constants';

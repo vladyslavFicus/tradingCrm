@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useOfficesList from 'routes/Offices/hooks/useOfficesList';
 import OfficesGridFilter from './components/OfficesGridFilter';
 import OfficesGrid from './components/OfficesGrid';

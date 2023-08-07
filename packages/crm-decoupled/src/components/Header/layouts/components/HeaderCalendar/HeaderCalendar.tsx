@@ -1,6 +1,6 @@
 import React from 'react';
 import { Popover } from 'reactstrap';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useHeaderCalendar from 'components/Header/hooks/useHeaderCalendar';
 import CallbacksCalendar from './components/CallbacksCalendar';
 import './HeaderCalendar.scss';

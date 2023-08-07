@@ -6,7 +6,7 @@ import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator } from 'utils/validator';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { LotMax, LotMin, LotStep } from 'routes/TE/routes/Groups/types';
 import { DayOfWeek, SymbolType, SwapType, FormValues } from '../../types';
 import SymbolSettings from '../../components/SymbolSettings';

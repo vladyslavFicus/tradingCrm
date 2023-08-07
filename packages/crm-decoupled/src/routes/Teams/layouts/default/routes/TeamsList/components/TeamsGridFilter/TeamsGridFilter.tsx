@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { createValidator } from 'utils/validator';
 import useFilter from 'hooks/useFilter';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import useTeamsGridFilter from 'routes/Teams/hooks/useTeamsGridFilter';
 import { FormValues } from 'routes/Teams/types/teamsGridFilter';
 import './TeamsGridFilter.scss';

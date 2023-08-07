@@ -4,16 +4,16 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { LeadCallback, Sort__Input as Sort } from '__generated__/types';
 import { shortify } from 'utils/uuid';
-import { targetTypes } from 'constants/note';
-import { CallbackTimes } from 'constants/callbacks';
 import { Table, Column } from 'components/Table';
-import { TrashButton } from 'components/Buttons';
+import { TrashButton } from 'components';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
 import {
   LeadCallbacksListQueryQueryResult,
 } from 'routes/Leads/routes/Lead/graphql/__generated__/LeadCallbacksListQuery';
 import useLeadCallbacksGrid from 'routes/Leads/routes/Lead/hooks/useLeadCallbacksGrid';
+import { CallbackTimes } from 'constants/callbacks';
+import { targetTypes } from 'constants/note';
 import './LeadCallbacksGrid.scss';
 
 type Props = {

@@ -11,7 +11,7 @@ import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import { usePermission } from 'providers/PermissionsProvider';
 import { accountTypesLabels } from 'constants/accountTypes';
 import Badge from 'components/Badge';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import Uuid from 'components/Uuid';

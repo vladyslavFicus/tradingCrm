@@ -7,7 +7,7 @@ import { accountTypes } from 'constants/accountTypes';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { RangeGroup } from 'components/Forms';
-import { Button, RefreshButton } from 'components/Buttons';
+import { Button, RefreshButton } from 'components';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import useTradingActivityGridFilter
   from 'routes/Clients/routes/Client/routes/ClientTradingActivityTab/hooks/useTradingActivityGridFilter';

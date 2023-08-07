@@ -1,6 +1,6 @@
 import React from 'react';
 import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
-import CircleLoader from 'components/CircleLoader';
+import { CircleLoader } from 'components';
 import CurrentPriceDebug from './CurrentPriceDebug';
 
 type Props = {

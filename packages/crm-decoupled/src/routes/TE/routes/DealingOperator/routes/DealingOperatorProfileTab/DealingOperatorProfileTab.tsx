@@ -8,7 +8,7 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
 import EventEmitter, { OPERATOR_RELOAD } from 'utils/EventEmitter';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { useOperatorProfileQuery } from './graphql/__generated__/OperatorProfileQuery';
 import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAccessDataQuery';

@@ -9,7 +9,7 @@ import { usePermission } from 'providers/PermissionsProvider';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
 import downloadBlob from 'utils/downloadBlob';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
 import NewOrderModal, { NewOrderModalProps } from 'routes/TE/modals/NewOrderModal';

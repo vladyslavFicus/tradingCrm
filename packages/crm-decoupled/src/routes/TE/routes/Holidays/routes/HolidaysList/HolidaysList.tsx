@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { State, Sort } from 'types';
 import permissions from 'config/permissions';
 import { Table, Column } from 'components/Table';
-import { Button, EditButton, TrashButton } from 'components/Buttons';
+import { Button, EditButton, TrashButton } from 'components';
 import Tabs from 'components/Tabs';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { notify, LevelType } from 'providers/NotificationProvider';

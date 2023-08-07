@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import TabHeader from 'components/TabHeader';
 import useClientFilesTab from 'routes/Clients/routes/Client/routes/ClientFilesTab/hooks/useClientFilesTab';
 import KYCNote from './components/KYCNote';

@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import useStaticTabs from '../hooks/useStaticTabs';
 import './StaticTabs.scss';
 

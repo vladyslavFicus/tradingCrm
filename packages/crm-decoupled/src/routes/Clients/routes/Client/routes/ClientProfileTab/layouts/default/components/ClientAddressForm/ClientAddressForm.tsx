@@ -5,7 +5,7 @@ import { Profile } from '__generated__/types';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField, FormikTextAreaField } from 'components/Formik';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import { attributeLabels } from 'routes/Clients/routes/Client/routes/ClientProfileTab/constants/clientAddressForm';
 import { FormValues } from 'routes/Clients/routes/Client/routes/ClientProfileTab/types/clientAddressForm';
 import useClientAddressForm from 'routes/Clients/routes/Client/routes/ClientProfileTab/hooks/useClientAddressForm';

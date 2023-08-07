@@ -18,7 +18,7 @@ import PaymentStatus from 'components/PaymentStatus';
 import ShortLoader from 'components/ShortLoader';
 import IpFlag from 'components/IpFlag';
 import Modal from 'components/Modal';
-import { Button } from 'components/Buttons';
+import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import ChangePaymentStatusForm from './components/ChangePaymentStatusForm';
 import ApprovePaymentForm from './components/ApprovePaymentForm';
