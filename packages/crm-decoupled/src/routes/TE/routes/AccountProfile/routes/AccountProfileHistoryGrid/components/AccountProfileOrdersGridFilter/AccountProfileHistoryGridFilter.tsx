@@ -2,6 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Button, RefreshButton } from 'components';
 import { State } from 'types';
 import {
   FormikInputField,
@@ -9,7 +10,6 @@ import {
   FormikDateRangePicker,
 } from 'components/Formik/index';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components';
 import { types } from './constants';
 import { SymbolsQueryVariables, useSymbolsQuery } from './graphql/__generated__/SymbolsQuery';
 import './AccountProfileHistoryGridFilter.scss';

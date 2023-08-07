@@ -1,11 +1,11 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { Button } from 'components';
 import { TableSelection } from 'types';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import { Button } from 'components';
 import { OrdersQueryQueryResult, OrdersQuery } from '../../graphql/__generated__/OrdersQuery';
 import { useBulkCloseOrderMutation } from './graphql/__generated__/BulkCloseOrderMutation';
 import './AccountProfilePendingOrderBulkActions.scss';

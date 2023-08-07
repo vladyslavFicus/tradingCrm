@@ -1,9 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Button } from 'components';
 import { Profile } from '__generated__/types';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components';
 import useClientTransferForm from 'routes/Clients/routes/Client/routes/ClientProfileTab/hooks/useClientTransferForm';
 import { transferTypes } from 'routes/Clients/routes/Client/routes/ClientProfileTab/constants/clientTransferForm';
 import './ClientTransferForm.scss';

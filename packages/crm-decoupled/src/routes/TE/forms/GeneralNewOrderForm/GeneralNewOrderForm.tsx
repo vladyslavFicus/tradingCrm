@@ -3,6 +3,7 @@ import { Field, Form, Formik, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
 import { orderBy, intersectionWith } from 'lodash';
 import Hotkeys from 'react-hot-keys';
+import { Button } from 'components';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useStorage } from 'providers/StorageProvider';
@@ -12,7 +13,6 @@ import {
   FormikInputField,
   FormikSelectTreeField,
 } from 'components/Formik';
-import { Button } from 'components';
 import Input from 'components/Input';
 import { Node } from 'components/SelectTree';
 import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';

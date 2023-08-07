@@ -2,6 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
+import { Button, RefreshButton } from 'components';
 import { State } from 'types';
 import {
   FormikDateRangePicker,
@@ -9,7 +10,6 @@ import {
   FormikSelectField,
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components';
 import { statuses } from '../../constants';
 import { useGroupsQuery } from './graphql/__generated__/GroupsQuery';
 import './AccountsFilter.scss';

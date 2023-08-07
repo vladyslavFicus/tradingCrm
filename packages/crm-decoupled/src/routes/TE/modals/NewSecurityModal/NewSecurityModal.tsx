@@ -2,11 +2,11 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
+import { Button } from 'components';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
-import { Button } from 'components';
 import { securityNamePattern } from '../../constants';
 import { useCreateSecurityMutation } from './graphql/__generated__/CreateSecurityMutation';
 

@@ -1,0 +1,26 @@
+@mixin button($type) {
+    background: var(--button-#{$type}-background-default);
+    border: solid 1px var(--button-#{$type}-border-default);
+    color: var(--button-#{$type}-color-default);
+  
+    &:hover,
+    &:not(:disabled):not(.disabled):active:not(.disabled):focus {
+      background: var(--button-#{$type}-background-hover);
+      border: solid 1px var(--button-#{$type}-border-hover);
+      color: var(--button-#{$type}-color-hover);
+    }
+  
+    &:focus,
+    &:active,
+    &:not(:disabled):not(.disabled):active:not(.disabled):focus {
+      background: var(--button-#{$type}-background-focus);
+      border: solid 1px var(--button-#{$type}-border-focus);
+      color: var(--button-#{$type}-color-focus);
+    }
+  
+    &:disabled, [disabled], :disabled:hover, [disabled]:hover {
+      background: var(--button-#{$type}-background-disabled);
+      border: solid 1px var(--button-#{$type}-border-disabled);
+      color: var(--button-#{$type}-color-disabled);
+    }
+  }

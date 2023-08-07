@@ -2,11 +2,11 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { camelCase, startCase } from 'lodash';
+import { Button } from 'components';
 import { Operator } from '__generated__/types';
 import { createValidator, translateLabels } from 'utils/validator';
 import countries from 'utils/countryList';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
-import { Button } from 'components';
 import useOperatorPersonal from 'routes/Operators/routes/hooks/useOperatorPersonal';
 import './OperatorPersonal.scss';
 

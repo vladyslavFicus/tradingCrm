@@ -2,6 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Field, Form, Formik } from 'formik';
+import { Button, RefreshButton } from 'components';
 import {
   aggregators,
   aggregatorsLabels,
@@ -21,7 +22,6 @@ import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'comp
 import { RangeGroup } from 'components/Forms';
 import { FiltersToggler } from 'components/FiltersToggler';
 import { FilterSetsDecorator, FilterSetsButtons } from 'components/FilterSetsDecorator';
-import { Button, RefreshButton } from 'components';
 import TimeZoneField from 'components/TimeZoneField';
 import { firstTimeDepositFilter } from 'components/PaymentsListFilters/constants';
 import usePaymentsListFilters from 'components/PaymentsListFilters/hooks/usePaymentsListFilters';

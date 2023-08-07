@@ -2,10 +2,10 @@ import React from 'react';
 import { startCase } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
+import { Button, RefreshButton } from 'components';
 import useFilter from 'hooks/useFilter';
 import enumToArray from 'utils/enumToArray';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import { Button, RefreshButton } from 'components';
 import { CallHistory__Status__Enum as CallHistoryStatusEnum } from '__generated__/types';
 import useClientCallHistoryGridFilter
   from 'routes/Clients/routes/Client/routes/ClientCallHistoryTab/hooks/useClientCallHistoryGridFilter';

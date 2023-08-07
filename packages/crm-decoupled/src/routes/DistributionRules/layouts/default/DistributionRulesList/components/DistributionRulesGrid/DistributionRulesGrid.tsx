@@ -2,13 +2,13 @@ import React from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
+import { Button } from 'components';
 import {
   DistributionRule,
   DistributionRule__SourceBrandConfig as DistributionRuleSourceBrandConfig,
   DistributionRule__TargetBrandConfig as DistributionRuleTargetBrandConfig,
 } from '__generated__/types';
 import Uuid from 'components/Uuid';
-import { Button } from 'components';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { Table, Column } from 'components/Table';
 import useDistributionRulesGrid from 'routes/DistributionRules/hooks/useDistributionRulesGrid';

@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { HierarchyBranch } from '__generated__/types';
 import { Button } from 'components';
+import { HierarchyBranch } from '__generated__/types';
 import Link from 'components/Link';
 import Uuid from 'components/Uuid';
 import Placeholder from 'components/Placeholder';

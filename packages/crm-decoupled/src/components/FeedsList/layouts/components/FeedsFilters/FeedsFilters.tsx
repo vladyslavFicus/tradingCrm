@@ -1,9 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
+import { Button, RefreshButton } from 'components';
 import { Feed__AuditCategory__Enum as FeedAuditCategoryEnum } from '__generated__/types';
 import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button, RefreshButton } from 'components';
 import { createValidator } from 'utils/validator';
 import useFeedsFilters from '../../../hooks/useFeedsFilters';
 import './FeedsFilters.scss';

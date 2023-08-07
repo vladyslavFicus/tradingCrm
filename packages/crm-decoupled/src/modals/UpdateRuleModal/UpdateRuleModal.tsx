@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
+import { Button } from 'components';
 import { parseErrors } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
@@ -11,7 +12,6 @@ import { attributeLabels, customErrors, nestedFieldsNames } from 'constants/rule
 import { decodeNullValues } from 'components/Formik/utils';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
-import { Button } from 'components';
 import Modal from 'components/Modal';
 import StaticTabs from 'components/StaticTabs';
 import StaticTabsItem from 'components/StaticTabsItem';

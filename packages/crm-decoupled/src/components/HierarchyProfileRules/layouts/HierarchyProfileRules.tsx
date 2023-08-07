@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Rule } from '__generated__/types';
 import { Button, EditButton, TrashButton } from 'components';
+import { Rule } from '__generated__/types';
 import { Column, Table } from 'components/Table';
 import TabHeader from 'components/TabHeader';
 import Uuid from 'components/Uuid';

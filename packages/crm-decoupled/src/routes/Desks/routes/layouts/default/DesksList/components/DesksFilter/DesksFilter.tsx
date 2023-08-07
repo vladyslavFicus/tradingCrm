@@ -1,12 +1,12 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
+import { Button, RefreshButton } from 'components';
 import useFilter from 'hooks/useFilter';
 import { Desk__Types__Enum as DeskTypesEnum, HierarchyBranch } from '__generated__/types';
 import enumToArray from 'utils/enumToArray';
 import { createValidator } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { Button, RefreshButton } from 'components';
 import useDesks from 'routes/Desks/routes/hooks/useDesks';
 import useDesksFilter from 'routes/Desks/routes/hooks/useDesksFilter';
 import { FormValues } from 'routes/Desks/types';

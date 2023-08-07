@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
+import { Button } from 'components';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { FormikInputDecimalsField, FormikInputField } from 'components/Formik';
-import { Button } from 'components';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { OrderDirection } from 'types/trading-engine';
 import { createValidator } from 'utils/validator';

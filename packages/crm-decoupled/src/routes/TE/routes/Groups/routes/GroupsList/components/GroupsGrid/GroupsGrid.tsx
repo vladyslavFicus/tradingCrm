@@ -1,6 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Button, TrashButton } from 'components';
 import { parseErrors } from 'apollo';
 import { State, Sort } from 'types';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -10,7 +11,6 @@ import { usePermission } from 'providers/PermissionsProvider';
 import permissions from 'config/permissions';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import { Button, TrashButton } from 'components';
 import { GroupsQueryQueryResult, GroupsQuery, GroupsQueryVariables } from '../../graphql/__generated__/GroupsQuery';
 import { useArchiveMutation } from './graphql/__generated__/ArchiveMutation';
 import { useDeleteGroupMutation } from './graphql/__generated__/DeleteGroupMutation';

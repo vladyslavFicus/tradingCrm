@@ -2,13 +2,13 @@ import React from 'react';
 import I18n from 'i18n-js';
 import ToolTip from 'react-portal-tooltip';
 import classNames from 'classnames';
+import { Button, CircleLoader } from 'components';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
   ClickToCall__Customer__Type__Enum as CustomerType,
   ClickToCall__CallSystem__Enum as CallSystem,
 } from '__generated__/types';
 import { Position } from 'types/position';
-import { Button, CircleLoader } from 'components';
 import { Arrow } from 'components/Click2Call/types';
 import useClick2Call from 'components/Click2Call/hooks/useClick2Call';
 import { ICONS, TOOLTIP_STYLE } from './constants';

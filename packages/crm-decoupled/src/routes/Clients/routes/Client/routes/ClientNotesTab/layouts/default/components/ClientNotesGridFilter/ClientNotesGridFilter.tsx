@@ -1,11 +1,11 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Button, RefreshButton } from 'components';
 import useFilter from 'hooks/useFilter';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import { FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import { Button, RefreshButton } from 'components';
 import useClientNotesGridFilter
   from 'routes/Clients/routes/Client/routes/ClientNotesTab/hooks/useClientNotesGridFilter';
 import { attributeLabels } from 'routes/Clients/routes/Client/routes/ClientNotesTab/constants';

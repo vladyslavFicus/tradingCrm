@@ -1,11 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
+import { Button } from 'components';
 import { LoginLock, Profile } from '__generated__/types';
 import { targetTypes } from 'constants/note';
 import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import ActionsDropDown from 'components/ActionsDropDown';
-import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
 import useClientHeader from 'routes/Clients/routes/Client/components/hooks/useClientHeader';

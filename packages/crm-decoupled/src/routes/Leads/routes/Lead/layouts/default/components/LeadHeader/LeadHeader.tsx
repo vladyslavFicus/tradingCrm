@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { Button } from 'components';
 import { Lead } from '__generated__/types';
 import Uuid from 'components/Uuid';
-import { Button } from 'components';
 import NoteAction from 'components/Note/NoteAction';
 import useLeadHeader from 'routes/Leads/routes/Lead/hooks/useLeadHeader';
 import { targetTypes } from 'constants/note';

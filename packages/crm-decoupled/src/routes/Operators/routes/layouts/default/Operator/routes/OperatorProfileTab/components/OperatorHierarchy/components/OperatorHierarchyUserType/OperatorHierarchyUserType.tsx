@@ -1,9 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Button } from 'components';
 import { Operator } from '__generated__/types';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components';
 import useOperatorHierarchyUserType from 'routes/Operators/routes/hooks/useOperatorHierarchyUserType';
 import { userTypes, userTypeLabels } from 'constants/hierarchyTypes';
 import './OperatorHierarhyUsetType.scss';

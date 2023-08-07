@@ -1,12 +1,12 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Button, RefreshButton } from 'components';
 import useFilter from 'hooks/useFilter';
 import { departmentsLabels, rolesLabels, statusesLabels, statuses } from 'constants/operators';
 import countryList from 'utils/countryList';
 import renderLabel from 'utils/renderLabel';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import { Button, RefreshButton } from 'components';
 import useOperatorsGridFilter from 'routes/Operators/routes/hooks/useOperatorsGridFilter';
 import { FormValues } from 'routes/Operators/routes/types';
 import './OperatorsGridFilter.scss';

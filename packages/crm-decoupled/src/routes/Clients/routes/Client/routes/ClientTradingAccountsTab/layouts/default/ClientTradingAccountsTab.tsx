@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import TabHeader from 'components/TabHeader';
 import { Button } from 'components';
+import TabHeader from 'components/TabHeader';
 import useClientTradingAccountsTab from '../../hooks/useClientTradingAccountsTab';
 import ClientTradingAccountsGridFilter from './components/ClientTradingAccountsGridFilter';
 import ClientTradingAccountsGrid from './components/ClientTradingAccountsGrid';

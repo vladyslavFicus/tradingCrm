@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import TabHeader from 'components/TabHeader';
 import { Button } from 'components';
+import TabHeader from 'components/TabHeader';
 import useLeadCallbacksTab from 'routes/Leads/routes/Lead/hooks/useLeadCallbacksTab';
 import LeadCallbacksGridFilter from './components/LeadCallbacksGridFilter';
 import LeadCallbacksGrid from './components/LeadCallbacksGrid';

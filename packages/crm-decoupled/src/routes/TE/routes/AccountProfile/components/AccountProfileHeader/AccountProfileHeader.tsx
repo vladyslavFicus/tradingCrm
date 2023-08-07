@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Hotkeys from 'react-hot-keys';
 import I18n from 'i18n-js';
+import { Button } from 'components';
 import { parseErrors } from 'apollo';
 import { getGraphQLUrl, getVersion } from 'config';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -9,7 +10,6 @@ import { usePermission } from 'providers/PermissionsProvider';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import permissions from 'config/permissions';
 import downloadBlob from 'utils/downloadBlob';
-import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
 import NewOrderModal, { NewOrderModalProps } from 'routes/TE/modals/NewOrderModal';

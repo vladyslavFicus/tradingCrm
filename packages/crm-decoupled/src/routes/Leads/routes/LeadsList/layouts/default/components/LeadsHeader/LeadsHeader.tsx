@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { QueryResult } from '@apollo/client';
-import { TableSelection } from 'types';
 import { Button } from 'components';
+import { TableSelection } from 'types';
 import Placeholder from 'components/Placeholder';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import { MAX_QUERY_LEADS } from 'routes/Leads/routes/LeadsList/constants/leadsHeader';

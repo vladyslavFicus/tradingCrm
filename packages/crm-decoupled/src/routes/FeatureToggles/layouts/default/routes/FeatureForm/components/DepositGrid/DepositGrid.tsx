@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { EditButton, TrashButton, Button } from 'components';
 import { PaymentDeposit } from '__generated__/types';
 import { Table, Column } from 'components/Table';
-import { EditButton, TrashButton, Button } from 'components';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import './DepositGrid.scss';
 import useDepositGrid from '../../../../../../hooks/useDepositGrid';

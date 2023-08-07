@@ -1,6 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Button } from 'components';
 import { Partner } from '__generated__/types';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -11,7 +12,6 @@ import {
   FormikCheckbox,
   FormikMultiInputField,
   FormikInputRangeField } from 'components/Formik';
-import { Button } from 'components';
 import usePartnerPersonalInfoForm, { FormValues } from 'routes/Partners/routes/hooks/usePartnerPersonalInfoForm';
 import { attributeLabels } from './constants';
 import './PartnerPersonalInfoForm.scss';

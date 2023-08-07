@@ -1,9 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { Button } from 'components';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import { Button } from 'components';
 import { OrderQuery } from '../../graphql/__generated__/OrderQuery';
 import { useCancelOrderMutation } from './graphql/__generated__/CancelOrderMutation';
 

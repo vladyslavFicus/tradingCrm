@@ -1,11 +1,11 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Button } from 'components';
 import { Profile } from '__generated__/types';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField, FormikTextAreaField } from 'components/Formik';
-import { Button } from 'components';
 import { attributeLabels } from 'routes/Clients/routes/Client/routes/ClientProfileTab/constants/clientAddressForm';
 import { FormValues } from 'routes/Clients/routes/Client/routes/ClientProfileTab/types/clientAddressForm';
 import useClientAddressForm from 'routes/Clients/routes/Client/routes/ClientProfileTab/hooks/useClientAddressForm';

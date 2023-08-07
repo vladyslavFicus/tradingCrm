@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
+import { Button } from 'components';
 import { Sorts } from 'types';
 import { AccountView } from '__generated__/types';
 import { accountTypesLabels } from 'constants/accountTypes';
@@ -8,7 +9,6 @@ import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import HideText from 'components/HideText';
-import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
 import { getPlatformTypeLabel } from 'utils/tradingAccount';

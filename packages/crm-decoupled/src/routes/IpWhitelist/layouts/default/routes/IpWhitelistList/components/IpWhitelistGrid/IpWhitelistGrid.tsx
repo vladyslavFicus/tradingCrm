@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
+import { TrashButton, EditButton } from 'components';
 import { Sorts } from 'types';
 import { IpWhitelistAddress } from '__generated__/types';
 import { Table, Column } from 'components/Table';
-import { TrashButton, EditButton } from 'components';
 import useIpWhitelistGrid from 'routes/IpWhitelist/hooks/useIpWhitelistGrid';
 import './IpWhitelistGrid.scss';
 

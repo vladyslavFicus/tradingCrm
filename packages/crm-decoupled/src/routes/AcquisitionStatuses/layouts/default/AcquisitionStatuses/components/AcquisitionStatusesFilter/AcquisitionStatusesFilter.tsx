@@ -1,10 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Button, RefreshButton } from 'components';
 import useFilter from 'hooks/useFilter';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
-import { Button, RefreshButton } from 'components';
 import { FormValues } from 'routes/AcquisitionStatuses/types';
 import useAcquisitionStatuses from 'routes/AcquisitionStatuses/hooks/useAcquisitionStatuses';
 import './AcquisitionStatusesFilter.scss';

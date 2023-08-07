@@ -2,13 +2,13 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
+import { Button, RefreshButton } from 'components';
 import { State } from 'types';
 import {
   FormikInputField,
   FormikSelectField,
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components';
 import { useGroupsQuery } from './graphql/__generated__/GroupsQuery';
 import './MarginCallsFilter.scss';
 

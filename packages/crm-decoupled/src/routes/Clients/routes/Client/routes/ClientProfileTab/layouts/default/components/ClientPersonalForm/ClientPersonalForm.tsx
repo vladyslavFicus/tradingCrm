@@ -2,6 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
+import { Button } from 'components';
 import { getAvailableLanguages } from 'config';
 import { Profile } from '__generated__/types';
 import countryList from 'utils/countryList';
@@ -15,7 +16,6 @@ import {
 } from 'constants/user';
 import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
-import { Button } from 'components';
 import useClientPersonalForm from 'routes/Clients/routes/Client/routes/ClientProfileTab/hooks/useClientPersonalForm';
 import {
   attributeLabels,

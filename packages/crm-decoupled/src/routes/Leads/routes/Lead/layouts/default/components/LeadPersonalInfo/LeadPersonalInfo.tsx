@@ -2,12 +2,12 @@ import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import Flag from 'react-country-flag';
+import { Button } from 'components';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
   ClickToCall__Customer__Type__Enum as CustomerType,
   Lead,
 } from '__generated__/types';
-import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import Click2Call from 'components/Click2Call';
 import { PersonalInformationItem } from 'components/Information';

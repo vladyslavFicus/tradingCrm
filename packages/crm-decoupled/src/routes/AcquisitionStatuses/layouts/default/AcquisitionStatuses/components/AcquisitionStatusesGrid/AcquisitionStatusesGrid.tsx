@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { TrashButton } from 'components';
+import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { Table, Column } from 'components/Table';
 import useAcquisitionStatuses, {
   AcquisitionStatus,

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'components';
 import { parseErrors } from 'apollo';
 import { getAvailableLanguages } from 'config';
 import {
@@ -16,7 +17,6 @@ import { attributeLabels, customErrors } from 'constants/ruleModal';
 import { createValidator, translateLabels } from 'utils/validator';
 import countryList from 'utils/countryList';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button } from 'components';
 import StaticTabs from 'components/StaticTabs';
 import StaticTabsItem from 'components/StaticTabsItem';
 import Uuid from 'components/Uuid';

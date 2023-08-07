@@ -1,5 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { Button } from 'components';
 import { parseErrors } from 'apollo';
 import { passwordMaxSize, passwordPattern } from 'routes/TE/constants';
 import permissions from 'config/permissions';
@@ -7,7 +8,6 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import EventEmitter, { OPERATOR_RELOAD } from 'utils/EventEmitter';
-import { Button } from 'components';
 import Uuid from 'components/Uuid';
 import { LoginLock } from '__generated__/types';
 import { isMaxLoginAttemptReached } from 'utils/profileLock';

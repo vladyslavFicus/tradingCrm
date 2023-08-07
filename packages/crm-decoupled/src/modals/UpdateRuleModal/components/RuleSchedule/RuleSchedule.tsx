@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import I18n from 'i18n-js';
 import { Field, FieldArray, FormikErrors } from 'formik';
+import { Button } from 'components';
 import { Operator, RuleSchedule as RuleScheduleType } from '__generated__/types';
 import { FormikSwitchField } from 'components/Formik';
-import { Button } from 'components';
 import { FormValues, FormikBag } from '../../types';
 import RuleScheduleBoard from './components/RuleScheduleBoard';
 import './RuleSchedule.scss';

@@ -1,10 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field, FieldArray } from 'formik';
+import { TrashButton } from 'components';
 import { attributeLabels } from 'constants/ruleModal';
 import { Operator, RuleOperatorSpread__Input as RuleOperatorSpread } from '__generated__/types';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { TrashButton } from 'components';
 import useRuleOperatorSpreads from '../hooks/useRuleOperatorSpreads';
 import './RuleOperatorSpreads.scss';
 

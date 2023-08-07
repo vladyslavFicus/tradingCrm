@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "registry:login": "npm login --registry=https://nexus.cyberhat.guru/repository/hrzn-npm/",
-    "eslint": "eslint \"packages/*/src/**/*.{js,jsx,ts,tsx,json,gql}\" --cache"
+    "eslint": "eslint \"packages/*/src/**/*.{js,jsx,ts,tsx,json,gql}\" --cache --fix"
   },
   "author": "crmteam",
   "license": "MIT",

@@ -1,13 +1,13 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
+import { Button } from 'components';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { statusMapper, statusesLabels, statuses } from 'constants/payment';
 import { createValidator, translateLabels } from 'utils/validator';
 import renderLabel from 'utils/renderLabel';
 import formatLabel from 'utils/formatLabel';
 import { FormikSelectField } from 'components/Formik';
-import { Button } from 'components';
 import { useUpdatePaymentMethodMutation } from './graphql/__generated__/UpdatePaymentMethodMutation';
 import { useUpdatePaymentStatusMutation } from './graphql/__generated__/UpdatePaymentStatusMutation';
 import { useManualPaymentMethodsQuery } from './graphql/__generated__/ManualPaymentMethodsQuery';

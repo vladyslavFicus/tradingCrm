@@ -1,6 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { FormikProps } from 'formik';
+import { EditButton, TrashButton, Button } from 'components';
 import {
   Commission__Type__Enum as GroupCommissionType,
   Commission__Lots__Enum as GroupCommissionLots,
@@ -8,7 +9,6 @@ import {
 import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
-import { EditButton, TrashButton, Button } from 'components';
 import GroupNewSecurityModal, { GroupNewSecurityModalProps } from '../../modals/GroupNewSecurityModal';
 import GroupSecurityCustomizationModal, {
   GroupSecurityCustomizationModalProps,

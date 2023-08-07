@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Button, RefreshButton } from 'components';
 import { State } from 'types';
 import enumToArray from 'utils/enumToArray';
 import { TradingEngine__OperatorStatuses__Enum as OperatorStatusesEnum } from '__generated__/types';
@@ -11,7 +12,6 @@ import {
   FormikDateRangePicker,
 } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { Button, RefreshButton } from 'components';
 import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAccessDataQuery';
 import './OperatorsFilter.scss';
 

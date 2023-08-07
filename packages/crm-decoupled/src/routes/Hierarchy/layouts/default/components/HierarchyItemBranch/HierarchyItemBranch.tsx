@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { CircleLoader } from 'components';
 import { HierarchyTreeBranch } from '__generated__/types';
 import Link from 'components/Link';
-import { CircleLoader } from 'components';
 import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import useHierarchyItemBranch from 'routes/Hierarchy/hooks/useHierarchyItemBranch';
 import { ReactComponent as CompanyIcon } from '../img/CompanyIcon.svg';

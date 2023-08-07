@@ -1,9 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { QueryResult } from '@apollo/client';
+import { Button } from 'components';
 import { TableSelection } from 'types';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import { Button } from 'components';
 import { ClientsListQuery } from 'routes/Clients/routes/ClientsList/graphql/__generated__/ClientsQuery';
 import useClientsBulkActions from 'routes/Clients/routes/ClientsList/hooks/useClientsBulkActions';
 import { departments } from 'constants/brands';

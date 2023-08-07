@@ -1,9 +1,9 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
+import { Button } from 'components';
 import { getCrmBrandStaticFileUrl } from 'config';
 import { createValidator, translateLabels } from 'utils/validator';
-import { Button } from 'components';
 import Copyrights from 'components/Copyrights';
 import { FormikInputField } from 'components/Formik';
 import { attributeLabels } from 'routes/ResetPassword/constants/resetPassword';

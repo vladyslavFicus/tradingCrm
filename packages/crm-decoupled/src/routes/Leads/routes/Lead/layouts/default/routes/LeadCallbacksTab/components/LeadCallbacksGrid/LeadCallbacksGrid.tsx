@@ -2,10 +2,10 @@ import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
+import { TrashButton } from 'components';
 import { LeadCallback, Sort__Input as Sort } from '__generated__/types';
 import { shortify } from 'utils/uuid';
 import { Table, Column } from 'components/Table';
-import { TrashButton } from 'components';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
 import {

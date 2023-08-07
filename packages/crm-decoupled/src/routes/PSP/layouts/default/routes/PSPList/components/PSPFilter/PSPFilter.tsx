@@ -1,9 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Button, RefreshButton } from 'components';
 import useFilter from 'hooks/useFilter';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
-import { Button, RefreshButton } from 'components';
 import { favouriteStatuses } from 'routes/PSP/constants/PSP';
 import './PSPFilter.scss';
 
