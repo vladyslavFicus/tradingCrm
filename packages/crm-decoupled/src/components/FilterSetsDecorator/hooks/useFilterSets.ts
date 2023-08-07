@@ -26,7 +26,7 @@ const useFilterSets = (props: Props): UseFilterSets => {
   const selectFilterSet = useCallback((uuid: string) => {
     toggleDropdown();
     selectFilter(uuid);
-  }, []);
+  }, [selectFilter, toggleDropdown]);
 
   const activeFilterSet = useMemo(() => filterSetsList.find(({ uuid }) => uuid === selectedFilterSetUuid),
     [filterSetsList, selectedFilterSetUuid]);

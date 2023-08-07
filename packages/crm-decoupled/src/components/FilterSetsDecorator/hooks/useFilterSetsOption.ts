@@ -19,12 +19,12 @@ const useFilterSetsOption = (props: Props): UseFilterSetsOption => {
     if (selectFilterSet) {
       selectFilterSet(uuid);
     }
-  }, [uuid]);
+  }, [uuid, selectFilterSet]);
 
   const handleIconClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     updateFavouriteFilterSet(uuid, !favourite);
-  }, [uuid, favourite]);
+  }, [uuid, favourite, updateFavouriteFilterSet]);
 
   return {
     handleOptionClick,
