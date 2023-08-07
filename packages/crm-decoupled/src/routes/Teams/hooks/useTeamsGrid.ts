@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
+import { permissions } from 'config';
 import { HierarchyBranch } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
-import permissions from 'config/permissions';
 import UpdateTeamModal, { UpdateTeamModalProps } from 'modals/UpdateTeamModal';
 import DeleteBranchModal, { DeleteBranchModalProps } from 'modals/DeleteBranchModal';
 

@@ -1,9 +1,9 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set, compact } from 'lodash';
+import { permissions } from 'config';
 import { State } from 'types';
 import { Profile, Sort__Input as Sort } from '__generated__/types';
-import permissions from 'config/permissions';
 import { useModal } from 'providers/ModalProvider';
 import CreatePaymentModal, { CreatePaymentModalProps } from 'modals/CreatePaymentModal';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';

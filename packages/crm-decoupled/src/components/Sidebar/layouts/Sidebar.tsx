@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import Scrollbars from 'react-custom-scrollbars';
-import { sidebarBottomMenu, sidebarTopMenu } from 'config/menu';
+import { sidebarBottomMenu, sidebarTopMenu } from 'config';
 import useSidebar from '../hooks/useSidebar';
 import SidebarNav from './components/SidebarNav';
 import './Sidebar.scss';

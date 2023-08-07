@@ -1,9 +1,8 @@
 import { useCallback, useState } from 'react';
-import { getGraphQLUrl, getVersion } from 'config';
+import { permissions, getGraphQLUrl, getVersion } from 'config';
 import { File } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 import { useLightbox } from 'providers/LightboxProvider/useLightbox';
 import { DeleteFileModal, RenameFileModal } from 'modals/FileModals';
 import { DeleteFileModalProps } from 'modals/FileModals/DeleteFileModal';

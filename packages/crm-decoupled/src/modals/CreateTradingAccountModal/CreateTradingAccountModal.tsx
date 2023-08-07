@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { parseErrors } from 'apollo';
 import { getBrand } from 'config';
+import { parseErrors } from 'apollo';
 import { SetFieldValue } from 'types/formik';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { generate } from 'utils/password';

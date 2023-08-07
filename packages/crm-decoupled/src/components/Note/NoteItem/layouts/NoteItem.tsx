@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 import ActionsDropDown from 'components/ActionsDropDown';
 import Uuid from 'components/Uuid';
 import { entities, entitiesPrefixes } from 'constants/uuid';

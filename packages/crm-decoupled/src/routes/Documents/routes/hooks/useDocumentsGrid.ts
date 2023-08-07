@@ -1,10 +1,9 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getGraphQLUrl, getVersion } from 'config';
+import { permissions, getGraphQLUrl, getVersion } from 'config';
 import { Sort, State } from 'types';
 import { DocumentFile } from '__generated__/types';
-import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';

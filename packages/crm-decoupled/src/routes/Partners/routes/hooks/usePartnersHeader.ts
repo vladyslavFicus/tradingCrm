@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import CreatePartnerModal, { CreatePartnerModalProps } from 'modals/CreatePartnerModal';

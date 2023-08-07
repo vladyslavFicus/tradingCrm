@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
+import { permissions } from 'config';
 import { useModal } from 'providers/ModalProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 import ChangeAccountStatusModal, { ChangeAccountStatusModalProps, FormValues } from 'modals/ChangeAccountStatusModal';
 import { usePartnerAccountStatusMutation } from '../graphql/__generated__/PartnerAccountStatusMutation';
 

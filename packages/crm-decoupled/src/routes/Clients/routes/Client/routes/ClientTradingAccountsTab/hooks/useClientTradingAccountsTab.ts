@@ -1,9 +1,9 @@
 import { useCallback, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import { permissions } from 'config';
 import { State } from 'types';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import CreateTradingAccountModal, { CreateTradingAccountModalProps } from 'modals/CreateTradingAccountModal';
 import {

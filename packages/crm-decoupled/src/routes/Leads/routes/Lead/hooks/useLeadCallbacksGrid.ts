@@ -1,6 +1,6 @@
 
+import { permissions } from 'config';
 import { LeadCallback } from '__generated__/types';
-import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import { useModal } from 'providers/ModalProvider';

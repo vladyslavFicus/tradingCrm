@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { permissions } from 'config';
 import { State } from 'types';
 import { Sort__Input as Sort } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
 import CreateLeadCallbackModal, { CreateLeadCallbackModalProps } from 'modals/CreateLeadCallbackModal';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 import {
   LeadCallbacksListQueryVariables,
   useLeadCallbacksListQuery,

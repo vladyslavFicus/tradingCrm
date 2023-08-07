@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { SidebarMenuItem, SidebarMenuSubItem } from 'config/menu';
+import { SidebarMenuItem, SidebarMenuSubItem } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
 
 const useSidebarNav = () => {

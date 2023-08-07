@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { getBrand } from 'config';
+import { getBrand, permissions } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 import { Profile } from '__generated__/types';
 import { useClientQuery } from '../../../graphql/__generated__/ClientQuery';
 

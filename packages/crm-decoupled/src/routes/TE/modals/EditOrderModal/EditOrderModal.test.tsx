@@ -9,9 +9,9 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { permissions } from 'config';
 import MockedApolloProvider from 'apollo/MockedApolloProvider';
 import { OrderType } from 'types/trading-engine';
-import permissions from 'config/permissions';
 import { MockedPermissionProvider } from 'providers/PermissionsProvider';
 import StorageProvider from 'providers/StorageProvider';
 import CoreLayout from 'layouts/CoreLayout';

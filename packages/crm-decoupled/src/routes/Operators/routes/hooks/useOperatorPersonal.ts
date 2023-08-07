@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
+import { permissions } from 'config';
 import { Operator } from '__generated__/types';
-import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useClickToCallConfigQuery, ClickToCallConfigQuery } from '../graphql/__generated__/ClickToCallConfigQuery';

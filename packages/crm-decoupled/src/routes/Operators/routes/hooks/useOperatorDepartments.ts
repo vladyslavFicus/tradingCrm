@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
+import { permissions } from 'config';
 import { Authority, Operator } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 import { unAvailableDepartments } from 'routes/Operators/constants';
 import { useAddAuthorityMutation } from '../graphql/__generated__/AddAuthorityMutation';
 import { useRemoveAuthorityMutation } from '../graphql/__generated__/RemoveAuthorityMutation';

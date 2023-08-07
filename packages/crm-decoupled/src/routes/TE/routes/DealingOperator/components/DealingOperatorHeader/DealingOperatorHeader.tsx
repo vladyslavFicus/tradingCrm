@@ -1,9 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Button } from 'components';
+import { permissions } from 'config';
 import { parseErrors } from 'apollo';
 import { passwordMaxSize, passwordPattern } from 'routes/TE/constants';
-import permissions from 'config/permissions';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';

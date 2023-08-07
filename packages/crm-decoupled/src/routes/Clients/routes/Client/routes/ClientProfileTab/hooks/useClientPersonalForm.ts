@@ -1,8 +1,8 @@
 import I18n from 'i18n-js';
 import { useCallback } from 'react';
+import { permissions } from 'config';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { decodeNullValues } from 'components/Formik/utils';
 import { Profile } from '__generated__/types';

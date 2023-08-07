@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
+import { permissions } from 'config';
 import { State, TableSelection } from 'types';
 import { IpWhitelistAddress } from '__generated__/types';
-import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import { LevelType, notify } from 'providers/NotificationProvider';

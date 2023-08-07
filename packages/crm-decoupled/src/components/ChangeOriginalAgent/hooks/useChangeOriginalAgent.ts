@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
 import { ApolloError } from '@apollo/client';
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { OPERATORS_SORT } from '../constants';

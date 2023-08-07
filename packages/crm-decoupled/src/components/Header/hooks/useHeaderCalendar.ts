@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
+import { permissions } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
-import permissions from 'config/permissions';
 
 const useHeaderCalendar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);

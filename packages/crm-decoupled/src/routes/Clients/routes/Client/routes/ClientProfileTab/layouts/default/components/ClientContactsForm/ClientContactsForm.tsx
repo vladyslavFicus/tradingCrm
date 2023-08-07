@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Button } from 'components';
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import { Profile } from '__generated__/types';

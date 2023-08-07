@@ -1,6 +1,6 @@
 import I18n from 'i18n-js';
+import { permissions } from 'config';
 import { PaymentTypeDetails, tradingTypes, tradingTypesLabels } from 'constants/payment';
-import permissions from 'config/permissions';
 
 const TRANSFER = 'TRANSFER';
 

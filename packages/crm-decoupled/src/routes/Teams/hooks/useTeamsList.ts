@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
+import { permissions } from 'config';
 import { State } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
-import permissions from 'config/permissions';
 import CreateTeamModal, { CreateTeamModalProps } from 'modals/CreateTeamModal';
 import { useTeamsListQuery, TeamsListQueryVariables } from '../graphql/__generated__/TeamsListQuery';
 

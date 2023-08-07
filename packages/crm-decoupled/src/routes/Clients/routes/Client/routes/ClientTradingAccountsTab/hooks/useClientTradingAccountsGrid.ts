@@ -1,7 +1,6 @@
 import { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
-import { getBrand, getBackofficeBrand, getGraphQLUrl, getVersion } from 'config';
-import permissions from 'config/permissions';
+import { permissions, getBrand, getBackofficeBrand, getGraphQLUrl, getVersion } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';

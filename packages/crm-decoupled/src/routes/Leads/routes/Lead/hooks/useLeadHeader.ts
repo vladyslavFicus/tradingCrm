@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
+import { permissions } from 'config';
 import { Lead } from '__generated__/types';
-import permissions from 'config/permissions';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import CreateLeadCallbackModal, { CreateLeadCallbackModalProps } from 'modals/CreateLeadCallbackModal';

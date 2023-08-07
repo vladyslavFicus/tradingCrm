@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import Hotkeys from 'react-hot-keys';
 import { Rnd } from 'react-rnd';
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
 import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import SymbolChart from 'components/SymbolChart';

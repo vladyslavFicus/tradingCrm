@@ -1,4 +1,4 @@
-import permissions from 'config/permissions';
+import { permissions } from 'config';
 
 const leadTabs = [{
   label: 'LEAD_PROFILE.TABS.PROFILE',

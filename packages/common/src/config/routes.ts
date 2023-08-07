@@ -2,7 +2,7 @@ import permissions from './permissions';
 
 type RoutesPermissions = Record<string, Array<string>>;
 
-export const routesPermissions: RoutesPermissions = {
+const routesPermissions: RoutesPermissions = {
   // =======================
   // ======= Clients =======
   // =======================
@@ -175,3 +175,5 @@ export const routesPermissions: RoutesPermissions = {
   '/trading-engine/accounts/:id/feed': [permissions.AUDIT.AUDIT_LOGS],
   '/trading-engine/operators': [permissions.WE_TRADING.OPERATORS_LIST],
 };
+
+export default routesPermissions;

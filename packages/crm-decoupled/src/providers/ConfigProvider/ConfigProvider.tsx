@@ -1,5 +1,5 @@
 import React from 'react';
-import config, { getBrand } from 'config';
+import { config, getBrand } from 'config';
 import Preloader from 'components/Preloader';
 import { useConfigQuery } from './graphql/__generated__/ConfigQuery';
 

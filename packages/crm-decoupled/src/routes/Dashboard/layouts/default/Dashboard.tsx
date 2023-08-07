@@ -1,8 +1,8 @@
 import React, { Fragment, useCallback } from 'react';
 import I18n from 'i18n-js';
 import { Navigate } from 'react-router-dom';
+import { permissions } from 'config';
 import { WidgetNames, ChartTypes, Widget } from 'types/config';
-import permissions from 'config/permissions';
 import UseDashboard from 'routes/Dashboard/hooks/useDashboard';
 import LastDepositsGrid from './components/Grids/LastDepositsGrid';
 import LastNotificationsGrid from './components/Grids/LastNotificationsGrid';
