@@ -81,7 +81,7 @@ const useFilterSetsDecorator = (props: Props): UseFilterSetsDecorator => {
         },
       },
     });
-  }, [isOldClientsGridFilterPanel, state]);
+  }, [isOldClientsGridFilterPanel, navigate, state]);
 
   useEffect(() => {
     setSelectedFilterSetUuid(state?.selectedFilterSet?.uuid);
@@ -95,7 +95,7 @@ const useFilterSetsDecorator = (props: Props): UseFilterSetsDecorator => {
         selectedFilterSet: null,
       },
     });
-  }, [state]);
+  }, [state, navigate]);
 
   const createFilterSet = useCallback(() => {
     actionFilterModal.show({
@@ -109,7 +109,7 @@ const useFilterSetsDecorator = (props: Props): UseFilterSetsDecorator => {
         actionFilterModal.hide();
       },
     });
-  }, [filterSetType, currentValues]);
+  }, [filterSetType, currentValues, actionFilterModal, refetch, setActiveFilterSet]);
 
   const updateFilterSet = useCallback(() => {
     const filterSet = [...favourite, ...common].find(
@@ -128,7 +128,7 @@ const useFilterSetsDecorator = (props: Props): UseFilterSetsDecorator => {
         actionFilterModal.hide();
       },
     });
-  }, [favourite, common, filterSetType, currentValues, selectedFilterSetUuid]);
+  }, [favourite, common, filterSetType, currentValues, selectedFilterSetUuid, actionFilterModal, refetch]);
 
   const deleteFilterSet = useCallback(() => {
     const filterSet = [...favourite, ...common].find(
@@ -168,7 +168,11 @@ const useFilterSetsDecorator = (props: Props): UseFilterSetsDecorator => {
       submitButtonLabel: I18n.t('FILTER_SET.REMOVE_MODAL.BUTTON_ACTION'),
     });
   },
-  [favourite, common, selectedFilterSetUuid, filterSetType]);
+  [
+    favourite, common, confirmActionModal,
+    selectedFilterSetUuid, deleteFilterSetMutation,
+    refetch, filterSetType, removeActiveFilterSet,
+  ]);
 
   const fetchFilterSetByUuid = useCallback(async (uuid: string) => {
     setFilterSetsLoading(true);
@@ -193,7 +197,7 @@ const useFilterSetsDecorator = (props: Props): UseFilterSetsDecorator => {
     }
 
     setFilterSetsLoading(false);
-  }, []);
+  }, [getFilterSetByIdQuery, setActiveFilterSet, submitFilters]);
 
   const updateFavouriteFilterSet = useCallback(async (uuid: string, newValue: boolean) => {
     setFilterSetsLoading(true);
@@ -216,7 +220,7 @@ const useFilterSetsDecorator = (props: Props): UseFilterSetsDecorator => {
     }
 
     setFilterSetsLoading(false);
-  }, [filterSetType]);
+  }, [filterSetType, refetch, updateFavouriteFilterSetMutation]);
 
   const filterSetsList = [...favourite, ...common];
   const filterSetsListDisabled = disabled || filterSetsLoading || loading || !!error;
