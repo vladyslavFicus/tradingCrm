@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import Flag from 'react-country-flag';
+import { UncontrolledTooltip } from 'components';
 import useIpFlag from 'components/IpFlag/hooks/useIpFlag';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 
 type Props = {
   id: string,

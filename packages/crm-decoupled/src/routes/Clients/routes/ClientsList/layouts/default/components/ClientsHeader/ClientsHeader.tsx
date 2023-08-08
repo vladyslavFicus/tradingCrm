@@ -1,10 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { QueryResult } from '@apollo/client';
+import { UncontrolledTooltip } from 'components';
 import { TableSelection } from 'types';
 import { FiltersTogglerButton } from 'components/FiltersToggler';
 import Placeholder from 'components/Placeholder';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import { MAX_QUERY_CLIENTS } from 'routes/Clients/routes/ClientsList/constants';
 import { ClientsListQuery } from 'routes/Clients/routes/ClientsList/graphql/__generated__/ClientsQuery';
 import useClientsHeader from 'routes/Clients/routes/ClientsList/hooks/useClientsHeader';

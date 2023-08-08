@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { intersectionWith, orderBy } from 'lodash';
 import Hotkeys from 'react-hot-keys';
 import moment from 'moment';
-import { Button } from 'components';
+import { Button, Input } from 'components';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useStorage } from 'providers/StorageProvider';
@@ -15,7 +15,6 @@ import {
   FormikDatePicker,
   FormikSelectTreeField,
 } from 'components/Formik';
-import Input from 'components/Input';
 import { Node } from 'components/SelectTree';
 import { OrderDirection, OrderType } from 'types/trading-engine';
 import { createValidator } from 'utils/validator';

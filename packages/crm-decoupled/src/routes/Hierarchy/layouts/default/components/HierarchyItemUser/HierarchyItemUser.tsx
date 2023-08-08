@@ -1,10 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
+import { UncontrolledTooltip } from 'components';
 import { HierarchyTreeUser } from '__generated__/types';
 import capitalize from 'utils/capitalize';
 import Link from 'components/Link';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import useHierarchyItemUser from 'routes/Hierarchy/hooks/useHierarchyItemUser';
 import { ReactComponent as OperatorIcon } from '../img/OperatorIcon.svg';
 import './HierarchyItemUser.scss';

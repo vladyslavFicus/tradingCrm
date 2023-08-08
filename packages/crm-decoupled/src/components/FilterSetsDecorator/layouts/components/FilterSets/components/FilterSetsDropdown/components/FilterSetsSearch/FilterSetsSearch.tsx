@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import Input from 'components/Input';
+import { Input } from 'components';
 import './FilterSetsSearch.scss';
 
 type Props = {

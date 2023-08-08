@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { QueryResult } from '@apollo/client';
+import { UncontrolledTooltip } from 'components';
 import Placeholder from 'components/Placeholder';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import { PaymentsQuery } from 'routes/Payments/graphql/__generated__/PaymentsQuery';
 import { MAX_QUERY_PAYMENTS } from 'routes/Payments/constants/paymentsHeader';
 import usePaymentsHeader from 'routes/Payments/hooks/usePaymentsHeader';

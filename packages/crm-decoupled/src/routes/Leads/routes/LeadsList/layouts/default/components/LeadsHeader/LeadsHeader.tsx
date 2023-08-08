@@ -1,10 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { QueryResult } from '@apollo/client';
-import { Button } from 'components';
+import { Button, UncontrolledTooltip } from 'components';
 import { TableSelection } from 'types';
 import Placeholder from 'components/Placeholder';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 import { MAX_QUERY_LEADS } from 'routes/Leads/routes/LeadsList/constants/leadsHeader';
 import useLeadsHeader from 'routes/Leads/routes/LeadsList/hooks/useLeadsHeader';
 import { LeadsListQuery } from 'routes/Leads/routes/LeadsList/graphql/__generated__/LeadsListQuery';
