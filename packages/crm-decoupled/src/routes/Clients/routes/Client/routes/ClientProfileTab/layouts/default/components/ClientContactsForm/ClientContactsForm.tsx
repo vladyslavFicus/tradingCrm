@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Button } from 'components';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import { Profile } from '__generated__/types';
@@ -103,7 +103,7 @@ const ClientContactsForm = (props: Props) => {
                       || !isPhonesShown}
                 />
 
-                <If condition={!phoneVerified && permission.allows(permissions.USER_PROFILE.VERIFY_PHONE)}>
+                <If condition={!phoneVerified && permission.allows(Config.permissions.USER_PROFILE.VERIFY_PHONE)}>
                   <Button
                     className="ClientContactsForm__field-button"
                     data-testid="ClientContactsForm-verifyPhoneButton"
@@ -195,7 +195,7 @@ const ClientContactsForm = (props: Props) => {
                       || !isEmailShown}
                 />
 
-                <If condition={!emailVerified && permission.allows(permissions.USER_PROFILE.VERIFY_EMAIL)}>
+                <If condition={!emailVerified && permission.allows(Config.permissions.USER_PROFILE.VERIFY_EMAIL)}>
                   <Button
                     className="ClientContactsForm__field-button"
                     data-testid="ClientContactsForm-verifyEmailButton"

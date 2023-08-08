@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
 import { Button } from 'components';
-import { getAvailableLanguages } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -176,7 +176,7 @@ const UpdateRuleModal = (props: Props) => {
           name: ['required', 'string'],
           priority: ['required', `in:${priorities.join()}`],
           countries: [`in:${Object.keys(countryList).join()}`],
-          languages: [`in:${getAvailableLanguages().join()}`],
+          languages: [`in:${Config.getAvailableLanguages().join()}`],
           'operatorSpreads.*.percentage': ['between:1,100', 'integer'],
           ...currentOperatorSpreads && { 'operatorSpreads.0.parentUser': 'required' },
           type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],

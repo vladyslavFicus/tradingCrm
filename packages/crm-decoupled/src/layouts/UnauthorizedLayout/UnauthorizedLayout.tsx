@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { getCrmBrandStaticFileUrl } from 'config';
+import { Config } from '@crm/common';
 import ModalProvider from 'providers/ModalProvider';
 import { useStorageState, Auth } from 'providers/StorageProvider';
 import './UnauthorizedLayout.scss';
@@ -26,7 +26,7 @@ const UnauthorizedLayout = (props: Props) => {
           <ModalProvider>
             <div
               className="UnauthorizedLayout"
-              style={{ backgroundImage: `url(${getCrmBrandStaticFileUrl('assets/auth-background.svg')})` }}
+              style={{ backgroundImage: `url(${Config.getCrmBrandStaticFileUrl('assets/auth-background.svg')})` }}
             >
               <Outlet />
             </div>

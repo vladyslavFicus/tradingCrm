@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Field, Form, Formik } from 'formik';
 import { Button, RefreshButton } from 'components';
-import { getAvailableLanguages } from 'config';
+import { Config } from '@crm/common';
 import { filterLabels } from 'constants/user';
 import { statuses as operatorsStatuses } from 'constants/operators';
 import { Operator, Partner } from '__generated__/types';
@@ -87,7 +87,7 @@ const RulesGridFilter = (props: Props) => {
               searchable
               withFocus
             >
-              {getAvailableLanguages().map((locale: string) => (
+              {Config.getAvailableLanguages().map((locale: string) => (
                 <option key={locale} value={locale}>
                   {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                 </option>

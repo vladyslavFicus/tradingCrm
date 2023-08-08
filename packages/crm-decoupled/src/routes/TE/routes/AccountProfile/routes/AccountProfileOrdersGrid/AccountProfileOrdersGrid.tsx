@@ -4,7 +4,7 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Button } from 'components';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { State, Sort, TableSelection } from 'types';
 import { OrderCloseByEnum } from 'types/trading-engine';
 import { TradingEngine__OrderStatuses__Enum as OrderStatusesEnum } from '__generated__/types';
@@ -170,7 +170,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
           </div>
         </Placeholder>
 
-        <If condition={permission.allows(permissions.WE_TRADING.BULK_ORDER_CLOSE) && !!select?.selected}>
+        <If condition={permission.allows(Config.permissions.WE_TRADING.BULK_ORDER_CLOSE) && !!select?.selected}>
           <div className="AccountProfileOrdersGrid__actions">
             <Choose>
               <When condition={orderStatus === OrderStatusesEnum.OPEN}>
@@ -395,7 +395,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
               </div>
             )}
           />
-          <If condition={permission.allows(permissions.WE_TRADING.CLOSE_ORDER) && showCloseButtonColumn}>
+          <If condition={permission.allows(Config.permissions.WE_TRADING.CLOSE_ORDER) && showCloseButtonColumn}>
             <Column
               width={0}
               header={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.GRID.ACTIONS')}

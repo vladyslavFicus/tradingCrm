@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
-import { SidebarMenuItem, SidebarMenuSubItem } from 'config';
+import { Config } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 
 const useSidebarNav = () => {
   const permission = usePermission();
 
-  const checkItemOnPermissions = useCallback((item: SidebarMenuItem | SidebarMenuSubItem) => {
+  const checkItemOnPermissions = useCallback((item: Config.SidebarMenuItem | Config.SidebarMenuSubItem) => {
     if (item?.conditions === 'OR') {
       return !item.permissions || permission.allowsAny(item.permissions);
     }
@@ -13,13 +13,13 @@ const useSidebarNav = () => {
     return !item.permissions || permission.allowsAll(item.permissions);
   }, [permission]);
 
-  const getItemsFilteredByPermissions = useCallback((menuItems: Array<SidebarMenuItem>) => menuItems
-    .filter((item: SidebarMenuItem) => checkItemOnPermissions(item))
-    .map((item: SidebarMenuItem) => (
+  const getItemsFilteredByPermissions = useCallback((menuItems: Array<Config.SidebarMenuItem>) => menuItems
+    .filter((item: Config.SidebarMenuItem) => checkItemOnPermissions(item))
+    .map((item: Config.SidebarMenuItem) => (
       item.items
         ? {
           ...item,
-          items: item.items.filter((innerItem: SidebarMenuSubItem) => checkItemOnPermissions(innerItem)),
+          items: item.items.filter((innerItem: Config.SidebarMenuSubItem) => checkItemOnPermissions(innerItem)),
         }
         : item
     )), [checkItemOnPermissions]);

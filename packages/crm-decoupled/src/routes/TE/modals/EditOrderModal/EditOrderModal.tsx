@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 import { OrderStatus } from 'types/trading-engine';
 import SymbolChart from 'components/SymbolChart';
@@ -41,8 +41,8 @@ const EditOrderModal = (props: Props) => {
     accountUuid,
   } = order;
 
-  const isCloseAllowed = permission.allows(permissions.WE_TRADING.ORDER_CLOSE);
-  const isActivateAllowed = permission.allows(permissions.WE_TRADING.ORDER_ACTIVATE);
+  const isCloseAllowed = permission.allows(Config.permissions.WE_TRADING.ORDER_CLOSE);
+  const isActivateAllowed = permission.allows(Config.permissions.WE_TRADING.ORDER_ACTIVATE);
 
   // ==== Handlers ==== //
   const _onSuccess = async (shouldCloseModal = false) => {

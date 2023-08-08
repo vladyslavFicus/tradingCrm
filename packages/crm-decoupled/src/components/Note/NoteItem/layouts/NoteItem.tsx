@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import ActionsDropDown from 'components/ActionsDropDown';
 import Uuid from 'components/Uuid';
 import { entities, entitiesPrefixes } from 'constants/uuid';
@@ -94,12 +94,12 @@ const NoteItem = (props: Props) => {
               {
                 label: I18n.t('COMMON.ACTIONS.EDIT'),
                 onClick: handleEditNote,
-                permission: permissions.NOTES.UPDATE_NOTE,
+                permission: Config.permissions.NOTES.UPDATE_NOTE,
               },
               {
                 label: I18n.t('COMMON.ACTIONS.DELETE'),
                 onClick: handleRemoveNote,
-                permission: permissions.NOTES.DELETE_NOTE,
+                permission: Config.permissions.NOTES.DELETE_NOTE,
               },
             ]}
           />

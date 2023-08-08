@@ -1,13 +1,13 @@
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 
 export const featureTabs = [
   {
     url: 'features',
     label: 'FEATURE_TOGGLES.TABS.FEATURES',
-    permissions: permissions.BRAND_CONFIG.UPDATE_BRAND_CONFIG,
+    permissions: Config.permissions.BRAND_CONFIG.UPDATE_BRAND_CONFIG,
   }, {
     url: 'feed',
     label: 'FEATURE_TOGGLES.TABS.FEED',
-    permissions: permissions.AUDIT.AUDIT_LOGS,
+    permissions: Config.permissions.AUDIT.AUDIT_LOGS,
   },
 ];

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { IpWhitelistAddress } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -19,8 +19,8 @@ const useIpWhitelistGrid = (props: Props) => {
 
   const permission = usePermission();
 
-  const allowUpdateIp = permission.allows(permissions.IP_WHITELIST.EDIT_IP_ADDRESS_DESCRIPTION);
-  const allowDeleteIp = permission.allows(permissions.IP_WHITELIST.DELETE_IP_ADDRESS);
+  const allowUpdateIp = permission.allows(Config.permissions.IP_WHITELIST.EDIT_IP_ADDRESS_DESCRIPTION);
+  const allowDeleteIp = permission.allows(Config.permissions.IP_WHITELIST.DELETE_IP_ADDRESS);
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);

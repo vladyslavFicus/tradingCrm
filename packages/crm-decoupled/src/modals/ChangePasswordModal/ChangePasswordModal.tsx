@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { FormikInputField } from 'components/Formik';
 import Uuid from 'components/Uuid';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -51,7 +51,7 @@ const ChangePasswordModal = (props: Props) => {
               {
                 newPassword: [
                   'required',
-                  `regex:${passwordPattern || getBrand().password.pattern}`,
+                  `regex:${passwordPattern || Config.getBrand().password.pattern}`,
                   ...[passwordMaxSize && `max:${passwordMaxSize}`],
                 ],
                 repeatPassword: ['required', 'same:newPassword'],

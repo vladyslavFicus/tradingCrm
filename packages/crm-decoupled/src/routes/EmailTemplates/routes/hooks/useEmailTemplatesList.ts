@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { EmailTemplatesQuery, useEmailTemplatesQuery } from '../graphql/__generated__/EmailTemplatesQuery';
@@ -22,7 +22,7 @@ const useEmailTemplatesList = (): EmailTemplatesList => {
   const navigate = useNavigate();
 
   const permission = usePermission();
-  const allowCreateTemplate = permission.allows(permissions.EMAIL_TEMPLATES.CREATE_EMAIL_TEMPLATE);
+  const allowCreateTemplate = permission.allows(Config.permissions.EMAIL_TEMPLATES.CREATE_EMAIL_TEMPLATE);
 
   // ===== Requests ===== //
   const { data, loading, refetch } = useEmailTemplatesQuery();

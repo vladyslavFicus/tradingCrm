@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import classNames from 'classnames';
 import { Button, RefreshButton } from 'components';
-import { getAvailableLanguages } from 'config';
+import { Config } from '@crm/common';
 import useFilter from 'hooks/useFilter';
 import { DistributionRule__Statuses__Enum as DistributionRuleStatusesEnum } from '__generated__/types';
 import countryList from 'utils/countryList';
@@ -151,7 +151,7 @@ const DistributionRulesGridFilters = (props: Props) => {
                 searchable
                 multiple
               >
-                {getAvailableLanguages().map(locale => (
+                {Config.getAvailableLanguages().map(locale => (
                   <option key={locale} value={locale}>
                     {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                   </option>

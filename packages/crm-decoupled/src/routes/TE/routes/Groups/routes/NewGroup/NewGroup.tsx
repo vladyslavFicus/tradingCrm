@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { omit } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, FormikProps } from 'formik';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { createValidator } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -85,7 +85,7 @@ const NewGroup = () => {
           accountCreationAllowed: true,
           groupName: '',
           description: '',
-          currency: getBrand().currencies.base,
+          currency: Config.getBrand().currencies.base,
           defaultLeverage: DefaultLeverage.LEVERAGE_100,
           useSwap: true,
           hedgeProhibited: false,

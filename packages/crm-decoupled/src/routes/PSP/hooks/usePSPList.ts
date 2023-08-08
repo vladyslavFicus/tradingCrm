@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { PaymentSystemProvider } from '__generated__/types';
 import { Sort, State } from 'types';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
@@ -33,7 +33,7 @@ const usePSPList = (): UsePSPList => {
 
   const permission = usePermission();
 
-  const updateFavorites = permission.allows(permissions.PAYMENT.UPDATE_PSP);
+  const updateFavorites = permission.allows(Config.permissions.PAYMENT.UPDATE_PSP);
 
   // ===== Requests ===== //
   const [deletePaymentSystemsProvider] = useDeletePaymentSystemsProviderMutation();

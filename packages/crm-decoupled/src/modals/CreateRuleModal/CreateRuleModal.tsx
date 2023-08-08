@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'components';
-import { getAvailableLanguages } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import {
   Operator,
@@ -158,7 +158,7 @@ const CreateRuleModal = (props: Props) => {
           priority: ['required', `in:${priorities.join()}`],
           type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
           countries: `in:${Object.keys(countryList).join()}`,
-          languages: `in:${getAvailableLanguages().join()}`,
+          languages: `in:${Config.getAvailableLanguages().join()}`,
           'operatorSpreads.*.percentage': ['between:1,100', 'integer'],
           ...withOperatorSpreads && {
             'operatorSpreads.0.parentUser': 'required',

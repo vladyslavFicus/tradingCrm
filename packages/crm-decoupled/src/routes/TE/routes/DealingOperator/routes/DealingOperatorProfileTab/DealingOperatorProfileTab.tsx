@@ -2,8 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { useParams } from 'react-router-dom';
+import { Config } from '@crm/common';
 import { Button } from 'components';
-import { permissions } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -45,7 +45,7 @@ const DealingOperatorProfileTab = () => {
   const uuid = useParams().id as string;
   const permission = usePermission();
 
-  const isReadOnly = permission.denies(permissions.WE_TRADING.OPERATORS_UPDATE_OPERATOR);
+  const isReadOnly = permission.denies(Config.permissions.WE_TRADING.OPERATORS_UPDATE_OPERATOR);
 
   const operatorQuery = useOperatorProfileQuery({ variables: { uuid } });
   const operatorAccessDataQuery = useOperatorAccessDataQuery();

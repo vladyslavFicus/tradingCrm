@@ -1,5 +1,5 @@
 import I18n from 'i18n-js';
-import { getBackofficeBrand } from 'config';
+import { Config } from '@crm/common';
 
 export const CRM_LOCALE_PREFIX = 'crm__';
 export const ISSUER_DELIMITER = '--';
@@ -20,7 +20,7 @@ export const getUnbrandedLocale = (localeKey: string) => localeKey
  * @param localeKey en | ru | ar | etc...
  */
 export const getCRMLocaleKey = (localeKey: string = '') => {
-  const prefix = `${CRM_LOCALE_PREFIX}${getBackofficeBrand().id}${ISSUER_DELIMITER}`;
+  const prefix = `${CRM_LOCALE_PREFIX}${Config.getBackofficeBrand().id}${ISSUER_DELIMITER}`;
 
   // Return localeKey as is if it's already CRM locale key
   if (localeKey.startsWith(prefix)) {
@@ -36,7 +36,7 @@ export const getCRMLocaleKey = (localeKey: string = '') => {
  * @param localeKey
  */
 export const isCRMLocaleKey = (localeKey: string) => {
-  const prefix = `${CRM_LOCALE_PREFIX}${getBackofficeBrand().id}${ISSUER_DELIMITER}`;
+  const prefix = `${CRM_LOCALE_PREFIX}${Config.getBackofficeBrand().id}${ISSUER_DELIMITER}`;
 
   return localeKey.startsWith(prefix);
 };

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { FormValues } from '../types/KYCNote';
@@ -18,7 +18,7 @@ const useKYCNote = (props: Props) => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowsUpdateNote = permission.allows(permissions.NOTES.UPDATE_NOTE);
+  const allowsUpdateNote = permission.allows(Config.permissions.NOTES.UPDATE_NOTE);
 
   // ===== Requests ===== //
   const [noteCreateMutation] = useNoteCreateMutation();

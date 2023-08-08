@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { Profile } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -28,7 +28,7 @@ const useClientTransferForm = (props: Props): UseClientTransferForm => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowUpdateTransfer = permission.allows(permissions.USER_PROFILE.CHANGE_CONFIGURATION);
+  const allowUpdateTransfer = permission.allows(Config.permissions.USER_PROFILE.CHANGE_CONFIGURATION);
 
   // ===== Requests ===== //
   const [updateClientTransferMutation] = useUpdateClientTransferMutation();

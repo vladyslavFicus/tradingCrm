@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getBrand, getVersion, setBrand } from 'config';
+import { Config } from '@crm/common';
 import IndexRoute from 'routes/IndexRoute';
 import UpdateVersionError from 'components/UpdateVersionError';
 import { useStorage } from 'providers/StorageProvider';
@@ -7,8 +7,8 @@ import { useStorage } from 'providers/StorageProvider';
 const App = () => {
   const [isUpdateVersionError, setIsUpdateVersionError] = useState(false);
 
-  const currenBrand = getBrand();
-  const version = getVersion();
+  const currenBrand = Config.getBrand();
+  const version = Config.getVersion();
 
   // ===== Storage ===== //
   const storage = useStorage();
@@ -17,7 +17,7 @@ const App = () => {
   const clientVersion = storage.get('clientVersion');
 
   if (currenBrand?.id !== brand?.id) {
-    setBrand(brand?.id);
+    Config.setBrand(brand?.id);
   }
 
   useEffect(() => {

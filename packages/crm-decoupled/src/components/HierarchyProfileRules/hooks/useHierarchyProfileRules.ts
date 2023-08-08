@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { Rule } from '__generated__/types';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -111,8 +111,8 @@ const useHierarchyProfileRules = (props: Props) => {
 
   const permission = usePermission();
 
-  const isCreateRuleAllow = permission.allows(permissions.SALES_RULES.CREATE_RULE);
-  const isDeleteRuleAllow = permission.allows(permissions.SALES_RULES.REMOVE_RULE);
+  const isCreateRuleAllow = permission.allows(Config.permissions.SALES_RULES.CREATE_RULE);
+  const isDeleteRuleAllow = permission.allows(Config.permissions.SALES_RULES.REMOVE_RULE);
 
   return {
     refetch,

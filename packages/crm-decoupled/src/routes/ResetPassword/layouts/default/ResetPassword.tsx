@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Button } from 'components';
-import { getCrmBrandStaticFileUrl } from 'config';
+import { Config } from '@crm/common';
 import { createValidator, translateLabels } from 'utils/validator';
 import Copyrights from 'components/Copyrights';
 import { FormikInputField } from 'components/Formik';
@@ -24,7 +24,7 @@ const ResetPassword = () => {
       <div className="ResetPassword__logo">
         <img
           alt="logo"
-          src={getCrmBrandStaticFileUrl('assets/logo.svg')}
+          src={Config.getCrmBrandStaticFileUrl('assets/logo.svg')}
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
         />
       </div>

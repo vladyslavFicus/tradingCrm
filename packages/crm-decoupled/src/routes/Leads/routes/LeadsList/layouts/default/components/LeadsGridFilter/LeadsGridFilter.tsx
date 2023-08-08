@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Button, RefreshButton } from 'components';
-import { getAvailableLanguages } from 'config';
+import { Config } from '@crm/common';
 import useFilter from 'hooks/useFilter';
 import countries from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -67,7 +67,7 @@ const LeadsGridFilter = (props:Props) => {
         const teamsOptions = desksUuids.length ? teamsByDesks : teams;
 
         const operatorsOptions = filterOperators(values);
-        const languagesOptions = ['other', ...getAvailableLanguages()];
+        const languagesOptions = ['other', ...Config.getAvailableLanguages()];
 
         return (
           <Form className="LeadsGridFilter__form">

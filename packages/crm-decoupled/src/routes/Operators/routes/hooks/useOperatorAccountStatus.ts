@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { Operator } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
 import { LevelType, notify } from 'providers/NotificationProvider';
@@ -45,7 +45,7 @@ const useOperatorAccountStatus = (props: Props): UseOperatorAccountStatus => {
 
   const permission = usePermission();
 
-  const allowUpdateAccountStatus = permission.allows(permissions.OPERATORS.UPDATE_STATUS);
+  const allowUpdateAccountStatus = permission.allows(Config.permissions.OPERATORS.UPDATE_STATUS);
 
   const actions = statusActions[operatorStatus as statuses] || [];
 

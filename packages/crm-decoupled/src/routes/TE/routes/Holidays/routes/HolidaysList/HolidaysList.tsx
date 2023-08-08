@@ -3,7 +3,7 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, EditButton, TrashButton } from 'components';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { State, Sort } from 'types';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
@@ -101,8 +101,8 @@ const Holidays = () => {
     });
   };
 
-  const allowsHolidaysEdit = permission.allows(permissions.WE_TRADING.HOLIDAYS_EDIT);
-  const allowsHolidaysDelete = permission.allows(permissions.WE_TRADING.HOLIDAYS_DELETE);
+  const allowsHolidaysEdit = permission.allows(Config.permissions.WE_TRADING.HOLIDAYS_EDIT);
+  const allowsHolidaysDelete = permission.allows(Config.permissions.WE_TRADING.HOLIDAYS_DELETE);
 
   return (
     <div className="HolidaysList">
@@ -113,7 +113,7 @@ const Holidays = () => {
           <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.HOLIDAYS.HEADLINE')}
         </div>
 
-        <If condition={permission.allows(permissions.WE_TRADING.HOLIDAYS_CREATE)}>
+        <If condition={permission.allows(Config.permissions.WE_TRADING.HOLIDAYS_CREATE)}>
           <div>
             <Button
               data-testid="Holidays-newHolidayButton"

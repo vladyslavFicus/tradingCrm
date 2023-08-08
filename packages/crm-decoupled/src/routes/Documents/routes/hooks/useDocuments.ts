@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { State } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -31,7 +31,7 @@ const useDocuments = (): Documents => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowUploadDocument = permission.allows(permissions.DOCUMENTS.UPLOAD_DOCUMENT);
+  const allowUploadDocument = permission.allows(Config.permissions.DOCUMENTS.UPLOAD_DOCUMENT);
 
   // ===== Modals ===== //
   const addDocumentModal = useModal<AddDocumentModalProps>(AddDocumentModal);

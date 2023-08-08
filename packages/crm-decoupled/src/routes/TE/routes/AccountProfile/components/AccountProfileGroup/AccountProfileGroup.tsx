@@ -3,7 +3,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { Input } from 'components';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -110,7 +110,7 @@ const AccountProfileGroup = (props: Props) => {
 
   return (
     <Choose>
-      <When condition={permission.allows(permissions.WE_TRADING.UPDATE_ACCOUNT_GROUP) && enable}>
+      <When condition={permission.allows(Config.permissions.WE_TRADING.UPDATE_ACCOUNT_GROUP) && enable}>
         <div
           onClick={toggleDropdown}
           className={

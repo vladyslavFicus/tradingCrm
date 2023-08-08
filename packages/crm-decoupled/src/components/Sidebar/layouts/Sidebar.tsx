@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import Scrollbars from 'react-custom-scrollbars';
-import { sidebarBottomMenu, sidebarTopMenu } from 'config';
+import { Config } from '@crm/common';
 import useSidebar from '../hooks/useSidebar';
 import SidebarNav from './components/SidebarNav';
 import './Sidebar.scss';
@@ -35,13 +35,13 @@ const Sidebar = (props: Props) => {
       >
         <SidebarNav
           isSidebarOpen={isOpen}
-          items={sidebarTopMenu}
+          items={Config.sidebarTopMenu}
         />
       </Scrollbars>
 
       <SidebarNav
         isSidebarOpen={isOpen}
-        items={sidebarBottomMenu}
+        items={Config.sidebarBottomMenu}
       />
     </aside>
   );

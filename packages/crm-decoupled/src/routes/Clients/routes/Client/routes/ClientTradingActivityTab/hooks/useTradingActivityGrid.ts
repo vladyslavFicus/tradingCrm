@@ -1,4 +1,4 @@
-import { getBackofficeBrand } from 'config';
+import { Config } from '@crm/common';
 import { useModal } from 'providers/ModalProvider';
 import { TradingActivity } from '__generated__/types';
 import UpdateTradingActivityModal, { UpdateTradingActivityModalProps } from 'modals/UpdateTradingActivityModal';
@@ -15,7 +15,7 @@ type UseTradingActivityGrid = {
 const useTradingActivityGrid = (props: Props): UseTradingActivityGrid => {
   const { onRefetch } = props;
 
-  const columnsOrder = getBackofficeBrand()?.tables?.clientTradingActivity?.columnsOrder || [];
+  const columnsOrder = Config.getBackofficeBrand()?.tables?.clientTradingActivity?.columnsOrder || [];
 
   // ===== Modals ===== //
   const updateTradingActivityModal = useModal<UpdateTradingActivityModalProps>(UpdateTradingActivityModal);

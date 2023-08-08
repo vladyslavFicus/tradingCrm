@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { intersection, sortBy } from 'lodash';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { OPERATORS_SORT } from '../constants/leadsGridFilter';
 import { FormValues } from '../types/leadsGridFilter';
 import { useAcquisitionStatusesQuery } from '../graphql/__generated__/AcquisitionStatusesQuery';
@@ -11,7 +11,7 @@ const useLeadsGridFilter = () => {
   // ===== Requests ===== //
   const { data: desksAndTeamsData, loading: isDesksAndTeamsLoading } = useDesksAndTeamsQuery();
   const { data: acquisitionStatusesData, loading: isAcquisitionStatusesLoading } = useAcquisitionStatusesQuery({
-    variables: { brandId: getBrand().id },
+    variables: { brandId: Config.getBrand().id },
   });
 
   const { data: operatorsData, loading: isOperatorsLoading } = useOperatorsQuery({

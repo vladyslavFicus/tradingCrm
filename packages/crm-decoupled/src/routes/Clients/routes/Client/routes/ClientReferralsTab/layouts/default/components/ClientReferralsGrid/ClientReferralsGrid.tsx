@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { Referral, Referral__BonusType__Enum as bonusTypes } from '__generated__/types';
 import renderLabel from 'utils/renderLabel';
 import { Table, Column } from 'components/Table';
@@ -88,7 +88,7 @@ const ClientReferralsGrid = () => {
       </div>
 
       <div className="ClientReferralsGrid__col-text ClientReferralsGrid__col-text--small">
-        {`(${getBrand().currencies.base} ${Number(normalizedAmount).toFixed(2)})`}
+        {`(${Config.getBrand().currencies.base} ${Number(normalizedAmount).toFixed(2)})`}
       </div>
     </>
   ), []);

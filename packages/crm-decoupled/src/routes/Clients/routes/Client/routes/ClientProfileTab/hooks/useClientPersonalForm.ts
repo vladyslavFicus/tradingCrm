@@ -1,6 +1,6 @@
 import I18n from 'i18n-js';
 import { useCallback } from 'react';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -41,7 +41,7 @@ const useClientPersonalForm = (props: Props): UseClientPersonalForm => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowUpdatePersonalInformation = permission.allows(permissions.USER_PROFILE.UPDATE_PERSONAL_INFORMATION);
+  const allowUpdatePersonalInformation = permission.allows(Config.permissions.USER_PROFILE.UPDATE_PERSONAL_INFORMATION);
 
   // ===== Requests ===== //
   const [updateClientPersonalMutation] = useUpdateClientPersonalMutation();

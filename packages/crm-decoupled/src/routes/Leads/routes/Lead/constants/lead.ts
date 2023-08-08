@@ -1,4 +1,4 @@
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 
 const leadTabs = [{
   label: 'LEAD_PROFILE.TABS.PROFILE',
@@ -6,11 +6,11 @@ const leadTabs = [{
 }, {
   url: 'call-history',
   label: 'LEAD_PROFILE.TABS.CALL_HISTORY',
-  permissions: permissions.CALL_HISTORY.LIST,
+  permissions: Config.permissions.CALL_HISTORY.LIST,
 }, {
   url: 'callbacks',
   label: 'LEAD_PROFILE.TABS.CALLBACKS',
-  permissions: permissions.LEAD_PROFILE.CALLBACKS_LIST,
+  permissions: Config.permissions.LEAD_PROFILE.CALLBACKS_LIST,
 }, {
   label: 'LEAD_PROFILE.TABS.NOTES',
   url: 'notes',

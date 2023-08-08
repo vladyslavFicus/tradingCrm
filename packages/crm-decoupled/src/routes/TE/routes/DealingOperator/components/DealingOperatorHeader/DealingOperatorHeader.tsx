@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Button } from 'components';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { passwordMaxSize, passwordPattern } from 'routes/TE/constants';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -139,7 +139,7 @@ const DealingOperatorHeader = (props: Props) => {
 
       <div className="DealingOperatorHeader__actions">
         <If condition={
-          permission.allows(permissions.WE_TRADING.OPERATORS_UNLOCK)
+          permission.allows(Config.permissions.WE_TRADING.OPERATORS_UNLOCK)
             && isMaxLoginAttemptReached(locks)
             && status !== 'CLOSED'}
         >
@@ -154,7 +154,10 @@ const DealingOperatorHeader = (props: Props) => {
           </Button>
         </If>
 
-        <If condition={status === 'ACTIVE' && permission.allows(permissions.WE_TRADING.OPERATORS_RESET_PASSWORD)}>
+        <If condition={
+          status === 'ACTIVE' 
+          && permission.allows(Config.permissions.WE_TRADING.OPERATORS_RESET_PASSWORD)
+        }>
           <Button
             className="DealingOperatorHeader__action"
             data-testid="DealingOperatorHeader-resetPasswordButton"
@@ -166,7 +169,7 @@ const DealingOperatorHeader = (props: Props) => {
           </Button>
         </If>
 
-        <If condition={permission.allows(permissions.WE_TRADING.OPERATORS_CHANGE_PASSWORD)}>
+        <If condition={permission.allows(Config.permissions.WE_TRADING.OPERATORS_CHANGE_PASSWORD)}>
           <Button
             className="DealingOperatorHeader__action"
             data-testid="DealingOperatorHeader-changePasswordButton"

@@ -1,12 +1,12 @@
 import React from 'react';
 import { startCase } from 'lodash';
 import moment from 'moment';
-import { getBackofficeBrand } from 'config';
+import { Config } from '@crm/common';
 import './Copyrights.scss';
 
 const Copyrights = () => (
   <div className="Copyrights">
-    Copyright © {moment().year()} by {startCase(getBackofficeBrand().id)}
+    Copyright © {moment().year()} by {startCase(Config.getBackofficeBrand().id)}
   </div>
 );
 

@@ -2,10 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Config } from '@crm/common';
 import { Button } from 'components';
-import { permissions } from 'config';
 import { LeadCallback, Operator, Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
-import { reminderValues } from 'constants/callbacks';
 import enumToArray from 'utils/enumToArray';
 import { createValidator } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -15,6 +14,7 @@ import Modal from 'components/Modal';
 import ShortLoader from 'components/ShortLoader';
 import Uuid from 'components/Uuid';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
+import { reminderValues } from 'constants/callbacks';
 import { useGetLeadCallbackQuery } from './graphql/__generated__/GetLeadCallbackQuery';
 import { useGetOperatorsQuery } from './graphql/__generated__/GetOperatorsQuery';
 import { useUpdateLeadCallbackMutation } from './graphql/__generated__/UpdateLeadCallbackMutation';
@@ -39,7 +39,7 @@ const UpdateLeadCallbackModal = (props: Props) => {
   const { callbackId, onCloseModal, onDelete, onClose } = props;
 
   const permission = usePermission();
-  const readOnly = permission.denies(permissions.LEAD_PROFILE.UPDATE_CALLBACK);
+  const readOnly = permission.denies(Config.permissions.LEAD_PROFILE.UPDATE_CALLBACK);
 
   // ===== Requests ===== //
   const leadCallbackQuery = useGetLeadCallbackQuery({ variables: { id: callbackId }, fetchPolicy: 'network-only' });
@@ -122,7 +122,7 @@ const UpdateLeadCallbackModal = (props: Props) => {
               title={I18n.t('CALLBACKS.MODAL.LEAD_TITLE')}
               renderFooter={(
                 <>
-                  <If condition={permission.allows(permissions.LEAD_PROFILE.DELETE_CALLBACK)}>
+                  <If condition={permission.allows(Config.permissions.LEAD_PROFILE.DELETE_CALLBACK)}>
                     <Button
                       className="UpdateLeadCallbackModal__button--delete"
                       data-testid="UpdateLeadCallbackModal-deleteButton"

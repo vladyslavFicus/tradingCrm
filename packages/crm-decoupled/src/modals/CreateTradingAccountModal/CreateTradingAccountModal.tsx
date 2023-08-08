@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { SetFieldValue } from 'types/formik';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -105,7 +105,7 @@ const TradingAccountAddModal = (props: Props) => {
         currency: ['required', 'string'],
         password: values.platformType !== 'WET'
           && values.platformType !== 'TE'
-          && ['required', `regex:${getBrand().password.mt4_pattern}`],
+          && ['required', `regex:${Config.getBrand().password.mt4_pattern}`],
         amount: values.accountType === 'DEMO' && 'required',
       }, translateLabels(attributeLabels), false)(values)}
       validateOnBlur={false}

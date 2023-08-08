@@ -3,9 +3,8 @@ import I18n from 'i18n-js';
 import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Button, Input } from 'components';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
-import { accountTypesLabels } from 'constants/accountTypes';
 import { usePermission } from 'providers/PermissionsProvider';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import Badge from 'components/Badge';
@@ -13,6 +12,7 @@ import ShortLoader from 'components/ShortLoader';
 import enumToArray from 'utils/enumToArray';
 import { createValidator } from 'utils/validator';
 import EventEmitter, { TRANSACTION_CREATED } from 'utils/EventEmitter';
+import { accountTypesLabels } from 'constants/accountTypes';
 import { useAccountQuery } from './graphql/__generated__/AccountQuery';
 import { useCreditInMutation } from './graphql/__generated__/CreditInMutation';
 import { useCreditOutMutation } from './graphql/__generated__/CreditOutMutation';
@@ -58,7 +58,7 @@ const FixBalanceModal = (props: Props) => {
   const account = accountQuery.data?.tradingEngine.account;
 
   const allowedOperations = enumToArray(BalanceOperationEnum)
-    .filter(operation => permission.allows(permissions.WE_TRADING[operation]));
+    .filter(operation => permission.allows(Config.permissions.WE_TRADING[operation]));
 
   // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {

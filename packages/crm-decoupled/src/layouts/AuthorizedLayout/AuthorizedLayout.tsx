@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import classNames from 'classnames';
-import { getBrand, getBackofficeBrand } from 'config';
+import { Config } from '@crm/common';
 import RSocketProvider from 'rsocket';
 import AutoLogoutProvider from 'providers/AutoLogoutProvider';
 import ConfigProvider from 'providers/ConfigProvider';
@@ -39,8 +39,8 @@ const AuthorizedLayout = () => {
     })();
   }, []);
 
-  const sidebarPosition = getBackofficeBrand()?.sidebarPosition || 'left';
-  const isShowProductionAlert = auth?.department === 'ADMINISTRATION' && getBrand()?.env?.includes('prod');
+  const sidebarPosition = Config.getBackofficeBrand()?.sidebarPosition || 'left';
+  const isShowProductionAlert = auth?.department === 'ADMINISTRATION' && Config.getBrand()?.env?.includes('prod');
 
   return (
     <Choose>

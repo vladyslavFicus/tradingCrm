@@ -3,7 +3,7 @@ import QRCode from 'react-qr-code';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { Button } from 'components';
-import { getCrmBrandStaticFileUrl } from 'config';
+import { Config } from '@crm/common';
 import Copyrights from 'components/Copyrights';
 import { FormikInputField } from 'components/Formik';
 import { createValidator } from 'utils/validator';
@@ -25,7 +25,7 @@ const SignIn = () => {
       <div className="SignIn__logo">
         <img
           alt="logo"
-          src={getCrmBrandStaticFileUrl('assets/logo.svg')}
+          src={Config.getCrmBrandStaticFileUrl('assets/logo.svg')}
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
         />
       </div>

@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { getBrand, permissions } from 'config';
+import { Config } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 import { Profile } from '__generated__/types';
 import { useClientQuery } from '../../../graphql/__generated__/ClientQuery';
@@ -25,13 +25,13 @@ const useClientProfileTab = (): UseClientProfileTab => {
   const showFtdToAffiliate = !!profile?.profileView?.affiliate?.ftd?.isVisible;
   const affiliateMinFtdDeposit = profile?.affiliate?.partner?.permission?.minFtdDeposit;
 
-  const { affiliate: { restriction: { minFtdDeposit } } } = getBrand();
+  const { affiliate: { restriction: { minFtdDeposit } } } = Config.getBrand();
 
   // ===== Permissions ===== //
   const permission = usePermission();
   const allowsFtdToAffiliate = permission.allowsAny([
-    permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE,
-    permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE,
+    Config.permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE,
+    Config.permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE,
   ]);
 
   return {

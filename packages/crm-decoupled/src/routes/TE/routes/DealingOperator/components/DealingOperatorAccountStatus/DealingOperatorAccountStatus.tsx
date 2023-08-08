@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { TradingEngine__OperatorStatuses__Enum as OperatorStatusesEnum } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -22,7 +22,7 @@ const DealingOperatorAccountStatus = (props: Props) => {
   const { operator: { uuid, status } } = props;
   const [isDropDownOpen, toggleDropdown] = useState(false);
   const permission = usePermission();
-  const isUpdateAllowedStatus = permission.allows(permissions.WE_TRADING.OPERATORS_CHANGE_STATUS);
+  const isUpdateAllowedStatus = permission.allows(Config.permissions.WE_TRADING.OPERATORS_CHANGE_STATUS);
   const [changeAccountStatus] = useChangeOperatorStatusMutation();
 
   const changeAccountStatusModal = useModal<ChangeAccountStatusModalProps>(ChangeAccountStatusModal);

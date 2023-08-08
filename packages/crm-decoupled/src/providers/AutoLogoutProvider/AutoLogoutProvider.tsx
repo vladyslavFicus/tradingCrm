@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import useIdleTimer from 'hooks/useIdleTimer';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import useLogout from 'routes/Logout/useLogout';
 import { useStorage } from '../StorageProvider';
 
@@ -23,7 +23,7 @@ const AutoLogoutProvider = (props: Props) => {
 
   // ===== Initial IdleTimer setup ===== //
   useEffect(() => {
-    const timeout = getBrand()?.backoffice?.ttl_inactive_seconds || 0;
+    const timeout = Config.getBrand()?.backoffice?.ttl_inactive_seconds || 0;
 
     if (!!token && timeout) {
       start(timeout);

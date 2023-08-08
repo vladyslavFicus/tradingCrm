@@ -1,11 +1,11 @@
 import React from 'react';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { Feed__AuditCategory__Enum as FeedAuditCategoryEnum } from '__generated__/types';
 import FeedsList from 'components/FeedsList';
 
 const RbacFeed = () => (
   <FeedsList
-    targetUUID={getBrand().id}
+    targetUUID={Config.getBrand().id}
     auditCategory={FeedAuditCategoryEnum.RBAC}
     skipCategoryFilter
   />

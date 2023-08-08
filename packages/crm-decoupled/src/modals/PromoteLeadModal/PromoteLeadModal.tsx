@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import { omit } from 'lodash';
 import Trackify from '@hrzn/trackify';
 import { Button, Input } from 'components';
-import { getBrand, getAvailableLanguages, permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { Lead } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -58,7 +58,7 @@ const PromoteLeadModal = (props: Props) => {
   const [error, setError] = useState<string | null>(null);
 
   const permission = usePermission();
-  const allowEmailField = permission.allows(permissions.LEAD_PROFILE.FIELD_EMAIL);
+  const allowEmailField = permission.allows(Config.permissions.LEAD_PROFILE.FIELD_EMAIL);
 
   // ===== Requests ===== //
   const [leadEmailQuery] = useLeadEmailQueryLazyQuery({ fetchPolicy: 'network-only' });
@@ -130,7 +130,7 @@ const PromoteLeadModal = (props: Props) => {
       validate={createValidator({
         firstName: ['required', 'string'],
         lastName: ['required', 'string'],
-        password: ['required', `regex:${getBrand().password.pattern}`],
+        password: ['required', `regex:${Config.getBrand().password.pattern}`],
         languageCode: ['required', 'string'],
         'address.countryCode': ['required', 'string'],
       }, translateLabels(attributeLabels), false)}
@@ -227,7 +227,7 @@ const PromoteLeadModal = (props: Props) => {
                 disabled={isSubmitting}
                 searchable
               >
-                {getAvailableLanguages().map(locale => (
+                {Config.getAvailableLanguages().map(locale => (
                   <option key={locale} value={locale}>
                     {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, {
                       defaultValue: locale.toUpperCase(),

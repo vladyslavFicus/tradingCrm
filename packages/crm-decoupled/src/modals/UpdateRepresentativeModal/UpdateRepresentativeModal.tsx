@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { intersection, sortBy } from 'lodash';
 import { Formik, Field, Form } from 'formik';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { Sorts } from 'types';
 import { SetFieldValue } from 'types/formik';
 import {
@@ -11,10 +11,10 @@ import {
   LeadSearch__Input as LeadSearch,
 } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
-import { retentionStatuses as staticRetentionStatuses } from 'constants/retentionStatuses';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
+import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
+import { retentionStatuses as staticRetentionStatuses } from 'constants/retentionStatuses';
 import { useOperatorsSubordinatesQuery } from './graphql/__generated__/OperatorsSubordinatesQuery';
 import { useDesksTeamsQuery } from './graphql/__generated__/DesksTeamsQuery';
 import { useAcquisitionStatusesQuery } from './graphql/__generated__/AcquisitionStatusesQuery';
@@ -81,7 +81,7 @@ const UpdateRepresentativeModal = (props: Props) => {
   const allDesks = desksTeamsQuery.data?.userBranches?.DESK || [];
   const desks = allDesks.filter(({ deskType }) => deskType?.toString() === AcquisitionStatusTypes[type]);
 
-  const acquisitionStatusesQuery = useAcquisitionStatusesQuery({ variables: { brandId: getBrand().id } });
+  const acquisitionStatusesQuery = useAcquisitionStatusesQuery({ variables: { brandId: Config.getBrand().id } });
   const isAcquisitionStatusesLoading = acquisitionStatusesQuery.loading;
   const salesStatuses = sortBy(acquisitionStatusesQuery.data?.settings.salesStatuses || [], 'status');
   const retentionStatuses = sortBy(acquisitionStatusesQuery.data?.settings.retentionStatuses || [], 'status');

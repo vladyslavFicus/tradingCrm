@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import EventEmitter, { NOTIFICATION_CLICKED } from 'utils/EventEmitter';
 import { usePermission } from 'providers/PermissionsProvider';
 
@@ -8,7 +8,7 @@ const useNotificationCenter = () => {
   const [enableToggle, setEnableToggle] = useState(true);
 
   const permission = usePermission();
-  const allowGetUnreadCount = permission.allows(permissions.NOTIFICATION_CENTER.GET_UNREAD_COUNT);
+  const allowGetUnreadCount = permission.allows(Config.permissions.NOTIFICATION_CENTER.GET_UNREAD_COUNT);
 
   const handleOpen = useCallback(() => setIsOpen(true), []);
 

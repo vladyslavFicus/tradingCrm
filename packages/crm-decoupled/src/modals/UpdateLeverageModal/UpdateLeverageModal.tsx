@@ -1,13 +1,13 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { getPlatformTypeLabel } from 'utils/tradingAccount';
-import { accountTypesLabels } from 'constants/accountTypes';
 import Modal from 'components/Modal';
 import Badge from 'components/Badge';
 import { FormikSelectField } from 'components/Formik';
+import { accountTypesLabels } from 'constants/accountTypes';
 import { useUpdateLeverageMutation } from './graphql/__generated__/UpdateLeverageMutation';
 import './UpdateLeverageModal.scss';
 
@@ -42,7 +42,7 @@ const UpdateLeverageModal = (props: Props) => {
     accountUUID,
   } = props;
 
-  const brand = getBrand();
+  const brand = Config.getBrand();
 
   const [updateLeverageMutation] = useUpdateLeverageMutation();
 

@@ -1,4 +1,4 @@
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 
 export const partnerTabs = [
   {
@@ -8,11 +8,11 @@ export const partnerTabs = [
   {
     label: 'PARTNER_PROFILE.TABS.SALES_RULES',
     url: 'sales-rules',
-    permissions: permissions.SALES_RULES.GET_RULES,
+    permissions: Config.permissions.SALES_RULES.GET_RULES,
   },
   {
     label: 'PARTNER_PROFILE.TABS.FEED',
     url: 'feed',
-    permissions: permissions.AUDIT.AUDIT_LOGS,
+    permissions: Config.permissions.AUDIT.AUDIT_LOGS,
   },
 ];

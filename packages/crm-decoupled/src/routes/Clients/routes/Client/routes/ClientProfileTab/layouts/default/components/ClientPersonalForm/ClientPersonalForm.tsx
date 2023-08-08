@@ -3,17 +3,10 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
 import { Button } from 'components';
-import { getAvailableLanguages } from 'config';
+import { Config } from '@crm/common';
 import { Profile } from '__generated__/types';
 import countryList from 'utils/countryList';
 import { createValidator, translateLabels } from 'utils/validator';
-import {
-  COUNTRY_SPECIFIC_IDENTIFIER_TYPES,
-  AGE_YEARS_CONSTRAINT,
-  genders,
-  MIN_BIRTHDATE,
-  TERMS_ACCEPTED_TYPES,
-} from 'constants/user';
 import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
 import useClientPersonalForm from 'routes/Clients/routes/Client/routes/ClientProfileTab/hooks/useClientPersonalForm';
@@ -21,6 +14,13 @@ import {
   attributeLabels,
   timeZoneOffsets,
 } from 'routes/Clients/routes/Client/routes/ClientProfileTab/constants/clientPersonalForm';
+import {
+  COUNTRY_SPECIFIC_IDENTIFIER_TYPES,
+  AGE_YEARS_CONSTRAINT,
+  genders,
+  MIN_BIRTHDATE,
+  TERMS_ACCEPTED_TYPES,
+} from 'constants/user';
 import './ClientPersonalForm.scss';
 
 type Props = {
@@ -182,7 +182,7 @@ const ClientPersonalForm = (props: Props) => {
                   component={FormikSelectField}
                   disabled={isSubmitting || !allowUpdatePersonalInformation}
                 >
-                  {getAvailableLanguages().map(locale => (
+                  {Config.getAvailableLanguages().map(locale => (
                     <option key={locale} value={locale}>
                       {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                     </option>

@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { NetworkStatus, QueryResult } from '@apollo/client';
 import I18n from 'i18n-js';
-import { permissions, getBackofficeBrand } from 'config';
+import { Config } from '@crm/common';
 import { Pageable, State, TableSelection } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -25,7 +25,7 @@ const useClientsGrid = (props: Props) => {
   const state = useLocation().state as State<ClientsListQueryVariables>;
   const navigate = useNavigate();
   const permission = usePermission();
-  const allowAddNote = permission.allows(permissions.NOTES.ADD_NOTE);
+  const allowAddNote = permission.allows(Config.permissions.NOTES.ADD_NOTE);
 
   const { data, fetchMore, variables, networkStatus } = clientsQuery;
 
@@ -69,8 +69,8 @@ const useClientsGrid = (props: Props) => {
     });
   }, [confirmActionModal]);
 
-  const isAvailableMultiSelect = permission.allows(permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS);
-  const isBalanceAvailable = permission.allows(permissions.USER_PROFILE.BALANCE);
+  const isAvailableMultiSelect = permission.allows(Config.permissions.USER_PROFILE.CHANGE_ACQUISITION_STATUS);
+  const isBalanceAvailable = permission.allows(Config.permissions.USER_PROFILE.BALANCE);
 
   const {
     content = [],
@@ -80,7 +80,7 @@ const useClientsGrid = (props: Props) => {
 
   // Show loader only if initial load or new variables was applied
   const isLoading = [NetworkStatus.loading, NetworkStatus.setVariables].includes(networkStatus);
-  const columnsOrder = getBackofficeBrand()?.tables?.clients?.columnsOrder || [];
+  const columnsOrder = Config.getBackofficeBrand()?.tables?.clients?.columnsOrder || [];
 
   return {
     isAvailableMultiSelect,

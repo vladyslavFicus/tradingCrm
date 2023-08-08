@@ -1,14 +1,14 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field } from 'formik';
-import { getAvailableLanguages } from 'config';
+import { Config } from '@crm/common';
 import { Operator, Partner, RuleOperatorSpread__Input as RuleOperatorSpread } from '__generated__/types';
-import { priorities, ruleTypes } from 'constants/rules';
-import { attributeLabels } from 'constants/ruleModal';
 import countryList from 'utils/countryList';
 import { FormikInputField, FormikMultiInputField, FormikSelectField } from 'components/Formik';
 import RuleOperatorSpreads from 'components/RuleOperatorSpreads';
 import useRuleSettings, { FormikBag } from 'components/RuleSettings/hooks/useRuleSettings';
+import { attributeLabels } from 'constants/ruleModal';
+import { priorities, ruleTypes } from 'constants/rules';
 import './RuleSettings.scss';
 
 type Props = {
@@ -114,7 +114,7 @@ const RuleSettings = (props: Props) => {
         multiple
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
       >
-        {getAvailableLanguages().map(locale => (
+        {Config.getAvailableLanguages().map(locale => (
           <option key={locale} value={locale}>
             {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
           </option>

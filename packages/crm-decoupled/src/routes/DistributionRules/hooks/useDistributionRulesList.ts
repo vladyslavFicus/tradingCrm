@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { set, cloneDeep } from 'lodash';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { State } from 'types';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -32,7 +32,7 @@ const useDistributionRuleList = (): UseDistributionRuleList => {
 
   const permission = usePermission();
 
-  const allowCreateRule = permission.allows(permissions.CLIENTS_DISTRIBUTION.CREATE_RULE);
+  const allowCreateRule = permission.allows(Config.permissions.CLIENTS_DISTRIBUTION.CREATE_RULE);
 
   // ===== Requests ===== //
   const { data, loading, variables, fetchMore, refetch } = useDistributionRulesQuery({

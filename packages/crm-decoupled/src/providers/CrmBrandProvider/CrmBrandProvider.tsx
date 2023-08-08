@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { config, getCrmBrandStaticFileUrl } from 'config';
+import { Config } from '@crm/common';
 import Preloader from 'components/Preloader';
 import { importLink } from 'utils/dom';
 import { addCRMCustomLocale } from 'utils/locale';
@@ -28,12 +28,12 @@ const CrmBrandProvider = (props: Props) => {
 
   // ================== Download CRM brand config ================== //
   const getCrmBrandConfig = useCallback(async () => {
-    const response = await fetch(getCrmBrandStaticFileUrl('config.json'));
+    const response = await fetch(Config.getCrmBrandStaticFileUrl('config.json'));
 
     if (response.status === 200) {
       const data = await response.json();
 
-      config.backofficeBrand = { ...data, ...config.backofficeBrand };
+      Config.config.backofficeBrand = { ...data, ...Config.config.backofficeBrand };
 
       return data;
     }
@@ -53,7 +53,7 @@ const CrmBrandProvider = (props: Props) => {
   const downloadStyles = useCallback(async () => {
     await importLink({
       rel: 'stylesheet',
-      href: getCrmBrandStaticFileUrl('assets/style.css'),
+      href: Config.getCrmBrandStaticFileUrl('assets/style.css'),
     });
   }, []);
 
@@ -61,7 +61,7 @@ const CrmBrandProvider = (props: Props) => {
   const downloadIconpack = useCallback(async () => {
     await importLink({
       rel: 'stylesheet',
-      href: getCrmBrandStaticFileUrl('assets/iconpack/style.css'),
+      href: Config.getCrmBrandStaticFileUrl('assets/iconpack/style.css'),
     });
   }, []);
 

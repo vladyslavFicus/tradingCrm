@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { State } from 'types';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -29,7 +29,7 @@ const useClientTradingAccountsTab = (): UseClientTradingAccountsTab => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowCreateTradingAccount = permission.allows(permissions.TRADING_ACCOUNT.CREATE);
+  const allowCreateTradingAccount = permission.allows(Config.permissions.TRADING_ACCOUNT.CREATE);
 
   // ===== Requests ===== //
   const { data, loading, refetch } = useTradingAccountsQuery({

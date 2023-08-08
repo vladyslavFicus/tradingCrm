@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { State } from 'types';
 import { Sort__Input as Sort } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
@@ -19,7 +19,7 @@ const useLeadCallbacksTab = () => {
   const navigate = useNavigate();
 
   const permission = usePermission();
-  const allowCreateCallback = permission.allows(permissions.LEAD_PROFILE.CREATE_CALLBACK);
+  const allowCreateCallback = permission.allows(Config.permissions.LEAD_PROFILE.CREATE_CALLBACK);
 
   // ===== Modals ===== //
   const createLeadCallbackModal = useModal<CreateLeadCallbackModalProps>(CreateLeadCallbackModal);

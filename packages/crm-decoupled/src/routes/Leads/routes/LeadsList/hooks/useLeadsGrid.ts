@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { NetworkStatus, QueryResult } from '@apollo/client';
-import { getBackofficeBrand } from 'config';
+import { Config } from '@crm/common';
 import limitItems from 'utils/limitItems';
 import { State, TableSelection } from 'types';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
@@ -65,7 +65,7 @@ const useLeadsGrid = (props: Props) => {
     });
   }, []);
 
-  const columnsOrder = getBackofficeBrand()?.tables?.leads?.columnsOrder || [];
+  const columnsOrder = Config.getBackofficeBrand()?.tables?.leads?.columnsOrder || [];
 
   // Show loader only if initial load or new variables was applied
   const isLoading = useMemo(() => (

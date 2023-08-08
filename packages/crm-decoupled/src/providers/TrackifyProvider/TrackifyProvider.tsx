@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Trackify from '@hrzn/trackify';
-import { getVersion } from 'config';
+import { Config } from '@crm/common';
 import { useStorageState } from 'providers/StorageProvider';
 import { useTrackifyMutation } from './graphql/__generated__/TrackifyMutation';
 
@@ -16,7 +16,7 @@ const TrackifyProvider = (props: Props) => {
 
   // ===== Initial trackify setup ===== //
   useEffect(() => {
-    Trackify.setup('backoffice', getVersion());
+    Trackify.setup('backoffice', Config.getVersion());
 
     Trackify.request(async (queue) => {
       // Send events to server only for authorized clients

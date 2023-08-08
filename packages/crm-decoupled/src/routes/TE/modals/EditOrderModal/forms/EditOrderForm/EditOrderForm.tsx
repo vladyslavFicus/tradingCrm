@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import moment from 'moment';
 import { Button, Input } from 'components';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { OrderStatus, OrderType } from 'types/trading-engine';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -93,10 +93,10 @@ const EditOrderForm = (props: Props) => {
   };
 
   // Permissions
-  const isAdminEditAllowed = permission.allows(permissions.WE_TRADING.ADMIN_EDIT_ORDER);
-  const isManagerEditAllowed = permission.allows(permissions.WE_TRADING.MANAGER_EDIT_ORDER);
-  const isReopenAllowed = permission.allows(permissions.WE_TRADING.ORDER_REOPEN);
-  const isCancelAllowed = permission.allows(permissions.WE_TRADING.ORDER_CANCEL);
+  const isAdminEditAllowed = permission.allows(Config.permissions.WE_TRADING.ADMIN_EDIT_ORDER);
+  const isManagerEditAllowed = permission.allows(Config.permissions.WE_TRADING.MANAGER_EDIT_ORDER);
+  const isReopenAllowed = permission.allows(Config.permissions.WE_TRADING.ORDER_REOPEN);
+  const isCancelAllowed = permission.allows(Config.permissions.WE_TRADING.ORDER_CANCEL);
 
   const isEditAllowed = isManagerEditAllowed || isAdminEditAllowed;
 

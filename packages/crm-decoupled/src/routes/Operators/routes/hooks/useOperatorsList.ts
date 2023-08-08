@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { Sorts, State } from 'types';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -29,7 +29,7 @@ const useOperatorsList = (): UseOperatorsList => {
 
   const permission = usePermission();
 
-  const allowCreateOperator = permission.allows(permissions.OPERATORS.CREATE);
+  const allowCreateOperator = permission.allows(Config.permissions.OPERATORS.CREATE);
 
   // ===== Modals ===== //
   const createOperatorModal = useModal<CreateOperatorModalProps>(CreateOperatorModal);

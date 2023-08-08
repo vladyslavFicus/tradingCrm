@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set, compact } from 'lodash';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { State } from 'types';
 import { Profile, Sort__Input as Sort } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
@@ -22,11 +22,11 @@ const useClientPaymentsTab = () => {
   const permission = usePermission();
 
   const allowCreateTransaction = permission.allowsAny([
-    permissions.PAYMENT.DEPOSIT,
-    permissions.PAYMENT.WITHDRAW,
-    permissions.PAYMENT.CREDIT_IN,
-    permissions.PAYMENT.CREDIT_OUT,
-    permissions.PAYMENT.TRANSFER,
+    Config.permissions.PAYMENT.DEPOSIT,
+    Config.permissions.PAYMENT.WITHDRAW,
+    Config.permissions.PAYMENT.CREDIT_IN,
+    Config.permissions.PAYMENT.CREDIT_OUT,
+    Config.permissions.PAYMENT.TRANSFER,
   ]);
 
   // ===== Modals ===== //

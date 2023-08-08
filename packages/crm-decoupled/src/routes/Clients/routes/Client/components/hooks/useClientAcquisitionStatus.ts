@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { Profile, AcquisitionStatusTypes__Enum as AcquisitionStatusEnum } from '__generated__/types';
 import { useStorageState, Auth } from 'providers/StorageProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -26,7 +26,7 @@ const useClientAcquisitionStatus = (props: Props) => {
   // ===== Permissions ===== //
   const permission = usePermission();
 
-  const changeAcquisition = permission.allows(permissions.USER_PROFILE.CHANGE_ACQUISITION);
+  const changeAcquisition = permission.allows(Config.permissions.USER_PROFILE.CHANGE_ACQUISITION);
 
   const acquisitionItems = {
     SALES: {

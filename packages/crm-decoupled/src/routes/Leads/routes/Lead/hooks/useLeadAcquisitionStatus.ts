@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { Lead, AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -36,7 +36,7 @@ const useLeadAcquisitionStatus = (props: Props) => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowChangeAsquisitionStatus = permission.allows(permissions.USER_PROFILE.CHANGE_ACQUISITION);
+  const allowChangeAsquisitionStatus = permission.allows(Config.permissions.USER_PROFILE.CHANGE_ACQUISITION);
 
   // ===== Modals ===== //
   const updateRepresentativeModal = useModal<UpdateRepresentativeModalProps>(UpdateRepresentativeModal);

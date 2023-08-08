@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button, TrashButton } from 'components';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { State, Sort } from 'types';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -165,7 +165,7 @@ const GroupsGrid = (props: Props) => {
           render={({ groupName }: GroupType) => (
             <>
               <Choose>
-                <When condition={permission.allows(permissions.WE_TRADING.EDIT_GROUP)}>
+                <When condition={permission.allows(Config.permissions.WE_TRADING.EDIT_GROUP)}>
                   <Link to={`/trading-engine/groups/${groupName}`} target="_blank">
                     <div className="GroupsGrid__cell-primary">
                       {groupName}
@@ -223,7 +223,7 @@ const GroupsGrid = (props: Props) => {
           )}
         />
         <If condition={
-         permission.allows(permissions.WE_TRADING.DELETE_GROUP)}
+         permission.allows(Config.permissions.WE_TRADING.DELETE_GROUP)}
         >
           <Column
             header={I18n.t('TRADING_ENGINE.GROUPS.GRID.ACTIONS')}
@@ -234,7 +234,7 @@ const GroupsGrid = (props: Props) => {
                   data-testid="GroupsGrid-trashButton"
                   onClick={() => handleDeleteGroupModal(groupName)}
                 />
-                <If condition={permission.allows(permissions.WE_TRADING.UPDATE_GROUP_ENABLE)}>
+                <If condition={permission.allows(Config.permissions.WE_TRADING.UPDATE_GROUP_ENABLE)}>
                   <Button
                     small
                     danger={enabled}

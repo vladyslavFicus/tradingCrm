@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { SidebarMenuSubItem } from 'config';
+import { Config } from '@crm/common';
 import useSidebarNavItem from 'components/Sidebar/hooks/useSidebarNavItem';
 import SidebarSubNav from '../SidebarSubNav';
 import './SidebarNavItem.scss';
@@ -12,7 +12,7 @@ type Props = {
   isSidebarOpen: boolean,
   url?: string,
   icon?: string,
-  items?: Array<SidebarMenuSubItem>,
+  items?: Array<Config.SidebarMenuSubItem>,
 };
 
 const SidebarNavItem = (props: Props) => {

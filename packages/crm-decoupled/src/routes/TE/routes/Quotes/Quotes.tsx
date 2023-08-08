@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { useLocation } from 'react-router-dom';
 import { Button } from 'components';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { State } from 'types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Table, Column } from 'components/Table';
@@ -123,7 +123,7 @@ const Quotes = () => {
         <span>
           <strong>{totalElements}</strong> {I18n.t('TRADING_ENGINE.QUOTES.HEADLINE')}
         </span>
-        <If condition={permission.allows(permissions.LIQUIDITY_PROVIDER_ADAPTER.RESTART_STREAMING)}>
+        <If condition={permission.allows(Config.permissions.LIQUIDITY_PROVIDER_ADAPTER.RESTART_STREAMING)}>
           <Button
             small
             danger

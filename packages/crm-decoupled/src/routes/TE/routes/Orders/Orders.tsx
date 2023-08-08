@@ -6,7 +6,7 @@ import Hotkeys from 'react-hot-keys';
 import { UncontrolledTooltip } from 'reactstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from 'components';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { TradingEngine__OrderStatuses__Enum as OrderStatusesEnum } from '__generated__/types';
 import { State, Sort } from 'types';
 import { OrderCloseByEnum } from 'types/trading-engine';
@@ -161,7 +161,7 @@ const Orders = () => {
           <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ORDERS.HEADLINE')}
         </span>
 
-        <If condition={permission.allows(permissions.WE_TRADING.CREATE_ORDER)}>
+        <If condition={permission.allows(Config.permissions.WE_TRADING.CREATE_ORDER)}>
           <div className="Orders__actions">
             <Button
               className="Orders__action"
@@ -177,7 +177,7 @@ const Orders = () => {
       </div>
 
       {/* Hotkey on F9 button to open new order modal */}
-      <If condition={permission.allows(permissions.WE_TRADING.CREATE_ORDER)}>
+      <If condition={permission.allows(Config.permissions.WE_TRADING.CREATE_ORDER)}>
         <Hotkeys
           keyName="f9"
           onKeyUp={handleNewOrderClick}
@@ -470,7 +470,7 @@ const Orders = () => {
             </div>
           )}
         />
-        <If condition={permission.allows(permissions.WE_TRADING.CLOSE_ORDER)}>
+        <If condition={permission.allows(Config.permissions.WE_TRADING.CLOSE_ORDER)}>
           <Column
             width={0}
             header={I18n.t('TRADING_ENGINE.ORDERS.GRID.ACTIONS')}

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { HierarchyBranch } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import DeleteBranchModal, { DeleteBranchModalProps } from 'modals/DeleteBranchModal';
@@ -17,8 +17,8 @@ type UseDesksGrid = {
 const useDesksGrid = (): UseDesksGrid => {
   const permission = usePermission();
 
-  const isAllowUpdateBranch = permission.allows(permissions.HIERARCHY.UPDATE_BRANCH);
-  const isAllowDeleteBranch = permission.allows(permissions.HIERARCHY.DELETE_BRANCH);
+  const isAllowUpdateBranch = permission.allows(Config.permissions.HIERARCHY.UPDATE_BRANCH);
+  const isAllowDeleteBranch = permission.allows(Config.permissions.HIERARCHY.DELETE_BRANCH);
   const isAllowActions = isAllowUpdateBranch || isAllowDeleteBranch;
 
   // ===== Modals ===== //

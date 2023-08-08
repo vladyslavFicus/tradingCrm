@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { State } from 'types';
 import { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal/ConfirmActionModal';
@@ -135,9 +135,9 @@ const useSalesRules = (props: Props) => {
 
   const permission = usePermission();
   const allowDeleteSalesRule = permission.allows(
-    permissions.SALES_RULES.REMOVE_RULE,
+    Config.permissions.SALES_RULES.REMOVE_RULE,
   );
-  const allowCreateSalesRule = permission.allows(permissions.SALES_RULES.CREATE_RULE);
+  const allowCreateSalesRule = permission.allows(Config.permissions.SALES_RULES.CREATE_RULE);
 
 
   return {

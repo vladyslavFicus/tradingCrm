@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
 import { ApolloError } from '@apollo/client';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { OPERATORS_SORT } from '../constants';
@@ -29,7 +29,7 @@ const useChangeOriginalAgent = (props: Props): UseChangeOriginalAgent => {
 
   const permission = usePermission();
 
-  const canChangeOriginalAgent = permission.allows(permissions.PAYMENT.CHANGE_ORIGINAL_AGENT);
+  const canChangeOriginalAgent = permission.allows(Config.permissions.PAYMENT.CHANGE_ORIGINAL_AGENT);
 
   // ===== Requests ===== //
   const { data, loading, error } = useOperatorsQuery({

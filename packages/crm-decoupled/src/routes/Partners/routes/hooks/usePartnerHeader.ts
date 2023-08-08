@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { Partner } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
@@ -36,7 +36,7 @@ const usePartnerHeader = (props: Props): PartnerHeader => {
 
   const permission = usePermission();
 
-  const allowChangePassword = permission.allows(permissions.PARTNERS.CHANGE_PASSWORD);
+  const allowChangePassword = permission.allows(Config.permissions.PARTNERS.CHANGE_PASSWORD);
 
   // ===== Requests ===== //
   const { data, refetch } = usePartnerLockStatusQuery({ variables: { uuid }, fetchPolicy: 'network-only' });

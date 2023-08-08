@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { UncontrolledTooltip } from 'components';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { TableSelection } from 'types';
 import Uuid from 'components/Uuid';
 import Link from 'components/Link';
@@ -113,7 +113,7 @@ const ClientsGrid = (props: Props) => {
   ), []);
 
   const renderBalanceColumn = useCallback(({ balance }: ProfileView) => {
-    const currency = getBrand().currencies.base;
+    const currency = Config.getBrand().currencies.base;
     const amount = balance?.amount || 0;
 
     return (

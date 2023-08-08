@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'components';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 import Placeholder from 'components/Placeholder';
 import { GroupsQueryQueryResult } from '../../graphql/__generated__/GroupsQuery';
@@ -38,7 +38,7 @@ const GroupsHeader = ({ groupsListQuery }: Props) => {
         </Placeholder>
       </div>
 
-      <If condition={permission.allows(permissions.WE_TRADING.CREATE_GROUP)}>
+      <If condition={permission.allows(Config.permissions.WE_TRADING.CREATE_GROUP)}>
         <div className="GroupsHeader__right">
           <Button
             data-testid="GroupsHeader-newGroupButton"

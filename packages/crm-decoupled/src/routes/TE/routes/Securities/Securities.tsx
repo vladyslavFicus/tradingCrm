@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Button, TrashButton } from 'components';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -27,7 +27,7 @@ const Securities = () => {
 
   const securities = data?.tradingEngine.securities || [];
 
-  const allowsEditSecurities = permission.allows(permissions.WE_TRADING.EDIT_SECURITIES);
+  const allowsEditSecurities = permission.allows(Config.permissions.WE_TRADING.EDIT_SECURITIES);
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
@@ -102,7 +102,7 @@ const Securities = () => {
           <strong>{securities.length}</strong>&nbsp;{I18n.t('TRADING_ENGINE.SECURITIES.HEADLINE')}
         </span>
 
-        <If condition={permission.allows(permissions.WE_TRADING.CREATE_SECURITIES)}>
+        <If condition={permission.allows(Config.permissions.WE_TRADING.CREATE_SECURITIES)}>
           <Button
             data-testid="Securities-newSecurityButton"
             onClick={handleNewSecurityClick}
@@ -165,7 +165,7 @@ const Securities = () => {
             </div>
           )}
         />
-        <If condition={permission.allows(permissions.WE_TRADING.DELETE_SECURITY)}>
+        <If condition={permission.allows(Config.permissions.WE_TRADING.DELETE_SECURITY)}>
           <Column
             width={120}
             header={I18n.t('TRADING_ENGINE.SECURITIES.GRID.ACTIONS')}

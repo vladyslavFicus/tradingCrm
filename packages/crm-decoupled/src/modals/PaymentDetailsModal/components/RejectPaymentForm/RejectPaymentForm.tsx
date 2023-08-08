@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Button } from 'components';
-import { getPaymentReason } from 'config';
+import { Config } from '@crm/common';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator, translateLabels } from 'utils/validator';
 import formatLabel from 'utils/formatLabel';
@@ -82,7 +82,7 @@ const RejectPaymentForm = (props: Props) => {
             placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
             component={FormikSelectField}
           >
-            {getPaymentReason().refuse.map((reason: string, key: string) => (
+            {Config.getPaymentReason().refuse.map((reason: string, key: string) => (
               <option key={key} value={reason}>
                 {formatLabel(reason)}
               </option>

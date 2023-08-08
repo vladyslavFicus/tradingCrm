@@ -14,7 +14,7 @@ import { onError } from '@apollo/client/link/error';
 import { createPersistedQueryLink } from '@apollo/client/link/persisted-queries';
 import { createUploadLink } from 'apollo-upload-client';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { getGraphQLUrl, getGraphQLSubscriptionUrl, getVersion } from 'config';
+import { Config } from '@crm/common';
 import { sha256 } from 'utils/sha256';
 import { isUpload } from 'apollo/utils/isUpload';
 import omitTypename from 'apollo/utils/omitTypename';
@@ -42,7 +42,7 @@ const ApolloProvider = (props: Props) => {
   const client = useMemo(() => {
     // ========= Batch http link with upload link ========= //
     const httpLinkOptions = {
-      uri: getGraphQLUrl(),
+      uri: Config.getGraphQLUrl(),
     };
 
     const batchHttpLink = split(
@@ -61,7 +61,7 @@ const ApolloProvider = (props: Props) => {
     );
 
     const wsLink = new WebSocketLink({
-      url: getGraphQLSubscriptionUrl(),
+      url: Config.getGraphQLSubscriptionUrl(),
       keepAlive: 20000,
       isFatalConnectionProblem: () => false,
       connectionParams: () => ({
@@ -114,12 +114,12 @@ const ApolloProvider = (props: Props) => {
 
     // ========= Auth link ========= //
     const authLink = new AuthLink({
-      uri: getGraphQLUrl(),
+      uri: Config.getGraphQLUrl(),
       getToken: () => storage.get('token'),
       onRefresh: onRefreshToken(storage),
       onLogout: () => navigate('/logout'),
       headers: {
-        'x-client-version': getVersion(),
+        'x-client-version': Config.getVersion(),
       },
       skip: ['SignInMutation', 'LogoutMutation', 'TrackifyMutation'],
     });

@@ -1,5 +1,5 @@
 
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { LeadCallback } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
@@ -22,7 +22,7 @@ const useLeadCallbacksGrid = (props: Props) => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowDeleteCallback = permission.allows(permissions.USER_PROFILE.DELETE_CALLBACK);
+  const allowDeleteCallback = permission.allows(Config.permissions.USER_PROFILE.DELETE_CALLBACK);
 
   // ===== Modals ===== //
   const deleteLeadCallbackModal = useModal<DeleteLeadCallbackModalProps>(DeleteLeadCallbackModal);

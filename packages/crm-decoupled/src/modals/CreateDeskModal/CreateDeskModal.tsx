@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { getAvailableLanguages } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import enumToArray from 'utils/enumToArray';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -150,7 +150,7 @@ const CreateDeskModal = (props: Props) => {
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               disabled={isSubmitting}
             >
-              {getAvailableLanguages().map((locale: string) => (
+              {Config.getAvailableLanguages().map((locale: string) => (
                 <option key={locale} value={locale}>
                   {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                 </option>

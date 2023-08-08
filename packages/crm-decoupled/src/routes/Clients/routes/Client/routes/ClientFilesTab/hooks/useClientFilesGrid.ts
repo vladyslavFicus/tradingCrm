@@ -2,7 +2,7 @@ import { useEffect, useCallback } from 'react';
 import I18n from 'i18n-js';
 import { useParams } from 'react-router-dom';
 import { omit } from 'lodash';
-import { getGraphQLUrl, getVersion } from 'config';
+import { Config } from '@crm/common';
 import { FileCategories } from 'types/fileCategories';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import downloadBlob from 'utils/downloadBlob';
@@ -144,14 +144,14 @@ const useClientFilesGrid = (props: Props) => {
       const token = tokenResponse.data?.auth.tokenRenew?.token;
 
       if (token) {
-        const requestUrl = `${getGraphQLUrl()}/attachment/${clientUuid}/${uuid}`;
+        const requestUrl = `${Config.getGraphQLUrl()}/attachment/${clientUuid}/${uuid}`;
 
         const response = await fetch(requestUrl, {
           method: 'GET',
           headers: {
             authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
-            'x-client-version': getVersion(),
+            'x-client-version': Config.getVersion(),
           },
         });
 

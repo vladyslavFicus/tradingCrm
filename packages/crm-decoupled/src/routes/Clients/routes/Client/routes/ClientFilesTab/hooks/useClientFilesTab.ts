@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { UploadFileModal } from 'modals/FileModals';
@@ -12,7 +12,7 @@ const useClientFilesTab = () => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowUploadFile = permission.allows(permissions.FILES.UPLOAD_FILE);
+  const allowUploadFile = permission.allows(Config.permissions.FILES.UPLOAD_FILE);
 
   // ===== Modals ===== //
   const uploadModal = useModal<UploadFileModalProps>(UploadFileModal);

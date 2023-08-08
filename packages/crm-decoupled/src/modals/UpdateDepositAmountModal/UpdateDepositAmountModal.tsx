@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikProps } from 'formik';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { notify } from 'providers/NotificationProvider';
 import { LevelType } from 'types/notify';
 import { PaymentDeposit } from '__generated__/types';
@@ -25,7 +25,7 @@ const UpdateDepositAmountModal = (props: Props) => {
     onSuccess,
   } = props;
 
-  const supportedCurrencies = getBrand().currencies.supported;
+  const supportedCurrencies = Config.getBrand().currencies.supported;
   const freeCurrencies = supportedCurrencies.filter((currency: string) => !currencies?.includes(currency));
 
   const handleSubmit = (updatedDepositAmount: PaymentDeposit) => {

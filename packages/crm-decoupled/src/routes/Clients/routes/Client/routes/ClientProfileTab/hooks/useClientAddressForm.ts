@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -32,7 +32,7 @@ const useClientAddressForm = (props: Props): UseClientAddressForm => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowUpdateAddress = permission.allows(permissions.USER_PROFILE.UPDATE_ADDRESS);
+  const allowUpdateAddress = permission.allows(Config.permissions.USER_PROFILE.UPDATE_ADDRESS);
 
   // ===== Requests ===== //
   const [updateClientAddressMutation] = useUpdateClientAddressMutation();

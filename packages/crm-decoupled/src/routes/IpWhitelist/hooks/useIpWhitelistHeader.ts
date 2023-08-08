@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { State, TableSelection } from 'types';
 import { IpWhitelistAddress } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -33,8 +33,8 @@ const useIpWhitelistHeader = (props: Props) => {
 
   const permission = usePermission();
 
-  const allowAddIp = permission.allows(permissions.IP_WHITELIST.ADD_IP_ADDRESS);
-  const allowDeleteIp = permission.allows(permissions.IP_WHITELIST.DELETE_IP_ADDRESS);
+  const allowAddIp = permission.allows(Config.permissions.IP_WHITELIST.ADD_IP_ADDRESS);
+  const allowDeleteIp = permission.allows(Config.permissions.IP_WHITELIST.DELETE_IP_ADDRESS);
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);

@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field, FormikProps } from 'formik';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import enumToArray from 'utils/enumToArray';
 import {
   FormikInputField,
@@ -62,7 +62,7 @@ const GroupCommonForm = (props: Props) => {
           className="GroupCommonForm__field"
           disabled={!!groupName || archived}
         >
-          {getBrand().currencies.supported.map((currency: string) => (
+          {Config.getBrand().currencies.supported.map((currency: string) => (
             <option key={currency} value={currency}>
               {currency}
             </option>

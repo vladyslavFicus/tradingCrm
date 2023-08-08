@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Button, UncontrolledTooltip } from 'components';
-import { getBrand, permissions } from 'config';
+import { Config } from '@crm/common';
 import { Payment } from '__generated__/types';
 import formatLabel from 'utils/formatLabel';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -66,7 +66,7 @@ const PaymentDetailsModal = (props: Props) => {
   const { data, loading } = useProfileQuery({ variables: { playerUUID: uuid } });
   const { amount, credit } = data?.profile?.profileView?.balance || {};
 
-  const currency = getBrand().currencies.base;
+  const currency = Config.getBrand().currencies.base;
 
   const permission = usePermission();
 
@@ -156,7 +156,7 @@ const PaymentDetailsModal = (props: Props) => {
   };
 
   const renderDateAndTimeBlock = () => {
-    const canChangeCreationTime = permission.allows(permissions.PAYMENT.CHANGE_CREATION_TIME);
+    const canChangeCreationTime = permission.allows(Config.permissions.PAYMENT.CHANGE_CREATION_TIME);
 
     return (
       <div className="PaymentDetailsModal__block">
@@ -326,11 +326,11 @@ const PaymentDetailsModal = (props: Props) => {
   const inPendingStatus = statusMapper.PENDING.includes(status as tradingStatuses);
   const isWithdraw = paymentType === tradingTypes.WITHDRAW;
 
-  const canApprove = permission.allows(permissions.PAYMENT.APPROVE);
-  const canReject = permission.allows(permissions.PAYMENT.REJECT);
-  const canChangeStatus = permission.allows(permissions.PAYMENT.CHANGE_STATUS);
-  const canChangeMethod = permission.allows(permissions.PAYMENT.CHANGE_METHOD);
-  const canChangeSystem = permission.allows(permissions.PAYMENT.CHANGE_SYSTEM);
+  const canApprove = permission.allows(Config.permissions.PAYMENT.APPROVE);
+  const canReject = permission.allows(Config.permissions.PAYMENT.REJECT);
+  const canChangeStatus = permission.allows(Config.permissions.PAYMENT.CHANGE_STATUS);
+  const canChangeMethod = permission.allows(Config.permissions.PAYMENT.CHANGE_METHOD);
+  const canChangeSystem = permission.allows(Config.permissions.PAYMENT.CHANGE_SYSTEM);
 
   return (
     <Modal

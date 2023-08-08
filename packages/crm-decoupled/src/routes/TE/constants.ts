@@ -1,50 +1,50 @@
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 
 const tradingEngineTabs = [
   {
     url: '/trading-engine/accounts',
     label: 'TRADING_ENGINE.TABS.ACCOUNTS',
-    permissions: permissions.WE_TRADING.ACCOUNTS_LIST,
+    permissions: Config.permissions.WE_TRADING.ACCOUNTS_LIST,
   },
   {
     url: '/trading-engine/orders',
     label: 'TRADING_ENGINE.TABS.ORDERS',
-    permissions: permissions.WE_TRADING.ORDERS_LIST,
+    permissions: Config.permissions.WE_TRADING.ORDERS_LIST,
   },
   {
     url: '/trading-engine/quotes',
     label: 'TRADING_ENGINE.TABS.QUOTES',
-    permissions: permissions.WE_TRADING.SYMBOLS_LIST,
+    permissions: Config.permissions.WE_TRADING.SYMBOLS_LIST,
   },
   {
     url: '/trading-engine/margin-calls',
     label: 'TRADING_ENGINE.TABS.MARGIN_CALLS',
-    permissions: permissions.WE_TRADING.ACCOUNTS_LIST,
+    permissions: Config.permissions.WE_TRADING.ACCOUNTS_LIST,
   },
   {
     url: '/trading-engine/symbols',
     label: 'TRADING_ENGINE.TABS.SYMBOLS',
-    permissions: permissions.WE_TRADING.SYMBOLS_LIST,
+    permissions: Config.permissions.WE_TRADING.SYMBOLS_LIST,
   },
   {
     url: '/trading-engine/groups',
     label: 'TRADING_ENGINE.TABS.GROUPS',
-    permissions: permissions.WE_TRADING.GROUPS_LIST,
+    permissions: Config.permissions.WE_TRADING.GROUPS_LIST,
   },
   {
     url: '/trading-engine/securities',
     label: 'TRADING_ENGINE.TABS.SECURITIES',
-    permissions: permissions.WE_TRADING.SECURITIES_LIST,
+    permissions: Config.permissions.WE_TRADING.SECURITIES_LIST,
   },
   {
     url: '/trading-engine/holidays',
     label: 'TRADING_ENGINE.TABS.HOLIDAYS',
-    permissions: permissions.WE_TRADING.HOLIDAYS_LIST,
+    permissions: Config.permissions.WE_TRADING.HOLIDAYS_LIST,
   },
   {
     url: '/trading-engine/operators',
     label: 'TRADING_ENGINE.TABS.OPERATORS',
-    permissions: permissions.WE_TRADING.OPERATORS_LIST,
+    permissions: Config.permissions.WE_TRADING.OPERATORS_LIST,
   },
 ];
 

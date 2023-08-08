@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { useNavigate, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import { Button, TrashButton } from 'components';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { State, Sort } from 'types';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
@@ -125,7 +125,7 @@ const SymbolsList = () => {
           <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.SYMBOLS.HEADLINE')}
         </span>
 
-        <If condition={permission.allows(permissions.WE_TRADING.CREATE_SYMBOL)}>
+        <If condition={permission.allows(Config.permissions.WE_TRADING.CREATE_SYMBOL)}>
           <Link to="/trading-engine/symbols/new">
             <Button
               className="SymbolsList__action"
@@ -160,7 +160,7 @@ const SymbolsList = () => {
           render={({ symbol, source }: SymbolType) => {
             const render = (
               <Choose>
-                <When condition={permission.allows(permissions.WE_TRADING.EDIT_SYMBOL)}>
+                <When condition={permission.allows(Config.permissions.WE_TRADING.EDIT_SYMBOL)}>
                   <Link to={`/trading-engine/symbols/${symbol}`} target="_blank">
                     <div className="SymbolsList__cell-primary">
                       {symbol}
@@ -303,7 +303,7 @@ const SymbolsList = () => {
           header={I18n.t('TRADING_ENGINE.SYMBOLS.GRID.ACTIONS')}
           render={({ symbol, enabled }: SymbolType) => (
             <If condition={enabled}>
-              <If condition={permission.allows(permissions.WE_TRADING.DELETE_SYMBOL)}>
+              <If condition={permission.allows(Config.permissions.WE_TRADING.DELETE_SYMBOL)}>
                 <TrashButton
                   data-testid="SymbolsList-trashButton"
                   onClick={() => handleDeleteSymbolClick(symbol)}

@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
 import { TrashButton, EditButton, DownloadButton, Button } from 'components';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { DocumentFile } from '__generated__/types';
 import { Table, Column } from 'components/Table';
 import ShortLoader from 'components/ShortLoader';
@@ -71,7 +71,7 @@ const DocumentsGrid = () => {
 
   const actionsColumnRender = useCallback((item: DocumentFile) => (
     <div className="DocumentsGrid__cell-buttons">
-      <If condition={permission.allows(permissions.DOCUMENTS.DELETE_DOCUMENT)}>
+      <If condition={permission.allows(Config.permissions.DOCUMENTS.DELETE_DOCUMENT)}>
         <TrashButton
           className="DocumentsGrid__action-icon"
           data-testid="DocumentsGrid-trashButton"
@@ -86,7 +86,7 @@ const DocumentsGrid = () => {
         />
       </If>
 
-      <If condition={permission.allows(permissions.DOCUMENTS.UPDATE_DOCUMENT)}>
+      <If condition={permission.allows(Config.permissions.DOCUMENTS.UPDATE_DOCUMENT)}>
         <EditButton
           className="DocumentsGrid__action-icon"
           data-testid="DocumentsGrid-editButton"

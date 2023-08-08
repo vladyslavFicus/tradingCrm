@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { Sort__Input as Sort } from '__generated__/types';
 import { State } from 'types';
 import { useModal } from 'providers/ModalProvider';
@@ -22,7 +22,7 @@ const useClientCallbacksTab = () => {
   const createClientCallbackModal = useModal<CreateClientCallbackModalProps>(CreateClientCallbackModal);
 
   const permission = usePermission();
-  const allowCreateCallback = permission.allows(permissions.USER_PROFILE.CREATE_CALLBACK);
+  const allowCreateCallback = permission.allows(Config.permissions.USER_PROFILE.CREATE_CALLBACK);
 
   // ===== Requests ===== //
   const clientCallbacksListQuery = useClientCallbacksListQuery({

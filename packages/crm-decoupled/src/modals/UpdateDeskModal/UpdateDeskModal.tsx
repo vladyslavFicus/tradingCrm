@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { getAvailableLanguages } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
@@ -67,7 +67,7 @@ const UpdateDeskModal = (props: Props) => {
         {
           name: ['required', 'string'],
           deskType: ['required', 'string'],
-          language: ['required', `in:${getAvailableLanguages().join()}`],
+          language: ['required', `in:${Config.getAvailableLanguages().join()}`],
         },
         translateLabels(attributeLabels),
         false,
@@ -120,7 +120,7 @@ const UpdateDeskModal = (props: Props) => {
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               disabled={isSubmitting}
             >
-              {getAvailableLanguages().map((locale: string) => (
+              {Config.getAvailableLanguages().map((locale: string) => (
                 <option key={locale} value={locale}>
                   {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                 </option>

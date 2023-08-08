@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField } from 'components/Formik/index';
 import { createValidator, translateLabels } from 'utils/validator';
@@ -56,7 +56,7 @@ const UpdateTradingAccountPasswordModal = (props: Props) => {
     <Formik
       initialValues={{ password: '', repeatPassword: '' }}
       validate={createValidator({
-        password: ['required', `regex:${getBrand().password.mt4_pattern}`],
+        password: ['required', `regex:${Config.getBrand().password.mt4_pattern}`],
         repeatPassword: ['required', 'same:password'],
       }, translateLabels(attributeLabels), false)}
       validateOnBlur={false}

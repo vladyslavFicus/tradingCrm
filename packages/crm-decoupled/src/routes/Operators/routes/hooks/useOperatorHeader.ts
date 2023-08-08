@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { Operator } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -39,8 +39,8 @@ const useOperatorHeader = (props: Props): UseOperatorHeader => {
 
   const permission = usePermission();
 
-  const allowResetPassword = permission.allows(permissions.OPERATORS.RESET_PASSWORD);
-  const allowChangePassword = permission.allows(permissions.OPERATORS.CHANGE_PASSWORD);
+  const allowResetPassword = permission.allows(Config.permissions.OPERATORS.RESET_PASSWORD);
+  const allowChangePassword = permission.allows(Config.permissions.OPERATORS.CHANGE_PASSWORD);
 
   // ===== Modals ===== //
   const changePasswordModal = useModal<ChangePasswordModalProps>(ChangePasswordModal);

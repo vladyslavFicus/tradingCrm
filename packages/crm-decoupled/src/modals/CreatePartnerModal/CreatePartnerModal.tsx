@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField, FormikCheckbox } from 'components/Formik';
@@ -119,7 +119,7 @@ const CreatePartnerModal = (props: Props) => {
         firstName: ['required', 'string', 'min:3'],
         lastName: ['required', 'string', 'min:3'],
         email: ['required', 'email'],
-        password: ['required', `regex:${getBrand().password.pattern}`],
+        password: ['required', `regex:${Config.getBrand().password.pattern}`],
         phone: ['required', 'min:3'],
         externalAffiliateId: ['required', 'min:3'],
         public: ['boolean'],
