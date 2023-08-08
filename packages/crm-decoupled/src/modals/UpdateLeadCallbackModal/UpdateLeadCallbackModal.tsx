@@ -2,11 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { Button } from 'components';
 import { LeadCallback, Operator, Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
-import enumToArray from 'utils/enumToArray';
-import { createValidator } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
@@ -106,7 +104,7 @@ const UpdateLeadCallbackModal = (props: Props) => {
             reminder: reminder || null,
           }}
           validate={
-              createValidator({
+              Utils.createValidator({
                 operatorId: ['required'],
                 callbackTime: ['required', 'dateWithTime'],
                 status: ['required'],
@@ -227,7 +225,7 @@ const UpdateLeadCallbackModal = (props: Props) => {
                   component={FormikSelectField}
                   disabled={readOnly}
                 >
-                  {enumToArray(CallbackStatusEnum).map(callbackStatus => (
+                  {Utils.enumToArray(CallbackStatusEnum).map(callbackStatus => (
                     <option key={callbackStatus} value={callbackStatus}>
                       {I18n.t(`CONSTANTS.CALLBACKS.${callbackStatus}`)}
                     </option>

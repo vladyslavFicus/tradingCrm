@@ -1,15 +1,14 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { Operator } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
-import { isMaxLoginAttemptReached } from 'utils/profileLock';
-import { passwordPattern, passwordMaxSize, passwordCustomError } from 'constants/operators';
 import ChangePasswordModal, { ChangePasswordModalProps } from 'modals/ChangePasswordModal';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
+import { passwordPattern, passwordMaxSize, passwordCustomError } from 'constants/operators';
 import { useOperatorLockStatusQuery } from '../graphql/__generated__/OperatorLockStatusQuery';
 import { useChangeOperatorPasswordMutation } from '../graphql/__generated__/ChangeOperatorPasswordMutation';
 import { useResetOperatorPasswordMutation } from '../graphql/__generated__/ResetOperatorPasswordMutation';
@@ -50,7 +49,7 @@ const useOperatorHeader = (props: Props): UseOperatorHeader => {
   const { data, refetch } = useOperatorLockStatusQuery({ variables: { uuid }, fetchPolicy: 'network-only' });
 
   const locks = data?.loginLock;
-  const isLock = !!locks && isMaxLoginAttemptReached(locks) && operatorStatus !== 'CLOSED';
+  const isLock = !!locks && Utils.isMaxLoginAttemptReached(locks) && operatorStatus !== 'CLOSED';
 
   const [changeOperatorPasswordMutation] = useChangeOperatorPasswordMutation();
   const [resetOperatorPasswordMutation] = useResetOperatorPasswordMutation();

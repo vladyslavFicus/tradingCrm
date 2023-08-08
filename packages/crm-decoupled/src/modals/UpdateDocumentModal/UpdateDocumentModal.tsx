@@ -1,9 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Utils } from '@crm/common';
 import { DocumentFile } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useUpdateDocumentMutation } from './graphql/__generated__/UpdateDocumentMutation';
@@ -55,7 +55,7 @@ const UpdateDocumentModal = (props: Props) => {
         title: item.title,
         description: item.description || '',
       }}
-      validate={createValidator(
+      validate={Utils.createValidator(
         {
           title: ['required', 'string', 'max:500'],
           description: ['string', 'max:1000'],

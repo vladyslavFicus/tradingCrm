@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { omit } from 'lodash';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { HierarchyBranch } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -16,9 +17,6 @@ import {
 import { userTypes, userTypeLabels } from 'constants/hierarchyTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
-import { createValidator, translateLabels } from 'utils/validator';
-import renderLabel from 'utils/renderLabel';
-import { generate } from 'utils/password';
 import { ExistingOperatorModalProps } from '../ExistingOperatorModal';
 import { useAuthoritiesOptionsQuery } from './graphql/__generated__/AuthoritiesOptionsQuery';
 import { useHierarchyUserBranchesQuery } from './graphql/__generated__/HierarchyUserBranchesQuery';
@@ -109,7 +107,7 @@ const CreateOperatorModal = (props: Props) => {
     }
   };
 
-  const handleGeneratePassword = () => generate();
+  const handleGeneratePassword = () => Utils.generate();
 
   return (
     <Formik
@@ -125,7 +123,7 @@ const CreateOperatorModal = (props: Props) => {
         branchType: '',
         branchId: '',
       }}
-      validate={createValidator(
+      validate={Utils.createValidator(
         {
           firstName: ['required', 'string', 'min:2'],
           lastName: ['required', 'string', 'min:2'],
@@ -138,7 +136,7 @@ const CreateOperatorModal = (props: Props) => {
           branchType: 'required',
           branchId: 'required',
         },
-        translateLabels(attributeLabels),
+        Utils.translateLabels(attributeLabels),
         false,
         {
           'regex.password': passwordCustomError,
@@ -237,7 +235,7 @@ const CreateOperatorModal = (props: Props) => {
               >
                 {userTypesOptions.map(userType => (
                   <option key={userType} value={userType}>
-                    {I18n.t(renderLabel(userType, userTypeLabels))}
+                    {I18n.t(Utils.renderLabel(userType, userTypeLabels))}
                   </option>
                 ))}
               </Field>
@@ -254,7 +252,7 @@ const CreateOperatorModal = (props: Props) => {
               >
                 {departmentsOptions.map(department => (
                   <option key={department} value={department}>
-                    {I18n.t(renderLabel(department, departmentsLabels))}
+                    {I18n.t(Utils.renderLabel(department, departmentsLabels))}
                   </option>
                 ))}
               </Field>
@@ -275,7 +273,7 @@ const CreateOperatorModal = (props: Props) => {
               >
                 {rolesOptions.map(role => (
                   <option key={role} value={role}>
-                    {I18n.t(renderLabel(role, rolesLabels))}
+                    {I18n.t(Utils.renderLabel(role, rolesLabels))}
                   </option>
                 ))}
               </Field>

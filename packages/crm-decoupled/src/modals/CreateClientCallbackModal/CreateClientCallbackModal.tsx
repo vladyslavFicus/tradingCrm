@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { Operator } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import EventEmitter, { CREATE_CLIENT_CALLBACK } from 'utils/EventEmitter';
-import { createValidator, translateLabels } from 'utils/validator';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
 import Modal from 'components/Modal';
 import NoteActionManual from 'components/Note/NoteActionManual';
@@ -75,7 +74,7 @@ const CreateClientCallbackModal = (props: Props) => {
         }
       }
 
-      EventEmitter.emit(CREATE_CLIENT_CALLBACK);
+      Utils.EventEmitter.emit(Utils.CREATE_CLIENT_CALLBACK);
       onSuccess?.();
       onCloseModal();
 
@@ -104,10 +103,10 @@ const CreateClientCallbackModal = (props: Props) => {
         callbackTime: '',
         reminder: '',
       } as FormValue}
-      validate={createValidator({
+      validate={Utils.createValidator({
         operatorId: ['required'],
         callbackTime: ['required', 'dateWithTime'],
-      }, translateLabels(attributeLabels), false)}
+      }, Utils.translateLabels(attributeLabels), false)}
       validateOnChange={false}
       validateOnBlur={false}
       onSubmit={handleSubmit}

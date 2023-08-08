@@ -1,11 +1,11 @@
 import React, { Suspense } from 'react';
 import { render as testingLibraryRender, screen, fireEvent, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { Utils } from '@crm/common';
 import MockedApolloProvider from 'apollo/MockedApolloProvider';
 import StorageProvider from 'providers/StorageProvider';
 import CoreLayout from 'layouts/CoreLayout';
 import { MockedRSocketProvider } from 'rsocket';
-import { round } from 'utils/round';
 import { AccountQueryDocument } from './graphql/__generated__/AccountQuery';
 import { AccountSymbolsQueryDocument } from './graphql/__generated__/AccountSymbolsQuery';
 import SmartPnLForm from './SmartPnLForm';
@@ -353,8 +353,8 @@ it('Render SmartPnLForm and applying group spread for chosen symbol', async () =
   // Publish message to rsocket
   MockedRSocketProvider.publish(rsocketMockFactory({ ask, bid }));
 
-  const sellPrice = round(bid - bidAdjustment, digits);
-  const buyPrice = round(ask + askAdjustment, digits);
+  const sellPrice = Utils.round(bid - bidAdjustment, digits);
+  const buyPrice = Utils.round(ask + askAdjustment, digits);
 
   // Wait while rsocket tick will be accepted by component
   await screen.findByText(`Sell at ${sellPrice.toFixed(5)}`);

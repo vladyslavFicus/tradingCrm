@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField } from 'components/Formik';
-import { createValidator, translateLabels } from 'utils/validator';
 import { HierarchyBranchUser } from '__generated__/types';
 import Modal from 'components/Modal';
 import { useBranchUsersQuery } from './graphql/__generated__/BranchUsersQuery';
@@ -99,9 +99,9 @@ const AddBranchManagerModal = (props: Props) => {
   return (
     <Formik
       initialValues={{ operatorUuid: '' } as FormValues}
-      validate={createValidator({
+      validate={Utils.createValidator({
         operatorUuid: ['required', 'string'],
-      }, translateLabels(attributeLabels), false)}
+      }, Utils.translateLabels(attributeLabels), false)}
       onSubmit={handleSubmit}
       validateOnBlur={false}
       validateOnChange={false}

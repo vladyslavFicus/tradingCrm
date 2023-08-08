@@ -4,8 +4,8 @@ import { differenceWith } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { Button } from 'components';
+import { Utils } from '@crm/common';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import { FormikCheckbox, FormikInputField, FormikSelectField } from 'components/Formik';
 import {
@@ -26,7 +26,7 @@ export type Props = {
   groupSecurities: GroupSecurity[],
 }
 
-const validate = createValidator(
+const validate = Utils.createValidator(
   {
     symbol: ['required'],
     percentage: ['required', 'numeric', 'min:0.001', 'max:10000000'],

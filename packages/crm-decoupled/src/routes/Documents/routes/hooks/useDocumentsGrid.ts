@@ -1,14 +1,13 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { Sort, State } from 'types';
 import { DocumentFile } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import { useLightbox } from 'providers/LightboxProvider/useLightbox';
-import downloadBlob from 'utils/downloadBlob';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import UpdateDocumentModal, { UpdateDocumentModalProps } from 'modals/UpdateDocumentModal';
 import { FormValues } from '../types';
@@ -132,7 +131,7 @@ const useDocumentsGrid = () => {
 
       const blobData = await response.blob();
 
-      downloadBlob(fileName, blobData);
+      Utils.downloadBlob(fileName, blobData);
     } catch (e) {
       // Do nothing...
     }

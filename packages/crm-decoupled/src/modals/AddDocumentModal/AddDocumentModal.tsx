@@ -4,11 +4,11 @@ import { Field, Form, Formik } from 'formik';
 import Dropzone from 'react-dropzone';
 import classNames from 'classnames';
 import { Button } from 'components';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
-import { createValidator, translateLabels } from 'utils/validator';
 import { FILE_CONFIG, RULES, TRANSLATED_LABELS } from './constants';
 import { useAddDocumentMutation } from './graphql/__generated__/AddDocumentMutation';
 import { useConfirmDocumentUploadingMutation } from './graphql/__generated__/ConfirmDocumentUploading';
@@ -25,7 +25,10 @@ type FormValues = {
   description: string,
 };
 
-const validate = (values: FormValues) => createValidator(RULES, translateLabels(TRANSLATED_LABELS), false)(values);
+const validate = (values: FormValues) => Utils.createValidator(
+  RULES,
+  Utils.translateLabels(TRANSLATED_LABELS), false,
+)(values);
 
 const AddDocumentModal = (props: Props) => {
   const {

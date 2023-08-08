@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Utils } from '@crm/common';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { createValidator } from 'utils/validator';
 import { FormikSelectField, FormikTextAreaField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useFullSmsNumbersQuery } from './graphql/__generated__/FullSmsNumbersQuery';
@@ -59,7 +59,7 @@ const SendSmsModal = (props: Props) => {
         from: '',
         message: '',
       }}
-      validate={createValidator({
+      validate={Utils.createValidator({
         from: 'required',
         message: 'required',
       }, {

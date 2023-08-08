@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { createValidator } from 'utils/validator';
+import { Utils } from '@crm/common';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import './RenameFileModal.scss';
@@ -42,7 +42,7 @@ const RenameFileModal = (props: Props) => {
   return (
     <Formik
       initialValues={{ title }}
-      validate={createValidator({
+      validate={Utils.createValidator({
         title: 'required',
       })}
       onSubmit={handleSubmit}

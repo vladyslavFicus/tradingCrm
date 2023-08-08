@@ -2,9 +2,9 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Button, RefreshButton } from 'components';
+import { Utils } from '@crm/common';
 import useFilter from 'hooks/useFilter';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import countryList from 'utils/countryList';
 import { FormValues } from 'routes/Offices/types/officesGridFilter';
 import { filterLabels } from 'constants/user';
 import './OfficesGridFilter.scss';
@@ -53,8 +53,8 @@ const OfficesGridFilter = (props: Props) => {
               searchable
               withFocus
             >
-              {Object.keys(countryList).map(country => (
-                <option key={country} value={country}>{countryList[country]}</option>
+              {Object.keys(Utils.countryList).map(country => (
+                <option key={country} value={country}>{Utils.countryList[country]}</option>
               ))}
             </Field>
           </div>

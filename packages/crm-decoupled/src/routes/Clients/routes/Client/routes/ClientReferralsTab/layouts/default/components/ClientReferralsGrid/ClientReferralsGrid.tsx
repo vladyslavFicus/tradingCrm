@@ -2,9 +2,8 @@ import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { Referral, Referral__BonusType__Enum as bonusTypes } from '__generated__/types';
-import renderLabel from 'utils/renderLabel';
 import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
@@ -124,7 +123,7 @@ const ClientReferralsGrid = () => {
       },
     )}
     >
-      {I18n.t(renderLabel(bonusType, bonusTypesLabels))}
+      {I18n.t(Utils.renderLabel(bonusType, bonusTypesLabels))}
     </div>
   ), []);
 

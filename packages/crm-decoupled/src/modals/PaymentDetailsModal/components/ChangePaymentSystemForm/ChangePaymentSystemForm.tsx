@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { Button } from 'components';
-import { createValidator } from 'utils/validator';
+import { Utils } from '@crm/common';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { SetFieldValue } from 'types/formik';
@@ -79,7 +79,7 @@ const ChangePaymentSystemForm = (props: Props) => {
         paymentSystemName: '',
       }}
       validate={
-        createValidator({
+        Utils.createValidator({
           paymentSystem: ['string'],
           paymentSystemName: ['string'],
         }, {

@@ -1,16 +1,14 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Button } from 'components';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { passwordMaxSize, passwordPattern } from 'routes/TE/constants';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import EventEmitter, { OPERATOR_RELOAD } from 'utils/EventEmitter';
 import Uuid from 'components/Uuid';
 import { LoginLock } from '__generated__/types';
-import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import ChangePasswordModal, { ChangePasswordModalProps } from 'modals/ChangePasswordModal';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Operator } from '../../DealingOperator';
@@ -100,7 +98,7 @@ const DealingOperatorHeader = (props: Props) => {
       });
 
       operatorLockStatusQuery.refetch();
-      EventEmitter.emit(OPERATOR_RELOAD);
+      Utils.EventEmitter.emit(Utils.OPERATOR_RELOAD);
     } catch (e) {
       notify({
         level: LevelType.ERROR,
@@ -140,7 +138,7 @@ const DealingOperatorHeader = (props: Props) => {
       <div className="DealingOperatorHeader__actions">
         <If condition={
           permission.allows(Config.permissions.WE_TRADING.OPERATORS_UNLOCK)
-            && isMaxLoginAttemptReached(locks)
+            && Utils.isMaxLoginAttemptReached(locks)
             && status !== 'CLOSED'}
         >
           <Button

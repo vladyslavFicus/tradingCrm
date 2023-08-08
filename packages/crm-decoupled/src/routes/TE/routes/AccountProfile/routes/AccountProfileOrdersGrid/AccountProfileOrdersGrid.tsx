@@ -4,7 +4,7 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Button } from 'components';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { State, Sort, TableSelection } from 'types';
 import { OrderCloseByEnum } from 'types/trading-engine';
 import { TradingEngine__OrderStatuses__Enum as OrderStatusesEnum } from '__generated__/types';
@@ -12,12 +12,10 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
-import { round } from 'utils/round';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import Placeholder from 'components/Placeholder';
 import ActionsDropDown from 'components/ActionsDropDown';
-import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import PnL from 'routes/TE/components/PnL';
 import CurrentPrice from 'routes/TE/components/CurrentPrice';
 import { useSymbolsPricesStream } from 'routes/TE/components/SymbolsPricesStream';
@@ -83,10 +81,10 @@ const AccountProfileOrdersGrid = (props: Props) => {
   const refetchOrders = () => { select?.reset(); refetch(); };
 
   useEffect(() => {
-    EventEmitter.on(ORDER_RELOAD, refetchOrders);
+    Utils.EventEmitter.on(Utils.ORDER_RELOAD, refetchOrders);
 
     return () => {
-      EventEmitter.off(ORDER_RELOAD, refetchOrders);
+      Utils.EventEmitter.off(Utils.ORDER_RELOAD, refetchOrders);
     };
   });
 
@@ -339,8 +337,8 @@ const AccountProfileOrdersGrid = (props: Props) => {
               const { bidAdjustment = 0, askAdjustment = 0 } = symbolConfig || {};
 
               // Get current BID and ASK prices with applied group spread
-              const currentPriceBid = round(bid - bidAdjustment, digits);
-              const currentPriceAsk = round(ask + askAdjustment, digits);
+              const currentPriceBid = Utils.round(bid - bidAdjustment, digits);
+              const currentPriceAsk = Utils.round(ask + askAdjustment, digits);
 
               return (
                 <div className="TradingEngineOrdersGrid__cell-value">
@@ -364,8 +362,8 @@ const AccountProfileOrdersGrid = (props: Props) => {
               const { bidAdjustment = 0, askAdjustment = 0 } = symbolConfig || {};
 
               // Get current BID and ASK prices with applied group spread
-              const currentPriceBid = round(bid - bidAdjustment, digits);
-              const currentPriceAsk = round(ask + askAdjustment, digits);
+              const currentPriceBid = Utils.round(bid - bidAdjustment, digits);
+              const currentPriceAsk = Utils.round(ask + askAdjustment, digits);
 
               return (
                 <div className="AccountProfileOrdersGrid__cell-value">

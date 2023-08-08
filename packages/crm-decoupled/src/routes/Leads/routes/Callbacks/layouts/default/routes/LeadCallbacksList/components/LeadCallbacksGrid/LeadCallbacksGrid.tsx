@@ -3,8 +3,8 @@ import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { TrashButton } from 'components';
+import { Utils } from '@crm/common';
 import { LeadCallback, Sort__Input as Sort } from '__generated__/types';
-import { shortify } from 'utils/uuid';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import NoteAction from 'components/Note/NoteAction';
@@ -47,7 +47,7 @@ const LeadCallbacksGrid = (props: Props) => {
           className="LeadCallbacksGrid__info-main LeadCallbacksGrid__info-main--pointer"
           onClick={() => handleOpenUpdateModal(callback)}
         >
-          {shortify(callbackId, 'CB')}
+          {Utils.uuidShortify(callbackId, 'CB')}
         </div>
 
         <div className="LeadCallbacksGrid__info-secondary">

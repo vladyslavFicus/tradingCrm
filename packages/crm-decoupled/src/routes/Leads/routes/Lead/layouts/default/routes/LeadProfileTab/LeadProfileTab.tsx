@@ -3,12 +3,10 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
 import { Button } from 'components';
+import { Utils } from '@crm/common';
 import { Lead } from '__generated__/types';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
 import TabHeader from 'components/TabHeader';
-import { createValidator, translateLabels } from 'utils/validator';
-import formatLabel from 'utils/formatLabel';
-import countryList, { getCountryCode } from 'utils/countryList';
 import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';
 import { attributeLabels, genders, AGE_YEARS_CONSTRAINT } from 'routes/Leads/routes/Lead/constants/leadProfileTab';
 import useLeadProfileTab from 'routes/Leads/routes/Lead/hooks/useLeadProfileTab';
@@ -53,12 +51,12 @@ const LeadProfileTab = (props: Props) => {
               phone: state.phone || lead.phone || '',
               mobile: state.mobile || lead.mobile || '',
               email: state.email || lead.email || '',
-              country: getCountryCode(country || '') || '',
+              country: Utils.getCountryCode(country || '') || '',
               birthDate: birthDate || '',
               gender: gender || '',
               city: city || '',
             }}
-            validate={createValidator({
+            validate={Utils.createValidator({
               firstName: 'string',
               lastName: 'string',
               birthDate: [
@@ -67,7 +65,7 @@ const LeadProfileTab = (props: Props) => {
                 `maxDate:${moment().subtract(AGE_YEARS_CONSTRAINT, 'year').format(DATE_BASE_FORMAT)}`,
               ],
               identifier: 'string',
-              country: `in:${Object.keys(countryList).join()}`,
+              country: `in:${Object.keys(Utils.countryList).join()}`,
               city: ['string', 'min:3'],
               postCode: ['string', 'min:3'],
               address: 'string',
@@ -76,7 +74,7 @@ const LeadProfileTab = (props: Props) => {
               email: (allowEmailField && isEmailShown)
                 ? 'email'
                 : 'string',
-            }, translateLabels(attributeLabels), false,
+            }, Utils.translateLabels(attributeLabels), false,
             {
               'minDate.birthDate': I18n.t(
                 'ERRORS.DATE.INVALID_DATE',
@@ -154,7 +152,7 @@ const LeadProfileTab = (props: Props) => {
                   >
                     {genders.map(item => (
                       <option key={item} value={item}>
-                        {formatLabel(item)}
+                        {Utils.formatLabel(item)}
                       </option>
                     ))}
                   </Field>
@@ -179,7 +177,7 @@ const LeadProfileTab = (props: Props) => {
                     component={FormikSelectField}
                     disabled={isSubmitting}
                   >
-                    {Object.entries(countryList).map(([key, value]) => (
+                    {Object.entries(Utils.countryList).map(([key, value]) => (
                       <option key={key} value={key}>
                         {value}
                       </option>

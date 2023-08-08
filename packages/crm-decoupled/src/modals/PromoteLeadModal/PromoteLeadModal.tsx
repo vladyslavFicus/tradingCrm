@@ -4,14 +4,11 @@ import { Formik, Form, Field } from 'formik';
 import { omit } from 'lodash';
 import Trackify from '@hrzn/trackify';
 import { Button, Input } from 'components';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { Lead } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { createValidator, translateLabels } from 'utils/validator';
-import countryList, { getCountryCode } from 'utils/countryList';
-import { generate } from 'utils/password';
 import Modal from 'components/Modal';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { attributeLabels } from './constants';
@@ -52,7 +49,7 @@ const PromoteLeadModal = (props: Props) => {
   } = lead;
 
   const languageCode = language || '';
-  const countryCode = getCountryCode(country || '') || '';
+  const countryCode = Utils.getCountryCode(country || '') || '';
 
   const [email, setEmail] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -127,13 +124,13 @@ const PromoteLeadModal = (props: Props) => {
         contacts: { email: email || lead.email },
         password: '',
       }}
-      validate={createValidator({
+      validate={Utils.createValidator({
         firstName: ['required', 'string'],
         lastName: ['required', 'string'],
         password: ['required', `regex:${Config.getBrand().password.pattern}`],
         languageCode: ['required', 'string'],
         'address.countryCode': ['required', 'string'],
-      }, translateLabels(attributeLabels), false)}
+      }, Utils.translateLabels(attributeLabels), false)}
       validateOnBlur={false}
       validateOnChange={false}
       onSubmit={handleSubmit}
@@ -196,7 +193,7 @@ const PromoteLeadModal = (props: Props) => {
                 label={I18n.t(attributeLabels.password)}
                 component={FormikInputField}
                 addition={<span className="icon-generate-password" />}
-                onAdditionClick={() => setFieldValue('password', generate())}
+                onAdditionClick={() => setFieldValue('password', Utils.generate())}
                 disabled={isSubmitting}
               />
 
@@ -210,7 +207,7 @@ const PromoteLeadModal = (props: Props) => {
                 disabled={isSubmitting}
                 searchable
               >
-                {Object.entries(countryList).map(([key, value]) => (
+                {Object.entries(Utils.countryList).map(([key, value]) => (
                   <option key={key} value={key}>
                     {value}
                   </option>

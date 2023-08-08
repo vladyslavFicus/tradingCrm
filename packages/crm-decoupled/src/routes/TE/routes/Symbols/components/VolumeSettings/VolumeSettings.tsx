@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field } from 'formik';
-import enumToArray from 'utils/enumToArray';
+import { Utils } from '@crm/common';
 import I18n from 'i18n';
 
 import {
@@ -28,7 +28,7 @@ const VolumeSettings = () => (
         className="VolumeSettings__field"
         component={FormikSelectField}
       >
-        {enumToArray(LotMin).map(value => (
+        {Utils.enumToArray(LotMin).map(value => (
           <option key={value} value={value}>
             {value}
           </option>
@@ -41,7 +41,7 @@ const VolumeSettings = () => (
         className="VolumeSettings__field"
         component={FormikSelectField}
       >
-        {enumToArray(LotMax).map(value => (
+        {Utils.enumToArray(LotMax).map(value => (
           <option key={value} value={value}>
             {value}
           </option>
@@ -54,7 +54,7 @@ const VolumeSettings = () => (
         className="VolumeSettings__field"
         component={FormikSelectField}
       >
-        {enumToArray(LotStep).map(value => (
+        {Utils.enumToArray(LotStep).map(value => (
           <option key={value} value={value}>
             {value}
           </option>

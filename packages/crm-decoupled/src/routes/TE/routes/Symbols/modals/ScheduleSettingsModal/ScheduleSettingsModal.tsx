@@ -3,12 +3,12 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Button } from 'components';
-import { createValidator } from 'utils/validator';
+import { Utils } from '@crm/common';
 import { FormikTimeRangeField } from 'components/Formik';
 import { DayOfWeek, SessionType } from '../../types';
 import './ScheduleSettingsModal.scss';
 
-const validate = createValidator({
+const validate = Utils.createValidator({
   openTime: ['required', 'string', 'validTimeRange:closeTime'],
   closeTime: ['required', 'string'],
 });

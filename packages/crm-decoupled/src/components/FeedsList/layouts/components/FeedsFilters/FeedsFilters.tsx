@@ -2,9 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { Button, RefreshButton } from 'components';
+import { Utils } from '@crm/common';
 import { Feed__AuditCategory__Enum as FeedAuditCategoryEnum } from '__generated__/types';
 import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'components/Formik';
-import { createValidator } from 'utils/validator';
 import useFeedsFilters from '../../../hooks/useFeedsFilters';
 import './FeedsFilters.scss';
 
@@ -28,7 +28,7 @@ const FeedsFilters = (props: Props) => {
       initialValues={initialValues}
       onSubmit={handleSubmit}
       validate={
-        createValidator({
+        Utils.createValidator({
           searchBy: 'string',
           auditLogType: ['string', `in:${Object.keys(feedTypesList).join()}`],
           creationDateFrom: 'dateWithTime',

@@ -1,9 +1,9 @@
 import { useEffect, useCallback } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
+import { Utils } from '@crm/common';
 import { State } from 'types';
 import { targetTypes } from 'constants/note';
-import EventEmitter, { NOTE_RELOAD } from 'utils/EventEmitter';
 import { useLeadNotesQuery, LeadNotesQueryVariables } from '../graphql/__generated__/LeadNotesQuery';
 
 const useLeadNotesTab = () => {
@@ -41,10 +41,10 @@ const useLeadNotesTab = () => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(NOTE_RELOAD, handleNoteReload);
+    Utils.EventEmitter.on(Utils.NOTE_RELOAD, handleNoteReload);
 
     return () => {
-      EventEmitter.off(NOTE_RELOAD, handleNoteReload);
+      Utils.EventEmitter.off(Utils.NOTE_RELOAD, handleNoteReload);
     };
   }, []);
 

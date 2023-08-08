@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import GridPlayerInfo from 'components/GridPlayerInfo';
@@ -10,7 +10,6 @@ import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import { Hierarchy } from 'components/GridAcquisitionStatus/hooks/useGridAcquisitionStatus';
 import GridEmptyValue from 'components/GridEmptyValue';
-import renderLabel from 'utils/renderLabel';
 import { Grids } from 'routes/Dashboard/types';
 import useGrid from 'routes/Dashboard/hooks/useGrid';
 import {
@@ -163,7 +162,7 @@ const LastRegistrationsGrid = () => {
             },
           )}
         >
-          {I18n.t(renderLabel(type || '', statusesLabels))}
+          {I18n.t(Utils.renderLabel(type || '', statusesLabels))}
         </div>
 
         <div className="LastRegistrationsGrid__text-secondary">

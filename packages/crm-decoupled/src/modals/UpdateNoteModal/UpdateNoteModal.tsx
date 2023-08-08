@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import EventEmitter, { NOTE_RELOAD } from 'utils/EventEmitter';
+import { Utils } from '@crm/common';
 import { FormikInputField, FormikSwitchField, FormikTextAreaField } from 'components/Formik';
 import { Note } from 'types/Note';
 import Modal from 'components/Modal';
@@ -32,7 +32,7 @@ const UpdateNoteModal = (props: Props) => {
       try {
         await updateNoteMutation({ variables });
 
-        EventEmitter.emit(NOTE_RELOAD, { targetType: note.targetType });
+        Utils.EventEmitter.emit(Utils.NOTE_RELOAD, { targetType: note.targetType });
 
         onCloseModal();
       } catch (e) {

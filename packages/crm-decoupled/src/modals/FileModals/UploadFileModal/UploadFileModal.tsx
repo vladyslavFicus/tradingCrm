@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { get, omit } from 'lodash';
 import { Formik, Form } from 'formik';
+import { Utils } from '@crm/common';
 import { EditNote } from 'types/Note';
 import { FileCategories } from 'types/fileCategories';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { shortify } from 'utils/uuid';
 import FileUpload from 'components/FileUpload';
 import ShortLoader from 'components/ShortLoader';
 import Modal from 'components/Modal';
@@ -241,7 +241,7 @@ const UploadFileModal = (props: Props) => {
               className="UploadFileModal__action-text"
               dangerouslySetInnerHTML={{
                 __html: I18n.t('FILES.UPLOAD_MODAL.ACTION_TEXT', {
-                  shortUUID: `<span class="font-weight-400">(${shortify(profileUUID)})</span>`,
+                  shortUUID: `<span class="font-weight-400">(${Utils.uuidShortify(profileUUID)})</span>`,
                 }),
               }}
             />

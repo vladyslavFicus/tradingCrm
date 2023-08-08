@@ -5,8 +5,8 @@ import { Operator } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import { StatusAction, statusActions, statuses } from 'constants/operators';
 import ChangeAccountStatusModal, { ChangeAccountStatusModalProps, FormValues } from 'modals/ChangeAccountStatusModal';
+import { StatusAction, statusActions, statuses } from 'constants/operators';
 import { useOperatorRelationsCountQuery } from '../graphql/__generated__/OperatorRelationsCountQuery';
 import { useOperatorAccountStatusMutation } from '../graphql/__generated__/OperatorAccountStatusMutation';
 

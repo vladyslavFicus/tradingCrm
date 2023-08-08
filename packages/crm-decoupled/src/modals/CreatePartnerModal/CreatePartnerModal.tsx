@@ -2,13 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField, FormikCheckbox } from 'components/Formik';
 import Modal from 'components/Modal';
-import { createValidator, translateLabels } from 'utils/validator';
-import { generate } from 'utils/password';
 import { useCreatePartnerMutation } from './graphql/__generated__/CreatePartnerMutation';
 import './CreatePartnerModal.scss';
 
@@ -100,7 +98,7 @@ const CreatePartnerModal = (props: Props) => {
     }
   };
 
-  const handleGeneratePassword = () => generate();
+  const handleGeneratePassword = () => Utils.generate();
 
   const handleGenerateExternalId = () => Math.random().toString(36).substr(2);
 
@@ -115,7 +113,7 @@ const CreatePartnerModal = (props: Props) => {
         externalAffiliateId: '',
         public: false,
       }}
-      validate={createValidator({
+      validate={Utils.createValidator({
         firstName: ['required', 'string', 'min:3'],
         lastName: ['required', 'string', 'min:3'],
         email: ['required', 'email'],
@@ -123,7 +121,7 @@ const CreatePartnerModal = (props: Props) => {
         phone: ['required', 'min:3'],
         externalAffiliateId: ['required', 'min:3'],
         public: ['boolean'],
-      }, translateLabels(attributeLabels), false)}
+      }, Utils.translateLabels(attributeLabels), false)}
       validateOnChange={false}
       validateOnBlur={false}
       onSubmit={handleSubmit}

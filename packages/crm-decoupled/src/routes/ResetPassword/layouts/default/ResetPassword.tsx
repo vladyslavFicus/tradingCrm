@@ -2,8 +2,8 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Button } from 'components';
-import { Config } from '@crm/common';
-import { createValidator, translateLabels } from 'utils/validator';
+import { Config, Utils } from '@crm/common';
+
 import Copyrights from 'components/Copyrights';
 import { FormikInputField } from 'components/Formik';
 import { attributeLabels } from 'routes/ResetPassword/constants/resetPassword';
@@ -51,10 +51,10 @@ const ResetPassword = () => {
             onSubmit={handleSubmit}
             validateOnBlur={false}
             validateOnChange={false}
-            validate={createValidator({
+            validate={Utils.createValidator({
               password: ['required', `regex:${passwordPattern}`, `max:${passwordMaxSize}`],
               repeatPassword: ['required', 'same:password'],
-            }, translateLabels(attributeLabels), false, { 'regex.password': passwordCustomError })}
+            }, Utils.translateLabels(attributeLabels), false, { 'regex.password': passwordCustomError })}
           >
             {({ isSubmitting }) => (
               <Form className="ResetPassword__form">

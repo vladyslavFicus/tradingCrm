@@ -2,13 +2,12 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Button, RefreshButton } from 'components';
+import { Utils } from '@crm/common';
 import useFilter from 'hooks/useFilter';
-import { departmentsLabels, rolesLabels, statusesLabels, statuses } from 'constants/operators';
-import countryList from 'utils/countryList';
-import renderLabel from 'utils/renderLabel';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import useOperatorsGridFilter from 'routes/Operators/routes/hooks/useOperatorsGridFilter';
 import { FormValues } from 'routes/Operators/routes/types';
+import { departmentsLabels, rolesLabels, statusesLabels, statuses } from 'constants/operators';
 import './OperatorsGridFilter.scss';
 
 const attributeLabels = {
@@ -89,9 +88,9 @@ const OperatorsGridFilter = (props: Props) => {
               >
                 {[
                   <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                  ...Object.keys(countryList)
+                  ...Object.keys(Utils.countryList)
                     .map(country => (
-                      <option key={country} value={country}>{countryList[country]}</option>
+                      <option key={country} value={country}>{Utils.countryList[country]}</option>
                     )),
                 ]}
               </Field>
@@ -204,7 +203,7 @@ const OperatorsGridFilter = (props: Props) => {
               >
                 {Object.keys(availableDepartments).map(department => (
                   <option key={department} value={department}>
-                    {I18n.t(renderLabel(department, departmentsLabels))}
+                    {I18n.t(Utils.renderLabel(department, departmentsLabels))}
                   </option>
                 ))}
               </Field>
@@ -223,7 +222,7 @@ const OperatorsGridFilter = (props: Props) => {
               >
                 {availableRoles.map(role => (
                   <option key={role} value={role}>
-                    {I18n.t(renderLabel(role, rolesLabels))}
+                    {I18n.t(Utils.renderLabel(role, rolesLabels))}
                   </option>
                 ))}
               </Field>

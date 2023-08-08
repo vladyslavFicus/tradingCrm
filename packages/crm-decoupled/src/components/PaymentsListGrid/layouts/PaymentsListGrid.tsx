@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { Payment as PaymentInfo, Sort__Input as Sort } from '__generated__/types';
 import { NoteEntity } from 'types/Note';
 import { AdjustableTable, Column } from 'components/Table';
@@ -15,7 +15,6 @@ import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import usePaymentsListGrid from 'components/PaymentsListGrid/hooks/usePaymentsListGrid';
 import PaymentStatus from 'components/PaymentStatus';
 import NoteAction from 'components/Note/NoteAction';
-import formatLabel from 'utils/formatLabel';
 import { PaymentFragment as Payment } from 'apollo/fragments/__generated__/Payment';
 import {
   aggregatorsLabels,
@@ -220,7 +219,7 @@ const PaymentsListGrid = (props: Props) => {
 
       <Choose>
         <When condition={!!paymentMethod}>
-          <div className="PaymentsListGrid__text-primary">{formatLabel(`${paymentMethod}`, false)}</div>
+          <div className="PaymentsListGrid__text-primary">{Utils.formatLabel(`${paymentMethod}`, false)}</div>
 
           <If condition={!!maskedPan && paymentMethod === 'CREDIT_CARD'}>
             <div className="PaymentsListGrid__text-primary PaymentsListGrid__payment-method">{maskedPan}</div>

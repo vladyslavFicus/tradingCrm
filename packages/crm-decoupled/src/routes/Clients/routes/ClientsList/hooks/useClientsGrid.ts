@@ -2,12 +2,11 @@ import { useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { NetworkStatus, QueryResult } from '@apollo/client';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { Pageable, State, TableSelection } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import limitItems from 'utils/limitItems';
 import { ProfileView, Sort__Input as Sort } from '__generated__/types';
 import { ClientsListQuery, ClientsListQueryVariables } from '../graphql/__generated__/ClientsQuery';
 
@@ -29,7 +28,7 @@ const useClientsGrid = (props: Props) => {
 
   const { data, fetchMore, variables, networkStatus } = clientsQuery;
 
-  const { currentPage, response } = limitItems(data?.profiles as Pageable<ProfileView>, state);
+  const { currentPage, response } = Utils.limitItems(data?.profiles as Pageable<ProfileView>, state);
 
   const handleSort = useCallback((sort: Array<Sort>) => {
     navigate('.', {

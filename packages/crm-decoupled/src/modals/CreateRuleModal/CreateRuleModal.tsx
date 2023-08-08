@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'components';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import {
   Operator,
@@ -14,8 +14,7 @@ import {
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { ruleTypes, priorities } from 'constants/rules';
 import { attributeLabels, customErrors } from 'constants/ruleModal';
-import { createValidator, translateLabels } from 'utils/validator';
-import countryList from 'utils/countryList';
+
 import { decodeNullValues } from 'components/Formik/utils';
 import StaticTabs from 'components/StaticTabs';
 import StaticTabsItem from 'components/StaticTabsItem';
@@ -153,17 +152,17 @@ const CreateRuleModal = (props: Props) => {
         },
       } as FormValues}
       validate={(values) => {
-        const errors = createValidator({
+        const errors = Utils.createValidator({
           name: ['required', 'string'],
           priority: ['required', `in:${priorities.join()}`],
           type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
-          countries: `in:${Object.keys(countryList).join()}`,
+          countries: `in:${Object.keys(Utils.countryList).join()}`,
           languages: `in:${Config.getAvailableLanguages().join()}`,
           'operatorSpreads.*.percentage': ['between:1,100', 'integer'],
           ...withOperatorSpreads && {
             'operatorSpreads.0.parentUser': 'required',
           },
-        }, translateLabels(attributeLabels), false, customErrors)(values);
+        }, Utils.translateLabels(attributeLabels), false, customErrors)(values);
 
         return extraValidation(values, errors, { withOperatorSpreads });
       }}

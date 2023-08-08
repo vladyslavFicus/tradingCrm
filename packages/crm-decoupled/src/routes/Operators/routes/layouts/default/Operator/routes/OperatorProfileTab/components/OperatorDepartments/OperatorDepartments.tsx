@@ -2,9 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Button } from 'components';
+import { Utils } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { createValidator, translateLabels } from 'utils/validator';
-import renderLabel from 'utils/renderLabel';
+
 import { FormikSelectField } from 'components/Formik';
 import useOperatorDepartments from 'routes/Operators/routes/hooks/useOperatorDepartments';
 import { departmentsLabels, rolesLabels } from 'constants/operators';
@@ -54,9 +54,9 @@ const OperatorDepartments = (props: Props) => {
         {operatorAuthorities.map(({ department, role }) => (
           <div className="OperatorDepartments__item" key={`${department}-${role}`}>
             <div className="OperatorDepartments__item-title">
-              {I18n.t(renderLabel(department, departmentsLabels))}
+              {I18n.t(Utils.renderLabel(department, departmentsLabels))}
               {' - '}
-              {I18n.t(renderLabel(role, rolesLabels))}
+              {I18n.t(Utils.renderLabel(role, rolesLabels))}
             </div>
 
             <If condition={!isCurrentOperator && allowDeleteAuthority}>
@@ -90,10 +90,10 @@ const OperatorDepartments = (props: Props) => {
             <Formik
               initialValues={{ department: '', role: '' }}
               validate={
-                createValidator({
+                Utils.createValidator({
                   department: ['required'],
                   role: ['required'],
-                }, translateLabels(attributeLabels))
+                }, Utils.translateLabels(attributeLabels))
               }
               validateOnBlur={false}
               validateOnChange={false}
@@ -115,7 +115,7 @@ const OperatorDepartments = (props: Props) => {
                     >
                       {availableDepartments.map(department => (
                         <option key={department} value={department}>
-                          {I18n.t(renderLabel(department, departmentsLabels))}
+                          {I18n.t(Utils.renderLabel(department, departmentsLabels))}
                         </option>
                       ))}
                     </Field>
@@ -131,7 +131,7 @@ const OperatorDepartments = (props: Props) => {
                     >
                       {availableRolesDepartment.map((role: string) => (
                         <option key={role} value={role}>
-                          {I18n.t(renderLabel(role, rolesLabels))}
+                          {I18n.t(Utils.renderLabel(role, rolesLabels))}
                         </option>
                       ))}
                     </Field>

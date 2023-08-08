@@ -1,12 +1,12 @@
+import { Utils } from '@crm/common';
 import { LabelValue } from 'types';
-import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 
 type UseClientTradingAccountsGridFilter = {
   platformTypes: Array<LabelValue>,
 };
 
 const useClientTradingAccountsGridFilter = (): UseClientTradingAccountsGridFilter => {
-  const platformTypes = getAvailablePlatformTypes();
+  const platformTypes = Utils.getAvailablePlatformTypes();
 
   return {
     platformTypes,

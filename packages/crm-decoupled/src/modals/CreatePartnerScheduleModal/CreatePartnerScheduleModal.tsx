@@ -3,10 +3,10 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Formik, Form, Field, FieldArray, FieldArrayRenderProps, FormikHelpers } from 'formik';
 import { TrashButton } from 'components';
+import { Utils } from '@crm/common';
 import { SetFieldValue } from 'types/formik';
 import { Partner__Schedule__CountrySpreads as CountrySpreads } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import countryList from 'utils/countryList';
 import Modal from 'components/Modal';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField, FormikSelectField, FormikTimeRangeField } from 'components/Formik';
@@ -206,7 +206,7 @@ const CreatePartnerScheduleModal = (props: Props) => {
                         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                         searchable
                       >
-                        {Object.entries(countryList).map(([key, value]) => (
+                        {Object.entries(Utils.countryList).map(([key, value]) => (
                           <option
                             key={key}
                             value={key}

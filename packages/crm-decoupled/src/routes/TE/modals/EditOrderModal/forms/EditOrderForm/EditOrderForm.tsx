@@ -3,15 +3,13 @@ import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import moment from 'moment';
 import { Button, Input } from 'components';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { OrderStatus, OrderType } from 'types/trading-engine';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { FormikDatePicker, FormikInputDecimalsField, FormikInputField, FormikSelectField } from 'components/Formik';
-import { createValidator } from 'utils/validator';
-import { round } from 'utils/round';
 import { calculateMargin, calculatePnL } from 'routes/TE/utils/formulas';
 import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
 import ReopenOrderButton from '../ReopenOrderButton';
@@ -79,8 +77,8 @@ const EditOrderForm = (props: Props) => {
   const currentSymbolPrice = useSymbolPricesStream(symbol);
 
   // Get current BID and ASK prices with applied group spread
-  const currentPriceBid = round((currentSymbolPrice?.bid || 0) - (symbolConfig?.bidAdjustment || 0), digits);
-  const currentPriceAsk = round((currentSymbolPrice?.ask || 0) + (symbolConfig?.askAdjustment || 0), digits);
+  const currentPriceBid = Utils.round((currentSymbolPrice?.bid || 0) - (symbolConfig?.bidAdjustment || 0), digits);
+  const currentPriceAsk = Utils.round((currentSymbolPrice?.ask || 0) + (symbolConfig?.askAdjustment || 0), digits);
 
   // Input settings
   const decimalsSettings = {
@@ -174,7 +172,7 @@ const EditOrderForm = (props: Props) => {
         openTime: time?.creation,
         closeTime: time?.closing,
       }}
-      validate={createValidator({
+      validate={Utils.createValidator({
         openPrice: ['required'],
         volume: isAdminEditAllowed && [
           'required',

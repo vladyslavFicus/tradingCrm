@@ -3,15 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
 import { Button } from 'components';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { ruleTypes, priorities } from 'constants/rules';
 import { attributeLabels, customErrors, nestedFieldsNames } from 'constants/ruleModal';
 import { decodeNullValues } from 'components/Formik/utils';
-import { createValidator, translateLabels } from 'utils/validator';
-import countryList from 'utils/countryList';
 import Modal from 'components/Modal';
 import StaticTabs from 'components/StaticTabs';
 import StaticTabsItem from 'components/StaticTabsItem';
@@ -172,10 +170,10 @@ const UpdateRuleModal = (props: Props) => {
         ],
       } as FormValues}
       validate={(values) => {
-        const errors = createValidator({
+        const errors = Utils.createValidator({
           name: ['required', 'string'],
           priority: ['required', `in:${priorities.join()}`],
-          countries: [`in:${Object.keys(countryList).join()}`],
+          countries: [`in:${Object.keys(Utils.countryList).join()}`],
           languages: [`in:${Config.getAvailableLanguages().join()}`],
           'operatorSpreads.*.percentage': ['between:1,100', 'integer'],
           ...currentOperatorSpreads && { 'operatorSpreads.0.parentUser': 'required' },
@@ -184,7 +182,7 @@ const UpdateRuleModal = (props: Props) => {
             'schedules.*.timeIntervals.*.operatorSpreads.*.percentage': ['between:1,100', 'integer'],
             'schedules.*.timeIntervals.*.operatorSpreads.0.parentUser': ['required'],
           },
-        }, translateLabels(attributeLabels), false, customErrors)(values);
+        }, Utils.translateLabels(attributeLabels), false, customErrors)(values);
 
         return nestedFieldsTranslator(
           extraValidation(values, errors, validationSchedulesEnabled),

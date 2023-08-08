@@ -2,10 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { camelCase, startCase } from 'lodash';
+import { Utils } from '@crm/common';
 import { Button } from 'components';
 import { Operator } from '__generated__/types';
-import { createValidator, translateLabels } from 'utils/validator';
-import countries from 'utils/countryList';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import useOperatorPersonal from 'routes/Operators/routes/hooks/useOperatorPersonal';
 import './OperatorPersonal.scss';
@@ -18,13 +17,13 @@ const attributeLabels = {
   email: 'COMMON.EMAIL',
 };
 
-const validate = createValidator({
+const validate = Utils.createValidator({
   firstName: ['required', 'string'],
   lastName: ['required', 'string'],
   email: ['required', 'email'],
-  country: [`in:,${Object.keys(countries).join()}`],
+  country: [`in:,${Object.keys(Utils.countryList).join()}`],
   phoneNumber: 'string',
-}, translateLabels(attributeLabels), false);
+}, Utils.translateLabels(attributeLabels), false);
 
 type Props = {
   operator: Operator,
@@ -144,9 +143,9 @@ const OperatorPersonal = (props: Props) => {
               withAnyOption
               searchable
             >
-              {Object.keys(countries).map(countryCode => (
+              {Object.keys(Utils.countryList).map(countryCode => (
                 <option key={countryCode} value={countryCode}>
-                  {countries[countryCode]}
+                  {Utils.countryList[countryCode]}
                 </option>
               ))}
             </Field>

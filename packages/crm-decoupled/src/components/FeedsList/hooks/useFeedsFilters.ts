@@ -1,12 +1,12 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { useCallback, useMemo } from 'react';
+import { Utils } from '@crm/common';
 import { State } from 'types';
 import { ResetForm } from 'types/formik';
 import { decodeNullValues } from 'components/Formik/utils';
-import { typesLabels } from 'constants/audit';
-import renderLabel from 'utils/renderLabel';
 import { Feed__AuditCategory__Enum as FeedAuditCategoryEnum } from '__generated__/types';
+import { typesLabels } from 'constants/audit';
 import { FeedsQueryVariables } from '../graphql/__generated__/FeedsQuery';
 import { useFeedTypesQuery } from '../graphql/__generated__/FeedTypesQuery';
 
@@ -48,7 +48,7 @@ const useFeedsFilters = (props: Props) => {
     .filter(key => feedTypesList[key] && key !== '__typename')
     .map(type => ({
       key: type,
-      value: I18n.t(renderLabel(type, typesLabels)),
+      value: I18n.t(Utils.renderLabel(type, typesLabels)),
     }))
     .sort(({ value: a }, { value: b }) => (a > b ? 1 : -1)),
   [feedTypesList]);

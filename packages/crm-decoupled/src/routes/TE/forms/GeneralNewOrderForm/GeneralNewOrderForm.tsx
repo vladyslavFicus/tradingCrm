@@ -4,6 +4,7 @@ import I18n from 'i18n-js';
 import { orderBy, intersectionWith } from 'lodash';
 import Hotkeys from 'react-hot-keys';
 import { Button, Input } from 'components';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useStorage } from 'providers/StorageProvider';
@@ -16,8 +17,6 @@ import {
 import { Node } from 'components/SelectTree';
 import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
 import { OrderDirection } from 'types/trading-engine';
-import { createValidator } from 'utils/validator';
-import { round } from 'utils/round';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { calculatePnL, calculateMargin, determineOrderType } from 'routes/TE/utils/formulas';
 import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
@@ -138,7 +137,7 @@ const GeneralNewOrderForm = (props: Props) => {
   const getCurrentPriceBid = () => {
     const currentSymbol = getCurrentSymbol();
 
-    return round(
+    return Utils.round(
       (currentSymbolPrice?.bid || 0) - (currentSymbol?.config?.bidAdjustment || 0),
       currentSymbol?.digits,
     );
@@ -152,7 +151,7 @@ const GeneralNewOrderForm = (props: Props) => {
   const getCurrentPriceAsk = () => {
     const currentSymbol = getCurrentSymbol();
 
-    return round(
+    return Utils.round(
       (currentSymbolPrice?.ask || 0) + (currentSymbol?.config?.askAdjustment || 0),
       currentSymbol?.digits,
     );
@@ -265,7 +264,7 @@ const GeneralNewOrderForm = (props: Props) => {
     const currentSymbol = getCurrentSymbol();
     const { lotMin = 0, lotMax = 1000, lotStep = 1 } = currentSymbol?.config || {};
 
-    return createValidator({
+    return Utils.createValidator({
       volumeLots: [account && 'required', 'numeric', `min:${lotMin}`, `max:${lotMax}`, `step:${lotStep}`],
       symbol: [account && 'required', 'string'],
       ...!values.autoOpenPrice && {

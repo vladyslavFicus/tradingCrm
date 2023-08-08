@@ -1,12 +1,11 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
-import enumToArray from 'utils/enumToArray';
-import { createValidator, translateLabels } from 'utils/validator';
+
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Desk__Types__Enum as DeskTypesEnum, HierarchyBranch } from '__generated__/types';
 import { useUpdateDeskMutation } from './graphql/__generated__/UpdateDeskMutation';
@@ -63,13 +62,13 @@ const UpdateDeskModal = (props: Props) => {
   return (
     <Formik
       initialValues={data as FormValues}
-      validate={createValidator(
+      validate={Utils.createValidator(
         {
           name: ['required', 'string'],
           deskType: ['required', 'string'],
           language: ['required', `in:${Config.getAvailableLanguages().join()}`],
         },
-        translateLabels(attributeLabels),
+        Utils.translateLabels(attributeLabels),
         false,
       )}
       validateOnChange={false}
@@ -104,7 +103,7 @@ const UpdateDeskModal = (props: Props) => {
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               disabled={isSubmitting}
             >
-              {enumToArray(DeskTypesEnum).map(deskType => (
+              {Utils.enumToArray(DeskTypesEnum).map(deskType => (
                 <option key={deskType} value={deskType}>
                   {I18n.t(`MODALS.ADD_DESK_MODAL.LABELS.DESK_TYPE_OPTIONS.${deskType}`)}
                 </option>

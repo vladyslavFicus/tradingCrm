@@ -2,9 +2,9 @@ import React from 'react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { useParams } from 'react-router-dom';
 import { Button } from 'components';
+import { Utils } from '@crm/common';
 import I18n from 'i18n';
 import { parseErrors } from 'apollo';
-import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import NotFound from 'routes/NotFound';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -25,7 +25,7 @@ import { useSymbolsSourcesQuery } from './graphql/__generated__/SymbolsSourcesQu
 import { useEditSymbolMutation } from './graphql/__generated__/EditSymbolMutation';
 import './SymbolEdit.scss';
 
-const validator = createValidator(
+const validator = Utils.createValidator(
   {
     symbol: ['required'],
     digits: ['required', 'numeric'],

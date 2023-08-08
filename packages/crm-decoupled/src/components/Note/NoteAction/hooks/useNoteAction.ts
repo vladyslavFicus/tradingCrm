@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { v4 } from 'uuid';
 import { debounce } from 'lodash';
+import { Utils } from '@crm/common';
 import { FormValues, NoteEntity } from 'types/Note';
-import EventEmitter, { NOTE_RELOAD } from 'utils/EventEmitter';
 import { useAddNoteMutation } from '../graphql/__generated__/AddNoteMutation';
 import { useUpdateNoteMutation } from '../graphql/__generated__/UpdateNoteMutation';
 import { useRemoveNoteMutation } from '../graphql/__generated__/RemoveNoteMutation';
@@ -62,7 +62,7 @@ const useNoteAction = (props: Props) => {
     try {
       await addNoteMutation({ variables });
 
-      EventEmitter.emit(NOTE_RELOAD, { targetType });
+      Utils.EventEmitter.emit(Utils.NOTE_RELOAD, { targetType });
 
       handleClose(true);
       handleRefetch();
@@ -77,7 +77,7 @@ const useNoteAction = (props: Props) => {
     try {
       await updateNoteMutation({ variables });
 
-      EventEmitter.emit(NOTE_RELOAD, { targetType });
+      Utils.EventEmitter.emit(Utils.NOTE_RELOAD, { targetType });
 
       handleClose(true);
       handleRefetch();
@@ -91,7 +91,7 @@ const useNoteAction = (props: Props) => {
       try {
         await removeNoteMutation({ variables: { noteId: note.noteId } });
 
-        EventEmitter.emit(NOTE_RELOAD, { targetType });
+        Utils.EventEmitter.emit(Utils.NOTE_RELOAD, { targetType });
 
         handleClose(true);
         handleRefetch();

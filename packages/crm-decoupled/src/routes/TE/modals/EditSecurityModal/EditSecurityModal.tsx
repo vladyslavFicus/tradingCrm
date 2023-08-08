@@ -3,9 +3,9 @@ import I18n from 'i18n-js';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { Field, Form, Formik } from 'formik';
 import { Button } from 'components';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import { securityNamePattern } from '../../constants';
 import { useSecurityQuery } from './graphql/__generated__/SecurityQuery';
@@ -68,7 +68,7 @@ const EditSecurityModalFn = (props: Props) => {
           description,
         }}
         validate={
-          createValidator(
+          Utils.createValidator(
             {
               name: ['required', `regex:${securityNamePattern}`],
               description: 'string',

@@ -3,8 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Button, RefreshButton } from 'components';
+import { Utils } from '@crm/common';
 import { State } from 'types';
-import enumToArray from 'utils/enumToArray';
 import { TradingEngine__OperatorStatuses__Enum as OperatorStatusesEnum } from '__generated__/types';
 import {
   FormikInputField,
@@ -111,7 +111,7 @@ const OperatorsFilter = (props: Props) => {
               withFocus
               multiple
             >
-              {enumToArray(OperatorStatusesEnum).map(status => (
+              {Utils.enumToArray(OperatorStatusesEnum).map(status => (
                 <option key={status} value={status}>
                   {I18n.t(status)}
                 </option>

@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import Preloader from 'components/Preloader';
-import { importLink } from 'utils/dom';
-import { addCRMCustomLocale } from 'utils/locale';
 import { downloadLocalesFromS3 } from './utils';
 import './CrmBrandProvider.scss';
 
@@ -46,12 +44,12 @@ const CrmBrandProvider = (props: Props) => {
     const locales = await downloadLocalesFromS3(localeKeys);
 
     // Add custom locales from CRM brand to system
-    Object.keys(locales).forEach(localeKey => addCRMCustomLocale(localeKey, locales[localeKey]));
+    Object.keys(locales).forEach(localeKey => Utils.addCRMCustomLocale(localeKey, locales[localeKey]));
   }, []);
 
   // ================== Download CRM brand styles ================== //
   const downloadStyles = useCallback(async () => {
-    await importLink({
+    await Utils.importLink({
       rel: 'stylesheet',
       href: Config.getCrmBrandStaticFileUrl('assets/style.css'),
     });
@@ -59,7 +57,7 @@ const CrmBrandProvider = (props: Props) => {
 
   // ================== Download CRM brand icon pack ================== //
   const downloadIconpack = useCallback(async () => {
-    await importLink({
+    await Utils.importLink({
       rel: 'stylesheet',
       href: Config.getCrmBrandStaticFileUrl('assets/iconpack/style.css'),
     });

@@ -4,9 +4,9 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
 import { Button, CircleLoader } from 'components';
+import { Utils } from '@crm/common';
 import { withStreams } from 'rsocket';
 import { TradingAccount } from '__generated__/types';
-import { getPlatformTypeLabel } from 'utils/tradingAccount';
 import Link from 'components/Link';
 import { AdjustableTable, Column } from 'components/Table';
 import ActionsDropDown from 'components/ActionsDropDown';
@@ -68,7 +68,7 @@ const ClientTradingAccountsGrid = (props: Props) => {
         </Badge>
 
         <div className="ClientTradingAccountsGrid__cell-sub">
-          <Uuid uuid={accountUUID} uuidPrefix={getPlatformTypeLabel(platformType)} />
+          <Uuid uuid={accountUUID} uuidPrefix={Utils.getPlatformTypeLabel(platformType)} />
         </div>
       </>
     ), [],
@@ -293,7 +293,7 @@ const ClientTradingAccountsGrid = (props: Props) => {
   );
 
   const renderServerColumn = useCallback(({ accountType, platformType }: TradingAccount) => (
-    <div className="ClientTradingAccountsGrid__cell-main">{getPlatformTypeLabel(platformType)} {accountType}</div>
+    <div className="ClientTradingAccountsGrid__cell-main">{Utils.getPlatformTypeLabel(platformType)} {accountType}</div>
   ), []);
 
   const renderActionsColumn = useCallback((tradingAccount: TradingAccount) => {

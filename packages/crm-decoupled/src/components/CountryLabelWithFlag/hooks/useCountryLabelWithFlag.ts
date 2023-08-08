@@ -1,7 +1,7 @@
-import { getCountryCode } from 'utils/countryList';
+import { Utils } from '@crm/common';
 
 const useCountryLabelWithFlag = (code?: string | null) => {
-  const countryCode = code ? getCountryCode(code) : '';
+  const countryCode = code ? Utils.getCountryCode(code) : '';
 
   return {
     countryCode,

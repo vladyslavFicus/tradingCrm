@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { Utils } from '@crm/common';
 import { Button } from 'components';
 import { TableSelection } from 'types';
-import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
@@ -58,7 +58,7 @@ const AccountProfilePendingOrderBulkActions = (props: Props) => {
             message: I18n.t('TRADING_ENGINE.MODALS.BULK_CANCEL_ORDERS.NOTIFICATION.CANCEL_SUCCESS'),
           });
 
-          EventEmitter.emit(ORDER_RELOAD);
+          Utils.EventEmitter.emit(Utils.ORDER_RELOAD);
         } catch (_) {
           notify({
             level: LevelType.ERROR,

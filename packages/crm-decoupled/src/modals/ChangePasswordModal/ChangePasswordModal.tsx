@@ -1,10 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { FormikInputField } from 'components/Formik';
 import Uuid from 'components/Uuid';
-import { createValidator, translateLabels } from 'utils/validator';
+
 import Modal from 'components/Modal';
 import { attributeLabels } from './constants';
 import './ChangePasswordModal.scss';
@@ -47,7 +47,7 @@ const ChangePasswordModal = (props: Props) => {
         repeatPassword: '',
       } as FormValues}
       validate={
-            createValidator(
+            Utils.createValidator(
               {
                 newPassword: [
                   'required',
@@ -56,7 +56,7 @@ const ChangePasswordModal = (props: Props) => {
                 ],
                 repeatPassword: ['required', 'same:newPassword'],
               },
-              translateLabels(attributeLabels),
+              Utils.translateLabels(attributeLabels),
               false,
               {
                 ...passwordCustomError && { 'regex.newPassword': passwordCustomError },

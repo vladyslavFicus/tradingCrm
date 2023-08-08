@@ -2,8 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Button } from 'components';
-import { Config } from '@crm/common';
-import { createValidator, translateLabels } from 'utils/validator';
+import { Config, Utils } from '@crm/common';
+
 import { FormikInputField } from 'components/Formik';
 import { Profile } from '__generated__/types';
 import { attributeLabels } from 'routes/Clients/routes/Client/routes/ClientProfileTab/constants/clientContactsForm';
@@ -53,10 +53,10 @@ const ClientContactsForm = (props: Props) => {
           additionalPhone: profileContacts.additionalPhone || contacts?.additionalPhone,
           phone: profileContacts.phone || contacts?.phone,
         } as FormValues}
-        validate={createValidator({
+        validate={Utils.createValidator({
           phone: 'required|string|min:3',
           additionalPhone: 'string',
-        }, translateLabels(attributeLabels), false)}
+        }, Utils.translateLabels(attributeLabels), false)}
         onSubmit={handleSubmitContacts}
         enableReinitialize
       >
@@ -154,9 +154,9 @@ const ClientContactsForm = (props: Props) => {
         initialValues={{
           email: profileContacts.email || contacts?.email,
         } as FormValues}
-        validate={createValidator({
+        validate={Utils.createValidator({
           email: 'required|email',
-        }, translateLabels(attributeLabels), false)}
+        }, Utils.translateLabels(attributeLabels), false)}
         onSubmit={handleSubmitEmailClick}
         enableReinitialize
       >
@@ -227,9 +227,9 @@ const ClientContactsForm = (props: Props) => {
         initialValues={{
           additionalEmail: profileContacts.additionalEmail || contacts?.additionalEmail,
         } as FormValues}
-        validate={createValidator({
+        validate={Utils.createValidator({
           additionalEmail: 'string',
-        }, translateLabels(attributeLabels), false)}
+        }, Utils.translateLabels(attributeLabels), false)}
         onSubmit={handleSubmitContacts}
         enableReinitialize
       >

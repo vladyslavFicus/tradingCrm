@@ -2,11 +2,11 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Button } from 'components';
-import enumToArray from 'utils/enumToArray';
+import { Utils } from '@crm/common';
 import { Profile } from '__generated__/types';
-import { kycStatuses, kycStatusesLabels } from 'constants/kycStatuses';
 import { FormikSelectField } from 'components/Formik';
 import useClientKycForm from 'routes/Clients/routes/Client/routes/ClientProfileTab/hooks/useClientKycForm';
+import { kycStatuses, kycStatusesLabels } from 'constants/kycStatuses';
 import './ClientKycForm.scss';
 
 type Props = {
@@ -54,7 +54,7 @@ const ClientKycForm = (_props: Props) => {
               component={FormikSelectField}
               disabled={isSubmitting || !allowUpdateKycStatus}
             >
-              {enumToArray(kycStatuses).map(status => (
+              {Utils.enumToArray(kycStatuses).map(status => (
                 <option key={status} value={status}>
                   {I18n.t(kycStatusesLabels[status])}
                 </option>

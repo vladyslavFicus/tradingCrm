@@ -1,4 +1,4 @@
-import { createValidator, translateLabels } from 'utils/validator';
+import { Utils } from '@crm/common';
 
 export const MAX_NOTE_BODY_LENGTH = 10000;
 
@@ -8,8 +8,8 @@ export const attributeLabels = {
   content: 'NOTES.BODY',
 };
 
-export const validator = createValidator({
+export const validator = Utils.createValidator({
   subject: 'string',
   content: ['required', 'string', `between:3,${MAX_NOTE_BODY_LENGTH}`],
   pinned: ['required', 'boolean'],
-}, translateLabels(attributeLabels), false);
+}, Utils.translateLabels(attributeLabels), false);

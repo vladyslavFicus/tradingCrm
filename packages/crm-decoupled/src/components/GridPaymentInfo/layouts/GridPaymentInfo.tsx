@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { Utils } from '@crm/common';
 import { Payment } from '__generated__/types';
-import { shortify } from 'utils/uuid';
 import Badge from 'components/Badge';
 import Uuid from 'components/Uuid';
 import useGridPaymentInfo from '../hooks/useGridPaymentInfo';
@@ -30,7 +30,7 @@ const GridPaymentInfo = (props: Props) => {
           info={accountType === 'DEMO'}
           success={accountType === 'LIVE'}
         >
-          {shortify(paymentId, 'TA')}
+          {Utils.uuidShortify(paymentId, 'TA')}
         </Badge>
       </div>
 

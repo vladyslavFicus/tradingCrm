@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { NetworkStatus } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
+import { Utils } from '@crm/common';
 import { State, TableSelection } from 'types';
 import usePrevious from 'hooks/usePrevious';
-import { fieldTimeZoneOffset } from 'utils/timeZoneOffset';
 import { FormValues } from '../types';
 import { ClientsListQueryVariables, useClientsListQuery } from '../graphql/__generated__/ClientsQuery';
 
@@ -30,40 +30,40 @@ const useClientsList = () => {
     args: {
       ...rest,
       ...(affiliateFtdDateRange && { affiliateFtdDateRange: {
-        ...fieldTimeZoneOffset('from', affiliateFtdDateRange?.from, timeZone),
-        ...fieldTimeZoneOffset('to', affiliateFtdDateRange?.to, timeZone),
+        ...Utils.fieldTimeZoneOffset('from', affiliateFtdDateRange?.from, timeZone),
+        ...Utils.fieldTimeZoneOffset('to', affiliateFtdDateRange?.to, timeZone),
       } }),
       ...(firstDepositDateRange && { firstDepositDateRange: {
-        ...fieldTimeZoneOffset('from', firstDepositDateRange?.from, timeZone),
-        ...fieldTimeZoneOffset('to', firstDepositDateRange?.to, timeZone),
+        ...Utils.fieldTimeZoneOffset('from', firstDepositDateRange?.from, timeZone),
+        ...Utils.fieldTimeZoneOffset('to', firstDepositDateRange?.to, timeZone),
       } }),
       ...(firstNoteDateRange && { firstNoteDateRange: {
-        ...fieldTimeZoneOffset('from', firstNoteDateRange?.from, timeZone),
-        ...fieldTimeZoneOffset('to', firstNoteDateRange?.to, timeZone),
+        ...Utils.fieldTimeZoneOffset('from', firstNoteDateRange?.from, timeZone),
+        ...Utils.fieldTimeZoneOffset('to', firstNoteDateRange?.to, timeZone),
       } }),
       ...(lastCallDateRange && { lastCallDateRange: {
-        ...fieldTimeZoneOffset('from', lastCallDateRange?.from, timeZone),
-        ...fieldTimeZoneOffset('to', lastCallDateRange?.to, timeZone),
+        ...Utils.fieldTimeZoneOffset('from', lastCallDateRange?.from, timeZone),
+        ...Utils.fieldTimeZoneOffset('to', lastCallDateRange?.to, timeZone),
       } }),
       ...(lastLoginDateRange && { lastLoginDateRange: {
-        ...fieldTimeZoneOffset('from', lastLoginDateRange?.from, timeZone),
-        ...fieldTimeZoneOffset('to', lastLoginDateRange?.to, timeZone),
+        ...Utils.fieldTimeZoneOffset('from', lastLoginDateRange?.from, timeZone),
+        ...Utils.fieldTimeZoneOffset('to', lastLoginDateRange?.to, timeZone),
       } }),
       ...(lastModificationDateRange && { lastModificationDateRange: {
-        ...fieldTimeZoneOffset('from', lastModificationDateRange?.from, timeZone),
-        ...fieldTimeZoneOffset('to', lastModificationDateRange?.to, timeZone),
+        ...Utils.fieldTimeZoneOffset('from', lastModificationDateRange?.from, timeZone),
+        ...Utils.fieldTimeZoneOffset('to', lastModificationDateRange?.to, timeZone),
       } }),
       ...(lastNoteDateRange && { lastNoteDateRange: {
-        ...fieldTimeZoneOffset('from', lastNoteDateRange?.from, timeZone),
-        ...fieldTimeZoneOffset('to', lastNoteDateRange?.to, timeZone),
+        ...Utils.fieldTimeZoneOffset('from', lastNoteDateRange?.from, timeZone),
+        ...Utils.fieldTimeZoneOffset('to', lastNoteDateRange?.to, timeZone),
       } }),
       ...(lastTradeDateRange && { lastTradeDateRange: {
-        ...fieldTimeZoneOffset('from', lastTradeDateRange?.from, timeZone),
-        ...fieldTimeZoneOffset('to', lastTradeDateRange?.to, timeZone),
+        ...Utils.fieldTimeZoneOffset('from', lastTradeDateRange?.from, timeZone),
+        ...Utils.fieldTimeZoneOffset('to', lastTradeDateRange?.to, timeZone),
       } }),
       ...(registrationDateRange && { registrationDateRange: {
-        ...fieldTimeZoneOffset('from', registrationDateRange?.from, timeZone),
-        ...fieldTimeZoneOffset('to', registrationDateRange?.to, timeZone),
+        ...Utils.fieldTimeZoneOffset('from', registrationDateRange?.from, timeZone),
+        ...Utils.fieldTimeZoneOffset('to', registrationDateRange?.to, timeZone),
       } }),
       page: {
         from: 0,

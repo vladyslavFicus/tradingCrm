@@ -3,21 +3,7 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Field, Form, Formik } from 'formik';
 import { Button, RefreshButton } from 'components';
-import {
-  aggregators,
-  aggregatorsLabels,
-  statuses as tradingStatuses,
-  statusesLabels as tradingStatusesLabels,
-  tradingTypes,
-  tradingTypesLabels,
-} from 'constants/payment';
-import { accountTypes } from 'constants/accountTypes';
-import { warningLabels, warningValues } from 'constants/warnings';
-import { statuses as operatorsStasuses } from 'constants/operators';
-import { filterSetTypes } from 'constants/filterSet';
-import formatLabel from 'utils/formatLabel';
-import countries from 'utils/countryList';
-import enumToArray from 'utils/enumToArray';
+import { Utils } from '@crm/common';
 import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'components/Formik';
 import { RangeGroup } from 'components/Forms';
 import { FiltersToggler } from 'components/FiltersToggler';
@@ -26,6 +12,18 @@ import TimeZoneField from 'components/TimeZoneField';
 import { firstTimeDepositFilter } from 'components/PaymentsListFilters/constants';
 import usePaymentsListFilters from 'components/PaymentsListFilters/hooks/usePaymentsListFilters';
 import { FormValues } from 'components/PaymentsListFilters/types';
+import { filterSetTypes } from 'constants/filterSet';
+import { statuses as operatorsStasuses } from 'constants/operators';
+import { warningLabels, warningValues } from 'constants/warnings';
+import { accountTypes } from 'constants/accountTypes';
+import {
+  aggregators,
+  aggregatorsLabels,
+  statuses as tradingStatuses,
+  statusesLabels as tradingStatusesLabels,
+  tradingTypes,
+  tradingTypesLabels,
+} from 'constants/payment';
 import './PaymentsListFilters.scss';
 
 type Props = {
@@ -147,7 +145,7 @@ const PaymentsListFilters = (props: Props) => {
                     withAnyOption
                     withFocus
                   >
-                    {enumToArray(aggregators).map(value => (
+                    {Utils.enumToArray(aggregators).map(value => (
                       <option key={value} value={value}>
                         {I18n.t(aggregatorsLabels[value])}
                       </option>
@@ -168,7 +166,7 @@ const PaymentsListFilters = (props: Props) => {
                   >
                     {paymentMethods.map(value => (
                       <option key={value} value={value}>
-                        {formatLabel(value, false)}
+                        {Utils.formatLabel(value, false)}
                       </option>
                     ))}
                   </Field>
@@ -185,7 +183,7 @@ const PaymentsListFilters = (props: Props) => {
                   >
                     {paymentSystemsProvider.map(({ paymentSystem, isFavourite }) => (
                       <option key={paymentSystem} value={paymentSystem} data-isFavourite={isFavourite}>
-                        {formatLabel(paymentSystem, false)}
+                        {Utils.formatLabel(paymentSystem, false)}
                       </option>
                     ))}
                   </Field>
@@ -221,7 +219,7 @@ const PaymentsListFilters = (props: Props) => {
                     withFocus
                     multiple
                   >
-                    {enumToArray(tradingStatuses).map(value => (
+                    {Utils.enumToArray(tradingStatuses).map(value => (
                       <option key={value} value={value}>
                         {I18n.t(tradingStatusesLabels[value])}
                       </option>
@@ -243,9 +241,9 @@ const PaymentsListFilters = (props: Props) => {
                     >
                       {[
                         <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                        ...Object.keys(countries)
+                        ...Object.keys(Utils.countryList)
                           .map(country => (
-                            <option key={country} value={country}>{countries[country]}</option>
+                            <option key={country} value={country}>{Utils.countryList[country]}</option>
                           )),
                       ]}
                     </Field>
@@ -395,7 +393,7 @@ const PaymentsListFilters = (props: Props) => {
                     withAnyOption
                     withFocus
                   >
-                    {enumToArray(warningValues).map(value => (
+                    {Utils.enumToArray(warningValues).map(value => (
                       <option key={value} value={value}>
                         {I18n.t(warningLabels[value])}
                       </option>

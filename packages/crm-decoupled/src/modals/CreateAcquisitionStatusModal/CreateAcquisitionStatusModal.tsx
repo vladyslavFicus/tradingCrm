@@ -2,11 +2,10 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { differenceWith } from 'lodash';
 import { Formik, Form, Field, FormikProps } from 'formik';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { SetFieldValue } from 'types/formik';
-import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import Modal from 'components/Modal';
 import { FormikSelectField } from 'components/Formik';
@@ -16,7 +15,7 @@ import { useAcquisitionStatusesQuery } from './graphql/__generated__/Acquisition
 import { useCreateAcquisitionStatusMutation } from './graphql/__generated__/CreateAcquisitionStatusMutation';
 import './CreateAcquisitionStatusModal.scss';
 
-const validate = createValidator(
+const validate = Utils.createValidator(
   {
     type: 'required',
     status: 'required',

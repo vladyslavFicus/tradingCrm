@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -9,7 +9,6 @@ import UpdateLeverageModal, { UpdateLeverageModalProps } from 'modals/UpdateLeve
 import UpdateTradingAccountPasswordModal, {
   UpdateTradingAccountPasswordModalProps,
 } from 'modals/UpdateTradingAccountPasswordModal';
-import downloadBlob from 'utils/downloadBlob';
 import { useApproveChangingLeverageMutation } from '../graphql/__generated__/ApproveChangingLeverageMutation';
 import { useRejectChangingLeverageMutation } from '../graphql/__generated__/RejectChangingLeverageMutation';
 import { useToggleDisabledTradingAccountMutation } from '../graphql/__generated__/ToggleDisabledTradingAccountMutation';
@@ -116,7 +115,7 @@ const useClientTradingAccountsGrid = (props: Props) => {
         },
       });
       const blobData = await response.blob();
-      downloadBlob(`${login}.xls`, blobData);
+      Utils.downloadBlob(`${login}.xls`, blobData);
     } catch (e) {
       // Do nothing...
     }

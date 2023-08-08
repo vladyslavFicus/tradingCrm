@@ -1,18 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { SetFieldValue } from 'types/formik';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { generate } from 'utils/password';
-import { createValidator, translateLabels } from 'utils/validator';
-import {
-  getAvailablePlatformTypes,
-  getAvailableAccountTypes,
-  getPlarformSupportedCurrencies,
-  getPlatformDefaultCurrency,
-} from 'utils/tradingAccount';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { attributeLabels, amounts } from './constants';
@@ -39,10 +31,11 @@ export type Props = {
 const TradingAccountAddModal = (props: Props) => {
   const { profileId, onSuccess, onCloseModal } = props;
 
-  const platformTypes = getAvailablePlatformTypes();
+  const platformTypes = Utils.getAvailablePlatformTypes();
   const platformType = platformTypes?.[0]?.value;
 
-  const accountType = getAvailableAccountTypes(platformType).find(type => type?.value === 'LIVE') ? 'LIVE' : 'DEMO';
+  const accountType = Utils.getAvailableAccountTypes(platformType)
+    .find(type => type?.value === 'LIVE') ? 'LIVE' : 'DEMO';
 
   // ===== Requests ===== //
   const [createTradingAccountMutation] = useCreateTradingAccountMutation();
@@ -79,7 +72,7 @@ const TradingAccountAddModal = (props: Props) => {
   };
 
   const handleChangePlatformType = (values: FormValues, value: string, setFieldValue: SetFieldValue<FormValues>) => {
-    const availableAccountTypes = getAvailableAccountTypes(value);
+    const availableAccountTypes = Utils.getAvailableAccountTypes(value);
 
     // If previous accountType not found for new chosen platformType --> choose first from list
     if (!availableAccountTypes.find(type => type?.value === values.accountType)) {
@@ -87,7 +80,7 @@ const TradingAccountAddModal = (props: Props) => {
     }
 
     setFieldValue('platformType', value);
-    setFieldValue('currency', getPlatformDefaultCurrency(value));
+    setFieldValue('currency', Utils.getPlatformDefaultCurrency(value));
   };
 
   return (
@@ -96,24 +89,24 @@ const TradingAccountAddModal = (props: Props) => {
         platformType,
         accountType,
         name: '',
-        currency: getPlatformDefaultCurrency(platformType),
+        currency: Utils.getPlatformDefaultCurrency(platformType),
         amount: 0,
-        password: generate(),
+        password: Utils.generate(),
       }}
-      validate={values => createValidator({
+      validate={values => Utils.createValidator({
         name: ['required', 'string', 'max:50', 'min:4'],
         currency: ['required', 'string'],
         password: values.platformType !== 'WET'
           && values.platformType !== 'TE'
           && ['required', `regex:${Config.getBrand().password.mt4_pattern}`],
         amount: values.accountType === 'DEMO' && 'required',
-      }, translateLabels(attributeLabels), false)(values)}
+      }, Utils.translateLabels(attributeLabels), false)(values)}
       validateOnBlur={false}
       validateOnChange={false}
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, setFieldValue, values, submitForm }) => {
-        const accountTypes = getAvailableAccountTypes(values.platformType);
+        const accountTypes = Utils.getAvailableAccountTypes(values.platformType);
 
         return (
           <Modal
@@ -185,7 +178,7 @@ const TradingAccountAddModal = (props: Props) => {
                 label={attributeLabels.currency}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               >
-                {getPlarformSupportedCurrencies(values.platformType).map((item, index) => (
+                {Utils.getPlarformSupportedCurrencies(values.platformType).map((item, index) => (
                   <option key={index} value={item}>
                     {item}
                   </option>
@@ -200,7 +193,7 @@ const TradingAccountAddModal = (props: Props) => {
                   label={attributeLabels.password}
                   placeholder={attributeLabels.password}
                   addition={<span className="icon-generate-password" />}
-                  onAdditionClick={() => setFieldValue('password', generate())}
+                  onAdditionClick={() => setFieldValue('password', Utils.generate())}
                 />
               </If>
             </Form>

@@ -6,7 +6,7 @@ import Hotkeys from 'react-hot-keys';
 import { UncontrolledTooltip } from 'reactstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from 'components';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { TradingEngine__OrderStatuses__Enum as OrderStatusesEnum } from '__generated__/types';
 import { State, Sort } from 'types';
 import { OrderCloseByEnum } from 'types/trading-engine';
@@ -14,7 +14,6 @@ import { usePermission } from 'providers/PermissionsProvider';
 import { useStorage } from 'providers/StorageProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
-import { round } from 'utils/round';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import Tabs from 'components/Tabs';
@@ -415,8 +414,8 @@ const Orders = () => {
             const { bidAdjustment = 0, askAdjustment = 0 } = symbolConfig || {};
 
             // Get current BID and ASK prices with applied group spread
-            const currentPriceBid = round(bid - bidAdjustment, digits);
-            const currentPriceAsk = round(ask + askAdjustment, digits);
+            const currentPriceBid = Utils.round(bid - bidAdjustment, digits);
+            const currentPriceAsk = Utils.round(ask + askAdjustment, digits);
 
             return (
               <div className="Orders__cell-value">

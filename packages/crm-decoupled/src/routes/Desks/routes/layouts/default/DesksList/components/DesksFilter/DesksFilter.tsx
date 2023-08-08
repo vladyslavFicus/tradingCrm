@@ -2,10 +2,9 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Button, RefreshButton } from 'components';
+import { Utils } from '@crm/common';
 import useFilter from 'hooks/useFilter';
 import { Desk__Types__Enum as DeskTypesEnum, HierarchyBranch } from '__generated__/types';
-import enumToArray from 'utils/enumToArray';
-import { createValidator } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import useDesks from 'routes/Desks/routes/hooks/useDesks';
 import useDesksFilter from 'routes/Desks/routes/hooks/useDesksFilter';
@@ -29,7 +28,7 @@ const DesksFilter = () => {
       enableReinitialize
       className="DesksFilter"
       initialValues={filters}
-      validate={createValidator({
+      validate={Utils.createValidator({
         keyword: 'string',
         officeUuid: 'string',
         deskType: 'string',
@@ -81,7 +80,7 @@ const DesksFilter = () => {
               withAnyOption
               withFocus
             >
-              {enumToArray(DeskTypesEnum).map(deskType => (
+              {Utils.enumToArray(DeskTypesEnum).map(deskType => (
                 <option key={deskType} value={deskType}>
                   {I18n.t(`DESKS.GRID_FILTERS.DESK_TYPE_OPTIONS.${deskType}`)}
                 </option>

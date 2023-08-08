@@ -1,14 +1,14 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Utils } from '@crm/common';
 import { IpWhitelistAddress } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { createValidator } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useUpdateIpWhiteListMutation } from './graphql/__generated__/UpdateIpWhiteListMutation';
 
-const validate = createValidator(
+const validate = Utils.createValidator(
   {
     ip: ['required', 'IP'],
     description: ['required', 'string', 'min:3'],

@@ -1,9 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import moment from 'moment';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { Profile } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
-import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import { usePaymentGeneralStatisticQuery } from '../graphql/__generated__/PaymentGeneralStatisticQuery';
 
 type Props = {
@@ -82,10 +81,10 @@ const useClientBalance = (props: Props) => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CLIENT_RELOAD, refetchPaymentGeneralStatistic);
+    Utils.EventEmitter.on(Utils.CLIENT_RELOAD, refetchPaymentGeneralStatistic);
 
     return () => {
-      EventEmitter.off(CLIENT_RELOAD, refetchPaymentGeneralStatistic);
+      Utils.EventEmitter.off(Utils.CLIENT_RELOAD, refetchPaymentGeneralStatistic);
     };
   }, []);
 

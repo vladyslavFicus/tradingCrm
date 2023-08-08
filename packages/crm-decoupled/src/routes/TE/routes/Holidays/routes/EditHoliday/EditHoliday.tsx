@@ -2,9 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Form, Formik, FormikProps } from 'formik';
 import { useParams } from 'react-router-dom';
+import { Utils } from '@crm/common';
 import { hasErrorPath } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { createValidator } from 'utils/validator';
 import ShortLoader from 'components/ShortLoader';
 import NotFound from 'routes/NotFound';
 import HolidayHeader from '../../components/HolidayHeader';
@@ -17,7 +17,7 @@ import './EditHoliday.scss';
 
 type Holiday = HolidayQuery['tradingEngine']['holiday'];
 
-const validator = createValidator(
+const validator = Utils.createValidator(
   {
     description: ['required'],
     date: ['required', 'date'],

@@ -2,9 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Button } from 'components';
+import { Utils } from '@crm/common';
 import { Partner } from '__generated__/types';
-import countryList from 'utils/countryList';
-import { createValidator, translateLabels } from 'utils/validator';
+
 import CopyToClipboard from 'components/CopyToClipboard';
 import {
   FormikInputField,
@@ -68,18 +68,18 @@ const PartnerPersonalInfoForm = (props: Props) => {
             cumulativeDeposit: minFtdDeposit ? cumulativeDeposit : true,
           },
         } as FormValues}
-        validate={createValidator({
+        validate={Utils.createValidator({
           firstName: ['required', 'string'],
           lastName: ['required', 'string'],
           email: ['required', 'email'],
-          country: [`in:,${Object.keys(countryList).join()}`],
+          country: [`in:,${Object.keys(Utils.countryList).join()}`],
           phone: 'string',
           externalAffiliateId: 'string',
           public: 'boolean',
           cdeAffiliate: 'boolean',
           permission: {
             allowedIpAddresses: 'listedIP\'s',
-            forbiddenCountries: ['array', `in:,${Object.keys(countryList).join()}`],
+            forbiddenCountries: ['array', `in:,${Object.keys(Utils.countryList).join()}`],
             showNotes: 'boolean',
             showSalesStatus: 'boolean',
             showFTDAmount: 'boolean',
@@ -88,7 +88,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
             cumulativeDeposit: 'boolean',
             minFtdDeposit: ['numeric', 'min:1', 'max:10000'],
           },
-        }, translateLabels(attributeLabels), false)}
+        }, Utils.translateLabels(attributeLabels), false)}
         onSubmit={handleSubmit}
         enableReinitialize
       >
@@ -213,7 +213,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
                 searchable
                 disabled={isSubmitting || deniesUpdate}
               >
-                {Object.entries(countryList).map(([key, value]) => (
+                {Object.entries(Utils.countryList).map(([key, value]) => (
                   <option key={key} value={key}>
                     {value}
                   </option>
@@ -241,7 +241,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
                 multiple
                 disabled={isSubmitting || deniesUpdate}
               >
-                {Object.entries(countryList).map(([key, value]) => (
+                {Object.entries(Utils.countryList).map(([key, value]) => (
                   <option key={key} value={key}>
                     {value}
                   </option>

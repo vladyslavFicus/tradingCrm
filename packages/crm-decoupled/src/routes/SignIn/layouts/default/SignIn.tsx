@@ -3,10 +3,9 @@ import QRCode from 'react-qr-code';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { Button } from 'components';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import Copyrights from 'components/Copyrights';
 import { FormikInputField } from 'components/Formik';
-import { createValidator } from 'utils/validator';
 import { FormValues } from 'routes/SignIn/types/signIn';
 import useSignIn from 'routes/SignIn/hooks/useSignIn';
 import './SignIn.scss';
@@ -36,7 +35,7 @@ const SignIn = () => {
           password: '',
         } as FormValues}
         onSubmit={handleSubmit}
-        validate={createValidator({
+        validate={Utils.createValidator({
           login: 'required|email',
           password: 'required|min:6',
         })}

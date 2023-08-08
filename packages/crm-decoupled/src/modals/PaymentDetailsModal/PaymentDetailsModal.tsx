@@ -4,10 +4,8 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Button, UncontrolledTooltip } from 'components';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { Payment } from '__generated__/types';
-import formatLabel from 'utils/formatLabel';
-import { createValidator, translateLabels } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { tradingTypes, statusMapper, tradingStatuses } from 'constants/payment';
@@ -168,9 +166,9 @@ const PaymentDetailsModal = (props: Props) => {
           initialValues={{ creationTime }}
           onSubmit={handleChangeCreationTime}
           validate={
-            createValidator({
+            Utils.createValidator({
               creationTime: ['required', 'dateWithTime'],
-            }, translateLabels({ creationTime: 'PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME' }), false)
+            }, Utils.translateLabels({ creationTime: 'PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME' }), false)
           }
         >
           {({ isSubmitting, dirty, isValid }) => (
@@ -312,7 +310,7 @@ const PaymentDetailsModal = (props: Props) => {
       <div className="PaymentDetailsModal__block-payment-status">
         <Choose>
           <When condition={!!paymentMethod}>
-            {formatLabel(paymentMethod || '', false)}
+            {Utils.formatLabel(paymentMethod || '', false)}
           </When>
 
           <Otherwise>

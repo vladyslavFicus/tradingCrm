@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 import { compact } from 'lodash';
 import I18n from 'i18n-js';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { TableSelection } from 'types';
 import { LevelType, notify } from 'providers/NotificationProvider';
-import EventEmitter, { NOTIFICATIONS_READ } from 'utils/EventEmitter';
 import { useNotificationQuery } from '../graphql/__generated__/NotificationQuery';
 import { useNotificationUpdateMutation } from '../graphql/__generated__/NotificationUpdateMutation';
 import { useConfigurationQuery } from '../graphql/__generated__/ConfigurationQuery';
@@ -86,7 +86,7 @@ const useNotificationCenterContent = () => {
           },
         });
 
-        EventEmitter.emit(NOTIFICATIONS_READ);
+        Utils.EventEmitter.emit(Utils.NOTIFICATIONS_READ);
 
         notify({
           level: LevelType.SUCCESS,

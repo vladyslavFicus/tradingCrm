@@ -3,11 +3,11 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Button, RefreshButton } from 'components';
+import { Utils } from '@crm/common';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { State } from 'types';
 import { decodeNullValues } from 'components/Formik/utils';
-import { createValidator, translateLabels } from 'utils/validator';
-import renderLabel from 'utils/renderLabel';
+
 import { typesLabels } from 'constants/audit';
 import { attributeLabels } from './constants';
 import { FeedFilterFormQueryVariables, useFeedFilterFormQuery } from './graphql/__generated__/FeedTypesQuery';
@@ -33,7 +33,7 @@ const AccountProfileFeedGridFilter = ({ handleRefetch }: Props) => {
     .filter(key => feedTypesList[key] && key !== '__typename')
     .map(type => ({
       key: type,
-      value: I18n.t(renderLabel(type, typesLabels)),
+      value: I18n.t(Utils.renderLabel(type, typesLabels)),
     }))
     .sort(({ value: a }, { value: b }) => (a > b ? 1 : -1));
 
@@ -65,13 +65,13 @@ const AccountProfileFeedGridFilter = ({ handleRefetch }: Props) => {
       initialValues={state?.filters || {} as FeedFilterFormQueryVariables}
       onSubmit={handleSubmit}
       validate={
-        createValidator({
+        Utils.createValidator({
           searchBy: 'string',
           auditLogType: ['string', `in:${Object.keys(feedTypesList).join()}`],
           creationDateFrom: 'dateWithTime',
           creationDateTo: 'dateWithTime',
           'details.orderId': ['numeric', 'min:0', 'max:999999999999999999'],
-        }, translateLabels(attributeLabels), false)
+        }, Utils.translateLabels(attributeLabels), false)
       }
     >
       {({

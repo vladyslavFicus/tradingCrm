@@ -1,9 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field } from 'formik';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { Operator, Partner, RuleOperatorSpread__Input as RuleOperatorSpread } from '__generated__/types';
-import countryList from 'utils/countryList';
 import { FormikInputField, FormikMultiInputField, FormikSelectField } from 'components/Formik';
 import RuleOperatorSpreads from 'components/RuleOperatorSpreads';
 import useRuleSettings, { FormikBag } from 'components/RuleSettings/hooks/useRuleSettings';
@@ -98,7 +97,7 @@ const RuleSettings = (props: Props) => {
         multiple
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
       >
-        {Object.entries(countryList).map(([key, value]) => (
+        {Object.entries(Utils.countryList).map(([key, value]) => (
           <option key={key} value={key}>
             {value}
           </option>

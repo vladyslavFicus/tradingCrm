@@ -2,9 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import Hotkeys from 'react-hot-keys';
 import { Rnd } from 'react-rnd';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
-import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import SymbolChart from 'components/SymbolChart';
 import GeneralNewOrderForm from 'routes/TE/forms/GeneralNewOrderForm';
 import { ReactComponent as InstantIcon } from './img/instant.svg';
@@ -41,7 +40,7 @@ const AccountProfileInstantOrder = (props: Props) => {
 
   // ===== Handlers ===== //
   const onSuccess = () => {
-    EventEmitter.emit(ORDER_RELOAD);
+    Utils.EventEmitter.emit(Utils.ORDER_RELOAD);
 
     setIsOpen(false);
   };

@@ -2,9 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Button, RefreshButton } from 'components';
+import { Utils } from '@crm/common';
 import useFilter from 'hooks/useFilter';
-import { createValidator, translateLabels } from 'utils/validator';
-import renderLabel from 'utils/renderLabel';
+
 import { FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import useClientNotesGridFilter
   from 'routes/Clients/routes/Client/routes/ClientNotesTab/hooks/useClientNotesGridFilter';
@@ -35,11 +35,11 @@ const ClientNotesGridFilter = (props: Props) => {
       initialValues={filters}
       onSubmit={handleSubmit}
       validate={
-        createValidator({
+        Utils.createValidator({
           department: ['string', `in:${Object.keys(departmentRoles).join()}`],
           changedAtFrom: 'dateWithTime',
           changedAtTo: 'dateWithTime',
-        }, translateLabels(attributeLabels), false)
+        }, Utils.translateLabels(attributeLabels), false)
       }
       enableReinitialize
     >
@@ -59,7 +59,7 @@ const ClientNotesGridFilter = (props: Props) => {
           >
             {Object.keys(departmentRoles).map(department => (
               <option key={department} value={department}>
-                {I18n.t(renderLabel(department, departmentsLabels))}
+                {I18n.t(Utils.renderLabel(department, departmentsLabels))}
               </option>
             ))}
           </Field>

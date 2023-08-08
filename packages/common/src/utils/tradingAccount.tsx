@@ -1,7 +1,7 @@
 import { get } from 'lodash';
-import { Config } from '@crm/common';
-import { accountTypes } from 'constants/accountTypes';
-import { platformTypes } from 'constants/platformTypes';
+import { accountTypes } from '../constants/accountTypes';
+import { platformTypes } from '../constants/platformTypes';
+import { getBrand } from '../config';
 
 /**
  * Get available platform types for current brand depends on brand config
@@ -9,7 +9,7 @@ import { platformTypes } from 'constants/platformTypes';
  * @return {*[]}
  */
 export const getAvailablePlatformTypes = () => {
-  const brand = Config.getBrand();
+  const brand = getBrand();
 
   return platformTypes.filter(({ value: _platformType }) => {
     const platformType = _platformType.toLowerCase();
@@ -29,7 +29,7 @@ export const getAvailablePlatformTypes = () => {
  * @return {*[]}
  */
 export const getAvailableAccountTypes = (_platformType: string) => {
-  const brand = Config.getBrand();
+  const brand = getBrand();
   const platformType = _platformType.toLowerCase();
 
   return accountTypes.filter(({ value: _accountType }) => {
@@ -47,7 +47,7 @@ export const getAvailableAccountTypes = (_platformType: string) => {
  * @return {Array<string>}
  */
 export const getPlarformSupportedCurrencies = (platformType: string): Array<string> => {
-  const brand = Config.getBrand();
+  const brand = getBrand();
   return brand[platformType.toLowerCase()]?.currencies?.supported || brand.currencies.supported;
 };
 
@@ -59,7 +59,7 @@ export const getPlarformSupportedCurrencies = (platformType: string): Array<stri
  * @return {string}
  */
 export const getPlatformDefaultCurrency = (platformType: string): string => {
-  const brand = Config.getBrand();
+  const brand = getBrand();
   return brand[platformType.toLowerCase()]?.currencies?.default || brand.currencies.base;
 };
 

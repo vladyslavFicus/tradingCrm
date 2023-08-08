@@ -1,11 +1,10 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { Sort__Input as Sort } from '__generated__/types';
 import { State } from 'types';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import EventEmitter, { CREATE_CLIENT_CALLBACK } from 'utils/EventEmitter';
 import CreateClientCallbackModal, { CreateClientCallbackModalProps } from 'modals/CreateClientCallbackModal';
 import {
   ClientCallbacksListQueryVariables,
@@ -44,10 +43,10 @@ const useClientCallbacksTab = () => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CREATE_CLIENT_CALLBACK, refetch);
+    Utils.EventEmitter.on(Utils.CREATE_CLIENT_CALLBACK, refetch);
 
     return () => {
-      EventEmitter.off(CREATE_CLIENT_CALLBACK, refetch);
+      Utils.EventEmitter.off(Utils.CREATE_CLIENT_CALLBACK, refetch);
     };
   }, []);
 

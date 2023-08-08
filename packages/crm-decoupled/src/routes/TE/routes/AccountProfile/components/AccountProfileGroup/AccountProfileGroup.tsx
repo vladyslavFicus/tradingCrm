@@ -3,11 +3,10 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { Input } from 'components';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
-import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import { usePermission } from 'providers/PermissionsProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Account } from '../../AccountProfile';
@@ -68,7 +67,7 @@ const AccountProfileGroup = (props: Props) => {
         },
       });
 
-      EventEmitter.emit(ORDER_RELOAD);
+      Utils.EventEmitter.emit(Utils.ORDER_RELOAD);
 
       notify({
         level: LevelType.SUCCESS,

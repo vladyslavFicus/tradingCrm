@@ -2,9 +2,9 @@ import React from 'react';
 import { Field, Form, Formik } from 'formik';
 import I18n from 'i18n-js';
 import { Button, UncontrolledTooltip } from 'components';
+import { Utils } from '@crm/common';
 import { PaymentDeposit } from '__generated__/types';
-import countryList from 'utils/countryList';
-import { createValidator, translateLabels } from 'utils/validator';
+
 import { FormikCheckbox, FormikInputField, FormikSelectField } from 'components/Formik';
 import useFeatureForm from 'routes/FeatureToggles/hooks/useFeatureForm';
 import { FormValues } from 'routes/FeatureToggles/types/featureForm';
@@ -54,7 +54,7 @@ const FeatureForm = () => {
             hideChangePasswordCp: !!hideChangePasswordCp,
             autoLogout: !!affiliateClientAutoLogoutEnable,
           } as FormValues}
-          validate={createValidator({
+          validate={Utils.createValidator({
             restrictedCountries: ['array'],
             platformMaxAccounts: platformMaxAccounts?.reduce((acc, platformAcc) => (
               { ...acc, [platformAcc?.platformType]: ['required', 'numeric', 'greater:0'] }), {}),
@@ -75,7 +75,7 @@ const FeatureForm = () => {
             hideChangePasswordCp: 'boolean',
             autoLogout: 'boolean',
             affiliateClientAutoLogoutMinutes: ['required_with:autoLogout', 'numeric', 'greater:0'],
-          }, translateLabels(attributeLabels), false, customErrors)}
+          }, Utils.translateLabels(attributeLabels), false, customErrors)}
           validateOnChange={false}
           validateOnBlur={false}
           onSubmit={handleSubmit}
@@ -129,8 +129,8 @@ const FeatureForm = () => {
                     multiple
                     disabled={isSubmitting}
                   >
-                    {Object.keys(countryList).map(country => (
-                      <option key={country} value={country}>{countryList[country]}</option>
+                    {Object.keys(Utils.countryList).map(country => (
+                      <option key={country} value={country}>{Utils.countryList[country]}</option>
                     ))}
                   </Field>
                 </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import Flag from 'react-country-flag';
-import countryList, { getCountryCode } from 'utils/countryList';
+import { Utils } from '@crm/common';
 import { Account } from '../../AccountProfile';
 import './AccountProfileCountry.scss';
 
@@ -11,7 +11,7 @@ type Props = {
 
 const AccountProfileCountry = (props: Props) => {
   const { account } = props;
-  const countryCode = getCountryCode(account.country as string) || '';
+  const countryCode = Utils.getCountryCode(account.country as string) || '';
 
   return (
     <div className="AccountProfileCountry">
@@ -31,7 +31,7 @@ const AccountProfileCountry = (props: Props) => {
             />
 
             {' '}
-            {countryList[countryCode]}
+            {Utils.countryList[countryCode]}
           </When>
 
           <Otherwise>

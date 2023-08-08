@@ -14,8 +14,7 @@ import { onError } from '@apollo/client/link/error';
 import { createPersistedQueryLink } from '@apollo/client/link/persisted-queries';
 import { createUploadLink } from 'apollo-upload-client';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { Config } from '@crm/common';
-import { sha256 } from 'utils/sha256';
+import { Config, Utils } from '@crm/common';
 import { isUpload } from 'apollo/utils/isUpload';
 import omitTypename from 'apollo/utils/omitTypename';
 import onRefreshToken from 'apollo/utils/onRefreshToken';
@@ -125,7 +124,7 @@ const ApolloProvider = (props: Props) => {
     });
 
     // ========= Persisted query link ========= //
-    const persistedQueryLink = createPersistedQueryLink({ sha256 });
+    const persistedQueryLink = createPersistedQueryLink({ sha256: Utils.sha256 });
 
     return new ApolloClient({
       link: from([createOmitTypenameLink, authLink, errorLink, persistedQueryLink, transportLink]),

@@ -2,11 +2,10 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Button } from 'components';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { manualPaymentMethods, manualPaymentMethodsLabels } from 'constants/payment';
-import { createValidator, translateLabels } from 'utils/validator';
-import formatLabel from 'utils/formatLabel';
 import { FormikSelectField } from 'components/Formik';
 import { useApprovePaymentMutation } from './graphql/__generated__/ApprovePaymentMutation';
 import { useManualPaymentMethodsQuery } from './graphql/__generated__/ManualPaymentMethodsQuery';
@@ -67,9 +66,9 @@ const ApprovePaymentForm = (props: Props) => {
         paymentMethod: '',
       } as FormValues}
       validate={
-          createValidator({
+          Utils.createValidator({
             paymentMethod: ['string', 'required'],
-          }, translateLabels(attributeLabels), false)
+          }, Utils.translateLabels(attributeLabels), false)
         }
       validateOnBlur={false}
       validateOnChange={false}
@@ -89,7 +88,7 @@ const ApprovePaymentForm = (props: Props) => {
                 <option key={item} value={item}>
                   {manualPaymentMethodsLabels[item]
                     ? I18n.t(manualPaymentMethodsLabels[item])
-                    : formatLabel(item || '')
+                    : Utils.formatLabel(item || '')
                   }
                 </option>
               ))}

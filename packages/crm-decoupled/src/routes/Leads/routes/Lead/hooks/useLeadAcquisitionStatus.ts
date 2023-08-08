@@ -4,8 +4,8 @@ import { Config } from '@crm/common';
 import { Lead, AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
-import { salesStatusesColor } from 'constants/salesStatuses';
 import UpdateRepresentativeModal, { UpdateRepresentativeModalProps } from 'modals/UpdateRepresentativeModal';
+import { salesStatusesColor } from 'constants/salesStatuses';
 
 type Props = {
   lead: Lead,

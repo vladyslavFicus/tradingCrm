@@ -1,9 +1,9 @@
 import React from 'react';
 import { omit } from 'lodash';
 import I18n from 'i18n-js';
+import { Utils } from '@crm/common';
 import { LeadUploadResponse__FailedLeads as FailedLeads } from '__generated__/types';
 import Modal from 'components/Modal';
-import downloadUrl from 'utils/downloadUrl';
 import './LeadsUploadResultModal.scss';
 
 export type Props = {
@@ -32,7 +32,7 @@ const LeadsUploadResultModal = (props: Props) => {
       ].map(e => e.join(',')).join('\n')
     }`);
 
-    downloadUrl('report.csv', url);
+    Utils.downloadUrl('report.csv', url);
   };
 
   return (

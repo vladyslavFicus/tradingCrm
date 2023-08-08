@@ -5,6 +5,7 @@ import { intersectionWith, orderBy } from 'lodash';
 import Hotkeys from 'react-hot-keys';
 import moment from 'moment';
 import { Button, Input } from 'components';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useStorage } from 'providers/StorageProvider';
@@ -17,8 +18,6 @@ import {
 } from 'components/Formik';
 import { Node } from 'components/SelectTree';
 import { OrderDirection, OrderType } from 'types/trading-engine';
-import { createValidator } from 'utils/validator';
-import { round } from 'utils/round';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { calculateClosePrice, calculateMargin, calculatePnL } from 'routes/TE/utils/formulas';
 import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
@@ -140,7 +139,7 @@ const SmartPnLForm = (props: Props) => {
   const getCurrentPriceBid = () => {
     const currentSymbol = getCurrentSymbol();
 
-    return round(
+    return Utils.round(
       (currentSymbolPrice?.bid || 0) - (currentSymbol?.config?.bidAdjustment || 0),
       currentSymbol?.digits,
     );
@@ -154,7 +153,7 @@ const SmartPnLForm = (props: Props) => {
   const getCurrentPriceAsk = () => {
     const currentSymbol = getCurrentSymbol();
 
-    return round(
+    return Utils.round(
       (currentSymbolPrice?.ask || 0) + (currentSymbol?.config?.askAdjustment || 0),
       currentSymbol?.digits,
     );
@@ -287,7 +286,7 @@ const SmartPnLForm = (props: Props) => {
     const currentSymbol = getCurrentSymbol();
     const { lotMin = 0, lotMax = 1000, lotStep = 1 } = currentSymbol?.config || {};
 
-    return createValidator({
+    return Utils.createValidator({
       pnl: ['required', 'numeric'],
       volumeLots: ['required', 'numeric', `min:${lotMin}`, `max:${lotMax}`, `step:${lotStep}`],
       openTime: ['dateWithTime', `validDateTimeRange:${moment().utc().format('YYYY-MM-DDTHH:mm:ss[Z]')}`],

@@ -3,13 +3,12 @@ import { Field, FormikProps } from 'formik';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import moment from 'moment';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import {
   FormikSelectField,
   FormikInputField,
   FormikDateRangePicker,
 } from 'components/Formik';
-import countryList from 'utils/countryList';
 import { FormValues } from 'routes/DistributionRules/types';
 import useDistributionRuleSourceBrandForm
   from 'routes/DistributionRules/hooks/useDistributionRuleSourceBrandForm';
@@ -141,8 +140,8 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
       >
         {[
           <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-          ...Object.keys(countryList).map(key => (
-            <option key={key} value={key}>{countryList[key]}</option>
+          ...Object.keys(Utils.countryList).map(key => (
+            <option key={key} value={key}>{Utils.countryList[key]}</option>
           )),
         ]}
       </Field>

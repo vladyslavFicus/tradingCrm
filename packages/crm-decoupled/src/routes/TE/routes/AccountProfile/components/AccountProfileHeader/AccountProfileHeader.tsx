@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import Hotkeys from 'react-hot-keys';
 import I18n from 'i18n-js';
 import { Button } from 'components';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
-import downloadBlob from 'utils/downloadBlob';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
 import NewOrderModal, { NewOrderModalProps } from 'routes/TE/modals/NewOrderModal';
@@ -49,7 +47,7 @@ const AccountProfileHeader = (props: Props) => {
   const handleNewOrderClick = () => {
     newOrderModal.show({
       login: login.toString(),
-      onSuccess: () => EventEmitter.emit(ORDER_RELOAD),
+      onSuccess: () => Utils.EventEmitter.emit(Utils.ORDER_RELOAD),
     });
   };
 
@@ -124,7 +122,7 @@ const AccountProfileHeader = (props: Props) => {
 
       const blobData = await response.blob();
 
-      downloadBlob(`${login}.xls`, blobData);
+      Utils.downloadBlob(`${login}.xls`, blobData);
     } catch (e) {
       // Do nothing...
     }

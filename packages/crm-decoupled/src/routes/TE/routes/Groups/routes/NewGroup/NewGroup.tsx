@@ -3,9 +3,8 @@ import I18n from 'i18n-js';
 import { omit } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, FormikProps } from 'formik';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
-import { createValidator } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import NewGroupProfileHeader from '../../components/GroupProfileHeaderNew';
 import GroupCommonForm from '../../components/GroupCommonForm';
@@ -19,7 +18,7 @@ import { groupNamePattern } from '../../constants';
 import { useCreateGroupMutation } from './graphql/__generated__/CreateGroupMutation';
 import './NewGroup.scss';
 
-const validator = createValidator(
+const validator = Utils.createValidator(
   {
     groupName: ['required', `regex:${groupNamePattern}`],
     marginCallLevel: ['required', 'numeric', 'min:0', 'max:100'],

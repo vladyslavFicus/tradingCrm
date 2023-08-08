@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
+import { Utils } from '@crm/common';
 import { State } from 'types';
-import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import { Sort__Input as Sort, TradingActivity } from '__generated__/types';
 import {
   useTradingActivityQuery,
@@ -62,10 +62,10 @@ const useClientTradingActivityTab = (): UseClientTradingActivityTab => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CLIENT_RELOAD, refetch);
+    Utils.EventEmitter.on(Utils.CLIENT_RELOAD, refetch);
 
     return () => {
-      EventEmitter.off(CLIENT_RELOAD, refetch);
+      Utils.EventEmitter.off(Utils.CLIENT_RELOAD, refetch);
     };
   }, []);
 

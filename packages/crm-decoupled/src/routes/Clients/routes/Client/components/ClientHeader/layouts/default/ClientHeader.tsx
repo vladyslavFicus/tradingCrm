@@ -2,13 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { Button } from 'components';
+import { Utils } from '@crm/common';
 import { LoginLock, Profile } from '__generated__/types';
-import { targetTypes } from 'constants/note';
-import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import ActionsDropDown from 'components/ActionsDropDown';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
 import useClientHeader from 'routes/Clients/routes/Client/components/hooks/useClientHeader';
+import { targetTypes } from 'constants/note';
 import './ClientHeader.scss';
 
 type Props = {
@@ -71,7 +71,7 @@ const ClientHeader = (props: Props) => {
           </Button>
         </If>
 
-        <If condition={isMaxLoginAttemptReached(locks as LoginLock) && status?.type !== 'BLOCKED'}>
+        <If condition={Utils.isMaxLoginAttemptReached(locks as LoginLock) && status?.type !== 'BLOCKED'}>
           <Button
             className="ClientHeader__action"
             data-testid="ClientHeader-unlockButton"

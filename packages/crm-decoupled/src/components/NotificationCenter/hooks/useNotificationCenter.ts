@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Config } from '@crm/common';
-import EventEmitter, { NOTIFICATION_CLICKED } from 'utils/EventEmitter';
+import { Config, Utils } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 
 const useNotificationCenter = () => {
@@ -21,10 +20,10 @@ const useNotificationCenter = () => {
   );
 
   useEffect(() => {
-    EventEmitter.on(NOTIFICATION_CLICKED, handleOpen);
+    Utils.EventEmitter.on(Utils.NOTIFICATION_CLICKED, handleOpen);
 
     return () => {
-      EventEmitter.off(NOTIFICATION_CLICKED, handleOpen);
+      Utils.EventEmitter.off(Utils.NOTIFICATION_CLICKED, handleOpen);
     };
   }, []);
 

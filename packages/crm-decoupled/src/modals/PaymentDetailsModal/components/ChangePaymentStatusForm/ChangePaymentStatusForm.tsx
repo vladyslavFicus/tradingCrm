@@ -2,12 +2,11 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Button } from 'components';
+import { Utils } from '@crm/common';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { statusMapper, statusesLabels, statuses } from 'constants/payment';
-import { createValidator, translateLabels } from 'utils/validator';
-import renderLabel from 'utils/renderLabel';
-import formatLabel from 'utils/formatLabel';
+
 import { FormikSelectField } from 'components/Formik';
+import { statusMapper, statusesLabels, statuses } from 'constants/payment';
 import { useUpdatePaymentMethodMutation } from './graphql/__generated__/UpdatePaymentMethodMutation';
 import { useUpdatePaymentStatusMutation } from './graphql/__generated__/UpdatePaymentStatusMutation';
 import { useManualPaymentMethodsQuery } from './graphql/__generated__/ManualPaymentMethodsQuery';
@@ -96,10 +95,10 @@ const ChangePaymentStatusForm = (props: Props) => {
         paymentMethod: '',
       }}
       validate={
-          createValidator({
+          Utils.createValidator({
             paymentStatus: ['string'],
             paymentMethod: ['string'],
-          }, translateLabels(attributeLabels), false)
+          }, Utils.translateLabels(attributeLabels), false)
         }
       validateOnBlur={false}
       validateOnChange={false}
@@ -121,7 +120,7 @@ const ChangePaymentStatusForm = (props: Props) => {
                     .filter(([item]) => item !== statuses.PENDING)
                     .map(([key, value]) => (
                       <option key={key} value={value[0]}>
-                        {I18n.t(renderLabel(key, statusesLabels))}
+                        {I18n.t(Utils.renderLabel(key, statusesLabels))}
                       </option>
                     ))
                 }
@@ -137,7 +136,7 @@ const ChangePaymentStatusForm = (props: Props) => {
             >
               {(manualMethods as Array<string>).filter(item => item !== 'COMMISSION').map(item => (
                 <option key={item} value={item}>
-                  {formatLabel(item || '')}
+                  {Utils.formatLabel(item || '')}
                 </option>
               ))}
             </Field>

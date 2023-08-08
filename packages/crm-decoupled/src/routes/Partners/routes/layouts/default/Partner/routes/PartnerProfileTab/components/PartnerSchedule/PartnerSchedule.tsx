@@ -4,9 +4,9 @@ import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
 import classNames from 'classnames';
 import { Button } from 'components';
+import { Utils } from '@crm/common';
 import { SetFieldValue } from 'types/formik';
 import { Partner, Partner__Schedule as Schedule } from '__generated__/types';
-import countryList from 'utils/countryList';
 import { Table, Column } from 'components/Table';
 import { FormikCheckbox } from 'components/Formik';
 import usePartnerSchedule from 'routes/Partners/routes/hooks/usePartnerSchedule';
@@ -91,7 +91,7 @@ const PartnerSchedule = (props: Props) => {
         <div className="PartnerSchedule__general">
           {countrySpreads.map(({ country, limit }) => (
             <div className="PartnerSchedule__countrySpreads" key={country}>
-              <span>{countryList[country.toUpperCase()]}</span>
+              <span>{Utils.countryList[country.toUpperCase()]}</span>
               <span className="margin-right-50">{limit}</span>
             </div>
           ))}

@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import renderLabel from 'utils/renderLabel';
+import { Utils } from '@crm/common';
 import ShortLoader from 'components/ShortLoader';
 import { departmentsLabels, rolesLabels } from 'constants/operators';
 import {
@@ -58,9 +58,9 @@ const OperatorMiniProfile = (props: Props) => {
           <div className="OperatorMiniProfile__departments">
             {authorities?.map(authority => (
               <div className="OperatorMiniProfile__department" key={authority?.id}>
-                <span>{I18n.t(renderLabel(authority?.department || '', departmentsLabels))}</span>
+                <span>{I18n.t(Utils.renderLabel(authority?.department || '', departmentsLabels))}</span>
                 {' - '}
-                <span>{I18n.t(renderLabel(authority?.role || '', rolesLabels))}</span>
+                <span>{I18n.t(Utils.renderLabel(authority?.role || '', rolesLabels))}</span>
               </div>
             ))}
           </div>

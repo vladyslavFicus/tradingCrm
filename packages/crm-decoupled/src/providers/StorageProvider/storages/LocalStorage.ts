@@ -1,4 +1,4 @@
-import parseJson from 'utils/parseJson';
+import { Utils } from '@crm/common';
 
 const STORAGE_KEY = '@storage';
 
@@ -29,7 +29,7 @@ class LocalStorage {
    * @return {string}
    */
   load(): Record<string, any> {
-    return parseJson(window.localStorage.getItem(STORAGE_KEY) || '');
+    return Utils.parseJson(window.localStorage.getItem(STORAGE_KEY) || '');
   }
 
   /**
@@ -49,8 +49,8 @@ class LocalStorage {
   onDataChange(cb: (state: Record<string, any>) => void): void {
     window.addEventListener('storage', (e) => {
       if (e.key === STORAGE_KEY) {
-        const newValue = parseJson(e.newValue || '');
-        const oldValue = parseJson(e.oldValue || '');
+        const newValue = Utils.parseJson(e.newValue || '');
+        const oldValue = Utils.parseJson(e.oldValue || '');
 
         // Set undefined to deleted key, because component will not update if key just removed from the state
         Object.keys(oldValue).forEach((key) => {

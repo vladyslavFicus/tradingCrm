@@ -4,8 +4,8 @@ import { Field, Form, Formik } from 'formik';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Button, TrashButton } from 'components';
+import { Utils } from '@crm/common';
 import { FormikInputField, FormikSwitchField, FormikTextAreaField } from 'components/Formik';
-import { createValidator, translateLabels } from 'utils/validator';
 import { entities, entitiesPrefixes } from 'constants/uuid';
 import Uuid from 'components/Uuid';
 import { FormValues, ManualNote, NoteEntity, Placement } from 'types/Note';
@@ -20,10 +20,10 @@ const attributeLabels = {
   content: 'NOTES.BODY',
 };
 
-const validator = createValidator({
+const validator = Utils.createValidator({
   subject: 'string',
   content: ['required', 'string', `between:3,${MAX_CONTENT_LENGTH}`],
-}, translateLabels(attributeLabels), false);
+}, Utils.translateLabels(attributeLabels), false);
 
 type Props = {
   note?: NoteEntity | ManualNote,

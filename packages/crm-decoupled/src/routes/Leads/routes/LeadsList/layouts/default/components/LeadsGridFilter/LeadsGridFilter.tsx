@@ -3,10 +3,8 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Button, RefreshButton } from 'components';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import useFilter from 'hooks/useFilter';
-import countries from 'utils/countryList';
-import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import TimeZoneField from 'components/TimeZoneField';
 import {
@@ -49,9 +47,9 @@ const LeadsGridFilter = (props:Props) => {
       enableReinitialize
       initialValues={filters}
       onSubmit={handleSubmit}
-      validate={createValidator({
+      validate={Utils.createValidator({
         searchLimit: ['numeric', 'greater:0', `max:${maxSearchLimit}`],
-      }, translateLabels(attributeLabels))}
+      }, Utils.translateLabels(attributeLabels))}
     >
       {({
         isSubmitting,
@@ -114,9 +112,9 @@ const LeadsGridFilter = (props:Props) => {
               >
                 {[
                   <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                  ...Object.keys(countries)
+                  ...Object.keys(Utils.countryList)
                     .map(country => (
-                      <option key={country} value={country}>{countries[country]}</option>
+                      <option key={country} value={country}>{Utils.countryList[country]}</option>
                     )),
                 ]}
               </Field>

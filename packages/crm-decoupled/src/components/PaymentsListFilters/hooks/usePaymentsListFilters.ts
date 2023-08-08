@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { compact, intersection, omit } from 'lodash';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { State } from 'types';
-import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import { usePaymentSystemsProviderQuery } from '../graphql/__generated__/PaymentSystemsProviderQuery';
 import { useOperatorsQuery } from '../graphql/__generated__/OperatorsQuery';
 import { useDesksAndTeamsQuery } from '../graphql/__generated__/DesksAndTeamsQuery';
@@ -70,7 +69,7 @@ const usePaymentsListFilters = (props: Props) => {
 
   const currencies = Config.getBrand().currencies.supported;
 
-  const platformTypes = getAvailablePlatformTypes();
+  const platformTypes = Utils.getAvailablePlatformTypes();
 
   const checkIsDirty = useCallback((values: FormValues) => (
     !(Object.keys(values).length === 1 && values.accountType === 'LIVE')

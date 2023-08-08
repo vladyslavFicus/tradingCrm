@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
-import customTimeout from 'utils/customTimeout';
+import { Utils } from '@crm/common';
 import { notify, LevelType } from 'providers/NotificationProvider';
 
 type Props = {
@@ -41,7 +41,7 @@ const CopyToClipboard = (props: Props): UseCopyToClipboard => {
       });
     }
 
-    customTimeout(() => setHighlight(false), 500);
+    Utils.customTimeout(() => setHighlight(false), 500);
   }, [withNotification, notificationLevel, notificationTitle, notificationMessage]);
 
   return {

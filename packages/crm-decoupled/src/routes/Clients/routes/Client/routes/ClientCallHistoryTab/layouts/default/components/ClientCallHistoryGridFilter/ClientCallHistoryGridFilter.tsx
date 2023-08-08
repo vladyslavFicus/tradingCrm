@@ -3,8 +3,8 @@ import { startCase } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Button, RefreshButton } from 'components';
+import { Utils } from '@crm/common';
 import useFilter from 'hooks/useFilter';
-import enumToArray from 'utils/enumToArray';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { CallHistory__Status__Enum as CallHistoryStatusEnum } from '__generated__/types';
 import useClientCallHistoryGridFilter
@@ -85,7 +85,7 @@ const ClientCallHistoryGridFilter = (props: Props) => {
               disabled={isSubmitting}
               withAnyOption
             >
-              {enumToArray(CallHistoryStatusEnum).map(callHistoryStatus => (
+              {Utils.enumToArray(CallHistoryStatusEnum).map(callHistoryStatus => (
                 <option key={callHistoryStatus} value={callHistoryStatus}>
                   {I18n.t(`CLIENT_PROFILE.CALL_HISTORY.STATUSES.${callHistoryStatus}`)}
                 </option>

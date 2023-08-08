@@ -1,4 +1,4 @@
-import { createValidator, translateLabels } from 'utils/validator';
+import { Utils } from '@crm/common';
 
 export const attributeLabels = {
   country: 'PARTNERS.MODALS.SCHEDULE.LABELS.COUNTRY',
@@ -8,7 +8,7 @@ export const attributeLabels = {
   countryLimit: 'PARTNERS.MODALS.SCHEDULE.LABELS.COUNTRY_LIMIT',
 };
 
-export const validate = createValidator({
+export const validate = Utils.createValidator({
   workingHoursFrom: ['required', 'string', 'validTimeRange:workingHoursTo'],
   workingHoursTo: ['required', 'string'],
-}, translateLabels(attributeLabels), false);
+}, Utils.translateLabels(attributeLabels), false);

@@ -1,10 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Utils } from '@crm/common';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
-import countryList from 'utils/countryList';
-import { createValidator, translateLabels } from 'utils/validator';
+
 import { TypesRestrictedCountriesModal, attributeLabels } from './constant';
 
 type FormValues = {
@@ -29,11 +29,11 @@ const RestrictedCountriesModal = (props: Props) => {
   return (
     <Formik
       initialValues={{ forbiddenCountries: [] } as FormValues}
-      validate={createValidator(
+      validate={Utils.createValidator(
         {
-          forbiddenCountries: [`in:,${Object.keys(countryList).join()}`],
+          forbiddenCountries: [`in:,${Object.keys(Utils.countryList).join()}`],
         },
-        translateLabels(attributeLabels),
+        Utils.translateLabels(attributeLabels),
         false,
       )}
       validateOnChange={false}
@@ -65,7 +65,7 @@ const RestrictedCountriesModal = (props: Props) => {
               multiple
               disabled={isSubmitting}
             >
-              {Object.entries(countryList).map(([key, value]) => (
+              {Object.entries(Utils.countryList).map(([key, value]) => (
                 <option key={key} value={key}>
                   {value}
                 </option>

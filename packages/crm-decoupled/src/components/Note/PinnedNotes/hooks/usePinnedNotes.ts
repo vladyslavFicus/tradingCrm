@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
+import { Utils } from '@crm/common';
 import { Note } from '__generated__/types';
-import EventEmitter, { CLIENT_RELOAD, NOTE_RELOAD } from 'utils/EventEmitter';
 import { usePinnedNotesQuery } from '../graphql/__generated__/PinnedNotesQuery';
 
 type Props = {
@@ -38,12 +38,12 @@ const usePinnedNotes = (props: Props) => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CLIENT_RELOAD, handleRefetchNotes);
-    EventEmitter.on(NOTE_RELOAD, handleNoteReload);
+    Utils.EventEmitter.on(Utils.CLIENT_RELOAD, handleRefetchNotes);
+    Utils.EventEmitter.on(Utils.NOTE_RELOAD, handleNoteReload);
 
     return () => {
-      EventEmitter.off(CLIENT_RELOAD, handleRefetchNotes);
-      EventEmitter.off(NOTE_RELOAD, handleNoteReload);
+      Utils.EventEmitter.off(Utils.CLIENT_RELOAD, handleRefetchNotes);
+      Utils.EventEmitter.off(Utils.NOTE_RELOAD, handleNoteReload);
     };
   }, []);
 

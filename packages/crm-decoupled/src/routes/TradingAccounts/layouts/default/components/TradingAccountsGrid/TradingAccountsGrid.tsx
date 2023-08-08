@@ -2,17 +2,17 @@ import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { Button } from 'components';
+import { Utils } from '@crm/common';
 import { Sorts } from 'types';
 import { AccountView } from '__generated__/types';
-import { accountTypesLabels } from 'constants/accountTypes';
 import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import HideText from 'components/HideText';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
-import { getPlatformTypeLabel } from 'utils/tradingAccount';
 import useTradingAccountsGrid from 'routes/TradingAccounts/hooks/useTradingAccountsGrid';
+import { accountTypesLabels } from 'constants/accountTypes';
 import './TradingAccountsGrid.scss';
 
 type Props = {
@@ -61,7 +61,7 @@ const TradingAccountsGrid = (props: Props) => {
       </Badge>
 
       <div className="TradingAccountsGrid__additional">
-        <Uuid uuid={uuid} uuidPrefix={getPlatformTypeLabel(platformType)} />
+        <Uuid uuid={uuid} uuidPrefix={Utils.getPlatformTypeLabel(platformType)} />
       </div>
     </>
   ), []);

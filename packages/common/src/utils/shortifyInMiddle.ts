@@ -1,4 +1,4 @@
-export const shortifyInMiddle = (
+const shortifyInMiddle = (
   sourceString: string,
   length: number,
   stringSeparator: string = '...',
@@ -13,3 +13,5 @@ export const shortifyInMiddle = (
 
   return sourceString.substr(0, frontChars) + stringSeparator + sourceString.substr(sourceString.length - backChars);
 };
+
+export default shortifyInMiddle;

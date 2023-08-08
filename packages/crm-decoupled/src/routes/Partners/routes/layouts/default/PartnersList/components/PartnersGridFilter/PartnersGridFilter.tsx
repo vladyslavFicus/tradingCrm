@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Button, RefreshButton } from 'components';
-import countryList from 'utils/countryList';
+import { Utils } from '@crm/common';
 import useFilter from 'hooks/useFilter';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { statusesLabels, statuses } from 'routes/Partners/constants';
@@ -57,9 +57,9 @@ const PartnersGridFilter = (props: Props) => {
             >
               {[
                 <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                ...Object.keys(countryList)
+                ...Object.keys(Utils.countryList)
                   .map(country => (
-                    <option key={country} value={country}>{countryList[country]}</option>
+                    <option key={country} value={country}>{Utils.countryList[country]}</option>
                   )),
               ]}
             </Field>

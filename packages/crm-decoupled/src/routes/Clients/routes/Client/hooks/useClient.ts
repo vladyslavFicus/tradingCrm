@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Trackify from '@hrzn/trackify';
-import { Config } from '@crm/common';
-import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
+import { Config, Utils } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useClientQuery } from '../graphql/__generated__/ClientQuery';
 
@@ -22,12 +21,12 @@ const useClient = () => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CLIENT_RELOAD, refetch);
+    Utils.EventEmitter.on(Utils.CLIENT_RELOAD, refetch);
 
     Trackify.page({ eventAction: 'PROFILE_OPENED', eventLabel: playerUUID });
 
     return () => {
-      EventEmitter.off(CLIENT_RELOAD, refetch);
+      Utils.EventEmitter.off(Utils.CLIENT_RELOAD, refetch);
     };
   }, []);
 

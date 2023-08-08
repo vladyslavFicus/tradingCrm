@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { Modal, ModalBody } from 'reactstrap';
 import { TooltipProps } from 'recharts';
 import { ChartTypes } from 'types/config';
-import enumToArray from 'utils/enumToArray';
+import { Utils } from '@crm/common';
 import Select from 'components/Select';
 import ShortLoader from 'components/ShortLoader';
 import { ChartData, DateRange, SummaryData, SelectOption } from 'routes/Dashboard/types';
@@ -88,7 +88,7 @@ const ChartWidget = (props: Props) => {
             customClassName="ChartWidget__select"
             onChange={handleSelectChange}
           >
-            {enumToArray(SelectOption).map(key => (
+            {Utils.enumToArray(SelectOption).map(key => (
               <option key={key} value={key}>{chartSelectOptions[key].label}</option>
             ))}
           </Select>

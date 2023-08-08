@@ -1,4 +1,3 @@
-
 import { Config } from '@crm/common';
 import { LeadCallback } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';

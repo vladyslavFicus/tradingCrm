@@ -1,12 +1,11 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set, compact } from 'lodash';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { State } from 'types';
 import { Profile, Sort__Input as Sort } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
 import CreatePaymentModal, { CreatePaymentModalProps } from 'modals/CreatePaymentModal';
-import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import { usePermission } from 'providers/PermissionsProvider';
 import { statusMapper, statuses } from 'constants/payment';
 import { usePaymentsQuery, PaymentsQueryVariables } from '../graphql/__generated__/PaymentsQuery';
@@ -94,10 +93,10 @@ const useClientPaymentsTab = () => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CLIENT_RELOAD, handleRefetch);
+    Utils.EventEmitter.on(Utils.CLIENT_RELOAD, handleRefetch);
 
     return () => {
-      EventEmitter.off(CLIENT_RELOAD, handleRefetch);
+      Utils.EventEmitter.off(Utils.CLIENT_RELOAD, handleRefetch);
     };
   }, []);
 

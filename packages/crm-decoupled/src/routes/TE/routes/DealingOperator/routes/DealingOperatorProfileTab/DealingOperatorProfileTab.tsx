@@ -2,13 +2,10 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { useParams } from 'react-router-dom';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { Button } from 'components';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { createValidator, translateLabels } from 'utils/validator';
-import countries from 'utils/countryList';
-import EventEmitter, { OPERATOR_RELOAD } from 'utils/EventEmitter';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { useOperatorProfileQuery } from './graphql/__generated__/OperatorProfileQuery';
 import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAccessDataQuery';
@@ -33,13 +30,13 @@ type FormValues = {
   email: string,
 };
 
-const validate = createValidator({
+const validate = Utils.createValidator({
   firstName: ['required', 'string'],
   lastName: ['required', 'string'],
   email: ['required', 'email'],
-  country: [`in:,${Object.keys(countries).join()}`],
+  country: [`in:,${Object.keys(Utils.countryList).join()}`],
   phone: 'string',
-}, translateLabels(attributeLabels), false);
+}, Utils.translateLabels(attributeLabels), false);
 
 const DealingOperatorProfileTab = () => {
   const uuid = useParams().id as string;
@@ -70,7 +67,7 @@ const DealingOperatorProfileTab = () => {
         },
       });
 
-      EventEmitter.emit(OPERATOR_RELOAD);
+      Utils.EventEmitter.emit(Utils.OPERATOR_RELOAD);
 
       notify({
         level: LevelType.SUCCESS,

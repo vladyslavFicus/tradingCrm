@@ -1,11 +1,10 @@
 import { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
 import Trackify from '@hrzn/trackify';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { Lead } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { getCountryCode } from 'utils/countryList';
 import { useLeadPhonesQueryLazyQuery } from '../graphql/__generated__/LeadPhonesQuery';
 import { useLeadEmailQueryLazyQuery } from '../graphql/__generated__/LeadEmailQuery';
 
@@ -26,7 +25,7 @@ const useLeadPersonalInfo = (props: Props) => {
     country,
   } = lead;
 
-  const countryCode = getCountryCode(country || '') || '';
+  const countryCode = Utils.getCountryCode(country || '') || '';
 
   const [state, setState] = useState<State>({});
 

@@ -1,12 +1,11 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { Partner } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import ChangePasswordModal, { ChangePasswordModalProps } from 'modals/ChangePasswordModal';
 import { usePartnerLockStatusQuery } from '../graphql/__generated__/PartnerLockStatusQuery';
 import { useChangePartnerPasswordMutation } from '../graphql/__generated__/ChangePartnerPasswordMutation';
@@ -42,7 +41,7 @@ const usePartnerHeader = (props: Props): PartnerHeader => {
   const { data, refetch } = usePartnerLockStatusQuery({ variables: { uuid }, fetchPolicy: 'network-only' });
 
   const locks = data?.loginLock;
-  const isLock = !!locks && isMaxLoginAttemptReached(locks) && status !== 'CLOSED';
+  const isLock = !!locks && Utils.isMaxLoginAttemptReached(locks) && status !== 'CLOSED';
 
   const [changePartnerPasswordMutation] = useChangePartnerPasswordMutation();
   const [unlockPartnerLoginMutation] = useUnlockPartnerLoginMutation();

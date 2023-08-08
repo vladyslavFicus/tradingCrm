@@ -3,10 +3,10 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { Utils } from '@crm/common';
 import { Sort, State } from 'types';
 import { TradingEngine__OrderStatuses__Enum as OrderStatusesEnum } from '__generated__/types';
 import { OrderStatus } from 'types/trading-engine';
-import EventEmitter, { ORDER_RELOAD, TRANSACTION_CREATED } from 'utils/EventEmitter';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import { useModal } from 'providers/ModalProvider';
@@ -41,12 +41,12 @@ const AccountProfileHistoryGrid = () => {
   });
 
   useEffect(() => {
-    EventEmitter.on(ORDER_RELOAD, historyQuery.refetch);
-    EventEmitter.on(TRANSACTION_CREATED, historyQuery.refetch);
+    Utils.EventEmitter.on(Utils.ORDER_RELOAD, historyQuery.refetch);
+    Utils.EventEmitter.on(Utils.TRANSACTION_CREATED, historyQuery.refetch);
 
     return () => {
-      EventEmitter.off(ORDER_RELOAD, historyQuery.refetch);
-      EventEmitter.off(TRANSACTION_CREATED, historyQuery.refetch);
+      Utils.EventEmitter.off(Utils.ORDER_RELOAD, historyQuery.refetch);
+      Utils.EventEmitter.off(Utils.TRANSACTION_CREATED, historyQuery.refetch);
     };
   }, []);
 

@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { useNavigate } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField } from 'components/Formik';
-import { createValidator } from 'utils/validator';
 import Modal from 'components/Modal';
 import { useCreateDistributionRuleMutation } from './graphql/__generated__/CreateDistributionRuleMutation';
 import './CreateDistributionRuleModal.scss';
@@ -68,7 +68,7 @@ const CreateDistributionRuleModal = (props: Props) => {
         ruleName: '',
         ruleOrder: 1,
       }}
-      validate={createValidator({
+      validate={Utils.createValidator({
         ruleName: ['required', 'string'],
         ruleOrder: ['required', 'numeric'],
       }, {

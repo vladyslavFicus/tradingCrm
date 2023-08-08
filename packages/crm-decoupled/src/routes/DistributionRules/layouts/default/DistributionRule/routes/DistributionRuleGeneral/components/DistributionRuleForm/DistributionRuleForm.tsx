@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, Form, Formik } from 'formik';
 import I18n from 'i18n-js';
 import { Button } from 'components';
-import { createValidator } from 'utils/validator';
+import { Utils } from '@crm/common';
 import { FormikSelectField } from 'components/Formik';
 import { FormValues } from 'routes/DistributionRules/types';
 import useDistributionRuleForm from 'routes/DistributionRules/hooks/useDistributionRuleForm';
@@ -64,7 +64,7 @@ const DistributionRuleForm = () => {
             },
           },
         } as FormValues}
-        validate={values => createValidator({
+        validate={values => Utils.createValidator({
           executionType: ['required'],
           sourceBrandConfig: {
             brand: ['required'],

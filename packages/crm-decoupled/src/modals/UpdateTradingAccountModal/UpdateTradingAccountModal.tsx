@@ -1,8 +1,8 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
+import { Utils } from '@crm/common';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useUpdateTradingAccountMutation } from './graphql/__generated__/UpdateTradingAccountMutation';
@@ -53,9 +53,9 @@ const UpdateTradingAccountModal = (props: Props) => {
   return (
     <Formik
       initialValues={{ name }}
-      validate={createValidator({
+      validate={Utils.createValidator({
         name: ['required', 'string'],
-      }, translateLabels(attributeLabels), false)}
+      }, Utils.translateLabels(attributeLabels), false)}
       validateOnBlur={false}
       validateOnChange={false}
       onSubmit={handleSubmit}

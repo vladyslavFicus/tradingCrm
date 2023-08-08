@@ -3,15 +3,12 @@ import I18n from 'i18n-js';
 import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Button, Input } from 'components';
-import { Config } from '@crm/common';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { usePermission } from 'providers/PermissionsProvider';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import Badge from 'components/Badge';
 import ShortLoader from 'components/ShortLoader';
-import enumToArray from 'utils/enumToArray';
-import { createValidator } from 'utils/validator';
-import EventEmitter, { TRANSACTION_CREATED } from 'utils/EventEmitter';
 import { accountTypesLabels } from 'constants/accountTypes';
 import { useAccountQuery } from './graphql/__generated__/AccountQuery';
 import { useCreditInMutation } from './graphql/__generated__/CreditInMutation';
@@ -57,7 +54,7 @@ const FixBalanceModal = (props: Props) => {
 
   const account = accountQuery.data?.tradingEngine.account;
 
-  const allowedOperations = enumToArray(BalanceOperationEnum)
+  const allowedOperations = Utils.enumToArray(BalanceOperationEnum)
     .filter(operation => permission.allows(Config.permissions.WE_TRADING[operation]));
 
   // ===== Handlers ===== //
@@ -107,7 +104,7 @@ const FixBalanceModal = (props: Props) => {
           break;
       }
 
-      EventEmitter.emit(TRANSACTION_CREATED);
+      Utils.EventEmitter.emit(Utils.TRANSACTION_CREATED);
 
       onCloseModal();
     } catch (e) {
@@ -138,7 +135,7 @@ const FixBalanceModal = (props: Props) => {
           operation: allowedOperations[0], // Pre-select first allowed operation
           amount: null,
         } as FormValues}
-        validate={createValidator({
+        validate={Utils.createValidator({
           operation: 'required|string',
           amount: ['required', 'numeric', 'min:0.01', 'max:1000000'],
         }, {

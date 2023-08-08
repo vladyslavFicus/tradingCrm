@@ -2,6 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { Button } from 'components';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -9,8 +10,6 @@ import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActio
 import { FormikInputDecimalsField, FormikInputField } from 'components/Formik';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { OrderDirection } from 'types/trading-engine';
-import { createValidator } from 'utils/validator';
-import { round } from 'utils/round';
 import Margin from 'routes/TE/components/Margin';
 import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
 import { OrderQuery } from '../../graphql/__generated__/OrderQuery';
@@ -49,8 +48,8 @@ const ActivatePendingOrderForm = (props: Props) => {
   const currentSymbolPrice = useSymbolPricesStream(symbol);
 
   // Get current BID and ASK prices with applied group spread
-  const currentPriceBid = round((currentSymbolPrice?.bid || 0) - (symbolConfig?.bidAdjustment || 0), digits);
-  const currentPriceAsk = round((currentSymbolPrice?.ask || 0) + (symbolConfig?.askAdjustment || 0), digits);
+  const currentPriceBid = Utils.round((currentSymbolPrice?.bid || 0) - (symbolConfig?.bidAdjustment || 0), digits);
+  const currentPriceAsk = Utils.round((currentSymbolPrice?.ask || 0) + (symbolConfig?.askAdjustment || 0), digits);
 
   // ==== Settings ==== //
   const decimalsSettings = {
@@ -109,7 +108,7 @@ const ActivatePendingOrderForm = (props: Props) => {
         volumeLots,
         activationPrice: openPrice,
       }}
-      validate={createValidator({
+      validate={Utils.createValidator({
         volumeLots: ['required', 'numeric', 'max:1000', 'min:0.01'],
       }, {
         volumeLots: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.VOLUME'),
