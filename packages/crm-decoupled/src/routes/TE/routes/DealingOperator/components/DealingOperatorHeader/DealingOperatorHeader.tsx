@@ -155,9 +155,10 @@ const DealingOperatorHeader = (props: Props) => {
         </If>
 
         <If condition={
-          status === 'ACTIVE' 
+          status === 'ACTIVE'
           && permission.allows(Config.permissions.WE_TRADING.OPERATORS_RESET_PASSWORD)
-        }>
+        }
+        >
           <Button
             className="DealingOperatorHeader__action"
             data-testid="DealingOperatorHeader-resetPasswordButton"
