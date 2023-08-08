@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { withResizeElements } from 'hoc';
-import ShortPreloader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import Column from './Column';
 import { ReactComponent as SortingArrows } from './img/SortingArrows.svg';
 import './Table.scss';
@@ -462,7 +462,7 @@ class Table extends PureComponent {
       return (
         <tr className="Table__body-row">
           <td colSpan={columns.length} className="Table__cell Table__body-cell">
-            <ShortPreloader />
+            <ShortLoader />
           </td>
         </tr>
       );
@@ -541,7 +541,7 @@ class Table extends PureComponent {
           next={onMore}
           hasMore={!loading && hasMore}
           scrollableTarget={scrollableTarget}
-          loader={<ShortPreloader className="Table--loader" />}
+          loader={<ShortLoader className="Table--loader" />}
           style={{ overflow: 'unset' }}
         >
           <div

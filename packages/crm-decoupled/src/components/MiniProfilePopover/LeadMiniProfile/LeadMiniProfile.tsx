@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
-import ShortLoader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import renderLabel from 'utils/renderLabel';
 import { salesStatuses } from 'constants/salesStatuses'; // salesStatusesColor
 import {

@@ -3,10 +3,9 @@ import I18n from 'i18n-js';
 import { differenceWith } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikProps } from 'formik';
-import { Button } from 'components';
+import { Button, ShortLoader } from 'components';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { createValidator } from 'utils/validator';
-import ShortLoader from 'components/ShortLoader';
 import { FormikSelectField } from 'components/Formik';
 import {
   GroupSecurity,

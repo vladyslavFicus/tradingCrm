@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { ShortLoader } from 'components';
 import NotFound from 'routes/NotFound';
 import Tabs from 'components/Tabs';
-import ShortLoader from 'components/ShortLoader';
 import HideDetails from 'components/HideDetails';
 import usePartner from 'routes/Partners/routes/hooks/usePartner';
 import { partnerTabs } from './constants';

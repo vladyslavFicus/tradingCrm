@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import useCheckbox from 'components/Checkbox/hooks/useCheckbox';
+import { useCheckbox } from '../../hooks';
 import { ReactComponent as CheckIcon } from './img/check-icon.svg';
 import './Checkbox.scss';
 

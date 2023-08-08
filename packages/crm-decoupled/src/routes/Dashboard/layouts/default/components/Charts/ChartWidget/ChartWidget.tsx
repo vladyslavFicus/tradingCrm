@@ -7,7 +7,7 @@ import { TooltipProps } from 'recharts';
 import enumToArray from 'utils/enumToArray';
 import Select from 'components/Select';
 import { ChartTypes } from 'types/config';
-import ShortLoader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import { ChartData, DateRange, SummaryData, SelectOption } from 'routes/Dashboard/types';
 import { chartSelectOptions } from 'routes/Dashboard/constants';
 import { valueFormatter, getSummaryValue } from 'routes/Dashboard/utils';

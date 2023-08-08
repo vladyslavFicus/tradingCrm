@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { ReactComponent as ShortLoaderIcon } from './ShortLoader.svg';
+import { ReactComponent as ShortLoaderIcon } from './img/ShortLoader.svg';
 import './ShortLoader.scss';
 
 type Props = {

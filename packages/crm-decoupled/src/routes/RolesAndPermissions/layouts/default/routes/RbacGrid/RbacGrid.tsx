@@ -8,7 +8,7 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import classNames from 'classnames';
-import ShortLoader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import useRbacGrid from 'routes/RolesAndPermissions/hooks/useRbacGrid';
 import PermissionsSetting from './components/PermissionsSetting';
 import './RbacGrid.scss';

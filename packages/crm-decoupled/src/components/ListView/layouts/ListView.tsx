@@ -1,6 +1,6 @@
 import React, { Fragment, ReactNode } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
-import ShortPreloader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import NotFoundContent from 'components/NotFoundContent';
 
 type Props = {
@@ -21,14 +21,14 @@ const ListView = (props: Props) => {
   return (
     <Choose>
       <When condition={loading}>
-        <ShortPreloader />
+        <ShortLoader />
       </When>
 
       <Otherwise>
         <InfiniteScroll
           loadMore={onLoadMore}
           hasMore={!loading && !last}
-          loader={<ShortPreloader key="loader" className="Table--loader" />}
+          loader={<ShortLoader key="loader" className="Table--loader" />}
         >
           {content.map((item, key) => <Fragment key={key}>{render(item)}</Fragment>)}
         </InfiniteScroll>

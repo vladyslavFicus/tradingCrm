@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { ShortLoader } from 'components';
 import NotFound from 'routes/NotFound';
 import Tabs from 'components/Tabs';
 import HideDetails from 'components/HideDetails';
-import ShortLoader from 'components/ShortLoader';
 import useOperator from 'routes/Operators/routes/hooks/useOperator';
 import { operatorTabs } from './utils';
 import OperatorProfileTab from './routes/OperatorProfileTab';

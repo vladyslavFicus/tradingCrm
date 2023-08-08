@@ -1,6 +1,6 @@
 import React from 'react';
 import { ClientFile } from '__generated__/types';
-import ShortLoader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import NotFoundContent from 'components/NotFoundContent';
 import useClientFilesGrid from 'routes/Clients/routes/Client/routes/ClientFilesTab/hooks/useClientFilesGrid';
 import FileGrid from './components/FileGrid';

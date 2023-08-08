@@ -9,7 +9,7 @@ import { SetFieldValue } from 'types/formik';
 import { createValidator } from 'utils/validator';
 import { salesStatuses } from 'constants/salesStatuses';
 import { retentionStatuses } from 'constants/retentionStatuses';
-import ShortLoader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import Modal from 'components/Modal';
 import { FormikSelectField } from 'components/Formik';
 import { useAcquisitionStatusesQuery } from './graphql/__generated__/AcquisitionStatusesQuery';

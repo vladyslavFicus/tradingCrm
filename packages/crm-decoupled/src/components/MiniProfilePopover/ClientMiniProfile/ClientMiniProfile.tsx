@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { getBrand, permissions } from 'config';
 import { parseErrors } from 'apollo';
 import renderLabel from 'utils/renderLabel';
-import ShortLoader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import { usePermission } from 'providers/PermissionsProvider';
 import { statuses } from 'constants/user';
 import {

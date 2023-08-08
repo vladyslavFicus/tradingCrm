@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { EditButton, DownloadButton, TrashButton } from 'components';
+import { EditButton, DownloadButton, TrashButton, ShortLoader } from 'components';
 import { FileCategories } from 'types/fileCategories';
 import { File } from '__generated__/types';
 import { shortifyInMiddle } from 'utils/stringFormat';
@@ -10,7 +10,6 @@ import { Table, Column } from 'components/Table';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
 import Uuid from 'components/Uuid';
-import ShortLoader from 'components/ShortLoader';
 import NoteAction from 'components/Note/NoteAction';
 import { TokenRefreshMutationMutationFn }
   from 'routes/Clients/routes/Client/routes/ClientFilesTab/graphql/__generated__/TokenRefreshMutation';

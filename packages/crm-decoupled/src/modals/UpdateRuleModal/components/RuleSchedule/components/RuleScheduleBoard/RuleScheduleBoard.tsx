@@ -6,7 +6,7 @@ import {
   RuleSchedule,
   Rule__OperatorSpread as RuleOperatorSpread,
 } from '__generated__/types';
-import Checkbox from 'components/Checkbox';
+import { Checkbox } from 'components';
 import RuleOperatorSpreads from 'components/RuleOperatorSpreads';
 import { FormikBag, TimeIntervalError } from '../../../../types';
 import RemoveBoardButton from './components/RemoveBoardButton';

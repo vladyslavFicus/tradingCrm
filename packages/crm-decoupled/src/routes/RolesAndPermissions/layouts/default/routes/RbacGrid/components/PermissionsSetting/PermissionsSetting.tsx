@@ -8,9 +8,8 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import classNames from 'classnames';
-import { Button } from 'components';
+import { Button, ShortLoader } from 'components';
 import { RbackItem, Actions, Action } from 'types/rbac';
-import ShortLoader from 'components/ShortLoader';
 import ReactSwitch from 'components/ReactSwitch';
 import usePermissionsSetting from 'routes/RolesAndPermissions/hooks/usePermissionsSetting';
 import { ReactComponent as PreviewIcon } from './preview-icon.svg';

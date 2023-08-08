@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import renderLabel from 'utils/renderLabel';
-import ShortLoader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import { departmentsLabels, rolesLabels } from 'constants/operators';
 import {
   MiniProfile,

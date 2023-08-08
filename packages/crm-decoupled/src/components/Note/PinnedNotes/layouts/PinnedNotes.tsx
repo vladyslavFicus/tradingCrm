@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { ShortLoader } from 'components';
 import { entities, entitiesPrefixes } from 'constants/uuid';
-import ShortLoader from 'components/ShortLoader';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
 import { Note } from 'types/Note';

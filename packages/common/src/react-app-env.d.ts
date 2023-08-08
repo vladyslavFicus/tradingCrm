@@ -1,4 +1,4 @@
-/// <reference types="react-scripts" />
+// / <reference types="react-scripts" />
 
 // ==== Conditional rendering declarations ==== //
 declare let If: React.FC<{ condition: boolean }>;

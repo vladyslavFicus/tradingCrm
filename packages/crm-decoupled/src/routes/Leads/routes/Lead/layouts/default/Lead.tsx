@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import ShortLoader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import NotFound from 'routes/NotFound';
 import Tabs from 'components/Tabs';
 import HideDetails from 'components/HideDetails';
