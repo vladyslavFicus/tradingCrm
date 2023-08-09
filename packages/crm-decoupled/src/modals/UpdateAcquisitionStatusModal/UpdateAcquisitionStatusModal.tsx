@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { Sorts } from 'types';
 import {
@@ -12,7 +13,6 @@ import { notify, LevelType } from 'providers/NotificationProvider';
 import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
-import { createValidator } from 'utils/validator';
 import { useUpdateAcquisitionStatusMutation } from './graphql/__generated__/UpdateAcquisitionStatusMutation';
 import './UpdateAcquisitionStatusModal.scss';
 
@@ -149,7 +149,7 @@ const UpdateAcquisitionStatusModal = (props: Props) => {
     <Formik
       initialValues={{ acquisitionStatus: '' }}
       onSubmit={handleSubmit}
-      validate={createValidator({
+      validate={Utils.createValidator({
         acquisitionStatus: ['required'],
       })}
     >

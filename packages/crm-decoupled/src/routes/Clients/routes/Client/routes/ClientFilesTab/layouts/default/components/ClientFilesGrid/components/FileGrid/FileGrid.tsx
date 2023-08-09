@@ -2,10 +2,10 @@ import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
+import { Utils } from '@crm/common';
 import { EditButton, DownloadButton, TrashButton, ShortLoader } from 'components';
 import { FileCategories } from 'types/fileCategories';
 import { File } from '__generated__/types';
-import { shortifyInMiddle } from 'utils/stringFormat';
 import { Table, Column } from 'components/Table';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
@@ -159,7 +159,7 @@ const FileGrid = (props: Props) => {
         </div>
 
         <div className="FileGrid__col-text">
-          {fileName === title ? null : `${shortifyInMiddle(fileName, 40)} - `}
+          {fileName === title ? null : `${Utils.shortifyInMiddle(fileName, 40)} - `}
 
           <Uuid uuid={uuid} />
         </div>

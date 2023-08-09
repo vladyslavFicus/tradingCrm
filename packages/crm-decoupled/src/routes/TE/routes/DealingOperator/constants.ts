@@ -1,14 +1,14 @@
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 
 export const dealingOperatorTabs = [
   {
     url: 'profile',
     label: 'TRADING_ENGINE.OPERATOR_PROFILE.TABS.PROFILE',
-    permissions: permissions.WE_TRADING.OPERATORS_VIEW_OPERATOR,
+    permissions: Config.permissions.WE_TRADING.OPERATORS_VIEW_OPERATOR,
   },
   {
     url: 'feed',
     label: 'TRADING_ENGINE.OPERATOR_PROFILE.TABS.FEED',
-    permissions: permissions.AUDIT.AUDIT_LOGS,
+    permissions: Config.permissions.AUDIT.AUDIT_LOGS,
   },
 ];

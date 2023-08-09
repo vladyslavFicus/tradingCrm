@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
+import { Utils } from '@crm/common';
 import { State } from 'types';
 import { Feed } from '__generated__/types';
 import ListView from 'components/ListView/index';
 import FeedItem from 'components/FeedItem';
-import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import AccountProfileFeedGridFilter from './components/AccountProfileFeedGridFilter';
 import { useFeedsQuery, FeedsQueryVariables } from './graphql/__generated__/FeedsQuery';
 import './AccountProfileFeedGrid.scss';
@@ -28,9 +28,9 @@ const AccountProfileFeedGrid = () => {
 
   useEffect(
     () => {
-      EventEmitter.on(CLIENT_RELOAD, refetch);
+      Utils.EventEmitter.on(Utils.CLIENT_RELOAD, refetch);
       return () => {
-        EventEmitter.off(CLIENT_RELOAD, refetch);
+        Utils.EventEmitter.off(Utils.CLIENT_RELOAD, refetch);
       };
     },
   );

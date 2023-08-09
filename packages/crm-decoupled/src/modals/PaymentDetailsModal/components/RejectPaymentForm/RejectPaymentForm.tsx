@@ -2,10 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Button } from 'components';
-import { getPaymentReason } from 'config';
+import { Config, Utils } from '@crm/common';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { createValidator, translateLabels } from 'utils/validator';
-import formatLabel from 'utils/formatLabel';
+
 import { FormikSelectField } from 'components/Formik';
 import { useRejectPaymentMutation } from './graphql/__generated__/RejectPaymentMutation';
 import './RejectPaymentForm.scss';
@@ -66,9 +65,9 @@ const RejectPaymentForm = (props: Props) => {
     <Formik
       initialValues={{ declineReason: '' } as FormValues}
       validate={
-          createValidator({
+          Utils.createValidator({
             declineReason: ['string', 'required'],
-          }, translateLabels(attributeLabels), false)
+          }, Utils.translateLabels(attributeLabels), false)
         }
       validateOnBlur={false}
       validateOnChange={false}
@@ -82,9 +81,9 @@ const RejectPaymentForm = (props: Props) => {
             placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
             component={FormikSelectField}
           >
-            {getPaymentReason().refuse.map((reason: string, key: string) => (
+            {Config.getPaymentReason().refuse.map((reason: string, key: string) => (
               <option key={key} value={reason}>
-                {formatLabel(reason)}
+                {Utils.formatLabel(reason)}
               </option>
             ))}
           </Field>

@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import Hotkeys from 'react-hot-keys';
 import I18n from 'i18n-js';
+import { Config, Utils } from '@crm/common';
 import { Button } from 'components';
-import { getGraphQLUrl, getVersion, permissions } from 'config';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
-import downloadBlob from 'utils/downloadBlob';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
 import NewOrderModal, { NewOrderModalProps } from 'routes/TE/modals/NewOrderModal';
@@ -49,7 +47,7 @@ const AccountProfileHeader = (props: Props) => {
   const handleNewOrderClick = () => {
     newOrderModal.show({
       login: login.toString(),
-      onSuccess: () => EventEmitter.emit(ORDER_RELOAD),
+      onSuccess: () => Utils.EventEmitter.emit(Utils.ORDER_RELOAD),
     });
   };
 
@@ -112,19 +110,19 @@ const AccountProfileHeader = (props: Props) => {
     try {
       const { token } = (await tokenRenew()).data?.auth.tokenRenew || {};
 
-      const requestUrl = `${getGraphQLUrl()}/report/${uuid}`;
+      const requestUrl = `${Config.getGraphQLUrl()}/report/${uuid}`;
 
       const response = await fetch(requestUrl, {
         method: 'GET',
         headers: {
           ...(token && { Authorization: `Bearer ${token}` }),
-          'x-client-version': getVersion(),
+          'x-client-version': Config.getVersion(),
         },
       });
 
       const blobData = await response.blob();
 
-      downloadBlob(`${login}.xls`, blobData);
+      Utils.downloadBlob(`${login}.xls`, blobData);
     } catch (e) {
       // Do nothing...
     }
@@ -156,7 +154,7 @@ const AccountProfileHeader = (props: Props) => {
         </div>
       </div>
       <div className="AccountProfileHeader__actions">
-        <If condition={permission.allows(permissions.WE_TRADING.UPDATE_ACCOUNT_ENABLE)}>
+        <If condition={permission.allows(Config.permissions.WE_TRADING.UPDATE_ACCOUNT_ENABLE)}>
           <Button
             className="AccountProfileHeader__action"
             data-testid="AccountProfileHeader-archiveButton"
@@ -168,7 +166,7 @@ const AccountProfileHeader = (props: Props) => {
           </Button>
         </If>
 
-        <If condition={permission.allows(permissions.WE_TRADING.DOWNLOAD_REPORT)}>
+        <If condition={permission.allows(Config.permissions.WE_TRADING.DOWNLOAD_REPORT)}>
           <Button
             className="AccountProfileHeader__action"
             data-testid="AccountProfileHeader-downloadReportButton"
@@ -184,10 +182,10 @@ const AccountProfileHeader = (props: Props) => {
         <If
           condition={
           permission.allowsAny([
-            permissions.WE_TRADING.CREDIT_IN,
-            permissions.WE_TRADING.CREDIT_OUT,
-            permissions.WE_TRADING.CORRECTION_IN,
-            permissions.WE_TRADING.CORRECTION_OUT,
+            Config.permissions.WE_TRADING.CREDIT_IN,
+            Config.permissions.WE_TRADING.CREDIT_OUT,
+            Config.permissions.WE_TRADING.CORRECTION_IN,
+            Config.permissions.WE_TRADING.CORRECTION_OUT,
           ])
           }
         >
@@ -203,7 +201,7 @@ const AccountProfileHeader = (props: Props) => {
         </If>
 
         {/* New order creation is possible only for active account */}
-        <If condition={enable && permission.allows(permissions.WE_TRADING.CREATE_ORDER)}>
+        <If condition={enable && permission.allows(Config.permissions.WE_TRADING.CREATE_ORDER)}>
           {/* Hotkey on F9 button to open new order modal */}
           <Hotkeys
             keyName="f9"

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { compact } from 'lodash';
 import { QueryResult } from '@apollo/client';
-import { permissions, getBrand } from 'config';
+import { Config } from '@crm/common';
 import { State, TableSelection } from 'types';
 import {
   LeadUploadResponse__FailedLeads as FailedLeads,
@@ -33,8 +33,8 @@ const useLeadsHeader = (props: Props) => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowChangeAcquisition = permission.allows(permissions.USER_PROFILE.CHANGE_ACQUISITION);
-  const allowUploadLeads = permission.allows(permissions.LEADS.UPLOAD_LEADS_FROM_FILE);
+  const allowChangeAcquisition = permission.allows(Config.permissions.USER_PROFILE.CHANGE_ACQUISITION);
+  const allowUploadLeads = permission.allows(Config.permissions.LEADS.UPLOAD_LEADS_FROM_FILE);
 
   // ===== Modals ===== //
   const updateRepresentativeModal = useModal<UpdateRepresentativeModalProps>(UpdateRepresentativeModal);
@@ -61,7 +61,7 @@ const useLeadsHeader = (props: Props) => {
     setLoadingTotalCount(true);
 
     try {
-      const newVariables = { args: { ...variables?.args, brandId: getBrand().id } };
+      const newVariables = { args: { ...variables?.args, brandId: Config.getBrand().id } };
 
       const { data: totalCountData } = await leadsTotalCountQuery({
         variables: newVariables as LeadsListQueryVariables,

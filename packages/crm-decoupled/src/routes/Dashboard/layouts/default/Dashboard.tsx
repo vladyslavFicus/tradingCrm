@@ -1,7 +1,7 @@
 import React, { Fragment, useCallback } from 'react';
 import I18n from 'i18n-js';
 import { Navigate } from 'react-router-dom';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { WidgetNames, ChartTypes, Widget } from 'types/config';
 import UseDashboard from 'routes/Dashboard/hooks/useDashboard';
 import LastDepositsGrid from './components/Grids/LastDepositsGrid';
@@ -35,69 +35,69 @@ const WIDGETS_CONFIG: Record<WidgetNames, WidgetConfig> = {
   // Charts
   [WidgetNames.REGISTRATIONS]: {
     component: RegistrationsChart,
-    permission: permissions.DASHBOARD.REGISTRATIONS,
+    permission: Config.permissions.DASHBOARD.REGISTRATIONS,
   },
   [WidgetNames.DEPOSITS_AMOUNT]: {
     component: DepositAmountChart,
-    permission: permissions.DASHBOARD.DEPOSITS_AMOUNT,
+    permission: Config.permissions.DASHBOARD.DEPOSITS_AMOUNT,
   },
   [WidgetNames.DEPOSITS_COUNT]: {
     component: DepositCountChart,
-    permission: permissions.DASHBOARD.DEPOSITS_COUNT,
+    permission: Config.permissions.DASHBOARD.DEPOSITS_COUNT,
   },
   [WidgetNames.WITHDRAWAL_AMOUNT]: {
     component: WithdrawalAmountChart,
-    permission: permissions.DASHBOARD.WITHDRAWAL_AMOUNT,
+    permission: Config.permissions.DASHBOARD.WITHDRAWAL_AMOUNT,
   },
   [WidgetNames.WITHDRAWAL_COUNT]: {
     component: WithdrawalCountChart,
-    permission: permissions.DASHBOARD.WITHDRAWAL_COUNT,
+    permission: Config.permissions.DASHBOARD.WITHDRAWAL_COUNT,
   },
   [WidgetNames.RETENTION_AMOUNT]: {
     component: RetentionAmountChart,
-    permission: permissions.DASHBOARD.RETENTION_AMOUNT,
+    permission: Config.permissions.DASHBOARD.RETENTION_AMOUNT,
   },
   [WidgetNames.RETENTION_COUNT]: {
     component: RetentionCountChart,
-    permission: permissions.DASHBOARD.RETENTION_COUNT,
+    permission: Config.permissions.DASHBOARD.RETENTION_COUNT,
   },
   [WidgetNames.FTR_AMOUNT]: {
     component: FtrAmountChart,
-    permission: permissions.DASHBOARD.FTR_AMOUNT,
+    permission: Config.permissions.DASHBOARD.FTR_AMOUNT,
   },
   [WidgetNames.FTR_COUNT]: {
     component: FtrCountChart,
-    permission: permissions.DASHBOARD.FTR_COUNT,
+    permission: Config.permissions.DASHBOARD.FTR_COUNT,
   },
   [WidgetNames.FTD_AMOUNT]: {
     component: FtdAmountChart,
-    permission: permissions.DASHBOARD.FTD_AMOUNT,
+    permission: Config.permissions.DASHBOARD.FTD_AMOUNT,
   },
   [WidgetNames.FTD_COUNT]: {
     component: FtdCountChart,
-    permission: permissions.DASHBOARD.FTD_COUNT,
+    permission: Config.permissions.DASHBOARD.FTD_COUNT,
   },
   // Grids
   [WidgetNames.LATEST_DEPOSITS]: {
     component: LastDepositsGrid,
-    permission: permissions.DASHBOARD.LATEST_DEPOSITS,
+    permission: Config.permissions.DASHBOARD.LATEST_DEPOSITS,
   },
   [WidgetNames.LATEST_WITHDRAWALS]: {
     component: LastWithdrawalsGrid,
-    permission: permissions.DASHBOARD.LATEST_WITHDRAWALS,
+    permission: Config.permissions.DASHBOARD.LATEST_WITHDRAWALS,
   },
   [WidgetNames.LATEST_REGISTRATIONS]: {
     component: LastRegistrationsGrid,
-    permission: permissions.DASHBOARD.LATEST_REGISTRATIONS,
+    permission: Config.permissions.DASHBOARD.LATEST_REGISTRATIONS,
   },
   [WidgetNames.LATEST_NOTIFICATIONS]: {
     component: LastNotificationsGrid,
-    permission: permissions.DASHBOARD.LATEST_NOTIFICATIONS,
+    permission: Config.permissions.DASHBOARD.LATEST_NOTIFICATIONS,
   },
   // Trading view
   [WidgetNames.SCREENER_WIDGET]: {
     component: ScreenerWidget,
-    permission: permissions.DASHBOARD.SCREENER_WIDGET,
+    permission: Config.permissions.DASHBOARD.SCREENER_WIDGET,
   },
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Form, Formik, FormikProps } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { createValidator } from 'utils/validator';
+import { Utils } from '@crm/common';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import HolidayHeader from '../../components/HolidayHeader';
 import HolidayCommonForm from '../../components/HolidayCommonForm';
@@ -11,7 +11,7 @@ import { FormValues } from '../../types';
 import { useCreateHolidayMutation } from './graphql/__generated__/CreateHolidayMutation';
 import './NewHoliday.scss';
 
-const validator = createValidator(
+const validator = Utils.createValidator(
   {
     description: ['required'],
     date: ['required', 'date'],

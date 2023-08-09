@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
-import { setBackofficeBrand } from 'config';
+import { Config } from '@crm/common';
 import Root from './Root';
 
 import './styles/index.scss';
@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'production' && process.env.REACT_APP_VERSION) {
 }
 
 // Set brand for application instance
-setBackofficeBrand(
+Config.setBackofficeBrand(
   window.localStorage.getItem('crmBrand') // To override by our team to make some tests
   || window.__CRM_BRAND__ // Get real CRM brand from domain configuration
   || process.env.REACT_APP_DEFAULT_BACKOFFICE_BRAND, // Get fallback from development config

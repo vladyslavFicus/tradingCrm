@@ -1,10 +1,10 @@
 import React from 'react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { useParams } from 'react-router-dom';
+import { Utils } from '@crm/common';
 import { Button, ShortLoader } from 'components';
 import I18n from 'i18n';
 import { parseErrors } from 'apollo';
-import { createValidator } from 'utils/validator';
 import NotFound from 'routes/NotFound';
 import { decodeNullValues } from 'components/Formik/utils';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
@@ -24,7 +24,7 @@ import { useSymbolsSourcesQuery } from './graphql/__generated__/SymbolsSourcesQu
 import { useEditSymbolMutation } from './graphql/__generated__/EditSymbolMutation';
 import './SymbolEdit.scss';
 
-const validator = createValidator(
+const validator = Utils.createValidator(
   {
     symbol: ['required'],
     digits: ['required', 'numeric'],

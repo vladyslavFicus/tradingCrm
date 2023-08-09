@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { render as testingLibraryRender, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import MockedApolloProvider from 'apollo/MockedApolloProvider';
 import StorageProvider from 'providers/StorageProvider';
 import { MockedPermissionProvider } from 'providers/PermissionsProvider';
@@ -103,7 +103,7 @@ it('Render NewOrderModal with login in props', async () => {
 it('Render NewOrderModal with create order permission', async () => {
   // Act
   render(<NewOrderModal {...props} />, {}, [
-    permissions.WE_TRADING.CREATE_ORDER,
+    Config.permissions.WE_TRADING.CREATE_ORDER,
   ]);
 
   // Assert
@@ -116,7 +116,7 @@ it('Render NewOrderModal with create order permission', async () => {
 it('Render NewOrderModal with create closed order permission', async () => {
   // Act
   render(<NewOrderModal {...props} />, {}, [
-    permissions.WE_TRADING.CREATE_CLOSED_ORDER,
+    Config.permissions.WE_TRADING.CREATE_CLOSED_ORDER,
   ]);
 
   // Assert
@@ -129,8 +129,8 @@ it('Render NewOrderModal with create closed order permission', async () => {
 it('Render NewOrderModal with create order and create closed order permission', async () => {
   // Act
   render(<NewOrderModal {...props} />, {}, [
-    permissions.WE_TRADING.CREATE_ORDER,
-    permissions.WE_TRADING.CREATE_CLOSED_ORDER,
+    Config.permissions.WE_TRADING.CREATE_ORDER,
+    Config.permissions.WE_TRADING.CREATE_CLOSED_ORDER,
   ]);
 
   // Assert

@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { Profile } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -20,7 +20,7 @@ const useClientAccountStatus = (props: Props) => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowUpdateAccountStatus = permission.allows(permissions.USER_PROFILE.STATUS);
+  const allowUpdateAccountStatus = permission.allows(Config.permissions.USER_PROFILE.STATUS);
 
   // ===== Modals ===== //
   const changeAccountStatusModal = useModal<ChangeAccountStatusModalProps>(ChangeAccountStatusModal);

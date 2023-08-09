@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { State } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -22,7 +22,7 @@ const useDesks = (): UseDesks => {
   const state = useLocation().state as State<DesksListQueryVariables>;
 
   const permission = usePermission();
-  const allowCreateBranch = permission.allows(permissions.HIERARCHY.CREATE_BRANCH);
+  const allowCreateBranch = permission.allows(Config.permissions.HIERARCHY.CREATE_BRANCH);
 
   // ===== Modals ===== //
   const createDeskModal = useModal<CreateDeskModalProps>(CreateDeskModal);

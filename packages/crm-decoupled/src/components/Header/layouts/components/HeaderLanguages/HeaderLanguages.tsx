@@ -2,9 +2,8 @@ import React from 'react';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import classNames from 'classnames';
 import Flag from 'react-country-flag';
+import { Utils } from '@crm/common';
 import I18n from 'i18n';
-import { getCountryCode } from 'utils/countryList';
-import { getUnbrandedLocale } from 'utils/locale';
 import useHeaderLanguages from 'components/Header/hooks/useHeaderLanguages';
 import './HeaderLanguages.scss';
 
@@ -22,10 +21,10 @@ const HeaderLanguages = () => {
           <Flag
             svg
             className="HeaderLanguages__flag"
-            countryCode={getCountryCode(getUnbrandedLocale(I18n.locale)) || ''}
+            countryCode={Utils.getCountryCode(Utils.getUnbrandedLocale(I18n.locale)) || ''}
           />
 
-          {getUnbrandedLocale(I18n.locale)}
+          {Utils.getUnbrandedLocale(I18n.locale)}
 
           <i className="HeaderLanguages__caret fa fa-angle-down" />
         </DropdownToggle>
@@ -41,10 +40,10 @@ const HeaderLanguages = () => {
               <Flag
                 svg
                 className="HeaderLanguages__flag"
-                countryCode={getCountryCode(getUnbrandedLocale(lang)) || ''}
+                countryCode={Utils.getCountryCode(Utils.getUnbrandedLocale(lang)) || ''}
               />
 
-              {getUnbrandedLocale(lang)}
+              {Utils.getUnbrandedLocale(lang)}
             </DropdownItem>
           ))}
         </DropdownMenu>

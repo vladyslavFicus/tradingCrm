@@ -3,8 +3,8 @@ import I18n from 'i18n-js';
 import { FormikProps } from 'formik';
 import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
+import { Config } from '@crm/common';
 import { Button } from 'components';
-import { permissions } from 'config';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -29,7 +29,7 @@ const GroupProfileHeaderEdit = (props: Props) => {
   const [archiveGroup] = useArchiveMutation();
 
   const permission = usePermission();
-  const allowUpdateGroupCallback = permission.allows(permissions.WE_TRADING.UPDATE_GROUP_ENABLE);
+  const allowUpdateGroupCallback = permission.allows(Config.permissions.WE_TRADING.UPDATE_GROUP_ENABLE);
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);

@@ -1,10 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Utils } from '@crm/common';
 import { Button, RefreshButton } from 'components';
 import useFilter from 'hooks/useFilter';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import enumToArray from 'utils/enumToArray';
 import {
   AccountTypes,
   AccountTypeLabels,
@@ -60,7 +60,7 @@ const TradingAccountsFilters = (props: Props) => {
               withAnyOption
               withFocus
             >
-              {enumToArray(AccountTypes).map(key => (
+              {Utils.enumToArray(AccountTypes).map(key => (
                 <option key={key} value={key}>
                   {I18n.t(AccountTypeLabels[key])}
                 </option>

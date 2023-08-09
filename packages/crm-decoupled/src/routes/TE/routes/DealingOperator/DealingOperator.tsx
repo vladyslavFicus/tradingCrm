@@ -2,11 +2,11 @@ import React, { Suspense, useEffect } from 'react';
 import I18n from 'i18n-js';
 import { Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { Utils } from '@crm/common';
 import { ShortLoader } from 'components';
 import Tabs from 'components/Tabs';
 import HideDetails from 'components/HideDetails';
 import NotFound from 'routes/NotFound';
-import EventEmitter, { OPERATOR_RELOAD } from 'utils/EventEmitter';
 import { dealingOperatorTabs } from './constants';
 import DealingOperatorRegistrationInfo from './components/DealingOperatorRegistrationInfo';
 import DealingOperatorHeader from './components/DealingOperatorHeader';
@@ -26,10 +26,10 @@ const DealingOperator = () => {
   const operator = operatorQuery.data?.tradingEngine.operator as Operator;
 
   useEffect(() => {
-    EventEmitter.on(OPERATOR_RELOAD, operatorQuery.refetch);
+    Utils.EventEmitter.on(Utils.OPERATOR_RELOAD, operatorQuery.refetch);
 
     return () => {
-      EventEmitter.off(OPERATOR_RELOAD, operatorQuery.refetch);
+      Utils.EventEmitter.off(Utils.OPERATOR_RELOAD, operatorQuery.refetch);
     };
   }, []);
 

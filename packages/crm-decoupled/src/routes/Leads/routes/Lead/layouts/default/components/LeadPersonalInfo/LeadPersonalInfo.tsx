@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import Flag from 'react-country-flag';
+import { Utils } from '@crm/common';
 import { Button } from 'components';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
@@ -11,7 +12,6 @@ import {
 import Uuid from 'components/Uuid';
 import Click2Call from 'components/Click2Call';
 import { PersonalInformationItem } from 'components/Information';
-import countryList from 'utils/countryList';
 import useLeadPersonalInfo from 'routes/Leads/routes/Lead/hooks/useLeadPersonalInfo';
 import './LeadPersonalInfo.scss';
 
@@ -130,7 +130,7 @@ const LeadPersonalInfo = (props: Props) => {
               <When condition={!!countryCode}>
                 <Flag style={{ height: 10 }} countryCode={countryCode} svg />
                 {' '}
-                {countryList[countryCode]}
+                {Utils.countryList[countryCode]}
               </When>
 
               <Otherwise>

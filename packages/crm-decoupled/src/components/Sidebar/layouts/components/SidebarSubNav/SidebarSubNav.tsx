@@ -1,11 +1,11 @@
 import React from 'react';
-import { SidebarMenuSubItem } from 'config';
+import { Config } from '@crm/common';
 import useSidebarSubNav from 'components/Sidebar/hooks/useSidebarSubNav';
 import SubNavItem from '../SubNavItem';
 import './SidebarSubNav.scss';
 
 type Props = {
-  items?: Array<SidebarMenuSubItem>,
+  items?: Array<Config.SidebarMenuSubItem>,
   isOpen: boolean,
 };
 
@@ -19,7 +19,7 @@ const SidebarSubNav = (props: Props) => {
 
   return (
     <div ref={subNavRef} style={{ height }} className="SidebarSubNav">
-      {items.map((item: SidebarMenuSubItem) => (
+      {items.map((item: Config.SidebarMenuSubItem) => (
         <SubNavItem
           key={item.label}
           label={item.label}

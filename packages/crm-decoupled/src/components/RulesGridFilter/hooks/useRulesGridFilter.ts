@@ -1,20 +1,20 @@
 import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FormikHelpers, FormikValues } from 'formik';
+import { Utils } from '@crm/common';
 import { decodeNullValues } from 'components/Formik/utils';
 import { State } from 'types';
-import countryList from 'utils/countryList';
 import { filterLabels } from 'constants/user';
-import { createValidator, translateLabels } from 'utils/validator';
+
 import { RulesQueryVariables } from '../graphql/__generated__/RulesQuery';
 
-const validate = createValidator({
+const validate = Utils.createValidator({
   searchBy: 'string',
-  country: ['string', `in:${['UNDEFINED', ...Object.keys(countryList)].join()}`],
+  country: ['string', `in:${['UNDEFINED', ...Object.keys(Utils.countryList)].join()}`],
   language: 'string',
   operators: 'string',
   partners: 'string',
-}, translateLabels(filterLabels), false);
+}, Utils.translateLabels(filterLabels), false);
 
 const useRulesGridFilter = () => {
   const state = useLocation().state as State<RulesQueryVariables>;

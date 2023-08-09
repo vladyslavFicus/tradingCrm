@@ -1,4 +1,4 @@
-import { getCrmBrandStaticFileUrl } from 'config';
+import { Config } from '@crm/common';
 
 /**
  * Download all locales from S3 provided in CRM config
@@ -12,7 +12,7 @@ export const downloadLocalesFromS3 = async (localeKeys: Array<string> = []) => {
 
   // Download all provided locales from S3
   const localePromises = localeKeys.map(async (locale: string) => {
-    const response = await fetch(getCrmBrandStaticFileUrl(`locales/${locale}.json`));
+    const response = await fetch(Config.getCrmBrandStaticFileUrl(`locales/${locale}.json`));
 
     if (response.status === 200) {
       locales[locale] = await response.json();

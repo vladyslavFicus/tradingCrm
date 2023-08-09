@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { State } from 'types';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -57,8 +57,10 @@ const usePartnersBulkActions = (props: Props): PartnersBulkActions => {
 
   const sorts = state?.sorts;
   const permission = usePermission();
-  const allowChangeAffiliatesStatuses = permission.allows(permissions.PARTNERS.BULK_CHANGE_AFFILIATES_STATUSES);
-  const allowChangeAffiliatesCountries = permission.allows(permissions.PARTNERS.BULK_CHANGE_AFFILIATES_COUNTRIES);
+  const allowChangeAffiliatesStatuses = permission.allows(Config.permissions.PARTNERS.BULK_CHANGE_AFFILIATES_STATUSES);
+  const allowChangeAffiliatesCountries = permission.allows(
+    Config.permissions.PARTNERS.BULK_CHANGE_AFFILIATES_COUNTRIES,
+  );
 
   // ===== Modals ===== //
 

@@ -1,4 +1,4 @@
-export const shortify = (
+const shortify = (
   uuid: string,
   manualPrefix: string = '',
   size: number = 2,
@@ -31,3 +31,5 @@ export const shortify = (
 
   return [prefix, mainPart].filter(v => v).join('-');
 };
+
+export default shortify;

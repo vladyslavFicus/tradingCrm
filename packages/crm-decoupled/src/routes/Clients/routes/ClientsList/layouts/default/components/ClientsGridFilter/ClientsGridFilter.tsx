@@ -2,8 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 import { Formik, Form } from 'formik';
 import I18n from 'i18n-js';
+import { Config, Utils } from '@crm/common';
 import { Button, RefreshButton } from 'components';
-import { getAvailableLanguages } from 'config';
 import useFilter from 'hooks/useFilter';
 import {
   FormikInputField,
@@ -16,8 +16,7 @@ import { FilterSetsDecorator, FilterSetsButtons } from 'components/FilterSetsDec
 import DynamicFiltersButton from 'components/DynamicFiltersButton';
 import ReactSwitch from 'components/ReactSwitch';
 import TimeZoneField from 'components/TimeZoneField/TimeZoneField';
-import countries from 'utils/countryList';
-import { createValidator, translateLabels } from 'utils/validator';
+
 import {
   MAX_SELECTED_CLIENTS,
   acquisitionStatuses,
@@ -85,9 +84,9 @@ const ClientsGridFilter = (props:Props) => {
         enableReinitialize
         onSubmit={handleSubmit}
         initialValues={filters}
-        validate={createValidator({
+        validate={Utils.createValidator({
           searchLimit: ['numeric', 'greater:0', `max:${MAX_SELECTED_CLIENTS}`],
-        }, translateLabels(attributeLabels))}
+        }, Utils.translateLabels(attributeLabels))}
       >
         {({ values, setValues, handleSubmit: onSubmit, resetForm, isSubmitting, dirty }) => {
           const desksUuids = values.desks || [];
@@ -104,7 +103,7 @@ const ClientsGridFilter = (props:Props) => {
           const retentionOperatorsOptions = operatorsOptions.filter((
             { userType },
           ) => isRetention(userType as userTypes));
-          const languagesOptions = ['other', ...getAvailableLanguages()];
+          const languagesOptions = ['other', ...Config.getAvailableLanguages()];
 
           return (
             <FilterSetsDecorator
@@ -274,9 +273,9 @@ const ClientsGridFilter = (props:Props) => {
                   >
                     {[
                       <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                      ...Object.keys(countries)
+                      ...Object.keys(Utils.countryList)
                         .map(country => (
-                          <option key={country} value={country}>{countries[country]}</option>
+                          <option key={country} value={country}>{Utils.countryList[country]}</option>
                         )),
                     ]}
                   </Field>
@@ -915,9 +914,9 @@ const ClientsGridFilter = (props:Props) => {
                   >
                     {[
                       <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                      ...Object.keys(countries)
+                      ...Object.keys(Utils.countryList)
                         .map(country => (
-                          <option key={country} value={country}>{countries[country]}</option>
+                          <option key={country} value={country}>{Utils.countryList[country]}</option>
                         )),
                     ]}
                   </Field>

@@ -1,5 +1,5 @@
 import I18n from 'i18n-js';
-import { createValidator } from 'utils/validator';
+import { Utils } from '@crm/common';
 import { PaymentMutationCreatePaymentArgs as PaymentValues, TradingAccount } from '__generated__/types';
 import { paymentTypes, attributeLabels } from './constants';
 
@@ -82,7 +82,7 @@ const validation = (values: PaymentValues, tradingAccounts: Array<TradingAccount
     }
   }
 
-  return createValidator(rules, attributeLabels, false)(values);
+  return Utils.createValidator(rules, attributeLabels, false)(values);
 };
 
 export {

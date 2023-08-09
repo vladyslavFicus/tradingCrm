@@ -1,10 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { getAvailableLanguages } from 'config';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
-import enumToArray from 'utils/enumToArray';
-import { createValidator, translateLabels } from 'utils/validator';
+
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -78,14 +77,14 @@ const CreateDeskModal = (props: Props) => {
         officeUuid: '',
         language: '',
       } as FormValues}
-      validate={createValidator(
+      validate={Utils.createValidator(
         {
           name: ['required', 'string'],
           deskType: ['required', 'string'],
           officeUuid: ['required', 'string'],
           language: ['required', 'string'],
         },
-        translateLabels(attributeLabels),
+        Utils.translateLabels(attributeLabels),
         false,
       )}
       validateOnChange={false}
@@ -120,7 +119,7 @@ const CreateDeskModal = (props: Props) => {
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               disabled={isSubmitting}
             >
-              {enumToArray(DeskTypesEnum).map(deskType => (
+              {Utils.enumToArray(DeskTypesEnum).map(deskType => (
                 <option key={deskType} value={deskType}>
                   {I18n.t(`MODALS.ADD_DESK_MODAL.LABELS.DESK_TYPE_OPTIONS.${deskType}`)}
                 </option>
@@ -150,7 +149,7 @@ const CreateDeskModal = (props: Props) => {
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               disabled={isSubmitting}
             >
-              {getAvailableLanguages().map((locale: string) => (
+              {Config.getAvailableLanguages().map((locale: string) => (
                 <option key={locale} value={locale}>
                   {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                 </option>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { config, getBrand } from 'config';
+import { Config } from '@crm/common';
 import Preloader from 'components/Preloader';
 import { useConfigQuery } from './graphql/__generated__/ConfigQuery';
 
@@ -10,13 +10,13 @@ type Props = {
 const ConfigProvider = (props: Props) => {
   const { children } = props;
 
-  const { data, loading } = useConfigQuery({ variables: { brandId: getBrand().id } });
+  const { data, loading } = useConfigQuery({ variables: { brandId: Config.getBrand().id } });
 
   if (loading && !data?.config) {
     return <Preloader />;
   }
 
-  config.brand = { ...config.brand, ...data?.config };
+  Config.config.brand = { ...Config.config.brand, ...data?.config };
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { Lead } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -21,9 +21,9 @@ const useLeadHeader = (props: Props) => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowCreateCallback = permission.allows(permissions.LEAD_PROFILE.CREATE_CALLBACK);
-  const allowAddNote = permission.allows(permissions.NOTES.ADD_NOTE);
-  const allowPromoteLead = permission.allows(permissions.LEADS.PROMOTE_LEAD);
+  const allowCreateCallback = permission.allows(Config.permissions.LEAD_PROFILE.CREATE_CALLBACK);
+  const allowAddNote = permission.allows(Config.permissions.NOTES.ADD_NOTE);
+  const allowPromoteLead = permission.allows(Config.permissions.LEADS.PROMOTE_LEAD);
 
   // ===== Handlers ===== //
   // TODO there is a problem with NotePopover

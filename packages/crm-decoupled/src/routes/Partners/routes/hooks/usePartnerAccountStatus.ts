@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { useModal } from 'providers/ModalProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -31,7 +31,7 @@ const usePartnerAccountStatus = (props: Props): PartnerAccountStatus => {
 
   const permission = usePermission();
 
-  const allowUpdateAccountStatus = permission.allows(permissions.PARTNERS.UPDATE_STATUS);
+  const allowUpdateAccountStatus = permission.allows(Config.permissions.PARTNERS.UPDATE_STATUS);
 
   // ===== Requests ===== //
   const [partnerAccountStatusMutation] = usePartnerAccountStatusMutation();

@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { getBrand, permissions } from 'config';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
-import renderLabel from 'utils/renderLabel';
 import { ShortLoader } from 'components';
 import { usePermission } from 'providers/PermissionsProvider';
 import { statuses } from 'constants/user';
@@ -27,7 +26,7 @@ const ClientMiniProfile = (props: Props) => {
 
   const permission = usePermission();
 
-  const currency = getBrand().currencies.base;
+  const currency = Config.getBrand().currencies.base;
 
   const { data, error, loading } = useClientMiniProfileQuery({
     variables: { playerUUID },
@@ -75,7 +74,7 @@ const ClientMiniProfile = (props: Props) => {
   return (
     <MiniProfile className="ClientMiniProfile" status={status?.type?.toLowerCase() as Statuses}>
       <MiniProfileHeader
-        label={renderLabel(status?.type || '', userStatusNames)}
+        label={Utils.renderLabel(status?.type || '', userStatusNames)}
         type={I18n.t('MINI_PROFILE.CLIENT')}
         title={`${firstName} ${lastName}`}
         age={age}
@@ -92,7 +91,7 @@ const ClientMiniProfile = (props: Props) => {
       </If>
 
       <MiniProfileContent>
-        <If condition={permission.allows(permissions.USER_PROFILE.BALANCE)}>
+        <If condition={permission.allows(Config.permissions.USER_PROFILE.BALANCE)}>
           <MiniProfileContentItem
             label={I18n.t('MINI_PROFILE.BALANCE')}
             description={`${I18n.toCurrency(profileView?.balance?.amount || 0, { unit: '' })} ${currency}`}

@@ -1,12 +1,12 @@
 import React from 'react';
-import { getBrand, getStaticFileUrl } from 'config';
+import { Config } from '@crm/common';
 import Link from 'components/Link';
 import './HeaderLogo.scss';
 
 const HeaderLogo = () => (
   <Link className="HeaderLogo" to="/brands">
     <img
-      src={getStaticFileUrl(getBrand().id, 'header.svg')}
+      src={Config.getStaticFileUrl(Config.getBrand().id, 'header.svg')}
       alt="current-brand-logo"
       onError={(e) => {
         e.currentTarget.src = '/img/logo-placeholder.svg';

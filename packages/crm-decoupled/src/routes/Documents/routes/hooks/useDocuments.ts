@@ -1,11 +1,10 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { permissions } from 'config';
+import { Config, Utils } from '@crm/common';
 import { State } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import AddDocumentModal, { AddDocumentModalProps } from 'modals/AddDocumentModal';
-import { fieldTimeZoneOffset } from 'utils/timeZoneOffset';
 import { FormValues } from '../types';
 import {
   DocumentSearchQuery,
@@ -31,7 +30,7 @@ const useDocuments = (): Documents => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowUploadDocument = permission.allows(permissions.DOCUMENTS.UPLOAD_DOCUMENT);
+  const allowUploadDocument = permission.allows(Config.permissions.DOCUMENTS.UPLOAD_DOCUMENT);
 
   // ===== Modals ===== //
   const addDocumentModal = useModal<AddDocumentModalProps>(AddDocumentModal);
@@ -43,8 +42,8 @@ const useDocuments = (): Documents => {
     args: {
       ...rest,
       ...(uploadDateRange && { uploadDateRange: {
-        ...fieldTimeZoneOffset('from', uploadDateRange?.from, timeZone),
-        ...fieldTimeZoneOffset('to', uploadDateRange?.to, timeZone),
+        ...Utils.fieldTimeZoneOffset('from', uploadDateRange?.from, timeZone),
+        ...Utils.fieldTimeZoneOffset('to', uploadDateRange?.to, timeZone),
       } }),
       page: {
         from: 0,

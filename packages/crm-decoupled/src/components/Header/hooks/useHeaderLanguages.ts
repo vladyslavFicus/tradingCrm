@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
+import { Utils } from '@crm/common';
 import I18n from 'i18n';
 import { useStorage } from 'providers/StorageProvider';
-import { getCRMLocaleKey, getCRMLocales, isCRMLocaleKey } from 'utils/locale';
 
 const useHeaderLanguages = () => {
   const [isOpen, setOpen] = useState(false);
@@ -16,13 +16,13 @@ const useHeaderLanguages = () => {
   }, []);
 
   // Get custom languages defined on backoffice brand
-  const crmLocales = getCRMLocales();
+  const crmLocales = Utils.getCRMLocales();
 
   // Get languages without current selected language and overrided languages from backoffice brand
   const languages = useMemo(() => Object.keys(I18n.translations)
     .filter(lang => (
       lang !== I18n.locale
-        && !(!isCRMLocaleKey(lang) && crmLocales.includes(getCRMLocaleKey(lang)))
+        && !(!Utils.isCRMLocaleKey(lang) && crmLocales.includes(Utils.getCRMLocaleKey(lang)))
     )), [crmLocales]);
 
   return { isOpen, toggleDropdown, handleSelectLanguage, languages };

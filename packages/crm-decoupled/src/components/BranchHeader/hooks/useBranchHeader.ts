@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import { HierarchyBranch } from '__generated__/types';
@@ -32,8 +32,8 @@ const useBranchHeader = (props: Props): UseBranchHeader => {
 
   const permission = usePermission();
 
-  const allowRemoveBrandManager = permission.allows(permissions.HIERARCHY.REMOVE_BRAND_MANAGER);
-  const allowAddBrandManager = permission.allows(permissions.HIERARCHY.ADD_BRAND_MANAGER);
+  const allowRemoveBrandManager = permission.allows(Config.permissions.HIERARCHY.REMOVE_BRAND_MANAGER);
+  const allowAddBrandManager = permission.allows(Config.permissions.HIERARCHY.ADD_BRAND_MANAGER);
 
   // ===== Modals ===== //
   const addBranchManagerModal = useModal<AddBranchManagerModalProps>(AddBranchManagerModal);

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -28,7 +28,7 @@ const useClientKycForm = (props: Props): UseClientKycForm => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowUpdateKycStatus = permission.allows(permissions.USER_PROFILE.KYC_UPDATE);
+  const allowUpdateKycStatus = permission.allows(Config.permissions.USER_PROFILE.KYC_UPDATE);
 
   // ===== Requests ===== //
   const [updateClientKycMutation] = useUpdateClientKycMutation();

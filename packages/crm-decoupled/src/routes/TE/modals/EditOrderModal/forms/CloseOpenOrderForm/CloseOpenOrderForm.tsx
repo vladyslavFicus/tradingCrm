@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
+import { Utils } from '@crm/common';
 import { Button } from 'components';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -8,8 +9,6 @@ import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActio
 import { FormikInputDecimalsField, FormikInputField } from 'components/Formik';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { OrderDirection } from 'types/trading-engine';
-import { createValidator } from 'utils/validator';
-import { round } from 'utils/round';
 import PnL from 'routes/TE/components/PnL';
 import { useSymbolPricesStream, SymbolPrice } from 'routes/TE/components/SymbolPricesStream';
 import { OrderQuery } from '../../graphql/__generated__/OrderQuery';
@@ -55,12 +54,16 @@ const CloseOpenOrderForm = (props: Props) => {
   }
 
   // Get current BID and ASK prices with applied group spread
-  const currentPriceBid = round((currentSymbolPrice?.bid || 0) - (symbolConfig?.bidAdjustment || 0), digits);
-  const currentPriceAsk = round((currentSymbolPrice?.ask || 0) + (symbolConfig?.askAdjustment || 0), digits);
+  const currentPriceBid = Utils.round((currentSymbolPrice?.bid || 0) - (symbolConfig?.bidAdjustment || 0), digits);
+  const currentPriceAsk = Utils.round((currentSymbolPrice?.ask || 0) + (symbolConfig?.askAdjustment || 0), digits);
 
   // Get initial BID and ASK prices with applied group spread
-  const initialPriceBid = round((initialSymbolPrice.current?.bid || 0) - (symbolConfig?.bidAdjustment || 0), digits);
-  const initialPriceAsk = round((initialSymbolPrice.current?.ask || 0) + (symbolConfig?.askAdjustment || 0), digits);
+  const initialPriceBid = Utils.round(
+    (initialSymbolPrice.current?.bid || 0) - (symbolConfig?.bidAdjustment || 0), digits,
+  );
+  const initialPriceAsk = Utils.round(
+    (initialSymbolPrice.current?.ask || 0) + (symbolConfig?.askAdjustment || 0), digits,
+  );
 
   // ==== Settings ==== //
   const decimalsSettings = {
@@ -120,7 +123,7 @@ const CloseOpenOrderForm = (props: Props) => {
         volumeLots,
         closePrice: direction === OrderDirection.SELL ? initialPriceAsk : initialPriceBid,
       }}
-      validate={createValidator({
+      validate={Utils.createValidator({
         volumeLots: [
           'required',
           'numeric',

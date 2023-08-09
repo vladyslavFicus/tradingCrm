@@ -3,13 +3,13 @@ import { filesize } from 'filesize';
 import { Field } from 'formik';
 import I18n from 'i18n-js';
 import { TrashButton } from 'components';
+import { Utils } from '@crm/common';
 import { targetTypes } from 'constants/note';
 import { EditNote } from 'types/Note';
 import { FileCategories } from 'types/fileCategories';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import NoteActionManual from 'components/Note/NoteActionManual';
 import Uuid from 'components/Uuid';
-import { shortifyInMiddle } from 'utils/stringFormat';
 import { FileData } from '../constants';
 import './UploadingFileModal.scss';
 
@@ -91,7 +91,7 @@ const UploadingFileModal = (props: Props) => {
 
       <td className="UploadingFileModal__col UploadingFileModal__info">
         <div title={file?.name as string} className="UploadingFileModal__name">
-          {shortifyInMiddle(file?.name as string, 40)}
+          {Utils.shortifyInMiddle(file?.name as string, 40)}
         </div>
 
         <div className="UploadingFileModal__uuid">

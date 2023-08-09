@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { ChartTypes } from 'types/config';
 import { Charts } from 'routes/Dashboard/types';
 import useChart from 'routes/Dashboard/hooks/useChart';
@@ -33,7 +33,7 @@ const WithdrawalAmountChart = (props: Props) => {
       onSelectChange={handleSelectChange}
       chartColor="var(--state-colors-danger)"
       chartType={chartType}
-      currncySymbol={getBrand().currencies?.base}
+      currncySymbol={Config.getBrand().currencies?.base}
     />
   );
 };

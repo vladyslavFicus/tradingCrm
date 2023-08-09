@@ -9,7 +9,7 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import MockedApolloProvider from 'apollo/MockedApolloProvider';
 import { OrderType } from 'types/trading-engine';
 import { MockedPermissionProvider } from 'providers/PermissionsProvider';
@@ -223,7 +223,7 @@ it('Render EditOrderModal with MANAGER edit order permission', async () => {
   const bid = 1.15480;
 
   const _permissions = [
-    permissions.WE_TRADING.MANAGER_EDIT_ORDER,
+    Config.permissions.WE_TRADING.MANAGER_EDIT_ORDER,
   ];
 
   // Act
@@ -293,7 +293,7 @@ it('Render EditOrderModal with ADMIN edit order permission', async () => {
   const bid = 1.15480;
 
   const _permissions = [
-    permissions.WE_TRADING.ADMIN_EDIT_ORDER,
+    Config.permissions.WE_TRADING.ADMIN_EDIT_ORDER,
   ];
 
   // Act
@@ -369,7 +369,7 @@ it('Render EditOrderModal with cancel order permission for OPEN order', async ()
   const bid = 1.15480;
 
   const _permissions = [
-    permissions.WE_TRADING.ORDER_CANCEL,
+    Config.permissions.WE_TRADING.ORDER_CANCEL,
   ];
 
   // Act
@@ -447,8 +447,8 @@ it('Render EditOrderModal with reopen order permission for CLOSED order for MANA
   };
 
   const _permissions = [
-    permissions.WE_TRADING.MANAGER_EDIT_ORDER,
-    permissions.WE_TRADING.ORDER_REOPEN,
+    Config.permissions.WE_TRADING.MANAGER_EDIT_ORDER,
+    Config.permissions.WE_TRADING.ORDER_REOPEN,
   ];
 
   // Act
@@ -534,8 +534,8 @@ it('Render EditOrderModal with reopen order permission for CLOSED order for ADMI
   };
 
   const _permissions = [
-    permissions.WE_TRADING.ADMIN_EDIT_ORDER,
-    permissions.WE_TRADING.ORDER_REOPEN,
+    Config.permissions.WE_TRADING.ADMIN_EDIT_ORDER,
+    Config.permissions.WE_TRADING.ORDER_REOPEN,
   ];
 
   // Act
@@ -624,7 +624,7 @@ it('Render EditOrderModal for OPEN order with BUY type', async () => {
   const newAsk = 1.1555;
   const newBid = 1.1545;
 
-  const _permissions = [permissions.WE_TRADING.ORDER_CLOSE];
+  const _permissions = [Config.permissions.WE_TRADING.ORDER_CLOSE];
 
   // Act
   render(<EditOrderModal {...props} />, {}, _permissions);
@@ -676,7 +676,7 @@ it('Render EditOrderModal for OPEN order with SELL type', async () => {
   const newAsk = 1.1555;
   const newBid = 1.1545;
 
-  const _permissions = [permissions.WE_TRADING.ORDER_CLOSE];
+  const _permissions = [Config.permissions.WE_TRADING.ORDER_CLOSE];
 
   // Act
   render(<EditOrderModal {...props} />, SELL_ORDER_TYPE, _permissions);
@@ -729,7 +729,7 @@ it('Render EditOrderModal for PENDING order with BUY type', async () => {
   const newAsk = 1.1555;
   const newBid = 1.1545;
 
-  const _permissions = [permissions.WE_TRADING.ORDER_ACTIVATE];
+  const _permissions = [Config.permissions.WE_TRADING.ORDER_ACTIVATE];
 
   // Act
   render(<EditOrderModal {...props} />, SELL_ORDER_TYPE, _permissions);
@@ -784,7 +784,7 @@ it('Render EditOrderModal for PENDING order with SELL type', async () => {
   const newAsk = 1.1555;
   const newBid = 1.1545;
 
-  const _permissions = [permissions.WE_TRADING.ORDER_ACTIVATE];
+  const _permissions = [Config.permissions.WE_TRADING.ORDER_ACTIVATE];
 
   // Act
   render(<EditOrderModal {...props} />, SELL_ORDER_TYPE, _permissions);
@@ -828,7 +828,7 @@ it('Render EditOrderModal and configure volumeLots field for partial close order
   const bid = 1.1548;
   const { volumeLots } = apolloMockResponseData;
 
-  const _permissions = [permissions.WE_TRADING.ORDER_CLOSE];
+  const _permissions = [Config.permissions.WE_TRADING.ORDER_CLOSE];
 
   // Act
   render(<EditOrderModal {...props} />, {}, _permissions);
@@ -897,10 +897,10 @@ it('Render EditOrderModal with all permissions for CANCELED order for MANGER', a
   };
 
   const _permissions = [
-    permissions.WE_TRADING.MANAGER_EDIT_ORDER,
-    permissions.WE_TRADING.ORDER_REOPEN,
-    permissions.WE_TRADING.ORDER_CLOSE,
-    permissions.WE_TRADING.ORDER_CANCEL,
+    Config.permissions.WE_TRADING.MANAGER_EDIT_ORDER,
+    Config.permissions.WE_TRADING.ORDER_REOPEN,
+    Config.permissions.WE_TRADING.ORDER_CLOSE,
+    Config.permissions.WE_TRADING.ORDER_CANCEL,
   ];
 
   // Act
@@ -987,11 +987,11 @@ it('Render EditOrderModal with all permissions for CANCELED order for ADMIN', as
   };
 
   const _permissions = [
-    permissions.WE_TRADING.MANAGER_EDIT_ORDER,
-    permissions.WE_TRADING.ADMIN_EDIT_ORDER,
-    permissions.WE_TRADING.ORDER_REOPEN,
-    permissions.WE_TRADING.ORDER_CLOSE,
-    permissions.WE_TRADING.ORDER_CANCEL,
+    Config.permissions.WE_TRADING.MANAGER_EDIT_ORDER,
+    Config.permissions.WE_TRADING.ADMIN_EDIT_ORDER,
+    Config.permissions.WE_TRADING.ORDER_REOPEN,
+    Config.permissions.WE_TRADING.ORDER_CLOSE,
+    Config.permissions.WE_TRADING.ORDER_CANCEL,
   ];
 
   // Act
@@ -1081,10 +1081,10 @@ it('Render EditOrderModal with all permissions for CLOSED order for MANGER for a
   };
 
   const _permissions = [
-    permissions.WE_TRADING.MANAGER_EDIT_ORDER,
-    permissions.WE_TRADING.ORDER_REOPEN,
-    permissions.WE_TRADING.ORDER_CLOSE,
-    permissions.WE_TRADING.ORDER_CANCEL,
+    Config.permissions.WE_TRADING.MANAGER_EDIT_ORDER,
+    Config.permissions.WE_TRADING.ORDER_REOPEN,
+    Config.permissions.WE_TRADING.ORDER_CLOSE,
+    Config.permissions.WE_TRADING.ORDER_CANCEL,
   ];
 
   // Act
@@ -1176,11 +1176,11 @@ it('Render EditOrderModal with all permissions for CLOSED order for ADMIN for ar
   };
 
   const _permissions = [
-    permissions.WE_TRADING.MANAGER_EDIT_ORDER,
-    permissions.WE_TRADING.ADMIN_EDIT_ORDER,
-    permissions.WE_TRADING.ORDER_REOPEN,
-    permissions.WE_TRADING.ORDER_CLOSE,
-    permissions.WE_TRADING.ORDER_CANCEL,
+    Config.permissions.WE_TRADING.MANAGER_EDIT_ORDER,
+    Config.permissions.WE_TRADING.ADMIN_EDIT_ORDER,
+    Config.permissions.WE_TRADING.ORDER_REOPEN,
+    Config.permissions.WE_TRADING.ORDER_CLOSE,
+    Config.permissions.WE_TRADING.ORDER_CANCEL,
   ];
 
   // Act
@@ -1254,7 +1254,7 @@ it('Render EditOrderModal with ADMIN edit order permission and changes in TYPE f
   const bid = 1.15480;
 
   const _permissions = [
-    permissions.WE_TRADING.ADMIN_EDIT_ORDER,
+    Config.permissions.WE_TRADING.ADMIN_EDIT_ORDER,
   ];
 
   const warningMessage = 'Check the Take Profit and Stop Loss values before changing the order direction';

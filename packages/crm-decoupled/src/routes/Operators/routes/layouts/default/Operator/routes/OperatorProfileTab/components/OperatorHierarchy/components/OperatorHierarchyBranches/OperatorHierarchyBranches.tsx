@@ -1,10 +1,11 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Utils } from '@crm/common';
 import { Button } from 'components';
 import { Operator } from '__generated__/types';
 import { FormikSelectField } from 'components/Formik';
-import { createValidator, translateLabels } from 'utils/validator';
+
 import useOperatorHierarchyBranches from 'routes/Operators/routes/hooks/useOperatorHierarchyBranches';
 import './OperatorHierarchyBranches.scss';
 
@@ -93,7 +94,7 @@ const OperatorHierarchyBranches = (props: Props) => {
             <Formik
               initialValues={{ brandId: '', branchType: '', branchUuid: '' }}
               validate={
-                createValidator({
+                Utils.createValidator({
                   brandId: ['required'],
                   branchType: ['required'],
                   branchUuid: [
@@ -101,7 +102,7 @@ const OperatorHierarchyBranches = (props: Props) => {
                     'required_if:branchType,DESK',
                     'required_if:branchType,TEAM',
                   ],
-                }, translateLabels(attributeLabels))
+                }, Utils.translateLabels(attributeLabels))
               }
               validateOnBlur={false}
               validateOnChange={false}

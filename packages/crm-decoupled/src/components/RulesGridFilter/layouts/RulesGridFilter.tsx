@@ -3,11 +3,10 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Field, Form, Formik } from 'formik';
 import { Button, RefreshButton } from 'components';
-import { getAvailableLanguages } from 'config';
+import { Config, Utils } from '@crm/common';
 import { filterLabels } from 'constants/user';
 import { statuses as operatorsStatuses } from 'constants/operators';
 import { Operator, Partner } from '__generated__/types';
-import countryList from 'utils/countryList';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import useRulesGridFilter from '../hooks/useRulesGridFilter';
 import './RulesGridFilter.scss';
@@ -69,9 +68,9 @@ const RulesGridFilter = (props: Props) => {
             >
               {[
                 <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                ...Object.keys(countryList)
+                ...Object.keys(Utils.countryList)
                   .map(country => (
-                    <option key={country} value={country}>{countryList[country]}</option>
+                    <option key={country} value={country}>{Utils.countryList[country]}</option>
                   )),
               ]}
             </Field>
@@ -87,7 +86,7 @@ const RulesGridFilter = (props: Props) => {
               searchable
               withFocus
             >
-              {getAvailableLanguages().map((locale: string) => (
+              {Config.getAvailableLanguages().map((locale: string) => (
                 <option key={locale} value={locale}>
                   {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                 </option>

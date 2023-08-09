@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { ClientCallback } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
@@ -22,7 +22,7 @@ const useClientCallbacksGrid = (props: Props) => {
   const { content = [], last = false } = clientCallbacksListQuery?.data?.clientCallbacks || {};
 
   const permission = usePermission();
-  const allowDeleteCallback = permission.allows(permissions.USER_PROFILE.DELETE_CALLBACK);
+  const allowDeleteCallback = permission.allows(Config.permissions.USER_PROFILE.DELETE_CALLBACK);
 
   // ===== Modals ===== //
   const updateClientCallbackModal = useModal<UpdateClientCallbackModalProps>(UpdateClientCallbackModal);

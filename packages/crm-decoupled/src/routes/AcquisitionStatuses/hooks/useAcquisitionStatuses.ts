@@ -2,17 +2,17 @@ import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { useLocation } from 'react-router-dom';
 import { orderBy } from 'lodash';
-import { getBrand, permissions } from 'config';
+import { Config } from '@crm/common';
 import { State } from 'types';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import { salesStatuses } from 'constants/salesStatuses';
-import { retentionStatuses } from 'constants/retentionStatuses';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import CreateAcquisitionStatusModal, { CreateAcquisitionStatusModalProps } from 'modals/CreateAcquisitionStatusModal';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
+import { retentionStatuses } from 'constants/retentionStatuses';
+import { salesStatuses } from 'constants/salesStatuses';
 import {
   useAcquisitionStatusesQuery,
   AcquisitionStatusesQuery,
@@ -37,8 +37,8 @@ const useAcquisitionStatuses = (): UseAcquisitionStatuses => {
 
   const permission = usePermission();
 
-  const allowsCreateAcquisitionStatus = permission.allows(permissions.HIERARCHY.CREATE_ACQUISITION_STATUS);
-  const allowsDeleteAcquisitionStatus = permission.allows(permissions.HIERARCHY.DELETE_ACQUISITION_STATUS);
+  const allowsCreateAcquisitionStatus = permission.allows(Config.permissions.HIERARCHY.CREATE_ACQUISITION_STATUS);
+  const allowsDeleteAcquisitionStatus = permission.allows(Config.permissions.HIERARCHY.DELETE_ACQUISITION_STATUS);
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
@@ -49,7 +49,7 @@ const useAcquisitionStatuses = (): UseAcquisitionStatuses => {
 
   const { data, loading, refetch } = useAcquisitionStatusesQuery({
     variables: {
-      brandId: getBrand().id,
+      brandId: Config.getBrand().id,
       args: {
         ...state?.filters,
       },

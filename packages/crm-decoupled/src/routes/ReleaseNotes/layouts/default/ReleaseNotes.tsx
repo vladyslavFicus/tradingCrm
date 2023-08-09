@@ -1,6 +1,6 @@
 import React from 'react';
 import { startCase } from 'lodash';
-import { getBackofficeBrand } from 'config';
+import { Config } from '@crm/common';
 import { ShortLoader } from 'components';
 import useReleaseNotes from 'routes/ReleaseNotes/hooks/useReleaseNotes';
 import './ReleaseNotes.scss';
@@ -14,7 +14,7 @@ const ReleaseNotes = () => {
   return (
     <div className="ReleaseNotes">
       <h1 className="ReleaseNotes__headline">
-        {startCase(getBackofficeBrand().id)} CRM<br />Release notes
+        {startCase(Config.getBackofficeBrand().id)} CRM<br />Release notes
       </h1>
 
       <Choose>

@@ -2,15 +2,12 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import classNames from 'classnames';
+import { Config, Utils } from '@crm/common';
 import { Button, RefreshButton } from 'components';
-import { getAvailableLanguages } from 'config';
 import useFilter from 'hooks/useFilter';
 import { DistributionRule__Statuses__Enum as DistributionRuleStatusesEnum } from '__generated__/types';
-import countryList from 'utils/countryList';
-import renderLabel from 'utils/renderLabel';
 import { FiltersToggler } from 'components/FiltersToggler';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import enumToArray from 'utils/enumToArray';
 import useDistributionRulesGridFilters from 'routes/DistributionRules/hooks/useDistributionRulesGridFilters';
 import { RulesFormValues } from 'routes/DistributionRules/types';
 import { statusesLabels, timeInCurrentStatusInHours } from 'constants/clientsDistribution';
@@ -67,7 +64,7 @@ const DistributionRulesGridFilters = (props: Props) => {
                 withAnyOption
                 withFocus
               >
-                {enumToArray(DistributionRuleStatusesEnum).map(status => (
+                {Utils.enumToArray(DistributionRuleStatusesEnum).map(status => (
                   <option key={status} value={status}>
                     {I18n.t(statusesLabels[status])}
                   </option>
@@ -107,7 +104,7 @@ const DistributionRulesGridFilters = (props: Props) => {
               >
                 {Object.keys(salesStatuses).map(value => (
                   <option key={value} value={value}>
-                    {I18n.t(renderLabel(value, salesStatuses))}
+                    {I18n.t(Utils.renderLabel(value, salesStatuses))}
                   </option>
                 ))}
               </Field>
@@ -151,7 +148,7 @@ const DistributionRulesGridFilters = (props: Props) => {
                 searchable
                 multiple
               >
-                {getAvailableLanguages().map(locale => (
+                {Config.getAvailableLanguages().map(locale => (
                   <option key={locale} value={locale}>
                     {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
                   </option>
@@ -169,8 +166,8 @@ const DistributionRulesGridFilters = (props: Props) => {
                 withFocus
                 multiple
               >
-                {Object.keys(countryList).map(country => (
-                  <option key={country} value={country}>{countryList[country]}</option>
+                {Object.keys(Utils.countryList).map(country => (
+                  <option key={country} value={country}>{Utils.countryList[country]}</option>
                 ))}
               </Field>
 

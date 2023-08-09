@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { Operator } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -37,7 +37,7 @@ const useOperatorPersonal = (props: Props): UseOperatorPersonal => {
 
   const permission = usePermission();
 
-  const deniesUpdate = permission.denies(permissions.OPERATORS.UPDATE_PROFILE);
+  const deniesUpdate = permission.denies(Config.permissions.OPERATORS.UPDATE_PROFILE);
 
   // ===== Requests ===== //
   const clickToCallConfigQuery = useClickToCallConfigQuery();

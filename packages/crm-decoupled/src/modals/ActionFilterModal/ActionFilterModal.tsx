@@ -2,10 +2,10 @@ import React from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikProps, FormikHelpers } from 'formik';
+import { Utils } from '@crm/common';
 import { ClientSearch__Input as ClientSearch } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField, FormikCheckbox } from 'components/Formik';
-import { createValidator } from 'utils/validator';
 import Modal from 'components/Modal';
 import { actionTypes } from './attributes';
 import { useCreateFilterSetMutation } from './graphql/__generated__/CreateFilterSetMutation';
@@ -17,7 +17,7 @@ const attributeLabels = {
   name: I18n.t('FILTER_SET.CREATE_MODAL.FIELDS.FILTER_NAME'),
 };
 
-const validate = createValidator({
+const validate = Utils.createValidator({
   name: ['required', 'string'],
 }, attributeLabels, false);
 

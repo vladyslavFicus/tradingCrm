@@ -3,10 +3,10 @@ import I18n from 'i18n-js';
 import { useParams } from 'react-router-dom';
 import { omit } from 'lodash';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { ShortLoader } from 'components';
 import NotFound from 'routes/NotFound';
-import { createValidator } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
@@ -23,7 +23,7 @@ import { useGroupQuery } from './graphql/__generated__/GroupQuery';
 import { useEditGroupMutation } from './graphql/__generated__/EditGroupMutation';
 import './EditGroup.scss';
 
-const validator = createValidator(
+const validator = Utils.createValidator(
   {
     groupName: ['required', `regex:${groupNamePattern}`],
     marginCallLevel: ['required', 'numeric', 'min:0', 'max:100'],

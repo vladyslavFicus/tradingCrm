@@ -2,8 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { NetworkStatus, QueryResult } from '@apollo/client';
-import { getBackofficeBrand } from 'config';
-import limitItems from 'utils/limitItems';
+import { Config, Utils } from '@crm/common';
 import { State, TableSelection } from 'types';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { useModal } from 'providers/ModalProvider';
@@ -29,10 +28,10 @@ const useLeadsGrid = (props: Props) => {
   const state = useLocation().state as State<LeadsListQueryVariables>;
   const navigate = useNavigate();
 
-  const { response } = limitItems(data?.leads as PageableLead, state);
+  const { response } = Utils.limitItems(data?.leads as PageableLead, state);
 
   const { content = [], totalElements = 0, last = true } = response || {};
-  const { currentPage } = limitItems(data?.leads as PageableLead, state);
+  const { currentPage } = Utils.limitItems(data?.leads as PageableLead, state);
   const size = variables?.args?.page?.size;
 
   const handlePageChanged = useHandlePageChanged({
@@ -65,7 +64,7 @@ const useLeadsGrid = (props: Props) => {
     });
   }, []);
 
-  const columnsOrder = getBackofficeBrand()?.tables?.leads?.columnsOrder || [];
+  const columnsOrder = Config.getBackofficeBrand()?.tables?.leads?.columnsOrder || [];
 
   // Show loader only if initial load or new variables was applied
   const isLoading = useMemo(() => (

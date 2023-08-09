@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { Utils } from '@crm/common';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
-import EventEmitter, { TRANSACTION_CREATED } from 'utils/EventEmitter';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import { Sort, State } from 'types';
@@ -37,10 +37,10 @@ const AccountProfileTransactionsGrid = () => {
   const page = data?.tradingEngine.transactions.number || 0;
 
   useEffect(() => {
-    EventEmitter.on(TRANSACTION_CREATED, transactionsQuery.refetch);
+    Utils.EventEmitter.on(Utils.TRANSACTION_CREATED, transactionsQuery.refetch);
 
     return () => {
-      EventEmitter.off(TRANSACTION_CREATED, transactionsQuery.refetch);
+      Utils.EventEmitter.off(Utils.TRANSACTION_CREATED, transactionsQuery.refetch);
     };
   }, []);
 

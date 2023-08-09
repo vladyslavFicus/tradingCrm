@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import Trackify from '@hrzn/trackify';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -60,12 +60,12 @@ const useClientContactsForm = (props: Props): UseClientContactsForm => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const isAvailableToSeePhone = permission.allows(permissions.USER_PROFILE.FIELD_PHONE);
-  const isAvailableToSeeAltPhone = permission.allows(permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE);
-  const isAvailableToSeeAltEmail = permission.allows(permissions.USER_PROFILE.FIELD_ADDITIONAL_EMAIL);
-  const isAvailableToSeeEmail = permission.allows(permissions.USER_PROFILE.FIELD_EMAIL);
-  const isAvailableToUpdateContacts = permission.allows(permissions.USER_PROFILE.UPDATE_CONTACTS);
-  const isAvailableToUpdateEmail = permission.allows(permissions.USER_PROFILE.UPDATE_EMAIL);
+  const isAvailableToSeePhone = permission.allows(Config.permissions.USER_PROFILE.FIELD_PHONE);
+  const isAvailableToSeeAltPhone = permission.allows(Config.permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE);
+  const isAvailableToSeeAltEmail = permission.allows(Config.permissions.USER_PROFILE.FIELD_ADDITIONAL_EMAIL);
+  const isAvailableToSeeEmail = permission.allows(Config.permissions.USER_PROFILE.FIELD_EMAIL);
+  const isAvailableToUpdateContacts = permission.allows(Config.permissions.USER_PROFILE.UPDATE_CONTACTS);
+  const isAvailableToUpdateEmail = permission.allows(Config.permissions.USER_PROFILE.UPDATE_EMAIL);
 
   // ===== Requests ===== //
   const [profilePhonesQuery] = useProfilePhonesQueryLazyQuery();

@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { round } from 'utils/round';
+import { Utils } from '@crm/common';
 import { useSymbolPricesStream } from 'routes/TE/components/SymbolPricesStream';
 import Chart from './components/Chart';
 import { useSymbolQuery, SymbolQueryQueryResult } from './graphql/__generated__/SymbolQuery';
@@ -44,8 +44,8 @@ const getChartData = (symbolQuery: SymbolQueryQueryResult) => {
   const { bidAdjustment = 0, askAdjustment = 0 } = config || {};
 
   return prices?.map((price) => {
-    const bid = round(price.bid - bidAdjustment, digits);
-    const ask = round(price.ask + askAdjustment, digits);
+    const bid = Utils.round(price.bid - bidAdjustment, digits);
+    const ask = Utils.round(price.ask + askAdjustment, digits);
 
     return { ...price, bid, ask };
   });

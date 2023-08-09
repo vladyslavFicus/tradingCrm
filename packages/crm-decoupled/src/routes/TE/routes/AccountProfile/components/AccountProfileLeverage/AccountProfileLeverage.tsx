@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Account } from '../../AccountProfile';
@@ -68,7 +68,7 @@ const AccountProfileLeverage = (props: Props) => {
 
   return (
     <Choose>
-      <When condition={permission.allows(permissions.WE_TRADING.UPDATE_ACCOUNT_LEVERAGE) && enable}>
+      <When condition={permission.allows(Config.permissions.WE_TRADING.UPDATE_ACCOUNT_LEVERAGE) && enable}>
         <div
           onClick={toggleDropdown}
           className={

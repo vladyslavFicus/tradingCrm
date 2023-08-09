@@ -1,11 +1,11 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikProps } from 'formik';
-import { getBrand } from 'config';
+import { Config, Utils } from '@crm/common';
 import { notify } from 'providers/NotificationProvider';
 import { LevelType } from 'types/notify';
 import { PaymentDeposit } from '__generated__/types';
-import { createValidator, translateLabels } from 'utils/validator';
+
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { attributeLabels } from './constants';
@@ -25,7 +25,7 @@ const UpdateDepositAmountModal = (props: Props) => {
     onSuccess,
   } = props;
 
-  const supportedCurrencies = getBrand().currencies.supported;
+  const supportedCurrencies = Config.getBrand().currencies.supported;
   const freeCurrencies = supportedCurrencies.filter((currency: string) => !currencies?.includes(currency));
 
   const handleSubmit = (updatedDepositAmount: PaymentDeposit) => {
@@ -46,11 +46,11 @@ const UpdateDepositAmountModal = (props: Props) => {
         min: depositAmount?.min || '',
         max: depositAmount?.max || '',
       } as PaymentDeposit}
-      validate={createValidator({
+      validate={Utils.createValidator({
         currency: ['required', 'string'],
         min: ['required', 'numeric', 'greater:0'],
         max: ['required', 'numeric', 'greaterThan:min'],
-      }, translateLabels(attributeLabels), false)}
+      }, Utils.translateLabels(attributeLabels), false)}
       validateOnChange={false}
       validateOnBlur={false}
       enableReinitialize

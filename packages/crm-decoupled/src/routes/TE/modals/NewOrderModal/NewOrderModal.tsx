@@ -3,10 +3,9 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
+import { Config } from '@crm/common';
 import { Button, Input } from 'components';
-import { permissions } from 'config';
 import { usePermission } from 'providers/PermissionsProvider';
-import { accountTypesLabels } from 'constants/accountTypes';
 import StaticTabs from 'components/StaticTabs';
 import StaticTabsItem from 'components/StaticTabsItem';
 import ReactSwitch from 'components/ReactSwitch';
@@ -14,6 +13,7 @@ import SymbolChart from 'components/SymbolChart';
 import Badge from 'components/Badge';
 import SmartPnLForm from 'routes/TE/forms/SmartPnLForm';
 import GeneralNewOrderForm from 'routes/TE/forms/GeneralNewOrderForm';
+import { accountTypesLabels } from 'constants/accountTypes';
 import { useAccountQueryLazyQuery, AccountQuery } from './graphql/__generated__/AccountQuery';
 import './NewOrderModal.scss';
 
@@ -201,7 +201,7 @@ const NewOrderModal = (props: Props) => {
             >
 
               {/* Smart P/L tab */}
-              <If condition={permission.allows(permissions.WE_TRADING.CREATE_CLOSED_ORDER)}>
+              <If condition={permission.allows(Config.permissions.WE_TRADING.CREATE_CLOSED_ORDER)}>
                 <StaticTabsItem
                   data-testid="smartPnlNewOrder"
                   label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TABS.SMART_PNL')}
@@ -215,7 +215,7 @@ const NewOrderModal = (props: Props) => {
               </If>
 
               {/* General new order tab */}
-              <If condition={permission.allows(permissions.WE_TRADING.CREATE_ORDER)}>
+              <If condition={permission.allows(Config.permissions.WE_TRADING.CREATE_ORDER)}>
                 <StaticTabsItem
                   data-testid="generalNewOrder"
                   label={I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.TABS.NEW_ORDER')}

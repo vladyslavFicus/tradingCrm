@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useApolloClient } from '@apollo/client';
-import { getBackofficeBrand } from 'config';
+import { Config } from '@crm/common';
 import { useStorageState } from 'providers/StorageProvider';
 import { BrandToAuthorities } from '__generated__/types';
 import { useBrandsQuery } from '../graphql/__generated__/BrandsQuery';
@@ -25,7 +25,7 @@ const useBrands = (): Brands => {
 
   // ===== Requests ===== //
   const { data, loading } = useBrandsQuery({
-    variables: { crmBrand: getBackofficeBrand().id },
+    variables: { crmBrand: Config.getBackofficeBrand().id },
     nextFetchPolicy: 'network-only',
   });
 

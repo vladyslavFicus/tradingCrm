@@ -49,7 +49,7 @@ export const getVersion = (): string => process.env.REACT_APP_VERSION || 'dev';
 export const getBrand = (): any => config.brand;
 
 // Set current brand by brandId
-export const setBrand = (brandId: string): void => {
+export const setBrand = (brandId: any): void => {
   if (brandId) {
     config.brand = { id: brandId };
   } else {

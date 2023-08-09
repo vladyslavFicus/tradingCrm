@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, useLocation, useNavigationType } from 'react-router-dom';
 import { intersection, sortBy } from 'lodash';
 import Trackify from '@hrzn/trackify';
-import { permissions, getBrand } from 'config';
+import { Config } from '@crm/common';
 import usePrevious from 'hooks/usePrevious';
 import { useStorage, Auth } from 'providers/StorageProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -31,8 +31,8 @@ const useClientsGridFilter = () => {
   const prevFiltersFields = usePrevious(state?.filtersFields);
 
   const permission = usePermission();
-  const allowPartnersListView = permission.allows(permissions.PARTNERS.PARTNERS_LIST_VIEW);
-  const allowAffiliateReferrals = permission.allows(permissions.PARTNERS.AFFILIATE_REFERRALS);
+  const allowPartnersListView = permission.allows(Config.permissions.PARTNERS.PARTNERS_LIST_VIEW);
+  const allowAffiliateReferrals = permission.allows(Config.permissions.PARTNERS.AFFILIATE_REFERRALS);
 
   const [getPartnersQuery, {
     data: partnersData, loading: isPartnersLoading,
@@ -48,7 +48,7 @@ const useClientsGridFilter = () => {
 
   const [getAcquisitionStatusesQuery, {
     data: acquisitionStatusesData, loading: isAcquisitionStatusesLoading,
-  }] = useAcquisitionStatusesQueryLazyQuery({ variables: { brandId: getBrand().id } });
+  }] = useAcquisitionStatusesQueryLazyQuery({ variables: { brandId: Config.getBrand().id } });
 
   const [getAffiliateReferralsQuery, {
     data: affiliateReferralsData, loading: isAffiliateReferralsLoading,

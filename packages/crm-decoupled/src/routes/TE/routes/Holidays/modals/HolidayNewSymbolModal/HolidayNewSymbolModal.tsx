@@ -3,9 +3,9 @@ import I18n from 'i18n-js';
 import { differenceWith, sortBy } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikProps } from 'formik';
+import { Utils } from '@crm/common';
 import { Button, ShortLoader } from 'components';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { createValidator } from 'utils/validator';
 import { FormikSelectField } from 'components/Formik';
 import { useSymbolsSourcesQuery } from './graphql/__generated__/SymbolsSourcesQuery';
 import './HolidayNewSymbolModal.scss';
@@ -20,7 +20,7 @@ type FormValues = {
   symbols: string[],
 }
 
-const validate = createValidator(
+const validate = Utils.createValidator(
   {
     symbols: 'required',
   },

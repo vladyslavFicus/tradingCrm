@@ -1,10 +1,10 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField } from 'components/Formik';
-import { createValidator, translateLabels } from 'utils/validator';
 import Modal from 'components/Modal';
 import { useRemoveBranchManagerMutation } from './graphql/__generated__/removeBranchManagerMutation';
 import './RemoveBranchManagerModal.scss';
@@ -73,9 +73,9 @@ const RemoveBranchManagerModal = (props: Props) => {
   return (
     <Formik
       initialValues={{ uuid: '' }}
-      validate={createValidator({
+      validate={Utils.createValidator({
         uuid: ['required', 'string'],
-      }, translateLabels(attributeLabels), false)}
+      }, Utils.translateLabels(attributeLabels), false)}
       onSubmit={handleSubmit}
       validateOnBlur={false}
       validateOnChange={false}

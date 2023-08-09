@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { Operator } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import OperatorHierarchyUserType from './components/OperatorHierarchyUserType';
@@ -18,7 +18,7 @@ const OperatorHierarchy = (props: Props) => {
 
   const permission = usePermission();
 
-  const allowUpdateBranch = permission.allows(permissions.HIERARCHY.UPDATE_USER_BRANCH);
+  const allowUpdateBranch = permission.allows(Config.permissions.HIERARCHY.UPDATE_USER_BRANCH);
 
   return (
     <div className="OperatorHierarchy">

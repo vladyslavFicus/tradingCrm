@@ -2,10 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
+import { Utils } from '@crm/common';
 import { Button } from 'components';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import enumToArray from 'utils/enumToArray';
-import { createValidator } from 'utils/validator';
 import { FormikInputField, FormikSelectField, FormikCheckbox } from 'components/Formik';
 import {
   Commission__Type__Enum as GroupCommissionType,
@@ -22,7 +21,7 @@ export type Props = {
   onSuccess: (modifiedSecurity: GroupSecurity) => void,
 }
 
-const validate = createValidator(
+const validate = Utils.createValidator(
   {
     spreadDiff: ['required', 'integer', 'min:0', 'max:100000'],
     commissionBase: ['required', 'numeric', 'min:-100000', 'max:100000'],
@@ -116,7 +115,7 @@ const GroupSecurityCustomizationModal = ({
                   component={FormikSelectField}
                   disabled={values.defaultLots}
                 >
-                  {enumToArray(LotMin).map(value => (
+                  {Utils.enumToArray(LotMin).map(value => (
                     <option key={value} value={value}>
                       {value}
                     </option>
@@ -130,7 +129,7 @@ const GroupSecurityCustomizationModal = ({
                   component={FormikSelectField}
                   disabled={values.defaultLots}
                 >
-                  {enumToArray(LotMax).map(value => (
+                  {Utils.enumToArray(LotMax).map(value => (
                     <option key={value} value={value}>
                       {value}
                     </option>
@@ -144,7 +143,7 @@ const GroupSecurityCustomizationModal = ({
                   component={FormikSelectField}
                   disabled={values.defaultLots}
                 >
-                  {enumToArray(LotStep).map(value => (
+                  {Utils.enumToArray(LotStep).map(value => (
                     <option key={value} value={value}>
                       {value}
                     </option>

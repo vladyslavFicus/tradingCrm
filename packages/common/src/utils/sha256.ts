@@ -20,4 +20,6 @@ const create = (algorithm: string) => async (buffer: any) => {
   return bufferToHex(hash);
 };
 
-export const sha256 = create('SHA-256');
+const sha256 = create('SHA-256');
+
+export default sha256;

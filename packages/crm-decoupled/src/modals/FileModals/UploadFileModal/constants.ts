@@ -1,4 +1,4 @@
-import { createValidator, translateLabels } from 'utils/validator';
+import { Utils } from '@crm/common';
 
 export const attributeLabels = {
   name: 'FILES.UPLOAD_MODAL.FILE.TITLE',
@@ -47,5 +47,5 @@ export const validate = (values: any) => {
     });
   });
 
-  return createValidator(rules, translateLabels(labels), false)(values);
+  return Utils.createValidator(rules, Utils.translateLabels(labels), false)(values);
 };

@@ -1,11 +1,10 @@
 import { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
 import Trackify from '@hrzn/trackify';
-import { permissions } from 'config';
+import { Config, Utils } from '@crm/common';
 import { Lead } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { getCountryCode } from 'utils/countryList';
 import { useLeadPhonesQueryLazyQuery } from '../graphql/__generated__/LeadPhonesQuery';
 import { useLeadEmailQueryLazyQuery } from '../graphql/__generated__/LeadEmailQuery';
 
@@ -26,16 +25,16 @@ const useLeadPersonalInfo = (props: Props) => {
     country,
   } = lead;
 
-  const countryCode = getCountryCode(country || '') || '';
+  const countryCode = Utils.getCountryCode(country || '') || '';
 
   const [state, setState] = useState<State>({});
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowShowEmail = permission.allows(permissions.LEAD_PROFILE.FIELD_EMAIL);
+  const allowShowEmail = permission.allows(Config.permissions.LEAD_PROFILE.FIELD_EMAIL);
   const allowShowPhones = permission.allowsAny([
-    permissions.LEAD_PROFILE.FIELD_PHONE,
-    permissions.LEAD_PROFILE.FIELD_MOBILE,
+    Config.permissions.LEAD_PROFILE.FIELD_PHONE,
+    Config.permissions.LEAD_PROFILE.FIELD_MOBILE,
   ]);
 
   // ===== Requests ===== //

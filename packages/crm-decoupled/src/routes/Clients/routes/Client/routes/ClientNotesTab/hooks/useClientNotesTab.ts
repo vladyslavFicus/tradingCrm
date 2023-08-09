@@ -1,8 +1,8 @@
 import { useEffect, useCallback } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
+import { Utils } from '@crm/common';
 import { State } from 'types';
-import EventEmitter, { CLIENT_RELOAD, NOTE_RELOAD } from 'utils/EventEmitter';
 import { targetTypes } from 'constants/note';
 import { useClientNotesQuery, ClientNotesQueryVariables } from '../graphql/__generated__/ClientNotesQuery';
 
@@ -41,12 +41,12 @@ const useClientNotesTab = () => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CLIENT_RELOAD, refetch);
-    EventEmitter.on(NOTE_RELOAD, handleNoteReload);
+    Utils.EventEmitter.on(Utils.CLIENT_RELOAD, refetch);
+    Utils.EventEmitter.on(Utils.NOTE_RELOAD, handleNoteReload);
 
     return () => {
-      EventEmitter.off(CLIENT_RELOAD, refetch);
-      EventEmitter.off(NOTE_RELOAD, handleNoteReload);
+      Utils.EventEmitter.off(Utils.CLIENT_RELOAD, refetch);
+      Utils.EventEmitter.off(Utils.NOTE_RELOAD, handleNoteReload);
     };
   }, []);
 

@@ -1,4 +1,4 @@
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { useClientReferrerStatisticsQuery } from '../graphql/__generated__/ClientReferrerStatisticsQuery';
 
 type Props = {
@@ -16,7 +16,7 @@ type UseClientReferrals = {
 const useClientReferrals = (props: Props): UseClientReferrals => {
   const { clientUuid: uuid } = props;
 
-  const baseCurrency = getBrand().currencies.base;
+  const baseCurrency = Config.getBrand().currencies.base;
 
   // ===== Requests ===== //
   const { data, loading } = useClientReferrerStatisticsQuery({ variables: { uuid } });

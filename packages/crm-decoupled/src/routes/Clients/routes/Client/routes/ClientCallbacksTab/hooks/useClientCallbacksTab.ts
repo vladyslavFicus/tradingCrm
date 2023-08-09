@@ -1,11 +1,10 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { permissions } from 'config';
+import { Config, Utils } from '@crm/common';
 import { Sort__Input as Sort } from '__generated__/types';
 import { State } from 'types';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import EventEmitter, { CREATE_CLIENT_CALLBACK } from 'utils/EventEmitter';
 import CreateClientCallbackModal, { CreateClientCallbackModalProps } from 'modals/CreateClientCallbackModal';
 import {
   ClientCallbacksListQueryVariables,
@@ -22,7 +21,7 @@ const useClientCallbacksTab = () => {
   const createClientCallbackModal = useModal<CreateClientCallbackModalProps>(CreateClientCallbackModal);
 
   const permission = usePermission();
-  const allowCreateCallback = permission.allows(permissions.USER_PROFILE.CREATE_CALLBACK);
+  const allowCreateCallback = permission.allows(Config.permissions.USER_PROFILE.CREATE_CALLBACK);
 
   // ===== Requests ===== //
   const clientCallbacksListQuery = useClientCallbacksListQuery({
@@ -44,10 +43,10 @@ const useClientCallbacksTab = () => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CREATE_CLIENT_CALLBACK, refetch);
+    Utils.EventEmitter.on(Utils.CREATE_CLIENT_CALLBACK, refetch);
 
     return () => {
-      EventEmitter.off(CREATE_CLIENT_CALLBACK, refetch);
+      Utils.EventEmitter.off(Utils.CREATE_CLIENT_CALLBACK, refetch);
     };
   }, []);
 

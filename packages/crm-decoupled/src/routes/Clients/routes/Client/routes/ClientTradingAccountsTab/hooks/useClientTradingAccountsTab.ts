@@ -1,10 +1,9 @@
 import { useCallback, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { permissions } from 'config';
+import { Config, Utils } from '@crm/common';
 import { State } from 'types';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import CreateTradingAccountModal, { CreateTradingAccountModalProps } from 'modals/CreateTradingAccountModal';
 import {
   useTradingAccountsQuery,
@@ -29,7 +28,7 @@ const useClientTradingAccountsTab = (): UseClientTradingAccountsTab => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowCreateTradingAccount = permission.allows(permissions.TRADING_ACCOUNT.CREATE);
+  const allowCreateTradingAccount = permission.allows(Config.permissions.TRADING_ACCOUNT.CREATE);
 
   // ===== Requests ===== //
   const { data, loading, refetch } = useTradingAccountsQuery({
@@ -48,10 +47,10 @@ const useClientTradingAccountsTab = (): UseClientTradingAccountsTab => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CLIENT_RELOAD, refetch);
+    Utils.EventEmitter.on(Utils.CLIENT_RELOAD, refetch);
 
     return () => {
-      EventEmitter.off(CLIENT_RELOAD, refetch);
+      Utils.EventEmitter.off(Utils.CLIENT_RELOAD, refetch);
     };
   }, []);
 

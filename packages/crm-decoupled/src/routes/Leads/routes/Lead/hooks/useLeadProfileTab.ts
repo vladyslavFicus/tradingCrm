@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
 import Trackify from '@hrzn/trackify';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -44,9 +44,9 @@ const useLeadProfileTab = (props: Props) => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowEmailField = permission.allows(permissions.LEAD_PROFILE.FIELD_EMAIL);
-  const allowPhoneField = permission.allows(permissions.LEAD_PROFILE.FIELD_PHONE);
-  const allowMobileField = permission.allows(permissions.LEAD_PROFILE.FIELD_MOBILE);
+  const allowEmailField = permission.allows(Config.permissions.LEAD_PROFILE.FIELD_EMAIL);
+  const allowPhoneField = permission.allows(Config.permissions.LEAD_PROFILE.FIELD_PHONE);
+  const allowMobileField = permission.allows(Config.permissions.LEAD_PROFILE.FIELD_MOBILE);
 
   // ===== Requests ===== //
   const [leadEmailQuery] = useLeadEmailQueryLazyQuery({ fetchPolicy: 'network-only' });

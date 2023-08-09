@@ -1,5 +1,10 @@
-import { CONDITIONS } from 'utils/permissions';
+import keyMirror from 'keymirror';
 import permissions from './permissions';
+
+const CONDITIONS = keyMirror({
+  OR: null,
+  AND: null,
+});
 
 export type SidebarMenuSubItem = {
   label: string,

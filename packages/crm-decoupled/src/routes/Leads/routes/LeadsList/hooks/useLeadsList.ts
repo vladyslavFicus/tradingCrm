@@ -1,9 +1,9 @@
 import { useEffect, useState, useCallback } from 'react';
 import { NetworkStatus } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
+import { Utils } from '@crm/common';
 import { State, TableSelection } from 'types';
 import usePrevious from 'hooks/usePrevious';
-import { fieldTimeZoneOffset } from 'utils/timeZoneOffset';
 import { FormValues } from '../types/leadsGridFilter';
 import { LeadsListQueryVariables, useLeadsListQuery } from '../graphql/__generated__/LeadsListQuery';
 
@@ -26,12 +26,12 @@ const useLeadsList = () => {
   const queryVariables = {
     args: {
       ...rest,
-      ...fieldTimeZoneOffset('lastCallDateFrom', lastCallDateFrom, timeZone),
-      ...fieldTimeZoneOffset('lastCallDateTo', lastCallDateTo, timeZone),
-      ...fieldTimeZoneOffset('lastNoteDateFrom', lastNoteDateFrom, timeZone),
-      ...fieldTimeZoneOffset('lastNoteDateTo', lastNoteDateTo, timeZone),
-      ...fieldTimeZoneOffset('registrationDateEnd', registrationDateEnd, timeZone),
-      ...fieldTimeZoneOffset('registrationDateStart', registrationDateStart, timeZone),
+      ...Utils.fieldTimeZoneOffset('lastCallDateFrom', lastCallDateFrom, timeZone),
+      ...Utils.fieldTimeZoneOffset('lastCallDateTo', lastCallDateTo, timeZone),
+      ...Utils.fieldTimeZoneOffset('lastNoteDateFrom', lastNoteDateFrom, timeZone),
+      ...Utils.fieldTimeZoneOffset('lastNoteDateTo', lastNoteDateTo, timeZone),
+      ...Utils.fieldTimeZoneOffset('registrationDateEnd', registrationDateEnd, timeZone),
+      ...Utils.fieldTimeZoneOffset('registrationDateStart', registrationDateStart, timeZone),
       page: {
         from: 0,
         size: 20,

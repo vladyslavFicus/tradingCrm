@@ -2,16 +2,13 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
+import { Config, Utils } from '@crm/common';
 import { Button, Input, ShortLoader } from 'components';
-import { permissions } from 'config';
 import { parseErrors } from 'apollo';
-import { accountTypesLabels } from 'constants/accountTypes';
 import { usePermission } from 'providers/PermissionsProvider';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import Badge from 'components/Badge';
-import enumToArray from 'utils/enumToArray';
-import { createValidator } from 'utils/validator';
-import EventEmitter, { TRANSACTION_CREATED } from 'utils/EventEmitter';
+import { accountTypesLabels } from 'constants/accountTypes';
 import { useAccountQuery } from './graphql/__generated__/AccountQuery';
 import { useCreditInMutation } from './graphql/__generated__/CreditInMutation';
 import { useCreditOutMutation } from './graphql/__generated__/CreditOutMutation';
@@ -56,8 +53,8 @@ const FixBalanceModal = (props: Props) => {
 
   const account = accountQuery.data?.tradingEngine.account;
 
-  const allowedOperations = enumToArray(BalanceOperationEnum)
-    .filter(operation => permission.allows(permissions.WE_TRADING[operation]));
+  const allowedOperations = Utils.enumToArray(BalanceOperationEnum)
+    .filter(operation => permission.allows(Config.permissions.WE_TRADING[operation]));
 
   // ===== Handlers ===== //
   const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
@@ -106,7 +103,7 @@ const FixBalanceModal = (props: Props) => {
           break;
       }
 
-      EventEmitter.emit(TRANSACTION_CREATED);
+      Utils.EventEmitter.emit(Utils.TRANSACTION_CREATED);
 
       onCloseModal();
     } catch (e) {
@@ -137,7 +134,7 @@ const FixBalanceModal = (props: Props) => {
           operation: allowedOperations[0], // Pre-select first allowed operation
           amount: null,
         } as FormValues}
-        validate={createValidator({
+        validate={Utils.createValidator({
           operation: 'required|string',
           amount: ['required', 'numeric', 'min:0.01', 'max:1000000'],
         }, {

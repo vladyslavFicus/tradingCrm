@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 
 const useHeaderCalendar = () => {
@@ -9,8 +9,8 @@ const useHeaderCalendar = () => {
   // ===== Permissions ===== //
   const permission = usePermission();
   const allowCalendar = permission.allowsAny([
-    permissions.USER_PROFILE.CALLBACKS_LIST,
-    permissions.LEAD_PROFILE.CALLBACKS_LIST,
+    Config.permissions.USER_PROFILE.CALLBACKS_LIST,
+    Config.permissions.LEAD_PROFILE.CALLBACKS_LIST,
   ]);
 
   // ===== Handlers ===== //

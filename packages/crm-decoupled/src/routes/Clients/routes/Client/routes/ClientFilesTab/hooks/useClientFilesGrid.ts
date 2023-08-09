@@ -2,11 +2,9 @@ import { useEffect, useCallback } from 'react';
 import I18n from 'i18n-js';
 import { useParams } from 'react-router-dom';
 import { omit } from 'lodash';
-import { getGraphQLUrl, getVersion } from 'config';
+import { Config, Utils } from '@crm/common';
 import { FileCategories } from 'types/fileCategories';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import downloadBlob from 'utils/downloadBlob';
-import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import { useFilesCategoriesQuery } from '../graphql/__generated__/FilesCategoriesQuery';
 import { useTokenRefreshMutation } from '../graphql/__generated__/TokenRefreshMutation';
 import {
@@ -34,10 +32,10 @@ const useClientFilesGrid = (props: Props) => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CLIENT_RELOAD, onRefetch);
+    Utils.EventEmitter.on(Utils.CLIENT_RELOAD, onRefetch);
 
     return () => {
-      EventEmitter.off(CLIENT_RELOAD, onRefetch);
+      Utils.EventEmitter.off(Utils.CLIENT_RELOAD, onRefetch);
     };
   }, []);
 
@@ -144,20 +142,20 @@ const useClientFilesGrid = (props: Props) => {
       const token = tokenResponse.data?.auth.tokenRenew?.token;
 
       if (token) {
-        const requestUrl = `${getGraphQLUrl()}/attachment/${clientUuid}/${uuid}`;
+        const requestUrl = `${Config.getGraphQLUrl()}/attachment/${clientUuid}/${uuid}`;
 
         const response = await fetch(requestUrl, {
           method: 'GET',
           headers: {
             authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
-            'x-client-version': getVersion(),
+            'x-client-version': Config.getVersion(),
           },
         });
 
         const blobData = await response.blob();
 
-        downloadBlob(fileName, blobData);
+        Utils.downloadBlob(fileName, blobData);
       }
     } catch (e) {
       // Do nothing...

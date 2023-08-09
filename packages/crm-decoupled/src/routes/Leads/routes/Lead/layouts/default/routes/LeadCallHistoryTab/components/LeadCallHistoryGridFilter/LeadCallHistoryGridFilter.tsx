@@ -2,10 +2,10 @@ import React from 'react';
 import { startCase } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
+import { Utils } from '@crm/common';
 import { Button, RefreshButton } from 'components';
 import useFilter from 'hooks/useFilter';
 import { CallHistory__Status__Enum as CallHistoryStatusEnum } from '__generated__/types';
-import enumToArray from 'utils/enumToArray';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import useLeadCallHistoryGridFilter from 'routes/Leads/routes/Lead/hooks/useLeadCallHistoryGridFilter';
 import { FormValues } from 'routes/Leads/routes/Lead/types/leadCallHistoryGridFilter';
@@ -85,7 +85,7 @@ const LeadCallHistoryGridFilter = (props: Props) => {
               disabled={isSubmitting}
               withAnyOption
             >
-              {enumToArray(CallHistoryStatusEnum).map(callHistoryStatus => (
+              {Utils.enumToArray(CallHistoryStatusEnum).map(callHistoryStatus => (
                 <option key={callHistoryStatus} value={callHistoryStatus}>
                   {I18n.t(`LEAD_PROFILE.CALL_HISTORY.STATUSES.${callHistoryStatus}`)}
                 </option>

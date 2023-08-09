@@ -1,12 +1,10 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config, Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
-import customTimeout from 'utils/customTimeout';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
-import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import CreateClientCallbackModal, { CreateClientCallbackModalProps } from 'modals/CreateClientCallbackModal';
 import ChangePasswordModal, { ChangePasswordModalProps, FormValues } from 'modals/ChangePasswordModal';
@@ -45,8 +43,8 @@ const useClientHeader = (props: Props): UseClientHeader => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowCreateCallback = permission.allows(permissions.USER_PROFILE.CREATE_CALLBACK);
-  const allowAddNote = permission.allows(permissions.NOTES.ADD_NOTE);
+  const allowCreateCallback = permission.allows(Config.permissions.USER_PROFILE.CREATE_CALLBACK);
+  const allowAddNote = permission.allows(Config.permissions.NOTES.ADD_NOTE);
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
@@ -66,11 +64,11 @@ const useClientHeader = (props: Props): UseClientHeader => {
   // ===== Handlers ===== //
   const handleReloadClick = useCallback(() => {
     setRunningReloadAnimation(true);
-    customTimeout(() => {
+    Utils.customTimeout(() => {
       setRunningReloadAnimation(false);
     }, 1000);
 
-    EventEmitter.emit(CLIENT_RELOAD);
+    Utils.EventEmitter.emit(Utils.CLIENT_RELOAD);
   }, []);
 
   const handleUnlockClientLogin = useCallback(async () => {
@@ -169,12 +167,12 @@ const useClientHeader = (props: Props): UseClientHeader => {
     {
       label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.RESET_PASSWORD'),
       onClick: handleOpenResetPasswordModal,
-      permission: permissions.USER_PROFILE.RESET_PASSWORD,
+      permission: Config.permissions.USER_PROFILE.RESET_PASSWORD,
     },
     {
       label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
       onClick: handleOpenChangePasswordModal,
-      permission: permissions.USER_PROFILE.CHANGE_PASSWORD,
+      permission: Config.permissions.USER_PROFILE.CHANGE_PASSWORD,
     },
   ];
 

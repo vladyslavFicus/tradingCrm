@@ -1,10 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Utils } from '@crm/common';
 import { SetValues } from 'types/formik';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { createValidator } from 'utils/validator';
-import { injectName } from 'utils/injectName';
 import { FormikInputField, FormikSelectField, FormikHtmlEditorField } from 'components/Formik';
 import EmailPreview from 'components/EmailPreview';
 import Modal from 'components/Modal';
@@ -66,7 +65,7 @@ const SendEmailModal = (props: Props) => {
           uuid,
           field,
           type,
-          text: injectName(firstName, lastName, text),
+          text: Utils.injectName(firstName, lastName, text),
           ...restValues,
         },
       });
@@ -105,7 +104,7 @@ const SendEmailModal = (props: Props) => {
     <Formik
       initialValues={{ templateId: '', subject: '', text: '' } as FormValues}
       onSubmit={handleSubmit}
-      validate={createValidator({
+      validate={Utils.createValidator({
         templateId: 'required',
         subject: 'required|min:2',
         text: 'required|min:20',

@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { AccountView } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -16,7 +16,7 @@ const useTradingAccountsGrid = (props: Props) => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const isUnarchiveAllow = permission.allows(permissions.TRADING_ACCOUNT.UNARCHIVE);
+  const isUnarchiveAllow = permission.allows(Config.permissions.TRADING_ACCOUNT.UNARCHIVE);
 
   // ===== Requests ===== //
   const [unarchiveAccountMutation] = useUnarchiveAccountMutation();

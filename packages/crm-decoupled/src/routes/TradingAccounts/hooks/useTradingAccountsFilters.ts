@@ -1,7 +1,7 @@
-import { getAvailablePlatformTypes } from 'utils/tradingAccount';
+import { Utils } from '@crm/common';
 
 const useTradingAccountsFilters = () => {
-  const platformTypes = getAvailablePlatformTypes();
+  const platformTypes = Utils.getAvailablePlatformTypes();
 
   return {
     platformTypes,

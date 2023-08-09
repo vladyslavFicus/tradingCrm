@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { size } from 'lodash';
-import parseJson from 'utils/parseJson';
+import { Utils } from '@crm/common';
 import { Details } from '../types';
 
 type Props = {
@@ -31,7 +31,9 @@ const useFeedItem = (props: Props): UseFeedItem => {
 
   const handleToggleClick = useCallback(() => setIsOpen(prevIsOpen => !prevIsOpen), []);
 
-  const parsedDetails = useMemo(() => (typeof details === 'string' ? parseJson(details) : details as any), [details]);
+  const parsedDetails = useMemo(() => (typeof details === 'string'
+    ? Utils.parseJson(details)
+    : details as any), [details]);
   const hasInformation = size(parsedDetails) > 0;
 
   let author = 'system';

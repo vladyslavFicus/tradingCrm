@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { getBrand } from 'config';
+import { Config } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import Modal from 'components/Modal';
@@ -58,7 +58,7 @@ const ExistingOperatorModal = (props: Props) => {
     >
       {I18n.t('MODALS.EXISTING_OPERATOR_MODAL.MESSAGE')}
       {' '}
-      <b>{I18n.t('MODALS.EXISTING_OPERATOR_MODAL.BRAND', { brand: getBrand().id })}</b>
+      <b>{I18n.t('MODALS.EXISTING_OPERATOR_MODAL.BRAND', { brand: Config.getBrand().id })}</b>
     </Modal>
   );
 };

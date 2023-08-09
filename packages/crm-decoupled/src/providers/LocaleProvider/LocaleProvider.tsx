@@ -3,8 +3,8 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import Validator from 'validatorjs';
 import Hotkeys from 'react-hot-keys';
+import { Utils } from '@crm/common';
 import { useStorage } from 'providers/StorageProvider';
-import { getCRMLocaleKey, getCRMLocales, getUnbrandedLocale } from 'utils/locale';
 
 type Props = {
   children: React.ReactNode,
@@ -42,7 +42,7 @@ const LocaleProvider = (props: Props) => {
       I18n.locale = locale;
     }
 
-    const unbrandedLocale = getUnbrandedLocale(I18n.locale);
+    const unbrandedLocale = Utils.getUnbrandedLocale(I18n.locale);
 
     moment.locale(unbrandedLocale === 'zh' ? 'zh-cn' : unbrandedLocale);
 
@@ -54,11 +54,11 @@ const LocaleProvider = (props: Props) => {
 
   useEffect(() => {
     // Locale provided from local storage if exist or default locale from I18n library
-    const crmLocaleKey = getCRMLocaleKey(storageLocale);
-    const crmFallbackKey = getCRMLocaleKey('en');
+    const crmLocaleKey = Utils.getCRMLocaleKey(storageLocale);
+    const crmFallbackKey = Utils.getCRMLocaleKey('en');
 
     // Override previous locale from project to crm brand locale like from "ru" to "crm__ecosales--ru"
-    if (getCRMLocales().includes(crmLocaleKey)) {
+    if (Utils.getCRMLocales().includes(crmLocaleKey)) {
       storage.set('locale', crmLocaleKey);
 
       setupLocale(crmLocaleKey);
@@ -72,7 +72,7 @@ const LocaleProvider = (props: Props) => {
     }
 
     // Fallback to brand default locale if exist in crm locales
-    if (getCRMLocales().includes(crmFallbackKey)) {
+    if (Utils.getCRMLocales().includes(crmFallbackKey)) {
       storage.set('locale', crmFallbackKey);
     }
   }, []);

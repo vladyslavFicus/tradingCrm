@@ -1,5 +1,5 @@
 import I18n from 'i18n-js';
-import { getBackofficeBrand } from 'config';
+import { getBackofficeBrand } from '../config';
 
 export const CRM_LOCALE_PREFIX = 'crm__';
 export const ISSUER_DELIMITER = '--';

@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Form, Field, Formik, FormikHelpers } from 'formik';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
-import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField } from 'components/Formik';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import Modal from 'components/Modal';
@@ -66,11 +66,11 @@ const UpdateTeamModal = (props: Props) => {
   return (
     <Formik
       initialValues={data as FormValues}
-      validate={createValidator(
+      validate={Utils.createValidator(
         {
           name: ['required', 'string'],
         },
-        translateLabels(attributeLabels),
+        Utils.translateLabels(attributeLabels),
         false,
       )}
       validateOnBlur={false}

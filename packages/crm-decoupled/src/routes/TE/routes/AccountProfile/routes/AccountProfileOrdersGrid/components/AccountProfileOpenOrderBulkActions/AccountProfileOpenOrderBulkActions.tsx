@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { Utils } from '@crm/common';
 import { Button } from 'components';
 import { TableSelection } from 'types';
-import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import { TradingEngineOrderAccountBulkClose__OrderInput as BulkCloseInput } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -88,7 +88,7 @@ const AccountProfileOpenOrderBulkActions = (props: Props) => {
             message: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.NOTIFICATION.CLOSE_SUCCESS'),
           });
 
-          EventEmitter.emit(ORDER_RELOAD);
+          Utils.EventEmitter.emit(Utils.ORDER_RELOAD);
         } catch (_) {
           notify({
             level: LevelType.ERROR,

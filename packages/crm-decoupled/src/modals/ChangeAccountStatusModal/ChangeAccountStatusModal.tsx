@@ -1,8 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { createValidator, translateLabels } from 'utils/validator';
-import renderLabel from 'utils/renderLabel';
+import { Utils } from '@crm/common';
 import { FormikSelectField, FormikTextAreaField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { attributeLabels } from './constants';
@@ -44,9 +43,9 @@ const ChangeAccountStatusModal = (props: Props) => {
           : '',
       }}
       validate={
-            createValidator({
+            Utils.createValidator({
               reason: ['required'],
-            }, translateLabels(attributeLabels), false)
+            }, Utils.translateLabels(attributeLabels), false)
           }
       validateOnBlur={false}
       validateOnChange={false}
@@ -71,7 +70,7 @@ const ChangeAccountStatusModal = (props: Props) => {
             >
               {reasonsKeys.map(key => (
                 <option key={key} value={key}>
-                  {I18n.t(renderLabel(key, reasons))}
+                  {I18n.t(Utils.renderLabel(key, reasons))}
                 </option>
               ))}
             </Field>

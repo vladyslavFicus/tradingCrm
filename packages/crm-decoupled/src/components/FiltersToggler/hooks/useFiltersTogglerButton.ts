@@ -1,8 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import EventEmitter, {
-  FILTERS_TOGGLER_COLLAPSED,
-  FILTERS_TOGGLER_IN_VIEWPORT,
-} from 'utils/EventEmitter';
+import { Utils } from '@crm/common';
 
 type UseFiltersTogglerButton = {
   collapsed: boolean,
@@ -23,10 +20,10 @@ const useFiltersTogglerButton = (): UseFiltersTogglerButton => {
 
 
   useEffect(() => {
-    EventEmitter.on(FILTERS_TOGGLER_IN_VIEWPORT, onFiltersToggleInViewport);
+    Utils.EventEmitter.on(Utils.FILTERS_TOGGLER_IN_VIEWPORT, onFiltersToggleInViewport);
 
     return () => {
-      EventEmitter.off(FILTERS_TOGGLER_IN_VIEWPORT, onFiltersToggleInViewport);
+      Utils.EventEmitter.off(Utils.FILTERS_TOGGLER_IN_VIEWPORT, onFiltersToggleInViewport);
     };
   }, []);
 
@@ -40,7 +37,7 @@ const useFiltersTogglerButton = (): UseFiltersTogglerButton => {
       window.requestAnimationFrame(() => window.scrollTo(0, 0));
     }
 
-    EventEmitter.emit(FILTERS_TOGGLER_COLLAPSED, !collapsed);
+    Utils.EventEmitter.emit(Utils.FILTERS_TOGGLER_COLLAPSED, !collapsed);
   }, [collapsed]);
 
   return {

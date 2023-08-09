@@ -3,11 +3,9 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
+import { Config, Utils } from '@crm/common';
 import { Button, UncontrolledTooltip, ShortLoader } from 'components';
-import { getBrand, permissions } from 'config';
 import { Payment } from '__generated__/types';
-import formatLabel from 'utils/formatLabel';
-import { createValidator, translateLabels } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { tradingTypes, statusMapper, tradingStatuses } from 'constants/payment';
@@ -65,7 +63,7 @@ const PaymentDetailsModal = (props: Props) => {
   const { data, loading } = useProfileQuery({ variables: { playerUUID: uuid } });
   const { amount, credit } = data?.profile?.profileView?.balance || {};
 
-  const currency = getBrand().currencies.base;
+  const currency = Config.getBrand().currencies.base;
 
   const permission = usePermission();
 
@@ -155,7 +153,7 @@ const PaymentDetailsModal = (props: Props) => {
   };
 
   const renderDateAndTimeBlock = () => {
-    const canChangeCreationTime = permission.allows(permissions.PAYMENT.CHANGE_CREATION_TIME);
+    const canChangeCreationTime = permission.allows(Config.permissions.PAYMENT.CHANGE_CREATION_TIME);
 
     return (
       <div className="PaymentDetailsModal__block">
@@ -167,9 +165,9 @@ const PaymentDetailsModal = (props: Props) => {
           initialValues={{ creationTime }}
           onSubmit={handleChangeCreationTime}
           validate={
-            createValidator({
+            Utils.createValidator({
               creationTime: ['required', 'dateWithTime'],
-            }, translateLabels({ creationTime: 'PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME' }), false)
+            }, Utils.translateLabels({ creationTime: 'PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME' }), false)
           }
         >
           {({ isSubmitting, dirty, isValid }) => (
@@ -311,7 +309,7 @@ const PaymentDetailsModal = (props: Props) => {
       <div className="PaymentDetailsModal__block-payment-status">
         <Choose>
           <When condition={!!paymentMethod}>
-            {formatLabel(paymentMethod || '', false)}
+            {Utils.formatLabel(paymentMethod || '', false)}
           </When>
 
           <Otherwise>
@@ -325,11 +323,11 @@ const PaymentDetailsModal = (props: Props) => {
   const inPendingStatus = statusMapper.PENDING.includes(status as tradingStatuses);
   const isWithdraw = paymentType === tradingTypes.WITHDRAW;
 
-  const canApprove = permission.allows(permissions.PAYMENT.APPROVE);
-  const canReject = permission.allows(permissions.PAYMENT.REJECT);
-  const canChangeStatus = permission.allows(permissions.PAYMENT.CHANGE_STATUS);
-  const canChangeMethod = permission.allows(permissions.PAYMENT.CHANGE_METHOD);
-  const canChangeSystem = permission.allows(permissions.PAYMENT.CHANGE_SYSTEM);
+  const canApprove = permission.allows(Config.permissions.PAYMENT.APPROVE);
+  const canReject = permission.allows(Config.permissions.PAYMENT.REJECT);
+  const canChangeStatus = permission.allows(Config.permissions.PAYMENT.CHANGE_STATUS);
+  const canChangeMethod = permission.allows(Config.permissions.PAYMENT.CHANGE_METHOD);
+  const canChangeSystem = permission.allows(Config.permissions.PAYMENT.CHANGE_SYSTEM);
 
   return (
     <Modal

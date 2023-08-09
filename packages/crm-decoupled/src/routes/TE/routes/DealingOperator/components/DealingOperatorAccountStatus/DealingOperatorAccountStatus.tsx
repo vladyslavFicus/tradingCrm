@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { permissions } from 'config';
+import { Config, Utils } from '@crm/common';
 import { TradingEngine__OperatorStatuses__Enum as OperatorStatusesEnum } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import EventEmitter, { OPERATOR_RELOAD } from 'utils/EventEmitter';
 import ChangeAccountStatusModal, { ChangeAccountStatusModalProps } from 'modals/ChangeAccountStatusModal';
 import { Operator } from '../../DealingOperator';
 import { statusActions, statusesLabels } from './constants';
@@ -22,7 +21,7 @@ const DealingOperatorAccountStatus = (props: Props) => {
   const { operator: { uuid, status } } = props;
   const [isDropDownOpen, toggleDropdown] = useState(false);
   const permission = usePermission();
-  const isUpdateAllowedStatus = permission.allows(permissions.WE_TRADING.OPERATORS_CHANGE_STATUS);
+  const isUpdateAllowedStatus = permission.allows(Config.permissions.WE_TRADING.OPERATORS_CHANGE_STATUS);
   const [changeAccountStatus] = useChangeOperatorStatusMutation();
 
   const changeAccountStatusModal = useModal<ChangeAccountStatusModalProps>(ChangeAccountStatusModal);
@@ -43,7 +42,7 @@ const DealingOperatorAccountStatus = (props: Props) => {
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.MESSAGE'),
       });
 
-      EventEmitter.emit(OPERATOR_RELOAD);
+      Utils.EventEmitter.emit(Utils.OPERATOR_RELOAD);
 
       changeAccountStatusModal.hide();
     } catch {

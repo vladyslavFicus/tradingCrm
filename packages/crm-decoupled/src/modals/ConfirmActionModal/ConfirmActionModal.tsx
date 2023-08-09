@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
+import { Utils } from '@crm/common';
 import { Button } from 'components';
 import Modal from 'components/Modal';
-import { shortify } from 'utils/uuid';
 import './ConfirmActionModal.scss';
 
 export type Props = {
@@ -107,7 +107,7 @@ const ConfirmActionModal = (props: Props) => {
         </If>
 
         <If condition={!!uuid}>
-          <span className="ConfirmActionModal__uuid">{shortify(uuid)}</span>
+          <span className="ConfirmActionModal__uuid">{Utils.uuidShortify(uuid)}</span>
         </If>
 
         <If condition={!!additionalText}>

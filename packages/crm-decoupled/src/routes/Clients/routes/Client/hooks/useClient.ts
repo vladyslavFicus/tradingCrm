@@ -1,20 +1,19 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Trackify from '@hrzn/trackify';
-import { getBrand, permissions } from 'config';
-import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
+import { Config, Utils } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useClientQuery } from '../graphql/__generated__/ClientQuery';
 
 const useClient = () => {
   const playerUUID = useParams().id as string;
 
-  const brand = getBrand();
+  const brand = Config.getBrand();
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowDepositConfig = permission.allows(permissions.USER_PROFILE.DEPOSIT_ENABLED_CONFIG);
-  const allowReferrerStatistics = permission.allows(permissions.USER_PROFILE.REFERRER_STATISTICS);
+  const allowDepositConfig = permission.allows(Config.permissions.USER_PROFILE.DEPOSIT_ENABLED_CONFIG);
+  const allowReferrerStatistics = permission.allows(Config.permissions.USER_PROFILE.REFERRER_STATISTICS);
 
   // ===== Requests ===== //
   const { data, loading, refetch } = useClientQuery({ variables: { playerUUID }, errorPolicy: 'all' });
@@ -22,12 +21,12 @@ const useClient = () => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CLIENT_RELOAD, refetch);
+    Utils.EventEmitter.on(Utils.CLIENT_RELOAD, refetch);
 
     Trackify.page({ eventAction: 'PROFILE_OPENED', eventLabel: playerUUID });
 
     return () => {
-      EventEmitter.off(CLIENT_RELOAD, refetch);
+      Utils.EventEmitter.off(Utils.CLIENT_RELOAD, refetch);
     };
   }, []);
 

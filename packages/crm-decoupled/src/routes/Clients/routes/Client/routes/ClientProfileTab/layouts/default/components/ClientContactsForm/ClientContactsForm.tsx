@@ -1,9 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Config, Utils } from '@crm/common';
 import { Button } from 'components';
-import { permissions } from 'config';
-import { createValidator, translateLabels } from 'utils/validator';
+
 import { FormikInputField } from 'components/Formik';
 import { Profile } from '__generated__/types';
 import { attributeLabels } from 'routes/Clients/routes/Client/routes/ClientProfileTab/constants/clientContactsForm';
@@ -53,10 +53,10 @@ const ClientContactsForm = (props: Props) => {
           additionalPhone: profileContacts.additionalPhone || contacts?.additionalPhone,
           phone: profileContacts.phone || contacts?.phone,
         } as FormValues}
-        validate={createValidator({
+        validate={Utils.createValidator({
           phone: 'required|string|min:3',
           additionalPhone: 'string',
-        }, translateLabels(attributeLabels), false)}
+        }, Utils.translateLabels(attributeLabels), false)}
         onSubmit={handleSubmitContacts}
         enableReinitialize
       >
@@ -103,7 +103,7 @@ const ClientContactsForm = (props: Props) => {
                       || !isPhonesShown}
                 />
 
-                <If condition={!phoneVerified && permission.allows(permissions.USER_PROFILE.VERIFY_PHONE)}>
+                <If condition={!phoneVerified && permission.allows(Config.permissions.USER_PROFILE.VERIFY_PHONE)}>
                   <Button
                     className="ClientContactsForm__field-button"
                     data-testid="ClientContactsForm-verifyPhoneButton"
@@ -154,9 +154,9 @@ const ClientContactsForm = (props: Props) => {
         initialValues={{
           email: profileContacts.email || contacts?.email,
         } as FormValues}
-        validate={createValidator({
+        validate={Utils.createValidator({
           email: 'required|email',
-        }, translateLabels(attributeLabels), false)}
+        }, Utils.translateLabels(attributeLabels), false)}
         onSubmit={handleSubmitEmailClick}
         enableReinitialize
       >
@@ -195,7 +195,7 @@ const ClientContactsForm = (props: Props) => {
                       || !isEmailShown}
                 />
 
-                <If condition={!emailVerified && permission.allows(permissions.USER_PROFILE.VERIFY_EMAIL)}>
+                <If condition={!emailVerified && permission.allows(Config.permissions.USER_PROFILE.VERIFY_EMAIL)}>
                   <Button
                     className="ClientContactsForm__field-button"
                     data-testid="ClientContactsForm-verifyEmailButton"
@@ -227,9 +227,9 @@ const ClientContactsForm = (props: Props) => {
         initialValues={{
           additionalEmail: profileContacts.additionalEmail || contacts?.additionalEmail,
         } as FormValues}
-        validate={createValidator({
+        validate={Utils.createValidator({
           additionalEmail: 'string',
-        }, translateLabels(attributeLabels), false)}
+        }, Utils.translateLabels(attributeLabels), false)}
         onSubmit={handleSubmitContacts}
         enableReinitialize
       >

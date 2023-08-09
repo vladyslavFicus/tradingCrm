@@ -3,12 +3,11 @@ import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { Utils } from '@crm/common';
 import { Button } from 'components';
-import { generate } from 'utils/password';
 import { parseErrors } from 'apollo';
 import { useModal } from 'providers/ModalProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
-import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { passwordMaxSize, passwordPattern } from '../../constants';
@@ -41,7 +40,7 @@ const attributeLabels = {
   groups: 'TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.GROUPS',
 };
 
-const validate = createValidator(
+const validate = Utils.createValidator(
   {
     firstName: ['required', 'string', 'min:2'],
     lastName: ['required', 'string', 'min:2'],
@@ -50,7 +49,7 @@ const validate = createValidator(
     phone: 'min:3',
     role: 'required',
   },
-  translateLabels(attributeLabels),
+  Utils.translateLabels(attributeLabels),
   false,
   {
     'regex.password': I18n.t('COMMON.OPERATOR_PASSWORD_INVALID'),
@@ -166,7 +165,7 @@ const NewOperatorModal = (props: Props) => {
                   label={I18n.t(attributeLabels.password)}
                   placeholder={I18n.t(attributeLabels.password)}
                   addition={<span className="icon-generate-password" />}
-                  onAdditionClick={() => setFieldValue('password', generate())}
+                  onAdditionClick={() => setFieldValue('password', Utils.generate())}
                   component={FormikInputField}
                   disabled={isSubmitting}
                 />

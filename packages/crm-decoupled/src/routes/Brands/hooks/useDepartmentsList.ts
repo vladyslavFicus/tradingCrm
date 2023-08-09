@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCrmBrandStaticFileUrl, setBrand } from 'config';
+import { Config } from '@crm/common';
 import { BrandToAuthorities } from '__generated__/types';
 import { useStorage } from 'providers/StorageProvider';
 import { useSelectDepartmentMutation } from '../graphql/__generated__/SelectDepartmentMutation';
@@ -39,7 +39,7 @@ const useDepartmentsList = (props: Props): DepartmentsList => {
 
       const { token, uuid } = data?.auth?.chooseDepartment || {};
 
-      setBrand(brand.id);
+      Config.setBrand(brand.id);
 
       storage.set('brand', { id: brand.id, authorities: brand.authorities });
       storage.set('auth', { uuid, role, department });
@@ -63,7 +63,7 @@ const useDepartmentsList = (props: Props): DepartmentsList => {
   return {
     loading,
     handleSelectDepartament,
-    getCrmBrandStaticFileUrl,
+    getCrmBrandStaticFileUrl: Config.getCrmBrandStaticFileUrl,
   };
 };
 

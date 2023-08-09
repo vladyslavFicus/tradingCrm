@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { config, getCrmBrandStaticFileUrl } from 'config';
+import { Config, Utils } from '@crm/common';
 import Preloader from 'components/Preloader';
-import { importLink } from 'utils/dom';
-import { addCRMCustomLocale } from 'utils/locale';
 import { downloadLocalesFromS3 } from './utils';
 import './CrmBrandProvider.scss';
 
@@ -28,12 +26,12 @@ const CrmBrandProvider = (props: Props) => {
 
   // ================== Download CRM brand config ================== //
   const getCrmBrandConfig = useCallback(async () => {
-    const response = await fetch(getCrmBrandStaticFileUrl('config.json'));
+    const response = await fetch(Config.getCrmBrandStaticFileUrl('config.json'));
 
     if (response.status === 200) {
       const data = await response.json();
 
-      config.backofficeBrand = { ...data, ...config.backofficeBrand };
+      Config.config.backofficeBrand = { ...data, ...Config.config.backofficeBrand };
 
       return data;
     }
@@ -46,22 +44,22 @@ const CrmBrandProvider = (props: Props) => {
     const locales = await downloadLocalesFromS3(localeKeys);
 
     // Add custom locales from CRM brand to system
-    Object.keys(locales).forEach(localeKey => addCRMCustomLocale(localeKey, locales[localeKey]));
+    Object.keys(locales).forEach(localeKey => Utils.addCRMCustomLocale(localeKey, locales[localeKey]));
   }, []);
 
   // ================== Download CRM brand styles ================== //
   const downloadStyles = useCallback(async () => {
-    await importLink({
+    await Utils.importLink({
       rel: 'stylesheet',
-      href: getCrmBrandStaticFileUrl('assets/style.css'),
+      href: Config.getCrmBrandStaticFileUrl('assets/style.css'),
     });
   }, []);
 
   // ================== Download CRM brand icon pack ================== //
   const downloadIconpack = useCallback(async () => {
-    await importLink({
+    await Utils.importLink({
       rel: 'stylesheet',
-      href: getCrmBrandStaticFileUrl('assets/iconpack/style.css'),
+      href: Config.getCrmBrandStaticFileUrl('assets/iconpack/style.css'),
     });
   }, []);
 

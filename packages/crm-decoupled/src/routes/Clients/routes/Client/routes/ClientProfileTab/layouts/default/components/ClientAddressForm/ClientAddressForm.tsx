@@ -1,10 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Utils } from '@crm/common';
 import { Button } from 'components';
 import { Profile } from '__generated__/types';
-import countryList from 'utils/countryList';
-import { createValidator, translateLabels } from 'utils/validator';
+
 import { FormikInputField, FormikSelectField, FormikTextAreaField } from 'components/Formik';
 import { attributeLabels } from 'routes/Clients/routes/Client/routes/ClientProfileTab/constants/clientAddressForm';
 import { FormValues } from 'routes/Clients/routes/Client/routes/ClientProfileTab/types/clientAddressForm';
@@ -35,10 +35,10 @@ const ClientAddressForm = (props: Props) => {
           postCode: clientAddress.postCode || postCode,
           address: clientAddress.address || address,
         } as FormValues}
-        validate={createValidator({
+        validate={Utils.createValidator({
           city: 'min:3',
           postCode: 'min:3',
-        }, translateLabels(attributeLabels), false)}
+        }, Utils.translateLabels(attributeLabels), false)}
         onSubmit={handleSubmit}
         enableReinitialize
       >
@@ -71,7 +71,7 @@ const ClientAddressForm = (props: Props) => {
                 component={FormikSelectField}
                 disabled={isSubmitting || !allowUpdateAddress}
               >
-                {Object.entries(countryList).map(([key, value]) => (
+                {Object.entries(Utils.countryList).map(([key, value]) => (
                   <option key={key} value={key}>
                     {value}
                   </option>

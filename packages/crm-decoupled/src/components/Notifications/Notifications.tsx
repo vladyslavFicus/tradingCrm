@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { toast } from 'react-toastify';
-import EventEmitter, { NOTIFICATION_CLICKED } from 'utils/EventEmitter';
+import { Utils } from '@crm/common';
 import NotificationItem from './components/NotificationItem';
 import { useNotificationSubscription } from './graphql/__generated__/NotificationSubscription';
 import {
@@ -37,7 +37,7 @@ const Notifications = () => {
           // 'notification' object can be absent if notifications popup was disabled by user
           if (notification) {
             toast(<NotificationItem {...notification} />, {
-              onClick: () => EventEmitter.emit(NOTIFICATION_CLICKED, notification),
+              onClick: () => Utils.EventEmitter.emit(Utils.NOTIFICATION_CLICKED, notification),
             });
           }
         }, configuration.popUpDelayMs);

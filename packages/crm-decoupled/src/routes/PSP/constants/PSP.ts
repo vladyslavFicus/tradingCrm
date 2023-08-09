@@ -1,4 +1,4 @@
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 
 export const favouriteStatuses = [
   { label: 'FAVOURITE', value: true },
@@ -9,10 +9,10 @@ export const pspTabs = [
   {
     url: 'list',
     label: 'SETTINGS.PSP.TABS.LIST',
-    permissions: permissions.PAYMENT.SEARCH_PSP,
+    permissions: Config.permissions.PAYMENT.SEARCH_PSP,
   }, {
     url: 'feed',
     label: 'SETTINGS.PSP.TABS.FEED',
-    permissions: permissions.AUDIT.AUDIT_LOGS,
+    permissions: Config.permissions.AUDIT.AUDIT_LOGS,
   },
 ];

@@ -1,18 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 import { CommonCallback } from 'types/common';
 import useCalendar from 'components/Calendar/hooks/useCalendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
-import { Event } from 'constants/calendar';
 import { ClientCallback, LeadCallback } from '__generated__/types';
-import { CallbackType } from 'constants/callbacks';
 import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
 import UpdateClientCallbackModal, { UpdateClientCallbackModalProps } from 'modals/UpdateClientCallbackModal';
 import UpdateLeadCallbackModal, { UpdateLeadCallbackModalProps } from 'modals/UpdateLeadCallbackModal';
 import { useModal } from 'providers/ModalProvider';
+import { CallbackType } from 'constants/callbacks';
+import { Event } from 'constants/calendar';
 import { useClientCallbacksQuery } from '../graphql/__generated__/ClientCallbacksQuery';
 import { useLeadCallbacksQuery } from '../graphql/__generated__/LeadCallbacksQuery';
 
@@ -44,12 +44,12 @@ const useCallbacksCalendar = (props: Props) => {
 
   const clientCallbacksQuery = useClientCallbacksQuery({
     variables: { ...callbackTime, page: { from: 0, size: 2000 } },
-    skip: permission.denies(permissions.USER_PROFILE.CALLBACKS_LIST),
+    skip: permission.denies(Config.permissions.USER_PROFILE.CALLBACKS_LIST),
   });
 
   const leadCallbacksQuery = useLeadCallbacksQuery({
     variables: { ...callbackTime, page: { from: 0, size: 2000 } },
-    skip: permission.denies(permissions.LEAD_PROFILE.CALLBACKS_LIST),
+    skip: permission.denies(Config.permissions.LEAD_PROFILE.CALLBACKS_LIST),
   });
 
   const clientCallbacks = clientCallbacksQuery?.data?.clientCallbacks?.content || [] as Array<CommonCallback>;

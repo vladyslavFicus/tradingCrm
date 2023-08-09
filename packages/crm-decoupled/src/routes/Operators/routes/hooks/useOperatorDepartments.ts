@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { Authority, Operator } from '__generated__/types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -43,8 +43,8 @@ const useOperatorDepartments = (props: Props): UseOperatorDepartments => {
 
   const permission = usePermission();
 
-  const allowDeleteAuthority = permission.allows(permissions.OPERATORS.DELETE_AUTHORITY);
-  const allowAddAuthority = permission.allows(permissions.OPERATORS.ADD_AUTHORITY);
+  const allowDeleteAuthority = permission.allows(Config.permissions.OPERATORS.DELETE_AUTHORITY);
+  const allowAddAuthority = permission.allows(Config.permissions.OPERATORS.ADD_AUTHORITY);
 
   const [isVisibleCreationForm, setIsVisibleCreationForm] = useState(false);
 

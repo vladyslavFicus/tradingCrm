@@ -1,8 +1,8 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
+import { Utils } from '@crm/common';
 import { Button, RefreshButton } from 'components';
-import { createValidator } from 'utils/validator';
 import useFilter from 'hooks/useFilter';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import useTeamsGridFilter from 'routes/Teams/hooks/useTeamsGridFilter';
@@ -30,7 +30,7 @@ const TeamsGridFilter = (props: Props) => {
       enableReinitialize
       initialValues={filters}
       onSubmit={handleSubmit}
-      validate={createValidator({
+      validate={Utils.createValidator({
         keyword: 'string',
         officeUuid: 'string',
         deskUuid: 'string',

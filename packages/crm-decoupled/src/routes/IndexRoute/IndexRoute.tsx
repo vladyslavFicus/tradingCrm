@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Helmet from 'react-helmet';
-import { getBackofficeBrand, getCrmBrandStaticFileUrl } from 'config';
+import { Config } from '@crm/common';
 import CoreLayout from 'layouts/CoreLayout';
 import UnauthorizedLayout from 'layouts/UnauthorizedLayout';
 import AuthorizedLayout from 'layouts/AuthorizedLayout';
@@ -42,13 +42,13 @@ const IndexRoute = () => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  const favicon = useMemo(() => (getCrmBrandStaticFileUrl('assets/favicon.ico')), []);
+  const favicon = useMemo(() => (Config.getCrmBrandStaticFileUrl('assets/favicon.ico')), []);
 
   return (
     <CoreLayout>
       <Helmet
-        titleTemplate={`${getBackofficeBrand().id.toUpperCase()} | %s`}
-        defaultTitle={getBackofficeBrand().id.toUpperCase()}
+        titleTemplate={`${Config.getBackofficeBrand().id.toUpperCase()} | %s`}
+        defaultTitle={Config.getBackofficeBrand().id.toUpperCase()}
         link={[
           { rel: 'shortcut icon', href: favicon },
         ]}

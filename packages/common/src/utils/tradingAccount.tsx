@@ -1,7 +1,7 @@
 import { get } from 'lodash';
-import { getBrand } from 'config';
-import { accountTypes } from 'constants/accountTypes';
-import { platformTypes } from 'constants/platformTypes';
+import { accountTypes } from '../constants/accountTypes';
+import { platformTypes } from '../constants/platformTypes';
+import { getBrand } from '../config';
 
 /**
  * Get available platform types for current brand depends on brand config

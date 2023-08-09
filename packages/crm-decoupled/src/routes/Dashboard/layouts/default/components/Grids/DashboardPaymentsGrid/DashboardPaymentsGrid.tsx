@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import moment from 'moment';
-import { getBrand } from 'config';
+import { Config, Utils } from '@crm/common';
 import { Table, Column } from 'components/Table';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import GridPlayerInfo from 'components/GridPlayerInfo';
@@ -10,9 +10,8 @@ import Uuid from 'components/Uuid';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PaymentStatus from 'components/PaymentStatus';
-import formatLabel from 'utils/formatLabel';
-import { aggregatorsLabels, tradingTypes, tradingTypesLabels } from 'constants/payment';
 import { LastWithdrawalDepositFragment as TableCell } from 'apollo/fragments/__generated__/lastWithdrawalDeposit';
+import { aggregatorsLabels, tradingTypes, tradingTypesLabels } from 'constants/payment';
 import './DashboardPaymentsGrid.scss';
 
 type Props = {
@@ -188,7 +187,7 @@ const DashboardPaymentsGrid = (props: Props) => {
       </div>
 
       <div className="DashboardPaymentsGrid__text-secondary">
-        {`(${getBrand().currencies?.base} ${I18n.toCurrency(normalizedAmount || 0, { unit: '' })})`}
+        {`(${Config.getBrand().currencies?.base} ${I18n.toCurrency(normalizedAmount || 0, { unit: '' })})`}
       </div>
 
       <If condition={!!cryptoAmount && !!cryptoCurrency}>
@@ -237,7 +236,7 @@ const DashboardPaymentsGrid = (props: Props) => {
 
       <Choose>
         <When condition={!!paymentMethod}>
-          <div className="DashboardPaymentsGrid__text-primary">{formatLabel(`${paymentMethod}`, false)}</div>
+          <div className="DashboardPaymentsGrid__text-primary">{Utils.formatLabel(`${paymentMethod}`, false)}</div>
 
           <If condition={!!maskedPan && paymentMethod === 'CREDIT_CARD'}>
             <div className="DashboardPaymentsGrid__text-primary DashboardPaymentsGrid__payment-method">{maskedPan}</div>

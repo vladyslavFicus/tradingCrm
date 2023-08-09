@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import Trackify from '@hrzn/trackify';
 import I18n from 'i18n-js';
-import { getBrand, permissions } from 'config';
+import { Config } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
@@ -48,19 +48,21 @@ const useClientPersonalInfo = (props: Props): UseClientPersonalInfo => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowAffiliateUuid = permission.allows(permissions.USER_PROFILE.AFFILIATE_FIELD_UUID);
-  const allowAffiliateSource = permission.allows(permissions.USER_PROFILE.AFFILIATE_FIELD_SOURCE);
-  const allowAffiliateReferral = permission.allows(permissions.USER_PROFILE.AFFILIATE_FIELD_REFERRAL);
-  const allowAffiliateCampaignId = permission.allows(permissions.USER_PROFILE.AFFILIATE_FIELD_CAMPAIGN_ID);
-  const allowAffiliateSms = permission.allows(permissions.USER_PROFILE.AFFILIATE_FIELD_SMS);
-  const allowConvertedFromLeadUuid = permission.allows(permissions.USER_PROFILE.FIELD_CONVERTED_FROM_LEAD_UUID);
-  const allowChangeConfiguration = permission.allows(permissions.USER_PROFILE.CHANGE_CONFIGURATION);
-  const allowSendEmail = permission.allows(permissions.EMAIL_TEMPLATES.SEND_EMAIL) && getBrand().email.templatedEmails;
-  const allowShowEmail = permission.allows(permissions.USER_PROFILE.FIELD_EMAIL);
-  const allowShowAdditionalEmail = permission.allows(permissions.USER_PROFILE.FIELD_ADDITIONAL_EMAIL);
+  const allowAffiliateUuid = permission.allows(Config.permissions.USER_PROFILE.AFFILIATE_FIELD_UUID);
+  const allowAffiliateSource = permission.allows(Config.permissions.USER_PROFILE.AFFILIATE_FIELD_SOURCE);
+  const allowAffiliateReferral = permission.allows(Config.permissions.USER_PROFILE.AFFILIATE_FIELD_REFERRAL);
+  const allowAffiliateCampaignId = permission.allows(Config.permissions.USER_PROFILE.AFFILIATE_FIELD_CAMPAIGN_ID);
+  const allowAffiliateSms = permission.allows(Config.permissions.USER_PROFILE.AFFILIATE_FIELD_SMS);
+  const allowConvertedFromLeadUuid = permission.allows(Config.permissions.USER_PROFILE.FIELD_CONVERTED_FROM_LEAD_UUID);
+  const allowChangeConfiguration = permission.allows(Config.permissions.USER_PROFILE.CHANGE_CONFIGURATION);
+  const allowSendEmail = permission.allows(
+    Config.permissions.EMAIL_TEMPLATES.SEND_EMAIL,
+  ) && Config.getBrand().email.templatedEmails;
+  const allowShowEmail = permission.allows(Config.permissions.USER_PROFILE.FIELD_EMAIL);
+  const allowShowAdditionalEmail = permission.allows(Config.permissions.USER_PROFILE.FIELD_ADDITIONAL_EMAIL);
   const allowShowPhones = permission.allowsAny([
-    permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE,
-    permissions.USER_PROFILE.FIELD_PHONE,
+    Config.permissions.USER_PROFILE.FIELD_ADDITIONAL_PHONE,
+    Config.permissions.USER_PROFILE.FIELD_PHONE,
   ]);
 
   // ===== Modals ===== //

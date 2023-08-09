@@ -1,6 +1,6 @@
 import I18n from 'i18n-js';
 import { useCallback, useState } from 'react';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useEnableShowFtdToAffiliateMutation } from '../graphql/__generated__/EnableShowFtdToAffiliateMutation';
@@ -26,8 +26,8 @@ const useAffiliateSettings = (props: Props): UseAffiliateSettings => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const isAllowedToDisable = permission.allows(permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE);
-  const isAllowedToEnable = permission.allows(permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE);
+  const isAllowedToDisable = permission.allows(Config.permissions.PAYMENT.DISABLE_SHOW_FTD_TO_AFFILIATE);
+  const isAllowedToEnable = permission.allows(Config.permissions.PAYMENT.ENABlE_SHOW_FTD_TO_AFFILIATE);
 
   // ===== Requests ===== //
   const [enableShowFtdToAffiliateMutation] = useEnableShowFtdToAffiliateMutation();

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField } from 'components/Formik';
-import { createValidator } from 'utils/validator';
 import Modal from 'components/Modal';
 import { useDistributionRuleQuery } from './graphql/__generated__/DistributionRuleQuery';
 import { useUpdateDistributionRuleMutation } from './graphql/__generated__/UpdateDistributionRuleMutation';
@@ -73,7 +73,7 @@ const UpdateDistributionRuleModal = (props: Props) => {
         ruleName: distributionRule?.name || '',
         ruleOrder: distributionRule?.order || 0,
       }}
-      validate={createValidator({
+      validate={Utils.createValidator({
         ruleName: ['required', 'string'],
         ruleOrder: ['required', 'numeric'],
       }, {

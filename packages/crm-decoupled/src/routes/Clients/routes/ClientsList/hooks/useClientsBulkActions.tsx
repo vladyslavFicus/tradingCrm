@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { compact } from 'lodash';
 import { QueryResult } from '@apollo/client';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { State, TableSelection } from 'types';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { useStorageState, Auth } from 'providers/StorageProvider';
@@ -39,7 +39,7 @@ const useClientsBulkActions = (props: Props) => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowChangeAsquisitionStatus = permission.allows(permissions.USER_PROFILE.CHANGE_ACQUISITION);
+  const allowChangeAsquisitionStatus = permission.allows(Config.permissions.USER_PROFILE.CHANGE_ACQUISITION);
 
   // ===== Modals ===== //
   const updateRepresentativeModal = useModal<UpdateRepresentativeModalProps>(UpdateRepresentativeModal);

@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
+import { Utils } from '@crm/common';
 import { Note } from 'types/Note';
 import { useModal } from 'providers/ModalProvider';
 import { UpdateNoteModalProps } from 'modals/UpdateNoteModal';
 import UpdateNoteModal from 'modals/UpdateNoteModal/UpdateNoteModal';
-import EventEmitter, { NOTE_RELOAD } from 'utils/EventEmitter';
 import { useRemoveNoteMutation } from '../../NoteAction/graphql/__generated__/RemoveNoteMutation';
 
 type Props = {
@@ -28,7 +28,7 @@ const useNoteItem = (props: Props) => {
     try {
       await removeNoteMutation({ variables: { noteId: note.noteId } });
 
-      EventEmitter.emit(NOTE_RELOAD, { targetType: note.targetType });
+      Utils.EventEmitter.emit(Utils.NOTE_RELOAD, { targetType: note.targetType });
     } catch (e) {
       // Do nothing...
     }

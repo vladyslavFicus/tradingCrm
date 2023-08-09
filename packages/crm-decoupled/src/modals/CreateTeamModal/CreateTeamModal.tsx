@@ -1,9 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { SetFieldValue } from 'types/formik';
-import { createValidator, translateLabels } from 'utils/validator';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import Modal from 'components/Modal';
@@ -82,13 +82,13 @@ const CreateTeamModal = (props: Props) => {
         officeUuid: '',
         deskUuid: '',
       } as FormValues}
-      validate={createValidator(
+      validate={Utils.createValidator(
         {
           teamName: ['required', 'string'],
           officeUuid: ['required', 'string'],
           deskUuid: ['required', 'string'],
         },
-        translateLabels(attributeLabels),
+        Utils.translateLabels(attributeLabels),
         false,
       )}
       validateOnChange={false}

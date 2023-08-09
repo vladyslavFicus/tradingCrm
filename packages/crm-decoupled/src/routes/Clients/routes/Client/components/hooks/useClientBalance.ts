@@ -1,9 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import moment from 'moment';
-import { getBrand, permissions } from 'config';
+import { Config, Utils } from '@crm/common';
 import { Profile } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
-import EventEmitter, { CLIENT_RELOAD } from 'utils/EventEmitter';
 import { usePaymentGeneralStatisticQuery } from '../graphql/__generated__/PaymentGeneralStatisticQuery';
 
 type Props = {
@@ -25,14 +24,14 @@ const useClientBalance = (props: Props) => {
   const amount = profileView?.balance?.amount || 0;
   const credit = profileView?.balance?.credit || 0;
 
-  const baseCurrency = getBrand().currencies.base;
+  const baseCurrency = Config.getBrand().currencies.base;
 
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string>('');
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowBalance = permission.allows(permissions.USER_PROFILE.BALANCE);
+  const allowBalance = permission.allows(Config.permissions.USER_PROFILE.BALANCE);
 
   // ===== Requests ===== //
   const { data, refetch: refetchPaymentGeneralStatistic } = usePaymentGeneralStatisticQuery({
@@ -82,10 +81,10 @@ const useClientBalance = (props: Props) => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(CLIENT_RELOAD, refetchPaymentGeneralStatistic);
+    Utils.EventEmitter.on(Utils.CLIENT_RELOAD, refetchPaymentGeneralStatistic);
 
     return () => {
-      EventEmitter.off(CLIENT_RELOAD, refetchPaymentGeneralStatistic);
+      Utils.EventEmitter.off(Utils.CLIENT_RELOAD, refetchPaymentGeneralStatistic);
     };
   }, []);
 

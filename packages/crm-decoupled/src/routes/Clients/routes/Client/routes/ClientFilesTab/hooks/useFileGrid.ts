@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { permissions, getGraphQLUrl, getVersion } from 'config';
+import { Config } from '@crm/common';
 import { File } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -38,8 +38,8 @@ const useFileGrid = (props: Props) => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const allowUpdateFile = permission.allows(permissions.USER_PROFILE.UPLOAD_FILE);
-  const allowDeleteFile = permission.allows(permissions.USER_PROFILE.DELETE_FILE);
+  const allowUpdateFile = permission.allows(Config.permissions.USER_PROFILE.UPLOAD_FILE);
+  const allowDeleteFile = permission.allows(Config.permissions.USER_PROFILE.DELETE_FILE);
 
   // ===== Image Preview ===== //
   const lightbox = useLightbox();
@@ -71,7 +71,7 @@ const useFileGrid = (props: Props) => {
       const token = tokenResponse.data?.auth.tokenRenew?.token;
 
       if (token) {
-        const requestUrl = `${getGraphQLUrl()}/attachment/${clientUuid}/${uuid}`;
+        const requestUrl = `${Config.getGraphQLUrl()}/attachment/${clientUuid}/${uuid}`;
 
         setPreviewFileUuid(uuid);
 
@@ -80,7 +80,7 @@ const useFileGrid = (props: Props) => {
           headers: {
             Authorization: token ? `Bearer ${token}` : '',
             'Content-Type': 'application/json',
-            'x-client-version': getVersion(),
+            'x-client-version': Config.getVersion(),
           },
         });
 

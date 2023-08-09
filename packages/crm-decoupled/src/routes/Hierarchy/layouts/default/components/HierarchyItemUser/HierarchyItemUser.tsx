@@ -1,9 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
+import { Utils } from '@crm/common';
 import { UncontrolledTooltip } from 'components';
 import { HierarchyTreeUser } from '__generated__/types';
-import capitalize from 'utils/capitalize';
 import Link from 'components/Link';
 import useHierarchyItemUser from 'routes/Hierarchy/hooks/useHierarchyItemUser';
 import { ReactComponent as OperatorIcon } from '../img/OperatorIcon.svg';
@@ -55,11 +55,11 @@ const HierarchyItemUser = (props: Props) => {
             <If condition={!!authority}>
               <span id={`branch-${branchUUID}-${uuid}`} className="HierarchyItemUser__description">
                 {I18n.t(`CONSTANTS.OPERATORS.DEPARTMENTS.${authority.department}`, {
-                  defaultValue: capitalize(authority.department),
+                  defaultValue: Utils.capitalize(authority.department),
                 })}
                 {' '}
                 {I18n.t(`CONSTANTS.OPERATORS.ROLES.${authority.role}`, {
-                  defaultValue: capitalize(authority.role),
+                  defaultValue: Utils.capitalize(authority.role),
                 })}
               </span>
             </If>
@@ -79,11 +79,11 @@ const HierarchyItemUser = (props: Props) => {
                     className="HierarchyItemUser__authority-item"
                   >
                     {I18n.t(`CONSTANTS.OPERATORS.DEPARTMENTS.${item.department}`, {
-                      defaultValue: capitalize(item.department),
+                      defaultValue: Utils.capitalize(item.department),
                     })}
                     {' '}
                     {I18n.t(`CONSTANTS.OPERATORS.ROLES.${item.role}`, {
-                      defaultValue: capitalize(item.role),
+                      defaultValue: Utils.capitalize(item.role),
                     })}
 
                     <br />

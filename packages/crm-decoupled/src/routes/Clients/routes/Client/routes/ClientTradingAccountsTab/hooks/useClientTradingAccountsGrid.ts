@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
-import { permissions, getBrand, getBackofficeBrand, getGraphQLUrl, getVersion } from 'config';
+import { Config, Utils } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
@@ -9,7 +9,6 @@ import UpdateLeverageModal, { UpdateLeverageModalProps } from 'modals/UpdateLeve
 import UpdateTradingAccountPasswordModal, {
   UpdateTradingAccountPasswordModalProps,
 } from 'modals/UpdateTradingAccountPasswordModal';
-import downloadBlob from 'utils/downloadBlob';
 import { useApproveChangingLeverageMutation } from '../graphql/__generated__/ApproveChangingLeverageMutation';
 import { useRejectChangingLeverageMutation } from '../graphql/__generated__/RejectChangingLeverageMutation';
 import { useToggleDisabledTradingAccountMutation } from '../graphql/__generated__/ToggleDisabledTradingAccountMutation';
@@ -24,15 +23,15 @@ const useClientTradingAccountsGrid = (props: Props) => {
 
   const [reportDownloadingUuid, setReportDownloadingUuid] = useState('');
 
-  const brand = getBrand();
-  const columnsOrder = getBackofficeBrand()?.tables?.clientTradingAccounts?.columnsOrder || [];
+  const brand = Config.getBrand();
+  const columnsOrder = Config.getBackofficeBrand()?.tables?.clientTradingAccounts?.columnsOrder || [];
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const isReadOnly = permission.allows(permissions.TRADING_ACCOUNT.READ_ONLY);
-  const canRenameAccount = permission.allows(permissions.TRADING_ACCOUNT.RENAME_ACCOUNT);
-  const updatePasswordPermission = permission.allows(permissions.TRADING_ACCOUNT.UPDATE_PASSWORD);
-  const allowDownloadReport = permission.allows(permissions.TRADING_ACCOUNT.DOWNLOAD_REPORT);
+  const isReadOnly = permission.allows(Config.permissions.TRADING_ACCOUNT.READ_ONLY);
+  const canRenameAccount = permission.allows(Config.permissions.TRADING_ACCOUNT.RENAME_ACCOUNT);
+  const updatePasswordPermission = permission.allows(Config.permissions.TRADING_ACCOUNT.UPDATE_PASSWORD);
+  const allowDownloadReport = permission.allows(Config.permissions.TRADING_ACCOUNT.DOWNLOAD_REPORT);
 
   // ===== Modals ===== //
   const updateTradingAccountModal = useModal<UpdateTradingAccountModalProps>(UpdateTradingAccountModal);
@@ -106,17 +105,17 @@ const useClientTradingAccountsGrid = (props: Props) => {
     setReportDownloadingUuid(accountUUID);
     try {
       const { token } = (await tokenRenew()).data?.auth.tokenRenew || {};
-      const requestUrl = `${getGraphQLUrl()}/accounts/report/${accountUUID}`;
+      const requestUrl = `${Config.getGraphQLUrl()}/accounts/report/${accountUUID}`;
       const response = await fetch(requestUrl, {
         method: 'GET',
         headers: {
           Authorization: token ? `Bearer ${token}` : '',
           'Content-Type': 'application/json',
-          'x-client-version': getVersion(),
+          'x-client-version': Config.getVersion(),
         },
       });
       const blobData = await response.blob();
-      downloadBlob(`${login}.xls`, blobData);
+      Utils.downloadBlob(`${login}.xls`, blobData);
     } catch (e) {
       // Do nothing...
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectName } from 'utils/injectName';
+import { Utils } from '@crm/common';
 import './EmailPreview.scss';
 
 type Props = {
@@ -26,7 +26,7 @@ const EmailPreview = (props: Props) => {
       <div
         className="EmailPreview__body"
         dangerouslySetInnerHTML={{
-          __html: templatePreview ? injectName(firstName, lastName, text) : text,
+          __html: templatePreview ? Utils.injectName(firstName, lastName, text) : text,
         }}
       />
     </>

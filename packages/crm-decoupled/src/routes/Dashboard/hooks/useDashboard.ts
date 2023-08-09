@@ -1,6 +1,6 @@
-import { getBackofficeBrand } from 'config';
-import { Permission } from 'types/permissions';
+import { Config } from '@crm/common';
 import { Widget } from 'types/config';
+import { Permission } from 'types/permissions';
 import { useStorageState, Brand } from 'providers/StorageProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 
@@ -14,7 +14,7 @@ const useDashboard = (): UseDashboard => {
   const [{ id }] = useStorageState<Brand>('brand');
 
   const permission = usePermission();
-  const widgets = getBackofficeBrand()?.dashboard?.widgets || [];
+  const widgets = Config.getBackofficeBrand()?.dashboard?.widgets || [];
 
   return {
     id,

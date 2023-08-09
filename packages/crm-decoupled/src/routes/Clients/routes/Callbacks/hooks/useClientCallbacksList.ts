@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Utils } from '@crm/common';
 import { State } from 'types';
 import { Sort__Input as Sort } from '__generated__/types';
-import { fieldTimeZoneOffset } from 'utils/timeZoneOffset';
 import { FormValues } from 'routes/Clients/routes/Callbacks/types';
 import {
   useClientCallbacksListQuery,
@@ -17,8 +17,8 @@ const useClientCallbacksList = () => {
 
   const queryVariables = {
     ...rest,
-    ...fieldTimeZoneOffset('callbackTimeFrom', callbackTimeFrom, timeZone),
-    ...fieldTimeZoneOffset('callbackTimeTo', callbackTimeTo, timeZone),
+    ...Utils.fieldTimeZoneOffset('callbackTimeFrom', callbackTimeFrom, timeZone),
+    ...Utils.fieldTimeZoneOffset('callbackTimeTo', callbackTimeTo, timeZone),
     page: {
       from: 0,
       size: 20,

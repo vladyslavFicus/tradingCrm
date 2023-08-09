@@ -1,4 +1,4 @@
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 
 export const distributionRuleTabs = (isManual: boolean) => {
   const tabs = [
@@ -9,7 +9,7 @@ export const distributionRuleTabs = (isManual: boolean) => {
     {
       label: 'CLIENTS_DISTRIBUTION.RULE.FEED',
       url: 'feed',
-      permissions: permissions.AUDIT.AUDIT_LOGS,
+      permissions: Config.permissions.AUDIT.AUDIT_LOGS,
     },
   ];
 

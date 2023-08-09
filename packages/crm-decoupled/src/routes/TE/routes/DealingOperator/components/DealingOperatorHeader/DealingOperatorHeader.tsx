@@ -1,16 +1,14 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { Config, Utils } from '@crm/common';
 import { Button } from 'components';
-import { permissions } from 'config';
 import { parseErrors } from 'apollo';
 import { passwordMaxSize, passwordPattern } from 'routes/TE/constants';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
-import EventEmitter, { OPERATOR_RELOAD } from 'utils/EventEmitter';
 import Uuid from 'components/Uuid';
 import { LoginLock } from '__generated__/types';
-import { isMaxLoginAttemptReached } from 'utils/profileLock';
 import ChangePasswordModal, { ChangePasswordModalProps } from 'modals/ChangePasswordModal';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Operator } from '../../DealingOperator';
@@ -100,7 +98,7 @@ const DealingOperatorHeader = (props: Props) => {
       });
 
       operatorLockStatusQuery.refetch();
-      EventEmitter.emit(OPERATOR_RELOAD);
+      Utils.EventEmitter.emit(Utils.OPERATOR_RELOAD);
     } catch (e) {
       notify({
         level: LevelType.ERROR,
@@ -139,8 +137,8 @@ const DealingOperatorHeader = (props: Props) => {
 
       <div className="DealingOperatorHeader__actions">
         <If condition={
-          permission.allows(permissions.WE_TRADING.OPERATORS_UNLOCK)
-            && isMaxLoginAttemptReached(locks)
+          permission.allows(Config.permissions.WE_TRADING.OPERATORS_UNLOCK)
+            && Utils.isMaxLoginAttemptReached(locks)
             && status !== 'CLOSED'}
         >
           <Button
@@ -154,7 +152,11 @@ const DealingOperatorHeader = (props: Props) => {
           </Button>
         </If>
 
-        <If condition={status === 'ACTIVE' && permission.allows(permissions.WE_TRADING.OPERATORS_RESET_PASSWORD)}>
+        <If condition={
+          status === 'ACTIVE'
+          && permission.allows(Config.permissions.WE_TRADING.OPERATORS_RESET_PASSWORD)
+        }
+        >
           <Button
             className="DealingOperatorHeader__action"
             data-testid="DealingOperatorHeader-resetPasswordButton"
@@ -166,7 +168,7 @@ const DealingOperatorHeader = (props: Props) => {
           </Button>
         </If>
 
-        <If condition={permission.allows(permissions.WE_TRADING.OPERATORS_CHANGE_PASSWORD)}>
+        <If condition={permission.allows(Config.permissions.WE_TRADING.OPERATORS_CHANGE_PASSWORD)}>
           <Button
             className="DealingOperatorHeader__action"
             data-testid="DealingOperatorHeader-changePasswordButton"

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { RSocketClient, BufferEncoders } from 'rsocket-core';
 import RSocketWebsocketTransport from 'rsocket-websocket-client';
-import { getRSocketUrl } from 'config';
+import { Config } from '@crm/common';
 import { useStorage } from 'providers/StorageProvider';
 import RSocketReconnectableClient from '../lib/RSocketReconnectableClient';
 import { useTokenRefreshMutation } from './graphql/__generated__/TokenRefreshMutation';
@@ -26,7 +26,7 @@ const RSocketProvider = (props: Props) => {
       dataMimeType: 'application/json',
       metadataMimeType: '',
     },
-    transport: new RSocketWebsocketTransport({ url: getRSocketUrl() }, BufferEncoders),
+    transport: new RSocketWebsocketTransport({ url: Config.getRSocketUrl() }, BufferEncoders),
   });
 
   const client = new RSocketReconnectableClient(

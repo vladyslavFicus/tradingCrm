@@ -1,9 +1,9 @@
 import React from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
-import countryList from 'utils/countryList';
-import { createValidator, translateLabels } from 'utils/validator';
+
 import { HierarchyBranch } from '__generated__/types';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
@@ -59,12 +59,12 @@ const UpdateOfficeModal = (props: Props) => {
   return (
     <Formik
       initialValues={data as FormValues}
-      validate={createValidator(
+      validate={Utils.createValidator(
         {
           name: ['required', 'string'],
           country: ['required', 'string'],
         },
-        translateLabels(attributeLabels),
+        Utils.translateLabels(attributeLabels),
         false,
       )}
       validateOnBlur={false}
@@ -98,9 +98,9 @@ const UpdateOfficeModal = (props: Props) => {
               disabled={isSubmitting}
               searchable
             >
-              {Object.keys(countryList).map(country => (
+              {Object.keys(Utils.countryList).map(country => (
                 <option key={country} value={country}>
-                  {countryList[country]}
+                  {Utils.countryList[country]}
                 </option>
               ))}
             </Field>

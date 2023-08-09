@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import { getStaticFileUrl } from 'config';
+import { Config } from '@crm/common';
 import { BrandToAuthorities } from '__generated__/types';
 import './BrandItem.scss';
 
@@ -25,7 +25,7 @@ const BrandItem = (props: Props) => {
     >
       <img
         className="BrandItem__image"
-        src={getStaticFileUrl(id, 'choose-brand.svg')}
+        src={Config.getStaticFileUrl(id, 'choose-brand.svg')}
         alt={id}
         onError={(e) => { e.currentTarget.src = '/img/image-placeholder.svg'; }}
       />

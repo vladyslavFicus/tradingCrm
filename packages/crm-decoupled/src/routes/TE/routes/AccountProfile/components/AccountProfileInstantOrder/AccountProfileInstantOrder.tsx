@@ -2,9 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import Hotkeys from 'react-hot-keys';
 import { Rnd } from 'react-rnd';
-import { permissions } from 'config';
+import { Config, Utils } from '@crm/common';
 import { usePermission } from 'providers/PermissionsProvider';
-import EventEmitter, { ORDER_RELOAD } from 'utils/EventEmitter';
 import SymbolChart from 'components/SymbolChart';
 import GeneralNewOrderForm from 'routes/TE/forms/GeneralNewOrderForm';
 import { ReactComponent as InstantIcon } from './img/instant.svg';
@@ -41,13 +40,13 @@ const AccountProfileInstantOrder = (props: Props) => {
 
   // ===== Handlers ===== //
   const onSuccess = () => {
-    EventEmitter.emit(ORDER_RELOAD);
+    Utils.EventEmitter.emit(Utils.ORDER_RELOAD);
 
     setIsOpen(false);
   };
 
   return (
-    <If condition={permission.allows(permissions.WE_TRADING.CREATE_ORDER)}>
+    <If condition={permission.allows(Config.permissions.WE_TRADING.CREATE_ORDER)}>
       <div className="AccountProfileInstantOrder">
         {/* Open/close instant order window by CTRL+X hot key */}
         <Hotkeys keyName="ctrl+x" filter={() => true} onKeyUp={() => setIsOpen(!isOpen)} />

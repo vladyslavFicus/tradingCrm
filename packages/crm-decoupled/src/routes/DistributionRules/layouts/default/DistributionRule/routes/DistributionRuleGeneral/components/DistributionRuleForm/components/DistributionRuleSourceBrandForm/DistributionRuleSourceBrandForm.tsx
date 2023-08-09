@@ -3,18 +3,17 @@ import { Field, FormikProps } from 'formik';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import moment from 'moment';
-import { getAvailableLanguages } from 'config';
-import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
-import { timeInCurrentStatusInHours } from 'constants/clientsDistribution';
+import { Config, Utils } from '@crm/common';
 import {
   FormikSelectField,
   FormikInputField,
   FormikDateRangePicker,
 } from 'components/Formik';
-import countryList from 'utils/countryList';
 import { FormValues } from 'routes/DistributionRules/types';
 import useDistributionRuleSourceBrandForm
   from 'routes/DistributionRules/hooks/useDistributionRuleSourceBrandForm';
+import { timeInCurrentStatusInHours } from 'constants/clientsDistribution';
+import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
 import { baseUnits, periodInDays, periodInHours, sortTypes } from '../../constants';
 import './DistributionRuleSourceBrandForm.scss';
 
@@ -141,8 +140,8 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
       >
         {[
           <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-          ...Object.keys(countryList).map(key => (
-            <option key={key} value={key}>{countryList[key]}</option>
+          ...Object.keys(Utils.countryList).map(key => (
+            <option key={key} value={key}>{Utils.countryList[key]}</option>
           )),
         ]}
       </Field>
@@ -160,7 +159,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
       >
         {[
           <option key="undefined" value="undefined">{I18n.t('COMMON.OTHER')}</option>,
-          ...getAvailableLanguages().map((locale: string) => (
+          ...Config.getAvailableLanguages().map((locale: string) => (
             <option key={locale} value={locale}>
               {I18n.t(
                 `COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`,

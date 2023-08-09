@@ -3,8 +3,8 @@ import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { Config } from '@crm/common';
 import { Button } from 'components';
-import { permissions } from 'config';
 import { Sort, State } from 'types';
 import { useModal } from 'providers/ModalProvider';
 import { useStorage } from 'providers/StorageProvider';
@@ -121,7 +121,7 @@ const Accounts = () => {
   return (
     <div className="Accounts">
       {/* Hotkey on F9 button to open new order modal */}
-      <If condition={permission.allows(permissions.WE_TRADING.CREATE_ORDER)}>
+      <If condition={permission.allows(Config.permissions.WE_TRADING.CREATE_ORDER)}>
         <Hotkeys
           keyName="f9"
           onKeyUp={handleNewOrderClick}
@@ -137,7 +137,7 @@ const Accounts = () => {
         <span>
           <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.ACCOUNTS.HEADLINE')}
         </span>
-        <If condition={permission.allows(permissions.WE_TRADING.CREATE_ORDER)}>
+        <If condition={permission.allows(Config.permissions.WE_TRADING.CREATE_ORDER)}>
           <div className="Accounts__actions">
             <Button
               className="Accounts__action"

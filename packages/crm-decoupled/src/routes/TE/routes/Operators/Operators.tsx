@@ -3,8 +3,8 @@ import I18n from 'i18n-js';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import classNames from 'classnames';
+import { Config } from '@crm/common';
 import { Button } from 'components';
-import { permissions } from 'config';
 import { TradingEngine__OperatorStatuses__Enum as OperatorStatusesEnum } from '__generated__/types';
 import { useModal } from 'providers/ModalProvider';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
@@ -77,7 +77,7 @@ const Operators = () => {
         <span className="Operators__title">
           <strong>{totalElements}</strong>&nbsp;{I18n.t('TRADING_ENGINE.OPERATORS.HEADLINE')}
         </span>
-        <If condition={permission.allows(permissions.WE_TRADING.OPERATORS_ADD_NEW)}>
+        <If condition={permission.allows(Config.permissions.WE_TRADING.OPERATORS_ADD_NEW)}>
           <div className="Operators__actions">
             <Button
               className="Operators__action"

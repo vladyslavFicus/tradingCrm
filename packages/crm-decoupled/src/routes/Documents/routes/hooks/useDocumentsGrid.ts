@@ -1,14 +1,13 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { permissions, getGraphQLUrl, getVersion } from 'config';
+import { Config, Utils } from '@crm/common';
 import { Sort, State } from 'types';
 import { DocumentFile } from '__generated__/types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import { useLightbox } from 'providers/LightboxProvider/useLightbox';
-import downloadBlob from 'utils/downloadBlob';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import UpdateDocumentModal, { UpdateDocumentModalProps } from 'modals/UpdateDocumentModal';
 import { FormValues } from '../types';
@@ -25,7 +24,7 @@ const useDocumentsGrid = () => {
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const isAllowedToDownload = permission.allows(permissions.DOCUMENTS.DOWNLOAD_DOCUMENT);
+  const isAllowedToDownload = permission.allows(Config.permissions.DOCUMENTS.DOWNLOAD_DOCUMENT);
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
@@ -42,7 +41,7 @@ const useDocumentsGrid = () => {
     try {
       const { token } = (await tokenRenew()).data?.auth.tokenRenew || {};
 
-      const requestUrl = `${getGraphQLUrl()}/documents/${uuid}/file`;
+      const requestUrl = `${Config.getGraphQLUrl()}/documents/${uuid}/file`;
 
       setPreviewFileLoadingUuid(uuid);
 
@@ -51,7 +50,7 @@ const useDocumentsGrid = () => {
         headers: {
           Authorization: token ? `Bearer ${token}` : '',
           'Content-Type': 'application/json',
-          'x-client-version': getVersion(),
+          'x-client-version': Config.getVersion(),
         },
       });
 
@@ -119,20 +118,20 @@ const useDocumentsGrid = () => {
     const { token } = (await tokenRenew()).data?.auth.tokenRenew || {};
 
     try {
-      const requestUrl = `${getGraphQLUrl()}/documents/${uuid}/file`;
+      const requestUrl = `${Config.getGraphQLUrl()}/documents/${uuid}/file`;
 
       const response = await fetch(requestUrl, {
         method: 'GET',
         headers: {
           authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
-          'x-client-version': getVersion(),
+          'x-client-version': Config.getVersion(),
         },
       });
 
       const blobData = await response.blob();
 
-      downloadBlob(fileName, blobData);
+      Utils.downloadBlob(fileName, blobData);
     } catch (e) {
       // Do nothing...
     }

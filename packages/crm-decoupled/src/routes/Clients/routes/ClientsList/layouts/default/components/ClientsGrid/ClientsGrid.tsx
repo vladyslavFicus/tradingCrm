@@ -4,8 +4,8 @@ import { QueryResult } from '@apollo/client';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { Config, Utils } from '@crm/common';
 import { UncontrolledTooltip } from 'components';
-import { getBrand } from 'config';
 import { TableSelection } from 'types';
 import Uuid from 'components/Uuid';
 import Link from 'components/Link';
@@ -16,7 +16,6 @@ import Click2Call from 'components/Click2Call';
 import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { AdjustableTable, Column } from 'components/Table';
-import renderLabel from 'utils/renderLabel';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
   ClickToCall__Customer__Type__Enum as CustomerType,
@@ -72,7 +71,7 @@ const ClientsGrid = (props: Props) => {
     }
 
     return warnings.map(warning => (
-      <Fragment key={warning}>{I18n.t(renderLabel(warning as string, warningLabels))}</Fragment>
+      <Fragment key={warning}>{I18n.t(Utils.renderLabel(warning as string, warningLabels))}</Fragment>
     ));
   }, []);
 
@@ -113,7 +112,7 @@ const ClientsGrid = (props: Props) => {
   ), []);
 
   const renderBalanceColumn = useCallback(({ balance }: ProfileView) => {
-    const currency = getBrand().currencies.base;
+    const currency = Config.getBrand().currencies.base;
     const amount = balance?.amount || 0;
 
     return (
@@ -354,7 +353,7 @@ const ClientsGrid = (props: Props) => {
             },
           )}
         >
-          {I18n.t(renderLabel(type as string, statusesLabels))}
+          {I18n.t(Utils.renderLabel(type as string, statusesLabels))}
         </div>
 
         <div className="ClientsGrid__text-secondary">

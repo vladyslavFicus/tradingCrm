@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { getBrand, permissions } from 'config';
+import { Config } from '@crm/common';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useStorageState, Auth } from 'providers/StorageProvider';
@@ -61,14 +61,14 @@ const usePartnerPersonalInfoForm = (props: Props): PartnerPersonalInfoForm => {
 
   const { cumulativeDeposit, minFtdDeposit } = partnerPermission || {};
 
-  const brand = getBrand();
+  const brand = Config.getBrand();
 
   // ===== Storage ===== //
   const [{ role, department }] = useStorageState<Auth>('auth');
 
   // ===== Permissions ===== //
   const permission = usePermission();
-  const deniesUpdate = permission.denies(permissions.PARTNERS.UPDATE_PROFILE);
+  const deniesUpdate = permission.denies(Config.permissions.PARTNERS.UPDATE_PROFILE);
 
   // ===== Requests ===== //
   const [updatePartnerMutation] = useUpdatePartnerMutation();

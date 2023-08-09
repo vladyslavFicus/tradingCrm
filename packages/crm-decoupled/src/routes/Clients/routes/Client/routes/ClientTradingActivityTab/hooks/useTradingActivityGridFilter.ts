@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
+import { Utils } from '@crm/common';
 import { LabelValue, State } from 'types';
-import { getAvailablePlatformTypes } from 'utils/tradingAccount';
 import { TradingActivityQueryVariables } from '../graphql/__generated__/TradingActivityQuery';
 import { useOperatorsQuery } from '../graphql/__generated__/OperatorsQuery';
 import { useTradingAccountsQuery } from '../graphql/__generated__/TradingAccountsQuery';
@@ -38,7 +38,7 @@ const useTradingActivityGridFilter = (props: Props): UseTradingActivityGridFilte
   const originalAgents = operatorsData?.operators?.content || [];
   const disabledOriginalAgentField = operatorsLoading;
 
-  const platformTypes = getAvailablePlatformTypes();
+  const platformTypes = Utils.getAvailablePlatformTypes();
 
   // ===== Handlers ===== //
   const tradeType = state?.filters && ('tradeType' in state.filters) ? state.filters.tradeType : 'LIVE';

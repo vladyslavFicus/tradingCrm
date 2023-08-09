@@ -2,8 +2,7 @@ import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { getBrand } from 'config';
-import { statuses, statusesLabels } from 'constants/user';
+import { Config, Utils } from '@crm/common';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import GridPlayerInfo from 'components/GridPlayerInfo';
@@ -11,13 +10,13 @@ import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import { Hierarchy } from 'components/GridAcquisitionStatus/hooks/useGridAcquisitionStatus';
 import GridEmptyValue from 'components/GridEmptyValue';
-import renderLabel from 'utils/renderLabel';
 import { Grids } from 'routes/Dashboard/types';
 import useGrid from 'routes/Dashboard/hooks/useGrid';
 import {
   LastRegistrationsQuery,
   useLastRegistrationsQuery,
 } from 'routes/Dashboard/graphql/__generated__/LastRegistrationsQuery';
+import { statuses, statusesLabels } from 'constants/user';
 import './LastRegistrationsGrid.scss';
 
 export type LastRegistration = ExtractApolloTypeFromArray<LastRegistrationsQuery['dashboard']['lastRegistration']>;
@@ -51,7 +50,7 @@ const LastRegistrationsGrid = () => {
   }, []);
 
   const renderBalance = useCallback(({ balance }: LastRegistration) => {
-    const currency = getBrand().currencies?.base;
+    const currency = Config.getBrand().currencies?.base;
     const amount = Number(balance?.amount) || 0;
 
     return (
@@ -163,7 +162,7 @@ const LastRegistrationsGrid = () => {
             },
           )}
         >
-          {I18n.t(renderLabel(type || '', statusesLabels))}
+          {I18n.t(Utils.renderLabel(type || '', statusesLabels))}
         </div>
 
         <div className="LastRegistrationsGrid__text-secondary">

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import EventEmitter, { NOTIFICATIONS_READ } from 'utils/EventEmitter';
+import { Utils } from '@crm/common';
 import { useNotificationUnreadQuery } from '../graphql/__generated__/NotificationUnreadQuery';
 
 const useNotificationCenterTrigger = () => {
@@ -10,10 +10,10 @@ const useNotificationCenterTrigger = () => {
 
   // ===== Effects ===== //
   useEffect(() => {
-    EventEmitter.on(NOTIFICATIONS_READ, refetch);
+    Utils.EventEmitter.on(Utils.NOTIFICATIONS_READ, refetch);
 
     return () => {
-      EventEmitter.off(NOTIFICATIONS_READ, refetch);
+      Utils.EventEmitter.off(Utils.NOTIFICATIONS_READ, refetch);
     };
   }, []);
 

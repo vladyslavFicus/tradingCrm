@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field, FormikProps } from 'formik';
+import { Utils } from '@crm/common';
 import { FormikCheckbox, FormikSelectField } from 'components/Formik';
-import enumToArray from 'utils/enumToArray';
 import { ArchivePeriodDays, ArchiveMaxBalance, FormValues } from '../../types';
 import './GroupArchivingForm.scss';
 
@@ -39,7 +39,7 @@ const GroupArchivingForm = (props: Props) => {
             disabled={!archivationEnabled || archived}
             data-testid="GroupArchivingForm-archivePeriodDaysSelect"
           >
-            {enumToArray(ArchivePeriodDays).map(value => (
+            {Utils.enumToArray(ArchivePeriodDays).map(value => (
               <option key={value} value={value}>
                 {ArchivePeriodDays[value] === 'DISABLED' ? I18n.t('COMMON.DISABLED') : value}
               </option>
@@ -53,7 +53,7 @@ const GroupArchivingForm = (props: Props) => {
             disabled={!archivationEnabled || archived}
             data-testid="GroupArchivingForm-archiveMaxBalanceSelect"
           >
-            {enumToArray(ArchiveMaxBalance).map(value => (
+            {Utils.enumToArray(ArchiveMaxBalance).map(value => (
               <option key={value} value={value}>
                 {value}
               </option>

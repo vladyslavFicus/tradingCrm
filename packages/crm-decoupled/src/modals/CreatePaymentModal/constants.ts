@@ -1,5 +1,5 @@
 import I18n from 'i18n-js';
-import { permissions } from 'config';
+import { Config } from '@crm/common';
 import { PaymentTypeDetails, tradingTypes, tradingTypesLabels } from 'constants/payment';
 
 const TRANSFER = 'TRANSFER';
@@ -28,10 +28,10 @@ export const paymentTypes: Record<string, PaymentTypeDetails> = {
       ].indexOf(name as tradingTypes) === -1),
     )
     .reduce(
-      (acc, curr) => ({ ...acc, [curr]: { name: curr, permission: permissions.PAYMENT[curr] } }),
+      (acc, curr) => ({ ...acc, [curr]: { name: curr, permission: Config.permissions.PAYMENT[curr] } }),
       {},
     ),
-  [TRANSFER]: { name: TRANSFER, permission: permissions.PAYMENT.TRANSFER },
+  [TRANSFER]: { name: TRANSFER, permission: Config.permissions.PAYMENT.TRANSFER },
 };
 
 export const paymentTypesLabels: Record<string, string> = {

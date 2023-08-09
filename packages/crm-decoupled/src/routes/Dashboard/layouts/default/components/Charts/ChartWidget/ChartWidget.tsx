@@ -4,9 +4,9 @@ import { isEmpty } from 'lodash';
 import classNames from 'classnames';
 import { Modal, ModalBody } from 'reactstrap';
 import { TooltipProps } from 'recharts';
-import enumToArray from 'utils/enumToArray';
-import Select from 'components/Select';
+import { Utils } from '@crm/common';
 import { ChartTypes } from 'types/config';
+import Select from 'components/Select';
 import { ShortLoader } from 'components';
 import { ChartData, DateRange, SummaryData, SelectOption } from 'routes/Dashboard/types';
 import { chartSelectOptions } from 'routes/Dashboard/constants';
@@ -88,7 +88,7 @@ const ChartWidget = (props: Props) => {
             customClassName="ChartWidget__select"
             onChange={handleSelectChange}
           >
-            {enumToArray(SelectOption).map(key => (
+            {Utils.enumToArray(SelectOption).map(key => (
               <option key={key} value={key}>{chartSelectOptions[key].label}</option>
             ))}
           </Select>

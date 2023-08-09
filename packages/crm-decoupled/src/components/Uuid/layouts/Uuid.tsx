@@ -1,5 +1,5 @@
 import React from 'react';
-import { shortify } from 'utils/uuid';
+import { Utils } from '@crm/common';
 import { LevelType } from 'providers/NotificationProvider';
 import CopyToClipboard from 'components/CopyToClipboard';
 import useUuid from '../hooks/useUuid';
@@ -48,7 +48,7 @@ const Uuid = (props: Props) => {
       className={className}
     >
       <span id={id} className="Uuid__value">
-        {title || shortify(uuid, uuidPrefix, uuidPartsCount, uuidPostfix, length)}
+        {title || Utils.uuidShortify(uuid, uuidPrefix, uuidPartsCount, uuidPostfix, length)}
       </span>
     </CopyToClipboard>
   );

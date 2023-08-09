@@ -2,18 +2,16 @@ import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Config, Utils } from '@crm/common';
 import { Button, ShortLoader } from 'components';
-import { permissions } from 'config';
 import { ClientCallback, Operator, Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
-import { reminderValues } from 'constants/callbacks';
-import enumToArray from 'utils/enumToArray';
-import { createValidator } from 'utils/validator';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import Modal from 'components/Modal';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
 import Uuid from 'components/Uuid';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
+import { reminderValues } from 'constants/callbacks';
 import { useGetClientCallbackQuery } from './graphql/__generated__/GetClientCallbackQuery';
 import { useGetOperatorsQuery } from './graphql/__generated__/GetOperatorsQuery';
 import { useUpdateClientCallbackMutation } from './graphql/__generated__/UpdateClientCallbackMutation';
@@ -38,7 +36,7 @@ const UpdateClientCallbackModal = (props: Props) => {
   const { callbackId, onDelete, onCloseModal, onClose } = props;
 
   const permission = usePermission();
-  const readOnly = permission.denies(permissions.USER_PROFILE.UPDATE_CALLBACK);
+  const readOnly = permission.denies(Config.permissions.USER_PROFILE.UPDATE_CALLBACK);
 
   // ===== Requests ===== //
   const clientCallbackQuery = useGetClientCallbackQuery({ variables: { id: callbackId }, fetchPolicy: 'network-only' });
@@ -105,7 +103,7 @@ const UpdateClientCallbackModal = (props: Props) => {
             reminder: reminder || null,
           }}
           validate={
-              createValidator({
+              Utils.createValidator({
                 operatorId: ['required'],
                 callbackTime: ['required', 'dateWithTime'],
                 status: ['required'],
@@ -121,7 +119,7 @@ const UpdateClientCallbackModal = (props: Props) => {
               title={I18n.t('CALLBACKS.MODAL.CLIENT_TITLE')}
               renderFooter={(
                 <>
-                  <If condition={permission.allows(permissions.USER_PROFILE.DELETE_CALLBACK)}>
+                  <If condition={permission.allows(Config.permissions.USER_PROFILE.DELETE_CALLBACK)}>
                     <Button
                       className="UpdateClientCallbackModal__button--delete"
                       data-testid="UpdateClientCallbackModal-deleteButton"
@@ -226,7 +224,7 @@ const UpdateClientCallbackModal = (props: Props) => {
                   component={FormikSelectField}
                   disabled={readOnly}
                 >
-                  {enumToArray(CallbackStatusEnum).map(callbackStatus => (
+                  {Utils.enumToArray(CallbackStatusEnum).map(callbackStatus => (
                     <option key={callbackStatus} value={callbackStatus}>
                       {I18n.t(`CONSTANTS.CALLBACKS.${callbackStatus}`)}
                     </option>

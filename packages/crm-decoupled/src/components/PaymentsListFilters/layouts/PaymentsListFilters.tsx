@@ -2,22 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Field, Form, Formik } from 'formik';
+import { Utils } from '@crm/common';
 import { Button, FormikMultipleSelectField, FormikSingleSelectField, RefreshButton } from 'components';
-import {
-  aggregators,
-  aggregatorsLabels,
-  statuses as tradingStatuses,
-  statusesLabels as tradingStatusesLabels,
-  tradingTypes,
-  tradingTypesLabels,
-} from 'constants/payment';
-import { accountTypes } from 'constants/accountTypes';
-import { warningLabels, warningValues } from 'constants/warnings';
-import { statuses as operatorsStasuses } from 'constants/operators';
-import { filterSetTypes } from 'constants/filterSet';
-import formatLabel from 'utils/formatLabel';
-import countries from 'utils/countryList';
-import enumToArray from 'utils/enumToArray';
 import { FormikDateRangePicker, FormikInputField } from 'components/Formik';
 import { RangeGroup } from 'components/Forms';
 import { FiltersToggler } from 'components/FiltersToggler';
@@ -26,6 +12,18 @@ import TimeZoneField from 'components/TimeZoneField';
 import { firstTimeDepositFilter } from 'components/PaymentsListFilters/constants';
 import usePaymentsListFilters from 'components/PaymentsListFilters/hooks/usePaymentsListFilters';
 import { FormValues } from 'components/PaymentsListFilters/types';
+import { filterSetTypes } from 'constants/filterSet';
+import { statuses as operatorsStasuses } from 'constants/operators';
+import { warningLabels, warningValues } from 'constants/warnings';
+import { accountTypes } from 'constants/accountTypes';
+import {
+  aggregators,
+  aggregatorsLabels,
+  statuses as tradingStatuses,
+  statusesLabels as tradingStatusesLabels,
+  tradingTypes,
+  tradingTypesLabels,
+} from 'constants/payment';
 import './PaymentsListFilters.scss';
 
 type Props = {
@@ -146,7 +144,7 @@ const PaymentsListFilters = (props: Props) => {
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_AGGREGATOR')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSingleSelectField}
-                    options={enumToArray(aggregators).map(value => ({
+                    options={Utils.enumToArray(aggregators).map(value => ({
                       label: I18n.t(aggregatorsLabels[value]),
                       value,
                     }))}
@@ -163,7 +161,7 @@ const PaymentsListFilters = (props: Props) => {
                     disabled={paymentMethodsLoading}
                     component={FormikMultipleSelectField}
                     options={paymentMethods.map(value => ({
-                      label: formatLabel(value, false),
+                      label: Utils.formatLabel(value, false),
                       value,
                     }))}
                   />
@@ -178,7 +176,7 @@ const PaymentsListFilters = (props: Props) => {
                     component={FormikSingleSelectField}
                     withGroup={{ firstTitle: 'COMMON.FAVORITE', secondTitle: 'COMMON.OTHER' }}
                     options={paymentSystemsProvider.map(({ paymentSystem, isFavourite }) => ({
-                      label: formatLabel(paymentSystem, false),
+                      label: Utils.formatLabel(paymentSystem, false),
                       value: paymentSystem,
                       isFavourite,
                     }))}
@@ -210,7 +208,7 @@ const PaymentsListFilters = (props: Props) => {
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUSES')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikMultipleSelectField}
-                    options={enumToArray(tradingStatuses).map(value => ({
+                    options={Utils.enumToArray(tradingStatuses).map(value => ({
                       label: I18n.t(tradingStatusesLabels[value]),
                       value,
                     }))}
@@ -229,8 +227,8 @@ const PaymentsListFilters = (props: Props) => {
                       component={FormikMultipleSelectField}
                       options={[
                         { label: I18n.t('COMMON.OTHER'), value: 'UNDEFINED' },
-                        ...Object.keys(countries).map(country => ({
-                          label: countries[country],
+                        ...Object.keys(Utils.countryList).map(country => ({
+                          label: Utils.countryList[country],
                           value: country,
                         })),
                       ]}
@@ -364,7 +362,7 @@ const PaymentsListFilters = (props: Props) => {
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.WARNING')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSingleSelectField}
-                    options={enumToArray(warningValues).map(value => ({
+                    options={Utils.enumToArray(warningValues).map(value => ({
                       label: I18n.t(warningLabels[value]),
                       value,
                     }))}

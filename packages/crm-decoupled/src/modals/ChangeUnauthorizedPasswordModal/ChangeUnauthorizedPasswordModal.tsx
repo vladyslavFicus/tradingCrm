@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
+import { Utils } from '@crm/common';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { passwordCustomError, passwordMaxSize, passwordPattern } from 'constants/operators';
 import { FormikInputField } from 'components/Formik';
-import { createValidator, translateLabels } from 'utils/validator';
 import Modal from 'components/Modal';
 import { useChangeUnauthorizedPasswordMutation } from './graphql/__generated__/ChangeUnauthorizedPasswordMutation';
 import './ChangeUnauthorizedPasswordModal.scss';
@@ -81,7 +81,7 @@ const ChangeUnauthorizedPasswordModal = (props: Props) => {
         repeatPassword: '',
       }}
       validate={
-          createValidator({
+          Utils.createValidator({
             currentPassword: ['required'],
             newPassword: [
               'required',
@@ -89,7 +89,7 @@ const ChangeUnauthorizedPasswordModal = (props: Props) => {
               `max:${passwordMaxSize}`,
             ],
             repeatPassword: ['required', 'same:newPassword'],
-          }, translateLabels(fieldLabels), false, customErrors)
+          }, Utils.translateLabels(fieldLabels), false, customErrors)
         }
       onSubmit={onHandleSubmit}
     >

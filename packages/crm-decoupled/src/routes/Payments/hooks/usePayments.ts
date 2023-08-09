@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cloneDeep, set, compact } from 'lodash';
+import { Utils } from '@crm/common';
 import { State } from 'types';
 import { Sort__Input as Sort } from '__generated__/types';
 import { statusMapper, statuses } from 'constants/payment';
 import { FiltersFormValues } from 'components/PaymentsListFilters';
-import { fieldTimeZoneOffset } from 'utils/timeZoneOffset';
 import { usePaymentsQuery, PaymentsQueryVariables } from '../graphql/__generated__/PaymentsQuery';
 import { usePartnersQuery } from '../graphql/__generated__/PartnersQuery';
 
@@ -28,12 +28,12 @@ const usePayments = () => {
   const queryVariables = {
     args: {
       ...rest,
-      ...fieldTimeZoneOffset('statusChangedTimeFrom', statusChangedTimeFrom, timeZone),
-      ...fieldTimeZoneOffset('statusChangedTimeTo', statusChangedTimeTo, timeZone),
-      ...fieldTimeZoneOffset('creationTimeFrom', creationTimeFrom, timeZone),
-      ...fieldTimeZoneOffset('creationTimeTo', creationTimeTo, timeZone),
-      ...fieldTimeZoneOffset('modificationTimeFrom', modificationTimeFrom, timeZone),
-      ...fieldTimeZoneOffset('modificationTimeTo', modificationTimeTo, timeZone),
+      ...Utils.fieldTimeZoneOffset('statusChangedTimeFrom', statusChangedTimeFrom, timeZone),
+      ...Utils.fieldTimeZoneOffset('statusChangedTimeTo', statusChangedTimeTo, timeZone),
+      ...Utils.fieldTimeZoneOffset('creationTimeFrom', creationTimeFrom, timeZone),
+      ...Utils.fieldTimeZoneOffset('creationTimeTo', creationTimeTo, timeZone),
+      ...Utils.fieldTimeZoneOffset('modificationTimeFrom', modificationTimeFrom, timeZone),
+      ...Utils.fieldTimeZoneOffset('modificationTimeTo', modificationTimeTo, timeZone),
       statuses: state?.filters?.statuses
         ? compact(state?.filters?.statuses).map(item => statusMapper[item as statuses]).flat()
         : undefined,

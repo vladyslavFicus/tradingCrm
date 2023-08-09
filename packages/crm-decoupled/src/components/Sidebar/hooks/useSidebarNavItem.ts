@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { SidebarMenuSubItem } from 'config';
+import { Config } from '@crm/common';
 
 type Props = {
   isSidebarOpen: boolean,
-  items?: Array<SidebarMenuSubItem>,
+  items?: Array<Config.SidebarMenuSubItem>,
 };
 
 const useSidebarNavItem = (props: Props) => {

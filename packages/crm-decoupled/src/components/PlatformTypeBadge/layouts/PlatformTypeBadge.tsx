@@ -1,6 +1,6 @@
 import React from 'react';
+import { Utils } from '@crm/common';
 import Badge from 'components/Badge';
-import { getPlatformTypeLabel } from 'utils/tradingAccount';
 
 type Position = 'right' | 'left';
 
@@ -24,7 +24,7 @@ const PlatformTypeBadge = (props: Props) => {
 
   return (
     <Badge
-      text={getPlatformTypeLabel(platformType)}
+      text={Utils.getPlatformTypeLabel(platformType)}
       backgroundColor={
         platformType === 'MT5' ? 'var(--state-colors-success)' : 'var(--state-colors-warning)'
       }
