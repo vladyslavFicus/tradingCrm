@@ -6,9 +6,10 @@
   "license": "MIT",
   "main": "./src/libraryIndex.ts",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm run schema && concurrently -k \"npm:codegen --\"",
     "codegen": "graphql-codegen",
-    "schema": "graphql-codegen -c ../../codegen.download.yml"
+    "schema": "graphql-codegen -c ../../codegen.download.yml",
+    "start:playground": "react-scripts start"
   },
   "dependencies": {},
    "browserslist": {

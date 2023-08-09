@@ -8,8 +8,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "npx lerna run start --scope=@crm/{crm-decoupled,common}",
     "registry:login": "npm login --registry=https://nexus.cyberhat.guru/repository/hrzn-npm/",
-    "eslint": "eslint \"packages/*/src/**/*.{js,jsx,ts,tsx,json,gql}\" --cache --fix"
+    "eslint": "eslint \"packages/*/src/**/*.{js,jsx,ts,tsx,json,gql}\" --fix"
   },
   "author": "crmteam",
   "license": "MIT",
@@ -150,6 +151,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "hard-source-webpack-plugin": "^0.13.1",
     "husky": "^3.0.2",
+    "lerna": "^7.1.4",
     "sass": "^1.41.1",
     "sentry-release": "1.0.10",
     "webpack-bundle-analyzer": "^4.2.0",

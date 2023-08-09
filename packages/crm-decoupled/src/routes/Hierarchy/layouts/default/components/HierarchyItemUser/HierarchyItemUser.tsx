@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { UncontrolledTooltip } from 'components';
 import { Utils } from '@crm/common';
+import { UncontrolledTooltip } from 'components';
 import { HierarchyTreeUser } from '__generated__/types';
 import Link from 'components/Link';
 import useHierarchyItemUser from 'routes/Hierarchy/hooks/useHierarchyItemUser';

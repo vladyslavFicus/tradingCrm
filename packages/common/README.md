@@ -1,4 +1,4 @@
-# `@monorepo-backoffice/common`
+# `@crm/common`
 
 ## Usage
 
@@ -6,7 +6,7 @@
 const {
   usePrevious,
   useIdleTimer,
-} = require('@monorepo-backoffice/common');
+} = require('@crm/common');
 
 // TODO: DEMONSTRATE API
 ```
