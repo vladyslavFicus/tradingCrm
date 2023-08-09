@@ -4,13 +4,13 @@ import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { Config, Utils } from '@crm/common';
 import { Button } from 'components';
-import { parseErrors } from 'apollo';
 import {
   Operator,
   Partner,
   RuleOperatorSpread__Input as OperatorSpread,
   AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
 } from '__generated__/types';
+import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { ruleTypes, priorities } from 'constants/rules';
 import { attributeLabels, customErrors } from 'constants/ruleModal';

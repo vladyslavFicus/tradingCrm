@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
 import { Config, Utils } from '@crm/common';
+import { LoginLock } from '__generated__/types';
 import { parseErrors } from 'apollo';
 import { LevelType, notify } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
@@ -8,7 +9,6 @@ import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import CreateClientCallbackModal, { CreateClientCallbackModalProps } from 'modals/CreateClientCallbackModal';
 import ChangePasswordModal, { ChangePasswordModalProps, FormValues } from 'modals/ChangePasswordModal';
-import { LoginLock } from '__generated__/types';
 import { useClientLockStatusQuery } from '../graphql/__generated__/ClientLockStatusQuery';
 import { useClientUnlockLoginMutation } from '../graphql/__generated__/ClientUnlockLoginMutation';
 import { useClientResetPasswordMutation } from '../graphql/__generated__/ClientResetPasswordMutation';

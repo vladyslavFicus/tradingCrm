@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import moment from 'moment';
 import { ClientCallback } from '__generated__/types';
-import { useModal } from 'providers/ModalProvider';
 import { CommonCallback } from 'types/common';
+import { useModal } from 'providers/ModalProvider';
 import UpdateClientCallbackModal, { UpdateClientCallbackModalProps } from 'modals/UpdateClientCallbackModal';
 import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import useCalendar from 'components/Calendar/hooks/useCalendar';

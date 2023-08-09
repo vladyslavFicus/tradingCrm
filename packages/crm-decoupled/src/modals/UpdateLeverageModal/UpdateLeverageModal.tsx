@@ -2,11 +2,11 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Config, Utils } from '@crm/common';
+import { accountTypesLabels } from 'constants/accountTypes';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import Modal from 'components/Modal';
 import Badge from 'components/Badge';
 import { FormikSelectField } from 'components/Formik';
-import { accountTypesLabels } from 'constants/accountTypes';
 import { useUpdateLeverageMutation } from './graphql/__generated__/UpdateLeverageMutation';
 import './UpdateLeverageModal.scss';
 

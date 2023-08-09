@@ -3,13 +3,13 @@ import I18n from 'i18n-js';
 import { intersection, sortBy } from 'lodash';
 import { Formik, Field, Form } from 'formik';
 import { Config } from '@crm/common';
-import { Sorts } from 'types';
-import { SetFieldValue } from 'types/formik';
 import {
   AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
   ClientSearch__Input as ClientSearch,
   LeadSearch__Input as LeadSearch,
 } from '__generated__/types';
+import { Sorts } from 'types';
+import { SetFieldValue } from 'types/formik';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';

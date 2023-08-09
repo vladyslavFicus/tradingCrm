@@ -4,12 +4,12 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { Utils } from '@crm/common';
 import { Button } from 'components';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { FormikInputField, FormikSelectField, FormikCheckbox } from 'components/Formik';
 import {
   Commission__Type__Enum as GroupCommissionType,
   Commission__Lots__Enum as GroupCommissionLots,
 } from '__generated__/types';
+import { notify, LevelType } from 'providers/NotificationProvider';
+import { FormikInputField, FormikSelectField, FormikCheckbox } from 'components/Formik';
 import {
   GroupSecurity, LotMin, LotMax, LotStep,
 } from '../../types';

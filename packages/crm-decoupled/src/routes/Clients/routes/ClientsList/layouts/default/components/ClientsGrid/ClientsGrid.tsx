@@ -6,6 +6,13 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { Config, Utils } from '@crm/common';
 import { UncontrolledTooltip } from 'components';
+import {
+  ClickToCall__Phone__Type__Enum as PhoneType,
+  ClickToCall__Customer__Type__Enum as CustomerType,
+  ProfileView,
+  Sort__Input as Sort,
+  GridConfig__Types__Enum as GridConfigTypes,
+} from '__generated__/types';
 import { TableSelection } from 'types';
 import Uuid from 'components/Uuid';
 import Link from 'components/Link';
@@ -16,13 +23,6 @@ import Click2Call from 'components/Click2Call';
 import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { AdjustableTable, Column } from 'components/Table';
-import {
-  ClickToCall__Phone__Type__Enum as PhoneType,
-  ClickToCall__Customer__Type__Enum as CustomerType,
-  ProfileView,
-  Sort__Input as Sort,
-  GridConfig__Types__Enum as GridConfigTypes,
-} from '__generated__/types';
 import { MAX_SELECTED_CLIENTS, defaultColumns } from 'routes/Clients/routes/ClientsList/constants';
 import { ClientsListQuery } from 'routes/Clients/routes/ClientsList/graphql/__generated__/ClientsQuery';
 import useClientsGrid from 'routes/Clients/routes/ClientsList/hooks/useClientsGrid';

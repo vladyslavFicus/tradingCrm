@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Config } from '@crm/common';
-import { State } from 'types';
 import { Sort__Input as Sort } from '__generated__/types';
+import { State } from 'types';
 import { useModal } from 'providers/ModalProvider';
 import CreateLeadCallbackModal, { CreateLeadCallbackModalProps } from 'modals/CreateLeadCallbackModal';
 import { usePermission } from 'providers/PermissionsProvider';

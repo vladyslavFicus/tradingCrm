@@ -4,12 +4,12 @@ import I18n from 'i18n-js';
 import { UncontrolledTooltip } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { Button } from 'components';
-import { FormikSwitchField } from 'components/Formik';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
   ClickToCall__Customer__Type__Enum as CustomerType,
   Profile,
 } from '__generated__/types';
+import { FormikSwitchField } from 'components/Formik';
 import Uuid from 'components/Uuid';
 import CopyToClipboard from 'components/CopyToClipboard';
 import Click2Call from 'components/Click2Call';

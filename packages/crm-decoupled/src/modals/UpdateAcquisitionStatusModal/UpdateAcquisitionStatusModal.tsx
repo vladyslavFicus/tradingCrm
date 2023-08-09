@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
-import { Sorts } from 'types';
 import {
   AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
   HierarchyUserAcquisition,
   ProfileView,
 } from '__generated__/types';
+import { parseErrors } from 'apollo';
+import { Sorts } from 'types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { FormikSelectField } from 'components/Formik';

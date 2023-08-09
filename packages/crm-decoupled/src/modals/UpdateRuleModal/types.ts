@@ -1,11 +1,11 @@
 import { FormikErrors } from 'formik';
-import { SetFieldValue } from 'types/formik';
 import {
   RuleTimeInterval,
   Rule__Type__Enum as RuleTypeEnum,
   RuleSchedule as RuleScheduleType,
   Rule__OperatorSpread as RuleOperatorSpread,
 } from '__generated__/types';
+import { SetFieldValue } from 'types/formik';
 
 export type FormValues = {
   name: string,

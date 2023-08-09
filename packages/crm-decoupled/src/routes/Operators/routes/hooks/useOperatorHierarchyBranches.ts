@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
 import { omit } from 'lodash';
-import { parseErrors } from 'apollo';
 import { Operator, HierarchyBranch } from '__generated__/types';
+import { parseErrors } from 'apollo';
 import { SetFieldValue } from 'types/formik';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';

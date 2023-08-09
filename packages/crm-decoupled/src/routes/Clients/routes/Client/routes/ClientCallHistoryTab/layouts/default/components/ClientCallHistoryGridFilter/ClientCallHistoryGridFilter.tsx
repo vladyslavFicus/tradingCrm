@@ -4,9 +4,9 @@ import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Utils } from '@crm/common';
 import { Button, RefreshButton } from 'components';
+import { CallHistory__Status__Enum as CallHistoryStatusEnum } from '__generated__/types';
 import useFilter from 'hooks/useFilter';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import { CallHistory__Status__Enum as CallHistoryStatusEnum } from '__generated__/types';
 import useClientCallHistoryGridFilter
   from 'routes/Clients/routes/Client/routes/ClientCallHistoryTab/hooks/useClientCallHistoryGridFilter';
 import { FormValues } from 'routes/Clients/routes/Client/routes/ClientCallHistoryTab/types/clientCallHistoryGridFilter';

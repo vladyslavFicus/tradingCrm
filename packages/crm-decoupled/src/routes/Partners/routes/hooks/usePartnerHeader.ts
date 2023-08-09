@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { Config, Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
 import { Partner } from '__generated__/types';
+import { parseErrors } from 'apollo';
 import { useModal } from 'providers/ModalProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { notify, LevelType } from 'providers/NotificationProvider';

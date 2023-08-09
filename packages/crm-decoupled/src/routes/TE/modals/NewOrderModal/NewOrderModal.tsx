@@ -5,6 +5,7 @@ import Hotkeys from 'react-hot-keys';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { Config } from '@crm/common';
 import { Button, Input } from 'components';
+import { accountTypesLabels } from 'constants/accountTypes';
 import { usePermission } from 'providers/PermissionsProvider';
 import StaticTabs from 'components/StaticTabs';
 import StaticTabsItem from 'components/StaticTabsItem';
@@ -13,7 +14,6 @@ import SymbolChart from 'components/SymbolChart';
 import Badge from 'components/Badge';
 import SmartPnLForm from 'routes/TE/forms/SmartPnLForm';
 import GeneralNewOrderForm from 'routes/TE/forms/GeneralNewOrderForm';
-import { accountTypesLabels } from 'constants/accountTypes';
 import { useAccountQueryLazyQuery, AccountQuery } from './graphql/__generated__/AccountQuery';
 import './NewOrderModal.scss';
 

@@ -4,8 +4,8 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { omit } from 'lodash';
 import { Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
 import { HierarchyBranch } from '__generated__/types';
+import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import {
   departmentsLabels,

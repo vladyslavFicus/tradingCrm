@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
 import { Config } from '@crm/common';
-import { parseErrors } from 'apollo';
 import { Profile } from '__generated__/types';
+import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useUpdateClientTransferMutation } from '../graphql/__generated__/UpdateClientTransferMutation';

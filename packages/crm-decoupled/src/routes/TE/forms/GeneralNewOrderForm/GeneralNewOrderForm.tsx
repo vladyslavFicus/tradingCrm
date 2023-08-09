@@ -5,6 +5,7 @@ import { orderBy, intersectionWith } from 'lodash';
 import Hotkeys from 'react-hot-keys';
 import { Utils } from '@crm/common';
 import { Button, Input } from 'components';
+import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useStorage } from 'providers/StorageProvider';
@@ -15,7 +16,6 @@ import {
   FormikSelectTreeField,
 } from 'components/Formik';
 import { Node } from 'components/SelectTree';
-import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
 import { OrderDirection } from 'types/trading-engine';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { calculatePnL, calculateMargin, determineOrderType } from 'routes/TE/utils/formulas';

@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { Config } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
 import { Profile } from '__generated__/types';
+import { usePermission } from 'providers/PermissionsProvider';
 import { useClientQuery } from '../../../graphql/__generated__/ClientQuery';
 
   type UseClientProfileTab = {

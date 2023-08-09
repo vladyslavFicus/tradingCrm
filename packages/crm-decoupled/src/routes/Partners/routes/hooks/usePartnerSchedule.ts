@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
-import { SetFieldValue } from 'types/formik';
 import { Partner, Partner__Schedule as Schedule } from '__generated__/types';
+import { SetFieldValue } from 'types/formik';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import CreatePartnerScheduleModal, { CreatePartnerScheduleModalProps } from 'modals/CreatePartnerScheduleModal';

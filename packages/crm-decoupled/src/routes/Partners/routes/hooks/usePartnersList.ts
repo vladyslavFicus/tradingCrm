@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
+import { Partner } from '__generated__/types';
 import { Sorts, State } from 'types';
 import { Select } from 'types/table';
-import { Partner } from '__generated__/types';
 import { usePartnersQuery, PartnersQueryVariables } from '../graphql/__generated__/PartnersQuery';
 
 type PartnersList = {

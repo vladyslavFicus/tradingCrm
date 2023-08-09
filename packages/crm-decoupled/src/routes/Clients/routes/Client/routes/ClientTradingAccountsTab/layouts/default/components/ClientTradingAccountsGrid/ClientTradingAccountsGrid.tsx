@@ -5,8 +5,9 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { Utils } from '@crm/common';
 import { Button, CircleLoader } from 'components';
-import { withStreams } from 'rsocket';
 import { TradingAccount } from '__generated__/types';
+import { accountTypesLabels, leverageStatuses } from 'constants/accountTypes';
+import { withStreams } from 'rsocket';
 import Link from 'components/Link';
 import { AdjustableTable, Column } from 'components/Table';
 import ActionsDropDown from 'components/ActionsDropDown';
@@ -19,7 +20,6 @@ import {
 } from 'routes/Clients/routes/Client/routes/ClientTradingAccountsTab/types/clientTradingAccountsGrid';
 import useClientTradingAccountsGrid
   from 'routes/Clients/routes/Client/routes/ClientTradingAccountsTab/hooks/useClientTradingAccountsGrid';
-import { accountTypesLabels, leverageStatuses } from 'constants/accountTypes';
 import './ClientTradingAccountsGrid.scss';
 
 type Props = {

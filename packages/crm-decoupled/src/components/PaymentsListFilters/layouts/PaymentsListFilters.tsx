@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Field, Form, Formik } from 'formik';
 import { Utils } from '@crm/common';
 import { Button, RefreshButton } from 'components';
+import { accountTypes } from 'constants/accountTypes';
 import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'components/Formik';
 import { RangeGroup } from 'components/Forms';
 import { FiltersToggler } from 'components/FiltersToggler';
@@ -15,7 +16,6 @@ import { FormValues } from 'components/PaymentsListFilters/types';
 import { filterSetTypes } from 'constants/filterSet';
 import { statuses as operatorsStasuses } from 'constants/operators';
 import { warningLabels, warningValues } from 'constants/warnings';
-import { accountTypes } from 'constants/accountTypes';
 import {
   aggregators,
   aggregatorsLabels,

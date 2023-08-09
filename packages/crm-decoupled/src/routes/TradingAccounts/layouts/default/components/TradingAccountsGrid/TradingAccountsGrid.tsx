@@ -3,8 +3,9 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { Utils } from '@crm/common';
 import { Button } from 'components';
-import { Sorts } from 'types';
 import { AccountView } from '__generated__/types';
+import { accountTypesLabels } from 'constants/accountTypes';
+import { Sorts } from 'types';
 import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
@@ -12,7 +13,6 @@ import HideText from 'components/HideText';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
 import useTradingAccountsGrid from 'routes/TradingAccounts/hooks/useTradingAccountsGrid';
-import { accountTypesLabels } from 'constants/accountTypes';
 import './TradingAccountsGrid.scss';
 
 type Props = {

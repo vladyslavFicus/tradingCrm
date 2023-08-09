@@ -3,11 +3,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { NetworkStatus, QueryResult } from '@apollo/client';
 import I18n from 'i18n-js';
 import { Config, Utils } from '@crm/common';
+import { ProfileView, Sort__Input as Sort } from '__generated__/types';
 import { Pageable, State, TableSelection } from 'types';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import { ProfileView, Sort__Input as Sort } from '__generated__/types';
 import { ClientsListQuery, ClientsListQueryVariables } from '../graphql/__generated__/ClientsQuery';
 
 type Props = {

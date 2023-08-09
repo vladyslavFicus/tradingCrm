@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
 import { Config } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
 import { CommonCallback } from 'types/common';
+import { ClientCallback, LeadCallback } from '__generated__/types';
+import { usePermission } from 'providers/PermissionsProvider';
 import useCalendar from 'components/Calendar/hooks/useCalendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
-import { ClientCallback, LeadCallback } from '__generated__/types';
 import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
 import UpdateClientCallbackModal, { UpdateClientCallbackModalProps } from 'modals/UpdateClientCallbackModal';

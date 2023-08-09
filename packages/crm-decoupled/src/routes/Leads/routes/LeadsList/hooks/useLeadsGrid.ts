@@ -3,10 +3,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { NetworkStatus, QueryResult } from '@apollo/client';
 import { Config, Utils } from '@crm/common';
+import { Pageable__Lead as PageableLead, Sort__Input as Sort } from '__generated__/types';
 import { State, TableSelection } from 'types';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { useModal } from 'providers/ModalProvider';
-import { Pageable__Lead as PageableLead, Sort__Input as Sort } from '__generated__/types';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import { LeadsListQuery, LeadsListQueryVariables } from '../graphql/__generated__/LeadsListQuery';
 

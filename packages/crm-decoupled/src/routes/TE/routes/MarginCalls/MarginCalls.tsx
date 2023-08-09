@@ -2,12 +2,12 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
-import { Sort, State } from 'types';
 import {
   TradingEngine__AccountTypes__Enum as AccountTypes,
   TradingEngine__OrderStatuses__Enum as OrderStatus,
 } from '__generated__/types';
 import { accountTypesLabels } from 'constants/accountTypes';
+import { Sort, State } from 'types';
 import Badge from 'components/Badge';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';

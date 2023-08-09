@@ -1,9 +1,9 @@
 import { useCallback, useMemo } from 'react';
 import I18n from 'i18n-js';
 import { v4 } from 'uuid';
+import { PlatformType__Enum as PlatformType } from '__generated__/types';
 import { LevelType } from 'types';
 import { parseErrors } from 'apollo';
-import { PlatformType__Enum as PlatformType } from '__generated__/types';
 import { notify } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';

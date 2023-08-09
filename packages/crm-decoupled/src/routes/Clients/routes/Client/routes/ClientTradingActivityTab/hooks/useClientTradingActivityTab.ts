@@ -2,8 +2,8 @@ import { useCallback, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
 import { Utils } from '@crm/common';
-import { State } from 'types';
 import { Sort__Input as Sort, TradingActivity } from '__generated__/types';
+import { State } from 'types';
 import {
   useTradingActivityQuery,
   TradingActivityQueryVariables,
