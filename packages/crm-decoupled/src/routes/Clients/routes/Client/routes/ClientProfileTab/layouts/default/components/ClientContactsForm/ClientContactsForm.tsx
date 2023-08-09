@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Button } from 'components';
 import { Config, Utils } from '@crm/common';
+import { Button } from 'components';
 
 import { FormikInputField } from 'components/Formik';
 import { Profile } from '__generated__/types';

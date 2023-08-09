@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Button, TrashButton } from 'components';
 import { Config } from '@crm/common';
+import { Button, TrashButton } from 'components';
 import { parseErrors } from 'apollo';
 import { usePermission } from 'providers/PermissionsProvider';
 import { useModal } from 'providers/ModalProvider';

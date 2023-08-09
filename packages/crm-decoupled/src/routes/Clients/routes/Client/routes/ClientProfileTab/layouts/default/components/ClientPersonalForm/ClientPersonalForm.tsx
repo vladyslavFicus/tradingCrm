@@ -2,8 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
-import { Button } from 'components';
 import { Config, Utils } from '@crm/common';
+import { Button } from 'components';
 import { Profile } from '__generated__/types';
 
 import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';

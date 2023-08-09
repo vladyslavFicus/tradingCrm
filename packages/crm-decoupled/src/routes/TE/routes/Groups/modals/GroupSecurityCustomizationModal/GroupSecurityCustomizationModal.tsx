@@ -2,8 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { Button } from 'components';
 import { Utils } from '@crm/common';
+import { Button } from 'components';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField, FormikSelectField, FormikCheckbox } from 'components/Formik';
 import {

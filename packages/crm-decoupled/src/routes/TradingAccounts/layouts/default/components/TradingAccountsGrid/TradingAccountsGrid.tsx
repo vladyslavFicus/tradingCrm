@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { Button } from 'components';
 import { Utils } from '@crm/common';
+import { Button } from 'components';
 import { Sorts } from 'types';
 import { AccountView } from '__generated__/types';
 import { Table, Column } from 'components/Table';

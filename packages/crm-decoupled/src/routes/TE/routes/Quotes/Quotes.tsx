@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { useLocation } from 'react-router-dom';
-import { Button } from 'components';
 import { Config } from '@crm/common';
+import { Button } from 'components';
 import { State } from 'types';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { Table, Column } from 'components/Table';

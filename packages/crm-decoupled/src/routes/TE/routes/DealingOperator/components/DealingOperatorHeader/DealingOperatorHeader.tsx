@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Button } from 'components';
 import { Config, Utils } from '@crm/common';
+import { Button } from 'components';
 import { parseErrors } from 'apollo';
 import { passwordMaxSize, passwordPattern } from 'routes/TE/constants';
 import { notify, LevelType } from 'providers/NotificationProvider';

@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Button, TrashButton } from 'components';
 import { Config } from '@crm/common';
+import { Button, TrashButton } from 'components';
 import { parseErrors } from 'apollo';
 import { State, Sort } from 'types';
 import { notify, LevelType } from 'providers/NotificationProvider';

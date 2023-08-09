@@ -1,8 +1,8 @@
 import React from 'react';
 import { Field, Form, Formik } from 'formik';
 import I18n from 'i18n-js';
-import { Button } from 'components';
 import { Utils } from '@crm/common';
+import { Button } from 'components';
 import { FormikSelectField } from 'components/Formik';
 import { FormValues } from 'routes/DistributionRules/types';
 import useDistributionRuleForm from 'routes/DistributionRules/hooks/useDistributionRuleForm';

@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Button } from 'components';
 import { Utils } from '@crm/common';
+import { Button } from 'components';
 import { Partner } from '__generated__/types';
 
 import CopyToClipboard from 'components/CopyToClipboard';

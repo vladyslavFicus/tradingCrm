@@ -2,8 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import Flag from 'react-country-flag';
-import { Button } from 'components';
 import { Utils } from '@crm/common';
+import { Button } from 'components';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
   ClickToCall__Customer__Type__Enum as CustomerType,

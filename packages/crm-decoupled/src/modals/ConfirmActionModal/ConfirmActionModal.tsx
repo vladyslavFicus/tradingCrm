@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { Button } from 'components';
 import { Utils } from '@crm/common';
+import { Button } from 'components';
 import Modal from 'components/Modal';
 import './ConfirmActionModal.scss';
 

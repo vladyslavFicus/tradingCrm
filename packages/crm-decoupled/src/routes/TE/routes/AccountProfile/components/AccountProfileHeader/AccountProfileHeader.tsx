@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Hotkeys from 'react-hot-keys';
 import I18n from 'i18n-js';
-import { Button } from 'components';
 import { Config, Utils } from '@crm/common';
+import { Button } from 'components';
 import { parseErrors } from 'apollo';
 import { notify, LevelType } from 'providers/NotificationProvider';
 import { useModal } from 'providers/ModalProvider';
