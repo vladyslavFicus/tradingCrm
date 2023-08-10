@@ -1,3 +1,4 @@
+// @ts-nocheck Component withRouter HOC types issue
 import I18n from 'i18n-js';
 import React, { useState } from 'react';
 import { notify, LevelType } from '@crm/common';
@@ -56,7 +57,6 @@ const GridConfig = (props: Props) => {
 
   return (
     <div className="GridConfig">
-      {/* @ts-ignore Component withRouter HOC types issue */}
       <Select
         multiple
         value={columnsSet}

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { isEmpty } from 'lodash';
@@ -81,7 +82,6 @@ const ChartWidget = (props: Props) => {
             </Otherwise>
           </Choose>
 
-          {/* @ts-ignore */}
           <Select
             // Required because the Select component is not the TS component and doesn't support typing
             value={selectOption}

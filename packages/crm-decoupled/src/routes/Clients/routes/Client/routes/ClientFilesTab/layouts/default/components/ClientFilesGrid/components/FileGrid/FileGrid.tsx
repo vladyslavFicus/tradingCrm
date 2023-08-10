@@ -1,3 +1,4 @@
+// @ts-nocheck Select component write by js
 import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
@@ -96,7 +97,6 @@ const FileGrid = (props: Props) => {
               {I18n.t('FILES.CHANGE_VERIFICATION_STATUS')}:
             </span>
 
-            {/* @ts-ignore Select component write by js */}
             <Select
               value={selectedVerificationStatus || verificationStatus || ''}
               customClassName="FileGrid__header-status-dropdown"

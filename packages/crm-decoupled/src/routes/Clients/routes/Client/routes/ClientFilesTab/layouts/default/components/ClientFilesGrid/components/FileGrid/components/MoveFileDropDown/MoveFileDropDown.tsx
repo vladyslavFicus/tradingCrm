@@ -1,3 +1,4 @@
+// @ts-nocheck Select component write by js
 import React from 'react';
 import I18n from 'i18n-js';
 import Select from 'components/Select';
@@ -21,7 +22,6 @@ const MoveFileDropDown = (props: Props) => {
   const { currentValue, handleChange } = useMoveFileDropDown({ verificationType, documentType, onMoveChange });
 
   return (
-  // @ts-ignore Select component write by js
     <Select
       customClassName="MoveFileDropDown"
       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}

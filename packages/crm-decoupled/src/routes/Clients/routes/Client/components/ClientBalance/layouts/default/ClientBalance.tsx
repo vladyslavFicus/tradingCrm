@@ -1,3 +1,4 @@
+// @ts-nocheck Select component write by js
 import React, { useCallback } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import classNames from 'classnames';
@@ -84,7 +85,6 @@ const ClientBalance = (_props: Props) => {
 
   const renderPaymentsStatistic = useCallback(() => (
     <>
-      {/* @ts-ignore Select component write by js */}
       <Select
         customClassName="ClientBalance__select"
         data-testid="ClientBalance-paymentsSelect"

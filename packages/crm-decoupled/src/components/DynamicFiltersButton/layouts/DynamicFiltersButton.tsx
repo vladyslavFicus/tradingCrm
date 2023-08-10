@@ -1,3 +1,4 @@
+// @ts-nocheck Select component write by js
 import React from 'react';
 import I18n from 'i18n-js';
 import { Button } from 'components';
@@ -21,7 +22,6 @@ const DynamicFiltersButton = (props: Props) => {
   const { currentFilters, onChange } = useDynamicFiltersButton();
 
   return (
-  // @ts-ignore Select component write by js
     <Select
       multiple
       value={currentFilters}

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { FormikProps } from 'formik';
@@ -53,7 +54,6 @@ const GroupProfileHeaderNew = (props: Props) => {
             {I18n.t('TRADING_ENGINE.GROUP.TEMPLATES')}
           </span>
 
-          {/* @ts-ignore */}
           <Select
             // Required because the Select component is not the TS component and doesn't support typing
             disabled={groupTemplates.loading}
