@@ -56,8 +56,8 @@ const GridConfig = (props: Props) => {
 
   return (
     <div className="GridConfig">
+      {/* @ts-ignore Component withRouter HOC types issue */}
       <Select
-        // @ts-ignore Component withRouter HOC types issue
         multiple
         value={columnsSet}
         onChange={saveOrCreateGridConfig}

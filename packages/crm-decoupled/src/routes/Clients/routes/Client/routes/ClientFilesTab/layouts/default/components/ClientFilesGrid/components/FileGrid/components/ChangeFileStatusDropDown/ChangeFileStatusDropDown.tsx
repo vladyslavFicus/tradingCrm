@@ -19,8 +19,8 @@ const ChangeFileStatusDropDown = (props: Props) => {
   const { currentValue, handleChange } = useChangeFileStatusDropDown({ onChangeStatus, uuid, status });
 
   return (
+  // @ts-ignore Select component write by js
     <Select
-      // @ts-ignore Select component write by js
       customClassName="ChangeFileStatusDropDown"
       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
       value={currentValue}

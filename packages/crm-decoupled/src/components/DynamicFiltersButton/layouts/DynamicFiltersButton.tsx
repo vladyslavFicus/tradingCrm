@@ -21,8 +21,8 @@ const DynamicFiltersButton = (props: Props) => {
   const { currentFilters, onChange } = useDynamicFiltersButton();
 
   return (
+  // @ts-ignore Select component write by js
     <Select
-      // @ts-ignore Select component write by js
       multiple
       value={currentFilters}
       onRealtimeChange={onChange}

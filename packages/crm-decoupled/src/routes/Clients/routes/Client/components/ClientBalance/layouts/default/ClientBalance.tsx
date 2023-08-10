@@ -84,8 +84,8 @@ const ClientBalance = (_props: Props) => {
 
   const renderPaymentsStatistic = useCallback(() => (
     <>
+      {/* @ts-ignore Select component write by js */}
       <Select
-        // @ts-ignore Select component write by js
         customClassName="ClientBalance__select"
         data-testid="ClientBalance-paymentsSelect"
         onChange={handleDateChange}

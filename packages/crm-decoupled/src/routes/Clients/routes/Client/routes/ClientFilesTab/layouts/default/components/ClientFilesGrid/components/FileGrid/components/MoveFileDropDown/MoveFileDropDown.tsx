@@ -21,8 +21,8 @@ const MoveFileDropDown = (props: Props) => {
   const { currentValue, handleChange } = useMoveFileDropDown({ verificationType, documentType, onMoveChange });
 
   return (
+  // @ts-ignore Select component write by js
     <Select
-      // @ts-ignore Select component write by js
       customClassName="MoveFileDropDown"
       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
       value={currentValue}
