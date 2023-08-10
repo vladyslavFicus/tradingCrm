@@ -1,9 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, useModal, usePermission } from '@crm/common';
 import { State } from 'types';
-import { useModal } from 'providers/ModalProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import CreateTradingAccountModal, { CreateTradingAccountModalProps } from 'modals/CreateTradingAccountModal';
 import {
   useTradingAccountsQuery,

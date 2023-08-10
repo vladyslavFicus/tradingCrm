@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Navigate } from 'react-router-dom';
-import { useStorageState } from 'providers/StorageProvider';
+import { useStorageState } from '@crm/common';
 import './NotFound.scss';
 
 const NotFound = () => {

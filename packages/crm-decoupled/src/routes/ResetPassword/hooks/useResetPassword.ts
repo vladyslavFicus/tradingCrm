@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { parse } from 'qs';
-import { parseErrors } from 'apollo';
+import { parseErrors } from '@crm/common';
 import { useResetPasswordMutation } from '../graphql/__generated__/ResetPasswordMutation';
 
 type FormValues = {

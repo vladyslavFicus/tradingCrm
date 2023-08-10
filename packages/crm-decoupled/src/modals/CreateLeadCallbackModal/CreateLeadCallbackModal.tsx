@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, parseErrors, notify, LevelType } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
 import Modal from 'components/Modal';
 import NoteActionManual from 'components/Note/NoteActionManual';

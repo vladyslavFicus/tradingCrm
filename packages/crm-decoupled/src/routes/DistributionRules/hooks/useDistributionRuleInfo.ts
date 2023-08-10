@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
+import { parseErrors, notify, LevelType } from '@crm/common';
 import { DistributionRule__Statuses__Enum as DistributionRuleStatusesEnum } from '__generated__/types';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { useDistributionRuleUpdateStatus } from '../graphql/__generated__/DistributionRuleUpdateStatusMutation';
 import { useDistributionRuleMigrationMutation } from '../graphql/__generated__/DistributionRuleMigrationMutation';
 

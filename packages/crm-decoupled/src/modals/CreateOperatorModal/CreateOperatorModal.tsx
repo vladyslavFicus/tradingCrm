@@ -3,10 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { omit } from 'lodash';
-import { Utils } from '@crm/common';
+import { Utils, parseErrors, notify, LevelType } from '@crm/common';
 import { HierarchyBranch } from '__generated__/types';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import {
   departmentsLabels,
   passwordCustomError,

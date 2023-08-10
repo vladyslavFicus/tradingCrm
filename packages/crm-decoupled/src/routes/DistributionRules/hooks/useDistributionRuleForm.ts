@@ -1,12 +1,11 @@
 import { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import I18n from 'i18n-js';
+import { parseErrors, notify, LevelType } from '@crm/common';
 import {
   DistributionRule__SourceBrandConfig as DistributionRuleSourceBrandConfig,
   DistributionRule__TargetBrandConfig as DistributionRuleTargetBrandConfig,
 } from '__generated__/types';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormValues } from 'routes/DistributionRules/types';
 import {
   DistributionRuleWithSourceBrandQuery,

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Utils } from '@crm/common';
-import { LevelType } from 'providers/NotificationProvider';
+import { Utils, LevelType } from '@crm/common';
 import CopyToClipboard from 'components/CopyToClipboard';
 import useUuid from '../hooks/useUuid';
 import './Uuid.scss';

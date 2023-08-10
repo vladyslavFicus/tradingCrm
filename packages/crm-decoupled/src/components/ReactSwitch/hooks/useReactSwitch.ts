@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import I18n from 'i18n-js';
-import { notify } from 'providers/NotificationProvider';
+import { notify } from '@crm/common';
 import { LevelType } from 'types';
 
 type Props = {

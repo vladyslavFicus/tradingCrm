@@ -1,8 +1,6 @@
 import I18n from 'i18n-js';
 import { useCallback, useState } from 'react';
-import { Config } from '@crm/common';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, notify, LevelType, usePermission } from '@crm/common';
 import { useEnableShowFtdToAffiliateMutation } from '../graphql/__generated__/EnableShowFtdToAffiliateMutation';
 import { useDisableShowFtdToAffiliateMutation } from '../graphql/__generated__/DisableShowFtdToAffiliateMutation';
 

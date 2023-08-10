@@ -1,6 +1,6 @@
 import I18n from 'i18n-js';
 import React, { useState } from 'react';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { notify, LevelType } from '@crm/common';
 import Select from 'components/Select';
 import { AvailableColumns, Config } from '../types';
 import { useCreateGridConfigMutation } from '../graphql/__generated__/CreateGridConfigMutation';

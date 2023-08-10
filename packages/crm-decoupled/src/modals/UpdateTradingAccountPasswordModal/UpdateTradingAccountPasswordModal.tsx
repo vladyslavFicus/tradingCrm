@@ -1,8 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Config, Utils } from '@crm/common';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Config, Utils, notify, LevelType } from '@crm/common';
 import { FormikInputField } from 'components/Formik/index';
 
 import Modal from 'components/Modal';

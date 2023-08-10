@@ -1,11 +1,8 @@
 import { useCallback, useState } from 'react';
 import Trackify from '@hrzn/trackify';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, usePermission, useModal, notify, LevelType } from '@crm/common';
 import { Profile__Referrer as ProfileReferrer } from '__generated__/types';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import SendEmailModal, { SendEmailModalProps } from 'modals/SendEmailModal';
 import { useProfilePhonesQueryLazyQuery } from '../graphql/__generated__/ProfilePhonesQuery';
 import { useProfileEmailQueryLazyQuery } from '../graphql/__generated__/ProfileEmailQuery';

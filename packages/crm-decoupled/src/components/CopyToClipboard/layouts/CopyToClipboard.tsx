@@ -1,7 +1,7 @@
 import React from 'react';
 import ClipboardContainer from 'react-copy-to-clipboard';
 import classNames from 'classnames';
-import { LevelType } from 'providers/NotificationProvider';
+import { LevelType } from '@crm/common';
 import useCopyToClipboard from '../hooks/useCopyToClipboard';
 import './CopyToClipboard.scss';
 

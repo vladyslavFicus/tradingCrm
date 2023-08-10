@@ -1,10 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, usePermission, useModal, notify, LevelType } from '@crm/common';
 import { IpWhitelistAddress } from '__generated__/types';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import UpdateIpWhiteListModal,
 { UpdateIpWhiteListModalProps } from 'modals/UpdateIpWhiteListModal';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';

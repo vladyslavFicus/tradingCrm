@@ -1,9 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Utils, parseErrors, notify, LevelType } from '@crm/common';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useRemoveBranchManagerMutation } from './graphql/__generated__/removeBranchManagerMutation';

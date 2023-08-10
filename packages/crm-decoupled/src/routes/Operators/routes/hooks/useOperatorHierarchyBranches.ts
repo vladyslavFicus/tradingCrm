@@ -1,13 +1,11 @@
 import { useCallback, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
 import { omit } from 'lodash';
+import { parseErrors, notify, LevelType, useModal } from '@crm/common';
 import { Operator, HierarchyBranch } from '__generated__/types';
-import { parseErrors } from 'apollo';
 import { SetFieldValue } from 'types/formik';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
-import { branchTypes } from 'constants/hierarchyTypes';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
+import { branchTypes } from 'constants/hierarchyTypes';
 import { useOperatorHierarchyQuery, OperatorHierarchyQuery } from '../graphql/__generated__/OperatorHierarchyQuery';
 import { useBrandsQuery } from '../graphql/__generated__/BrandsQuery';
 import { useUserBrandHierarchyQueryLazyQuery } from '../graphql/__generated__/UserBrandHierarchyQuery';

@@ -1,8 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { useLocation, matchPath } from 'react-router-dom';
-import { Config } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, usePermission } from '@crm/common';
 import './ForbiddenChecker.scss';
 
 type Props = {

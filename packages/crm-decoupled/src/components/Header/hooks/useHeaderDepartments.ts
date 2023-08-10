@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
+import { Brand, useStorage } from '@crm/common';
 import { Authority } from '__generated__/types';
-import { Brand, useStorage } from 'providers/StorageProvider';
 import { useChooseDepartmentMutation } from '../graphql/__generated__/ChooseDepartmentsMutation';
 
 const useHeaderDepartments = () => {

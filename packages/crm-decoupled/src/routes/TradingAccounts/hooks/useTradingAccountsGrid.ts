@@ -1,10 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, notify, LevelType, usePermission, parseErrors } from '@crm/common';
 import { AccountView } from '__generated__/types';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import { useUnarchiveAccountMutation } from '../graphql/__generated__/UnarchiveAccountMutation';
 
 type Props = {

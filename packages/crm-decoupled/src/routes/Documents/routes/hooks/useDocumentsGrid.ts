@@ -1,13 +1,9 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, usePermission, useModal, LevelType, notify, useLightbox } from '@crm/common';
 import { DocumentFile } from '__generated__/types';
 import { Sort, State } from 'types';
-import { usePermission } from 'providers/PermissionsProvider';
-import { LevelType, notify } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
-import { useLightbox } from 'providers/LightboxProvider/useLightbox';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import UpdateDocumentModal, { UpdateDocumentModalProps } from 'modals/UpdateDocumentModal';
 import { FormValues } from '../types';

@@ -1,10 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Form, Field, Formik, FormikHelpers } from 'formik';
-import { Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
+import { Utils, parseErrors, notify, LevelType } from '@crm/common';
 import { FormikInputField } from 'components/Formik';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import Modal from 'components/Modal';
 import { useUpdateTeamMutation } from './graphql/__generated__/UpdateTeamMutation';
 import './UpdateTeamModal.scss';

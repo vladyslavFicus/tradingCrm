@@ -1,8 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, usePermission } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { usePermission } from 'providers/PermissionsProvider';
 import OperatorHierarchyUserType from './components/OperatorHierarchyUserType';
 import OperatorHierarchyBranches from './components/OperatorHierarchyBranches';
 import './OperatorHierarchy.scss';

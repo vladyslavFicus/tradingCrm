@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
+import { Utils, parseErrors, notify, LevelType } from '@crm/common';
 import { HierarchyBranchUser } from '__generated__/types';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useBranchUsersQuery } from './graphql/__generated__/BranchUsersQuery';

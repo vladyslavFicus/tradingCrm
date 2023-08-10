@@ -1,10 +1,8 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, useModal, usePermission } from '@crm/common';
 import { Sort__Input as Sort } from '__generated__/types';
 import { State } from 'types';
-import { useModal } from 'providers/ModalProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import CreateClientCallbackModal, { CreateClientCallbackModalProps } from 'modals/CreateClientCallbackModal';
 import {
   ClientCallbacksListQueryVariables,

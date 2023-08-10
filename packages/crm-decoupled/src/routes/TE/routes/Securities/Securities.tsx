@@ -1,11 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, usePermission, useModal, notify, LevelType, parseErrors } from '@crm/common';
 import { Button, TrashButton } from 'components';
-import { parseErrors } from 'apollo';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';

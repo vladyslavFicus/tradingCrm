@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { useParams } from 'react-router-dom';
+import { parseErrors, notify, LevelType } from '@crm/common';
 import { DistributionRuleMutationUpdateRuleDaysOfWeekArgs } from '__generated__/types';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { useDistributionRuleForScheduleQuery } from '../graphql/__generated__/DistributionRuleForScheduleQuery';
 import { useUpdateRuleDaysOfWeekMutation } from '../graphql/__generated__/UpdateRuleDaysOfWeekMutation';
 

@@ -1,12 +1,9 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, usePermission, useModal, LevelType, notify } from '@crm/common';
 import { IpWhitelistAddress } from '__generated__/types';
 import { State, TableSelection } from 'types';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
-import { LevelType, notify } from 'providers/NotificationProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import CreateIpWhiteListModal, { CreateIpWhiteListModalProps } from 'modals/CreateIpWhiteListModal';
 import { useIpWhitelistBulkDeleteMutation } from '../graphql/__generated__/IpWhitelistBulkDeleteMutation';

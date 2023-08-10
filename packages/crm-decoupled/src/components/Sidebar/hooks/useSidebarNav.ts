@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
-import { Config } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, usePermission } from '@crm/common';
 
 const useSidebarNav = () => {
   const permission = usePermission();

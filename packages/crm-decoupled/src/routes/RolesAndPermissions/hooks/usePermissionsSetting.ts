@@ -1,11 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
+import { notify, LevelType, useModal, useLightbox } from '@crm/common';
 import { ActionKey, RbackItem, Actions, Action } from 'types/rbac';
-import rbac from 'constants/rbac';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
-import { useLightbox } from 'providers/LightboxProvider/useLightbox';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
+import rbac from 'constants/rbac';
 import { useActionsQuery } from '../graphql/__generated__/ActionsQuery';
 import { useDefaultAuthorityQuery } from '../graphql/__generated__/DefaultAuthorityQuery';
 import { useUpdateAuthorityActionsMutation } from '../graphql/__generated__/UpdateAuthorityActionsMutation';

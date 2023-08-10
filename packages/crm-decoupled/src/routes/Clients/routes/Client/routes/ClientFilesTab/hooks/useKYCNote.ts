@@ -1,9 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
-import { Config } from '@crm/common';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, notify, LevelType, usePermission } from '@crm/common';
 import { FormValues } from '../types/KYCNote';
 import { useKycNoteQuery } from '../graphql/__generated__/KycNoteQuery';
 import { useNoteCreateMutation } from '../graphql/__generated__/NoteCreateMutation';

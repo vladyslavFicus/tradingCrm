@@ -1,8 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import moment from 'moment';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, usePermission } from '@crm/common';
 import { Profile } from '__generated__/types';
-import { usePermission } from 'providers/PermissionsProvider';
 import { usePaymentGeneralStatisticQuery } from '../graphql/__generated__/PaymentGeneralStatisticQuery';
 
 type Props = {

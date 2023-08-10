@@ -1,11 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
+import { Utils, notify, LevelType, useModal } from '@crm/common';
 import { Button } from 'components';
 import { TradingEngineOrderAccountBulkClose__OrderInput as BulkCloseInput } from '__generated__/types';
 import { TableSelection } from 'types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { OrdersQueryQueryResult, OrdersQuery } from '../../graphql/__generated__/OrdersQuery';
 import { useBulkCloseOrderMutation } from './graphql/__generated__/BulkCloseOrderMutation';

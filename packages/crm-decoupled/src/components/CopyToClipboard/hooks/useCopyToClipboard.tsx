@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Utils, notify, LevelType } from '@crm/common';
 
 type Props = {
   withNotification: boolean,

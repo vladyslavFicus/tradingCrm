@@ -1,10 +1,7 @@
 import { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
 import Trackify from '@hrzn/trackify';
-import { Config } from '@crm/common';
-import { parseErrors } from 'apollo';
-import { usePermission } from 'providers/PermissionsProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Config, parseErrors, usePermission, notify, LevelType } from '@crm/common';
 import { useLeadEmailQueryLazyQuery } from '../graphql/__generated__/LeadEmailQuery';
 import { useLeadMobileQueryLazyQuery } from '../graphql/__generated__/LeadMobileQuery';
 import { useLeadPhoneQueryLazyQuery } from '../graphql/__generated__/LeadPhoneQuery';

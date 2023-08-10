@@ -1,9 +1,6 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
-import { useModal } from 'providers/ModalProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, useModal, notify, LevelType, usePermission } from '@crm/common';
 import ChangeAccountStatusModal, { ChangeAccountStatusModalProps, FormValues } from 'modals/ChangeAccountStatusModal';
 import { usePartnerAccountStatusMutation } from '../graphql/__generated__/PartnerAccountStatusMutation';
 

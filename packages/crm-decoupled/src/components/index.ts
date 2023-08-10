@@ -7,6 +7,8 @@ import {
   CircleLoader,
   Input,
   UncontrolledTooltip,
+  UpdateVersionError,
+  Preloader,
 } from '@crm/common';
 
 export {
@@ -18,4 +20,6 @@ export {
   CircleLoader,
   Input,
   UncontrolledTooltip,
+  UpdateVersionError,
+  Preloader,
 };

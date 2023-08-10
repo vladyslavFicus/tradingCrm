@@ -1,12 +1,12 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { FormikProps } from 'formik';
+import { useModal } from '@crm/common';
 import { EditButton, TrashButton, Button } from 'components';
 import {
   Commission__Type__Enum as GroupCommissionType,
   Commission__Lots__Enum as GroupCommissionLots,
 } from '__generated__/types';
-import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import GroupNewSecurityModal, { GroupNewSecurityModalProps } from '../../modals/GroupNewSecurityModal';

@@ -1,13 +1,11 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, parseErrors, notify, LevelType } from '@crm/common';
 import { Desk__Types__Enum as DeskTypesEnum, HierarchyBranch } from '__generated__/types';
-import { parseErrors } from 'apollo';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { useUpdateDeskMutation } from './graphql/__generated__/UpdateDeskMutation';
 import { attributeLabels } from './constants';
 import './UpdateDeskModal.scss';

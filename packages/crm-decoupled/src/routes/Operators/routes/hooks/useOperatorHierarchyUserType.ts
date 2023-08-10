@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { omit } from 'lodash';
+import { parseErrors, notify, LevelType } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { userTypes } from 'constants/hierarchyTypes';
 import { useUpdateOperatorUserTypeMutation } from '../graphql/__generated__/UpdateOperatorUserTypeMutation';
 

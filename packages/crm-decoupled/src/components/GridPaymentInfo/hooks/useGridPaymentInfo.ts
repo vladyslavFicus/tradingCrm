@@ -1,5 +1,5 @@
+import { useModal } from '@crm/common';
 import { Payment } from '__generated__/types';
-import { useModal } from 'providers/ModalProvider';
 import { PaymentDetailsModalProps } from 'modals/PaymentDetailsModal';
 import PaymentDetailsModal from 'modals/PaymentDetailsModal/PaymentDetailsModal';
 

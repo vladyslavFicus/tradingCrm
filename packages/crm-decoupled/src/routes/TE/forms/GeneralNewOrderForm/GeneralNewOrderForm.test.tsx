@@ -1,9 +1,7 @@
 import React, { Suspense } from 'react';
 import { render as testingLibraryRender, screen, fireEvent, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { Utils } from '@crm/common';
-import MockedApolloProvider from 'apollo/MockedApolloProvider';
-import StorageProvider from 'providers/StorageProvider';
+import { Utils, StorageProvider, MockedApolloProvider } from '@crm/common';
 import CoreLayout from 'layouts/CoreLayout';
 import { MockedRSocketProvider } from 'rsocket';
 import { AccountQueryDocument } from './graphql/__generated__/AccountQuery';

@@ -1,10 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, notify, LevelType, useModal, usePermission } from '@crm/common';
 import { Profile } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import ChangeAccountStatusModal, { ChangeAccountStatusModalProps, FormValues } from 'modals/ChangeAccountStatusModal';
 import { statuses, statusActions, actions } from 'constants/user';
 import { useChangeClientStatusMutation } from '../graphql/__generated__/ChangeClientStatusMutation';

@@ -2,9 +2,8 @@ import { useEffect, useCallback } from 'react';
 import I18n from 'i18n-js';
 import { useParams } from 'react-router-dom';
 import { omit } from 'lodash';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, notify, LevelType } from '@crm/common';
 import { FileCategories } from 'types/fileCategories';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { useFilesCategoriesQuery } from '../graphql/__generated__/FilesCategoriesQuery';
 import { useTokenRefreshMutation } from '../graphql/__generated__/TokenRefreshMutation';
 import {

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useApolloClient } from '@apollo/client';
-import { useStorage } from 'providers/StorageProvider';
+import { useStorage } from '@crm/common';
 import { useLogoutMutation } from './graphql/__generated__/LogoutMutation';
 
 const useLogout = () => {

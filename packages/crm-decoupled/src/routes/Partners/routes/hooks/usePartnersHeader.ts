@@ -1,7 +1,5 @@
 import { useCallback } from 'react';
-import { Config } from '@crm/common';
-import { useModal } from 'providers/ModalProvider';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, usePermission, useModal } from '@crm/common';
 import CreatePartnerModal, { CreatePartnerModalProps } from 'modals/CreatePartnerModal';
 
 const usePartnersHeader = () => {

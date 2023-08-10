@@ -1,0 +1,10 @@
+fragment BranchInfoFragment on HierarchyBranch {
+  uuid
+  name
+  branchType
+  country
+  defaultUser
+  deskType
+  language
+  defaultBranch
+}

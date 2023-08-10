@@ -4,11 +4,8 @@ import I18n from 'i18n-js';
 import { intersectionWith, orderBy } from 'lodash';
 import Hotkeys from 'react-hot-keys';
 import moment from 'moment';
-import { Utils } from '@crm/common';
+import { Utils, parseErrors, notify, LevelType, useStorage } from '@crm/common';
 import { Button, Input } from 'components';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useStorage } from 'providers/StorageProvider';
 import {
   FormikCheckbox,
   FormikInputDecimalsField,

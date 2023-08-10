@@ -1,9 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Config, parseErrors, notify, LevelType } from '@crm/common';
 import Modal from 'components/Modal';
 import { useAddExistingOperatorMutation } from './graphql/__generated__/AddExistingOperatorMutation';
 

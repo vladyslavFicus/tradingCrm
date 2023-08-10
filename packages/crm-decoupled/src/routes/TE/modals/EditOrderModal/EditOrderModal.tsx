@@ -1,8 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
-import { Config } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, usePermission } from '@crm/common';
 import { OrderStatus } from 'types/trading-engine';
 import SymbolChart from 'components/SymbolChart';
 import ShortLoader from 'components/ShortLoader';

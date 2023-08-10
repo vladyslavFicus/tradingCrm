@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { RSocketClient, BufferEncoders } from 'rsocket-core';
 import RSocketWebsocketTransport from 'rsocket-websocket-client';
-import { Config } from '@crm/common';
-import { useStorage } from 'providers/StorageProvider';
+import { Config, useStorage } from '@crm/common';
 import RSocketReconnectableClient from '../lib/RSocketReconnectableClient';
 import { useTokenRefreshMutation } from './graphql/__generated__/TokenRefreshMutation';
 

@@ -1,9 +1,6 @@
 import { useCallback, useState } from 'react';
-import { Config } from '@crm/common';
+import { Config, useModal, usePermission, useLightbox } from '@crm/common';
 import { File } from '__generated__/types';
-import { useModal } from 'providers/ModalProvider';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useLightbox } from 'providers/LightboxProvider/useLightbox';
 import { DeleteFileModal, RenameFileModal } from 'modals/FileModals';
 import { DeleteFileModalProps } from 'modals/FileModals/DeleteFileModal';
 import { RenameFileModalProps } from 'modals/FileModals/RenameFileModal';

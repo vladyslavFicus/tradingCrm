@@ -2,13 +2,12 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, notify, LevelType } from '@crm/common';
 import { Button } from 'components';
 import {
   Commission__Type__Enum as GroupCommissionType,
   Commission__Lots__Enum as GroupCommissionLots,
 } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField, FormikSelectField, FormikCheckbox } from 'components/Formik';
 import {
   GroupSecurity, LotMin, LotMax, LotStep,

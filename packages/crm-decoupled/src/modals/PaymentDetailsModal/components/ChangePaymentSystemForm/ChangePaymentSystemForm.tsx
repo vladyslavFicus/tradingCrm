@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, LevelType, notify } from '@crm/common';
 import { Button } from 'components';
-import { LevelType, notify } from 'providers/NotificationProvider';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { SetFieldValue } from 'types/formik';
 import { useUpdatePaymentSystemMutation } from './graphql/__generated__/UpdatePaymentSystemMutation';

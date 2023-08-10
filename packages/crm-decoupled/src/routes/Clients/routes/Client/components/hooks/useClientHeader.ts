@@ -1,11 +1,7 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, useModal, LevelType, notify, usePermission, parseErrors } from '@crm/common';
 import { LoginLock } from '__generated__/types';
-import { parseErrors } from 'apollo';
-import { LevelType, notify } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import CreateClientCallbackModal, { CreateClientCallbackModalProps } from 'modals/CreateClientCallbackModal';
 import ChangePasswordModal, { ChangePasswordModalProps, FormValues } from 'modals/ChangePasswordModal';

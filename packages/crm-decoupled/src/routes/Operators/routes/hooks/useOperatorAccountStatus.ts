@@ -1,10 +1,7 @@
 import { ReactNode, useCallback, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, useModal, LevelType, notify, usePermission } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { useModal } from 'providers/ModalProvider';
-import { LevelType, notify } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import ChangeAccountStatusModal, { ChangeAccountStatusModalProps, FormValues } from 'modals/ChangeAccountStatusModal';
 import { StatusAction, statusActions, statuses } from 'constants/operators';
 import { useOperatorRelationsCountQuery } from '../graphql/__generated__/OperatorRelationsCountQuery';

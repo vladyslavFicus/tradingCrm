@@ -3,6 +3,7 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { UncontrolledTooltip } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
+import { LevelType } from '@crm/common';
 import { Button } from 'components';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
@@ -15,7 +16,6 @@ import CopyToClipboard from 'components/CopyToClipboard';
 import Click2Call from 'components/Click2Call';
 import Sms from 'components/Sms';
 import { PersonalInformationItem } from 'components/Information';
-import { LevelType } from 'providers/NotificationProvider';
 import useClientPersonalInfo from 'routes/Clients/routes/Client/components/hooks/useClientPersonalInfo';
 import './ClientPersonalInfo.scss';
 

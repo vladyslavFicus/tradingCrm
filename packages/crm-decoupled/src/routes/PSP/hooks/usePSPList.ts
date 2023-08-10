@@ -1,10 +1,9 @@
 import { useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Config } from '@crm/common';
+import { Config, usePermission } from '@crm/common';
 import { PaymentSystemProvider } from '__generated__/types';
 import { Sort, State } from 'types';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
-import { usePermission } from 'providers/PermissionsProvider';
 import {
   PaymentSystemsProviderQueryVariables,
   usePaymentSystemsProviderQuery,

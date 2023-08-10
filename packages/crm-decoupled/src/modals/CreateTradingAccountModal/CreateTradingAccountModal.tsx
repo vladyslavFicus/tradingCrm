@@ -1,10 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Config, Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
+import { Config, Utils, parseErrors, notify, LevelType } from '@crm/common';
 import { SetFieldValue } from 'types/formik';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { attributeLabels, amounts } from './constants';

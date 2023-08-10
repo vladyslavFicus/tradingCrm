@@ -1,9 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { notify, LevelType } from '@crm/common';
 import { LeadCallback } from '__generated__/types';
 import Modal from 'components/Modal';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { useDeleteLeadCallbackMutation } from './graphql/__generated__/DeleteLeadCallbackMutation';
 
 export type Props = {

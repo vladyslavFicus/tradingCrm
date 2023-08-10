@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { notify, LevelType } from '@crm/common';
 import { ClientCallback } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import Modal from 'components/Modal';
 import { useDeleteClientCallbackMutation } from './graphql/__generated__/DeleteClientCallbackMutation';
 

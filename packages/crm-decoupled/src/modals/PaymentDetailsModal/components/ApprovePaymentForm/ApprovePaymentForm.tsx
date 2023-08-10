@@ -1,10 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, parseErrors, notify, LevelType } from '@crm/common';
 import { Button } from 'components';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField } from 'components/Formik';
 import { manualPaymentMethods, manualPaymentMethodsLabels } from 'constants/payment';
 import { useApprovePaymentMutation } from './graphql/__generated__/ApprovePaymentMutation';

@@ -1,8 +1,6 @@
 import React, { Suspense } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { Config } from '@crm/common';
-import ModalProvider from 'providers/ModalProvider';
-import { useStorageState, Auth } from 'providers/StorageProvider';
+import { Config, ModalProvider, useStorageState, Auth } from '@crm/common';
 import './UnauthorizedLayout.scss';
 
 type Props = {

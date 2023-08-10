@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Formik, Form, FormikProps } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { Utils } from '@crm/common';
+import { Utils, notify, LevelType, parseErrors } from '@crm/common';
 import { Button } from 'components';
 import I18n from 'i18n';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { decodeNullValues } from 'components/Formik/utils';
 import { LotMax, LotMin, LotStep } from 'routes/TE/routes/Groups/types';
 import { DayOfWeek, SymbolType, SwapType, FormValues } from '../../types';

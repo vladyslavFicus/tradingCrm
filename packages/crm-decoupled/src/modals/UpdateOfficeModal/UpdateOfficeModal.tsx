@@ -1,13 +1,11 @@
 import React from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
+import { Utils, parseErrors, notify, LevelType } from '@crm/common';
 import { HierarchyBranch } from '__generated__/types';
-import { parseErrors } from 'apollo';
 
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { useUpdateOfficeMutation } from './graphql/__generated__/UpdateOfficeMutation';
 import { attributeLabels } from './constants';
 

@@ -1,9 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, notify, LevelType } from '@crm/common';
 import { DocumentFile } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useUpdateDocumentMutation } from './graphql/__generated__/UpdateDocumentMutation';

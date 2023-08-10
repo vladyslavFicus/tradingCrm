@@ -1,10 +1,8 @@
 import { useCallback } from 'react';
-import { Config } from '@crm/common';
+import { Config, usePermission, useModal } from '@crm/common';
 import { HierarchyBranch } from '__generated__/types';
-import { usePermission } from 'providers/PermissionsProvider';
 import DeleteBranchModal, { DeleteBranchModalProps } from 'modals/DeleteBranchModal';
 import UpdateDeskModal, { UpdateDeskModalProps } from 'modals/UpdateDeskModal';
-import { useModal } from 'providers/ModalProvider';
 
 type UseDesksGrid = {
   isAllowUpdateBranch: boolean,

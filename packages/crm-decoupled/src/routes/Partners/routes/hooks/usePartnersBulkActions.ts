@@ -1,11 +1,8 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, usePermission, useModal, LevelType, notify } from '@crm/common';
 import { State } from 'types';
-import { LevelType, notify } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
 import ChangeAccountStatusModal, { ChangeAccountStatusModalProps } from 'modals/ChangeAccountStatusModal';
 import RestrictedCountriesModal, {
   RestrictedCountriesModalProps,

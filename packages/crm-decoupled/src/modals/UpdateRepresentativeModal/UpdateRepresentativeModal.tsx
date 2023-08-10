@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { intersection, sortBy } from 'lodash';
 import { Formik, Field, Form } from 'formik';
-import { Config } from '@crm/common';
+import { Config, notify, LevelType } from '@crm/common';
 import {
   AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
   ClientSearch__Input as ClientSearch,
@@ -10,7 +10,6 @@ import {
 } from '__generated__/types';
 import { Sorts } from 'types';
 import { SetFieldValue } from 'types/formik';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';

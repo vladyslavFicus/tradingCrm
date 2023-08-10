@@ -1,9 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, notify, LevelType, usePermission } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { usePermission } from 'providers/PermissionsProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { useClickToCallConfigQuery, ClickToCallConfigQuery } from '../graphql/__generated__/ClickToCallConfigQuery';
 import { useUpdateOperatorMutation } from '../graphql/__generated__/UpdateOperatorMutation';
 

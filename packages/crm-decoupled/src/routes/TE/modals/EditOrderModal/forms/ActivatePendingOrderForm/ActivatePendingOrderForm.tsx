@@ -1,11 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, parseErrors, notify, LevelType, useModal } from '@crm/common';
 import { Button } from 'components';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { FormikInputDecimalsField, FormikInputField } from 'components/Formik';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';

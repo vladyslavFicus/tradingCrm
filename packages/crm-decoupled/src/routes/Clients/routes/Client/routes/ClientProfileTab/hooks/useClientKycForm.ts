@@ -1,10 +1,7 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, parseErrors, notify, LevelType, usePermission } from '@crm/common';
 import { Profile } from '__generated__/types';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import { useUpdateClientKycMutation } from '../graphql/__generated__/UpdateClientKycMutation';
 
 type FormValues = {

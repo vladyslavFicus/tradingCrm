@@ -3,13 +3,12 @@ import { v4 } from 'uuid';
 import I18n from 'i18n-js';
 import jwtDecode from 'jwt-decode';
 import { debounce } from 'lodash';
+import { useStorageState, LevelType, notify } from '@crm/common';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
   ClickToCall__Customer__Type__Enum as CustomerType,
   ClickToCall__CallSystem__Enum as CallSystem,
 } from '__generated__/types';
-import { useStorageState } from 'providers/StorageProvider';
-import { LevelType, notify } from 'providers/NotificationProvider';
 import { useClickToCallConfigsQuery } from '../graphql/__generated__/ClickToCallConfigsQuery';
 import { useDidLogicCreateCallMutation } from '../graphql/__generated__/DidlogicCreateCall';
 import { useNewtelCreateCallMutation } from '../graphql/__generated__/NewtelCreateCall';

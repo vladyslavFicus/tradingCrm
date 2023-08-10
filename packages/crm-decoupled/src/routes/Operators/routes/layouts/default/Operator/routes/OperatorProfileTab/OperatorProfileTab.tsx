@@ -1,6 +1,6 @@
 import React from 'react';
+import { useStorageState, Auth } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { useStorageState, Auth } from 'providers/StorageProvider';
 import OperatorPersonal from './components/OperatorPersonal';
 import OperatorDepartments from './components/OperatorDepartments';
 import OperatorHierarchy from './components/OperatorHierarchy';

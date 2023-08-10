@@ -1,10 +1,8 @@
 import React from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
+import { Utils, parseErrors, notify, LevelType } from '@crm/common';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import Modal from 'components/Modal';
 import { useCreateOfficeMutation } from './graphql/__generated__/CreateOfficeMutation';
 

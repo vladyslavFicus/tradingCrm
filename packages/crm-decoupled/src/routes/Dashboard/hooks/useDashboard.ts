@@ -1,8 +1,6 @@
-import { Config } from '@crm/common';
+import { Config, useStorageState, Brand, usePermission } from '@crm/common';
 import { Widget } from 'types/config';
 import { Permission } from 'types/permissions';
-import { useStorageState, Brand } from 'providers/StorageProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 
 type UseDashboard = {
   id: string,

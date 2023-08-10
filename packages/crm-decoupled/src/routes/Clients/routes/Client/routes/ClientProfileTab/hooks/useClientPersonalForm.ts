@@ -1,10 +1,7 @@
 import I18n from 'i18n-js';
 import { useCallback } from 'react';
-import { Config } from '@crm/common';
+import { Config, parseErrors, notify, LevelType, usePermission } from '@crm/common';
 import { Profile } from '__generated__/types';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import { decodeNullValues } from 'components/Formik/utils';
 import { useUpdateClientPersonalMutation } from '../graphql/__generated__/UpdateClientPersonalMutation';
 

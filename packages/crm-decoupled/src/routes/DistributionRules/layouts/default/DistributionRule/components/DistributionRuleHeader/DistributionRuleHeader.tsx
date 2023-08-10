@@ -1,7 +1,7 @@
 import React from 'react';
+import { useModal } from '@crm/common';
 import { EditButton } from 'components';
 import Uuid from 'components/Uuid';
-import { useModal } from 'providers/ModalProvider';
 import UpdateDistributionRuleModal, { UpdateDistributionRuleModalProps } from 'modals/UpdateDistributionRuleModal';
 import { DistributionRuleType } from 'routes/DistributionRules/hooks/useDistributionRule';
 import './DistributionRuleHeader.scss';

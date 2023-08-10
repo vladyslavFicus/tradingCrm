@@ -147,6 +147,7 @@ module.exports = {
   globals: {
     ExtractApolloTypeFromArray: false,
     ExtractApolloTypeFromPageable: false,
+    NodeJS: true,
   },
   settings: {
     'import/parsers': {

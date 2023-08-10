@@ -1,11 +1,9 @@
 import { useCallback, useMemo } from 'react';
 import I18n from 'i18n-js';
 import { v4 } from 'uuid';
+import { parseErrors, notify, useModal } from '@crm/common';
 import { PlatformType__Enum as PlatformType } from '__generated__/types';
 import { LevelType } from 'types';
-import { parseErrors } from 'apollo';
-import { notify } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { FormValues } from '../types/featureForm';
 import { useBrandConfigQuery } from '../graphql/__generated__/BrandConfigQuery';

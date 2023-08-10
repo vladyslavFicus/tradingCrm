@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import Preloader from 'components/Preloader';
+import { Preloader } from 'components';
 import { BrandToAuthorities } from '../../__generated__/types';
 import useBrands from './hooks/useBrands';
 import { BrandsList, DepartmentsList } from './layouts';

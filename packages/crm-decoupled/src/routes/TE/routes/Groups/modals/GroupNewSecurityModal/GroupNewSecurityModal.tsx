@@ -3,9 +3,8 @@ import I18n from 'i18n-js';
 import { differenceWith } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikProps } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, notify, LevelType } from '@crm/common';
 import { Button } from 'components';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import ShortLoader from 'components/ShortLoader';
 import { FormikSelectField } from 'components/Formik';
 import {

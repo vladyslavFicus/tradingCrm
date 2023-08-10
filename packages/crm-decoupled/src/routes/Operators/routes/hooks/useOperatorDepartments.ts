@@ -1,10 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
-import { Config } from '@crm/common';
+import { Config, notify, LevelType, usePermission } from '@crm/common';
 import { Authority, Operator } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import { unAvailableDepartments } from 'routes/Operators/constants';
 import { useAddAuthorityMutation } from '../graphql/__generated__/AddAuthorityMutation';
 import { useRemoveAuthorityMutation } from '../graphql/__generated__/RemoveAuthorityMutation';

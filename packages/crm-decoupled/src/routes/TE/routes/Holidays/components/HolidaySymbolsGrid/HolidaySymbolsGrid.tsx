@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import I18n from 'i18n-js';
 import { FormikProps } from 'formik';
+import { useModal } from '@crm/common';
 import { Button, TrashButton, CircleLoader } from 'components';
-import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import HolidayNewSymbolModal, { HolidayNewSymbolModalProps } from '../../modals/HolidayNewSymbolModal';

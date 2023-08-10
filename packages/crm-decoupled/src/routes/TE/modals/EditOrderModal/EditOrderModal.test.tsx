@@ -9,11 +9,8 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { Config } from '@crm/common';
-import MockedApolloProvider from 'apollo/MockedApolloProvider';
+import { Config, MockedPermissionProvider, StorageProvider, MockedApolloProvider } from '@crm/common';
 import { OrderType } from 'types/trading-engine';
-import { MockedPermissionProvider } from 'providers/PermissionsProvider';
-import StorageProvider from 'providers/StorageProvider';
 import CoreLayout from 'layouts/CoreLayout';
 import { MockedRSocketProvider } from 'rsocket';
 import { OrderQueryDocument } from './graphql/__generated__/OrderQuery';

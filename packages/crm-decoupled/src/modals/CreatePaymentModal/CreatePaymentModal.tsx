@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
+import { parseErrors, notify, LevelType, usePermission } from '@crm/common';
 import { PaymentMutationCreatePaymentArgs as PaymentValues, Profile, TradingAccount } from '__generated__/types';
-import { parseErrors } from 'apollo';
 import { EditNote } from 'types/Note';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import { targetTypes } from 'constants/note';
 import {
   commissionCurrencies,

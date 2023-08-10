@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { Config, Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
+import { Config, Utils, parseErrors, usePermission } from '@crm/common';
 import ShortLoader from 'components/ShortLoader';
-import { usePermission } from 'providers/PermissionsProvider';
 import { statuses } from 'constants/user';
 import {
   MiniProfile,

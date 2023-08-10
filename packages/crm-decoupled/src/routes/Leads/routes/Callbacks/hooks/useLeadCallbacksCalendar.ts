@@ -1,14 +1,14 @@
 import { useCallback } from 'react';
 import moment from 'moment';
+import { useModal } from '@crm/common';
 import { CommonCallback } from 'types/common';
 import { LeadCallback } from '__generated__/types';
-import { useModal } from 'providers/ModalProvider';
-import { Event, Range } from 'constants/calendar';
-import { CallbackType } from 'constants/callbacks';
 import UpdateLeadCallbackModal, { UpdateLeadCallbackModalProps } from 'modals/UpdateLeadCallbackModal';
 import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
 import useCalendar from 'components/Calendar/hooks/useCalendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
+import { CallbackType } from 'constants/callbacks';
+import { Event, Range } from 'constants/calendar';
 import { useLeadCallbacksCalendarListQuery } from '../graphql/__generated__/LeadCallbacksCalendarListQuery';
 
 const useLeadCallbacksCalendar = () => {

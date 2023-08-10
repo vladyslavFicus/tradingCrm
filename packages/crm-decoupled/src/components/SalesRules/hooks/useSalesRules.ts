@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, useModal, LevelType, notify, usePermission } from '@crm/common';
 import { Operator, Partner, Rule } from '__generated__/types';
 import { State } from 'types';
 import { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
@@ -10,9 +10,6 @@ import { CreateRuleModalProps } from 'modals/CreateRuleModal';
 import CreateRuleModal from 'modals/CreateRuleModal/CreateRuleModal';
 import { UpdateRuleModalProps } from 'modals/UpdateRuleModal';
 import UpdateRuleModal from 'modals/UpdateRuleModal/UpdateRuleModal';
-import { useModal } from 'providers/ModalProvider';
-import { LevelType, notify } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import { OPERATORS_SORT } from '../constants';
 import { useDeleteRule } from '../graphql/__generated__/DeleteRuleMutation';
 import { RulesQueryVariables, useRulesQuery } from '../graphql/__generated__/RulesQuery';

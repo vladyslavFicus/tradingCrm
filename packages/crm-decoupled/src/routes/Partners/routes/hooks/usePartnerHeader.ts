@@ -1,11 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, useModal, usePermission, notify, LevelType, parseErrors } from '@crm/common';
 import { Partner } from '__generated__/types';
-import { parseErrors } from 'apollo';
-import { useModal } from 'providers/ModalProvider';
-import { usePermission } from 'providers/PermissionsProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import ChangePasswordModal, { ChangePasswordModalProps } from 'modals/ChangePasswordModal';
 import { usePartnerLockStatusQuery } from '../graphql/__generated__/PartnerLockStatusQuery';
 import { useChangePartnerPasswordMutation } from '../graphql/__generated__/ChangePartnerPasswordMutation';

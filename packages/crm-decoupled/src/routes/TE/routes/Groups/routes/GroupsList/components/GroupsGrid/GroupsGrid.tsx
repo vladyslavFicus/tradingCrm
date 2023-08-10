@@ -1,14 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Config } from '@crm/common';
+import { Config, notify, LevelType, useModal, usePermission, parseErrors } from '@crm/common';
 import { Button, TrashButton } from 'components';
-import { parseErrors } from 'apollo';
 import { State, Sort } from 'types';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
-import { useModal } from 'providers/ModalProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
 import { GroupsQueryQueryResult, GroupsQuery, GroupsQueryVariables } from '../../graphql/__generated__/GroupsQuery';

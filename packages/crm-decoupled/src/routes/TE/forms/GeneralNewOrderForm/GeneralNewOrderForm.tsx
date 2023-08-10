@@ -3,12 +3,9 @@ import { Field, Form, Formik, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
 import { orderBy, intersectionWith } from 'lodash';
 import Hotkeys from 'react-hot-keys';
-import { Utils } from '@crm/common';
+import { Utils, parseErrors, notify, LevelType, useStorage } from '@crm/common';
 import { Button, Input } from 'components';
 import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useStorage } from 'providers/StorageProvider';
 import {
   FormikCheckbox,
   FormikInputDecimalsField,

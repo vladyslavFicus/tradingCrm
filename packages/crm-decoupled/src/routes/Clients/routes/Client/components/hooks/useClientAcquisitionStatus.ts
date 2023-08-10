@@ -1,10 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, useStorageState, Auth, usePermission, useModal } from '@crm/common';
 import { Profile, AcquisitionStatusTypes__Enum as AcquisitionStatusEnum } from '__generated__/types';
-import { useStorageState, Auth } from 'providers/StorageProvider';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
 import UpdateRepresentativeModal, { UpdateRepresentativeModalProps } from 'modals/UpdateRepresentativeModal';
 import { salesStatusesColor, salesStatuses } from 'constants/salesStatuses';
 import { retentionStatusesColor, retentionStatuses } from 'constants/retentionStatuses';

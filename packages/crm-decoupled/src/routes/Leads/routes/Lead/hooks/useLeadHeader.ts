@@ -1,8 +1,6 @@
 import { useCallback } from 'react';
-import { Config } from '@crm/common';
+import { Config, usePermission, useModal } from '@crm/common';
 import { Lead } from '__generated__/types';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
 import CreateLeadCallbackModal, { CreateLeadCallbackModalProps } from 'modals/CreateLeadCallbackModal';
 import PromoteLeadModal, { PromoteLeadModalProps } from 'modals/PromoteLeadModal';
 

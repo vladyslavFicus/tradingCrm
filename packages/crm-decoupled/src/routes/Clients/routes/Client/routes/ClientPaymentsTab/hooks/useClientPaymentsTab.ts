@@ -1,12 +1,10 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set, compact } from 'lodash';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, useModal, usePermission } from '@crm/common';
 import { Profile, Sort__Input as Sort } from '__generated__/types';
 import { State } from 'types';
-import { useModal } from 'providers/ModalProvider';
 import CreatePaymentModal, { CreatePaymentModalProps } from 'modals/CreatePaymentModal';
-import { usePermission } from 'providers/PermissionsProvider';
 import { statusMapper, statuses } from 'constants/payment';
 import { usePaymentsQuery, PaymentsQueryVariables } from '../graphql/__generated__/PaymentsQuery';
 import { useProfileQuery } from '../graphql/__generated__/ProfileQuery';

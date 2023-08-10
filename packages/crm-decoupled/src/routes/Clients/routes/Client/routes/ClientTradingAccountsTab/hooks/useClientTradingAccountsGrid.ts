@@ -1,9 +1,6 @@
 import { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config, Utils } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
+import { Config, Utils, usePermission, notify, LevelType, useModal } from '@crm/common';
 import UpdateTradingAccountModal, { UpdateTradingAccountModalProps } from 'modals/UpdateTradingAccountModal';
 import UpdateLeverageModal, { UpdateLeverageModalProps } from 'modals/UpdateLeverageModal';
 import UpdateTradingAccountPasswordModal, {

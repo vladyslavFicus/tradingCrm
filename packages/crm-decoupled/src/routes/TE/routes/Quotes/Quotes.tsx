@@ -1,15 +1,13 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { useLocation } from 'react-router-dom';
-import { Config } from '@crm/common';
+import { Config, notify, LevelType, usePermission } from '@crm/common';
 import { Button } from 'components';
 import { State } from 'types';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import { maxSelectedFavortieSymbols, tradingEngineTabs } from 'routes/TE/constants';
 import { useSymbolsPricesStream } from 'routes/TE/components/SymbolsPricesStream';
-import { usePermission } from 'providers/PermissionsProvider';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import { ReactComponent as FavoriteStarIcon } from './icons/favorites-star.svg';
 import QuotesFilter from './components/QuotesFilter/QuotesFilter';

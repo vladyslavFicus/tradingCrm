@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
+import { notify, LevelType, useModal } from '@crm/common';
 import { DistributionRule } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { useDistributionRuleMigrationMutation } from '../graphql/__generated__/DistributionRuleMigrationMutation';
 import {

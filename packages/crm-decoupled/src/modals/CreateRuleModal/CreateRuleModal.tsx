@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, parseErrors, notify, LevelType } from '@crm/common';
 import { Button } from 'components';
 import {
   Operator,
@@ -10,8 +10,6 @@ import {
   RuleOperatorSpread__Input as OperatorSpread,
   AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
 } from '__generated__/types';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { ruleTypes, priorities } from 'constants/rules';
 import { attributeLabels, customErrors } from 'constants/ruleModal';
 

@@ -1,9 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { useNavigate } from 'react-router-dom';
-import { Config } from '@crm/common';
+import { Config, usePermission } from '@crm/common';
 import { Button } from 'components';
-import { usePermission } from 'providers/PermissionsProvider';
 import Placeholder from 'components/Placeholder';
 import { GroupsQueryQueryResult } from '../../graphql/__generated__/GroupsQuery';
 import './GroupsHeader.scss';

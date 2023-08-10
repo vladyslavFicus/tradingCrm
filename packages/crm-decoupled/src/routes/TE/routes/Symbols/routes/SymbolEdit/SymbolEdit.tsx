@@ -1,16 +1,13 @@
 import React from 'react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { useParams } from 'react-router-dom';
-import { Utils } from '@crm/common';
+import { Utils, notify, LevelType, useModal, parseErrors } from '@crm/common';
 import { Button } from 'components';
 import I18n from 'i18n';
-import { parseErrors } from 'apollo';
 import ShortLoader from 'components/ShortLoader';
 import NotFound from 'routes/NotFound';
 import { decodeNullValues } from 'components/Formik/utils';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
 import { LotMax, LotMin, LotStep } from 'routes/TE/routes/Groups/types';
 import SymbolSettings from '../../components/SymbolSettings';
 import CalculationSettings from '../../components/CalculationSettings';

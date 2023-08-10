@@ -3,6 +3,7 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import moment from 'moment';
 import { Config, Utils } from '@crm/common';
+import { LastWithdrawalDepositFragment as TableCell } from 'fragments/__generated__/lastWithdrawalDeposit';
 import { Table, Column } from 'components/Table';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import GridPlayerInfo from 'components/GridPlayerInfo';
@@ -10,7 +11,6 @@ import Uuid from 'components/Uuid';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PaymentStatus from 'components/PaymentStatus';
-import { LastWithdrawalDepositFragment as TableCell } from 'apollo/fragments/__generated__/lastWithdrawalDeposit';
 import { aggregatorsLabels, tradingTypes, tradingTypesLabels } from 'constants/payment';
 import './DashboardPaymentsGrid.scss';
 

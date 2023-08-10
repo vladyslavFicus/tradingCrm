@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useStorage, useStorageState } from 'providers/StorageProvider';
+import { useStorage, useStorageState } from '@crm/common';
 
 /**
  * hook to use idle timer inside components

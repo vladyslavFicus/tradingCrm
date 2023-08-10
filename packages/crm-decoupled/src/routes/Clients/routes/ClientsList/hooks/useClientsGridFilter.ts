@@ -2,10 +2,8 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, useLocation, useNavigationType } from 'react-router-dom';
 import { intersection, sortBy } from 'lodash';
 import Trackify from '@hrzn/trackify';
-import { Config } from '@crm/common';
+import { Config, useStorage, Auth, usePermission } from '@crm/common';
 import usePrevious from 'hooks/usePrevious';
-import { useStorage, Auth } from 'providers/StorageProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import { State } from 'types';
 import {
   PARTNERS_SORT,

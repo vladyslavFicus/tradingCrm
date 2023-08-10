@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { parseErrors, notify, LevelType } from '@crm/common';
 import Modal from 'components/Modal';
 import { useDeleteBranchMutation } from './graphql/__generated__/DeleteBranchMutation';
 import './DeleteBranchModal.scss';

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Config } from '@crm/common';
+import { Config, useStorage } from '@crm/common';
+import { UpdateVersionError } from 'components';
 import IndexRoute from 'routes/IndexRoute';
-import UpdateVersionError from 'components/UpdateVersionError';
-import { useStorage } from 'providers/StorageProvider';
 
 const App = () => {
   const [isUpdateVersionError, setIsUpdateVersionError] = useState(false);

@@ -1,14 +1,16 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import classNames from 'classnames';
-import { Config } from '@crm/common';
+import {
+  Config,
+  AutoLogoutProvider,
+  ConfigProvider,
+  useStorageState, Auth,
+  PermissionProvider,
+  ModalProvider,
+  LightboxProvider,
+} from '@crm/common';
 import RSocketProvider from 'rsocket';
-import AutoLogoutProvider from 'providers/AutoLogoutProvider';
-import ConfigProvider from 'providers/ConfigProvider';
-import { useStorageState, Auth } from 'providers/StorageProvider';
-import PermissionProvider from 'providers/PermissionsProvider';
-import ModalProvider from 'providers/ModalProvider';
-import LightboxProvider from 'providers/LightboxProvider/LightboxProvider';
 import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
 import BackToTop from 'components/BackToTop';

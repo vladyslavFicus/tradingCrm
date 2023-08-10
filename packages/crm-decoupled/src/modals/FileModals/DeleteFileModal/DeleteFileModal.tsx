@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { LevelType, notify } from '@crm/common';
 import { File } from '__generated__/types';
-import { LevelType, notify } from 'providers/NotificationProvider';
 import Modal from 'components/Modal';
 import { useDeleteFileMutation } from './graphql/__generated__/DeleteFileMutation';
 import './DeleteFileModal.scss';

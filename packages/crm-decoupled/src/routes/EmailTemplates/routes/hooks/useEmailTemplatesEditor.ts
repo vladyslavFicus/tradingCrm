@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { notify, LevelType } from '@crm/common';
 import { EmailTemplateQuery, useEmailTemplateQuery } from '../graphql/__generated__/EmailTemplateQuery';
 import { useEmailTemplateUpdateMutation } from '../graphql/__generated__/EmailTemplateUpdateMutation';
 

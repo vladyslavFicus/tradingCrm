@@ -1,9 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, notify, LevelType, usePermission } from '@crm/common';
 import { EmailTemplatesQuery, useEmailTemplatesQuery } from '../graphql/__generated__/EmailTemplatesQuery';
 import { useEmailTemplateDeleteMutation } from '../graphql/__generated__/EmailTemplateDeleteMutation';
 

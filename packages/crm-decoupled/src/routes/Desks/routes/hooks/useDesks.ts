@@ -1,9 +1,7 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Config } from '@crm/common';
+import { Config, usePermission, useModal } from '@crm/common';
 import { State } from 'types';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
 import CreateDeskModal, { CreateDeskModalProps } from 'modals/CreateDeskModal';
 import { useDesksListQuery, DesksListQueryVariables, DesksListQuery } from '../graphql/__generated__/DesksListQuery';
 

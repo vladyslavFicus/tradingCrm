@@ -5,6 +5,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { Config, Utils } from '@crm/common';
 import { Payment as PaymentInfo, Sort__Input as Sort } from '__generated__/types';
+import { PaymentFragment as Payment } from 'fragments/__generated__/Payment';
 import { NoteEntity } from 'types/Note';
 import { AdjustableTable, Column } from 'components/Table';
 import GridPaymentInfo from 'components/GridPaymentInfo';
@@ -15,7 +16,6 @@ import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import usePaymentsListGrid from 'components/PaymentsListGrid/hooks/usePaymentsListGrid';
 import PaymentStatus from 'components/PaymentStatus';
 import NoteAction from 'components/Note/NoteAction';
-import { PaymentFragment as Payment } from 'apollo/fragments/__generated__/Payment';
 import {
   aggregatorsLabels,
   tradingTypes,
