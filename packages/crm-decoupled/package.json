@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run schema && concurrently -k \"npm:codegen -- --watch\" \"craco start\"",
-    "build": "npm run codegen & craco build",
+    "build": "craco build",
     "test": "craco test",
     "test:jenkins": "echo no jenkins test",
     "sentry-release": "node ../../docker/scripts/sentry.js",
