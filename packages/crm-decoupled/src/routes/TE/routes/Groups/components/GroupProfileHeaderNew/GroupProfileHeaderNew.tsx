@@ -52,9 +52,10 @@ const GroupProfileHeaderNew = (props: Props) => {
           <span className="GroupProfileHeaderNew__select-label">
             {I18n.t('TRADING_ENGINE.GROUP.TEMPLATES')}
           </span>
+
+          {/* @ts-ignore */}
           <Select
             // Required because the Select component is not the TS component and doesn't support typing
-            // @ts-ignore
             disabled={groupTemplates.loading}
             onChange={onChangeHandler}
             value={templateNameGroup}

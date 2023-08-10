@@ -96,8 +96,8 @@ const FileGrid = (props: Props) => {
               {I18n.t('FILES.CHANGE_VERIFICATION_STATUS')}:
             </span>
 
+            {/* @ts-ignore Select component write by js */}
             <Select
-              // @ts-ignore Select component write by js
               value={selectedVerificationStatus || verificationStatus || ''}
               customClassName="FileGrid__header-status-dropdown"
               data-testid="FileGrid-statusesCategorySelect"

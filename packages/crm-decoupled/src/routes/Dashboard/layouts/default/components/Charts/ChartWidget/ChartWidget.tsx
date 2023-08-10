@@ -81,9 +81,9 @@ const ChartWidget = (props: Props) => {
             </Otherwise>
           </Choose>
 
+          {/* @ts-ignore */}
           <Select
             // Required because the Select component is not the TS component and doesn't support typing
-            // @ts-ignore
             value={selectOption}
             customClassName="ChartWidget__select"
             onChange={handleSelectChange}
