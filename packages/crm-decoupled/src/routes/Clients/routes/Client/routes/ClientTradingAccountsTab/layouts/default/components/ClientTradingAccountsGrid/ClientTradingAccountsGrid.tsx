@@ -3,10 +3,9 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { Utils, withStreams } from '@crm/common';
+import { Utils, withStreams, Constants } from '@crm/common';
 import { Button, CircleLoader } from 'components';
 import { TradingAccount } from '__generated__/types';
-import { accountTypesLabels, leverageStatuses } from 'constants/accountTypes';
 import Link from 'components/Link';
 import { AdjustableTable, Column } from 'components/Table';
 import ActionsDropDown from 'components/ActionsDropDown';
@@ -56,7 +55,7 @@ const ClientTradingAccountsGrid = (props: Props) => {
     ({ accountUUID, name, accountType, platformType, archived }: TradingAccount) => (
       <>
         <Badge
-          text={I18n.t(archived ? 'CONSTANTS.ARCHIVED' : accountTypesLabels[accountType].label)}
+          text={I18n.t(archived ? 'CONSTANTS.ARCHIVED' : Constants.accountTypesLabels[accountType].label)}
           info={accountType === 'DEMO' && !archived}
           success={accountType === 'LIVE' && !archived}
           danger={!!archived}
@@ -183,11 +182,12 @@ const ClientTradingAccountsGrid = (props: Props) => {
               'ClientTradingAccountsGrid__cell-main--upper',
               'ClientTradingAccountsGrid__leverage-status',
               {
-                'ClientTradingAccountsGrid__leverage-status--pending': status === leverageStatuses.PENDING,
-                'ClientTradingAccountsGrid__leverage-status--completed': status === leverageStatuses.COMPLETED,
-                'ClientTradingAccountsGrid__leverage-status--canceled': status === leverageStatuses.CANCELED,
-                'ClientTradingAccountsGrid__leverage-status--rejected': status === leverageStatuses.REJECTED,
-                'ClientTradingAccountsGrid__leverage-status--failed': status === leverageStatuses.FAILED,
+                'ClientTradingAccountsGrid__leverage-status--pending': status === Constants.leverageStatuses.PENDING,
+                'ClientTradingAccountsGrid__leverage-status--completed':
+                  status === Constants.leverageStatuses.COMPLETED,
+                'ClientTradingAccountsGrid__leverage-status--canceled': status === Constants.leverageStatuses.CANCELED,
+                'ClientTradingAccountsGrid__leverage-status--rejected': status === Constants.leverageStatuses.REJECTED,
+                'ClientTradingAccountsGrid__leverage-status--failed': status === Constants.leverageStatuses.FAILED,
               },
             )
           }

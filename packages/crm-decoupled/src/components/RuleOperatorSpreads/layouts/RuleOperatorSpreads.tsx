@@ -1,9 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field, FieldArray } from 'formik';
+import { Constants } from '@crm/common';
 import { TrashButton } from 'components';
 import { Operator, RuleOperatorSpread__Input as RuleOperatorSpread } from '__generated__/types';
-import { attributeLabels } from 'constants/ruleModal';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import useRuleOperatorSpreads from '../hooks/useRuleOperatorSpreads';
 import './RuleOperatorSpreads.scss';
@@ -42,8 +42,8 @@ const RuleOperatorSpreads = (props: Props) => {
         render={() => (
           <>
             <div className="RuleOperatorSpreads__spread">
-              <div className="RuleOperatorSpreads__label">{I18n.t(attributeLabels.operator)}</div>
-              <div className="RuleOperatorSpreads__label">{I18n.t(attributeLabels.ratio)}</div>
+              <div className="RuleOperatorSpreads__label">{I18n.t(Constants.ruleAttributeLabels.operator)}</div>
+              <div className="RuleOperatorSpreads__label">{I18n.t(Constants.ruleAttributeLabels.ratio)}</div>
             </div>
 
             {[...operatorSpreads, ''].map((_, index) => (

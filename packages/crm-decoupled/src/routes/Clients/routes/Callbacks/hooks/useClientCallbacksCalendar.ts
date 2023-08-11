@@ -1,13 +1,11 @@
 import { useCallback } from 'react';
 import moment from 'moment';
-import { Types, useModal } from '@crm/common';
+import { Types, Constants, useModal } from '@crm/common';
 import { ClientCallback } from '__generated__/types';
 import UpdateClientCallbackModal, { UpdateClientCallbackModalProps } from 'modals/UpdateClientCallbackModal';
 import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import useCalendar from 'components/Calendar/hooks/useCalendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
-import { CallbackType } from 'constants/callbacks';
-import { Event, Range } from 'constants/calendar';
 import { useClientCallbacksCalendarListQuery } from '../graphql/__generated__/ClientCallbacksCalendarListQuery';
 
 const useClientCallbacksCalendar = () => {
@@ -36,17 +34,17 @@ const useClientCallbacksCalendar = () => {
 
   const getCalendarEvents = (
     callbacks: Array<ClientCallback>,
-  ): Array<Event<ClientCallback>> => callbacks.map(callback => ({
+  ): Array<Types.Event<ClientCallback>> => callbacks.map(callback => ({
     title: `${moment.utc(callback.callbackTime)
       .local().format('HH:mm')} ${callback.client && callback.client.fullName}`,
     start: moment.utc(callback.callbackTime).toDate(),
     end: moment.utc(callback.callbackTime).toDate(),
     callback,
-    callbackType: CallbackType.CLIENT,
+    callbackType: Constants.CallbackType.CLIENT,
   }));
 
   // ===== Handlers ===== //
-  const handleRangeChanged = useCallback((range: Range) => {
+  const handleRangeChanged = useCallback((range: Types.Range) => {
     const { start, end } = range;
 
     refetch({ callbackTimeFrom: String(start), callbackTimeTo: String(end) });
@@ -57,7 +55,7 @@ const useClientCallbacksCalendar = () => {
     refetch();
   }, [updateClientCallbackModal, refetch]);
 
-  const handleOpenUpdateModal = useCallback(({ callback }: Event<Types.CommonCallback>) => {
+  const handleOpenUpdateModal = useCallback(({ callback }: Types.Event<Types.CommonCallback>) => {
     const { callbackId } = callback;
 
     updateClientCallbackModal.show({

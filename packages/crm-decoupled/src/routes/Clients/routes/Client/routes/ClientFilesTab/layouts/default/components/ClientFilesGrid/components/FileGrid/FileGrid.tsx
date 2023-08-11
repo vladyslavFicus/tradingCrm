@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { Utils, Types } from '@crm/common';
+import { Utils, Types, Constants } from '@crm/common';
 import { EditButton, DownloadButton, TrashButton } from 'components';
 import { File } from '__generated__/types';
 import { Table, Column } from 'components/Table';
@@ -15,7 +15,6 @@ import NoteAction from 'components/Note/NoteAction';
 import { TokenRefreshMutationMutationFn }
   from 'routes/Clients/routes/Client/routes/ClientFilesTab/graphql/__generated__/TokenRefreshMutation';
 import useFileGrid from 'routes/Clients/routes/Client/routes/ClientFilesTab/hooks/useFileGrid';
-import { targetTypes } from 'constants/note';
 import MoveFileDropDown from './components/MoveFileDropDown';
 import { statusesCategory } from './constants';
 import ChangeFileStatusDropDown from './components/ChangeFileStatusDropDown';
@@ -223,7 +222,7 @@ const FileGrid = (props: Props) => {
       note={note}
       playerUUID={clientUuid}
       targetUUID={uuid}
-      targetType={targetTypes.FILE}
+      targetType={Constants.targetTypes.FILE}
       onRefetch={onRefetch}
     />
   ), [onRefetch]);

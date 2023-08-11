@@ -3,7 +3,7 @@ export enum actions {
   REFUSE = 'REFUSE',
 }
 
-export enum categories {
+export enum documentsCategories {
   DOCUMENT_VERIFICATION = 'DOCUMENT_VERIFICATION',
   ADDRESS_VERIFICATION = 'ADDRESS_VERIFICATION',
   OTHER = 'OTHER',
@@ -28,10 +28,10 @@ export enum statuses {
   PENDING = 'PENDING',
 }
 
-export const categoriesLabels: Record<categories, string> = {
-  [categories.DOCUMENT_VERIFICATION]: 'FILES.CATEGORY.DOCUMENT_VERIFICATION',
-  [categories.ADDRESS_VERIFICATION]: 'FILES.CATEGORY.ADDRESS_VERIFICATION',
-  [categories.OTHER]: 'FILES.CATEGORY.OTHER',
+export const documentsCategoriesLabels: Record<documentsCategories, string> = {
+  [documentsCategories.DOCUMENT_VERIFICATION]: 'FILES.CATEGORY.DOCUMENT_VERIFICATION',
+  [documentsCategories.ADDRESS_VERIFICATION]: 'FILES.CATEGORY.ADDRESS_VERIFICATION',
+  [documentsCategories.OTHER]: 'FILES.CATEGORY.OTHER',
 };
 
 export const documentsTypeLabels: Record<documentsType, string> = {

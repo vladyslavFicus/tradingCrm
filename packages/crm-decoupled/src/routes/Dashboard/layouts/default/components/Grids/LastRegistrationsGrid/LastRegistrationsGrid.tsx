@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, Constants } from '@crm/common';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import GridPlayerInfo from 'components/GridPlayerInfo';
@@ -16,7 +16,6 @@ import {
   LastRegistrationsQuery,
   useLastRegistrationsQuery,
 } from 'routes/Dashboard/graphql/__generated__/LastRegistrationsQuery';
-import { statuses, statusesLabels } from 'constants/user';
 import './LastRegistrationsGrid.scss';
 
 export type LastRegistration = ExtractApolloTypeFromArray<LastRegistrationsQuery['dashboard']['lastRegistration']>;
@@ -156,13 +155,13 @@ const LastRegistrationsGrid = () => {
             'LastRegistrationsGrid__text-primary--uppercase',
             'LastRegistrationsGrid__status',
             {
-              'LastRegistrationsGrid__status--verified': type === statuses.VERIFIED,
-              'LastRegistrationsGrid__status--not-verified': type === statuses.NOT_VERIFIED,
-              'LastRegistrationsGrid__status--blocked': type === statuses.BLOCKED,
+              'LastRegistrationsGrid__status--verified': type === Constants.User.statuses.VERIFIED,
+              'LastRegistrationsGrid__status--not-verified': type === Constants.User.statuses.NOT_VERIFIED,
+              'LastRegistrationsGrid__status--blocked': type === Constants.User.statuses.BLOCKED,
             },
           )}
         >
-          {I18n.t(Utils.renderLabel(type || '', statusesLabels))}
+          {I18n.t(Utils.renderLabel(type || '', Constants.User.statusesLabels))}
         </div>
 
         <div className="LastRegistrationsGrid__text-secondary">

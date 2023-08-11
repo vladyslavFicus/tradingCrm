@@ -1,4 +1,4 @@
-import { Types } from '@crm/common';
+import { LabelValue } from '../types';
 
 const maxPriority = 10;
 export const priorities = [...Array.from(Array(maxPriority), (_, i) => i + 1)];
@@ -6,7 +6,7 @@ export const priorities = [...Array.from(Array(maxPriority), (_, i) => i + 1)];
 const maxDepositCount = 20;
 export const depositCount = [...Array.from(Array(maxDepositCount), (_, i) => i + 1)];
 
-export const ruleTypes: Array<Types.LabelValue> = [
+export const ruleTypes: Array<LabelValue> = [
   {
     label: 'OFFICES.TABS.RULES.MODAL.RULE_TYPES.CLIENT',
     value: 'PROFILE',
@@ -17,12 +17,7 @@ export const ruleTypes: Array<Types.LabelValue> = [
   },
 ];
 
-export const deskTypes: Record<string, string> = {
-  RETENTION: 'retention',
-  SALES: 'sales',
-};
-
-export const clientDistribution: Array<Types.LabelValue> = [
+export const clientDistribution: Array<LabelValue> = [
   {
     label: 'DESKS.RULES.MODAL.DISTRIBUTION.DEFAULT',
     value: 'DEFAULT',

@@ -1,15 +1,8 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { parseErrors, notify, Types, usePermission } from '@crm/common';
+import { Constants, parseErrors, notify, Types, usePermission } from '@crm/common';
 import { PaymentMutationCreatePaymentArgs as PaymentValues, Profile, TradingAccount } from '__generated__/types';
-import { targetTypes } from 'constants/note';
-import {
-  commissionCurrencies,
-  commissionCurrenciesLabels,
-  manualPaymentMethods,
-  manualPaymentMethodsLabels,
-} from 'constants/payment';
 import Modal from 'components/Modal';
 import NoteActionManual from 'components/Note/NoteActionManual';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
@@ -309,10 +302,11 @@ const CreatePaymentModal = (props: Props) => {
                         >
                           {paymentMethods.map(item => (
                             <option key={item} value={item as string}>
-                              {manualPaymentMethodsLabels[item as manualPaymentMethods]
-                                ? I18n.t(manualPaymentMethodsLabels[item as manualPaymentMethods])
-                                : item
-                                }
+                              {Constants.Payment.manualPaymentMethodsLabels[
+                                  item as Constants.Payment.manualPaymentMethods
+                              ] ? I18n.t(Constants.Payment.manualPaymentMethodsLabels[
+                                  item as Constants.Payment.manualPaymentMethods
+                                ]) : item}
                             </option>
                           ))}
                         </Field>
@@ -448,10 +442,10 @@ const CreatePaymentModal = (props: Props) => {
                           showErrorMessage={false}
                         >
                           {Object
-                            .values(commissionCurrencies)
+                            .values(Constants.Payment.commissionCurrencies)
                             .map(cur => (
                               <option key={cur} value={cur}>
-                                {I18n.t(commissionCurrenciesLabels[cur])}
+                                {I18n.t(Constants.Payment.commissionCurrenciesLabels[cur])}
                               </option>
                             ))}
                         </Field>
@@ -531,7 +525,7 @@ const CreatePaymentModal = (props: Props) => {
                       note={note}
                       playerUUID={uuid}
                       targetUUID={uuid}
-                      targetType={targetTypes.PAYMENT}
+                      targetType={Constants.targetTypes.PAYMENT}
                       onEditSuccess={getNote}
                       onDeleteSuccess={() => getNote(null)}
                       placement="bottom"

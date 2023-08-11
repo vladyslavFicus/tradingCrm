@@ -1,14 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
+import { Utils, Constants } from '@crm/common';
 import { Button } from 'components';
 import { LoginLock, Profile } from '__generated__/types';
 import ActionsDropDown from 'components/ActionsDropDown';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
 import useClientHeader from 'routes/Clients/routes/Client/components/hooks/useClientHeader';
-import { targetTypes } from 'constants/note';
 import './ClientHeader.scss';
 
 type Props = {
@@ -87,7 +86,7 @@ const ClientHeader = (props: Props) => {
           <NoteAction
             playerUUID={uuid}
             targetUUID={uuid}
-            targetType={targetTypes.PLAYER}
+            targetType={Constants.targetTypes.PLAYER}
             placement="bottom-end"
           >
             <Button

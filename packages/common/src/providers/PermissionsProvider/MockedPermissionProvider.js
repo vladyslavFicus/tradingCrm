@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import PropTypes from '../../constants/propTypes';
+import PropTypes from 'prop-types';
 import { PermissionContext } from './PermissionProvider';
 
 class MockedPermissionProvider extends PureComponent {

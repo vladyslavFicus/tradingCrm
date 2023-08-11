@@ -1,12 +1,11 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
+import { Utils, Constants } from '@crm/common';
 import { Button, RefreshButton } from 'components';
 import useFilter from 'hooks/useFilter';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { FormValues } from 'routes/Offices/types/officesGridFilter';
-import { filterLabels } from 'constants/user';
 import './OfficesGridFilter.scss';
 
 type Props = {
@@ -35,7 +34,7 @@ const OfficesGridFilter = (props: Props) => {
               name="keyword"
               className="OfficesGridFilter__field OfficesGridFilter__search"
               data-testid="OfficesGridFilter-keywordInput"
-              label={I18n.t(filterLabels.searchValue)}
+              label={I18n.t(Constants.User.filterLabels.searchValue)}
               placeholder={I18n.t('COMMON.NAME')}
               addition={<i className="icon icon-search" />}
               component={FormikInputField}
@@ -46,7 +45,7 @@ const OfficesGridFilter = (props: Props) => {
               name="country"
               className="OfficesGridFilter__field OfficesGridFilter__select"
               data-testid="OfficesGridFilter-countrySelect"
-              label={I18n.t(filterLabels.country)}
+              label={I18n.t(Constants.User.filterLabels.country)}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               component={FormikSelectField}
               withAnyOption

@@ -1,13 +1,12 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, Constants } from '@crm/common';
 import { Button, RefreshButton } from 'components';
 import useFilter from 'hooks/useFilter';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import useOperatorsGridFilter from 'routes/Operators/routes/hooks/useOperatorsGridFilter';
 import { FormValues } from 'routes/Operators/routes/types';
-import { departmentsLabels, rolesLabels, statusesLabels, statuses } from 'constants/operators';
 import './OperatorsGridFilter.scss';
 
 const attributeLabels = {
@@ -106,8 +105,10 @@ const OperatorsGridFilter = (props: Props) => {
                 searchable
                 withFocus
               >
-                {Object.keys(statusesLabels).map(status => (
-                  <option key={status} value={status}>{I18n.t(statusesLabels[status as statuses])}</option>
+                {Object.keys(Constants.Operator.statusesLabels).map(status => (
+                  <option key={status} value={status}>
+                    {I18n.t(Constants.Operator.statusesLabels[status as Constants.Operator.statuses])}
+                  </option>
                 ))}
               </Field>
 
@@ -203,7 +204,7 @@ const OperatorsGridFilter = (props: Props) => {
               >
                 {Object.keys(availableDepartments).map(department => (
                   <option key={department} value={department}>
-                    {I18n.t(Utils.renderLabel(department, departmentsLabels))}
+                    {I18n.t(Utils.renderLabel(department, Constants.Operator.departmentsLabels))}
                   </option>
                 ))}
               </Field>
@@ -222,7 +223,7 @@ const OperatorsGridFilter = (props: Props) => {
               >
                 {availableRoles.map(role => (
                   <option key={role} value={role}>
-                    {I18n.t(Utils.renderLabel(role, rolesLabels))}
+                    {I18n.t(Utils.renderLabel(role, Constants.Operator.rolesLabels))}
                   </option>
                 ))}
               </Field>

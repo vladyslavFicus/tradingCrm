@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cloneDeep, set, compact } from 'lodash';
-import { Utils, Types } from '@crm/common';
+import { Utils, Types, Constants } from '@crm/common';
 import { FiltersFormValues } from 'components/PaymentsListFilters';
-import { statusMapper, statuses } from 'constants/payment';
 import { usePaymentsQuery, PaymentsQueryVariables } from '../graphql/__generated__/PaymentsQuery';
 import { usePartnersQuery } from '../graphql/__generated__/PartnersQuery';
 
@@ -33,7 +32,8 @@ const usePayments = () => {
       ...Utils.fieldTimeZoneOffset('modificationTimeFrom', modificationTimeFrom, timeZone),
       ...Utils.fieldTimeZoneOffset('modificationTimeTo', modificationTimeTo, timeZone),
       statuses: state?.filters?.statuses
-        ? compact(state?.filters?.statuses).map(item => statusMapper[item as statuses]).flat()
+        ? compact(state?.filters?.statuses)
+          .map(item => Constants.Payment.statusMapper[item as Constants.Payment.statuses]).flat()
         : undefined,
       page: {
         from: 0,

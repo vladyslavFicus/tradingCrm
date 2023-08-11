@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils, Types, parseErrors, notify } from '@crm/common';
+import { Utils, Types, Constants, parseErrors, notify } from '@crm/common';
 import {
   AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
   HierarchyUserAcquisition,
@@ -9,7 +9,6 @@ import {
 } from '__generated__/types';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
-import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { useUpdateAcquisitionStatusMutation } from './graphql/__generated__/UpdateAcquisitionStatusMutation';
 import './UpdateAcquisitionStatusModal.scss';
 
@@ -180,7 +179,7 @@ const UpdateAcquisitionStatusModal = (props: Props) => {
               component={FormikSelectField}
               disabled={isSubmitting}
             >
-              {aquisitionStatuses.map(({ value, label }) => (
+              {Constants.aquisitionStatuses.map(({ value, label }) => (
                 <option key={value} value={value}>
                   {I18n.t(label)}
                 </option>

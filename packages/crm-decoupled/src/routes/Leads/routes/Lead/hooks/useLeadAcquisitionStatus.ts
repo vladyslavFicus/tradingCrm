@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config, usePermission, useModal } from '@crm/common';
+import { Config, Constants, usePermission, useModal } from '@crm/common';
 import { Lead, AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import UpdateRepresentativeModal, { UpdateRepresentativeModalProps } from 'modals/UpdateRepresentativeModal';
-import { salesStatusesColor } from 'constants/salesStatuses';
 
 type Props = {
   lead: Lead,
@@ -14,7 +13,7 @@ const useLeadAcquisitionStatus = (props: Props) => {
   const { lead: { uuid, acquisition }, onRefetch } = props;
 
   const salesStatus = acquisition?.salesStatus;
-  const color = salesStatus && salesStatusesColor[salesStatus];
+  const color = salesStatus && Constants.salesStatusesColor[salesStatus];
 
   const salesOperator = acquisition?.salesOperator;
   const salesOperatorName = salesOperator?.fullName;

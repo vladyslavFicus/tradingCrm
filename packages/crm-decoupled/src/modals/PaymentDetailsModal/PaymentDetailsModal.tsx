@@ -3,10 +3,9 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { Config, Utils, notify, Types, usePermission } from '@crm/common';
+import { Config, Utils, Constants, notify, Types, usePermission } from '@crm/common';
 import { Button, UncontrolledTooltip } from 'components';
 import { Payment } from '__generated__/types';
-import { tradingTypes, statusMapper, tradingStatuses } from 'constants/payment';
 import { FormikDatePicker } from 'components/Formik';
 import ChangeOriginalAgent from 'components/ChangeOriginalAgent';
 import PaymentStatus from 'components/PaymentStatus';
@@ -319,8 +318,8 @@ const PaymentDetailsModal = (props: Props) => {
     </div>
   );
 
-  const inPendingStatus = statusMapper.PENDING.includes(status as tradingStatuses);
-  const isWithdraw = paymentType === tradingTypes.WITHDRAW;
+  const inPendingStatus = Constants.Payment.statusMapper.PENDING.includes(status as Constants.Payment.tradingStatuses);
+  const isWithdraw = paymentType === Constants.Payment.tradingTypes.WITHDRAW;
 
   const canApprove = permission.allows(Config.permissions.PAYMENT.APPROVE);
   const canReject = permission.allows(Config.permissions.PAYMENT.REJECT);

@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { Types } from '@crm/common';
-import { entities, entitiesPrefixes } from 'constants/uuid';
+import { Types, Constants } from '@crm/common';
 import ShortLoader from 'components/ShortLoader';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
@@ -22,7 +21,7 @@ const PinnedNotes = (props: Props) => {
   // ===== Renders ===== //
   const renderItemId = useCallback((noteTargetUUID: string) => {
     const [type] = noteTargetUUID.split('-', 1);
-    const uuidPrefix = entitiesPrefixes[type as entities];
+    const uuidPrefix = Constants.entitiesPrefixes[type as Constants.entities];
 
     return (
       <Uuid key={noteTargetUUID} uuid={noteTargetUUID} uuidPrefix={uuidPrefix} />

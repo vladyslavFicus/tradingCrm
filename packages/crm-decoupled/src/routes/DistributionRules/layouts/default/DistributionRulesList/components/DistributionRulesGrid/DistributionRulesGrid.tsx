@@ -2,6 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
+import { Constants } from '@crm/common';
 import { Button } from 'components';
 import {
   DistributionRule,
@@ -12,8 +13,6 @@ import Uuid from 'components/Uuid';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { Table, Column } from 'components/Table';
 import useDistributionRulesGrid from 'routes/DistributionRules/hooks/useDistributionRulesGrid';
-import { clientDistributionStatuses } from 'constants/clientsDistribution';
-import { salesStatuses } from 'constants/salesStatuses';
 import { ReactComponent as PlayIcon } from './img/play-icon.svg';
 import { ReactComponent as PauseIcon } from './img/pause-icon.svg';
 import { ReactComponent as TimeIcon } from './img/time-icon.svg';
@@ -82,7 +81,7 @@ const DistributionRulesGrid = (props: Props) => {
           `DistributionRulesList__status--${status.toLowerCase()}`,
         )}
       >
-        {I18n.t(clientDistributionStatuses[status])}
+        {I18n.t(Constants.clientDistributionStatuses[status])}
       </div>
 
       <If condition={!!statusChangedAt}>
@@ -181,7 +180,7 @@ const DistributionRulesGrid = (props: Props) => {
       <>
         {statuses.slice(0, 3).map(status => (
           <div key={status} className="font-weight-600">
-            {I18n.t(salesStatuses[status])}
+            {I18n.t(Constants.salesStatuses[status])}
           </div>
         ))}
 

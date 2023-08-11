@@ -2,14 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { Types } from '@crm/common';
+import { Types, Constants } from '@crm/common';
 import { Operator } from '__generated__/types';
 import Link from 'components/Link';
 import MiniProfilePopover from 'components/MiniProfilePopover';
 import { Table, Column } from 'components/Table';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import Uuid from 'components/Uuid';
-import { statusesLabels, statuses } from 'constants/operators';
 import './OperatorsGrid.scss';
 
 type Props = {
@@ -75,7 +74,7 @@ const OperatorsGrid = (props: Props) => {
           )
         }
       >
-        {I18n.t(statusesLabels[operatorStatus as statuses])}
+        {I18n.t(Constants.Operator.statusesLabels[operatorStatus as Constants.Operator.statuses])}
       </div>
 
       <If condition={!!statusChangeDate}>

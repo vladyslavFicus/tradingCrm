@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
-import { Utils, parseErrors, notify, Types } from '@crm/common';
+import { Utils, Constants, parseErrors, notify, Types } from '@crm/common';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
-import { passwordCustomError, passwordMaxSize, passwordPattern } from 'constants/operators';
 import { useChangeUnauthorizedPasswordMutation } from './graphql/__generated__/ChangeUnauthorizedPasswordMutation';
 import './ChangeUnauthorizedPasswordModal.scss';
 
@@ -15,7 +14,7 @@ const fieldLabels = {
 };
 
 const customErrors = {
-  'regex.newPassword': passwordCustomError,
+  'regex.newPassword': Constants.Operator.passwordCustomError,
 };
 
 type FormValues = {
@@ -83,8 +82,8 @@ const ChangeUnauthorizedPasswordModal = (props: Props) => {
             currentPassword: ['required'],
             newPassword: [
               'required',
-              `regex:${passwordPattern}`,
-              `max:${passwordMaxSize}`,
+              `regex:${Constants.Operator.passwordPattern}`,
+              `max:${Constants.Operator.passwordMaxSize}`,
             ],
             repeatPassword: ['required', 'same:newPassword'],
           }, Utils.translateLabels(fieldLabels), false, customErrors)

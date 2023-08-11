@@ -2,12 +2,11 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
-import { Types } from '@crm/common';
+import { Types, Constants } from '@crm/common';
 import {
   TradingEngine__AccountTypes__Enum as AccountTypes,
   TradingEngine__OrderStatuses__Enum as OrderStatus,
 } from '__generated__/types';
-import { accountTypesLabels } from 'constants/accountTypes';
 import Badge from 'components/Badge';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
@@ -104,7 +103,7 @@ const MarginCalls = () => {
             render={({ uuid, name, accountType }: Account) => (
               <>
                 <Badge
-                  text={I18n.t(accountTypesLabels[accountType].label)}
+                  text={I18n.t(Constants.accountTypesLabels[accountType].label)}
                   info={accountType === AccountTypes.DEMO}
                   success={accountType === AccountTypes.LIVE}
                 >

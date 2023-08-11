@@ -2,12 +2,12 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import classNames from 'classnames';
+import { Constants } from '@crm/common';
 import { Button, RefreshButton } from 'components';
 import useFilter from 'hooks/useFilter';
 import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'components/Formik';
 import useNotificationsGridFilters from 'routes/Notifications/hooks/useNotificationsGridFilters';
 import { FormValues } from 'routes/Notifications/types/notificationGridFilters';
-import { statuses as operatorsStasuses } from 'constants/operators';
 import './NotificationsGridFilters.scss';
 
 type Props = {
@@ -137,7 +137,8 @@ const NotificationsGridFilters = (props: Props) => {
                     key={uuid}
                     value={uuid}
                     className={classNames('NotificationsGridFilters__select-option', {
-                      'NotificationsGridFilters__select-option--inactive': operatorStatus !== operatorsStasuses.ACTIVE,
+                      'NotificationsGridFilters__select-option--inactive':
+                        operatorStatus !== Constants.Operator.statuses.ACTIVE,
                     })}
                   >
                     {fullName}

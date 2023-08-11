@@ -3,12 +3,12 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { Constants } from '@crm/common';
 import { Profile } from '__generated__/types';
 import FailureReasonIcon from 'components/FailureReasonIcon';
 import Uuid from 'components/Uuid';
 import useClientAccountStatus
   from 'routes/Clients/routes/Client/components/hooks/useClientAccountStatus';
-import { statuses, statusesLabels } from 'constants/user';
 import './ClientAccountStatus.scss';
 
 type Props = {
@@ -34,13 +34,13 @@ const ClientAccountStatus = (props: Props) => {
       <div
         className={classNames(
           'ClientAccountStatus__status', {
-            'ClientAccountStatus__status--verified': type === statuses.VERIFIED,
-            'ClientAccountStatus__status--not-verified': type === statuses.NOT_VERIFIED,
-            'ClientAccountStatus__status--blocked': type === statuses.BLOCKED,
+            'ClientAccountStatus__status--verified': type === Constants.User.statuses.VERIFIED,
+            'ClientAccountStatus__status--not-verified': type === Constants.User.statuses.NOT_VERIFIED,
+            'ClientAccountStatus__status--blocked': type === Constants.User.statuses.BLOCKED,
           },
         )}
       >
-        {I18n.t(statusesLabels[type as statuses])}
+        {I18n.t(Constants.User.statusesLabels[type as Constants.User.statuses])}
       </div>
 
       <If condition={!!changedAt}>
@@ -92,7 +92,7 @@ const ClientAccountStatus = (props: Props) => {
             </DropdownMenu>
           </Dropdown>
 
-          <If condition={type === statuses.BLOCKED}>
+          <If condition={type === Constants.User.statuses.BLOCKED}>
             <FailureReasonIcon
               reason={reason || ''}
               statusDate={moment.utc(changedAt).local().format('YYYY-MM-DD HH:mm:ss')}

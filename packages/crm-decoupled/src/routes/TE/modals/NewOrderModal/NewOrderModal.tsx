@@ -3,9 +3,8 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
-import { Config, usePermission } from '@crm/common';
+import { Config, usePermission, Constants } from '@crm/common';
 import { Button, Input } from 'components';
-import { accountTypesLabels } from 'constants/accountTypes';
 import StaticTabs from 'components/StaticTabs';
 import StaticTabsItem from 'components/StaticTabsItem';
 import ReactSwitch from 'components/ReactSwitch';
@@ -126,7 +125,7 @@ const NewOrderModal = (props: Props) => {
                 <div className="NewOrderModal__account">
                   <div>
                     <Badge
-                      text={I18n.t(accountTypesLabels[account?.accountType as string].label)}
+                      text={I18n.t(Constants.accountTypesLabels[account?.accountType as string].label)}
                       info={account?.accountType === 'DEMO'}
                       success={account?.accountType === 'LIVE'}
                     >

@@ -2,12 +2,10 @@ import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { useLocation } from 'react-router-dom';
 import { orderBy } from 'lodash';
-import { Config, parseErrors, notify, Types, usePermission, useModal } from '@crm/common';
+import { Config, Constants, parseErrors, notify, Types, usePermission, useModal } from '@crm/common';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import CreateAcquisitionStatusModal, { CreateAcquisitionStatusModalProps } from 'modals/CreateAcquisitionStatusModal';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import { retentionStatuses } from 'constants/retentionStatuses';
-import { salesStatuses } from 'constants/salesStatuses';
 import {
   useAcquisitionStatusesQuery,
   AcquisitionStatusesQuery,
@@ -120,8 +118,8 @@ const useAcquisitionStatuses = (): UseAcquisitionStatuses => {
       actionText: I18n.t('SETTINGS.ACQUISITION_STATUSES.CONFIRMATION.DELETE.DESCRIPTION', {
         type: I18n.t(`SETTINGS.ACQUISITION_STATUSES.TYPES.${acquisitionStatus.type}`),
         status: acquisitionStatus.type === AcquisitionStatusTypes.SALES
-          ? I18n.t(salesStatuses[acquisitionStatus.status])
-          : I18n.t(retentionStatuses[acquisitionStatus.status]),
+          ? I18n.t(Constants.salesStatuses[acquisitionStatus.status])
+          : I18n.t(Constants.retentionStatuses[acquisitionStatus.status]),
       }),
       submitButtonLabel: I18n.t('COMMON.OK'),
     });

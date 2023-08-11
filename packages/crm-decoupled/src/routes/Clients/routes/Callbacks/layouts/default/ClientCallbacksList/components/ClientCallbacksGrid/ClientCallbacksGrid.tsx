@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { Utils, Types } from '@crm/common';
+import { Utils, Types, Constants } from '@crm/common';
 import { TrashButton } from 'components';
 import { ClientCallback } from '__generated__/types';
 import Uuid from 'components/Uuid';
@@ -12,8 +12,6 @@ import {
   ClientCallbacksListQueryQueryResult,
 } from 'routes/Clients/routes/Callbacks/graphql/__generated__/ClientCallbacksListQuery';
 import useClientCallbacksGrid from 'routes/Clients/routes/Callbacks/hooks/useClientCallbacksGrid';
-import { CallbackTimes } from 'constants/callbacks';
-import { targetTypes } from 'constants/note';
 import './ClientCallbacksGrid.scss';
 
 type Props = {
@@ -89,7 +87,7 @@ const ClientCallbacksGrid = (props: Props) => {
     </div>
   );
 
-  const renderDateTime = (callback: ClientCallback, field: CallbackTimes) => (
+  const renderDateTime = (callback: ClientCallback, field: Types.CallbackTimes) => (
     <>
       <div className="ClientCallbacksGrid__info-main">
         {moment.utc(callback[field]).local().format('DD.MM.YYYY')}
@@ -123,7 +121,7 @@ const ClientCallbacksGrid = (props: Props) => {
           note={note}
           playerUUID={userId}
           targetUUID={callbackId}
-          targetType={targetTypes.CLIENT_CALLBACK}
+          targetType={Constants.targetTypes.CLIENT_CALLBACK}
           onRefetch={refetch}
         />
 

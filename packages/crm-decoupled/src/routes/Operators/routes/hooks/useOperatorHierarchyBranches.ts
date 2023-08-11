@@ -1,10 +1,9 @@
 import { useCallback, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
 import { omit } from 'lodash';
-import { parseErrors, notify, Types, useModal } from '@crm/common';
+import { Constants, parseErrors, notify, Types, useModal } from '@crm/common';
 import { Operator, HierarchyBranch } from '__generated__/types';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import { branchTypes } from 'constants/hierarchyTypes';
 import { useOperatorHierarchyQuery, OperatorHierarchyQuery } from '../graphql/__generated__/OperatorHierarchyQuery';
 import { useBrandsQuery } from '../graphql/__generated__/BrandsQuery';
 import { useUserBrandHierarchyQueryLazyQuery } from '../graphql/__generated__/UserBrandHierarchyQuery';
@@ -46,7 +45,7 @@ const useOperatorHierarchyBranches = (props: Props): UseOperatorHierarchyBranche
 
   const operatorUuid = operator.uuid;
 
-  const branchTypesOptions = Object.keys(omit(branchTypes, 'COMPANY'));
+  const branchTypesOptions = Object.keys(omit(Constants.branchTypes, 'COMPANY'));
 
   const [userBrandHierarchy, setUserBrandHierarchy] = useState<Record<string, HierarchyBranch[] | null>>({});
   const [isVisibleAddBranchForm, setSsVisibleAddBranchForm] = useState(false);

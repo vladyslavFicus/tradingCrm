@@ -1,8 +1,7 @@
 import { useEffect, useCallback } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
-import { Utils, Types } from '@crm/common';
-import { targetTypes } from 'constants/note';
+import { Utils, Types, Constants } from '@crm/common';
 import { useLeadNotesQuery, LeadNotesQueryVariables } from '../graphql/__generated__/LeadNotesQuery';
 
 const useLeadNotesTab = () => {
@@ -33,7 +32,7 @@ const useLeadNotesTab = () => {
 
   // Refetch list of notes only if targetType is LEAD
   const handleNoteReload = useCallback(({ targetType }: { targetType: string }) => {
-    if (targetType === targetTypes.LEAD) {
+    if (targetType === Constants.targetTypes.LEAD) {
       refetch();
     }
   }, []);

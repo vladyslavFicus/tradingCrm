@@ -2,9 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { Config, Utils, parseErrors, usePermission } from '@crm/common';
+import { Config, Utils, parseErrors, usePermission, Constants } from '@crm/common';
 import { Button, Input } from 'components';
-import { accountTypesLabels } from 'constants/accountTypes';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import Badge from 'components/Badge';
 import ShortLoader from 'components/ShortLoader';
@@ -162,7 +161,7 @@ const FixBalanceModal = (props: Props) => {
                         <div className="FixBalanceModal__account">
                           <div>
                             <Badge
-                              text={I18n.t(accountTypesLabels[account?.accountType as string].label)}
+                              text={I18n.t(Constants.accountTypesLabels[account?.accountType as string].label)}
                               info={account?.accountType === 'DEMO'}
                               success={account?.accountType === 'LIVE'}
                             >

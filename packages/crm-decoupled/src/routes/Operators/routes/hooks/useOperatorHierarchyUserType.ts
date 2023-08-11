@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { omit } from 'lodash';
-import { parseErrors, notify, Types } from '@crm/common';
+import { Constants, parseErrors, notify, Types } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { userTypes } from 'constants/hierarchyTypes';
 import { useUpdateOperatorUserTypeMutation } from '../graphql/__generated__/UpdateOperatorUserTypeMutation';
 
 type FormValues = {
@@ -23,7 +22,7 @@ type UseOperatorHierarchyUserType = {
 const useOperatorHierarchyUserType = (props: Props): UseOperatorHierarchyUserType => {
   const { operator, onRefetch } = props;
 
-  const userTypesOptions = Object.keys(omit(userTypes, ['CUSTOMER', 'LEAD_CUSTOMER', 'AFFILIATE_PARTNER']));
+  const userTypesOptions = Object.keys(omit(Constants.userTypes, ['CUSTOMER', 'LEAD_CUSTOMER', 'AFFILIATE_PARTNER']));
 
   // ===== Requests ===== //
   const [updateOperatorUserTypeMutation] = useUpdateOperatorUserTypeMutation();

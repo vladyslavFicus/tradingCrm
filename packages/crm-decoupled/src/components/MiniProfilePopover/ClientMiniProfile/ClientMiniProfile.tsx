@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { Config, Utils, parseErrors, usePermission } from '@crm/common';
+import { Config, Utils, Constants, parseErrors, usePermission } from '@crm/common';
 import ShortLoader from 'components/ShortLoader';
-import { statuses } from 'constants/user';
 import {
   MiniProfile,
   MiniProfileHeader,
@@ -81,7 +80,7 @@ const ClientMiniProfile = (props: Props) => {
         uuidDesctiption={languageCode}
       />
 
-      <If condition={status?.type === statuses.BLOCKED || status?.type === 'SUSPENDED'}>
+      <If condition={status?.type === Constants.User.statuses.BLOCKED || status?.type === 'SUSPENDED'}>
         <div className="ClientMiniProfile__reason">
           <div className="ClientMiniProfile__reason-label">{I18n.t('MINI_PROFILE.STATUS_REASON')}</div>
           <div className="ClientMiniProfile__reason-content">{I18n.t(status?.reason || '')}</div>

@@ -2,12 +2,10 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { Utils, Types } from '@crm/common';
+import { Utils, Types, Constants } from '@crm/common';
 import { Button, RefreshButton } from 'components';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { decodeNullValues } from 'components/Formik/utils';
-
-import { typesLabels } from 'constants/audit';
 import { attributeLabels } from './constants';
 import { FeedFilterFormQueryVariables, useFeedFilterFormQuery } from './graphql/__generated__/FeedTypesQuery';
 import './DealingOperatorFeedFilter.scss';
@@ -32,7 +30,7 @@ const DealingOperatorFeedFilter = ({ handleRefetch }: Props) => {
     .filter(key => feedTypesList[key] && key !== '__typename')
     .map(type => ({
       key: type,
-      value: I18n.t(Utils.renderLabel(type, typesLabels)),
+      value: I18n.t(Utils.renderLabel(type, Constants.auditTypesLabels)),
     }))
     .sort(({ value: a }, { value: b }) => (a > b ? 1 : -1));
 

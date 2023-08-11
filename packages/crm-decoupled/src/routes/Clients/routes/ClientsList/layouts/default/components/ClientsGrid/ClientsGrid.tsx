@@ -4,7 +4,7 @@ import { QueryResult } from '@apollo/client';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { Config, Utils, Types } from '@crm/common';
+import { Config, Utils, Types, Constants } from '@crm/common';
 import { UncontrolledTooltip } from 'components';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
@@ -25,10 +25,6 @@ import { MAX_SELECTED_CLIENTS, defaultColumns } from 'routes/Clients/routes/Clie
 import { ClientsListQuery } from 'routes/Clients/routes/ClientsList/graphql/__generated__/ClientsQuery';
 import useClientsGrid from 'routes/Clients/routes/ClientsList/hooks/useClientsGrid';
 import { Hierarchy } from 'components/GridAcquisitionStatus/hooks/useGridAcquisitionStatus';
-import { lastActivityStatusesLabels } from 'constants/lastActivity';
-import { statuses, statusesLabels } from 'constants/user';
-import { warningLabels } from 'constants/warnings';
-import { targetTypes } from 'constants/note';
 import './ClientsGrid.scss';
 
 type Props = {
@@ -69,7 +65,7 @@ const ClientsGrid = (props: Props) => {
     }
 
     return warnings.map(warning => (
-      <Fragment key={warning}>{I18n.t(Utils.renderLabel(warning as string, warningLabels))}</Fragment>
+      <Fragment key={warning}>{I18n.t(Utils.renderLabel(warning as string, Constants.warningLabels))}</Fragment>
     ));
   }, []);
 
@@ -85,7 +81,7 @@ const ClientsGrid = (props: Props) => {
             'ClientsGrid__last-activity--online': online,
           })}
         >
-          {I18n.t(lastActivityStatusesLabels[activityStatus])}
+          {I18n.t(Constants.lastActivityStatusesLabels[activityStatus])}
         </div>
 
         <div className="ClientsGrid__text-secondary">{localTime}</div>
@@ -345,13 +341,13 @@ const ClientsGrid = (props: Props) => {
             'ClientsGrid__text-primary--uppercase',
             'ClientsGrid__status',
             {
-              'ClientsGrid__status--verified': type === statuses.VERIFIED,
-              'ClientsGrid__status--not-verified': type === statuses.NOT_VERIFIED,
-              'ClientsGrid__status--blocked': type === statuses.BLOCKED,
+              'ClientsGrid__status--verified': type === Constants.User.statuses.VERIFIED,
+              'ClientsGrid__status--not-verified': type === Constants.User.statuses.NOT_VERIFIED,
+              'ClientsGrid__status--blocked': type === Constants.User.statuses.BLOCKED,
             },
           )}
         >
-          {I18n.t(Utils.renderLabel(type as string, statusesLabels))}
+          {I18n.t(Utils.renderLabel(type as string, Constants.User.statusesLabels))}
         </div>
 
         <div className="ClientsGrid__text-secondary">
@@ -377,7 +373,7 @@ const ClientsGrid = (props: Props) => {
           <NoteAction
             playerUUID={uuid}
             targetUUID={uuid}
-            targetType={targetTypes.PLAYER}
+            targetType={Constants.targetTypes.PLAYER}
           />
         </span>
       </If>

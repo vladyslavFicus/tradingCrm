@@ -1,6 +1,6 @@
-import { Types } from '@crm/common';
+import { RbackItem } from '../types';
 
-const rback: Array<Types.RbackItem> = [
+export const rbac: Array<RbackItem> = [
   // ============================================= //
   // =================== Dashboard =================== //
   // ============================================= //
@@ -2212,5 +2212,3 @@ const rback: Array<Types.RbackItem> = [
     ],
   },
 ];
-
-export default rback;

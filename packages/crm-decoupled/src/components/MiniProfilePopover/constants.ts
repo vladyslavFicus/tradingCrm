@@ -1,17 +1,15 @@
-import { statuses as operatorStatuses } from 'constants/operators';
-import { statuses as userStatuses } from 'constants/user';
-import { statuses as paymentStatuses } from 'constants/payment';
+import { Constants } from '@crm/common';
 
 const operatorStatusNames = {
-  [operatorStatuses.INACTIVE]: 'inactive',
-  [operatorStatuses.ACTIVE]: 'active',
-  [operatorStatuses.CLOSED]: 'closed',
+  [Constants.Operator.statuses.INACTIVE]: 'inactive',
+  [Constants.Operator.statuses.ACTIVE]: 'active',
+  [Constants.Operator.statuses.CLOSED]: 'closed',
 };
 
 const userStatusNames = {
-  [userStatuses.NOT_VERIFIED]: 'not verified',
-  [userStatuses.VERIFIED]: 'verified',
-  [userStatuses.BLOCKED]: 'blocked',
+  [Constants.User.statuses.NOT_VERIFIED]: 'not verified',
+  [Constants.User.statuses.VERIFIED]: 'verified',
+  [Constants.User.statuses.BLOCKED]: 'blocked',
 
   // Used only for Mini prifile
   DORMANT: 'dormant',
@@ -21,9 +19,9 @@ const userStatusNames = {
 
 // Used only in Transaction Mini Profile, which is unused now
 const paymentStatusNames = {
-  [paymentStatuses.COMPLETED]: 'completed',
-  [paymentStatuses.PENDING]: 'pending',
-  [paymentStatuses.FAILED]: 'failed',
+  [Constants.Payment.statuses.COMPLETED]: 'completed',
+  [Constants.Payment.statuses.PENDING]: 'pending',
+  [Constants.Payment.statuses.FAILED]: 'failed',
 
   // Used only for Mini prifile
   REFUSED: 'refused',

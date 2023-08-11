@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils, parseErrors, notify, Types } from '@crm/common';
+import { Utils, Constants, parseErrors, notify, Types } from '@crm/common';
 import { Operator } from '__generated__/types';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
 import Modal from 'components/Modal';
 import NoteActionManual from 'components/Note/NoteActionManual';
-import { reminderValues } from 'constants/callbacks';
-import { targetTypes } from 'constants/note';
 import { useCallbackAddNoteMutation } from './graphql/__generated__/CallbackAddNoteMutation';
 import { useCreateLeadCallbackMutation } from './graphql/__generated__/CreateLeadCallbackMutation';
 import { useGetOperatorsQuery } from './graphql/__generated__/GetOperatorsQuery';
@@ -154,7 +152,7 @@ const CreateLeadCallbackModal = (props: Props) => {
               label={I18n.t(attributeLabels.reminder)}
               component={FormikSelectField}
             >
-              {reminderValues.map(({ value, label }) => (
+              {Constants.reminderValues.map(({ value, label }) => (
                 <option key={value} value={value}>
                   {label}
                 </option>
@@ -166,7 +164,7 @@ const CreateLeadCallbackModal = (props: Props) => {
                 note={note}
                 playerUUID={userId}
                 targetUUID={userId}
-                targetType={targetTypes.LEAD_CALLBACK}
+                targetType={Constants.targetTypes.LEAD_CALLBACK}
                 onEditSuccess={setNote}
                 onDeleteSuccess={() => setNote(null)}
                 placement="bottom"

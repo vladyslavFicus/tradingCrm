@@ -2,26 +2,8 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { startCase, isArray, isObject, isEmpty } from 'lodash';
 import humanizeDuration from 'humanize-duration';
-import { departments, roles } from 'constants/operators';
-import { kycStatuses } from 'constants/kycStatuses';
-import rbac from 'constants/rbac';
-import {
-  genders,
-  statuses,
-  unblockReasons,
-  reasons as blockReasons,
-  COUNTRY_SPECIFIC_IDENTIFIER_TYPES,
-} from 'constants/user';
+import { Constants } from '@crm/common';
 import { orderTypes, orderStatuses } from 'routes/TE/constants';
-import { documentsType, categories } from 'constants/files';
-import {
-  methodsLabels as paymentMethodsLabels,
-  manualPaymentMethodsLabels,
-  tradingStatuses,
-  statuses as paymentStatuses,
-} from 'constants/payment';
-import { salesStatuses } from 'constants/salesStatuses';
-import { retentionStatuses } from 'constants/retentionStatuses';
 
 const SUPPORTED_DATE_FORMATES = [
   'YYYY-MM-DDTHH:mm:ss.SSS',
@@ -67,7 +49,7 @@ const rbacLocaleString = (section: string, permission: string) => I18n.t(
 
 export const translateRbac = () => {
   const result: Record<string, string> = {};
-  rbac.forEach(({ id: sId, permissions }) => permissions.forEach(({ id: pId, actions }) => {
+  Constants.rbac.forEach(({ id: sId, permissions }) => permissions.forEach(({ id: pId, actions }) => {
     if (actions?.view?.action) {
       result[actions?.view?.action] = rbacLocaleString(sId, pId);
     }
@@ -101,22 +83,22 @@ const translateValue = (value: any) => {
   }
 
   const detailsValues: Record<string, string> = {
-    ...(transformConstFromArr(COUNTRY_SPECIFIC_IDENTIFIER_TYPES, countryIdentifierTypesPath)),
-    ...(transformConstFromObj(statuses, statusesPath)),
-    ...(transformConstFromObj(kycStatuses, kycStatusesPath)),
-    ...(transformConstFromObj(departments, departmentsPath)),
-    ...(transformConstFromObj(roles, rolesPath)),
-    ...(transformConstFromObj(documentsType, documentTypesPath)),
-    ...(transformConstFromObj(categories, documentCategoriesPath)),
-    ...(transformConstFromObj(tradingStatuses, tradingStatusesPath)),
-    ...(transformConstFromObj(paymentStatuses, paymentStatusesPath)),
-    ...(translateObject(blockReasons)),
-    ...(translateObject(unblockReasons)),
-    ...(translateObject(salesStatuses)),
-    ...(translateObject(retentionStatuses)),
-    ...(translateObject(paymentMethodsLabels)),
-    ...(translateObject(manualPaymentMethodsLabels)),
-    ...(translateObject(genders)),
+    ...(transformConstFromArr(Constants.User.COUNTRY_SPECIFIC_IDENTIFIER_TYPES, countryIdentifierTypesPath)),
+    ...(transformConstFromObj(Constants.User.statuses, statusesPath)),
+    ...(transformConstFromObj(Constants.kycStatuses, kycStatusesPath)),
+    ...(transformConstFromObj(Constants.Operator.departments, departmentsPath)),
+    ...(transformConstFromObj(Constants.Operator.roles, rolesPath)),
+    ...(transformConstFromObj(Constants.documentsType, documentTypesPath)),
+    ...(transformConstFromObj(Constants.documentsCategories, documentCategoriesPath)),
+    ...(transformConstFromObj(Constants.Payment.tradingStatuses, tradingStatusesPath)),
+    ...(transformConstFromObj(Constants.Payment.statuses, paymentStatusesPath)),
+    ...(translateObject(Constants.User.reasons)),
+    ...(translateObject(Constants.User.unblockReasons)),
+    ...(translateObject(Constants.salesStatuses)),
+    ...(translateObject(Constants.retentionStatuses)),
+    ...(translateObject(Constants.Payment.methodsLabels)),
+    ...(translateObject(Constants.Payment.methodsLabels)),
+    ...(translateObject(Constants.User.genders)),
     ...(translateObject(orderTypes)),
     ...(translateObject(orderStatuses)),
     INDIVIDUAL_RETAIL: I18n.t('CLIENT_PROFILE.DETAILS.INDIVIDUAL_RETAIL'),

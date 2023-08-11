@@ -1,8 +1,7 @@
 import { useEffect, useCallback } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
-import { Utils, Types } from '@crm/common';
-import { targetTypes } from 'constants/note';
+import { Utils, Types, Constants } from '@crm/common';
 import { useClientNotesQuery, ClientNotesQueryVariables } from '../graphql/__generated__/ClientNotesQuery';
 
 const useClientNotesTab = () => {
@@ -33,7 +32,7 @@ const useClientNotesTab = () => {
 
   // Refetch list of notes only if targetType is PLAYER
   const handleNoteReload = useCallback(({ targetType }: { targetType: string }) => {
-    if (targetType === targetTypes.PLAYER) {
+    if (targetType === Constants.targetTypes.PLAYER) {
       refetch();
     }
   }, [refetch]);

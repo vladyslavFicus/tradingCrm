@@ -2,9 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Field, Form, Formik } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, Constants } from '@crm/common';
 import { Button, RefreshButton } from 'components';
-import { accountTypes } from 'constants/accountTypes';
 import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'components/Formik';
 import { RangeGroup } from 'components/Forms';
 import { FiltersToggler } from 'components/FiltersToggler';
@@ -13,17 +12,6 @@ import TimeZoneField from 'components/TimeZoneField';
 import { firstTimeDepositFilter } from 'components/PaymentsListFilters/constants';
 import usePaymentsListFilters from 'components/PaymentsListFilters/hooks/usePaymentsListFilters';
 import { FormValues } from 'components/PaymentsListFilters/types';
-import { filterSetTypes } from 'constants/filterSet';
-import { statuses as operatorsStasuses } from 'constants/operators';
-import { warningLabels, warningValues } from 'constants/warnings';
-import {
-  aggregators,
-  aggregatorsLabels,
-  statuses as tradingStatuses,
-  statusesLabels as tradingStatusesLabels,
-  tradingTypes,
-  tradingTypesLabels,
-} from 'constants/payment';
 import './PaymentsListFilters.scss';
 
 type Props = {
@@ -71,7 +59,7 @@ const PaymentsListFilters = (props: Props) => {
           return (
             <FilterSetsDecorator
               // @ts-ignore Component withRouter HOC types issue
-              filterSetType={filterSetTypes.PAYMENT}
+              filterSetType={Constants.filterSetTypes.PAYMENT}
               currentValues={values}
               disabled={paymentsLoading}
               submitFilters={(filterValues: FormValues) => {
@@ -145,9 +133,9 @@ const PaymentsListFilters = (props: Props) => {
                     withAnyOption
                     withFocus
                   >
-                    {Utils.enumToArray(aggregators).map(value => (
+                    {Utils.enumToArray(Constants.Payment.aggregators).map(value => (
                       <option key={value} value={value}>
-                        {I18n.t(aggregatorsLabels[value])}
+                        {I18n.t(Constants.Payment.aggregatorsLabels[value])}
                       </option>
                     ))}
                   </Field>
@@ -199,11 +187,11 @@ const PaymentsListFilters = (props: Props) => {
                     withFocus
                     multiple
                   >
-                    {Object.keys(tradingTypes)
-                      .filter(value => tradingTypesLabels[value])
+                    {Object.keys(Constants.Payment.tradingTypes)
+                      .filter(value => Constants.Payment.tradingTypesLabels[value])
                       .map(value => (
                         <option key={value} value={value}>
-                          {I18n.t(tradingTypesLabels[value])}
+                          {I18n.t(Constants.Payment.tradingTypesLabels[value])}
                         </option>
                       ))}
                   </Field>
@@ -219,9 +207,9 @@ const PaymentsListFilters = (props: Props) => {
                     withFocus
                     multiple
                   >
-                    {Utils.enumToArray(tradingStatuses).map(value => (
+                    {Utils.enumToArray(Constants.Payment.statuses).map(value => (
                       <option key={value} value={value}>
-                        {I18n.t(tradingStatusesLabels[value])}
+                        {I18n.t(Constants.Payment.statusesLabels[value])}
                       </option>
                     ))}
                   </Field>
@@ -341,7 +329,8 @@ const PaymentsListFilters = (props: Props) => {
                         key={uuid}
                         value={uuid}
                         className={classNames('PaymentsListFilters__select-option', {
-                          'PaymentsListFilters__select-option--inactive': operatorStatus !== operatorsStasuses.ACTIVE,
+                          'PaymentsListFilters__select-option--inactive':
+                            operatorStatus !== Constants.Operator.statuses.ACTIVE,
                         })}
                       >
                         {fullName}
@@ -359,7 +348,7 @@ const PaymentsListFilters = (props: Props) => {
                     withAnyOption
                     withFocus
                   >
-                    {accountTypes.map(({ value, label }) => (
+                    {Constants.accountTypes.map(({ value, label }) => (
                       <option key={value} value={value}>
                         {I18n.t(label)}
                       </option>
@@ -393,9 +382,9 @@ const PaymentsListFilters = (props: Props) => {
                     withAnyOption
                     withFocus
                   >
-                    {Utils.enumToArray(warningValues).map(value => (
+                    {Utils.enumToArray(Constants.warningValues).map(value => (
                       <option key={value} value={value}>
-                        {I18n.t(warningLabels[value])}
+                        {I18n.t(Constants.warningLabels[value])}
                       </option>
                     ))}
                   </Field>

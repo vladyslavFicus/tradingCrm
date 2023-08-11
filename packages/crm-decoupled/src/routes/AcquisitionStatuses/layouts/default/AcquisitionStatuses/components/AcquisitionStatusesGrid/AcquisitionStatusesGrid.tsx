@@ -1,13 +1,12 @@
 import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
+import { Constants } from '@crm/common';
 import { TrashButton } from 'components';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { Table, Column } from 'components/Table';
 import useAcquisitionStatuses, {
   AcquisitionStatus,
 } from 'routes/AcquisitionStatuses/hooks/useAcquisitionStatuses';
-import { retentionStatuses } from 'constants/retentionStatuses';
-import { salesStatuses } from 'constants/salesStatuses';
 import './AcquisitionStatusesGrid.scss';
 
 const AcquisitionStatusesGrid = () => {
@@ -22,11 +21,11 @@ const AcquisitionStatusesGrid = () => {
   const renderStatusName = useCallback(({ type, status }: AcquisitionStatus) => (
     <div className="AcquisitionStatusesGrid__text-primary">
       <If condition={type === AcquisitionStatusTypes.SALES}>
-        {I18n.t(salesStatuses[status], { defaultValue: status })}
+        {I18n.t(Constants.salesStatuses[status], { defaultValue: status })}
       </If>
 
       <If condition={type === AcquisitionStatusTypes.RETENTION}>
-        {I18n.t(retentionStatuses[status], { defaultValue: status })}
+        {I18n.t(Constants.retentionStatuses[status], { defaultValue: status })}
       </If>
     </div>
   ), []);

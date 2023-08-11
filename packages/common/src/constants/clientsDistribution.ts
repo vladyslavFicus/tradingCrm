@@ -5,7 +5,7 @@ export const clientDistributionStatuses: Record<DistributionRuleStatusesEnum, st
   [DistributionRuleStatusesEnum.INACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.INACTIVE',
 };
 
-export const statusesLabels: Record<DistributionRuleStatusesEnum, string> = {
+export const clientDistributionStatusesLabels: Record<DistributionRuleStatusesEnum, string> = {
   [DistributionRuleStatusesEnum.ACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.ACTIVE',
   [DistributionRuleStatusesEnum.INACTIVE]: 'CLIENTS_DISTRIBUTION.STATUSES.INACTIVE',
 };

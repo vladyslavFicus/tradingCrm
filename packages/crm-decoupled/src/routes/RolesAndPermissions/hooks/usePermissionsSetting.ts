@@ -1,8 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Types, notify, useModal, useLightbox } from '@crm/common';
+import { Types, Constants, notify, useModal, useLightbox } from '@crm/common';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import rbac from 'constants/rbac';
 import { useActionsQuery } from '../graphql/__generated__/ActionsQuery';
 import { useDefaultAuthorityQuery } from '../graphql/__generated__/DefaultAuthorityQuery';
 import { useUpdateAuthorityActionsMutation } from '../graphql/__generated__/UpdateAuthorityActionsMutation';
@@ -24,7 +23,7 @@ const usePermissionsSetting = (props: Props) => {
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
-  const getSectionsList = useCallback((authorityActions: Array<string>) => rbac.map((sectionItem) => {
+  const getSectionsList = useCallback((authorityActions: Array<string>) => Constants.rbac.map((sectionItem) => {
     const section = { ...sectionItem };
     const [actionKey] = Object.keys(section?.actions || {});
 

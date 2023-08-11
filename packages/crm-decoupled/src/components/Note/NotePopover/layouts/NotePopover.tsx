@@ -3,11 +3,10 @@ import { Popover, PopoverBody, PopoverHeader } from 'reactstrap';
 import { Field, Form, Formik } from 'formik';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { Utils, Types } from '@crm/common';
+import { Utils, Types, Constants } from '@crm/common';
 import { Button, TrashButton } from 'components';
 import { FormikInputField, FormikSwitchField, FormikTextAreaField } from 'components/Formik';
 import Uuid from 'components/Uuid';
-import { entities, entitiesPrefixes } from 'constants/uuid';
 import useNotePopover from '../hooks/useNotePopover';
 import './NotePopover.scss';
 
@@ -62,7 +61,7 @@ const NotePopover = (props: Props) => {
     }
 
     const [type] = note.targetUUID.split('-', 1);
-    const uuidPrefix = entitiesPrefixes[type as entities];
+    const uuidPrefix = Constants.entitiesPrefixes[type as Constants.entities];
 
     return (
       <>

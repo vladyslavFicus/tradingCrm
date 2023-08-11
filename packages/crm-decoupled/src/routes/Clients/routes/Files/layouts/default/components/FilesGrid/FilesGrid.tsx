@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { Constants } from '@crm/common';
 import { File } from '__generated__/types';
 import Link from 'components/Link';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
-import { categoriesLabels, categories, documentsTypeLabels, documentsType } from 'constants/files';
 import './FilesGrid.scss';
 
 type Props = {
@@ -82,8 +82,8 @@ const FilesGrid = (props: Props) => {
   const renderCategory = useCallback(({ verificationType }: File) => (
     <div className="FilesGrid__category">
       {
-        verificationType && categoriesLabels[verificationType as categories]
-          ? I18n.t(categoriesLabels[verificationType as categories])
+        verificationType && Constants.documentsCategoriesLabels[verificationType as Constants.documentsCategories]
+          ? I18n.t(Constants.documentsCategoriesLabels[verificationType as Constants.documentsCategories])
           : verificationType
       }
     </div>
@@ -92,8 +92,8 @@ const FilesGrid = (props: Props) => {
   const renderDocumentType = useCallback(({ documentType }: File) => (
     <div className="FilesGrid__document-type">
       {
-        documentType && documentsTypeLabels[documentType as documentsType]
-          ? I18n.t(documentsTypeLabels[documentType as documentsType])
+        documentType && Constants.documentsTypeLabels[documentType as Constants.documentsType]
+          ? I18n.t(Constants.documentsTypeLabels[documentType as Constants.documentsType])
           : documentType
       }
     </div>

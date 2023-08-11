@@ -1,4 +1,4 @@
-import { Config } from '@crm/common';
+import { permissions } from '../config';
 
 export enum statuses {
   NOT_VERIFIED = 'NOT_VERIFIED',
@@ -211,7 +211,7 @@ export const statusActions: StatusActions = {
       action: actions.BLOCK,
       label: 'ACTIONS_LABELS.BLOCK',
       reasons,
-      permission: Config.permissions.USER_PROFILE.STATUS,
+      permission: permissions.USER_PROFILE.STATUS,
     },
   ],
   [statuses.VERIFIED]: [
@@ -219,7 +219,7 @@ export const statusActions: StatusActions = {
       action: actions.BLOCK,
       label: 'ACTIONS_LABELS.BLOCK',
       reasons,
-      permission: Config.permissions.USER_PROFILE.STATUS,
+      permission: permissions.USER_PROFILE.STATUS,
     },
   ],
   [statuses.BLOCKED]: [
@@ -227,7 +227,7 @@ export const statusActions: StatusActions = {
       action: actions.UNBLOCK,
       label: 'ACTIONS_LABELS.UNBLOCK',
       reasons: unblockReasons,
-      permission: Config.permissions.USER_PROFILE.STATUS,
+      permission: permissions.USER_PROFILE.STATUS,
     },
   ],
 };

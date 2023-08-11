@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import moment from 'moment';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, Constants } from '@crm/common';
 import { LastWithdrawalDepositFragment as TableCell } from 'fragments/__generated__/lastWithdrawalDeposit';
 import { Table, Column } from 'components/Table';
 import GridPaymentInfo from 'components/GridPaymentInfo';
@@ -11,7 +11,6 @@ import Uuid from 'components/Uuid';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import PaymentStatus from 'components/PaymentStatus';
-import { aggregatorsLabels, tradingTypes, tradingTypesLabels } from 'constants/payment';
 import './DashboardPaymentsGrid.scss';
 
 type Props = {
@@ -136,7 +135,7 @@ const DashboardPaymentsGrid = (props: Props) => {
   }, []);
 
   const renderPaymentType = useCallback((
-    payment: { paymentType: keyof typeof tradingTypesLabels, externalReference: string },
+    payment: { paymentType: keyof typeof Constants.Payment.tradingTypesLabels, externalReference: string },
   ) => {
     const { paymentType, externalReference } = payment;
 
@@ -148,20 +147,22 @@ const DashboardPaymentsGrid = (props: Props) => {
             'DashboardPaymentsGrid__text-primary',
             'DashboardPaymentsGrid__type',
             {
-              'DashboardPaymentsGrid__type--deposit': paymentType === tradingTypes.DEPOSIT,
-              'DashboardPaymentsGrid__type--withdraw': paymentType === tradingTypes.WITHDRAW,
-              'DashboardPaymentsGrid__type--interest-rate': paymentType === tradingTypes.INTEREST_RATE,
+              'DashboardPaymentsGrid__type--deposit': paymentType === Constants.Payment.tradingTypes.DEPOSIT,
+              'DashboardPaymentsGrid__type--withdraw': paymentType === Constants.Payment.tradingTypes.WITHDRAW,
+              'DashboardPaymentsGrid__type--interest-rate':
+                paymentType === Constants.Payment.tradingTypes.INTEREST_RATE,
               'DashboardPaymentsGrid__type--demo-deposit': paymentType === 'DEMO_DEPOSIT', // TODO: check type
               'DashboardPaymentsGrid__type--fee': paymentType === 'FEE', // TODO: check type
-              'DashboardPaymentsGrid__type--inactivity-fee': paymentType === tradingTypes.INACTIVITY_FEE,
-              'DashboardPaymentsGrid__type--transfer-in': paymentType === tradingTypes.TRANSFER_IN,
-              'DashboardPaymentsGrid__type--transfer-out': paymentType === tradingTypes.TRANSFER_OUT,
-              'DashboardPaymentsGrid__type--credit-in': paymentType === tradingTypes.CREDIT_IN,
-              'DashboardPaymentsGrid__type--credit-out': paymentType === tradingTypes.CREDIT_OUT,
+              'DashboardPaymentsGrid__type--inactivity-fee':
+                paymentType === Constants.Payment.tradingTypes.INACTIVITY_FEE,
+              'DashboardPaymentsGrid__type--transfer-in': paymentType === Constants.Payment.tradingTypes.TRANSFER_IN,
+              'DashboardPaymentsGrid__type--transfer-out': paymentType === Constants.Payment.tradingTypes.TRANSFER_OUT,
+              'DashboardPaymentsGrid__type--credit-in': paymentType === Constants.Payment.tradingTypes.CREDIT_IN,
+              'DashboardPaymentsGrid__type--credit-out': paymentType === Constants.Payment.tradingTypes.CREDIT_OUT,
             },
           )}
         >
-          {I18n.t(tradingTypesLabels[paymentType])}
+          {I18n.t(Constants.Payment.tradingTypesLabels[paymentType])}
         </div>
 
         <If condition={!!externalReference}>
@@ -209,15 +210,15 @@ const DashboardPaymentsGrid = (props: Props) => {
   ), []);
 
   const renderPaymentAggregator = useCallback((
-    payment: { paymentAggregator: keyof typeof aggregatorsLabels },
+    payment: { paymentAggregator: keyof typeof Constants.Payment.aggregatorsLabels },
   ) => {
     const { paymentAggregator } = payment;
 
     return (
       <Choose>
-        <When condition={!!aggregatorsLabels[paymentAggregator]}>
+        <When condition={!!Constants.Payment.aggregatorsLabels[paymentAggregator]}>
           <div className="DashboardPaymentsGrid__text-primary">
-            {I18n.t(aggregatorsLabels[paymentAggregator])}
+            {I18n.t(Constants.Payment.aggregatorsLabels[paymentAggregator])}
           </div>
         </When>
 

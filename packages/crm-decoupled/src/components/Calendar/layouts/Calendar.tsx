@@ -5,8 +5,7 @@ import {
   Views,
   momentLocalizer,
 } from '@hrzn/react-big-calendar';
-import { CommonCallback } from '@crm/common/src/types/common';
-import { Event, Range } from 'constants/calendar';
+import { Types } from '@crm/common';
 import useCalendar from 'components/Calendar/hooks/useCalendar';
 import Toolbar from './components/Toolbar';
 import '@hrzn/react-big-calendar/lib/css/react-big-calendar.css';
@@ -14,10 +13,10 @@ import '@hrzn/react-big-calendar/lib/css/react-big-calendar.css';
 const localizer = momentLocalizer(moment);
 
 type Props = {
-  onRangeChange?: (range: Range) => void,
+  onRangeChange?: (range: Types.Range) => void,
   className: string,
-  events: Array<Event<CommonCallback>>,
-  onSelectEvent: (event: Event<CommonCallback>) => void,
+  events: Array<Types.Event<Types.CommonCallback>>,
+  onSelectEvent: (event: Types.Event<Types.CommonCallback>) => void,
 };
 
 const Calendar = (props: Props) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { intersection, sortBy } from 'lodash';
 import { Formik, Field, Form } from 'formik';
-import { Config, notify, Types } from '@crm/common';
+import { Config, Constants, notify, Types } from '@crm/common';
 import {
   AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
   ClientSearch__Input as ClientSearch,
@@ -10,8 +10,6 @@ import {
 } from '__generated__/types';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
-import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
-import { retentionStatuses as staticRetentionStatuses } from 'constants/retentionStatuses';
 import { useOperatorsSubordinatesQuery } from './graphql/__generated__/OperatorsSubordinatesQuery';
 import { useDesksTeamsQuery } from './graphql/__generated__/DesksTeamsQuery';
 import { useAcquisitionStatusesQuery } from './graphql/__generated__/AcquisitionStatusesQuery';
@@ -350,7 +348,7 @@ const UpdateRepresentativeModal = (props: Props) => {
                   <When condition={type === AcquisitionStatusTypes.SALES}>
                     {salesStatuses.map(({ status }) => (
                       <option key={status} value={status}>
-                        {I18n.t(staticSalesStatuses[status])}
+                        {I18n.t(Constants.salesStatuses[status])}
                       </option>
                     ))}
                   </When>
@@ -358,7 +356,7 @@ const UpdateRepresentativeModal = (props: Props) => {
                   <Otherwise>
                     {retentionStatuses.map(({ status }) => (
                       <option key={status} value={status}>
-                        {I18n.t(staticRetentionStatuses[status])}
+                        {I18n.t(Constants.retentionStatuses[status])}
                       </option>
                     ))}
                   </Otherwise>

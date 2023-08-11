@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { filesize } from 'filesize';
 import { Field } from 'formik';
 import I18n from 'i18n-js';
-import { Utils, Types } from '@crm/common';
+import { Utils, Types, Constants } from '@crm/common';
 import { TrashButton } from 'components';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import NoteActionManual from 'components/Note/NoteActionManual';
 import Uuid from 'components/Uuid';
-import { targetTypes } from 'constants/note';
 import { FileData } from '../constants';
 import './UploadingFileModal.scss';
 
@@ -152,7 +151,7 @@ const UploadingFileModal = (props: Props) => {
                 note={fileNote || null}
                 playerUUID={profileUUID}
                 targetUUID={fileUuid}
-                targetType={targetTypes.FILE}
+                targetType={Constants.targetTypes.FILE}
                 onEditSuccess={editFileNote}
                 onDeleteSuccess={() => removeFileNote(fileUuid)}
               />

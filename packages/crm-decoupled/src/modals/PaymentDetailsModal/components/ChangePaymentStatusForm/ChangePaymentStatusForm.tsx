@@ -1,10 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { Utils, notify, Types } from '@crm/common';
+import { Utils, Constants, notify, Types } from '@crm/common';
 import { Button } from 'components';
 import { FormikSelectField } from 'components/Formik';
-import { statusMapper, statusesLabels, statuses } from 'constants/payment';
 import { useUpdatePaymentMethodMutation } from './graphql/__generated__/UpdatePaymentMethodMutation';
 import { useUpdatePaymentStatusMutation } from './graphql/__generated__/UpdatePaymentStatusMutation';
 import { useManualPaymentMethodsQuery } from './graphql/__generated__/ManualPaymentMethodsQuery';
@@ -114,11 +113,11 @@ const ChangePaymentStatusForm = (props: Props) => {
             >
               {
                   Object
-                    .entries(statusMapper)
-                    .filter(([item]) => item !== statuses.PENDING)
+                    .entries(Constants.Payment.statusMapper)
+                    .filter(([item]) => item !== Constants.Payment.statuses.PENDING)
                     .map(([key, value]) => (
                       <option key={key} value={value[0]}>
-                        {I18n.t(Utils.renderLabel(key, statusesLabels))}
+                        {I18n.t(Utils.renderLabel(key, Constants.Payment.statusesLabels))}
                       </option>
                     ))
                 }

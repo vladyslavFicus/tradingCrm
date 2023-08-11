@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, Constants } from '@crm/common';
 import { Button, RefreshButton } from 'components';
 import useFilter from 'hooks/useFilter';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
@@ -15,8 +15,6 @@ import {
 } from 'routes/Leads/routes/LeadsList/constants/leadsGridFilter';
 import useLeadsGridFilter from 'routes/Leads/routes/LeadsList/hooks/useLeadsGridFilter';
 import { FormValues } from 'routes/Leads/routes/LeadsList/types/leadsGridFilter';
-import { statuses as operatorsStasuses } from 'constants/operators';
-import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
 import './LeadsGridFilter.scss';
 
 type Props = {
@@ -192,8 +190,9 @@ const LeadsGridFilter = (props:Props) => {
                     key={uuid}
                     value={uuid}
                     className={classNames('LeadsGridFilter__select-option', {
-                      'LeadsGridFilter__select-option--inactive': operatorStatus === operatorsStasuses.INACTIVE
-                          || operatorStatus === operatorsStasuses.CLOSED,
+                      'LeadsGridFilter__select-option--inactive':
+                        operatorStatus === Constants.Operator.statuses.INACTIVE
+                        || operatorStatus === Constants.Operator.statuses.CLOSED,
                     })}
                   >
                     {fullName}
@@ -215,7 +214,7 @@ const LeadsGridFilter = (props:Props) => {
               >
                 {salesStatuses.map(({ status }) => (
                   <option key={status} value={status}>
-                    {I18n.t(staticSalesStatuses[status])}
+                    {I18n.t(Constants.salesStatuses[status])}
                   </option>
                 ))}
               </Field>

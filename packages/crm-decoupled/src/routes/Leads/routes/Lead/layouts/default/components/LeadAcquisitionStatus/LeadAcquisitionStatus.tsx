@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
+import { Constants } from '@crm/common';
 import { Lead } from '__generated__/types';
-import { salesStatuses } from 'constants/salesStatuses';
 import useLeadAcquisitionStatus from 'routes/Leads/routes/Lead/hooks/useLeadAcquisitionStatus';
 import './LeadAcquisitionStatus.scss';
 
@@ -44,7 +44,7 @@ const LeadAcquisitionStatus = (_props: Props) => {
                   `LeadAcquisitionStatus__status--${color}`,
                 )}
                 >
-                  {I18n.t(salesStatuses[salesStatus as string])}
+                  {I18n.t(Constants.salesStatuses[salesStatus as string])}
                 </div>
               </When>
 

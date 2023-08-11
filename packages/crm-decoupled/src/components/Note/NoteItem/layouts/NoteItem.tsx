@@ -1,10 +1,9 @@
 import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { Config, Types } from '@crm/common';
+import { Config, Types, Constants } from '@crm/common';
 import ActionsDropDown from 'components/ActionsDropDown';
 import Uuid from 'components/Uuid';
-import { entities, entitiesPrefixes } from 'constants/uuid';
 import useNoteItem from '../hooks/useNoteItem';
 import './NoteItem.scss';
 
@@ -23,7 +22,7 @@ const NoteItem = (props: Props) => {
   // ===== Renders ===== //
   const renderItemId = useCallback((noteTargetUUID: string) => {
     const [type] = noteTargetUUID.split('-', 1);
-    const uuidPrefix = entitiesPrefixes[type as entities];
+    const uuidPrefix = Constants.entitiesPrefixes[type as Constants.entities];
 
     return (
       <Uuid uuid={noteTargetUUID} uuidPrefix={uuidPrefix} />
@@ -55,7 +54,7 @@ const NoteItem = (props: Props) => {
 
         <div className="NoteItem__heading">
           <If condition={!!changedBy}>
-            <Uuid uuid={changedBy} uuidPrefix={entitiesPrefixes[entities.OPERATOR]} />
+            <Uuid uuid={changedBy} uuidPrefix={Constants.entitiesPrefixes[Constants.entities.OPERATOR]} />
           </If>
 
           <div className="NoteItem__edition-date">

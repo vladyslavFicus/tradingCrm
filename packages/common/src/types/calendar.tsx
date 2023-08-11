@@ -1,4 +1,4 @@
-import { CallbackType } from './callbacks';
+import { CallbackType } from '../constants';
 
 export type Range = {
   start: Date,

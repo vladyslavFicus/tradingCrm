@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import moment, { Moment } from 'moment';
-import { CallbackType } from 'constants/callbacks';
-import { Range } from 'constants/calendar';
+import { Types, Constants } from '@crm/common';
 
 type VisibleDate = (date: Moment) => Moment;
 
@@ -14,11 +13,11 @@ type BackgroundColor = {
 type UseCalendar = {
   firstVisibleDate: VisibleDate,
   lastVisibleDate: VisibleDate,
-  handleRangeChange: (range?: Range) => void,
-  eventStyleGetter: (callback : { callbackType: CallbackType }) => BackgroundColor,
+  handleRangeChange: (range?: Types.Range) => void,
+  eventStyleGetter: (callback : { callbackType: Constants.CallbackType }) => BackgroundColor,
 };
 
-const useCalendar = (onRangeChange?: (range: Range) => void): UseCalendar => {
+const useCalendar = (onRangeChange?: (range: Types.Range) => void): UseCalendar => {
   /**
    * Get first visible date in calendar
    * @param date
@@ -37,7 +36,7 @@ const useCalendar = (onRangeChange?: (range: Range) => void): UseCalendar => {
    * Handle on range change event
    * @param range
    */
-  const handleRangeChange = useCallback((range?: Range) => {
+  const handleRangeChange = useCallback((range?: Types.Range) => {
     let rangeObject = {};
 
     // Convert range to object { start: Moment, end: Moment }
@@ -53,7 +52,7 @@ const useCalendar = (onRangeChange?: (range: Range) => void): UseCalendar => {
       };
     }
 
-    onRangeChange?.(rangeObject as Range);
+    onRangeChange?.(rangeObject as Types.Range);
   }, []);
 
   /**
@@ -61,8 +60,8 @@ const useCalendar = (onRangeChange?: (range: Range) => void): UseCalendar => {
    * @param event
    * @return { style: {} }
    */
-  const eventStyleGetter = useCallback(({ callbackType }: { callbackType: CallbackType }) => {
-    const backgroundColor = callbackType === CallbackType.LEAD
+  const eventStyleGetter = useCallback(({ callbackType }: { callbackType: Constants.CallbackType }) => {
+    const backgroundColor = callbackType === Constants.CallbackType.LEAD
       ? 'var(--state-colors-success)'
       : 'var(--state-colors-info)';
     return { style: { backgroundColor } };

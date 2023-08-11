@@ -2,10 +2,9 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
+import { Utils, Constants } from '@crm/common';
 import { Button } from 'components';
 import { Feed } from '__generated__/types';
-import { types, typesLabels } from 'constants/audit';
 import Uuid from 'components/Uuid';
 import useFeedItem from 'components/FeedItem/hooks/useFeedItem';
 import FeedDetails from './components/FeedDetails';
@@ -49,8 +48,8 @@ const FeedItem = (props: Props) => {
           <div className="FeedItem__title">
             <div className="FeedItem__status">
               <Choose>
-                <When condition={!!type && !!typesLabels[type]}>
-                  {I18n.t(typesLabels[type])}
+                <When condition={!!type && !!Constants.auditTypesLabels[type]}>
+                  {I18n.t(Constants.auditTypesLabels[type])}
                 </When>
 
                 <Otherwise>
@@ -78,7 +77,11 @@ const FeedItem = (props: Props) => {
           <span className="FeedItem__creation-date">
             {moment.utc(creationDate).local().format('DD.MM.YYYY HH:mm:ss')}
 
-            <If condition={[types.LOG_IN, types.LOG_OUT].includes(type as types) && !!ip}>
+            <If condition={[
+              Constants.auditTypes.LOG_IN,
+              Constants.auditTypes.LOG_OUT,
+            ].includes(type as Constants.auditTypes) && !!ip}
+            >
               <span className="FeedItem__creation-date-from">{I18n.t('COMMON.FROM')}</span>
               {ip}
             </If>

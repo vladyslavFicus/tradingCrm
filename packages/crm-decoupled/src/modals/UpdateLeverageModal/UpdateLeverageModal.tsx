@@ -1,8 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Config, Utils, notify, Types } from '@crm/common';
-import { accountTypesLabels } from 'constants/accountTypes';
+import { Config, Utils, notify, Types, Constants } from '@crm/common';
 import Modal from 'components/Modal';
 import Badge from 'components/Badge';
 import { FormikSelectField } from 'components/Formik';
@@ -84,7 +83,7 @@ const UpdateLeverageModal = (props: Props) => {
             </div>
 
             <Badge
-              text={I18n.t(archived ? 'CONSTANTS.ARCHIVED' : accountTypesLabels[accountType].label)}
+              text={I18n.t(archived ? 'CONSTANTS.ARCHIVED' : Constants.accountTypesLabels[accountType].label)}
               info={accountType === 'DEMO' && !archived}
               success={accountType === 'LIVE' && !archived}
               danger={archived}

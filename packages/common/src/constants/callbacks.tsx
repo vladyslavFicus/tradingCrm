@@ -1,6 +1,4 @@
-import { Types } from '@crm/common';
-
-export type CallbackTimes = 'callbackTime' | 'creationTime' | 'updateTime';
+import { LabelValue } from '../types';
 
 export enum CallbackType {
   CLIENT = 'CLIENT',
@@ -15,7 +13,7 @@ export const filterLabels: Record<string, string> = {
   date: 'CALLBACKS.FILTER.DATE_RANGE',
 };
 
-export const reminderValues: Array<Types.LabelValue> = [
+export const reminderValues: Array<LabelValue> = [
   {
     value: 'PT5M',
     label: '5 minutes',

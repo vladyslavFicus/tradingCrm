@@ -2,11 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Field, Form, Formik } from 'formik';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, Constants } from '@crm/common';
 import { Button, RefreshButton } from 'components';
 import { Operator, Partner } from '__generated__/types';
-import { filterLabels } from 'constants/user';
-import { statuses as operatorsStatuses } from 'constants/operators';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import useRulesGridFilter from '../hooks/useRulesGridFilter';
 import './RulesGridFilter.scss';
@@ -49,7 +47,7 @@ const RulesGridFilter = (props: Props) => {
               className="RulesGridFilter__field RulesGridFilter__search"
               data-testid="RulesGridFilter-createdByOrUuidInput"
               placeholder={I18n.t('RULES.FILTERS.RULE')}
-              label={I18n.t(filterLabels.searchValue)}
+              label={I18n.t(Constants.User.filterLabels.searchValue)}
               addition={<i className="icon icon-search" />}
               component={FormikInputField}
               withFocus
@@ -60,7 +58,7 @@ const RulesGridFilter = (props: Props) => {
               className="RulesGridFilter__field RulesGridFilter__select"
               data-testid="RulesGridFilter-countrySelect"
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              label={I18n.t(filterLabels.country)}
+              label={I18n.t(Constants.User.filterLabels.country)}
               component={FormikSelectField}
               withAnyOption
               searchable
@@ -80,7 +78,7 @@ const RulesGridFilter = (props: Props) => {
               className="RulesGridFilter__field RulesGridFilter__select"
               data-testid="RulesGridFilter-languageSelect"
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              label={I18n.t(filterLabels.language)}
+              label={I18n.t(Constants.User.filterLabels.language)}
               component={FormikSelectField}
               withAnyOption
               searchable
@@ -132,7 +130,7 @@ const RulesGridFilter = (props: Props) => {
                     key={uuid}
                     value={uuid}
                     className={classNames('RulesGridFilter__select-option', {
-                      'RulesGridFilter__select-option--inactive': operatorStatus !== operatorsStatuses.ACTIVE,
+                      'RulesGridFilter__select-option--inactive': operatorStatus !== Constants.Operator.statuses.ACTIVE,
                     })}
                   >
                     {fullName ? I18n.t(fullName) : ''}

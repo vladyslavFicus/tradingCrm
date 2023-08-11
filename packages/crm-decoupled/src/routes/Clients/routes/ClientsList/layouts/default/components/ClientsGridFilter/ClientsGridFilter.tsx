@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { Formik, Form } from 'formik';
 import I18n from 'i18n-js';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, Constants } from '@crm/common';
 import { Button, RefreshButton } from 'components';
 import useFilter from 'hooks/useFilter';
 import {
@@ -16,7 +16,6 @@ import { FilterSetsDecorator, FilterSetsButtons } from 'components/FilterSetsDec
 import DynamicFiltersButton from 'components/DynamicFiltersButton';
 import ReactSwitch from 'components/ReactSwitch';
 import TimeZoneField from 'components/TimeZoneField/TimeZoneField';
-
 import {
   MAX_SELECTED_CLIENTS,
   acquisitionStatuses,
@@ -27,14 +26,6 @@ import {
 } from 'routes/Clients/routes/ClientsList/constants';
 import { FormValues } from 'routes/Clients/routes/ClientsList/types';
 import useClientsGridFilter from 'routes/Clients/routes/ClientsList/hooks/useClientsGridFilter';
-import { filterSetTypes } from 'constants/filterSet';
-import { warningLabels, warningValues } from 'constants/warnings';
-import { kycStatuses, kycStatusesLabels } from 'constants/kycStatuses';
-import { retentionStatuses as staticRetentionStatuses } from 'constants/retentionStatuses';
-import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
-import { statuses as operatorsStatuses } from 'constants/operators';
-import { statuses, statusesLabels, TERMS_ACCEPTED_FILTER_TYPES } from 'constants/user';
-import { isSales, isRetention, userTypes } from 'constants/hierarchyTypes';
 import './ClientsGridFilter.scss';
 
 type Props = {
@@ -99,16 +90,17 @@ const ClientsGridFilter = (props:Props) => {
           const teamsOptions = desksUuids.length ? teamsByDesks : teams;
 
           const operatorsOptions = filterOperators(values);
-          const salesOperatorsOptions = operatorsOptions.filter(({ userType }) => isSales(userType as userTypes));
+          const salesOperatorsOptions = operatorsOptions.filter(({ userType }) => (
+            Constants.isSales(userType as Constants.userTypes)));
           const retentionOperatorsOptions = operatorsOptions.filter((
             { userType },
-          ) => isRetention(userType as userTypes));
+          ) => Constants.isRetention(userType as Constants.userTypes));
           const languagesOptions = ['other', ...Config.getAvailableLanguages()];
 
           return (
             <FilterSetsDecorator
               // @ts-ignore Component withRouter HOC types issue
-              filterSetType={filterSetTypes.CLIENT}
+              filterSetType={Constants.filterSetTypes.CLIENT}
               currentValues={values}
               disabled={clientsLoading}
               isOldClientsGridFilterPanel={isOldClientsGridFilterPanel}
@@ -370,8 +362,9 @@ const ClientsGridFilter = (props:Props) => {
                         key={uuid}
                         value={uuid}
                         className={classNames('ClientsGridFilter__select-option', {
-                          'ClientsGridFilter__select-option--inactive': operatorStatus === operatorsStatuses.INACTIVE
-                              || operatorStatus === operatorsStatuses.CLOSED,
+                          'ClientsGridFilter__select-option--inactive':
+                              operatorStatus === Constants.Operator.statuses.INACTIVE
+                              || operatorStatus === Constants.Operator.statuses.CLOSED,
                         })}
                       >
                         {fullName}
@@ -493,9 +486,9 @@ const ClientsGridFilter = (props:Props) => {
                     withFocus
                     multiple
                   >
-                    {Object.keys(statusesLabels).map(status => (
+                    {Object.keys(Constants.User.statusesLabels).map(status => (
                       <option key={status} value={status}>
-                        {I18n.t(statusesLabels[status as statuses])}
+                        {I18n.t(Constants.User.statusesLabels[status as Constants.User.statuses])}
                       </option>
                     ))}
                   </Field>
@@ -511,9 +504,9 @@ const ClientsGridFilter = (props:Props) => {
                     withFocus
                     multiple
                   >
-                    {Object.keys(kycStatusesLabels).map(status => (
+                    {Object.keys(Constants.kycStatusesLabels).map(status => (
                       <option key={status} value={status}>
-                        {I18n.t(kycStatusesLabels[status as kycStatuses])}
+                        {I18n.t(Constants.kycStatusesLabels[status as Constants.kycStatuses])}
                       </option>
                     ))}
                   </Field>
@@ -575,7 +568,7 @@ const ClientsGridFilter = (props:Props) => {
                   >
                     {salesStatuses.map(({ status }) => (
                       <option key={status} value={status}>
-                        {I18n.t(staticSalesStatuses[status])}
+                        {I18n.t(Constants.salesStatuses[status])}
                       </option>
                     ))}
                   </Field>
@@ -595,7 +588,7 @@ const ClientsGridFilter = (props:Props) => {
                   >
                     {retentionStatuses.map(({ status }) => (
                       <option key={status} value={status}>
-                        {I18n.t(staticRetentionStatuses[status])}
+                        {I18n.t(Constants.retentionStatuses[status])}
                       </option>
                     ))}
                   </Field>
@@ -624,8 +617,9 @@ const ClientsGridFilter = (props:Props) => {
                         key={uuid}
                         value={uuid}
                         className={classNames('ClientsGridFilter__select-option', {
-                          'ClientsGridFilter__select-option--inactive': operatorStatus === operatorsStatuses.INACTIVE
-                              || operatorStatus === operatorsStatuses.CLOSED,
+                          'ClientsGridFilter__select-option--inactive':
+                            operatorStatus === Constants.Operator.statuses.INACTIVE
+                            || operatorStatus === Constants.Operator.statuses.CLOSED,
                         })}
                       >
                         {fullName}
@@ -657,8 +651,9 @@ const ClientsGridFilter = (props:Props) => {
                         key={uuid}
                         value={uuid}
                         className={classNames('ClientsGridFilter__select-option', {
-                          'ClientsGridFilter__select-option--inactive': operatorStatus === operatorsStatuses.INACTIVE
-                            || operatorStatus === operatorsStatuses.CLOSED,
+                          'ClientsGridFilter__select-option--inactive':
+                            operatorStatus === Constants.Operator.statuses.INACTIVE
+                            || operatorStatus === Constants.Operator.statuses.CLOSED,
                         })}
                       >
                         {fullName}
@@ -674,7 +669,7 @@ const ClientsGridFilter = (props:Props) => {
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSelectField}
                   >
-                    {TERMS_ACCEPTED_FILTER_TYPES.map(({ label, value }) => (
+                    {Constants.User.TERMS_ACCEPTED_FILTER_TYPES.map(({ label, value }) => (
                       <option key={label} value={value}>
                         {I18n.t(`PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.TERMS_ACCEPTED_TYPES.${label}`)}
                       </option>
@@ -931,9 +926,9 @@ const ClientsGridFilter = (props:Props) => {
                     withAnyOption
                     withFocus
                   >
-                    {Object.keys(warningLabels).map(warning => (
+                    {Object.keys(Constants.warningLabels).map(warning => (
                       <option key={warning} value={warning}>
-                        {I18n.t(warningLabels[warning as warningValues])}
+                        {I18n.t(Constants.warningLabels[warning as Constants.warningValues])}
                       </option>
                     ))}
                   </Field>

@@ -1,10 +1,9 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set, compact } from 'lodash';
-import { Config, Utils, useModal, usePermission, Types } from '@crm/common';
+import { Config, Utils, Constants, useModal, usePermission, Types } from '@crm/common';
 import { Profile } from '__generated__/types';
 import CreatePaymentModal, { CreatePaymentModalProps } from 'modals/CreatePaymentModal';
-import { statusMapper, statuses } from 'constants/payment';
 import { usePaymentsQuery, PaymentsQueryVariables } from '../graphql/__generated__/PaymentsQuery';
 import { useProfileQuery } from '../graphql/__generated__/ProfileQuery';
 
@@ -36,7 +35,8 @@ const useClientPaymentsTab = () => {
       args: {
         ...state?.filters ? state.filters : { accountType: 'LIVE' },
         statuses: state?.filters?.statuses
-          ? compact(state?.filters?.statuses).map(item => statusMapper[item as statuses]).flat()
+          ? compact(state?.filters?.statuses)
+            .map(item => Constants.Payment.statusMapper[item as Constants.Payment.statuses]).flat()
           : undefined,
         profileId: playerUUID,
         page: {

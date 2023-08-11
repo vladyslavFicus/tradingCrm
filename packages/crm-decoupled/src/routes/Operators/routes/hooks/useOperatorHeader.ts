@@ -1,10 +1,9 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config, Utils, parseErrors, notify, Types, usePermission, useModal } from '@crm/common';
+import { Config, Utils, Constants, parseErrors, notify, Types, usePermission, useModal } from '@crm/common';
 import { Operator } from '__generated__/types';
 import ChangePasswordModal, { ChangePasswordModalProps } from 'modals/ChangePasswordModal';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import { passwordPattern, passwordMaxSize, passwordCustomError } from 'constants/operators';
 import { useOperatorLockStatusQuery } from '../graphql/__generated__/OperatorLockStatusQuery';
 import { useChangeOperatorPasswordMutation } from '../graphql/__generated__/ChangeOperatorPasswordMutation';
 import { useResetOperatorPasswordMutation } from '../graphql/__generated__/ResetOperatorPasswordMutation';
@@ -134,9 +133,9 @@ const useOperatorHeader = (props: Props): UseOperatorHeader => {
       onSubmit: handleChangePassword,
       fullName: fullName || '',
       uuid,
-      passwordPattern: passwordPattern.toString(),
-      passwordMaxSize,
-      passwordCustomError,
+      passwordPattern: Constants.Operator.passwordPattern.toString(),
+      passwordMaxSize: Constants.Operator.passwordMaxSize,
+      passwordCustomError: Constants.Operator.passwordCustomError,
     });
   }, [fullName, uuid]);
 

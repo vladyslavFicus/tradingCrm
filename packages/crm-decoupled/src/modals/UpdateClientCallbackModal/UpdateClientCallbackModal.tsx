@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Config, Utils, notify, Types, usePermission } from '@crm/common';
+import { Config, Utils, Constants, notify, Types, usePermission } from '@crm/common';
 import { Button } from 'components';
 import { ClientCallback, Operator, Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
 import Modal from 'components/Modal';
@@ -10,7 +10,6 @@ import { FormikSelectField, FormikDatePicker } from 'components/Formik';
 import ShortLoader from 'components/ShortLoader';
 import Uuid from 'components/Uuid';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
-import { reminderValues } from 'constants/callbacks';
 import { useGetClientCallbackQuery } from './graphql/__generated__/GetClientCallbackQuery';
 import { useGetOperatorsQuery } from './graphql/__generated__/GetOperatorsQuery';
 import { useUpdateClientCallbackMutation } from './graphql/__generated__/UpdateClientCallbackMutation';
@@ -238,7 +237,7 @@ const UpdateClientCallbackModal = (props: Props) => {
                   component={FormikSelectField}
                   disabled={readOnly}
                 >
-                  {reminderValues.map(({ value, label }) => (
+                  {Constants.reminderValues.map(({ value, label }) => (
                     <option key={value} value={value}>
                       {label}
                     </option>

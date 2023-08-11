@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import classNames from 'classnames';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, Constants } from '@crm/common';
 import { Button, RefreshButton } from 'components';
 import { DistributionRule__Statuses__Enum as DistributionRuleStatusesEnum } from '__generated__/types';
 import useFilter from 'hooks/useFilter';
@@ -10,8 +10,6 @@ import { FiltersToggler } from 'components/FiltersToggler';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import useDistributionRulesGridFilters from 'routes/DistributionRules/hooks/useDistributionRulesGridFilters';
 import { RulesFormValues } from 'routes/DistributionRules/types';
-import { statusesLabels, timeInCurrentStatusInHours } from 'constants/clientsDistribution';
-import { salesStatuses } from 'constants/salesStatuses';
 import { firstTimeDepositFilter } from './constants';
 import './DistributionRulesGridFilters.scss';
 
@@ -66,7 +64,7 @@ const DistributionRulesGridFilters = (props: Props) => {
               >
                 {Utils.enumToArray(DistributionRuleStatusesEnum).map(status => (
                   <option key={status} value={status}>
-                    {I18n.t(statusesLabels[status])}
+                    {I18n.t(Constants.clientDistributionStatusesLabels[status])}
                   </option>
                 ))}
               </Field>
@@ -102,9 +100,9 @@ const DistributionRulesGridFilters = (props: Props) => {
                 withFocus
                 multiple
               >
-                {Object.keys(salesStatuses).map(value => (
+                {Object.keys(Constants.salesStatuses).map(value => (
                   <option key={value} value={value}>
-                    {I18n.t(Utils.renderLabel(value, salesStatuses))}
+                    {I18n.t(Utils.renderLabel(value, Constants.salesStatuses))}
                   </option>
                 ))}
               </Field>
@@ -211,7 +209,7 @@ const DistributionRulesGridFilters = (props: Props) => {
                 withFocus
                 multiple
               >
-                {timeInCurrentStatusInHours.map(({ label, value, i18nValue }) => (
+                {Constants.timeInCurrentStatusInHours.map(({ label, value, i18nValue }) => (
                   <option key={value} value={value}>
                     {I18n.t(label, { value: i18nValue })}
                   </option>

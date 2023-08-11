@@ -1,10 +1,8 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config, useStorageState, Auth, usePermission, useModal } from '@crm/common';
+import { Config, Constants, useStorageState, Auth, usePermission, useModal } from '@crm/common';
 import { Profile, AcquisitionStatusTypes__Enum as AcquisitionStatusEnum } from '__generated__/types';
 import UpdateRepresentativeModal, { UpdateRepresentativeModalProps } from 'modals/UpdateRepresentativeModal';
-import { salesStatusesColor, salesStatuses } from 'constants/salesStatuses';
-import { retentionStatusesColor, retentionStatuses } from 'constants/retentionStatuses';
 
 type Props = {
   profile: Profile,
@@ -28,16 +26,16 @@ const useClientAcquisitionStatus = (props: Props) => {
   const acquisitionItems = {
     SALES: {
       status: salesStatus,
-      statusTitle: salesStatuses[salesStatus as string],
-      color: salesStatusesColor[salesStatus as string],
+      statusTitle: Constants.salesStatuses[salesStatus as string],
+      color: Constants.salesStatusesColor[salesStatus as string],
       operator: salesOperator,
       availableToUpdate: department !== 'RETENTION',
       isActive: acquisitionStatus === 'SALES',
     },
     RETENTION: {
       status: retentionStatus,
-      statusTitle: retentionStatuses[retentionStatus as string],
-      color: retentionStatusesColor[retentionStatus as string],
+      statusTitle: Constants.retentionStatuses[retentionStatus as string],
+      color: Constants.retentionStatusesColor[retentionStatus as string],
       operator: retentionOperator,
       availableToUpdate: department !== 'SALES',
       isActive: acquisitionStatus === 'RETENTION',
