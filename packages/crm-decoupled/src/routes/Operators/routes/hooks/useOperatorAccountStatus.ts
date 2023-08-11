@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
-import { Config, useModal, LevelType, notify, usePermission } from '@crm/common';
+import { Config, useModal, Types, notify, usePermission } from '@crm/common';
 import { Operator } from '__generated__/types';
 import ChangeAccountStatusModal, { ChangeAccountStatusModalProps, FormValues } from 'modals/ChangeAccountStatusModal';
 import { StatusAction, statusActions, statuses } from 'constants/operators';
@@ -69,7 +69,7 @@ const useOperatorAccountStatus = (props: Props): UseOperatorAccountStatus => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.MESSAGE'),
       });
@@ -79,7 +79,7 @@ const useOperatorAccountStatus = (props: Props): UseOperatorAccountStatus => {
       changeAccountStatusModal.hide();
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.ERROR.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.ERROR.MESSAGE'),
       });

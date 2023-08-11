@@ -2,10 +2,9 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { Button, RefreshButton } from 'components';
 import { TradingEngine__OperatorStatuses__Enum as OperatorStatusesEnum } from '__generated__/types';
-import { State } from 'types';
 import {
   FormikInputField,
   FormikSelectField,
@@ -33,7 +32,7 @@ const OperatorsFilter = (props: Props) => {
   const { onRefresh } = props;
 
   const navigate = useNavigate();
-  const state = useLocation().state as State<FormValues>;
+  const state = useLocation().state as Types.State<FormValues>;
   const operatorAccessDataQuery = useOperatorAccessDataQuery();
 
   const groups = operatorAccessDataQuery.data?.tradingEngine.operatorAccessData.accessibleGroupNames || [];

@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Config, Utils, notify, LevelType, usePermission } from '@crm/common';
+import { Config, Utils, notify, Types, usePermission } from '@crm/common';
 import { Button } from 'components';
 import { ClientCallback, Operator, Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
 import Modal from 'components/Modal';
@@ -72,13 +72,13 @@ const UpdateClientCallbackModal = (props: Props) => {
       handleClose();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('CALLBACKS.MODAL.CLIENT_TITLE'),
         message: I18n.t('CALLBACKS.MODAL.SUCCESSFULLY_UPDATED'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('CALLBACKS.MODAL.CLIENT_TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

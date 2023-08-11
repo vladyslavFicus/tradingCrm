@@ -1,7 +1,7 @@
-import { ManualNote, NoteEntity } from 'types/Note';
+import { Types } from '@crm/common';
 
 type Props = {
-  note?: NoteEntity | ManualNote,
+  note?: Types.NoteEntity | Types.ManualNote,
 };
 
 const useNoteIcon = (props: Props) => {

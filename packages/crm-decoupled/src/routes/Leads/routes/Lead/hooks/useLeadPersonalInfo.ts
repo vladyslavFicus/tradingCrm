@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
 import Trackify from '@hrzn/trackify';
-import { Config, Utils, usePermission, notify, LevelType } from '@crm/common';
+import { Config, Utils, usePermission, notify, Types } from '@crm/common';
 import { Lead } from '__generated__/types';
 import { useLeadPhonesQueryLazyQuery } from '../graphql/__generated__/LeadPhonesQuery';
 import { useLeadEmailQueryLazyQuery } from '../graphql/__generated__/LeadEmailQuery';
@@ -51,7 +51,7 @@ const useLeadPersonalInfo = (props: Props) => {
       setState({ ...state, phone, mobile });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -68,7 +68,7 @@ const useLeadPersonalInfo = (props: Props) => {
       setState({ ...state, email });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

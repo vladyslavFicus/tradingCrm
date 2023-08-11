@@ -3,7 +3,7 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { UncontrolledTooltip } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { LevelType } from '@crm/common';
+import { Types } from '@crm/common';
 import { Button } from 'components';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
@@ -99,7 +99,7 @@ const ClientPersonalInfo = (props: Props) => {
                 <CopyToClipboard
                   text={affiliate.source || ''}
                   withNotification
-                  notificationLevel={LevelType.INFO}
+                  notificationLevel={Types.LevelType.INFO}
                   notificationTitle="COMMON.NOTIFICATIONS.COPIED"
                   notificationMessage="COMMON.NOTIFICATIONS.CLIPPED_VALUE_MESSAGE"
                 >
@@ -129,7 +129,7 @@ const ClientPersonalInfo = (props: Props) => {
                 <CopyToClipboard
                   text={affiliate.referral || ''}
                   withNotification
-                  notificationLevel={LevelType.INFO}
+                  notificationLevel={Types.LevelType.INFO}
                   notificationTitle="COMMON.NOTIFICATIONS.COPIED"
                   notificationMessage="COMMON.NOTIFICATIONS.CLIPPED_VALUE_MESSAGE"
                 >
@@ -161,7 +161,7 @@ const ClientPersonalInfo = (props: Props) => {
                 <CopyToClipboard
                   text={affiliate.campaignId || ''}
                   withNotification
-                  notificationLevel={LevelType.INFO}
+                  notificationLevel={Types.LevelType.INFO}
                   notificationTitle="COMMON.NOTIFICATIONS.COPIED"
                   notificationMessage="COMMON.NOTIFICATIONS.CLIPPED_VALUE_MESSAGE"
                 >

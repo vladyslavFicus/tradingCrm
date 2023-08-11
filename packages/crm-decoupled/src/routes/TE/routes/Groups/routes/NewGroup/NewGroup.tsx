@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { omit } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, FormikProps } from 'formik';
-import { Config, Utils, notify, LevelType, parseErrors } from '@crm/common';
+import { Config, Utils, notify, Types, parseErrors } from '@crm/common';
 import NewGroupProfileHeader from '../../components/GroupProfileHeaderNew';
 import GroupCommonForm from '../../components/GroupCommonForm';
 import GroupPermissionsForm from '../../components/GroupPermissionsForm';
@@ -56,7 +56,7 @@ const NewGroup = () => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('TRADING_ENGINE.GROUP.GROUP'),
         message: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.CREATE.SUCCESS'),
       });
@@ -66,7 +66,7 @@ const NewGroup = () => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('TRADING_ENGINE.GROUP.GROUP'),
         message: error.error === 'error.group.already.exists'
           ? I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.CREATE.FAILED_EXIST')

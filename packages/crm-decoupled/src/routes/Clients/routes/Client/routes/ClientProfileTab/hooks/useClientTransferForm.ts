@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
-import { Config, parseErrors, notify, LevelType, usePermission } from '@crm/common';
+import { Config, parseErrors, notify, Types, usePermission } from '@crm/common';
 import { Profile } from '__generated__/types';
 import { useUpdateClientTransferMutation } from '../graphql/__generated__/UpdateClientTransferMutation';
 
@@ -36,7 +36,7 @@ const useClientTransferForm = (props: Props): UseClientTransferForm => {
       await updateClientTransferMutation({ variables: { playerUUID: profile.uuid, internalTransfer } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.TRANSFER_AVAILABILITY.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
@@ -46,7 +46,7 @@ const useClientTransferForm = (props: Props): UseClientTransferForm => {
       const { error } = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.PROFILE.TRANSFER_AVAILABILITY.TITLE'),
         message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
       });

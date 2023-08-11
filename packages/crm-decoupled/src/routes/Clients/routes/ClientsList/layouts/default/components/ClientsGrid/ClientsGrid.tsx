@@ -4,16 +4,14 @@ import { QueryResult } from '@apollo/client';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, Types } from '@crm/common';
 import { UncontrolledTooltip } from 'components';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
   ClickToCall__Customer__Type__Enum as CustomerType,
   ProfileView,
-  Sort__Input as Sort,
   GridConfig__Types__Enum as GridConfigTypes,
 } from '__generated__/types';
-import { TableSelection } from 'types';
 import Uuid from 'components/Uuid';
 import Link from 'components/Link';
 import GridPlayerInfo from 'components/GridPlayerInfo';
@@ -34,9 +32,9 @@ import { targetTypes } from 'constants/note';
 import './ClientsGrid.scss';
 
 type Props = {
-  sorts: Array<Sort>,
+  sorts: Array<Types.Sort>,
   clientsQuery: QueryResult<ClientsListQuery>,
-  onSelect: (selectedClients: TableSelection) => void,
+  onSelect: (selectedClients: Types.TableSelection) => void,
 };
 
 const ClientsGrid = (props: Props) => {

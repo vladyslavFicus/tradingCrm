@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, FormikProps } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { Utils, notify, LevelType, parseErrors } from '@crm/common';
+import { Utils, notify, Types, parseErrors } from '@crm/common';
 import { Button } from 'components';
 import I18n from 'i18n-config';
 import { decodeNullValues } from 'components/Formik/utils';
@@ -44,7 +44,7 @@ const SymbolNew = () => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('TRADING_ENGINE.NEW_SYMBOL.TITLE'),
         message: I18n.t('TRADING_ENGINE.NEW_SYMBOL.NOTIFICATION.SUCCESS'),
       });
@@ -54,7 +54,7 @@ const SymbolNew = () => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('TRADING_ENGINE.NEW_SYMBOL.TITLE'),
         message: error.error === 'error.symbol.already.exist'
           ? I18n.t('TRADING_ENGINE.NEW_SYMBOL.NOTIFICATION.FAILED_EXIST')

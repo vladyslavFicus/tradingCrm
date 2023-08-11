@@ -3,11 +3,10 @@ import I18n from 'i18n-js';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import classNames from 'classnames';
-import { Config, usePermission, useModal } from '@crm/common';
+import { Config, Types, usePermission, useModal } from '@crm/common';
 import { Button } from 'components';
 import { TradingEngine__OperatorStatuses__Enum as OperatorStatusesEnum } from '__generated__/types';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
-import { Sort, State } from 'types';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
@@ -24,7 +23,7 @@ import './Operators.scss';
 type Operator = ExtractApolloTypeFromPageable<OperatorsQuery['tradingEngine']['operators']>;
 
 const Operators = () => {
-  const state = useLocation().state as State<OperatorsQueryVariables['args']>;
+  const state = useLocation().state as Types.State<OperatorsQueryVariables['args']>;
   const navigate = useNavigate();
 
   const permission = usePermission();
@@ -53,7 +52,7 @@ const Operators = () => {
     path: 'page.from',
   });
 
-  const handleSort = (sorts: Sort[]) => {
+  const handleSort = (sorts: Types.Sort[]) => {
     navigate('.', {
       replace: true,
       state: {

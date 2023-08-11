@@ -1,16 +1,15 @@
 import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, Types } from '@crm/common';
 import ActionsDropDown from 'components/ActionsDropDown';
 import Uuid from 'components/Uuid';
 import { entities, entitiesPrefixes } from 'constants/uuid';
-import { Note } from 'types/Note';
 import useNoteItem from '../hooks/useNoteItem';
 import './NoteItem.scss';
 
 type Props = {
-  note: Note,
+  note: Types.Note,
 };
 
 const NoteItem = (props: Props) => {

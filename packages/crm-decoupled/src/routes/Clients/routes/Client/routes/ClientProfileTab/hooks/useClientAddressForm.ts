@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
-import { Config, parseErrors, notify, LevelType, usePermission } from '@crm/common';
+import { Config, parseErrors, notify, Types, usePermission } from '@crm/common';
 import { Profile } from '__generated__/types';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormValues } from '../types/clientAddressForm';
@@ -47,7 +47,7 @@ const useClientAddressForm = (props: Props): UseClientAddressForm => {
       setClientAddress(values);
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
@@ -55,7 +55,7 @@ const useClientAddressForm = (props: Props): UseClientAddressForm => {
       const { error } = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE'),
         message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
       });

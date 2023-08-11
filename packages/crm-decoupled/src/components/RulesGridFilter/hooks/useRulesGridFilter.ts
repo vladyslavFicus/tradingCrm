@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FormikHelpers, FormikValues } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { decodeNullValues } from 'components/Formik/utils';
-import { State } from 'types';
 import { filterLabels } from 'constants/user';
 
 import { RulesQueryVariables } from '../graphql/__generated__/RulesQuery';
@@ -17,7 +16,7 @@ const validate = Utils.createValidator({
 }, Utils.translateLabels(filterLabels), false);
 
 const useRulesGridFilter = () => {
-  const state = useLocation().state as State<RulesQueryVariables>;
+  const state = useLocation().state as Types.State<RulesQueryVariables>;
   const navigate = useNavigate();
 
   const initialValues = state?.filters || {};

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
-import { Utils, LevelType, notify } from '@crm/common';
+import { Utils, notify, Types } from '@crm/common';
 import { Button } from 'components';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
-import { SetFieldValue } from 'types/formik';
 import { useUpdatePaymentSystemMutation } from './graphql/__generated__/UpdatePaymentSystemMutation';
 import { usePaymentSystemsProviderQuery } from './graphql/__generated__/PaymentSystemsProviderQuery';
 import './ChangePaymentSystemForm.scss';
@@ -40,7 +39,7 @@ const ChangePaymentSystemForm = (props: Props) => {
 
   const [updatePaymentSystemMutation] = useUpdatePaymentSystemMutation();
 
-  const onChangePaymentSystem = (value: string, setFieldValue: SetFieldValue<FormValues>) => {
+  const onChangePaymentSystem = (value: string, setFieldValue: Types.SetFieldValue<FormValues>) => {
     setFieldValue('paymentSystem', value);
     setIsOtherSelected(value === 'UNDEFINED');
   };
@@ -56,7 +55,7 @@ const ChangePaymentSystemForm = (props: Props) => {
       await updatePaymentSystemMutation({ variables: { paymentId, paymentSystem: paymentSystemValue } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.UPDATE_SYSTEM_SUCCESS'),
       });
@@ -64,7 +63,7 @@ const ChangePaymentSystemForm = (props: Props) => {
       onSuccess();
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.UPDATE_SYSTEM_ERROR'),
       });

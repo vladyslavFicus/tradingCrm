@@ -1,10 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikProps } from 'formik';
-import { Config, Utils, notify } from '@crm/common';
+import { Config, Utils, Types, notify } from '@crm/common';
 import { PaymentDeposit } from '__generated__/types';
-import { LevelType } from 'types/notify';
-
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { attributeLabels } from './constants';
@@ -29,7 +27,7 @@ const UpdateDepositAmountModal = (props: Props) => {
 
   const handleSubmit = (updatedDepositAmount: PaymentDeposit) => {
     notify({
-      level: LevelType.SUCCESS,
+      level: Types.LevelType.SUCCESS,
       title: I18n.t('FEATURE_TOGGLES.MODALS.UPDATE_DEPOSIT_AMOUNT.TITLE'),
       message: I18n.t('FEATURE_TOGGLES.MODALS.UPDATE_DEPOSIT_AMOUNT.NOTIFICATION.SUCCESS'),
     });

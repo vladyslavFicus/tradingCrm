@@ -1,8 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { Config, useModal, usePermission } from '@crm/common';
-import { Sort__Input as Sort } from '__generated__/types';
-import { State } from 'types';
+import { Config, useModal, usePermission, Types } from '@crm/common';
 import CreateLeadCallbackModal, { CreateLeadCallbackModalProps } from 'modals/CreateLeadCallbackModal';
 import {
   LeadCallbacksListQueryVariables,
@@ -12,7 +10,7 @@ import {
 const useLeadCallbacksTab = () => {
   const uuid = useParams().id as string;
 
-  const state = useLocation().state as State<LeadCallbacksListQueryVariables>;
+  const state = useLocation().state as Types.State<LeadCallbacksListQueryVariables>;
 
   const navigate = useNavigate();
 
@@ -48,7 +46,7 @@ const useLeadCallbacksTab = () => {
     });
   }, [createLeadCallbackModal, uuid, refetch]);
 
-  const handleSort = useCallback((sorts: Array<Sort>) => {
+  const handleSort = useCallback((sorts: Array<Types.Sort>) => {
     navigate('.', {
       replace: true,
       state: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { notify, LevelType, useModal } from '@crm/common';
+import { notify, Types, useModal } from '@crm/common';
 import { Button } from 'components';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { OrderQuery } from '../../graphql/__generated__/OrderQuery';
@@ -35,7 +35,7 @@ const CancelOrderButton = (props: Props) => {
           });
 
           notify({
-            level: LevelType.SUCCESS,
+            level: Types.LevelType.SUCCESS,
             title: I18n.t('COMMON.SUCCESS'),
             message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CANCEL_SUCCESS'),
           });
@@ -43,7 +43,7 @@ const CancelOrderButton = (props: Props) => {
           onSuccess(true);
         } catch (_) {
           notify({
-            level: LevelType.ERROR,
+            level: Types.LevelType.ERROR,
             title: I18n.t('COMMON.ERROR'),
             message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.CANCEL_FAILED'),
           });

@@ -1,10 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { Button } from 'components';
 import { Partner } from '__generated__/types';
-
 import CopyToClipboard from 'components/CopyToClipboard';
 import {
   FormikInputField,
@@ -47,7 +46,6 @@ const PartnerPersonalInfoForm = (props: Props) => {
     role,
     minFtdDeposit,
     cumulativeDeposit,
-    LevelType,
     handleSubmit,
   } = usePartnerPersonalInfoForm({ partner, onRefetch });
 
@@ -164,7 +162,7 @@ const PartnerPersonalInfoForm = (props: Props) => {
               <If condition={!!values.externalAffiliateId && !!values.public}>
                 <CopyToClipboard
                   withNotification
-                  notificationLevel={LevelType.SUCCESS}
+                  notificationLevel={Types.LevelType.SUCCESS}
                   notificationTitle={I18n.t('COMMON.NOTIFICATIONS.COPIED')}
                   notificationMessage={I18n.t('COMMON.NOTIFICATIONS.COPY_LINK')}
                   className="PartnerPersonalInfoForm__ib-link-container"

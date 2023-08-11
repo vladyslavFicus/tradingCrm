@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
-import { Utils, parseErrors, notify, LevelType } from '@crm/common';
+import { Utils, parseErrors, notify, Types } from '@crm/common';
 import { HierarchyBranchUser } from '__generated__/types';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
@@ -71,7 +71,7 @@ const AddBranchManagerModal = (props: Props) => {
       const operatorName = selectedOperator?.operator?.fullName;
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('MODALS.ADD_BRANCH_MANAGER_MODAL.NOTIFICATION.SUCCEED.TITLE'),
         message: I18n.t(
           'MODALS.ADD_BRANCH_MANAGER_MODAL.NOTIFICATION.SUCCEED.DESC',
@@ -85,7 +85,7 @@ const AddBranchManagerModal = (props: Props) => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('MODALS.ADD_BRANCH_MANAGER_MODAL.NOTIFICATION.FAILED.TITLE'),
         message: error.error === 'error.branch.manager.addition'
           ? I18n.t('MODALS.ADD_BRANCH_MANAGER_MODAL.NOTIFICATION.FAILED.ADDITION_FAILED')

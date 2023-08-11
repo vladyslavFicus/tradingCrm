@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
-import { State } from 'types';
+import { Types } from '@crm/common';
 import { useNotificationsQuery, NotificationsQueryVariables } from '../graphql/__generated__/NotificationsQuery';
 
 const useNotifications = () => {
-  const state = useLocation().state as State<NotificationsQueryVariables>;
+  const state = useLocation().state as Types.State<NotificationsQueryVariables>;
 
   // ===== Requests ===== //
   const { data, loading, variables, refetch, fetchMore } = useNotificationsQuery({

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
-import { Config, Utils, useModal, LevelType, notify, usePermission, parseErrors } from '@crm/common';
+import { Config, Utils, Types, useModal, notify, usePermission, parseErrors } from '@crm/common';
 import { LoginLock } from '__generated__/types';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import CreateClientCallbackModal, { CreateClientCallbackModalProps } from 'modals/CreateClientCallbackModal';
@@ -73,7 +73,7 @@ const useClientHeader = (props: Props): UseClientHeader => {
       await clientUnlockLoginMutation({ variables: { playerUUID: uuid } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.TITLE'),
         message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_UNLOCK.MESSAGE'),
       });
@@ -81,7 +81,7 @@ const useClientHeader = (props: Props): UseClientHeader => {
       refetch();
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.TITLE'),
         message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_UNLOCK.MESSAGE'),
       });
@@ -93,7 +93,7 @@ const useClientHeader = (props: Props): UseClientHeader => {
       await clientResetPasswordMutation({ variables: { playerUUID: uuid } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
         message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.SUCCESS_NOTIFICATION_TEXT'),
       });
@@ -101,7 +101,7 @@ const useClientHeader = (props: Props): UseClientHeader => {
       confirmActionModal.hide();
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
         message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.ERROR_NOTIFICATION_TEXT'),
       });
@@ -124,7 +124,7 @@ const useClientHeader = (props: Props): UseClientHeader => {
       await clientChangePasswordMutation({ variables: { newPassword, clientUuid: uuid } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
         message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
       });
@@ -134,7 +134,7 @@ const useClientHeader = (props: Props): UseClientHeader => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE'),
         message: I18n.t(
           error.error,

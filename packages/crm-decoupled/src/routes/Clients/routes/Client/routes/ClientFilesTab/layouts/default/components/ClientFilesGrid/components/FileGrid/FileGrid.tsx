@@ -3,10 +3,9 @@ import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { Utils } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { EditButton, DownloadButton, TrashButton } from 'components';
 import { File } from '__generated__/types';
-import { FileCategories } from 'types/fileCategories';
 import { Table, Column } from 'components/Table';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Select from 'components/Select';
@@ -24,7 +23,7 @@ import './FileGrid.scss';
 
 type Props = {
   data: Array<File>,
-  categories: FileCategories,
+  categories: Types.FileCategories,
   verificationType: string,
   verificationStatus: string,
   documentType: string,

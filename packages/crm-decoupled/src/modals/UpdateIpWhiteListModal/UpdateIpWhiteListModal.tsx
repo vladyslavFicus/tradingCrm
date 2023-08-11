@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils, notify, LevelType } from '@crm/common';
+import { Utils, notify, Types } from '@crm/common';
 import { IpWhitelistAddress } from '__generated__/types';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
@@ -48,13 +48,13 @@ const UpdateIpWhiteListModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('IP_WHITELIST.MODALS.UPDATE_DESCRIPTION_MODAL.NOTIFICATIONS.IP_UPDATED'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('IP_WHITELIST.MODALS.UPDATE_DESCRIPTION_MODAL.NOTIFICATIONS.IP_NOT_UPDATED'),
       });

@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import I18n from 'i18n-js';
-import { Config, notify, LevelType, useModal, usePermission } from '@crm/common';
+import { Config, notify, Types, useModal, usePermission } from '@crm/common';
 import { Profile } from '__generated__/types';
 import ChangeAccountStatusModal, { ChangeAccountStatusModalProps, FormValues } from 'modals/ChangeAccountStatusModal';
 import { statuses, statusActions, actions } from 'constants/user';
@@ -38,7 +38,7 @@ const useClientAccountStatus = (props: Props) => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('CLIENT_PROFILE.CLIENT.ACCOUNT_STATUS.NOTIFICATIONS.SUCCESS.TITLE'),
         message: I18n.t('CLIENT_PROFILE.CLIENT.ACCOUNT_STATUS.NOTIFICATIONS.SUCCESS.MESSAGE'),
       });
@@ -46,7 +46,7 @@ const useClientAccountStatus = (props: Props) => {
       changeAccountStatusModal.hide();
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('CLIENT_PROFILE.CLIENT.ACCOUNT_STATUS.NOTIFICATIONS.ERROR.TITLE'),
         message: I18n.t('CLIENT_PROFILE.CLIENT.ACCOUNT_STATUS.NOTIFICATIONS.ERROR.MESSAGE'),
       });

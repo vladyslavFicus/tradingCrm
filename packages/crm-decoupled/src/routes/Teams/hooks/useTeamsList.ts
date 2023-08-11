@@ -1,12 +1,11 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Config, usePermission, useModal } from '@crm/common';
-import { State } from 'types';
+import { Config, usePermission, useModal, Types } from '@crm/common';
 import CreateTeamModal, { CreateTeamModalProps } from 'modals/CreateTeamModal';
 import { useTeamsListQuery, TeamsListQueryVariables } from '../graphql/__generated__/TeamsListQuery';
 
 const useTeamsList = () => {
-  const state = useLocation().state as State<TeamsListQueryVariables>;
+  const state = useLocation().state as Types.State<TeamsListQueryVariables>;
 
   const permission = usePermission();
   const allowCreateBranch = permission.allows(Config.permissions.HIERARCHY.CREATE_BRANCH);

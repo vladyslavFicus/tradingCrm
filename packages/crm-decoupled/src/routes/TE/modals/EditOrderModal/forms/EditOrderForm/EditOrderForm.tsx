@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import moment from 'moment';
-import { Config, Utils, notify, LevelType, usePermission, useModal } from '@crm/common';
+import { Config, Utils, notify, Types, usePermission, useModal } from '@crm/common';
 import { Button, Input } from 'components';
 import { OrderStatus, OrderType } from 'types/trading-engine';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
@@ -135,7 +135,7 @@ const EditOrderForm = (props: Props) => {
           }
 
           notify({
-            level: LevelType.SUCCESS,
+            level: Types.LevelType.SUCCESS,
             title: I18n.t('COMMON.SUCCESS'),
             message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.SUCCESS'),
           });
@@ -143,7 +143,7 @@ const EditOrderForm = (props: Props) => {
           await onSuccess(false);
         } catch (_) {
           notify({
-            level: LevelType.ERROR,
+            level: Types.LevelType.ERROR,
             title: I18n.t('COMMON.ERROR'),
             message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.FAILED'),
           });

@@ -1,9 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Utils, notify, LevelType, useModal } from '@crm/common';
+import { Utils, notify, Types, useModal } from '@crm/common';
 import { Button } from 'components';
 import { TradingEngineOrderAccountBulkClose__OrderInput as BulkCloseInput } from '__generated__/types';
-import { TableSelection } from 'types';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { OrdersQueryQueryResult, OrdersQuery } from '../../graphql/__generated__/OrdersQuery';
 import { useBulkCloseOrderMutation } from './graphql/__generated__/BulkCloseOrderMutation';
@@ -18,7 +17,7 @@ enum closeByEnum {
 type Order = ExtractApolloTypeFromPageable<OrdersQuery['tradingEngine']['orders']>;
 
 type Props = {
-  select: TableSelection | null,
+  select: Types.TableSelection | null,
   ordersQuery: OrdersQueryQueryResult,
 };
 
@@ -81,7 +80,7 @@ const AccountProfileOpenOrderBulkActions = (props: Props) => {
           }
 
           notify({
-            level: LevelType.SUCCESS,
+            level: Types.LevelType.SUCCESS,
             title: I18n.t('COMMON.SUCCESS'),
             message: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.NOTIFICATION.CLOSE_SUCCESS'),
           });
@@ -89,7 +88,7 @@ const AccountProfileOpenOrderBulkActions = (props: Props) => {
           Utils.EventEmitter.emit(Utils.ORDER_RELOAD);
         } catch (_) {
           notify({
-            level: LevelType.ERROR,
+            level: Types.LevelType.ERROR,
             title: I18n.t('COMMON.ERROR'),
             message: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.NOTIFICATION.CLOSE_FAILED'),
           });

@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Form, Formik, FormikProps } from 'formik';
 import { useParams } from 'react-router-dom';
-import { Utils, notify, LevelType, hasErrorPath } from '@crm/common';
+import { Utils, notify, Types, hasErrorPath } from '@crm/common';
 import ShortLoader from 'components/ShortLoader';
 import NotFound from 'routes/NotFound';
 import HolidayHeader from '../../components/HolidayHeader';
@@ -46,13 +46,13 @@ const EditHoliday = () => {
       await editHoliday({ variables: { args: { id, ...values } } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.HOLIDAY.NOTIFICATION.EDIT.SUCCESS'),
       });
     } catch (_) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('TRADING_ENGINE.HOLIDAY.NOTIFICATION.EDIT.FAILED'),
       });

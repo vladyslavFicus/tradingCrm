@@ -1,9 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Config, Utils, notify, LevelType } from '@crm/common';
+import { Config, Utils, notify, Types } from '@crm/common';
 import { FormikInputField } from 'components/Formik/index';
-
 import Modal from 'components/Modal';
 import { useUpdateTradingAccountPasswordMutation } from './graphql/__generated__/UpdateTradingAccountPasswordMutation';
 
@@ -38,13 +37,13 @@ const UpdateTradingAccountPasswordModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.TITLE', { login }),
         message: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.SUCCESSFULLY_CHANGED'),
       });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_PASSWORD.TITLE', { login }),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

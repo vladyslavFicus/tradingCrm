@@ -2,9 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { differenceWith } from 'lodash';
 import { Formik, Form, Field, FormikProps } from 'formik';
-import { Config, Utils, notify, LevelType } from '@crm/common';
+import { Config, Utils, notify, Types } from '@crm/common';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import { SetFieldValue } from 'types/formik';
 import ShortLoader from 'components/ShortLoader';
 import Modal from 'components/Modal';
 import { FormikSelectField } from 'components/Formik';
@@ -73,20 +72,20 @@ const CreateAcquisitionStatusModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('SETTINGS.ACQUISITION_STATUSES.MODALS.NEW_ACQUISITION_STATUS.NOTIFICATION.SUCCESS'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('SETTINGS.ACQUISITION_STATUSES.MODALS.NEW_ACQUISITION_STATUS.NOTIFICATION.FAILED'),
       });
     }
   };
 
-  const handleTypeChange = (type: AcquisitionStatusTypes, setFieldValue: SetFieldValue<FormValues>) => {
+  const handleTypeChange = (type: AcquisitionStatusTypes, setFieldValue: Types.SetFieldValue<FormValues>) => {
     setFieldValue('type', type);
 
     // Clear status field while new type chosen

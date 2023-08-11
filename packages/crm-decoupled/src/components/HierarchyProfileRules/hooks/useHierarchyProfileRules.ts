@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Config, useModal, LevelType, notify, usePermission } from '@crm/common';
+import { Config, useModal, notify, usePermission, Types } from '@crm/common';
 import { Rule } from '__generated__/types';
-import { State } from 'types';
 import { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal/ConfirmActionModal';
 import { CreateRuleModalProps } from 'modals/CreateRuleModal';
@@ -27,7 +26,7 @@ type Props = {
 const useHierarchyProfileRules = (props: Props) => {
   const { branchId } = props;
 
-  const state = useLocation().state as State<RulesQueryVariables>;
+  const state = useLocation().state as Types.State<RulesQueryVariables>;
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
@@ -77,7 +76,7 @@ const useHierarchyProfileRules = (props: Props) => {
       await refetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED', { id: uuid }),
       });
@@ -85,7 +84,7 @@ const useHierarchyProfileRules = (props: Props) => {
       confirmActionModal.hide();
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_DELETED'),
       });

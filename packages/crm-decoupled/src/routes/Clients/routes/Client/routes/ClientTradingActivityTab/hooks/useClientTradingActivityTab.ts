@@ -1,9 +1,8 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
-import { Utils } from '@crm/common';
-import { Sort__Input as Sort, TradingActivity } from '__generated__/types';
-import { State } from 'types';
+import { Utils, Types } from '@crm/common';
+import { TradingActivity } from '__generated__/types';
 import {
   useTradingActivityQuery,
   TradingActivityQueryVariables,
@@ -15,9 +14,9 @@ type UseClientTradingActivityTab = {
   refetch: () => void,
   content: Array<TradingActivity>,
   last: boolean,
-  handleSort: (sorts: Array<Sort>) => void,
+  handleSort: (sorts: Array<Types.Sort>) => void,
   handleLoadMore: () => void,
-  stateSorts: Array<Sort>,
+  stateSorts: Array<Types.Sort>,
 };
 
 const useClientTradingActivityTab = (): UseClientTradingActivityTab => {
@@ -25,7 +24,7 @@ const useClientTradingActivityTab = (): UseClientTradingActivityTab => {
 
   const navigate = useNavigate();
 
-  const state = useLocation().state as State<TradingActivityQueryVariables>;
+  const state = useLocation().state as Types.State<TradingActivityQueryVariables>;
   const stateSorts = state?.sorts || [];
 
   // ===== Requests ===== //
@@ -50,7 +49,7 @@ const useClientTradingActivityTab = (): UseClientTradingActivityTab => {
     }
   }, [loading, fetchMore, variables, number]);
 
-  const handleSort = useCallback((sorts: Array<Sort>) => {
+  const handleSort = useCallback((sorts: Array<Types.Sort>) => {
     navigate('.', {
       replace: true,
       state: {

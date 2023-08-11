@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import moment from 'moment';
 import { useModal } from '@crm/common';
-import { CommonCallback } from 'types/common';
+import { CommonCallback } from '@crm/common/src/types/common';
 import { LeadCallback } from '__generated__/types';
 import UpdateLeadCallbackModal, { UpdateLeadCallbackModalProps } from 'modals/UpdateLeadCallbackModal';
 import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
-import { Utils, notify, LevelType } from '@crm/common';
+import { Utils, notify, Types } from '@crm/common';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useUpdateTradingAccountMutation } from './graphql/__generated__/UpdateTradingAccountMutation';
@@ -36,13 +36,13 @@ const UpdateTradingAccountModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('MODALS.UPDATE_TRADING_ACCOUNT_MODAL.NOTIFICATION.SUCCESS'),
       });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('MODALS.UPDATE_TRADING_ACCOUNT_MODAL.NOTIFICATION.ERROR'),
       });

@@ -1,9 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { useLocation } from 'react-router-dom';
-import { Config, notify, LevelType, usePermission } from '@crm/common';
+import { Config, notify, Types, usePermission } from '@crm/common';
 import { Button } from 'components';
-import { State } from 'types';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import { maxSelectedFavortieSymbols, tradingEngineTabs } from 'routes/TE/constants';
@@ -21,7 +20,7 @@ import './Quotes.scss';
 type SymbolType = ExtractApolloTypeFromPageable<SymbolsQuery['tradingEngine']['symbols']>;
 
 const Quotes = () => {
-  const state = useLocation().state as State<SymbolsQueryVariables['args']>;
+  const state = useLocation().state as Types.State<SymbolsQueryVariables['args']>;
 
   const permission = usePermission();
 
@@ -63,7 +62,7 @@ const Quotes = () => {
         await deleteFavoriteSymbols({ variables: { symbol: symbolValue } });
 
         notify({
-          level: LevelType.SUCCESS,
+          level: Types.LevelType.SUCCESS,
           title: I18n.t('COMMON.SUCCESS'),
           message: I18n.t('TRADING_ENGINE.QUOTES.NOTIFICATION.FAVORITE_SYMBOLS_REMOVED', { symbol: symbolValue }),
         });
@@ -71,7 +70,7 @@ const Quotes = () => {
         await addFavoriteSymbols({ variables: { symbol: symbolValue } });
 
         notify({
-          level: LevelType.SUCCESS,
+          level: Types.LevelType.SUCCESS,
           title: I18n.t('COMMON.SUCCESS'),
           message: I18n.t('TRADING_ENGINE.QUOTES.NOTIFICATION.FAVORITE_SYMBOLS_ADDED', { symbol: symbolValue }),
         });
@@ -81,13 +80,13 @@ const Quotes = () => {
     } catch (_) {
       if (favoriteSymbols.length + 1 >= maxSelectedFavortieSymbols) {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.ERROR'),
           message: I18n.t('TRADING_ENGINE.QUOTES.NOTIFICATION.MAX_COUNT_FAVORITE'),
         });
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.ERROR'),
           message: I18n.t('TRADING_ENGINE.QUOTES.NOTIFICATION.FAVORITE_SYMBOLS_FAILED'),
         });
@@ -100,13 +99,13 @@ const Quotes = () => {
       await restartStreaming();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.QUOTES.NOTIFICATION.RESTART_STREAMING_SUCCESS'),
       });
     } catch (_) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('TRADING_ENGINE.QUOTES.NOTIFICATION.RESTART_STREAMING_FAILED'),
       });

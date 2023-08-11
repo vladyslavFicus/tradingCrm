@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { Config, Utils, notify, LevelType, usePermission } from '@crm/common';
+import { Config, Utils, notify, Types, usePermission } from '@crm/common';
 import { Button, UncontrolledTooltip } from 'components';
 import { Payment } from '__generated__/types';
 import { tradingTypes, statusMapper, tradingStatuses } from 'constants/payment';
@@ -136,7 +136,7 @@ const PaymentDetailsModal = (props: Props) => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PAYMENT_DETAILS_MODAL.CREATION_TIME'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
       });
@@ -144,7 +144,7 @@ const PaymentDetailsModal = (props: Props) => {
       resetForm({ values: { creationTime: timeOfCreation } });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('PAYMENT_DETAILS_MODAL.CREATION_TIME'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

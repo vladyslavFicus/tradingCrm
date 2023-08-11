@@ -1,4 +1,4 @@
-import { LabelValue } from 'types';
+import { Types } from '@crm/common';
 
 export enum leverageStatuses {
   PENDING = 'PENDING',
@@ -23,7 +23,7 @@ export const accountTypesLabels: AccountTypesLabels = {
   },
 };
 
-export const accountTypes: Array<LabelValue> = [
+export const accountTypes: Array<Types.LabelValue> = [
   {
     label: 'CONSTANTS.ACCOUNT_TYPE.DEMO',
     value: 'DEMO',

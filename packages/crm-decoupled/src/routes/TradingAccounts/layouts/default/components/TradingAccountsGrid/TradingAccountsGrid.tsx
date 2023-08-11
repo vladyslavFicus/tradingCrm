@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { Utils } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { Button } from 'components';
 import { AccountView } from '__generated__/types';
 import { accountTypesLabels } from 'constants/accountTypes';
-import { Sorts } from 'types';
 import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
@@ -20,7 +19,7 @@ type Props = {
   loading: boolean,
   last: boolean,
   onFetchMore: () => void,
-  onSort: (sorts: Sorts) => void,
+  onSort: (sorts: Types.Sorts) => void,
 };
 
 const TradingAccountsGrid = (props: Props) => {

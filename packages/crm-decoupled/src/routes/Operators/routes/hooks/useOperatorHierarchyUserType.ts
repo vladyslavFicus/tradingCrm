@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { omit } from 'lodash';
-import { parseErrors, notify, LevelType } from '@crm/common';
+import { parseErrors, notify, Types } from '@crm/common';
 import { Operator } from '__generated__/types';
 import { userTypes } from 'constants/hierarchyTypes';
 import { useUpdateOperatorUserTypeMutation } from '../graphql/__generated__/UpdateOperatorUserTypeMutation';
@@ -39,7 +39,7 @@ const useOperatorHierarchyUserType = (props: Props): UseOperatorHierarchyUserTyp
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('OPERATORS.PROFILE.HIERARCHY.SUCCESS_UPDATE_TYPE'),
       });
@@ -49,7 +49,7 @@ const useOperatorHierarchyUserType = (props: Props): UseOperatorHierarchyUserTyp
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: error.message || I18n.t('OPERATORS.PROFILE.HIERARCHY.ERROR_UPDATE_TYPE'),
       });

@@ -1,9 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { Utils, notify, LevelType } from '@crm/common';
+import { Utils, notify, Types } from '@crm/common';
 import { Button } from 'components';
-
 import { FormikSelectField } from 'components/Formik';
 import { statusMapper, statusesLabels, statuses } from 'constants/payment';
 import { useUpdatePaymentMethodMutation } from './graphql/__generated__/UpdatePaymentMethodMutation';
@@ -71,13 +70,13 @@ const ChangePaymentStatusForm = (props: Props) => {
 
     if (errors.length) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t(`PAYMENT_DETAILS_MODAL.NOTIFICATIONS.${errors.length === 2 ? 'ERROR' : errors[0]}`),
       });
     } else {
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
       });

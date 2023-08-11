@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { FormikProps } from 'formik';
 import ReactPlaceholder from 'react-placeholder';
 import { TextRow } from 'react-placeholder/lib/placeholders';
-import { Config, parseErrors, notify, LevelType, useModal, usePermission } from '@crm/common';
+import { Config, parseErrors, notify, Types, useModal, usePermission } from '@crm/common';
 import { Button } from 'components';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { FormValues } from '../../types';
@@ -40,7 +40,7 @@ const GroupProfileHeaderEdit = (props: Props) => {
       onArchived();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${_enabled ? 'UNARCHIVED' : 'ARCHIVED'}`),
       });
@@ -65,7 +65,7 @@ const GroupProfileHeaderEdit = (props: Props) => {
         });
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.ERROR'),
           message: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.ARCHIVE_GROUP_ERROR'),
         });

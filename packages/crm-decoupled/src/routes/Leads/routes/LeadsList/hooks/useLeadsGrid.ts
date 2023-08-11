@@ -2,16 +2,15 @@ import { useCallback, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { NetworkStatus, QueryResult } from '@apollo/client';
-import { Config, Utils, useModal } from '@crm/common';
-import { Pageable__Lead as PageableLead, Sort__Input as Sort } from '__generated__/types';
-import { State, TableSelection } from 'types';
+import { Config, Utils, Types, useModal } from '@crm/common';
+import { Pageable__Lead as PageableLead } from '__generated__/types';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import { LeadsListQuery, LeadsListQueryVariables } from '../graphql/__generated__/LeadsListQuery';
 
 type Props = {
   leadsQuery: QueryResult<LeadsListQuery>,
-  sorts: Array<Sort>,
+  sorts: Array<Types.Sort>,
 };
 
 const useLeadsGrid = (props: Props) => {
@@ -24,7 +23,7 @@ const useLeadsGrid = (props: Props) => {
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
 
-  const state = useLocation().state as State<LeadsListQueryVariables>;
+  const state = useLocation().state as Types.State<LeadsListQueryVariables>;
   const navigate = useNavigate();
 
   const { response } = Utils.limitItems(data?.leads as PageableLead, state);
@@ -39,7 +38,7 @@ const useLeadsGrid = (props: Props) => {
     path: 'args.page',
   });
 
-  const handleSort = useCallback((sort: Array<Sort>) => {
+  const handleSort = useCallback((sort: Array<Types.Sort>) => {
     navigate('.', {
       replace: true,
       state: {
@@ -53,7 +52,7 @@ const useLeadsGrid = (props: Props) => {
     window.open(`/leads/${uuid}`, '_blank');
   }, []);
 
-  const handleSelectError = useCallback((select: TableSelection) => {
+  const handleSelectError = useCallback((select: Types.TableSelection) => {
     confirmActionModal.show({
       onSubmit: confirmActionModal.hide,
       modalTitle: `${select.max} ${I18n.t('LEADS.LEADS_SELECTED')}`,

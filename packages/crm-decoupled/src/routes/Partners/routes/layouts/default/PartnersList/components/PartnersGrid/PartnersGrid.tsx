@@ -2,8 +2,8 @@ import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { Types } from '@crm/common';
 import { Partner } from '__generated__/types';
-import { Sorts, TableSelection } from 'types';
 import Link from 'components/Link';
 import { Table, Column } from 'components/Table';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
@@ -17,8 +17,8 @@ type Props = {
   totalElements: number,
   last: boolean,
   onFetchMore: () => void,
-  onSort: (sorts: Sorts) => void,
-  onSelect: (select: TableSelection) => void,
+  onSort: (sorts: Types.Sorts) => void,
+  onSelect: (select: Types.TableSelection) => void,
 };
 
 const PartnersGrid = (props: Props) => {

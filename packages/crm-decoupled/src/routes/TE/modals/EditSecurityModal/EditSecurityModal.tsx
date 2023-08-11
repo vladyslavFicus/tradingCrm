@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { Field, Form, Formik } from 'formik';
-import { Utils, parseErrors, notify, LevelType } from '@crm/common';
+import { Utils, parseErrors, notify, Types } from '@crm/common';
 import { Button } from 'components';
 import { FormikInputField } from 'components/Formik';
 import { securityNamePattern } from '../../constants';
@@ -38,7 +38,7 @@ const EditSecurityModalFn = (props: Props) => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.TITLE'),
         message: I18n.t('TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.NOTIFICATION.SUCCESS'),
       });
@@ -49,7 +49,7 @@ const EditSecurityModalFn = (props: Props) => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.TITLE'),
         message: error.error === 'error.security.already.exist'
           ? I18n.t('TRADING_ENGINE.MODALS.EDIT_SECURITY_MODAL.NOTIFICATION.FAILED_EXIST')

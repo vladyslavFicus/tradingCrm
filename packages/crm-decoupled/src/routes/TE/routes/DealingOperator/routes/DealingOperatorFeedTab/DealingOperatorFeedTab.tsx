@@ -1,8 +1,8 @@
 import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
+import { Types } from '@crm/common';
 import { Feed } from '__generated__/types';
-import { State } from 'types';
 import ListView from 'components/ListView/index';
 import FeedItem from 'components/FeedItem';
 import DealingOperatorFeedTabFilter from './components/DealingOperatorFeedFilter';
@@ -11,7 +11,7 @@ import './DealingOperatorFeedTab.scss';
 
 const DealingOperatorFeedTab = () => {
   const targetUUID = useParams().id as string;
-  const state = useLocation().state as State<FeedsQueryVariables>;
+  const state = useLocation().state as Types.State<FeedsQueryVariables>;
 
   const feedsQuery = useFeedsQuery({
     variables: {

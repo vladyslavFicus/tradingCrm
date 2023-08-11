@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { Utils } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { TrashButton } from 'components';
-import { ClientCallback, Sort__Input as Sort } from '__generated__/types';
+import { ClientCallback } from '__generated__/types';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
@@ -18,8 +18,8 @@ import { targetTypes } from 'constants/note';
 import './ClientCallbacksGrid.scss';
 
 type Props = {
-  sorts: Array<Sort>,
-  onSort: (sorts: Array<Sort>) => void,
+  sorts: Array<Types.Sort>,
+  onSort: (sorts: Array<Types.Sort>) => void,
   clientCallbacksListQuery: ClientCallbacksListQueryQueryResult,
 };
 

@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { TrashButton } from 'components';
-import { LeadCallback, Sort__Input as Sort } from '__generated__/types';
+import { LeadCallback } from '__generated__/types';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import NoteAction from 'components/Note/NoteAction';
@@ -17,8 +17,8 @@ import { targetTypes } from 'constants/note';
 import './LeadCallbacksGrid.scss';
 
 type Props = {
-  sorts: Array<Sort>,
-  onSort: (sorts: Array<Sort>) => void,
+  sorts: Array<Types.Sort>,
+  onSort: (sorts: Array<Types.Sort>) => void,
   leadCallbacksListQuery: LeadCallbacksListQueryQueryResult,
 };
 

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
 import { Config, usePermission, useModal } from '@crm/common';
-import { CommonCallback } from 'types/common';
+import { CommonCallback } from '@crm/common/src/types/common';
 import { ClientCallback, LeadCallback } from '__generated__/types';
 import useCalendar from 'components/Calendar/hooks/useCalendar';
 import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';

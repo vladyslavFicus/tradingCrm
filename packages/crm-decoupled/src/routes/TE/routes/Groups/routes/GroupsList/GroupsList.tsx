@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import { Types } from '@crm/common';
 import Tabs from 'components/Tabs';
-import { State } from 'types';
 import { tradingEngineTabs } from '../../../../constants';
 import GroupsHeader from './components/GroupsHeader';
 import GroupsGrid from './components/GroupsGrid';
@@ -10,7 +10,7 @@ import { GroupsQueryVariables, useGroupsQuery } from './graphql/__generated__/Gr
 import './GroupsList.scss';
 
 const GroupsList = () => {
-  const state = useLocation().state as State<GroupsQueryVariables>;
+  const state = useLocation().state as Types.State<GroupsQueryVariables>;
 
   const groupsListQuery = useGroupsQuery({
     variables: {

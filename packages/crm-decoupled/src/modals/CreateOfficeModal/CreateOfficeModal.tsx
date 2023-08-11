@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
-import { Utils, parseErrors, notify, LevelType } from '@crm/common';
+import { Utils, parseErrors, notify, Types } from '@crm/common';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useCreateOfficeMutation } from './graphql/__generated__/CreateOfficeMutation';
@@ -36,7 +36,7 @@ const CreateOfficeModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('MODALS.ADD_OFFICE_MODAL.NOTIFICATION.SUCCESS'),
       });
@@ -47,7 +47,7 @@ const CreateOfficeModal = (props: Props) => {
         formikHelpers.setFieldError('name', I18n.t('MODALS.ADD_OFFICE_MODAL.ERRORS.UNIQUE'));
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: I18n.t('MODALS.ADD_OFFICE_MODAL.NOTIFICATION.ERROR'),
         });

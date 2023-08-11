@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { omit } from 'lodash';
 import Trackify from '@hrzn/trackify';
-import { Config, Utils, parseErrors, usePermission, notify, LevelType } from '@crm/common';
+import { Config, Utils, parseErrors, usePermission, notify, Types } from '@crm/common';
 import { Button, Input } from 'components';
 import { Lead } from '__generated__/types';
 import Modal from 'components/Modal';
@@ -70,7 +70,7 @@ const PromoteLeadModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('LEADS.SUCCESS_PROMOTED'),
       });
@@ -102,7 +102,7 @@ const PromoteLeadModal = (props: Props) => {
       }
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

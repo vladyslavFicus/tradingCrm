@@ -1,7 +1,7 @@
 import I18n from 'i18n-js';
-import { LabelValue } from 'types';
+import { Types } from '@crm/common';
 
-const paymentAccounts: Array<LabelValue> = [
+const paymentAccounts: Array<Types.LabelValue> = [
   {
     label: I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.PAYMENT_ACCOUNTS.SYSTEM'),
     value: 'SYSTEM',

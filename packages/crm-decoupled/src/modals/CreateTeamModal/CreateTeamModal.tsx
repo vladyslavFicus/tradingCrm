@@ -1,8 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { Utils, parseErrors, notify, LevelType } from '@crm/common';
-import { SetFieldValue } from 'types/formik';
+import { Utils, parseErrors, notify, Types } from '@crm/common';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useCreateTeamMutation } from './graphql/__generated__/CreateTeamMutation';
@@ -39,7 +38,7 @@ const CreateTeamModal = (props: Props) => {
   const [createTeamMutation] = useCreateTeamMutation();
 
   // ===== Handlers ===== //
-  const handleOfficeChange = (value: string, setFieldValue: SetFieldValue<FormValues>) => {
+  const handleOfficeChange = (value: string, setFieldValue: Types.SetFieldValue<FormValues>) => {
     setFieldValue('officeUuid', value);
 
     // Clear desk field while new office chosen
@@ -54,7 +53,7 @@ const CreateTeamModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('MODALS.ADD_TEAM_MODAL.NOTIFICATIONS.SUCCESS.TITLE'),
         message: I18n.t('MODALS.ADD_TEAM_MODAL.NOTIFICATIONS.SUCCESS.MESSAGE'),
       });
@@ -65,7 +64,7 @@ const CreateTeamModal = (props: Props) => {
         formikHelpers.setFieldError('teamName', I18n.t('MODALS.ADD_TEAM_MODAL.ERRORS.UNIQUE'));
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('MODALS.ADD_TEAM_MODAL.NOTIFICATIONS.ERROR.TITLE'),
           message: I18n.t('MODALS.ADD_TEAM_MODAL.NOTIFICATIONS.ERROR.MESSAGE'),
         });

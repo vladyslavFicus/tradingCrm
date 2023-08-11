@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { omit } from 'lodash';
-import { Utils, parseErrors, notify, LevelType } from '@crm/common';
+import { Utils, parseErrors, notify, Types } from '@crm/common';
 import { HierarchyBranch } from '__generated__/types';
 import {
   departmentsLabels,
@@ -97,7 +97,7 @@ const CreateOperatorModal = (props: Props) => {
         onExists({ email, department, role, branchId, userType });
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.ERROR'),
           message: I18n.t('COMMON.SOMETHING_WRONG'),
         });

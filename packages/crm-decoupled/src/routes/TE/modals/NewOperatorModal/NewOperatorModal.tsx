@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { Utils, parseErrors, useModal, notify, LevelType } from '@crm/common';
+import { Utils, parseErrors, useModal, notify, Types } from '@crm/common';
 import { Button } from 'components';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
@@ -78,7 +78,7 @@ const NewOperatorModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.TITLE'),
         message: I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTIFICATION.SUCCESS'),
       });
@@ -97,7 +97,7 @@ const NewOperatorModal = (props: Props) => {
         });
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.TITLE'),
           message: error.error === 'error.operator.already.exists'
             ? I18n.t('TRADING_ENGINE.MODALS.NEW_OPERATOR_MODAL.NOTIFICATION.FAILED_EXIST')

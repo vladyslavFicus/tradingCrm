@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Config, usePermission, useModal } from '@crm/common';
-import { State } from 'types';
+import { Config, usePermission, useModal, Types } from '@crm/common';
 import CreateDeskModal, { CreateDeskModalProps } from 'modals/CreateDeskModal';
 import { useDesksListQuery, DesksListQueryVariables, DesksListQuery } from '../graphql/__generated__/DesksListQuery';
 
@@ -17,7 +16,7 @@ type UseDesks = {
 };
 
 const useDesks = (): UseDesks => {
-  const state = useLocation().state as State<DesksListQueryVariables>;
+  const state = useLocation().state as Types.State<DesksListQueryVariables>;
 
   const permission = usePermission();
   const allowCreateBranch = permission.allows(Config.permissions.HIERARCHY.CREATE_BRANCH);

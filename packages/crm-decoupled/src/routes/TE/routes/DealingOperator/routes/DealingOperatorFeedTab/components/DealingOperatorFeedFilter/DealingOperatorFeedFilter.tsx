@@ -2,10 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { Utils } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { Button, RefreshButton } from 'components';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import { State } from 'types';
 import { decodeNullValues } from 'components/Formik/utils';
 
 import { typesLabels } from 'constants/audit';
@@ -19,7 +18,7 @@ type Props = {
 
 const DealingOperatorFeedFilter = ({ handleRefetch }: Props) => {
   const navigate = useNavigate();
-  const state = useLocation().state as State<FeedFilterFormQueryVariables>;
+  const state = useLocation().state as Types.State<FeedFilterFormQueryVariables>;
   const uuid = useParams().id as string;
 
   const feedTypesQuery = useFeedFilterFormQuery({

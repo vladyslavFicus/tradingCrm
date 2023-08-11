@@ -1,8 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { v4 } from 'uuid';
 import { debounce } from 'lodash';
-import { Utils } from '@crm/common';
-import { FormValues, NoteEntity } from 'types/Note';
+import { Utils, Types } from '@crm/common';
 import { useAddNoteMutation } from '../graphql/__generated__/AddNoteMutation';
 import { useUpdateNoteMutation } from '../graphql/__generated__/UpdateNoteMutation';
 import { useRemoveNoteMutation } from '../graphql/__generated__/RemoveNoteMutation';
@@ -11,7 +10,7 @@ type Props = {
   playerUUID: string,
   targetUUID: string,
   targetType: string,
-  note?: NoteEntity,
+  note?: Types.NoteEntity,
   onRefetch?: () => void,
 };
 
@@ -56,7 +55,7 @@ const useNoteAction = (props: Props) => {
     }
   }, [onRefetch]);
 
-  const handleAddNote = useCallback(async (formValues: FormValues) => {
+  const handleAddNote = useCallback(async (formValues: Types.FormValues) => {
     const variables = { ...formValues, targetUUID, playerUUID, targetType };
 
     try {
@@ -71,7 +70,7 @@ const useNoteAction = (props: Props) => {
     }
   }, [targetUUID, playerUUID, targetType]);
 
-  const handleUpdateNote = useCallback(async (formValues: FormValues, noteId: string) => {
+  const handleUpdateNote = useCallback(async (formValues: Types.FormValues, noteId: string) => {
     const variables = { ...formValues, noteId };
 
     try {
@@ -101,7 +100,7 @@ const useNoteAction = (props: Props) => {
     }
   }, [note, targetType, handleClose, handleRefetch]);
 
-  const handleSubmit = useCallback(async (data: FormValues) => {
+  const handleSubmit = useCallback(async (data: Types.FormValues) => {
     if (note) {
       await handleUpdateNote(data, note.noteId);
     } else {

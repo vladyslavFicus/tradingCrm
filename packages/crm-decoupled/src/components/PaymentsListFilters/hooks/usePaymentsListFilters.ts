@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { compact, intersection, omit } from 'lodash';
-import { Config, Utils } from '@crm/common';
-import { State } from 'types';
+import { Config, Utils, Types } from '@crm/common';
 import { usePaymentSystemsProviderQuery } from '../graphql/__generated__/PaymentSystemsProviderQuery';
 import { useOperatorsQuery } from '../graphql/__generated__/OperatorsQuery';
 import { useDesksAndTeamsQuery } from '../graphql/__generated__/DesksAndTeamsQuery';
@@ -18,7 +17,7 @@ type Props = {
 const usePaymentsListFilters = (props: Props) => {
   const { paymentsLoading, clientView } = props;
 
-  const state = useLocation().state as State<FormValues>;
+  const state = useLocation().state as Types.State<FormValues>;
 
   const navigate = useNavigate();
 

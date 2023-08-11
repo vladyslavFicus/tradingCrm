@@ -9,12 +9,12 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { 
+import {
   Config,
   MockedPermissionProvider,
-  StorageProvider, 
-  MockedApolloProvider, 
-  MockedRSocketProvider 
+  StorageProvider,
+  MockedApolloProvider,
+  MockedRSocketProvider,
 } from '@crm/common';
 import { OrderType } from 'types/trading-engine';
 import CoreLayout from 'layouts/CoreLayout';

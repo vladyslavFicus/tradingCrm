@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { Utils, parseErrors, notify, LevelType } from '@crm/common';
+import { Utils, parseErrors, notify, Types } from '@crm/common';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useCreateIpWhiteListMutation } from './graphql/__generated__/CreateIpWhiteListMutation';
@@ -43,7 +43,7 @@ const CreateIpWhiteListModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.NOTIFICATIONS.IP_ADDED'),
       });
@@ -54,7 +54,7 @@ const CreateIpWhiteListModal = (props: Props) => {
         formikHelpers.setFieldError('ip', I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.ERRORS.UNIQUE'));
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: I18n.t('IP_WHITELIST.MODALS.ADD_IP_MODAL.NOTIFICATIONS.IP_NOT_ADDED'),
         });

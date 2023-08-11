@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { parseErrors, notify, LevelType, usePermission } from '@crm/common';
+import { parseErrors, notify, Types, usePermission } from '@crm/common';
 import { PaymentMutationCreatePaymentArgs as PaymentValues, Profile, TradingAccount } from '__generated__/types';
-import { EditNote } from 'types/Note';
 import { targetTypes } from 'constants/note';
 import {
   commissionCurrencies,
@@ -56,7 +55,7 @@ const CreatePaymentModal = (props: Props) => {
   } = props;
 
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [note, setNote] = useState<EditNote | null>(null);
+  const [note, setNote] = useState<Types.EditNote | null>(null);
   const [selectedTradingAccount, setSelectedTradingAccount] = useState<TradingAccount | undefined>();
 
   const permission = usePermission();
@@ -88,7 +87,7 @@ const CreatePaymentModal = (props: Props) => {
   const [createPaymentMutation] = useCreatePaymentMutation();
   const [addNoteMutation] = useAddNoteMutation();
 
-  const getNote = (editNote: EditNote | null) => {
+  const getNote = (editNote: Types.EditNote | null) => {
     setNote(editNote);
   };
 
@@ -116,7 +115,7 @@ const CreatePaymentModal = (props: Props) => {
       const { data: dataPayment } = await createPaymentMutation({ variables });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_SUCCESS'),
       });
@@ -144,7 +143,7 @@ const CreatePaymentModal = (props: Props) => {
         setErrorMessage(I18n.t(`error.validation.invalid.amount.${code}`));
 
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: I18n.t(`error.validation.invalid.amount.${code}`),
         });
@@ -155,7 +154,7 @@ const CreatePaymentModal = (props: Props) => {
       setErrorMessage(error.message);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: error.message || I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL'),
       });

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import Dropzone from 'react-dropzone';
 import classNames from 'classnames';
-import { parseErrors, notify, LevelType } from '@crm/common';
+import { parseErrors, notify, Types } from '@crm/common';
 import { Button } from 'components';
 import { LeadUploadResponse__FailedLeads as FailedLeads } from '__generated__/types';
 import Modal from 'components/Modal';
@@ -28,7 +28,7 @@ const LeadsUploadModal = (props: Props) => {
   const handleRejectUpload = ([file]: Array<File>) => {
     if (file.size > FILE_CONFIG.maxSize) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.UPLOAD_FAILED'),
         message: I18n.t('error.multipart.max-file-size.exceeded', { size: FILE_CONFIG.maxSize }),
       });
@@ -48,7 +48,7 @@ const LeadsUploadModal = (props: Props) => {
 
       if (!failedLeads.length) {
         notify({
-          level: LevelType.SUCCESS,
+          level: Types.LevelType.SUCCESS,
           title: I18n.t('COMMON.SUCCESS'),
           message: I18n.t('COMMON.UPLOAD_SUCCESSFUL'),
         });
@@ -64,7 +64,7 @@ const LeadsUploadModal = (props: Props) => {
       const errorMessage = error.errorParameters?.errorMessage || error.message || 'COMMON.SOMETHING_WRONG';
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.UPLOAD_FAILED'),
         message: I18n.t(errorMessage),
       });

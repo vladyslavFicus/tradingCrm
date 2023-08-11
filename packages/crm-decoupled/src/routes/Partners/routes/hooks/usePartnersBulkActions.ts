@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Config, usePermission, useModal, LevelType, notify } from '@crm/common';
-import { State } from 'types';
+import { Config, usePermission, useModal, notify, Types } from '@crm/common';
 import ChangeAccountStatusModal, { ChangeAccountStatusModalProps } from 'modals/ChangeAccountStatusModal';
 import RestrictedCountriesModal, {
   RestrictedCountriesModalProps,
@@ -48,7 +47,7 @@ const usePartnersBulkActions = (props: Props): PartnersBulkActions => {
     onRefetch,
   } = props;
 
-  const state = useLocation().state as State;
+  const state = useLocation().state as Types.State;
 
   const searchParams = state?.filters;
 
@@ -84,13 +83,13 @@ const usePartnersBulkActions = (props: Props): PartnersBulkActions => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('MODALS.CHANGE_ACCOUNT_STATUS_MODAL.NOTIFICATIONS.SUCCESS'),
       });
     } catch (e) {
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('MODALS.CHANGE_ACCOUNT_STATUS_MODAL.NOTIFICATIONS.ERROR'),
       });
@@ -120,13 +119,13 @@ const usePartnersBulkActions = (props: Props): PartnersBulkActions => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('MODALS.RESTRICTED_COUNTRIES.NOTIFICATIONS.SUCCESS_ADD'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('MODALS.RESTRICTED_COUNTRIES.NOTIFICATIONS.ERROR_ADD'),
       });
@@ -149,13 +148,13 @@ const usePartnersBulkActions = (props: Props): PartnersBulkActions => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('MODALS.RESTRICTED_COUNTRIES.NOTIFICATIONS.SUCCESS_DELETE'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('MODALS.RESTRICTED_COUNTRIES.NOTIFICATIONS.ERROR_DELETE'),
       });

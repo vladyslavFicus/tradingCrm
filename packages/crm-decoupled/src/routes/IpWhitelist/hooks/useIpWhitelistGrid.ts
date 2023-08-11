@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config, usePermission, useModal, notify, LevelType } from '@crm/common';
+import { Config, usePermission, useModal, notify, Types } from '@crm/common';
 import { IpWhitelistAddress } from '__generated__/types';
 import UpdateIpWhiteListModal,
 { UpdateIpWhiteListModalProps } from 'modals/UpdateIpWhiteListModal';
@@ -35,13 +35,13 @@ const useIpWhitelistGrid = (props: Props) => {
       confirmActionModal.hide();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.NOTIFICATIONS.IP_DELETED', { ip }),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('IP_WHITELIST.MODALS.DELETE_MODAL.NOTIFICATIONS.IP_NOT_DELETED'),
       });

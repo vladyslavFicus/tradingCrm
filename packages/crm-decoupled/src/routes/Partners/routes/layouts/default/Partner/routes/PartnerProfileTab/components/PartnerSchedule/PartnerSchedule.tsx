@@ -3,10 +3,9 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
 import classNames from 'classnames';
-import { Utils } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { Button } from 'components';
 import { Partner, Partner__Schedule as Schedule } from '__generated__/types';
-import { SetFieldValue } from 'types/formik';
 import { Table, Column } from 'components/Table';
 import { FormikCheckbox } from 'components/Formik';
 import usePartnerSchedule from 'routes/Partners/routes/hooks/usePartnerSchedule';
@@ -35,7 +34,7 @@ const PartnerSchedule = (props: Props) => {
   } = usePartnerSchedule({ partner, onRefetch });
 
   // ===== Renders ===== //
-  const renderActivate = (value: Schedule, setFieldValue: SetFieldValue<ScheduleDays>) => (
+  const renderActivate = (value: Schedule, setFieldValue: Types.SetFieldValue<ScheduleDays>) => (
     <Field
       name={value.day}
       data-testid={`PartnerSchedule-${value.day}Button`}

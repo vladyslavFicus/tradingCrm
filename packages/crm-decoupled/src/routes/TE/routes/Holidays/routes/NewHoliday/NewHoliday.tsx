@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Form, Formik, FormikProps } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { Utils, notify, LevelType } from '@crm/common';
+import { Utils, notify, Types } from '@crm/common';
 import HolidayHeader from '../../components/HolidayHeader';
 import HolidayCommonForm from '../../components/HolidayCommonForm';
 import HolidaySymbolsGrid from '../../components/HolidaySymbolsGrid';
@@ -37,7 +37,7 @@ const NewHoliday = () => {
       const id = data?.tradingEngine.createHoliday.id;
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.HOLIDAY.NOTIFICATION.CREATE.SUCCESS'),
       });
@@ -45,7 +45,7 @@ const NewHoliday = () => {
       navigate(`/trading-engine/holidays/${id}`);
     } catch (_) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('TRADING_ENGINE.HOLIDAY.NOTIFICATION.CREATE.FAILED'),
       });

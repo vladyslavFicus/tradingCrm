@@ -2,14 +2,12 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { intersection, sortBy } from 'lodash';
 import { Formik, Field, Form } from 'formik';
-import { Config, notify, LevelType } from '@crm/common';
+import { Config, notify, Types } from '@crm/common';
 import {
   AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
   ClientSearch__Input as ClientSearch,
   LeadSearch__Input as LeadSearch,
 } from '__generated__/types';
-import { Sorts } from 'types';
-import { SetFieldValue } from 'types/formik';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
@@ -37,7 +35,7 @@ type Configs = {
   allRowsSelected: boolean,
   searchParams: Object,
   selectedRowsLength: number,
-  sorts: Sorts,
+  sorts: Types.Sorts,
 };
 
 type FormValues = {
@@ -140,7 +138,7 @@ const UpdateRepresentativeModal = (props: Props) => {
       await updateAcquisitionMutation({ variables: variables as UpdateAcquisitionMutationVariables });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message:
           isClient
@@ -152,7 +150,7 @@ const UpdateRepresentativeModal = (props: Props) => {
       onCloseModal();
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.UPDATE_FAILED'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -182,7 +180,7 @@ const UpdateRepresentativeModal = (props: Props) => {
       }
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message:
           isClient
@@ -194,7 +192,7 @@ const UpdateRepresentativeModal = (props: Props) => {
       onCloseModal();
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.UPDATE_FAILED'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -218,7 +216,7 @@ const UpdateRepresentativeModal = (props: Props) => {
     branchName: string,
     value: string,
     { desk }: FormValues,
-    setFieldValue: SetFieldValue<FormValues>,
+    setFieldValue: Types.SetFieldValue<FormValues>,
   ) => {
     setFieldValue(branchName, value);
 

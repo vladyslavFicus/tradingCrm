@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
+import { Types } from '@crm/common';
 import { Formik, Form, Field } from 'formik';
 import { Button, RefreshButton } from 'components';
-import { State } from 'types';
 import {
   FormikInputField,
   FormikSelectField,
@@ -20,7 +20,7 @@ type Props = {
 
 const AccountProfileOrdersGridFilter = ({ onRefresh }: Props) => {
   const navigate = useNavigate();
-  const state = useLocation().state as State<SymbolsQueryVariables>;
+  const state = useLocation().state as Types.State<SymbolsQueryVariables>;
 
   const symbolsQuery = useSymbolsQuery({
     variables: {

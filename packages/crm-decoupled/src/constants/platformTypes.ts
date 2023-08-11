@@ -1,6 +1,6 @@
-import { LabelValue } from 'types';
+import { Types } from '@crm/common';
 
-export const platformTypes: Array<LabelValue> = [
+export const platformTypes: Array<Types.LabelValue> = [
   {
     label: 'MT4',
     value: 'MT4',

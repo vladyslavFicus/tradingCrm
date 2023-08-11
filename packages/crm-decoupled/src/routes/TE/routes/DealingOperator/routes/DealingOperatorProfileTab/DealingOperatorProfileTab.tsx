@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { useParams } from 'react-router-dom';
-import { Config, Utils, usePermission, notify, LevelType } from '@crm/common';
+import { Config, Utils, usePermission, notify, Types } from '@crm/common';
 import { Button } from 'components';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { useOperatorProfileQuery } from './graphql/__generated__/OperatorProfileQuery';
@@ -68,13 +68,13 @@ const DealingOperatorProfileTab = () => {
       Utils.EventEmitter.emit(Utils.OPERATOR_RELOAD);
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTIFICATIONS.UPDATE_SUCCESS'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTIFICATIONS.UPDATE_ERROR'),
       });

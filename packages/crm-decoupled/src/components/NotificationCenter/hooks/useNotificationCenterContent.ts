@@ -1,8 +1,7 @@
 import { useCallback, useState } from 'react';
 import { compact } from 'lodash';
 import I18n from 'i18n-js';
-import { Utils, parseErrors, LevelType, notify } from '@crm/common';
-import { TableSelection } from 'types';
+import { Utils, parseErrors, Types, notify } from '@crm/common';
 import { useNotificationQuery } from '../graphql/__generated__/NotificationQuery';
 import { useNotificationUpdateMutation } from '../graphql/__generated__/NotificationUpdateMutation';
 import { useConfigurationQuery } from '../graphql/__generated__/ConfigurationQuery';
@@ -11,7 +10,7 @@ import { useNotificationTypesQuery } from '../graphql/__generated__/Notification
 import { MAX_SELECTED_ROWS } from '../constants';
 import { Filter } from '../types';
 
-type Select = TableSelection | null;
+type Select = Types.TableSelection | null;
 
 const useNotificationCenterContent = () => {
   const [select, setSelect] = useState<Select>(null);
@@ -87,7 +86,7 @@ const useNotificationCenterContent = () => {
         Utils.EventEmitter.emit(Utils.NOTIFICATIONS_READ);
 
         notify({
-          level: LevelType.SUCCESS,
+          level: Types.LevelType.SUCCESS,
           title: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
           message: I18n.t('COMMON.ACTIONS.UPDATED'),
         });
@@ -97,7 +96,7 @@ const useNotificationCenterContent = () => {
         const { error } = parseErrors(e);
 
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('NOTIFICATION_CENTER.TOOLTIP.UPDATE_FAILED'),
           message: error,
         });
@@ -112,13 +111,13 @@ const useNotificationCenterContent = () => {
       await configurationUpdateMutation({ variables: { showNotificationsPopUp: value } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
         message: I18n.t('COMMON.ACTIONS.UPDATED'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
         message: I18n.t('NOTIFICATION_CENTER.TOOLTIP.UPDATE_FAILED'),
       });

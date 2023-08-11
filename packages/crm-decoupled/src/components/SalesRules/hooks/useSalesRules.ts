@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Config, useModal, LevelType, notify, usePermission } from '@crm/common';
+import { Config, useModal, notify, usePermission, Types } from '@crm/common';
 import { Operator, Partner, Rule } from '__generated__/types';
-import { State } from 'types';
 import { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal/ConfirmActionModal';
 import { CreateRuleModalProps } from 'modals/CreateRuleModal';
@@ -31,7 +30,7 @@ const useSalesRules = (props: Props) => {
   const { type: userType } = props;
   const parentBranch = useParams().id as string;
 
-  const state = useLocation().state as State;
+  const state = useLocation().state as Types.State;
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
@@ -97,13 +96,13 @@ const useSalesRules = (props: Props) => {
       confirmActionModal.hide();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_DELETED'),
       });

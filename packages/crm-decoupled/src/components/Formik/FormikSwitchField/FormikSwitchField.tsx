@@ -1,14 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Types } from '@crm/common';
 import { FieldProps } from 'formik';
-import { Position } from 'types/position';
 import { DefaultFieldProps } from '../types';
 import ReactSwitch from '../../ReactSwitch';
 import './FormikSwitchField.scss';
 
 type Props = DefaultFieldProps & {
   wrapperClassName?: string,
-  labelPosition?: Position,
+  labelPosition?: Types.Position,
   id?: string,
   stopPropagation?: boolean,
 };

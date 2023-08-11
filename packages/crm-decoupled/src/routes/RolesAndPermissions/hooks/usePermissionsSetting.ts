@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
-import { notify, LevelType, useModal, useLightbox } from '@crm/common';
-import { ActionKey, RbackItem, Actions, Action } from 'types/rbac';
+import { Types, notify, useModal, useLightbox } from '@crm/common';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import rbac from 'constants/rbac';
 import { useActionsQuery } from '../graphql/__generated__/ActionsQuery';
@@ -17,7 +16,7 @@ type Props = {
 const usePermissionsSetting = (props: Props) => {
   const { role, department } = props;
 
-  const [sectionsList, setSectionsList] = useState<RbackItem[]>([]);
+  const [sectionsList, setSectionsList] = useState<Types.RbackItem[]>([]);
 
   // ===== Image Preview ===== //
   const lightbox = useLightbox();
@@ -30,7 +29,7 @@ const usePermissionsSetting = (props: Props) => {
     const [actionKey] = Object.keys(section?.actions || {});
 
     if (actionKey) {
-      const sectionAction = section.actions?.[actionKey as ActionKey] as Action;
+      const sectionAction = section.actions?.[actionKey as Types.ActionKey] as Types.Action;
       sectionAction.state = authorityActions.includes(sectionAction.action);
     }
 
@@ -38,7 +37,7 @@ const usePermissionsSetting = (props: Props) => {
       const permission = { ...permissionItem };
 
       Object.keys(permission.actions || {}).forEach((value) => {
-        const permissionAction = permission.actions[value as ActionKey] as Action;
+        const permissionAction = permission.actions[value as Types.ActionKey] as Types.Action;
         permissionAction.state = authorityActions.includes(permissionAction.action);
       });
 
@@ -69,7 +68,7 @@ const usePermissionsSetting = (props: Props) => {
       refetch();
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('ROLES_AND_PERMISSIONS.UPDATE_PERMISSIONS.ERROR'),
       });
@@ -78,7 +77,7 @@ const usePermissionsSetting = (props: Props) => {
 
   const handleSwitchPermission = useCallback((
     action: string,
-    switchSection: RbackItem,
+    switchSection: Types.RbackItem,
     isSection: boolean,
     enabled: boolean,
   ) => {
@@ -86,7 +85,7 @@ const usePermissionsSetting = (props: Props) => {
 
     const [switchSectionActionKey] = Object.keys(switchSection.actions || {});
 
-    const switchSectionAction = switchSection.actions[switchSectionActionKey as ActionKey] as Action;
+    const switchSectionAction = switchSection.actions[switchSectionActionKey as Types.ActionKey] as Types.Action;
 
     const relatedPermissions = (switchSectionAction
       && switchSectionAction.action === action
@@ -100,7 +99,7 @@ const usePermissionsSetting = (props: Props) => {
       const [sectionActionKey] = Object.keys(section.actions || {});
 
       if (sectionActionKey) {
-        const sectionAction = section.actions[sectionActionKey as ActionKey] as Action;
+        const sectionAction = section.actions[sectionActionKey as Types.ActionKey] as Types.Action;
 
         // When action matched section action
         // Then need to switch section
@@ -121,7 +120,7 @@ const usePermissionsSetting = (props: Props) => {
 
         // Map 'view' & 'edit' action permission
         Object.keys(permission.actions || {}).forEach((key) => {
-          const permissionAction = permission.actions[key as ActionKey] as Action;
+          const permissionAction = permission.actions[key as Types.ActionKey] as Types.Action;
 
           // When switchSection has related permission, and switch <ON>
           // Then need to switch <ON> matched permission in any section
@@ -171,7 +170,7 @@ const usePermissionsSetting = (props: Props) => {
       confirmActionModal.hide();
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('ROLES_AND_PERMISSIONS.UPDATE_PERMISSIONS.RESET_ERROR'),
       });
@@ -187,7 +186,7 @@ const usePermissionsSetting = (props: Props) => {
     });
   }, [confirmActionModal, resetPermission]);
 
-  const handlePreviewClick = useCallback((e: React.MouseEvent<HTMLDivElement>, actions: Actions) => {
+  const handlePreviewClick = useCallback((e: React.MouseEvent<HTMLDivElement>, actions: Types.Actions) => {
     e.stopPropagation();
 
     const action = actions.view?.action || actions.edit?.action;

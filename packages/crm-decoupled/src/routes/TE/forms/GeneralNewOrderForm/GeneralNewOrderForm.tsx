@@ -3,7 +3,7 @@ import { Field, Form, Formik, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
 import { orderBy, intersectionWith } from 'lodash';
 import Hotkeys from 'react-hot-keys';
-import { Utils, parseErrors, notify, LevelType, useStorage } from '@crm/common';
+import { Utils, parseErrors, notify, Types, useStorage } from '@crm/common';
 import { Button, Input } from 'components';
 import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
 import {
@@ -188,7 +188,7 @@ const GeneralNewOrderForm = (props: Props) => {
       onSuccess();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.NOTIFICATION.SUCCESS'),
       });
@@ -196,7 +196,7 @@ const GeneralNewOrderForm = (props: Props) => {
       const { message } = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message,
       });

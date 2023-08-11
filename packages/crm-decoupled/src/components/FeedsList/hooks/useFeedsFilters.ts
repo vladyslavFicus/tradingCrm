@@ -1,10 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { useCallback, useMemo } from 'react';
-import { Utils } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { Feed__AuditCategory__Enum as FeedAuditCategoryEnum } from '__generated__/types';
-import { State } from 'types';
-import { ResetForm } from 'types/formik';
 import { decodeNullValues } from 'components/Formik/utils';
 import { typesLabels } from 'constants/audit';
 import { FeedsQueryVariables } from '../graphql/__generated__/FeedsQuery';
@@ -26,7 +24,7 @@ type Props = {
 const useFeedsFilters = (props: Props) => {
   const { targetUUID, skipCategoryFilter, auditCategory } = props;
 
-  const state = useLocation().state as State<FeedsQueryVariables>;
+  const state = useLocation().state as Types.State<FeedsQueryVariables>;
   const initialValues = state?.filters as FormValues || {};
 
   const navigate = useNavigate();
@@ -64,7 +62,7 @@ const useFeedsFilters = (props: Props) => {
     });
   }, [state]);
 
-  const handleReset = useCallback((resetForm: ResetForm<FormValues>) => {
+  const handleReset = useCallback((resetForm: Types.ResetForm<FormValues>) => {
     navigate('.', {
       replace: true,
       state: {

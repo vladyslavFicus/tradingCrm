@@ -1,7 +1,7 @@
 import React from 'react';
 import { get } from 'lodash';
 import { useLocation } from 'react-router-dom';
-import { State } from 'types';
+import { Types } from '@crm/common';
 import RangeGroup from '../RangeGroup';
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
 const DynamicRangeGroup = (props: Props) => {
   const { name, ...rest } = props;
 
-  const state = useLocation().state as State;
+  const state = useLocation().state as Types.State;
 
   const shouldFieldRender = React.useMemo(
     () => !!get(state?.filters, name) || state?.filtersFields?.includes(name), [state?.filters, state?.filtersFields],

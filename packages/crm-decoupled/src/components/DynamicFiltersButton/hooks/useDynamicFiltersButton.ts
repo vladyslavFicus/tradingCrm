@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { pick } from 'lodash';
-import { State } from 'types';
+import { Types } from '@crm/common';
 
 type UseDynamicFiltersButton = {
   currentFilters: Array<String>,
@@ -10,7 +10,7 @@ type UseDynamicFiltersButton = {
 
 const useDynamicFiltersButton = (): UseDynamicFiltersButton => {
   const navigate = useNavigate();
-  const state = useLocation().state as State;
+  const state = useLocation().state as Types.State;
   const currentFilters = state?.filtersFields || [];
 
   /**

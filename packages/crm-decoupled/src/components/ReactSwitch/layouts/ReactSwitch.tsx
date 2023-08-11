@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Position } from 'types/position';
+import { Types } from '@crm/common';
 import useReactSwitch from '../hooks/useReactSwitch';
 import './ReactSwitch.scss';
 
@@ -11,7 +11,7 @@ type Props = {
   stopPropagation?: boolean,
   id?: string,
   label?: string,
-  labelPosition?: Position,
+  labelPosition?: Types.Position,
   onError?: () => void,
   onClick: (on: boolean) => void,
 };

@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
-import { Sorts, State } from 'types';
+import { Types } from '@crm/common';
 import { useTradingAccountsQuery, TradingAccountsQueryVariables } from '../graphql/__generated__/TradingAccountsQuery';
 
 const useTradingAccounts = () => {
-  const state = useLocation().state as State<TradingAccountsQueryVariables>;
+  const state = useLocation().state as Types.State<TradingAccountsQueryVariables>;
 
   const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ const useTradingAccounts = () => {
     }
   }, [loading, variables, number]);
 
-  const handleSort = useCallback((sorts: Sorts) => {
+  const handleSort = useCallback((sorts: Types.Sorts) => {
     navigate('.', {
       replace: true,
       state: {

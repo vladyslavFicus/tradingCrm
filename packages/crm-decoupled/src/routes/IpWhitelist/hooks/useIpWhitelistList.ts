@@ -1,13 +1,13 @@
 import { useState, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
-import { Sorts, State, TableSelection } from 'types';
+import { Types } from '@crm/common';
 import { useIpWhitelistQuery, IpWhitelistQueryVariables } from '../graphql/__generated__/IpWhitelistQuery';
 
 const useIpWhitelistList = () => {
-  const [selected, setSelected] = useState<TableSelection | null>(null);
+  const [selected, setSelected] = useState<Types.TableSelection | null>(null);
 
-  const state = useLocation().state as State<IpWhitelistQueryVariables['args']>;
+  const state = useLocation().state as Types.State<IpWhitelistQueryVariables['args']>;
 
   const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ const useIpWhitelistList = () => {
     }
   }, [loading, variables, page]);
 
-  const handleSort = useCallback((sorts: Sorts) => {
+  const handleSort = useCallback((sorts: Types.Sorts) => {
     navigate('.', {
       replace: true,
       state: {

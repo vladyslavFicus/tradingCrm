@@ -1,16 +1,16 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { QueryResult } from '@apollo/client';
+import { Types } from '@crm/common';
 import { Button } from 'components';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import { TableSelection } from 'types';
 import { ClientsListQuery } from 'routes/Clients/routes/ClientsList/graphql/__generated__/ClientsQuery';
 import useClientsBulkActions from 'routes/Clients/routes/ClientsList/hooks/useClientsBulkActions';
 import { departments } from 'constants/brands';
 import './ClientsBulkActions.scss';
 
 type Props = {
-  select: TableSelection | null,
+  select: Types.TableSelection | null,
   selectedRowsLength: number,
   clientsQuery: QueryResult<ClientsListQuery>,
 };

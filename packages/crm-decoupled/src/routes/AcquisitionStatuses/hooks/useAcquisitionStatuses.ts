@@ -2,9 +2,8 @@ import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { useLocation } from 'react-router-dom';
 import { orderBy } from 'lodash';
-import { Config, parseErrors, notify, LevelType, usePermission, useModal } from '@crm/common';
+import { Config, parseErrors, notify, Types, usePermission, useModal } from '@crm/common';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import { State } from 'types';
 import CreateAcquisitionStatusModal, { CreateAcquisitionStatusModalProps } from 'modals/CreateAcquisitionStatusModal';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { retentionStatuses } from 'constants/retentionStatuses';
@@ -29,7 +28,7 @@ type UseAcquisitionStatuses = {
 };
 
 const useAcquisitionStatuses = (): UseAcquisitionStatuses => {
-  const state = useLocation().state as State<AcquisitionStatusesQueryVariables['args']>;
+  const state = useLocation().state as Types.State<AcquisitionStatusesQueryVariables['args']>;
 
   const permission = usePermission();
 
@@ -76,7 +75,7 @@ const useAcquisitionStatuses = (): UseAcquisitionStatuses => {
       confirmActionModal.hide();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('SETTINGS.ACQUISITION_STATUSES.NOTIFICATION.DELETE.SUCCESS'),
       });
@@ -107,7 +106,7 @@ const useAcquisitionStatuses = (): UseAcquisitionStatuses => {
       }
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message,
       });

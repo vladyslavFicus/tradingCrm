@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
 import moment from 'moment';
-import { useModal } from '@crm/common';
+import { Types, useModal } from '@crm/common';
 import { ClientCallback } from '__generated__/types';
-import { CommonCallback } from 'types/common';
 import UpdateClientCallbackModal, { UpdateClientCallbackModalProps } from 'modals/UpdateClientCallbackModal';
 import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import useCalendar from 'components/Calendar/hooks/useCalendar';
@@ -58,7 +57,7 @@ const useClientCallbacksCalendar = () => {
     refetch();
   }, [updateClientCallbackModal, refetch]);
 
-  const handleOpenUpdateModal = useCallback(({ callback }: Event<CommonCallback>) => {
+  const handleOpenUpdateModal = useCallback(({ callback }: Event<Types.CommonCallback>) => {
     const { callbackId } = callback;
 
     updateClientCallbackModal.show({

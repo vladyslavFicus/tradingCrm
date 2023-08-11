@@ -3,10 +3,9 @@ import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
-import { Config, useModal, useStorage, usePermission } from '@crm/common';
+import { Config, Types, useModal, useStorage, usePermission } from '@crm/common';
 import { Button } from 'components';
 import { accountTypesLabels } from 'constants/accountTypes';
-import { Sort, State } from 'types';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import Badge from 'components/Badge';
 import { Table, Column } from 'components/Table';
@@ -27,7 +26,7 @@ const Accounts = () => {
 
   const permission = usePermission();
 
-  const state = useLocation().state as State<AccountsQueryVariables['args']>;
+  const state = useLocation().state as Types.State<AccountsQueryVariables['args']>;
   const navigate = useNavigate();
 
   const accountsQuery = useAccountsQuery({
@@ -53,7 +52,7 @@ const Accounts = () => {
     path: 'page.from',
   });
 
-  const handleSort = (sorts: Sort[]) => {
+  const handleSort = (sorts: Types.Sort[]) => {
     navigate('.', {
       replace: true,
       state: {

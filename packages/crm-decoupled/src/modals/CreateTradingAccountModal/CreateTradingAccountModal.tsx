@@ -1,8 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Config, Utils, parseErrors, notify, LevelType } from '@crm/common';
-import { SetFieldValue } from 'types/formik';
+import { Config, Utils, parseErrors, notify, Types } from '@crm/common';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { attributeLabels, amounts } from './constants';
@@ -54,7 +53,7 @@ const TradingAccountAddModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE'),
         message: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.SUCCESSFULLY_CREATED'),
       });
@@ -62,14 +61,16 @@ const TradingAccountAddModal = (props: Props) => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CREATE.TITLE'),
         message: I18n.t(error.error) || I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }
   };
 
-  const handleChangePlatformType = (values: FormValues, value: string, setFieldValue: SetFieldValue<FormValues>) => {
+  const handleChangePlatformType = (
+    values: FormValues, value: string, setFieldValue: Types.SetFieldValue<FormValues>,
+  ) => {
     const availableAccountTypes = Utils.getAvailableAccountTypes(value);
 
     // If previous accountType not found for new chosen platformType --> choose first from list

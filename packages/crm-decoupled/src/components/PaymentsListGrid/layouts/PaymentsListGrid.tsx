@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { Config, Utils } from '@crm/common';
-import { Payment as PaymentInfo, Sort__Input as Sort } from '__generated__/types';
+import { Config, Utils, Types } from '@crm/common';
+import { Payment as PaymentInfo } from '__generated__/types';
 import { PaymentFragment as Payment } from 'fragments/__generated__/Payment';
-import { NoteEntity } from 'types/Note';
 import { AdjustableTable, Column } from 'components/Table';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import Uuid from 'components/Uuid';
@@ -31,12 +30,12 @@ type Props = {
   items: Array<Payment>,
   loading: boolean,
   headerStickyFromTop: string | number,
-  sorts: Array<Sort>,
+  sorts: Array<Types.Sort>,
   last: boolean,
   clientView?: boolean,
   onRefetch: () => void,
   onFetchMore: () => void,
-  onSort: (sorts: Array<Sort>) => void,
+  onSort: (sorts: Array<Types.Sort>) => void,
 };
 
 const PaymentsListGrid = (props: Props) => {
@@ -262,7 +261,7 @@ const PaymentsListGrid = (props: Props) => {
 
   const renderNote = useCallback(({ paymentId: targetUUID, playerProfile: { uuid: playerUUID }, note }: Payment) => (
     <NoteAction
-      note={note as NoteEntity}
+      note={note as Types.NoteEntity}
       playerUUID={playerUUID}
       targetUUID={targetUUID}
       targetType={targetTypes.PAYMENT}

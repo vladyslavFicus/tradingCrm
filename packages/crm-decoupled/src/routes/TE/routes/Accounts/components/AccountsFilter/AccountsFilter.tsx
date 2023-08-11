@@ -1,9 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Types } from '@crm/common';
 import { Formik, Form, Field } from 'formik';
 import { Button, RefreshButton } from 'components';
-import { State } from 'types';
 import {
   FormikDateRangePicker,
   FormikInputField,
@@ -33,7 +33,7 @@ const AccountsFilter = (props: Props) => {
   const { handleRefetch, loading } = props;
 
   const navigate = useNavigate();
-  const state = useLocation().state as State<InitialFormValues>;
+  const state = useLocation().state as Types.State<InitialFormValues>;
 
   const groupsQuery = useGroupsQuery({
     variables: {

@@ -2,14 +2,14 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { Types } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { Sorts } from 'types';
-import { statusesLabels, statuses } from 'constants/operators';
 import Link from 'components/Link';
 import MiniProfilePopover from 'components/MiniProfilePopover';
 import { Table, Column } from 'components/Table';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import Uuid from 'components/Uuid';
+import { statusesLabels, statuses } from 'constants/operators';
 import './OperatorsGrid.scss';
 
 type Props = {
@@ -17,7 +17,7 @@ type Props = {
   loading: boolean,
   last: boolean,
   onFetchMore: () => void,
-  onSort: (sorts: Sorts) => void,
+  onSort: (sorts: Types.Sorts) => void,
 };
 
 const OperatorsGrid = (props: Props) => {

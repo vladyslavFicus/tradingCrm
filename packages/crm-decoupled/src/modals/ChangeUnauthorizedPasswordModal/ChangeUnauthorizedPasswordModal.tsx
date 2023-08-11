@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
-import { Utils, parseErrors, notify, LevelType } from '@crm/common';
+import { Utils, parseErrors, notify, Types } from '@crm/common';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { passwordCustomError, passwordMaxSize, passwordPattern } from 'constants/operators';
@@ -47,7 +47,7 @@ const ChangeUnauthorizedPasswordModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.NOTIFICATIONS.SUCCESS.TITLE'),
         message: I18n.t('MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.NOTIFICATIONS.SUCCESS.MESSAGE'),
       });
@@ -63,7 +63,7 @@ const ChangeUnauthorizedPasswordModal = (props: Props) => {
         setFormError(null);
 
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.NOTIFICATIONS.ERROR.TITLE'),
           message: I18n.t('MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.NOTIFICATIONS.ERROR.MESSAGE'),
         });

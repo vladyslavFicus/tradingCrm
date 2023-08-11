@@ -2,14 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FormikValues } from 'formik';
-import { parseErrors, notify, LevelType, useModal } from '@crm/common';
+import { Types, parseErrors, notify, useModal } from '@crm/common';
 import { FilterSet__Types__Enum as FilterSetType, FilterSet__Option as FilterSet } from '__generated__/types';
-import { State } from 'types';
 import { FiltersFormValues as PaymentFilterSet } from 'components/PaymentsListFilters';
 import { FormValues as ClientFilterSet } from 'routes/Clients/routes/ClientsList/types';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import ActionFilterModal, { ActionFilterModalProps } from 'modals/ActionFilterModal';
-import { SelectedFilterSet } from 'types/selectedFilterSet';
 import { FilterSetsQueryVariables, useFilterSetsQuery } from '../graphql/__generated__/FilterSetsQuery';
 import { useFilterSetByIdQueryLazyQuery } from '../graphql/__generated__/filterSetByIdQuery';
 import { useUpdateFavouriteFilterSetMutation } from '../graphql/__generated__/UpdateFavouriteFilterSetMutation';
@@ -44,7 +42,7 @@ const useFilterSetsDecorator = (props: Props): UseFilterSetsDecorator => {
     submitFilters,
   } = props;
 
-  const state = useLocation().state as State<FilterSetsQueryVariables>;
+  const state = useLocation().state as Types.State<FilterSetsQueryVariables>;
   const navigate = useNavigate();
 
   // ===== Modals ===== //
@@ -100,7 +98,7 @@ const useFilterSetsDecorator = (props: Props): UseFilterSetsDecorator => {
       filterSetType,
       fields: currentValues,
       action: 'CREATE',
-      onSuccess: async (_: any, { uuid = '' } : SelectedFilterSet) => {
+      onSuccess: async (_: any, { uuid = '' } : Types.SelectedFilterSet) => {
         await refetch({ type: filterSetType });
 
         setActiveFilterSet(uuid, Object.keys(currentValues));
@@ -143,7 +141,7 @@ const useFilterSetsDecorator = (props: Props): UseFilterSetsDecorator => {
           removeActiveFilterSet();
 
           notify({
-            level: LevelType.SUCCESS,
+            level: Types.LevelType.SUCCESS,
             title: I18n.t('COMMON.SUCCESS'),
             message: I18n.t('FILTER_SET.REMOVE_FILTER.SUCCESS'),
           });
@@ -153,7 +151,7 @@ const useFilterSetsDecorator = (props: Props): UseFilterSetsDecorator => {
           const err = parseErrors(e);
 
           notify({
-            level: LevelType.ERROR,
+            level: Types.LevelType.ERROR,
             title: I18n.t('FILTER_SET.REMOVE_FILTER.ERROR'),
             message:
               err.message || I18n.t('COMMON.SOMETHING_WRONG'),
@@ -188,7 +186,7 @@ const useFilterSetsDecorator = (props: Props): UseFilterSetsDecorator => {
       setActiveFilterSet(uuid, Object.keys(selectData?.filterSet));
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('FILTER_SET.LOADING_FAILED'),
       });
@@ -205,13 +203,13 @@ const useFilterSetsDecorator = (props: Props): UseFilterSetsDecorator => {
       await refetch({ type: filterSetType });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('FILTER_SET.UPDATE_FAVOURITE.SUCCESS'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('FILTER_SET.UPDATE_FAVOURITE.ERROR'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

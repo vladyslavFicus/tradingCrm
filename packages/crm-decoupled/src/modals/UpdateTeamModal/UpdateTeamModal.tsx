@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Form, Field, Formik, FormikHelpers } from 'formik';
-import { Utils, parseErrors, notify, LevelType } from '@crm/common';
+import { Utils, parseErrors, notify, Types } from '@crm/common';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useUpdateTeamMutation } from './graphql/__generated__/UpdateTeamMutation';
@@ -42,7 +42,7 @@ const UpdateTeamModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('MODALS.UPDATE_TEAM_MODAL.NOTIFICATIONS.SUCCESS'),
       });
@@ -53,7 +53,7 @@ const UpdateTeamModal = (props: Props) => {
         formikHelpers.setFieldError('name', I18n.t('MODALS.UPDATE_TEAM_MODAL.ERRORS.UNIQUE'));
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: I18n.t('MODALS.UPDATE_TEAM_MODAL.NOTIFICATIONS.ERROR'),
         });

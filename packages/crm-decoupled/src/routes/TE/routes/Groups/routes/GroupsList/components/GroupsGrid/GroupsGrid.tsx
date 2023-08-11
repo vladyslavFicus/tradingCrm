@@ -1,9 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Config, notify, LevelType, useModal, usePermission, parseErrors } from '@crm/common';
+import { Config, Types, notify, useModal, usePermission, parseErrors } from '@crm/common';
 import { Button, TrashButton } from 'components';
-import { State, Sort } from 'types';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Table, Column } from 'components/Table';
@@ -20,7 +19,7 @@ type Props = {
 
 const GroupsGrid = (props: Props) => {
   const { groupsListQuery } = props;
-  const state = useLocation().state as State<GroupsQueryVariables>;
+  const state = useLocation().state as Types.State<GroupsQueryVariables>;
   const navigate = useNavigate();
   const [deleteGroup] = useDeleteGroupMutation();
   const [archiveGroup] = useArchiveMutation();
@@ -46,7 +45,7 @@ const GroupsGrid = (props: Props) => {
       await refetch();
       confirmActionModal.hide();
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.GROUPS.NOTIFICATION.DELETE.SUCCESS'),
       });
@@ -54,7 +53,7 @@ const GroupsGrid = (props: Props) => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: error.error === 'error.group.has.accounts'
           ? I18n.t('TRADING_ENGINE.GROUPS.NOTIFICATION.DELETE.HAS_ACCOUNTS', {
@@ -72,7 +71,7 @@ const GroupsGrid = (props: Props) => {
       refetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t(`TRADING_ENGINE.GROUP.NOTIFICATION.${enabled ? 'UNARCHIVED' : 'ARCHIVED'}`),
       });
@@ -97,7 +96,7 @@ const GroupsGrid = (props: Props) => {
         });
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.ERROR'),
           message: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.ARCHIVE_GROUP_ERROR'),
         });
@@ -125,7 +124,7 @@ const GroupsGrid = (props: Props) => {
     });
   };
 
-  const handleSort = (sorts: Sort) => {
+  const handleSort = (sorts: Types.Sort) => {
     navigate('.', {
       replace: true,
       state: {

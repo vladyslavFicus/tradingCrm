@@ -1,8 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils, notify, LevelType } from '@crm/common';
-import { SetValues } from 'types/formik';
+import { Utils, notify, Types } from '@crm/common';
 import { FormikInputField, FormikSelectField, FormikHtmlEditorField } from 'components/Formik';
 import EmailPreview from 'components/EmailPreview';
 import Modal from 'components/Modal';
@@ -72,20 +71,20 @@ const SendEmailModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('EMAILS.ACTIONS.SEND'),
         message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
       });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('EMAILS.ACTIONS.SEND'),
         message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
       });
     }
   };
 
-  const handleChangeTemplate = (templateId: TemplateId, setValues: SetValues<FormValues>) => {
+  const handleChangeTemplate = (templateId: TemplateId, setValues: Types.SetValues<FormValues>) => {
     const template = optionsWithCustomEmail.find(({ id }) => id === templateId);
 
     if (template) {

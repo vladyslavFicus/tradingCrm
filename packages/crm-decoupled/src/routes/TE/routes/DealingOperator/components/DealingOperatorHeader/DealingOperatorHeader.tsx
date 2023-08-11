@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Config, Utils, parseErrors, notify, LevelType, useModal, usePermission } from '@crm/common';
+import { Config, Utils, parseErrors, notify, Types, useModal, usePermission } from '@crm/common';
 import { Button } from 'components';
 import { LoginLock } from '__generated__/types';
 import { passwordMaxSize, passwordPattern } from 'routes/TE/constants';
@@ -38,7 +38,7 @@ const DealingOperatorHeader = (props: Props) => {
       await changePasswordMutation({ variables: { uuid, newPassword } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_PASSWORD.SUCCESS.TITLE'),
         message: I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_PASSWORD.SUCCESS.MESSAGE'),
       });
@@ -48,7 +48,7 @@ const DealingOperatorHeader = (props: Props) => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_PASSWORD.ERROR.TITLE'),
         message: I18n.t(
           error.error,
@@ -63,7 +63,7 @@ const DealingOperatorHeader = (props: Props) => {
       await resetPasswordMutation({ variables: { uuid } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTIFICATIONS.RESET_PASSWORD.SUCCESS.TITLE'),
         message: I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTIFICATIONS.RESET_PASSWORD.SUCCESS.MESSAGE'),
       });
@@ -73,7 +73,7 @@ const DealingOperatorHeader = (props: Props) => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTIFICATIONS.RESET_PASSWORD.ERROR.TITLE'),
         message: I18n.t(
           error.error,
@@ -88,7 +88,7 @@ const DealingOperatorHeader = (props: Props) => {
       await unlockOperatorLoginMutation({ variables: { uuid } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTIFICATIONS.UNLOCK.SUCCESS.TITLE'),
         message: I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTIFICATIONS.UNLOCK.SUCCESS.MESSAGE'),
       });
@@ -97,7 +97,7 @@ const DealingOperatorHeader = (props: Props) => {
       Utils.EventEmitter.emit(Utils.OPERATOR_RELOAD);
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTIFICATIONS.UNLOCK.ERROR.TITLE'),
         message: I18n.t('TRADING_ENGINE.OPERATOR_PROFILE.NOTIFICATIONS.UNLOCK.ERROR.MESSAGE'),
       });

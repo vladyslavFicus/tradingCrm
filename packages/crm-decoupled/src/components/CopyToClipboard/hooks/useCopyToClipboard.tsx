@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Utils, notify, LevelType } from '@crm/common';
+import { Utils, notify, Types } from '@crm/common';
 
 type Props = {
   withNotification: boolean,
   notificationTitle: string,
   notificationMessage: string,
-  notificationLevel?: LevelType,
+  notificationLevel?: Types.LevelType,
 };
 
 type UseCopyToClipboard = {
@@ -20,7 +20,7 @@ const CopyToClipboard = (props: Props): UseCopyToClipboard => {
     withNotification,
     notificationTitle,
     notificationMessage,
-    notificationLevel = LevelType.INFO,
+    notificationLevel = Types.LevelType.INFO,
   } = props;
 
   const [highlight, setHighlight] = useState<boolean>(false);

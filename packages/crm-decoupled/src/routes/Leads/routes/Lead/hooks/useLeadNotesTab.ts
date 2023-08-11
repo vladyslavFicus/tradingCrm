@@ -1,15 +1,14 @@
 import { useEffect, useCallback } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
-import { Utils } from '@crm/common';
-import { State } from 'types';
+import { Utils, Types } from '@crm/common';
 import { targetTypes } from 'constants/note';
 import { useLeadNotesQuery, LeadNotesQueryVariables } from '../graphql/__generated__/LeadNotesQuery';
 
 const useLeadNotesTab = () => {
   const targetUUID = useParams().id as string;
 
-  const state = useLocation().state as State<LeadNotesQueryVariables>;
+  const state = useLocation().state as Types.State<LeadNotesQueryVariables>;
 
   // ===== Requests ===== //
   const { data, loading, variables = {}, refetch, fetchMore } = useLeadNotesQuery({

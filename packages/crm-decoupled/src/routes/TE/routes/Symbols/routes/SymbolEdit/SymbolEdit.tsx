@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { useParams } from 'react-router-dom';
-import { Utils, notify, LevelType, useModal, parseErrors } from '@crm/common';
+import { Utils, notify, Types, useModal, parseErrors } from '@crm/common';
 import { Button } from 'components';
 import I18n from 'i18n-config';
 import ShortLoader from 'components/ShortLoader';
@@ -131,7 +131,7 @@ const SymbolEdit = () => {
       await symbolQuery.refetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('TRADING_ENGINE.EDIT_SYMBOL.TITLE'),
         message: I18n.t('TRADING_ENGINE.EDIT_SYMBOL.NOTIFICATION.SUCCESS'),
       });
@@ -148,7 +148,7 @@ const SymbolEdit = () => {
         });
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('TRADING_ENGINE.EDIT_SYMBOL.TITLE'),
           message: I18n.t('TRADING_ENGINE.EDIT_SYMBOL.NOTIFICATION.FAILED'),
         });

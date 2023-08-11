@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import { v4 } from 'uuid';
 import { debounce } from 'lodash';
-import { EditNote, FormValues } from 'types/Note';
+import { Types } from '@crm/common';
 
 type Props = {
   playerUUID: string,
   targetUUID: string,
   targetType: string,
-  onEditSuccess: (values: EditNote) => void,
+  onEditSuccess: (values: Types.EditNote) => void,
   onDeleteSuccess: () => void,
 };
 
@@ -46,7 +46,7 @@ const useNoteActionManual = (props: Props) => {
     handleClose(true);
   }, [onDeleteSuccess, handleClose]);
 
-  const handleSubmit = useCallback((formValues: FormValues) => {
+  const handleSubmit = useCallback((formValues: Types.FormValues) => {
     const variables = { ...formValues, targetUUID, playerUUID, targetType };
 
     onEditSuccess(variables);

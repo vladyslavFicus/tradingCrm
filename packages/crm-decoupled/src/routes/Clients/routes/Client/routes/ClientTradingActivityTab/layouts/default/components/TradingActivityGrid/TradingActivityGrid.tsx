@@ -2,7 +2,8 @@ import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { TradingActivity, Sort__Input as Sort } from '__generated__/types';
+import { Types } from '@crm/common';
+import { TradingActivity } from '__generated__/types';
 import { AdjustableTable, Column } from 'components/Table';
 import Badge from 'components/Badge';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
@@ -19,8 +20,8 @@ type Props = {
   content: Array<TradingActivity>,
   loading: boolean,
   last: boolean,
-  sorts: Array<Sort>,
-  onSort: (sorts: Array<Sort>) => void,
+  sorts: Array<Types.Sort>,
+  onSort: (sorts: Array<Types.Sort>) => void,
   onRefetch: () => void,
   onLoadMore: () => void,
 };

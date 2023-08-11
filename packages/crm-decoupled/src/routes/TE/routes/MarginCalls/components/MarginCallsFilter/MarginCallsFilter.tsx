@@ -2,8 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
+import { Types } from '@crm/common';
 import { Button, RefreshButton } from 'components';
-import { State } from 'types';
 import {
   FormikInputField,
   FormikSelectField,
@@ -24,7 +24,7 @@ type Props = {
 const MarginCallsFilter = (props: Props) => {
   const { onRefresh } = props;
 
-  const state = useLocation().state as State<FormValues>;
+  const state = useLocation().state as Types.State<FormValues>;
   const navigate = useNavigate();
 
   const groupsQuery = useGroupsQuery({

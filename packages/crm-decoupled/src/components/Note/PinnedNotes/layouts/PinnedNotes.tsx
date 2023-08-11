@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { Types } from '@crm/common';
 import { entities, entitiesPrefixes } from 'constants/uuid';
 import ShortLoader from 'components/ShortLoader';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
-import { Note } from 'types/Note';
 import usePinnedNotes from '../hooks/usePinnedNotes';
 import './PinnedNotes.scss';
 
@@ -29,7 +29,7 @@ const PinnedNotes = (props: Props) => {
     );
   }, []);
 
-  const renderChangedBy = useCallback((item: Note) => {
+  const renderChangedBy = useCallback((item: Types.Note) => {
     if (!item.changedBy) {
       return null;
     }
@@ -53,7 +53,7 @@ const PinnedNotes = (props: Props) => {
     );
   }, []);
 
-  const renderItem = useCallback((item: Note) => {
+  const renderItem = useCallback((item: Types.Note) => {
     const {
       subject,
       content,

@@ -1,9 +1,8 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { cloneDeep, set, compact } from 'lodash';
-import { Config, Utils, useModal, usePermission } from '@crm/common';
-import { Profile, Sort__Input as Sort } from '__generated__/types';
-import { State } from 'types';
+import { Config, Utils, useModal, usePermission, Types } from '@crm/common';
+import { Profile } from '__generated__/types';
 import CreatePaymentModal, { CreatePaymentModalProps } from 'modals/CreatePaymentModal';
 import { statusMapper, statuses } from 'constants/payment';
 import { usePaymentsQuery, PaymentsQueryVariables } from '../graphql/__generated__/PaymentsQuery';
@@ -12,7 +11,7 @@ import { useProfileQuery } from '../graphql/__generated__/ProfileQuery';
 const useClientPaymentsTab = () => {
   const playerUUID = useParams().id as string;
 
-  const state = useLocation().state as State<PaymentsQueryVariables['args']>;
+  const state = useLocation().state as Types.State<PaymentsQueryVariables['args']>;
 
   const navigate = useNavigate();
 
@@ -79,7 +78,7 @@ const useClientPaymentsTab = () => {
     });
   }, [fetchMore, paymentsQuery?.data?.clientPayments?.number, variables]);
 
-  const handleSort = useCallback((sorts: Array<Sort>) => {
+  const handleSort = useCallback((sorts: Array<Types.Sort>) => {
     navigate('.', {
       replace: true,
       state: {

@@ -1,7 +1,7 @@
 import { ClickToCall__CallSystem__Enum as CallSystem } from '__generated__/types';
-import { Position } from 'types/position';
+import { Types } from '@crm/common';
 
-export type Arrow = Position & null | 'center';
+export type Arrow = Types.Position & null | 'center';
 
 export type ProviderOptionsType = {
   prefix?: string | null,

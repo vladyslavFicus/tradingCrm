@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
-import { Config, notify, LevelType, usePermission } from '@crm/common';
+import { Config, notify, Types, usePermission } from '@crm/common';
 import { FormValues } from '../types/KYCNote';
 import { useKycNoteQuery } from '../graphql/__generated__/KycNoteQuery';
 import { useNoteCreateMutation } from '../graphql/__generated__/NoteCreateMutation';
@@ -40,13 +40,13 @@ const useKYCNote = (props: Props) => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.TITLE'),
         message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.SUCCESS'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.TITLE'),
         message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.CREATE.ERROR'),
       });
@@ -63,13 +63,13 @@ const useKYCNote = (props: Props) => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.TITLE'),
         message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.SUCCESS'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.TITLE'),
         message: I18n.t('FILES.KYC_NOTE.NOTIFICATIONS.UPDATE.ERROR'),
       });

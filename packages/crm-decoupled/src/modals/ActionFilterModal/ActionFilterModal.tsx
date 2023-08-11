@@ -2,7 +2,7 @@ import React from 'react';
 import { get } from 'lodash';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikProps, FormikHelpers } from 'formik';
-import { Utils, notify, LevelType } from '@crm/common';
+import { Utils, notify, Types } from '@crm/common';
 import { ClientSearch__Input as ClientSearch } from '__generated__/types';
 import { FormikInputField, FormikCheckbox } from 'components/Formik';
 import Modal from 'components/Modal';
@@ -67,7 +67,7 @@ const ActionFilterModal = (props: Props) => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('FILTER_SET.CREATE.SUCCESS', { name: chooseName }),
       });
@@ -83,7 +83,7 @@ const ActionFilterModal = (props: Props) => {
       });
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('FILTER_SET.CREATE.FAILED'),
       });
@@ -107,13 +107,13 @@ const ActionFilterModal = (props: Props) => {
       onSuccess(onCloseModal, { uuid: filterId });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('FILTER_SET.UPDATE.SUCCESS', { name }),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('FILTER_SET.UPDATE.FAILED'),
       });

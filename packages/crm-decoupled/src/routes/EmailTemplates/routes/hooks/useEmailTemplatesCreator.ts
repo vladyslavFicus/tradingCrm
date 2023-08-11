@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
-import { notify, LevelType } from '@crm/common';
+import { notify, Types } from '@crm/common';
 import { useEmailTemplateCreateMutation } from '../graphql/__generated__/EmailTemplateCreateMutation';
 
 type FormValues = {
@@ -38,13 +38,13 @@ const useEmailTemplatesCreator = (): EmailTemplatesCreator => {
       navigate('/email-templates/list');
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.ACTIONS.ADDED'),
         message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
       });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ACTIONS.ADDED'),
         message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
       });

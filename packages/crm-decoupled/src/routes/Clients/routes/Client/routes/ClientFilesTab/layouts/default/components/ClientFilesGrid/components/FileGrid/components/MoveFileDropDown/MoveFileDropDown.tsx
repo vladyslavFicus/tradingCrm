@@ -1,8 +1,8 @@
 // @ts-nocheck Select component write by js
 import React from 'react';
 import I18n from 'i18n-js';
+import { Types } from '@crm/common';
 import Select from 'components/Select';
-import { FileCategories } from 'types/fileCategories';
 import useMoveFileDropDown from 'routes/Clients/routes/Client/routes/ClientFilesTab/hooks/useMoveFileDropDown';
 import { VerificationType } from 'routes/Clients/routes/Client/routes/ClientFilesTab/types/clientFilesGrid';
 import './MoveFileDropDown.scss';
@@ -11,7 +11,7 @@ type Props = {
   uuid: string,
   verificationType: string,
   documentType: string,
-  categories: FileCategories,
+  categories: Types.FileCategories,
   disabled: Boolean,
   onMoveChange: (value: VerificationType) => void,
 };

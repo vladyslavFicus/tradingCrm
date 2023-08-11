@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { omit } from 'lodash';
-import { SetFieldValue } from 'types/formik';
+import { Types } from '@crm/common';
 import { unAvailableFilterDepartments } from 'routes/Operators/constants';
 import { useAuthoritiesOptionsQuery, AuthoritiesOptionsQuery } from '../graphql/__generated__/AuthoritiesOptionsQuery';
 import { useOfficesDesksTeamsQuery } from '../graphql/__generated__/OfficesDesksTeamsQuery';
@@ -24,7 +24,7 @@ type UseOperatorsGridFilter = {
   teams: Array<OfficeWithParentBranch>,
   offices: Array<Office>,
   officesDesksTeamsLoading: boolean,
-  handleDepartmentFieldChange: (value: string, setFieldValue: SetFieldValue<FormValues>) => void,
+  handleDepartmentFieldChange: (value: string, setFieldValue: Types.SetFieldValue<FormValues>) => void,
 };
 
 const useOperatorsGridFilter = (): UseOperatorsGridFilter => {
@@ -43,7 +43,7 @@ const useOperatorsGridFilter = (): UseOperatorsGridFilter => {
   const offices = officesDesksTeamsQuery.data?.userBranches?.OFFICE || [];
 
   // ===== Handlers ===== //
-  const handleDepartmentFieldChange = useCallback((value: string, setFieldValue: SetFieldValue<FormValues>) => {
+  const handleDepartmentFieldChange = useCallback((value: string, setFieldValue: Types.SetFieldValue<FormValues>) => {
     if (value) {
       setFieldValue('authorities.department', value);
       setFieldValue('authorities.roles', undefined);

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { parseErrors, notify, LevelType } from '@crm/common';
+import { parseErrors, notify, Types } from '@crm/common';
 import { DistributionRule__Statuses__Enum as DistributionRuleStatusesEnum } from '__generated__/types';
 import { useDistributionRuleUpdateStatus } from '../graphql/__generated__/DistributionRuleUpdateStatusMutation';
 import { useDistributionRuleMigrationMutation } from '../graphql/__generated__/DistributionRuleMigrationMutation';
@@ -25,7 +25,7 @@ const useDistributionRuleInfo = (uuid: string): UseDistributionRuleInfo => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.SUCCESS_TITLE'),
         message: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.SUCCESS_MESSAGE'),
       });
@@ -33,7 +33,7 @@ const useDistributionRuleInfo = (uuid: string): UseDistributionRuleInfo => {
       const { error } = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.ERROR_TITLE'),
         message: error === 'error.entity.not.complete'
           ? I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.INCOMPLETE_STATUS', { name: ruleStatus })
@@ -47,14 +47,14 @@ const useDistributionRuleInfo = (uuid: string): UseDistributionRuleInfo => {
       await startMigrationRule({ variables: { uuid } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('CLIENTS_DISTRIBUTION.NOTIFICATIONS.MIGRATION_SUCCESSFUL'),
       });
     } catch (e) {
       const { error } = parseErrors(e);
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: error === 'error.validation.execution.already-in-progress'
           ? I18n.t('CLIENTS_DISTRIBUTION.NOTIFICATIONS.MIGRATION_ALREADY_IN_PROGRESS')

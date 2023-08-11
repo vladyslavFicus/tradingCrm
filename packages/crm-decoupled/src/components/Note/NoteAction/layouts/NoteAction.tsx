@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { NoteEntity, Placement } from 'types/Note';
+import { Types } from '@crm/common';
 import NotePopover from '../../NotePopover';
 import NoteIcon from '../../NoteIcon';
 import useNoteAction from '../hooks/useNoteAction';
@@ -8,8 +8,8 @@ type Props = {
   playerUUID: string,
   targetUUID: string,
   targetType: string,
-  note?: NoteEntity,
-  placement?: Placement,
+  note?: Types.NoteEntity,
+  placement?: Types.Placement,
   children?: React.ReactElement,
   onRefetch?: () => void,
 };

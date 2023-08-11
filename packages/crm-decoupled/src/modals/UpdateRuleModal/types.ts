@@ -5,7 +5,7 @@ import {
   RuleSchedule as RuleScheduleType,
   Rule__OperatorSpread as RuleOperatorSpread,
 } from '__generated__/types';
-import { SetFieldValue } from 'types/formik';
+import { Types } from '@crm/common';
 
 export type FormValues = {
   name: string,
@@ -24,7 +24,7 @@ export type FormikBag = {
   initialValues: FormValues,
   isSubmitting: boolean,
   errors: FormikErrors<FormValues>,
-  setFieldValue: SetFieldValue<FormValues>,
+  setFieldValue: Types.SetFieldValue<FormValues>,
 };
 
 export type ScheduleError = FormikErrors<{

@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Config, Utils, notify, LevelType } from '@crm/common';
+import { Config, Utils, notify, Types } from '@crm/common';
 import { accountTypesLabels } from 'constants/accountTypes';
 import Modal from 'components/Modal';
 import Badge from 'components/Badge';
@@ -49,7 +49,7 @@ const UpdateLeverageModal = (props: Props) => {
       await updateLeverageMutation({ variables: { accountUUID, leverage: values.leverage } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.TITLE'),
         message: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.LEVERAGE_CHANGED'),
       });
@@ -58,7 +58,7 @@ const UpdateLeverageModal = (props: Props) => {
       onCloseModal();
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils, parseErrors, notify, LevelType } from '@crm/common';
+import { Utils, Types, parseErrors, notify } from '@crm/common';
 import {
   AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
   HierarchyUserAcquisition,
   ProfileView,
 } from '__generated__/types';
-import { Sorts } from 'types';
-import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
+import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import { useUpdateAcquisitionStatusMutation } from './graphql/__generated__/UpdateAcquisitionStatusMutation';
 import './UpdateAcquisitionStatusModal.scss';
 
@@ -23,7 +22,7 @@ type Configs = {
   totalElements: number,
   touchedRowsIds: Array<number>,
   searchParams: Object,
-  sorts: Sorts,
+  sorts: Types.Sorts,
   selectedRowsLength: number,
 };
 
@@ -74,7 +73,7 @@ const UpdateAcquisitionStatusModal = (props: Props) => {
 
     if (actionForbidden) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
         message: I18n.t('clients.bulkUpdate.moveForbidden', { type: typeLowercased }),
       });
@@ -96,7 +95,7 @@ const UpdateAcquisitionStatusModal = (props: Props) => {
         onCloseModal();
 
         notify({
-          level: LevelType.SUCCESS,
+          level: Types.LevelType.SUCCESS,
           title: I18n.t('COMMON.SUCCESS'),
           message: I18n.t('CLIENTS.ACQUISITION_STATUS_UPDATED'),
         });
@@ -120,7 +119,7 @@ const UpdateAcquisitionStatusModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('CLIENTS.ACQUISITION_STATUS_UPDATED'),
       });
@@ -132,7 +131,7 @@ const UpdateAcquisitionStatusModal = (props: Props) => {
       const isForbidden = parseError === 'clients.bulkUpdate.moveForbidden';
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.BULK_UPDATE_FAILED'),
         message: isForbidden ? I18n.t(parseError, { type: acquisitionStatus }) : I18n.t('COMMON.SOMETHING_WRONG'),
       });

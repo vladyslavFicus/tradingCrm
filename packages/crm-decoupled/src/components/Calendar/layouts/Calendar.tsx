@@ -5,7 +5,7 @@ import {
   Views,
   momentLocalizer,
 } from '@hrzn/react-big-calendar';
-import { CommonCallback } from 'types/common';
+import { CommonCallback } from '@crm/common/src/types/common';
 import { Event, Range } from 'constants/calendar';
 import useCalendar from 'components/Calendar/hooks/useCalendar';
 import Toolbar from './components/Toolbar';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditNote, ManualNote, Placement } from 'types/Note';
+import { Types } from '@crm/common';
 import NotePopover from '../../NotePopover';
 import NoteIcon from '../../NoteIcon';
 import useNoteActionManual from '../hooks/useNoteActionManual';
@@ -8,9 +8,9 @@ type Props = {
   playerUUID: string,
   targetUUID: string,
   targetType: string,
-  note?: ManualNote,
-  placement?: Placement,
-  onEditSuccess: (values: EditNote) => void,
+  note?: Types.ManualNote,
+  placement?: Types.Placement,
+  onEditSuccess: (values: Types.EditNote) => void,
   onDeleteSuccess: () => void,
 };
 

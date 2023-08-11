@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { get, omit } from 'lodash';
 import { Formik, Form } from 'formik';
-import { Utils, notify, LevelType } from '@crm/common';
-import { EditNote } from 'types/Note';
-import { FileCategories } from 'types/fileCategories';
+import { Utils, Types, notify } from '@crm/common';
 import FileUpload from 'components/FileUpload';
 import ShortLoader from 'components/ShortLoader';
 import Modal from 'components/Modal';
@@ -47,9 +45,9 @@ const UploadFileModal = (props: Props) => {
   const filesCategoriesQuery = useFilesCategoriesQuery();
 
   const filesCategories = filesCategoriesQuery.data?.filesCategories || {};
-  const categories = omit(filesCategories, '__typename') as FileCategories;
+  const categories = omit(filesCategories, '__typename') as Types.FileCategories;
 
-  const editFileNote = (data: EditNote) => {
+  const editFileNote = (data: Types.EditNote) => {
     const { targetUUID } = data;
 
     const updatedFilesToUpload = filesToUpload.map((file) => {
@@ -92,7 +90,7 @@ const UploadFileModal = (props: Props) => {
 
       if (flatErrorsList.length > 0) {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: I18n.t(flatErrorsList[0]),
         });
@@ -120,7 +118,7 @@ const UploadFileModal = (props: Props) => {
       .filter(({ error }) => {
         if (error) {
           notify({
-            level: LevelType.ERROR,
+            level: Types.LevelType.ERROR,
             title: I18n.t('COMMON.FAIL'),
             message: I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.FILE_TYPE_ERROR'),
           });
@@ -173,13 +171,13 @@ const UploadFileModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.SUCCESS'),
       });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.ERROR'),
       });

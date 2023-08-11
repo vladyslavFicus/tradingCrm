@@ -1,5 +1,5 @@
 import React from 'react';
-import { Utils, LevelType } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import CopyToClipboard from 'components/CopyToClipboard';
 import useUuid from '../hooks/useUuid';
 import './Uuid.scss';
@@ -12,7 +12,7 @@ type Props = {
   uuidPartsCount?: number,
   title?: string,
   notify?: boolean,
-  notificationLevel?: LevelType,
+  notificationLevel?: Types.LevelType,
   notificationTitle?: string,
   notificationMessage?: string,
   length?: number,

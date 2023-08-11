@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils, parseErrors, notify, LevelType } from '@crm/common';
+import { Utils, parseErrors, notify, Types } from '@crm/common';
 import { Button } from 'components';
 import { FormikSelectField } from 'components/Formik';
 import { manualPaymentMethods, manualPaymentMethodsLabels } from 'constants/payment';
@@ -41,7 +41,7 @@ const ApprovePaymentForm = (props: Props) => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_SUCCESS'),
       });
@@ -51,7 +51,7 @@ const ApprovePaymentForm = (props: Props) => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: error.message || I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_FAILED'),
       });

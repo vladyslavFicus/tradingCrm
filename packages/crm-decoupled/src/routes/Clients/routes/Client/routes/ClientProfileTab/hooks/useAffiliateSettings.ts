@@ -1,6 +1,6 @@
 import I18n from 'i18n-js';
 import { useCallback, useState } from 'react';
-import { Config, notify, LevelType, usePermission } from '@crm/common';
+import { Config, notify, Types, usePermission } from '@crm/common';
 import { useEnableShowFtdToAffiliateMutation } from '../graphql/__generated__/EnableShowFtdToAffiliateMutation';
 import { useDisableShowFtdToAffiliateMutation } from '../graphql/__generated__/DisableShowFtdToAffiliateMutation';
 
@@ -33,7 +33,7 @@ const useAffiliateSettings = (props: Props): UseAffiliateSettings => {
 
   const notifySuccessSwitch = useCallback(() => {
     notify({
-      level: LevelType.SUCCESS,
+      level: Types.LevelType.SUCCESS,
       title: I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.FTD_TO_AFFILIATE_TOGGLE.NOTIFICATIONS.TITLE'),
       message: I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.FTD_TO_AFFILIATE_TOGGLE.NOTIFICATIONS.SUCCESS'),
     });
@@ -41,7 +41,7 @@ const useAffiliateSettings = (props: Props): UseAffiliateSettings => {
 
   const notifyErrorSwitch = useCallback(() => {
     notify({
-      level: LevelType.ERROR,
+      level: Types.LevelType.ERROR,
       title: I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.FTD_TO_AFFILIATE_TOGGLE.NOTIFICATIONS.TITLE'),
       message: I18n.t('PLAYER_PROFILE.PROFILE.AFFILIATE_SETTINGS.FTD_TO_AFFILIATE_TOGGLE.NOTIFICATIONS.ERROR'),
     });

@@ -2,9 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Config, notify, LevelType, useModal, usePermission } from '@crm/common';
+import { Config, Types, notify, useModal, usePermission } from '@crm/common';
 import { Button, EditButton, TrashButton } from 'components';
-import { State, Sort } from 'types';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
@@ -19,7 +18,7 @@ type Holiday = ExtractApolloTypeFromPageable<HolidaysQuery['tradingEngine']['hol
 
 const Holidays = () => {
   const navigate = useNavigate();
-  const state = useLocation().state as State<HolidaysQueryVariables['args']>;
+  const state = useLocation().state as Types.State<HolidaysQueryVariables['args']>;
 
   const permission = usePermission();
 
@@ -50,7 +49,7 @@ const Holidays = () => {
     path: 'page.from',
   });
 
-  const handleSort = (sorts: Sort[]) => {
+  const handleSort = (sorts: Types.Sort[]) => {
     navigate('.', {
       replace: true,
       state: {
@@ -76,13 +75,13 @@ const Holidays = () => {
       confirmActionModal.hide();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.HOLIDAYS.NOTIFICATION.DELETE.SUCCESS'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('TRADING_ENGINE.HOLIDAYS.NOTIFICATION.DELETE.FAILED'),
       });

@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Config, Utils, usePermission, useModal } from '@crm/common';
-import { State } from 'types';
+import { Config, Utils, Types, usePermission, useModal } from '@crm/common';
 import AddDocumentModal, { AddDocumentModalProps } from 'modals/AddDocumentModal';
 import { FormValues } from '../types';
 import {
@@ -24,7 +23,7 @@ type Documents = {
 };
 
 const useDocuments = (): Documents => {
-  const state = useLocation().state as State<FormValues>;
+  const state = useLocation().state as Types.State<FormValues>;
 
   // ===== Permissions ===== //
   const permission = usePermission();

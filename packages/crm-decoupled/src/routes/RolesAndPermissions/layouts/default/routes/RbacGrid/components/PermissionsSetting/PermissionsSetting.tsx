@@ -8,8 +8,8 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import classNames from 'classnames';
+import { Types } from '@crm/common';
 import { Button } from 'components';
-import { RbackItem, Actions, Action } from 'types/rbac';
 import ShortLoader from 'components/ShortLoader';
 import ReactSwitch from 'components/ReactSwitch';
 import usePermissionsSetting from 'routes/RolesAndPermissions/hooks/usePermissionsSetting';
@@ -35,7 +35,9 @@ const PermissionsSetting = (_props: Props) => {
   } = usePermissionsSetting(_props);
 
   // ===== Renders ===== //
-  const renderSwitch = useCallback((section: RbackItem, isSection: boolean, action?: Action, isDisabled = false) => {
+  const renderSwitch = useCallback((
+    section: Types.RbackItem, isSection: boolean, action?: Types.Action, isDisabled = false,
+  ) => {
     if (!action) {
       return null;
     }
@@ -51,7 +53,9 @@ const PermissionsSetting = (_props: Props) => {
     );
   }, [handleSwitchPermission]);
 
-  const renderSettings = useCallback((actions: Actions, withImage: boolean, section: RbackItem, isSection: boolean) => {
+  const renderSettings = useCallback((
+    actions: Types.Actions, withImage: boolean, section: Types.RbackItem, isSection: boolean,
+  ) => {
     const isDisabled = actions?.view && actions?.edit && !actions?.view?.state;
 
     return (
