@@ -1,8 +1,7 @@
 import React from 'react';
 import { Field } from 'formik';
 import { Utils } from '@crm/common';
-import I18n from 'i18n';
-
+import I18n from 'i18n-config';
 import {
   FormikSelectField,
 } from 'components/Formik';

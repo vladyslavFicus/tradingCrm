@@ -1,6 +1,6 @@
 import React from 'react';
 import Hotkeys from 'react-hot-keys';
-import useDebugMode from '../hooks/useDebugMode';
+import useDebugMode from './hooks/useDebugMode';
 import './DebugMode.scss';
 
 function DebugMode() {

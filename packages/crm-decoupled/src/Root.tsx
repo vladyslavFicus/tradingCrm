@@ -1,4 +1,4 @@
-import 'i18n';
+import 'i18n-config';
 import React, { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import {

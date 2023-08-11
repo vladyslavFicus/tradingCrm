@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import compose from 'compose-function';
-import { withLazyStreams, LazyStream } from 'rsocket';
+import { withLazyStreams, LazyStream } from '@crm/common';
 
 export interface SymbolPrice {
   symbol: string,

@@ -1,4 +1,4 @@
-import { useStorageState } from '@crm/common';
+import { useStorageState } from '../../../providers';
 
 const useDebugMode = () => {
   // ===== Storage ===== //

@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Utils, useStorage } from '@crm/common';
-import I18n from 'i18n';
+import I18n from 'i18n-config';
 
 const useHeaderLanguages = () => {
   const [isOpen, setOpen] = useState(false);

@@ -9,6 +9,9 @@ import {
   UncontrolledTooltip,
   UpdateVersionError,
   Preloader,
+  ErrorBoundary,
+  DebugMode,
+  ForbiddenChecker,
 } from '@crm/common';
 
 export {
@@ -22,4 +25,7 @@ export {
   UncontrolledTooltip,
   UpdateVersionError,
   Preloader,
+  ErrorBoundary,
+  DebugMode,
+  ForbiddenChecker,
 };

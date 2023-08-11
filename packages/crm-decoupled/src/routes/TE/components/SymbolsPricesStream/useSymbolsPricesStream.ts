@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { throttle } from 'lodash';
-import { LazyStreamSubscription, useRsocket } from 'rsocket';
+import { LazyStreamSubscription, useRsocket } from '@crm/common';
 
 interface SymbolPriceStreamResponse {
   symbol: string,

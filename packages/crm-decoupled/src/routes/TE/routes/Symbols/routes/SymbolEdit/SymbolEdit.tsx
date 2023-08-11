@@ -3,7 +3,7 @@ import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { useParams } from 'react-router-dom';
 import { Utils, notify, LevelType, useModal, parseErrors } from '@crm/common';
 import { Button } from 'components';
-import I18n from 'i18n';
+import I18n from 'i18n-config';
 import ShortLoader from 'components/ShortLoader';
 import NotFound from 'routes/NotFound';
 import { decodeNullValues } from 'components/Formik/utils';

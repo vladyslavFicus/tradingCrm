@@ -3,7 +3,7 @@
 import '@testing-library/jest-dom';
 
 // Init i18n
-import 'i18n';
+import 'i18n-config';
 
 // Mock local storage
 const localStorageMock = {

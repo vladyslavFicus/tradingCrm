@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field, FormikProps } from 'formik';
 import { Input } from 'components';
-import I18n from 'i18n';
+import I18n from 'i18n-config';
 import {
   FormikInputField,
 } from 'components/Formik';

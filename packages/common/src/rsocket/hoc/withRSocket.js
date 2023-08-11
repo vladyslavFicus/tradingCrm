@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { RSocketConsumer } from 'rsocket/providers/RSocketProvider';
+import { RSocketConsumer } from '../providers/RSocketProvider';
 
 /**
  * withRSocket HOC to provide rsocket object to make requests

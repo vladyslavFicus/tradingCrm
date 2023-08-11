@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field, FormikProps } from 'formik';
-import I18n from 'i18n';
+import I18n from 'i18n-config';
 import {
   FormikCheckbox,
   FormikInputField,

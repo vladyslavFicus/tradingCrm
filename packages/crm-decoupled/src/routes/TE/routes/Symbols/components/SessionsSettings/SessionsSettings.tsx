@@ -3,7 +3,7 @@ import compose from 'compose-function';
 import classNames from 'classnames';
 import { FormikProps } from 'formik';
 import { TradingEngineSymbol__SwapsConfigsSwapDayTimes as SwapDayTimes } from '__generated__/types';
-import I18n from 'i18n';
+import I18n from 'i18n-config';
 import { Table, Column } from 'components/Table';
 import { SymbolSession, DayOfWeek, FormValues } from '../../types';
 import './SessionsSettings.scss';

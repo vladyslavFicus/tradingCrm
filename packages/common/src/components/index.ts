@@ -4,3 +4,6 @@ export * from './Input';
 export * from './Uncontrolled/Uncontrolled';
 export * from './Preloader';
 export * from './UpdateVersionError';
+export * from './ErrorBoundary';
+export * from './DebugMode';
+export * from './ForbiddenChecker';

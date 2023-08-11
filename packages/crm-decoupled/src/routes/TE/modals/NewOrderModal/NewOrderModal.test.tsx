@@ -6,9 +6,9 @@ import {
   StorageProvider,
   MockedPermissionProvider,
   MockedApolloProvider,
+  MockedRSocketProvider,
 } from '@crm/common';
 import CoreLayout from 'layouts/CoreLayout';
-import { MockedRSocketProvider } from 'rsocket';
 import { AccountQueryDocument } from './graphql/__generated__/AccountQuery';
 import NewOrderModal from './NewOrderModal';
 

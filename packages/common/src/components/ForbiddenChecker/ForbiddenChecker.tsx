@@ -1,7 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { useLocation, matchPath } from 'react-router-dom';
-import { Config, usePermission } from '@crm/common';
+import { routesPermissions } from '../../config';
+import { usePermission } from '../../providers';
 import './ForbiddenChecker.scss';
 
 type Props = {
@@ -18,11 +19,11 @@ const ForbiddenChecker = (props: Props) => {
   const permission = usePermission();
 
   // Looking for matched route in route permissions
-  const matchedRoute = Object.keys(Config.routesPermissions).find(route => matchPath(route, location.pathname));
+  const matchedRoute = Object.keys(routesPermissions).find(route => matchPath(route, location.pathname));
 
   return (
     <Choose>
-      <When condition={!!matchedRoute && !permission.allowsAll(Config.routesPermissions[matchedRoute])}>
+      <When condition={!!matchedRoute && !permission.allowsAll(routesPermissions[matchedRoute])}>
         <div className="ForbiddenChecker">
           <h1 className="ForbiddenChecker__title">{I18n.t('FORBIDDEN.TITLE')}</h1>
           <p className="ForbiddenChecker__subtitle">{I18n.t('FORBIDDEN.DESCRIPTION')}</p>

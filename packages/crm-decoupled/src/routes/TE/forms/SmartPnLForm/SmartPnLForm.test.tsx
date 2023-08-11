@@ -1,9 +1,8 @@
 import React, { Suspense } from 'react';
 import { render as testingLibraryRender, screen, fireEvent, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { Utils, StorageProvider, MockedApolloProvider } from '@crm/common';
+import { Utils, StorageProvider, MockedApolloProvider, MockedRSocketProvider } from '@crm/common';
 import CoreLayout from 'layouts/CoreLayout';
-import { MockedRSocketProvider } from 'rsocket';
 import { AccountQueryDocument } from './graphql/__generated__/AccountQuery';
 import { AccountSymbolsQueryDocument } from './graphql/__generated__/AccountSymbolsQuery';
 import SmartPnLForm from './SmartPnLForm';
