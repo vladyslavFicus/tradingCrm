@@ -3864,7 +3864,7 @@
 
 "@hrzn/trackify@^1.1.24":
   version "1.1.24"
-  resolved "https://nexus.etep.io/repository/hrzn-npm/@hrzn/trackify/-/trackify-1.1.24.tgz#90cee6309cf10a094300eb7769b19875befb008f"
+  resolved "https://nexus.cyberhat.guru/repository/hrzn-npm/@hrzn/trackify/-/trackify-1.1.24.tgz#90cee6309cf10a094300eb7769b19875befb008f"
   integrity sha512-HFLZ9K2/3021dfo3EjliW9LO19OYKnDin7KA9CfzBqb+uB1dlgw4oASgswcPGnCDZfzyDl9kEif3KxdlngvNaQ==
 
 "@hutson/parse-repository-url@^3.0.0":
