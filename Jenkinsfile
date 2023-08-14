@@ -1,3 +1,3 @@
-@Library("crm-library") _
+@Library("crm-library@crm-17-java") _
 
-cdnServiceBuild(svc: 'backoffice', promoteTo: 'dev01', promoteStack: 'cdn')
+cdnServiceBuild(svc: 'backoffice', skipPromote: true)
