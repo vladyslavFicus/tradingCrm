@@ -1,6 +1,6 @@
 import { get, isEmpty } from 'lodash';
 import update from 'immutability-helper';
-import { Pageable } from 'types';
+import { Pageable } from '../types/query';
 
 export default <T>(data: Pageable<T>, state: Object) => {
   let response = data ? { ...data } : {} as Pageable<T>;

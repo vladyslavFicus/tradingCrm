@@ -1,14 +1,11 @@
 import { useCallback } from 'react';
 import moment from 'moment';
-import { CommonCallback } from 'types/common';
+import { Types, Constants, useModal } from '@crm/common';
 import { LeadCallback } from '__generated__/types';
-import { useModal } from 'providers/ModalProvider';
-import { Event, Range } from 'constants/calendar';
-import { CallbackType } from 'constants/callbacks';
+import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
 import UpdateLeadCallbackModal, { UpdateLeadCallbackModalProps } from 'modals/UpdateLeadCallbackModal';
 import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
 import useCalendar from 'components/Calendar/hooks/useCalendar';
-import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
 import { useLeadCallbacksCalendarListQuery } from '../graphql/__generated__/LeadCallbacksCalendarListQuery';
 
 const useLeadCallbacksCalendar = () => {
@@ -35,17 +32,17 @@ const useLeadCallbacksCalendar = () => {
 
   const getCalendarEvents = useCallback((
     callbacks: Array<LeadCallback>,
-  ): Array<Event<LeadCallback>> => callbacks.map(callback => ({
+  ): Array<Types.Event<LeadCallback>> => callbacks.map(callback => ({
     title: `${moment.utc(callback.callbackTime)
       .local().format('HH:mm')} ${callback.lead && callback.lead.fullName}`,
     start: moment.utc(callback.callbackTime).toDate(),
     end: moment.utc(callback.callbackTime).toDate(),
     callback,
-    callbackType: CallbackType.LEAD,
+    callbackType: Constants.CallbackType.LEAD,
   })), []);
 
   // ===== Handlers ===== //
-  const handleRangeChanged = useCallback((range: Range) => {
+  const handleRangeChanged = useCallback((range: Types.Range) => {
     const { start, end } = range;
 
     refetch({ callbackTimeFrom: String(start), callbackTimeTo: String(end) });
@@ -56,7 +53,7 @@ const useLeadCallbacksCalendar = () => {
     refetch();
   }, [refetch, updateLeadCallbackModal]);
 
-  const handleOpenUpdateModal = useCallback(({ callback }: Event<CommonCallback>) => {
+  const handleOpenUpdateModal = useCallback(({ callback }: Types.Event<Types.CommonCallback>) => {
     const { callbackId } = callback;
 
     updateLeadCallbackModal.show({

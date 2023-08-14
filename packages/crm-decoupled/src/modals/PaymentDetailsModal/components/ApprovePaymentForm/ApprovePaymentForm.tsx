@@ -1,11 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { Utils, Constants, parseErrors, notify, Types } from '@crm/common';
 import { Button } from 'components';
-import { Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { manualPaymentMethods, manualPaymentMethodsLabels } from 'constants/payment';
 import { FormikSelectField } from 'components/Formik';
 import { useApprovePaymentMutation } from './graphql/__generated__/ApprovePaymentMutation';
 import { useManualPaymentMethodsQuery } from './graphql/__generated__/ManualPaymentMethodsQuery';
@@ -43,7 +40,7 @@ const ApprovePaymentForm = (props: Props) => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_SUCCESS'),
       });
@@ -53,7 +50,7 @@ const ApprovePaymentForm = (props: Props) => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: error.message || I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.APPROVE_FAILED'),
       });
@@ -82,12 +79,12 @@ const ApprovePaymentForm = (props: Props) => {
             placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
             component={FormikSelectField}
           >
-            {(manualMethods as Array<manualPaymentMethods>)
-              .filter(item => item !== manualPaymentMethods.COMMISSION)
+            {(manualMethods as Array<Constants.Payment.manualPaymentMethods>)
+              .filter(item => item !== Constants.Payment.manualPaymentMethods.COMMISSION)
               .map(item => (
                 <option key={item} value={item}>
-                  {manualPaymentMethodsLabels[item]
-                    ? I18n.t(manualPaymentMethodsLabels[item])
+                  {Constants.Payment.manualPaymentMethodsLabels[item]
+                    ? I18n.t(Constants.Payment.manualPaymentMethodsLabels[item])
                     : Utils.formatLabel(item || '')
                   }
                 </option>

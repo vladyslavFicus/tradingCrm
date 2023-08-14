@@ -3,14 +3,11 @@ import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { compact } from 'lodash';
 import { QueryResult } from '@apollo/client';
-import { Config } from '@crm/common';
-import { State, TableSelection } from 'types';
+import { Config, Types, usePermission, useModal } from '@crm/common';
 import {
   LeadUploadResponse__FailedLeads as FailedLeads,
   AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
 } from '__generated__/types';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
 import UpdateRepresentativeModal, { UpdateRepresentativeModalProps } from 'modals/UpdateRepresentativeModal';
 import LeadsUploadResultModal, { LeadsUploadResultModalProps } from 'modals/LeadsUploadResultModal';
 import LeadsUploadModal, { LeadsUploadModalProps } from 'modals/LeadsUploadModal';
@@ -18,7 +15,7 @@ import { LeadsListQuery, LeadsListQueryVariables } from '../graphql/__generated_
 import { useLeadsTotalCountQueryLazyQuery } from '../graphql/__generated__/LeadsTotalCountQuery';
 
 type Props = {
-  select: TableSelection | null,
+  select: Types.TableSelection | null,
   leadsQuery: QueryResult<LeadsListQuery>,
 };
 
@@ -26,7 +23,7 @@ const useLeadsHeader = (props: Props) => {
   const { leadsQuery, select } = props;
   const { data, variables, refetch } = leadsQuery;
 
-  const state = useLocation().state as State<LeadsListQueryVariables['args']>;
+  const state = useLocation().state as Types.State<LeadsListQueryVariables['args']>;
 
   const [loadingTotalCount, setLoadingTotalCount] = useState<boolean>(false);
   const [totalCount, setTotalCount] = useState<number | null>(null);

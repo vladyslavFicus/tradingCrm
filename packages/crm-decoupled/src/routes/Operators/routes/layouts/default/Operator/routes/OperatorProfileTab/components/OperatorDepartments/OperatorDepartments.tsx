@@ -1,13 +1,11 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, Constants } from '@crm/common';
 import { Button } from 'components';
 import { Operator } from '__generated__/types';
-
 import { FormikSelectField } from 'components/Formik';
 import useOperatorDepartments from 'routes/Operators/routes/hooks/useOperatorDepartments';
-import { departmentsLabels, rolesLabels } from 'constants/operators';
 import './OperatorDepartments.scss';
 
 const attributeLabels = {
@@ -54,9 +52,9 @@ const OperatorDepartments = (props: Props) => {
         {operatorAuthorities.map(({ department, role }) => (
           <div className="OperatorDepartments__item" key={`${department}-${role}`}>
             <div className="OperatorDepartments__item-title">
-              {I18n.t(Utils.renderLabel(department, departmentsLabels))}
+              {I18n.t(Utils.renderLabel(department, Constants.Operator.departmentsLabels))}
               {' - '}
-              {I18n.t(Utils.renderLabel(role, rolesLabels))}
+              {I18n.t(Utils.renderLabel(role, Constants.Operator.rolesLabels))}
             </div>
 
             <If condition={!isCurrentOperator && allowDeleteAuthority}>
@@ -115,7 +113,7 @@ const OperatorDepartments = (props: Props) => {
                     >
                       {availableDepartments.map(department => (
                         <option key={department} value={department}>
-                          {I18n.t(Utils.renderLabel(department, departmentsLabels))}
+                          {I18n.t(Utils.renderLabel(department, Constants.Operator.departmentsLabels))}
                         </option>
                       ))}
                     </Field>
@@ -131,7 +129,7 @@ const OperatorDepartments = (props: Props) => {
                     >
                       {availableRolesDepartment.map((role: string) => (
                         <option key={role} value={role}>
-                          {I18n.t(Utils.renderLabel(role, rolesLabels))}
+                          {I18n.t(Utils.renderLabel(role, Constants.Operator.rolesLabels))}
                         </option>
                       ))}
                     </Field>

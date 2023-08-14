@@ -1,8 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
+import { Utils, Constants } from '@crm/common';
 import { Authority } from '__generated__/types';
-import { departmentsLabels, rolesLabels } from 'constants/operators';
 import './PartnerAdditionalInfo.scss';
 
 type Props = {
@@ -29,11 +28,11 @@ const PartnerAdditionalInfo = (props: Props) => {
               authorities.map(({ id, department, role }) => (
                 <div key={id} className="PartnerAdditionalInfo__authority">
                   <div className="PartnerAdditionalInfo__authority-department">
-                    {I18n.t(Utils.renderLabel(department, departmentsLabels))}
+                    {I18n.t(Utils.renderLabel(department, Constants.Operator.departmentsLabels))}
                   </div>
 
                   <div className="PartnerAdditionalInfo__authority-role">
-                    {I18n.t(Utils.renderLabel(role, rolesLabels))}
+                    {I18n.t(Utils.renderLabel(role, Constants.Operator.rolesLabels))}
                   </div>
                 </div>
               ))

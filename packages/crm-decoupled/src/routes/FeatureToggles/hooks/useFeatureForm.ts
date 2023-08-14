@@ -1,11 +1,8 @@
 import { useCallback, useMemo } from 'react';
 import I18n from 'i18n-js';
 import { v4 } from 'uuid';
-import { LevelType } from 'types';
-import { parseErrors } from 'apollo';
+import { Types, parseErrors, notify, useModal } from '@crm/common';
 import { PlatformType__Enum as PlatformType } from '__generated__/types';
-import { notify } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { FormValues } from '../types/featureForm';
 import { useBrandConfigQuery } from '../graphql/__generated__/BrandConfigQuery';
@@ -80,7 +77,7 @@ const useFeatureForm = () => {
       await refetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('FEATURE_TOGGLES.FEATURE_FORM.SUBMIT.SUCCESS'),
         message: I18n.t('FEATURE_TOGGLES.FEATURE_FORM.SUBMIT.SUCCESS'),
       });
@@ -98,7 +95,7 @@ const useFeatureForm = () => {
         });
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: I18n.t('FEATURE_TOGGLES.FEATURE_FORM.SUBMIT.ERROR'),
         });

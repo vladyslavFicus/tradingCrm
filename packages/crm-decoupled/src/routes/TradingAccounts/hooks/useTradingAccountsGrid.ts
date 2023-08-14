@@ -1,10 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
-import { parseErrors } from 'apollo';
+import { Config, notify, Types, usePermission, parseErrors } from '@crm/common';
 import { AccountView } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import { useUnarchiveAccountMutation } from '../graphql/__generated__/UnarchiveAccountMutation';
 
 type Props = {
@@ -27,7 +24,7 @@ const useTradingAccountsGrid = (props: Props) => {
       await unarchiveAccountMutation({ variables: { uuid } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ACCOUNTS.GRID.UNARCHIVE.SUCCESS', { uuid }),
       });
@@ -35,7 +32,7 @@ const useTradingAccountsGrid = (props: Props) => {
       const err = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: (err.error === 'error.account.not.archived' || err.error === 'error.account.unarchive.in-progress')
           ? err.message

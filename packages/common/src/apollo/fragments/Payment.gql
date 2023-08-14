@@ -1,0 +1,65 @@
+fragment PaymentFragment on Payment {
+  _id
+  login
+  platformType
+  accountType
+  paymentId
+  paymentType
+  status
+  currency
+  createdBy
+  creationTime
+  bankName
+  maskedPan
+  paymentMethod
+  paymentAggregator
+  amount
+  country
+  language
+  brandId
+  externalReference
+  paymentMigrationId
+  userMigrationId
+  normalizedAmount
+  declineReason
+  partner {
+    fullName
+  }
+  playerProfile {
+    uuid
+    firstName
+    lastName
+    country
+    affiliateUuid
+  }
+  paymentMetadata {
+    clientIp
+    mobile
+    userAgent
+    country
+  }
+  originalAgent {
+    uuid
+    fullName
+  }
+  note {
+    _id
+    noteId
+    targetUUID
+    targetType
+    playerUUID
+    subject
+    content
+    pinned
+    changedAt
+    changedBy
+    operator {
+      fullName
+    }
+  }
+  modifiedBy
+  statusChangedAt
+  warnings
+  cryptoAmount
+  cryptoCurrency
+}

@@ -3,13 +3,11 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { Utils } from '@crm/common';
-import { Sort, State } from 'types';
+import { Utils, Types, useModal } from '@crm/common';
 import { TradingEngine__OrderStatuses__Enum as OrderStatusesEnum } from '__generated__/types';
 import { OrderStatus } from 'types/trading-engine';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
-import { useModal } from 'providers/ModalProvider';
 import EditOrderModal, { EditOrderModalProps } from 'routes/TE/modals/EditOrderModal';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import { types } from '../../attributes/constants';
@@ -21,7 +19,7 @@ type Order = ExtractApolloTypeFromPageable<HistoryQuery['tradingEngine']['histor
 
 const AccountProfileHistoryGrid = () => {
   const navigate = useNavigate();
-  const state = useLocation().state as State<HistoryQueryVariables>;
+  const state = useLocation().state as Types.State<HistoryQueryVariables>;
   const id = useParams().id as string;
 
   const editOrderModal = useModal<EditOrderModalProps>(EditOrderModal);
@@ -61,7 +59,7 @@ const AccountProfileHistoryGrid = () => {
     path: 'page.from',
   });
 
-  const handleSort = (sorts: Sort[]) => {
+  const handleSort = (sorts: Types.Sort[]) => {
     navigate('.', {
       replace: true,
       state: {

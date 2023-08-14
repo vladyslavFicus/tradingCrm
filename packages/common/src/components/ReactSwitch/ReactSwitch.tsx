@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Position } from 'types/position';
-import { useReactSwitch } from 'hooks';
+import { Position } from '../../types';
+import { useReactSwitch } from '../../hooks';
 import './ReactSwitch.scss';
 
 type Props = {

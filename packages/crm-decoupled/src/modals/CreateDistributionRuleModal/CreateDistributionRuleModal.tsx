@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { useNavigate } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
-import { Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Utils, parseErrors, notify, Types } from '@crm/common';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useCreateDistributionRuleMutation } from './graphql/__generated__/CreateDistributionRuleMutation';
@@ -43,7 +41,7 @@ const CreateDistributionRuleModal = (props: Props) => {
       navigate(`/distribution/${uuid}`);
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('CLIENTS_DISTRIBUTION.UPDATE_RULE_SUCCESS', { ruleName: values.ruleName }),
       });
@@ -54,7 +52,7 @@ const CreateDistributionRuleModal = (props: Props) => {
         setFormError(I18n.t('CLIENTS_DISTRIBUTION.CREATE_RULE_EXIST', { ruleName: error?.errorParameters?.ruleName }));
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: I18n.t('CLIENTS_DISTRIBUTION.CREATE_RULE_FAILED'),
         });

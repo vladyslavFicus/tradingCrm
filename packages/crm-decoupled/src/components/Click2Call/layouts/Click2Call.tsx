@@ -2,13 +2,13 @@ import React from 'react';
 import I18n from 'i18n-js';
 import ToolTip from 'react-portal-tooltip';
 import classNames from 'classnames';
+import { Types } from '@crm/common';
 import { Button, CircleLoader } from 'components';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
   ClickToCall__Customer__Type__Enum as CustomerType,
   ClickToCall__CallSystem__Enum as CallSystem,
 } from '__generated__/types';
-import { Position } from 'types/position';
 import { Arrow } from 'components/Click2Call/types';
 import useClick2Call from 'components/Click2Call/hooks/useClick2Call';
 import { ICONS, TOOLTIP_STYLE } from './constants';
@@ -20,7 +20,7 @@ type Props = {
   customerType: CustomerType,
   phoneType: PhoneType,
   uuid: string,
-  position?: Position,
+  position?: Types.Position,
   arrow?: Arrow,
 }
 

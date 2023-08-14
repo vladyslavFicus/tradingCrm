@@ -1,12 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
+import { Utils, Constants, notify, Types } from '@crm/common';
 import { Button } from 'components';
-import { Utils } from '@crm/common';
-import { notify, LevelType } from 'providers/NotificationProvider';
-
 import { FormikSelectField } from 'components/Formik';
-import { statusMapper, statusesLabels, statuses } from 'constants/payment';
 import { useUpdatePaymentMethodMutation } from './graphql/__generated__/UpdatePaymentMethodMutation';
 import { useUpdatePaymentStatusMutation } from './graphql/__generated__/UpdatePaymentStatusMutation';
 import { useManualPaymentMethodsQuery } from './graphql/__generated__/ManualPaymentMethodsQuery';
@@ -72,13 +69,13 @@ const ChangePaymentStatusForm = (props: Props) => {
 
     if (errors.length) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t(`PAYMENT_DETAILS_MODAL.NOTIFICATIONS.${errors.length === 2 ? 'ERROR' : errors[0]}`),
       });
     } else {
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
       });
@@ -116,11 +113,11 @@ const ChangePaymentStatusForm = (props: Props) => {
             >
               {
                   Object
-                    .entries(statusMapper)
-                    .filter(([item]) => item !== statuses.PENDING)
+                    .entries(Constants.Payment.statusMapper)
+                    .filter(([item]) => item !== Constants.Payment.statuses.PENDING)
                     .map(([key, value]) => (
                       <option key={key} value={value[0]}>
-                        {I18n.t(Utils.renderLabel(key, statusesLabels))}
+                        {I18n.t(Utils.renderLabel(key, Constants.Payment.statusesLabels))}
                       </option>
                     ))
                 }

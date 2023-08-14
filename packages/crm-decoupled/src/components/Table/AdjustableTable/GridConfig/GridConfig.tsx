@@ -1,7 +1,8 @@
+// @ts-nocheck Component withRouter HOC types issue
 import I18n from 'i18n-js';
 import React, { useState } from 'react';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import Select from 'components/Select';
+import { notify, Types } from '@crm/common';
+import { Select } from 'components';
 import { AvailableColumns, Config } from '../types';
 import { useCreateGridConfigMutation } from '../graphql/__generated__/CreateGridConfigMutation';
 import { useUpdateGridConfigMutation } from '../graphql/__generated__/UpdateGridConfigMutation';
@@ -41,13 +42,13 @@ const GridConfig = (props: Props) => {
         }
       }
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('GRID_CONFIG.NOTIFICATIONS.SETTINGS_UPDATED'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('GRID_CONFIG.NOTIFICATIONS.SETTINGS_NOT_UPDATED'),
       });
@@ -57,7 +58,6 @@ const GridConfig = (props: Props) => {
   return (
     <div className="GridConfig">
       <Select
-        // @ts-ignore Component withRouter HOC types issue
         multiple
         value={columnsSet}
         onChange={saveOrCreateGridConfig}

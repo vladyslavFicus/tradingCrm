@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
-import { Config } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, usePermission } from '@crm/common';
 
 const useNotePopover = () => {
   const permission = usePermission();

@@ -1,7 +1,5 @@
 import { useMemo } from 'react';
-import { branchTypes } from 'constants/hierarchyTypes';
-import { salesStatuses, salesStatusesColor } from 'constants/salesStatuses';
-import { retentionStatuses, retentionStatusesColor } from 'constants/retentionStatuses';
+import { Constants } from '@crm/common';
 
 export type ParentBranch = {
   name: string,
@@ -30,15 +28,19 @@ const useGridAcquisitionStatus = (props: Props) => {
   } = props;
 
   // Get title and color depends on acquisition
-  const statusTitle = acquisition === 'SALES' ? salesStatuses[status] : retentionStatuses[status];
-  const color = acquisition === 'SALES' ? salesStatusesColor[status] : retentionStatusesColor[status];
+  const statusTitle = acquisition === 'SALES'
+    ? Constants.salesStatuses[status]
+    : Constants.retentionStatuses[status];
+  const color = acquisition === 'SALES'
+    ? Constants.salesStatusesColor[status]
+    : Constants.retentionStatusesColor[status];
 
   // Find hierarchy branches (desk and team)
   const branches = hierarchy ? hierarchy.parentBranches : null;
 
-  const team = useMemo(() => branches?.find(branch => branch?.branchType === branchTypes.TEAM), [branches]);
+  const team = useMemo(() => branches?.find(branch => branch?.branchType === Constants.branchTypes.TEAM), [branches]);
   const desk = useMemo(() => (team ? team.parentBranch
-    : branches?.find(branch => branch?.branchType === branchTypes.DESK)), [branches, team]);
+    : branches?.find(branch => branch?.branchType === Constants.branchTypes.DESK)), [branches, team]);
 
   return {
     statusTitle,

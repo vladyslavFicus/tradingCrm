@@ -3,8 +3,8 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Constants } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { statuses, statusesLabels } from 'constants/operators';
 import Link from 'components/Link';
 import Uuid from 'components/Uuid';
 import useOperatorAccountStatus from 'routes/Operators/routes/hooks/useOperatorAccountStatus';
@@ -63,27 +63,27 @@ const OperatorAccountStatus = (_props: Props) => {
     <div className="OperatorAccountStatus__label">
       <div
         className={classNames('OperatorAccountStatus__status', {
-          'OperatorAccountStatus__status--inactive': operatorStatus === statuses.INACTIVE,
-          'OperatorAccountStatus__status--active': operatorStatus === statuses.ACTIVE,
-          'OperatorAccountStatus__status--closed': operatorStatus === statuses.CLOSED,
+          'OperatorAccountStatus__status--inactive': operatorStatus === Constants.Operator.statuses.INACTIVE,
+          'OperatorAccountStatus__status--active': operatorStatus === Constants.Operator.statuses.ACTIVE,
+          'OperatorAccountStatus__status--closed': operatorStatus === Constants.Operator.statuses.CLOSED,
         })}
       >
-        {I18n.t(statusesLabels[operatorStatus as statuses])}
+        {I18n.t(Constants.Operator.statusesLabels[operatorStatus as Constants.Operator.statuses])}
       </div>
 
-      <If condition={operatorStatus === statuses.ACTIVE && !!statusChangeDate}>
+      <If condition={operatorStatus === Constants.Operator.statuses.ACTIVE && !!statusChangeDate}>
         <div className="OperatorAccountStatus__additional">
           {I18n.t('COMMON.SINCE', { date: moment.utc(statusChangeDate || '').local().format('DD.MM.YYYY') })}
         </div>
       </If>
 
-      <If condition={operatorStatus === statuses.CLOSED && !!statusChangeAuthor}>
+      <If condition={operatorStatus === Constants.Operator.statuses.CLOSED && !!statusChangeAuthor}>
         <div className="OperatorAccountStatus__additional">
           {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor || ''} uuidPrefix="OP" />
         </div>
       </If>
 
-      <If condition={operatorStatus === statuses.CLOSED && !!statusChangeDate}>
+      <If condition={operatorStatus === Constants.Operator.statuses.CLOSED && !!statusChangeDate}>
         <div className="OperatorAccountStatus__additional">
           {I18n.t('COMMON.ON')} {moment.utc(statusChangeDate || '').local().format('DD.MM.YYYY')}
         </div>
@@ -104,7 +104,7 @@ const OperatorAccountStatus = (_props: Props) => {
       </div>
 
       <Choose>
-        <When condition={allowUpdateAccountStatus && operatorStatus !== statuses.INACTIVE}>
+        <When condition={allowUpdateAccountStatus && operatorStatus !== Constants.Operator.statuses.INACTIVE}>
           <Dropdown
             isOpen={isDropDownOpen}
             toggle={toggleDropdown}

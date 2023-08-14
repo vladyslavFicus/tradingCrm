@@ -2,15 +2,14 @@ import React from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, Constants } from '@crm/common';
 import { Button } from 'components';
 import { Lead } from '__generated__/types';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
-import TabHeader from 'components/TabHeader';
 import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';
+import TabHeader from 'components/TabHeader';
 import { attributeLabels, genders, AGE_YEARS_CONSTRAINT } from 'routes/Leads/routes/Lead/constants/leadProfileTab';
 import useLeadProfileTab from 'routes/Leads/routes/Lead/hooks/useLeadProfileTab';
-import { MIN_BIRTHDATE } from 'constants/user';
 import './LeadProfileTab.scss';
 
 type Props = {
@@ -61,7 +60,7 @@ const LeadProfileTab = (props: Props) => {
               lastName: 'string',
               birthDate: [
                 'date',
-                `minDate:${MIN_BIRTHDATE}`,
+                `minDate:${Constants.User.MIN_BIRTHDATE}`,
                 `maxDate:${moment().subtract(AGE_YEARS_CONSTRAINT, 'year').format(DATE_BASE_FORMAT)}`,
               ],
               identifier: 'string',
@@ -135,7 +134,7 @@ const LeadProfileTab = (props: Props) => {
                     data-testid="LeadProfileTab-birthDatePicker"
                     label={I18n.t(attributeLabels.birthDate)}
                     component={FormikDatePicker}
-                    minDate={moment(MIN_BIRTHDATE)}
+                    minDate={moment(Constants.User.MIN_BIRTHDATE)}
                     maxDate={moment().subtract(AGE_YEARS_CONSTRAINT, 'year')}
                     disabled={isSubmitting}
                     closeOnSelect

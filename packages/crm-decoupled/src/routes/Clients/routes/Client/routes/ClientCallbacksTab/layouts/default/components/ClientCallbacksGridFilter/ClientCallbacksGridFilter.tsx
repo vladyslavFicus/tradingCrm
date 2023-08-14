@@ -3,9 +3,9 @@ import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Utils } from '@crm/common';
 import { Button, RefreshButton } from 'components';
-import useFilter from 'hooks/useFilter';
 import { Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
+import useFilter from 'hooks/useFilter';
 import './ClientCallbacksGridFilter.scss';
 
 type FormValues = {

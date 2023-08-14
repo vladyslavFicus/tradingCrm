@@ -1,7 +1,7 @@
 import React from 'react';
 import { get } from 'lodash';
 import { FieldProps, getIn } from 'formik';
-import { TextArea } from 'components';
+import { TextArea } from '../../TextArea';
 import { DefaultFieldProps } from '../types';
 
 type Resize = 'none' | 'both' | 'horizontal' | 'vertical';

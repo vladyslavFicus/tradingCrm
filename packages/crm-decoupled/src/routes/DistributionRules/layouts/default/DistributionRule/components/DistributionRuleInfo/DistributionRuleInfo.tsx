@@ -3,11 +3,11 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
+import { Constants } from '@crm/common';
 import { Button } from 'components';
 import { DistributionRule__Statuses__Enum as DistributionRuleStatusesEnum } from '__generated__/types';
 import useDistributionRuleInfo from 'routes/DistributionRules/hooks/useDistributionRuleInfo';
 import { DistributionRuleType } from 'routes/DistributionRules/hooks/useDistributionRule';
-import { clientDistributionStatuses } from 'constants/clientsDistribution';
 import { ReactComponent as PlayIcon } from './play-icon.svg';
 import './DistributionRuleInfo.scss';
 
@@ -80,7 +80,7 @@ const DistributionRuleInfo = (props: Props) => {
                 `DistributionRuleInfo__status-item--${status.toLowerCase()}`,
               )}
             >
-              {I18n.t(clientDistributionStatuses[status])}
+              {I18n.t(Constants.clientDistributionStatuses[status])}
               <i className="DistributionRuleInfo__status__arrow fa fa-angle-down" />
             </div>
 
@@ -93,7 +93,7 @@ const DistributionRuleInfo = (props: Props) => {
           </DropdownToggle>
 
           <DropdownMenu className="DistributionRuleInfo__status__dropdown-menu">
-            {(Object.keys(clientDistributionStatuses) as [DistributionRuleStatusesEnum])
+            {(Object.keys(Constants.clientDistributionStatuses) as [DistributionRuleStatusesEnum])
               .filter(key => key !== status)
               .map(key => (
                 <DropdownItem
@@ -104,7 +104,7 @@ const DistributionRuleInfo = (props: Props) => {
                   )}
                   onClick={() => handleUpdateRuleStatus(key)}
                 >
-                  {I18n.t(clientDistributionStatuses[key])}
+                  {I18n.t(Constants.clientDistributionStatuses[key])}
                 </DropdownItem>
               ))
             }

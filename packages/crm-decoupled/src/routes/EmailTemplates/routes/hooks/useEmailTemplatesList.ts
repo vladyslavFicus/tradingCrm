@@ -1,9 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, notify, Types, usePermission } from '@crm/common';
 import { EmailTemplatesQuery, useEmailTemplatesQuery } from '../graphql/__generated__/EmailTemplatesQuery';
 import { useEmailTemplateDeleteMutation } from '../graphql/__generated__/EmailTemplateDeleteMutation';
 
@@ -43,13 +41,13 @@ const useEmailTemplatesList = (): EmailTemplatesList => {
       refetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.ACTIONS.DELETE'),
         message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
       });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ACTIONS.DELETE'),
         message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
       });

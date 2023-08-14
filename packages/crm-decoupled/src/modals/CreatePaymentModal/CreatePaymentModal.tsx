@@ -1,21 +1,11 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { parseErrors } from 'apollo';
-import { EditNote } from 'types/Note';
+import { Constants, parseErrors, notify, Types, usePermission } from '@crm/common';
 import { PaymentMutationCreatePaymentArgs as PaymentValues, Profile, TradingAccount } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
-import { targetTypes } from 'constants/note';
-import {
-  commissionCurrencies,
-  commissionCurrenciesLabels,
-  manualPaymentMethods,
-  manualPaymentMethodsLabels,
-} from 'constants/payment';
+import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
 import Modal from 'components/Modal';
 import NoteActionManual from 'components/Note/NoteActionManual';
-import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
 import Currency from 'components/Currency';
 import AccountsSelectField from './components/AccountsSelectField';
 import { validation } from './utils';
@@ -58,7 +48,7 @@ const CreatePaymentModal = (props: Props) => {
   } = props;
 
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [note, setNote] = useState<EditNote | null>(null);
+  const [note, setNote] = useState<Types.EditNote | null>(null);
   const [selectedTradingAccount, setSelectedTradingAccount] = useState<TradingAccount | undefined>();
 
   const permission = usePermission();
@@ -90,7 +80,7 @@ const CreatePaymentModal = (props: Props) => {
   const [createPaymentMutation] = useCreatePaymentMutation();
   const [addNoteMutation] = useAddNoteMutation();
 
-  const getNote = (editNote: EditNote | null) => {
+  const getNote = (editNote: Types.EditNote | null) => {
     setNote(editNote);
   };
 
@@ -118,7 +108,7 @@ const CreatePaymentModal = (props: Props) => {
       const { data: dataPayment } = await createPaymentMutation({ variables });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_SUCCESS'),
       });
@@ -146,7 +136,7 @@ const CreatePaymentModal = (props: Props) => {
         setErrorMessage(I18n.t(`error.validation.invalid.amount.${code}`));
 
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: I18n.t(`error.validation.invalid.amount.${code}`),
         });
@@ -157,7 +147,7 @@ const CreatePaymentModal = (props: Props) => {
       setErrorMessage(error.message);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: error.message || I18n.t('PLAYER_PROFILE.TRANSACTIONS.ADD_TRANSACTION_FAIL'),
       });
@@ -312,10 +302,11 @@ const CreatePaymentModal = (props: Props) => {
                         >
                           {paymentMethods.map(item => (
                             <option key={item} value={item as string}>
-                              {manualPaymentMethodsLabels[item as manualPaymentMethods]
-                                ? I18n.t(manualPaymentMethodsLabels[item as manualPaymentMethods])
-                                : item
-                                }
+                              {Constants.Payment.manualPaymentMethodsLabels[
+                                  item as Constants.Payment.manualPaymentMethods
+                              ] ? I18n.t(Constants.Payment.manualPaymentMethodsLabels[
+                                  item as Constants.Payment.manualPaymentMethods
+                                ]) : item}
                             </option>
                           ))}
                         </Field>
@@ -451,10 +442,10 @@ const CreatePaymentModal = (props: Props) => {
                           showErrorMessage={false}
                         >
                           {Object
-                            .values(commissionCurrencies)
+                            .values(Constants.Payment.commissionCurrencies)
                             .map(cur => (
                               <option key={cur} value={cur}>
-                                {I18n.t(commissionCurrenciesLabels[cur])}
+                                {I18n.t(Constants.Payment.commissionCurrenciesLabels[cur])}
                               </option>
                             ))}
                         </Field>
@@ -534,7 +525,7 @@ const CreatePaymentModal = (props: Props) => {
                       note={note}
                       playerUUID={uuid}
                       targetUUID={uuid}
-                      targetType={targetTypes.PAYMENT}
+                      targetType={Constants.targetTypes.PAYMENT}
                       onEditSuccess={getNote}
                       onDeleteSuccess={() => getNote(null)}
                       placement="bottom"

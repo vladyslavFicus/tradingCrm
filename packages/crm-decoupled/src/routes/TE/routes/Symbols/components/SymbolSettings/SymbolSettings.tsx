@@ -1,11 +1,11 @@
 import React from 'react';
 import { Field, FormikProps } from 'formik';
-import I18n from 'i18n';
 import {
   FormikInputField,
   FormikSelectField,
   FormikTextAreaField,
 } from 'components/Formik';
+import I18n from 'i18n-config';
 import { FormValues } from '../../types';
 import './SymbolSettings.scss';
 

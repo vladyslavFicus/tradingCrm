@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { ResetForm } from 'types/formik';
+import { Types } from '@crm/common';
 import { Filter } from '../types';
 
 type FormValues = {
@@ -14,7 +14,7 @@ type Props = {
 const useNotificationCenterForm = (props: Props) => {
   const { onSubmit } = props;
 
-  const handleReset = useCallback((resetForm: ResetForm<FormValues>) => {
+  const handleReset = useCallback((resetForm: Types.ResetForm<FormValues>) => {
     onSubmit({});
     resetForm();
   }, []);

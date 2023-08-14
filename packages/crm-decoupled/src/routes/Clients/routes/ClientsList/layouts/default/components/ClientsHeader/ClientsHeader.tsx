@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { QueryResult } from '@apollo/client';
+import { Types } from '@crm/common';
 import { UncontrolledTooltip } from 'components';
-import { TableSelection } from 'types';
 import { FiltersTogglerButton } from 'components/FiltersToggler';
 import Placeholder from 'components/Placeholder';
 import { MAX_QUERY_CLIENTS } from 'routes/Clients/routes/ClientsList/constants';
@@ -12,7 +12,7 @@ import ClientsBulkActions from '../ClientsBulkActions';
 import './ClientsHeader.scss';
 
 type Props = {
-  select: TableSelection | null,
+  select: Types.TableSelection | null,
   clientsQuery: QueryResult<ClientsListQuery>,
 };
 

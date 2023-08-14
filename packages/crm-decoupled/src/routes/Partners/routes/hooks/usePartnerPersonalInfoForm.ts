@@ -1,10 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { get } from 'lodash';
-import { Config } from '@crm/common';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useStorageState, Auth } from 'providers/StorageProvider';
+import { Config, notify, Types, usePermission, useStorageState, Auth } from '@crm/common';
 import { Partner } from '__generated__/types';
 import { useUpdatePartnerMutation } from '../graphql/__generated__/UpdatePartnerMutation';
 
@@ -46,7 +43,6 @@ type PartnerPersonalInfoForm = {
   role: string,
   minFtdDeposit?: number | null,
   cumulativeDeposit?: boolean | null,
-  LevelType: typeof LevelType,
   handleSubmit: (values: FormValues) => void,
 };
 
@@ -86,7 +82,7 @@ const usePartnerPersonalInfoForm = (props: Props): PartnerPersonalInfoForm => {
       onRefetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.TITLE'),
         message: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_SUCCESS.MESSAGE'),
       });
@@ -95,7 +91,7 @@ const usePartnerPersonalInfoForm = (props: Props): PartnerPersonalInfoForm => {
 
       if (error === 'error.affiliate.externalId.already.exists') {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.TITLE'),
           message: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.MESSAGE'),
         });
@@ -104,7 +100,7 @@ const usePartnerPersonalInfoForm = (props: Props): PartnerPersonalInfoForm => {
       }
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_ERROR.TITLE'),
         message: I18n.t('PARTNERS.NOTIFICATIONS.UPDATE_PARTNER_ERROR.MESSAGE'),
       });
@@ -118,7 +114,6 @@ const usePartnerPersonalInfoForm = (props: Props): PartnerPersonalInfoForm => {
     role,
     minFtdDeposit,
     cumulativeDeposit,
-    LevelType,
     handleSubmit,
   };
 };

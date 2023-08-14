@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { statuses } from 'constants/payment';
+import { Constants } from '@crm/common';
 import FailedStatusIcon from 'components/FailedStatusIcon';
 import Uuid from 'components/Uuid';
 import usePaymentStatus from '../hooks/usePaymentStatus';
@@ -34,12 +34,12 @@ const PaymentStatus = (props: Props) => {
         classNames(
           'PaymentStatus__general',
           'PaymentStatus__status', {
-            'PaymentStatus__status--approved': status === statuses.APPROVED,
-            'PaymentStatus__status--pending': status === statuses.PENDING,
-            'PaymentStatus__status--rejected': status === statuses.REJECTED,
-            'PaymentStatus__status--canceled': status === statuses.CANCELED,
-            'PaymentStatus__status--failed': status === statuses.FAILED,
-            'PaymentStatus__status--completed': status === statuses.COMPLETED,
+            'PaymentStatus__status--approved': status === Constants.Payment.statuses.APPROVED,
+            'PaymentStatus__status--pending': status === Constants.Payment.statuses.PENDING,
+            'PaymentStatus__status--rejected': status === Constants.Payment.statuses.REJECTED,
+            'PaymentStatus__status--canceled': status === Constants.Payment.statuses.CANCELED,
+            'PaymentStatus__status--failed': status === Constants.Payment.statuses.FAILED,
+            'PaymentStatus__status--completed': status === Constants.Payment.statuses.COMPLETED,
           },
         )}
       >

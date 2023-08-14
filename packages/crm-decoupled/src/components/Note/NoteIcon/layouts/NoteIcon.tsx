@@ -1,11 +1,11 @@
 import React from 'react';
-import { ManualNote, NoteEntity } from 'types/Note';
+import { Types } from '@crm/common';
 import useNoteIcon from '../hooks/useNoteIcon';
 import './NoteIcon.scss';
 
 type Props = {
   targetId: string,
-  note?: NoteEntity | ManualNote,
+  note?: Types.NoteEntity | Types.ManualNote,
   onClick: (e: React.MouseEvent) => void,
 };
 

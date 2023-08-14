@@ -1,11 +1,11 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { Constants } from '@crm/common';
 import { Button } from 'components';
 import { Lead } from '__generated__/types';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
 import useLeadHeader from 'routes/Leads/routes/Lead/hooks/useLeadHeader';
-import { targetTypes } from 'constants/note';
 import './LeadHeader.scss';
 
 type Props = {
@@ -58,7 +58,7 @@ const LeadHeader = (_props: Props) => {
           <NoteAction
             playerUUID={uuid}
             targetUUID={uuid}
-            targetType={targetTypes.LEAD}
+            targetType={Constants.targetTypes.LEAD}
             placement="bottom-end"
           >
             <Button

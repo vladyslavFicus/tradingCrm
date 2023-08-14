@@ -1,8 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils } from '@crm/common';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Utils, notify, Types } from '@crm/common';
 import { FormikSelectField, FormikTextAreaField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useFullSmsNumbersQuery } from './graphql/__generated__/FullSmsNumbersQuery';
@@ -38,7 +37,7 @@ const SendSmsModal = (props: Props) => {
       await sendSmsMutation({ variables });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('SMS.SMS_SEND_MODAL.SMS_SENT_TO_CLIENT'),
       });
@@ -46,7 +45,7 @@ const SendSmsModal = (props: Props) => {
       onCloseModal();
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('SMS.SMS_SEND_MODAL.SMS_SENT_FAILED'),
       });

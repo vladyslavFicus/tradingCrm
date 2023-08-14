@@ -2,16 +2,13 @@ import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, Constants, notify, Types, usePermission } from '@crm/common';
 import { Button, ShortLoader } from 'components';
 import { LeadCallback, Operator, Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import { FormikSelectField, FormikDatePicker } from 'components/Formik';
+import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
 import Modal from 'components/Modal';
 import Uuid from 'components/Uuid';
-import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
-import { reminderValues } from 'constants/callbacks';
 import { useGetLeadCallbackQuery } from './graphql/__generated__/GetLeadCallbackQuery';
 import { useGetOperatorsQuery } from './graphql/__generated__/GetOperatorsQuery';
 import { useUpdateLeadCallbackMutation } from './graphql/__generated__/UpdateLeadCallbackMutation';
@@ -73,13 +70,13 @@ const UpdateLeadCallbackModal = (props: Props) => {
       handleClose();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('CALLBACKS.MODAL.LEAD_TITLE'),
         message: I18n.t('CALLBACKS.MODAL.SUCCESSFULLY_UPDATED'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('CALLBACKS.MODAL.LEAD_TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -239,7 +236,7 @@ const UpdateLeadCallbackModal = (props: Props) => {
                   component={FormikSelectField}
                   disabled={readOnly}
                 >
-                  {reminderValues.map(({ value, label }) => (
+                  {Constants.reminderValues.map(({ value, label }) => (
                     <option key={value} value={value}>
                       {label}
                     </option>

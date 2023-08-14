@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
-import { SetFieldValue } from 'types/formik';
+import { notify, Types, useModal } from '@crm/common';
 import { Partner, Partner__Schedule as Schedule } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
 import CreatePartnerScheduleModal, { CreatePartnerScheduleModalProps } from 'modals/CreatePartnerScheduleModal';
 import { useChangeScheduleStatusMutation } from '../graphql/__generated__/ChangeScheduleStatusMutation';
 
@@ -20,7 +18,7 @@ type PartnerSchedule = {
   checkedDays: ScheduleDays,
   handleSubmit: () => void,
   hansleShowEditScheduleModal: (value: Schedule) => void,
-  handleChangeActivate: (day: string, setFieldValue: SetFieldValue<ScheduleDays>) => void,
+  handleChangeActivate: (day: string, setFieldValue: Types.SetFieldValue<ScheduleDays>) => void,
 };
 
 const usePartnerSchedule = (props: Props): PartnerSchedule => {
@@ -59,14 +57,14 @@ const usePartnerSchedule = (props: Props): PartnerSchedule => {
       onRefetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.UPDATE_STATUS.TITLE'),
         message: I18n.t('COMMON.SUCCESS'),
 
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.UPDATE_STATUS.TITLE'),
         message: I18n.t('COMMON.ERROR'),
       });
@@ -82,7 +80,7 @@ const usePartnerSchedule = (props: Props): PartnerSchedule => {
     });
   }, [uuid, checkedDays]);
 
-  const handleChangeActivate = useCallback((day: string, setFieldValue: SetFieldValue<ScheduleDays>) => {
+  const handleChangeActivate = useCallback((day: string, setFieldValue: Types.SetFieldValue<ScheduleDays>) => {
     const checked = !checkedDays[day];
 
     setCheckedDays(prevState => ({ ...prevState, [day]: checked }));

@@ -1,12 +1,9 @@
 import { useCallback, useState } from 'react';
 import Trackify from '@hrzn/trackify';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import SendEmailModal, { SendEmailModalProps } from 'modals/SendEmailModal';
+import { Config, usePermission, useModal, notify, Types } from '@crm/common';
 import { Profile__Referrer as ProfileReferrer } from '__generated__/types';
+import SendEmailModal, { SendEmailModalProps } from 'modals/SendEmailModal';
 import { useProfilePhonesQueryLazyQuery } from '../graphql/__generated__/ProfilePhonesQuery';
 import { useProfileEmailQueryLazyQuery } from '../graphql/__generated__/ProfileEmailQuery';
 import { useProfileAdditionalEmailQueryLazyQuery } from '../graphql/__generated__/ProfileAdditionalEmailQuery';
@@ -85,13 +82,13 @@ const useClientPersonalInfo = (props: Props): UseClientPersonalInfo => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.ACTIONS.UPDATED'),
         message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ACTIONS.UPDATED'),
         message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
       });
@@ -123,7 +120,7 @@ const useClientPersonalInfo = (props: Props): UseClientPersonalInfo => {
       setState({ ...state, phone, additionalPhone });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -140,7 +137,7 @@ const useClientPersonalInfo = (props: Props): UseClientPersonalInfo => {
       setState({ ...state, email });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -157,7 +154,7 @@ const useClientPersonalInfo = (props: Props): UseClientPersonalInfo => {
       setState({ ...state, additionalEmail });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

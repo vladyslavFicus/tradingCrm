@@ -3,7 +3,7 @@ import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap
 import classNames from 'classnames';
 import Flag from 'react-country-flag';
 import { Utils } from '@crm/common';
-import I18n from 'i18n';
+import I18n from 'i18n-config';
 import useHeaderLanguages from 'components/Header/hooks/useHeaderLanguages';
 import './HeaderLanguages.scss';
 

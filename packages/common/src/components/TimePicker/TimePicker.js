@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { limits } from './constants';
-import { formatCountValue, getCountsFromString, formatTimeString } from './timePicker2';
+import { formatCountValue, getCountsFromString, formatTimeString } from './utils';
 import './TimePicker.scss';
 
 class TimePicker extends PureComponent {

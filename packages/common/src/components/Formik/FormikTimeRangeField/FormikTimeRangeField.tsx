@@ -1,7 +1,7 @@
 import React from 'react';
 import { get, omit } from 'lodash';
 import { FieldProps } from 'formik';
-import { TimeRange } from 'components';
+import { TimeRange } from '../../TimeRange';
 
 type Field = {
   from: string,

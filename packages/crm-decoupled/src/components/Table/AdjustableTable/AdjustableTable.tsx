@@ -1,8 +1,8 @@
 import I18n from 'i18n-js';
 import React, { useMemo, useState, isValidElement, Children, ReactElement } from 'react';
 import { sortBy, compact } from 'lodash';
-import { Sort__Input as Sort, GridConfig__Types__Enum as GridConfigTypes } from '__generated__/types';
-import { TableSelection } from 'types';
+import { Types } from '@crm/common';
+import { GridConfig__Types__Enum as GridConfigTypes } from '__generated__/types';
 import { Column, Table } from '..';
 import { Props as ColumnPropTypes } from '../Column';
 import GridConfig from './GridConfig';
@@ -49,11 +49,11 @@ type Props = {
   maxSelectCount?: number,
   defaultColumns?: Array<string>,
   hasMore?: boolean,
-  sorts?: Array<Sort>,
+  sorts?: Array<Types.Sort>,
   onMore?: () => void,
-  onSort?: (sorts: Array<Sort>) => void,
-  onSelect?: (selected: TableSelection) => void,
-  onSelectError?: (select: TableSelection) => void,
+  onSort?: (sorts: Array<Types.Sort>) => void,
+  onSelect?: (selected: Types.TableSelection) => void,
+  onSelectError?: (select: Types.TableSelection) => void,
 };
 
 /*  Add to Table component ability to show/hide columns and save setting

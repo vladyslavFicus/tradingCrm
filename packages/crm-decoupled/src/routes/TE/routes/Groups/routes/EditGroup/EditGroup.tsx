@@ -3,12 +3,9 @@ import I18n from 'i18n-js';
 import { useParams } from 'react-router-dom';
 import { omit } from 'lodash';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
-import { Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
+import { Utils, useModal, notify, Types, parseErrors } from '@crm/common';
 import { ShortLoader } from 'components';
 import NotFound from 'routes/NotFound';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import GroupProfileHeaderEdit from '../../components/GroupProfileHeaderEdit';
 import GroupCommonForm from '../../components/GroupCommonForm';
@@ -77,7 +74,7 @@ const EditGroup = () => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('TRADING_ENGINE.GROUP.GROUP'),
         message: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.EDIT.SUCCESS'),
       });
@@ -101,13 +98,13 @@ const EditGroup = () => {
         });
       } else if (errors.error === 'error.group-symbol.basic.disable.prohibited') {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('TRADING_ENGINE.GROUP.GROUP'),
           message: errors.message,
         });
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('TRADING_ENGINE.GROUP.GROUP'),
           message: I18n.t('TRADING_ENGINE.GROUP.NOTIFICATION.EDIT.FAILED'),
         });

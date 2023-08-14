@@ -1,13 +1,12 @@
+// @ts-nocheck
 import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
 import { Modal, ModalBody } from 'reactstrap';
 import { TooltipProps } from 'recharts';
-import { Utils } from '@crm/common';
-import { ChartTypes } from 'types/config';
-import Select from 'components/Select';
-import { ShortLoader } from 'components';
+import { Utils, Types } from '@crm/common';
+import { ShortLoader, Select } from 'components';
 import { ChartData, DateRange, SummaryData, SelectOption } from 'routes/Dashboard/types';
 import { chartSelectOptions } from 'routes/Dashboard/constants';
 import { valueFormatter, getSummaryValue } from 'routes/Dashboard/utils';
@@ -31,7 +30,7 @@ type Props = {
   noData: boolean,
   onSelectChange: (value: DateRange) => void,
   chartColor: string,
-  chartType?: ChartTypes,
+  chartType?: Types.ChartTypes,
   currncySymbol?: string,
 };
 
@@ -45,7 +44,7 @@ const ChartWidget = (props: Props) => {
     noData,
     onSelectChange,
     chartColor,
-    chartType = ChartTypes.LINE,
+    chartType = Types.ChartTypes.LINE,
     currncySymbol,
   } = props;
 
@@ -83,7 +82,6 @@ const ChartWidget = (props: Props) => {
 
           <Select
             // Required because the Select component is not the TS component and doesn't support typing
-            // @ts-ignore
             value={selectOption}
             customClassName="ChartWidget__select"
             onChange={handleSelectChange}
@@ -111,15 +109,15 @@ const ChartWidget = (props: Props) => {
 
               <Otherwise>
                 <Choose>
-                  <When condition={chartType === ChartTypes.AREA}>
+                  <When condition={chartType === Types.ChartTypes.AREA}>
                     <AreaChart data={data} chartColor={chartColor} renderTooltip={renderTooltip} />
                   </When>
 
-                  <When condition={chartType === ChartTypes.BARH}>
+                  <When condition={chartType === Types.ChartTypes.BARH}>
                     <BarHChart data={data} chartColor={chartColor} renderTooltip={renderTooltip} />
                   </When>
 
-                  <When condition={chartType === ChartTypes.BARV}>
+                  <When condition={chartType === Types.ChartTypes.BARV}>
                     <BarVChart data={data} chartColor={chartColor} renderTooltip={renderTooltip} />
                   </When>
 

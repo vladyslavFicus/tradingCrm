@@ -1,13 +1,10 @@
 import React from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
-
+import { Utils, parseErrors, notify, Types } from '@crm/common';
 import { HierarchyBranch } from '__generated__/types';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { useUpdateOfficeMutation } from './graphql/__generated__/UpdateOfficeMutation';
 import { attributeLabels } from './constants';
 
@@ -38,7 +35,7 @@ const UpdateOfficeModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('MODALS.UPDATE_OFFICE_MODAL.NOTIFICATION.SUCCESS'),
       });
@@ -49,7 +46,7 @@ const UpdateOfficeModal = (props: Props) => {
         formikHelpers.setFieldError('name', I18n.t('MODALS.UPDATE_OFFICE_MODAL.ERRORS.UNIQUE'));
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: I18n.t('MODALS.UPDATE_OFFICE_MODAL.NOTIFICATION.ERROR'),
         });

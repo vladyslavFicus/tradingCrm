@@ -3,18 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { omit } from 'lodash';
-import { Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
+import { Utils, Constants, parseErrors, notify, Types } from '@crm/common';
 import { HierarchyBranch } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import {
-  departmentsLabels,
-  passwordCustomError,
-  passwordMaxSize,
-  passwordPattern,
-  rolesLabels,
-} from 'constants/operators';
-import { userTypes, userTypeLabels } from 'constants/hierarchyTypes';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { ExistingOperatorModalProps } from '../ExistingOperatorModal';
@@ -61,7 +51,7 @@ const CreateOperatorModal = (props: Props) => {
 
   const navigate = useNavigate();
 
-  const userTypesOptions = Object.keys(omit(userTypes, ['CUSTOMER', 'LEAD_CUSTOMER', 'AFFILIATE_PARTNER']));
+  const userTypesOptions = Object.keys(omit(Constants.userTypes, ['CUSTOMER', 'LEAD_CUSTOMER', 'AFFILIATE_PARTNER']));
 
   // ===== Requests ===== //
   const authoritiesOptionsQuery = useAuthoritiesOptionsQuery();
@@ -99,7 +89,7 @@ const CreateOperatorModal = (props: Props) => {
         onExists({ email, department, role, branchId, userType });
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.ERROR'),
           message: I18n.t('COMMON.SOMETHING_WRONG'),
         });
@@ -128,7 +118,11 @@ const CreateOperatorModal = (props: Props) => {
           firstName: ['required', 'string', 'min:2'],
           lastName: ['required', 'string', 'min:2'],
           email: ['required', 'email'],
-          password: ['required', `regex:${passwordPattern}`, `max:${passwordMaxSize}`],
+          password: [
+            'required',
+            `regex:${Constants.Operator.passwordPattern}`,
+            `max:${Constants.Operator.passwordMaxSize}`,
+          ],
           phone: 'min:3',
           userType: 'required',
           department: 'required',
@@ -139,7 +133,7 @@ const CreateOperatorModal = (props: Props) => {
         Utils.translateLabels(attributeLabels),
         false,
         {
-          'regex.password': passwordCustomError,
+          'regex.password': Constants.Operator.passwordCustomError,
         },
       )}
       validateOnChange={false}
@@ -235,7 +229,7 @@ const CreateOperatorModal = (props: Props) => {
               >
                 {userTypesOptions.map(userType => (
                   <option key={userType} value={userType}>
-                    {I18n.t(Utils.renderLabel(userType, userTypeLabels))}
+                    {I18n.t(Utils.renderLabel(userType, Constants.userTypeLabels))}
                   </option>
                 ))}
               </Field>
@@ -252,7 +246,7 @@ const CreateOperatorModal = (props: Props) => {
               >
                 {departmentsOptions.map(department => (
                   <option key={department} value={department}>
-                    {I18n.t(Utils.renderLabel(department, departmentsLabels))}
+                    {I18n.t(Utils.renderLabel(department, Constants.Operator.departmentsLabels))}
                   </option>
                 ))}
               </Field>
@@ -273,7 +267,7 @@ const CreateOperatorModal = (props: Props) => {
               >
                 {rolesOptions.map(role => (
                   <option key={role} value={role}>
-                    {I18n.t(Utils.renderLabel(role, rolesLabels))}
+                    {I18n.t(Utils.renderLabel(role, Constants.Operator.rolesLabels))}
                   </option>
                 ))}
               </Field>

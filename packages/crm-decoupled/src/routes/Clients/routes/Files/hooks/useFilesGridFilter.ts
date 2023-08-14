@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { omit } from 'lodash';
-import { SetFieldValue } from 'types/formik';
+import { Types } from '@crm/common';
 import { useFilesCategoriesQuery } from '../graphql/__generated__/FilesCategoriesQuery';
 
 const useFilesGridFilter = <FormValues>() => {
@@ -12,7 +12,7 @@ const useFilesGridFilter = <FormValues>() => {
   const verificationTypes = Object.keys(categories);
 
   // ===== Handlers ===== //
-  const handleVerificationTypeChange = useCallback((value: string, setFieldValue: SetFieldValue<FormValues>) => {
+  const handleVerificationTypeChange = useCallback((value: string, setFieldValue: Types.SetFieldValue<FormValues>) => {
     setFieldValue('verificationType', value);
 
     if (value === 'OTHER') {

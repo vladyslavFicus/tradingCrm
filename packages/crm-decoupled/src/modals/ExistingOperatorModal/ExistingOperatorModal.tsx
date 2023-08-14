@@ -1,9 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Config, parseErrors, notify, Types } from '@crm/common';
 import Modal from 'components/Modal';
 import { useAddExistingOperatorMutation } from './graphql/__generated__/AddExistingOperatorMutation';
 
@@ -42,7 +40,7 @@ const ExistingOperatorModal = (props: Props) => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('MODALS.EXISTING_OPERATOR_MODAL.NOTIFICATIONS.ERROR.TITLE'),
         message: error.message || I18n.t('MODALS.EXISTING_OPERATOR_MODAL.NOTIFICATIONS.ERROR.MESSAGE'),
       });

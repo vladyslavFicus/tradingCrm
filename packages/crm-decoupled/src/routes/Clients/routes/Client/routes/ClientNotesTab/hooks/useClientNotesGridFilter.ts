@@ -1,6 +1,5 @@
 import { omit } from 'lodash';
-import { Config } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, usePermission } from '@crm/common';
 import { useAuthoritiesOptionsQuery } from '../graphql/__generated__/AuthorityOptionsQuery';
 
 const useClientNotesGridFilter = () => {

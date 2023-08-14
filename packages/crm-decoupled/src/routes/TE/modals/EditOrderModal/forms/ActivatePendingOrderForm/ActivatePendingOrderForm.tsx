@@ -1,13 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, parseErrors, notify, Types, useModal } from '@crm/common';
 import { Button } from 'components';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
-import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { FormikInputDecimalsField, FormikInputField } from 'components/Formik';
+import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { OrderDirection } from 'types/trading-engine';
 import Margin from 'routes/TE/components/Margin';
@@ -82,7 +79,7 @@ const ActivatePendingOrderForm = (props: Props) => {
           });
 
           notify({
-            level: LevelType.SUCCESS,
+            level: Types.LevelType.SUCCESS,
             title: I18n.t('COMMON.SUCCESS'),
             message: I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.NOTIFICATION.PENDING_SUCCESS'),
           });
@@ -92,7 +89,7 @@ const ActivatePendingOrderForm = (props: Props) => {
           const { message } = parseErrors(e);
 
           notify({
-            level: LevelType.ERROR,
+            level: Types.LevelType.ERROR,
             title: I18n.t('COMMON.ERROR'),
             message,
           });

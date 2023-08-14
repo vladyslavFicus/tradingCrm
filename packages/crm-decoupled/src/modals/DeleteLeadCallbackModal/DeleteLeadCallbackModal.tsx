@@ -1,9 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { notify, Types } from '@crm/common';
 import { LeadCallback } from '__generated__/types';
 import Modal from 'components/Modal';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { useDeleteLeadCallbackMutation } from './graphql/__generated__/DeleteLeadCallbackMutation';
 
 export type Props = {
@@ -28,7 +28,7 @@ const DeleteLeadCallbackModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('CALLBACKS.DELETE_MODAL.NOTIFICATION.LEAD_TITLE'),
         message: I18n.t('CALLBACKS.DELETE_MODAL.SUCCESSFULLY_DELETED'),
       });
@@ -36,7 +36,7 @@ const DeleteLeadCallbackModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('CALLBACKS.DELETE_MODAL.NOTIFICATION.LEAD_TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

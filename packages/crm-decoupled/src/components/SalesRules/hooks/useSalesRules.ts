@@ -1,18 +1,14 @@
 import { useCallback } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
-import { State } from 'types';
+import { Config, useModal, notify, usePermission, Types } from '@crm/common';
+import { Operator, Partner, Rule } from '__generated__/types';
 import { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import ConfirmActionModal from 'modals/ConfirmActionModal/ConfirmActionModal';
 import { CreateRuleModalProps } from 'modals/CreateRuleModal';
 import CreateRuleModal from 'modals/CreateRuleModal/CreateRuleModal';
 import { UpdateRuleModalProps } from 'modals/UpdateRuleModal';
 import UpdateRuleModal from 'modals/UpdateRuleModal/UpdateRuleModal';
-import { useModal } from 'providers/ModalProvider';
-import { LevelType, notify } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
-import { Operator, Partner, Rule } from '__generated__/types';
 import { OPERATORS_SORT } from '../constants';
 import { useDeleteRule } from '../graphql/__generated__/DeleteRuleMutation';
 import { RulesQueryVariables, useRulesQuery } from '../graphql/__generated__/RulesQuery';
@@ -34,7 +30,7 @@ const useSalesRules = (props: Props) => {
   const { type: userType } = props;
   const parentBranch = useParams().id as string;
 
-  const state = useLocation().state as State;
+  const state = useLocation().state as Types.State;
 
   // ===== Modals ===== //
   const confirmActionModal = useModal<ConfirmActionModalProps>(ConfirmActionModal);
@@ -100,13 +96,13 @@ const useSalesRules = (props: Props) => {
       confirmActionModal.hide();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_DELETED'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_DELETED'),
       });

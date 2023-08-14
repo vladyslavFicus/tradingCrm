@@ -3,19 +3,15 @@ import { Field, Form, Formik, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
 import { orderBy, intersectionWith } from 'lodash';
 import Hotkeys from 'react-hot-keys';
-import { Utils } from '@crm/common';
+import { Utils, parseErrors, notify, Types, useStorage } from '@crm/common';
 import { Button, Input } from 'components';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useStorage } from 'providers/StorageProvider';
+import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
 import {
   FormikCheckbox,
   FormikInputDecimalsField,
   FormikInputField,
   FormikSelectTreeField,
 } from 'components/Formik';
-import { Node } from 'components/SelectTree';
-import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
 import { OrderDirection } from 'types/trading-engine';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { calculatePnL, calculateMargin, determineOrderType } from 'routes/TE/utils/formulas';
@@ -25,6 +21,13 @@ import { useCreateOrderMutation } from './graphql/__generated__/CreateOrderMutat
 import { useAccountQuery } from './graphql/__generated__/AccountQuery';
 import { useAccountSymbolsQuery } from './graphql/__generated__/AccountSymbolsQuery';
 import './GeneralNewOrderForm.scss';
+
+type Node = {
+  value: string,
+  label: string,
+  children?: Node[],
+  showCheckbox?: boolean,
+};
 
 type Props = {
   accountUuid?: string,
@@ -191,7 +194,7 @@ const GeneralNewOrderForm = (props: Props) => {
       onSuccess();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.NOTIFICATION.SUCCESS'),
       });
@@ -199,7 +202,7 @@ const GeneralNewOrderForm = (props: Props) => {
       const { message } = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message,
       });

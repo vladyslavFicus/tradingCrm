@@ -1,46 +1,30 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import classNames from 'classnames';
-import { Config } from '@crm/common';
-import RSocketProvider from 'rsocket';
-import { ShortLoader } from 'components';
-import AutoLogoutProvider from 'providers/AutoLogoutProvider';
-import ConfigProvider from 'providers/ConfigProvider';
-import { useStorageState, Auth } from 'providers/StorageProvider';
-import PermissionProvider from 'providers/PermissionsProvider';
-import ModalProvider from 'providers/ModalProvider';
-import LightboxProvider from 'providers/LightboxProvider/LightboxProvider';
+import {
+  AutoLogoutProvider,
+  ConfigProvider,
+  PermissionProvider,
+  ModalProvider,
+  LightboxProvider,
+  RSocketProvider,
+  useAuthorizedLayout,
+} from '@crm/common';
+import { ErrorBoundary, DebugMode, ForbiddenChecker, ShortLoader } from 'components';
 import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
 import BackToTop from 'components/BackToTop';
-import DebugMode from 'components/DebugMode';
-import ErrorBoundary from 'components/ErrorBoundary';
 import Notifications from 'components/Notifications';
-import ForbiddenChecker from './components/ForbiddenChecker';
 import './AuthorizedLayout.scss';
 
 const AuthorizedLayout = () => {
-  const [downtime, setDowntime] = useState({ title: '', show: false });
-
-  // ===== Storage ===== //
-  const [token] = useStorageState<string>('token');
-  const [auth] = useStorageState<Auth | undefined>('auth');
-
-  // ===== Effects ===== //
-  useEffect(() => {
-    (async () => {
-      const response = await fetch(`/cloud-static/DOWNTIME.json?${Math.random()}`);
-
-      const responseDowntime = await response.json();
-
-      if (response.status === 200 && responseDowntime?.show) {
-        setDowntime(responseDowntime);
-      }
-    })();
-  }, []);
-
-  const sidebarPosition = Config.getBackofficeBrand()?.sidebarPosition || 'left';
-  const isShowProductionAlert = auth?.department === 'ADMINISTRATION' && Config.getBrand()?.env?.includes('prod');
+  const {
+    sidebarPosition,
+    isShowProductionAlert,
+    token,
+    auth,
+    downtime,
+  } = useAuthorizedLayout();
 
   return (
     <Choose>

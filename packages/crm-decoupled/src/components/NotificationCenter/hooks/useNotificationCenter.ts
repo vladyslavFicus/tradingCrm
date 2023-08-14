@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Config, Utils } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, Utils, usePermission } from '@crm/common';
 
 const useNotificationCenter = () => {
   const [isOpen, setIsOpen] = useState(false);

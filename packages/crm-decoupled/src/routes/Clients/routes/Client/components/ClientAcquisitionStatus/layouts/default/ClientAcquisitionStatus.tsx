@@ -1,6 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
+import { Constants } from '@crm/common';
 import {
   Profile,
   Operator,
@@ -8,7 +9,6 @@ import {
 } from '__generated__/types';
 import HideText from 'components/HideText';
 import useClientAcquisitionStatus from 'routes/Clients/routes/Client/components/hooks/useClientAcquisitionStatus';
-import { aquisitionStatuses } from 'constants/aquisitionStatuses';
 import './ClientAcquisitionStatus.scss';
 
 type AcquisitionItem = {
@@ -130,7 +130,7 @@ const ClientAcquisitionStatus = (_props: Props) => {
 
       <div className="ClientAcquisitionStatus__content">
         {
-          aquisitionStatuses.map(({ label, value }) => (
+          Constants.aquisitionStatuses.map(({ label, value }) => (
             renderAcquisitionItem({
               label,
               acquisitionType: value, // Sales / Retention

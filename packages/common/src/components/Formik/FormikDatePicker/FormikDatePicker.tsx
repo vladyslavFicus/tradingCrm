@@ -2,7 +2,7 @@ import React from 'react';
 import { omit } from 'lodash';
 import { FieldProps } from 'formik';
 import moment from 'moment';
-import { DatePickerAdditional } from 'components';
+import { DatePickerAdditional } from '../../DatePickers';
 import { DefaultFieldProps } from '../types';
 
 type Props = DefaultFieldProps & {

@@ -3,17 +3,14 @@ import compose from 'compose-function';
 import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
-import { Config } from '@crm/common';
-import { Button, Input } from 'components';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, usePermission, Constants } from '@crm/common';
+import { Button, Input, ReactSwitch } from 'components';
 import StaticTabs from 'components/StaticTabs';
 import StaticTabsItem from 'components/StaticTabsItem';
-import ReactSwitch from 'components/ReactSwitch';
 import SymbolChart from 'components/SymbolChart';
 import Badge from 'components/Badge';
 import SmartPnLForm from 'routes/TE/forms/SmartPnLForm';
 import GeneralNewOrderForm from 'routes/TE/forms/GeneralNewOrderForm';
-import { accountTypesLabels } from 'constants/accountTypes';
 import { useAccountQueryLazyQuery, AccountQuery } from './graphql/__generated__/AccountQuery';
 import './NewOrderModal.scss';
 
@@ -127,7 +124,7 @@ const NewOrderModal = (props: Props) => {
                 <div className="NewOrderModal__account">
                   <div>
                     <Badge
-                      text={I18n.t(accountTypesLabels[account?.accountType as string].label)}
+                      text={I18n.t(Constants.accountTypesLabels[account?.accountType as string].label)}
                       info={account?.accountType === 'DEMO'}
                       success={account?.accountType === 'LIVE'}
                     >

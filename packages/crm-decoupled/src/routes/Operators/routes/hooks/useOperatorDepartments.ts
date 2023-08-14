@@ -1,10 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
-import { Config } from '@crm/common';
+import { Config, notify, Types, usePermission } from '@crm/common';
 import { Authority, Operator } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import { unAvailableDepartments } from 'routes/Operators/constants';
 import { useAddAuthorityMutation } from '../graphql/__generated__/AddAuthorityMutation';
 import { useRemoveAuthorityMutation } from '../graphql/__generated__/RemoveAuthorityMutation';
@@ -75,7 +73,7 @@ const useOperatorDepartments = (props: Props): UseOperatorDepartments => {
       await addAuthorityMutation({ variables: { ...values, uuid } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_SUCCESS.MESSAGE'),
       });
@@ -84,7 +82,7 @@ const useOperatorDepartments = (props: Props): UseOperatorDepartments => {
       resetForm();
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.MESSAGE'),
       });
@@ -102,7 +100,7 @@ const useOperatorDepartments = (props: Props): UseOperatorDepartments => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_SUCCESS.MESSAGE'),
       });
@@ -110,7 +108,7 @@ const useOperatorDepartments = (props: Props): UseOperatorDepartments => {
       onRefetch();
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.MESSAGE'),
       });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { targetTypes } from 'constants/note';
+import { Constants } from '@crm/common';
 import PinnedNotes from 'components/Note/PinnedNotes';
 import useLeadPinnedNotes from 'routes/Leads/routes/Lead/hooks/useLeadPinnedNotes';
 import './LeadPinnedNotes.scss';
@@ -18,7 +18,7 @@ const LeadPinnedNotes = (props: Props) => {
   return (
     <If condition={allowViewNotes}>
       <div className="LeadPinnedNotes">
-        <PinnedNotes targetUUID={uuid} targetType={targetTypes.LEAD} />
+        <PinnedNotes targetUUID={uuid} targetType={Constants.targetTypes.LEAD} />
       </div>
     </If>
   );

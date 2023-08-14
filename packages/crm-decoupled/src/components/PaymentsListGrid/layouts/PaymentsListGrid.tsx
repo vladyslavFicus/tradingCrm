@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
-import { Config, Utils } from '@crm/common';
-import { Payment as PaymentInfo, Sort__Input as Sort } from '__generated__/types';
-import { NoteEntity } from 'types/Note';
+import { Config, Utils, Types, Constants } from '@crm/common';
+import { Payment as PaymentInfo } from '__generated__/types';
+import { PaymentFragment as Payment } from 'fragments/__generated__/Payment';
 import { AdjustableTable, Column } from 'components/Table';
 import GridPaymentInfo from 'components/GridPaymentInfo';
 import Uuid from 'components/Uuid';
@@ -15,28 +15,18 @@ import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import usePaymentsListGrid from 'components/PaymentsListGrid/hooks/usePaymentsListGrid';
 import PaymentStatus from 'components/PaymentStatus';
 import NoteAction from 'components/Note/NoteAction';
-import { PaymentFragment as Payment } from 'apollo/fragments/__generated__/Payment';
-import {
-  aggregatorsLabels,
-  tradingTypes,
-  tradingTypesLabels,
-  aggregators,
-  commissionCurrenciesLabels,
-  commissionCurrencies,
-} from 'constants/payment';
-import { targetTypes } from 'constants/note';
 import './PaymentsListGrid.scss';
 
 type Props = {
   items: Array<Payment>,
   loading: boolean,
   headerStickyFromTop: string | number,
-  sorts: Array<Sort>,
+  sorts: Array<Types.Sort>,
   last: boolean,
   clientView?: boolean,
   onRefetch: () => void,
   onFetchMore: () => void,
-  onSort: (sorts: Array<Sort>) => void,
+  onSort: (sorts: Array<Types.Sort>) => void,
 };
 
 const PaymentsListGrid = (props: Props) => {
@@ -135,20 +125,20 @@ const PaymentsListGrid = (props: Props) => {
           'PaymentsListGrid__text-primary',
           'PaymentsListGrid__type',
           {
-            'PaymentsListGrid__type--deposit': paymentType === tradingTypes.DEPOSIT,
-            'PaymentsListGrid__type--withdraw': paymentType === tradingTypes.WITHDRAW,
-            'PaymentsListGrid__type--interest-rate': paymentType === tradingTypes.INTEREST_RATE,
+            'PaymentsListGrid__type--deposit': paymentType === Constants.Payment.tradingTypes.DEPOSIT,
+            'PaymentsListGrid__type--withdraw': paymentType === Constants.Payment.tradingTypes.WITHDRAW,
+            'PaymentsListGrid__type--interest-rate': paymentType === Constants.Payment.tradingTypes.INTEREST_RATE,
             'PaymentsListGrid__type--demo-deposit': paymentType === 'DEMO_DEPOSIT', // TODO: check type
             'PaymentsListGrid__type--fee': paymentType === 'FEE', // TODO: check type
-            'PaymentsListGrid__type--inactivity-fee': paymentType === tradingTypes.INACTIVITY_FEE,
-            'PaymentsListGrid__type--transfer-in': paymentType === tradingTypes.TRANSFER_IN,
-            'PaymentsListGrid__type--transfer-out': paymentType === tradingTypes.TRANSFER_OUT,
-            'PaymentsListGrid__type--credit-in': paymentType === tradingTypes.CREDIT_IN,
-            'PaymentsListGrid__type--credit-out': paymentType === tradingTypes.CREDIT_OUT,
+            'PaymentsListGrid__type--inactivity-fee': paymentType === Constants.Payment.tradingTypes.INACTIVITY_FEE,
+            'PaymentsListGrid__type--transfer-in': paymentType === Constants.Payment.tradingTypes.TRANSFER_IN,
+            'PaymentsListGrid__type--transfer-out': paymentType === Constants.Payment.tradingTypes.TRANSFER_OUT,
+            'PaymentsListGrid__type--credit-in': paymentType === Constants.Payment.tradingTypes.CREDIT_IN,
+            'PaymentsListGrid__type--credit-out': paymentType === Constants.Payment.tradingTypes.CREDIT_OUT,
           },
         )}
       >
-        {I18n.t(tradingTypesLabels[paymentType])}
+        {I18n.t(Constants.Payment.tradingTypesLabels[paymentType])}
       </div>
 
       <If condition={!!externalReference}>
@@ -179,8 +169,9 @@ const PaymentsListGrid = (props: Props) => {
 
         <If condition={!!cryptoAmount && !!cryptoCurrency}>
           <span className="PaymentsListGrid__text-secondary-crypto">
-            {I18n.t(commissionCurrenciesLabels[cryptoCurrency as commissionCurrencies])
-              || cryptoCurrency} {cryptoAmount}
+            {I18n.t(Constants.Payment.commissionCurrenciesLabels[
+              cryptoCurrency as Constants.Payment.commissionCurrencies
+            ]) || cryptoCurrency} {cryptoAmount}
           </span>
         </If>
       </>
@@ -200,13 +191,13 @@ const PaymentsListGrid = (props: Props) => {
   ), []);
 
   const renderPaymentAggregator = useCallback(({ paymentAggregator }: Payment) => {
-    if (!paymentAggregator || aggregatorsLabels[paymentAggregator as aggregators]) {
+    if (!paymentAggregator || Constants.Payment.aggregatorsLabels[paymentAggregator as Constants.Payment.aggregators]) {
       return <>&mdash;</>;
     }
 
     return (
       <div className="PaymentsListGrid__text-primary">
-        {I18n.t(aggregatorsLabels[paymentAggregator as aggregators])}
+        {I18n.t(Constants.Payment.aggregatorsLabels[paymentAggregator as Constants.Payment.aggregators])}
       </div>
     );
   }, []);
@@ -262,10 +253,10 @@ const PaymentsListGrid = (props: Props) => {
 
   const renderNote = useCallback(({ paymentId: targetUUID, playerProfile: { uuid: playerUUID }, note }: Payment) => (
     <NoteAction
-      note={note as NoteEntity}
+      note={note as Types.NoteEntity}
       playerUUID={playerUUID}
       targetUUID={targetUUID}
-      targetType={targetTypes.PAYMENT}
+      targetType={Constants.targetTypes.PAYMENT}
       onRefetch={onRefetch}
     />
   ), []);

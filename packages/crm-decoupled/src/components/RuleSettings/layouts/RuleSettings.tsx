@@ -1,13 +1,11 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field } from 'formik';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, Constants } from '@crm/common';
 import { Operator, Partner, RuleOperatorSpread__Input as RuleOperatorSpread } from '__generated__/types';
 import { FormikInputField, FormikMultiInputField, FormikSelectField } from 'components/Formik';
 import RuleOperatorSpreads from 'components/RuleOperatorSpreads';
 import useRuleSettings, { FormikBag } from 'components/RuleSettings/hooks/useRuleSettings';
-import { attributeLabels } from 'constants/ruleModal';
-import { priorities, ruleTypes } from 'constants/rules';
 import './RuleSettings.scss';
 
 type Props = {
@@ -49,8 +47,8 @@ const RuleSettings = (props: Props) => {
       <Field
         name="name"
         data-testid="RuleSettings-nameInput"
-        label={I18n.t(attributeLabels.name)}
-        placeholder={I18n.t(attributeLabels.name)}
+        label={I18n.t(Constants.ruleAttributeLabels.name)}
+        placeholder={I18n.t(Constants.ruleAttributeLabels.name)}
         disabled={isSubmitting}
         component={FormikInputField}
       />
@@ -59,12 +57,12 @@ const RuleSettings = (props: Props) => {
         <Field
           name="priority"
           data-testid="RuleSettings-prioritySelect"
-          label={I18n.t(attributeLabels.priority)}
+          label={I18n.t(Constants.ruleAttributeLabels.priority)}
           component={FormikSelectField}
           disabled={isSubmitting}
           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
         >
-          {priorities.map(item => (
+          {Constants.priorities.map(item => (
             <option key={item} value={item}>
               {item}
             </option>
@@ -74,12 +72,12 @@ const RuleSettings = (props: Props) => {
         <Field
           name="type"
           data-testid="RuleSettings-typeSelect"
-          label={I18n.t(attributeLabels.type)}
+          label={I18n.t(Constants.ruleAttributeLabels.type)}
           component={FormikSelectField}
           disabled={isSubmitting}
           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
         >
-          {ruleTypes.map(({ label, value }) => (
+          {Constants.ruleTypes.map(({ label, value }) => (
             <option key={value} value={value}>
               {I18n.t(label)}
             </option>
@@ -90,7 +88,7 @@ const RuleSettings = (props: Props) => {
       <Field
         name="countries"
         data-testid="RuleSettings-countriesSelect"
-        label={I18n.t(attributeLabels.country)}
+        label={I18n.t(Constants.ruleAttributeLabels.country)}
         component={FormikSelectField}
         disabled={isSubmitting}
         searchable
@@ -107,7 +105,7 @@ const RuleSettings = (props: Props) => {
       <Field
         name="languages"
         data-testid="RuleSettings-languagesSelect"
-        label={I18n.t(attributeLabels.language)}
+        label={I18n.t(Constants.ruleAttributeLabels.language)}
         component={FormikSelectField}
         disabled={isSubmitting}
         multiple
@@ -123,7 +121,7 @@ const RuleSettings = (props: Props) => {
       <Field
         name="affiliateUUIDs"
         data-testid="RuleSettings-affiliateUUIDsSelect"
-        label={I18n.t(attributeLabels.partner)}
+        label={I18n.t(Constants.ruleAttributeLabels.partner)}
         component={FormikSelectField}
         disabled={isSubmitting || partners.length === 0}
         multiple
@@ -140,8 +138,8 @@ const RuleSettings = (props: Props) => {
       <Field
         name="sources"
         data-testid="RuleSettings-sourcesMultiInput"
-        label={I18n.t(attributeLabels.source)}
-        placeholder={I18n.t(attributeLabels.source)}
+        label={I18n.t(Constants.ruleAttributeLabels.source)}
+        placeholder={I18n.t(Constants.ruleAttributeLabels.source)}
         component={FormikMultiInputField}
       />
 

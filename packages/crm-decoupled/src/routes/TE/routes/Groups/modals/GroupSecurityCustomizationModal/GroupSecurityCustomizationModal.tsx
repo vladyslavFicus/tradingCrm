@@ -2,14 +2,13 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, notify, Types } from '@crm/common';
 import { Button } from 'components';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { FormikInputField, FormikSelectField, FormikCheckbox } from 'components/Formik';
 import {
   Commission__Type__Enum as GroupCommissionType,
   Commission__Lots__Enum as GroupCommissionLots,
 } from '__generated__/types';
+import { FormikInputField, FormikSelectField, FormikCheckbox } from 'components/Formik';
 import {
   GroupSecurity, LotMin, LotMax, LotStep,
 } from '../../types';
@@ -46,7 +45,7 @@ const GroupSecurityCustomizationModal = ({
 }: Props) => {
   const handleSubmit = (modifiedSecurity: GroupSecurity) => {
     notify({
-      level: LevelType.SUCCESS,
+      level: Types.LevelType.SUCCESS,
       title: I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.TITLE'),
       message: I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.NOTIFICATION.SUCCESS'),
     });

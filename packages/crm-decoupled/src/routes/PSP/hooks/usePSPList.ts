@@ -1,10 +1,8 @@
 import { useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Config } from '@crm/common';
+import { Config, Types, usePermission } from '@crm/common';
 import { PaymentSystemProvider } from '__generated__/types';
-import { Sort, State } from 'types';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
-import { usePermission } from 'providers/PermissionsProvider';
 import {
   PaymentSystemsProviderQueryVariables,
   usePaymentSystemsProviderQuery,
@@ -23,11 +21,11 @@ type UsePSPList = {
   refetch: () => void,
   handleFavorite: (paymentSystem: string, isFavourite?: boolean | null) => void,
   handlePageChanged: () => void,
-  handleSort: (sorts: Sort[]) => void,
+  handleSort: (sorts: Types.Sort[]) => void,
 }
 
 const usePSPList = (): UsePSPList => {
-  const state = useLocation().state as State<PaymentSystemsProviderVariables>;
+  const state = useLocation().state as Types.State<PaymentSystemsProviderVariables>;
 
   const navigate = useNavigate();
 
@@ -75,7 +73,7 @@ const usePSPList = (): UsePSPList => {
 
   const handlePageChanged = useHandlePageChanged({ query: paymentSystemsProviderQuery, page: number });
 
-  const handleSort = useCallback((sorts: Sort[]) => {
+  const handleSort = useCallback((sorts: Types.Sort[]) => {
     navigate('.', {
       replace: true,
       state: {

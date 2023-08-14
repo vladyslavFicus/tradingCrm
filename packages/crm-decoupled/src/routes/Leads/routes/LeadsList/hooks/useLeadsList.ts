@@ -1,16 +1,15 @@
 import { useEffect, useState, useCallback } from 'react';
 import { NetworkStatus } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
-import { Utils } from '@crm/common';
-import { State, TableSelection } from 'types';
+import { Utils, Types } from '@crm/common';
 import usePrevious from 'hooks/usePrevious';
 import { FormValues } from '../types/leadsGridFilter';
 import { LeadsListQueryVariables, useLeadsListQuery } from '../graphql/__generated__/LeadsListQuery';
 
 const useLeadsList = () => {
-  const [select, setSelect] = useState<TableSelection | null>(null);
+  const [select, setSelect] = useState<Types.TableSelection | null>(null);
 
-  const state = useLocation().state as State<FormValues>;
+  const state = useLocation().state as Types.State<FormValues>;
 
   const {
     timeZone,
@@ -49,7 +48,7 @@ const useLeadsList = () => {
   const prevLeadsQuery = usePrevious(loading);
 
   // ===== Handlers ===== //
-  const handleSelect = useCallback((selectedLeads: TableSelection) => {
+  const handleSelect = useCallback((selectedLeads: Types.TableSelection) => {
     setSelect(selectedLeads);
   }, []);
 

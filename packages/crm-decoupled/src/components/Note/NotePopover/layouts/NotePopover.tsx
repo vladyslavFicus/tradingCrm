@@ -3,12 +3,10 @@ import { Popover, PopoverBody, PopoverHeader } from 'reactstrap';
 import { Field, Form, Formik } from 'formik';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
+import { Utils, Types, Constants } from '@crm/common';
 import { Button, TrashButton } from 'components';
 import { FormikInputField, FormikSwitchField, FormikTextAreaField } from 'components/Formik';
-import { entities, entitiesPrefixes } from 'constants/uuid';
 import Uuid from 'components/Uuid';
-import { FormValues, ManualNote, NoteEntity, Placement } from 'types/Note';
 import useNotePopover from '../hooks/useNotePopover';
 import './NotePopover.scss';
 
@@ -26,12 +24,12 @@ const validator = Utils.createValidator({
 }, Utils.translateLabels(attributeLabels), false);
 
 type Props = {
-  note?: NoteEntity | ManualNote,
-  placement?: Placement,
+  note?: Types.NoteEntity | Types.ManualNote,
+  placement?: Types.Placement,
   targetId: string,
   isOpen: boolean,
   isDirty: boolean,
-  onSubmit: (formValues: FormValues) => void,
+  onSubmit: (formValues: Types.FormValues) => void,
   onClose: (ignoreChanges: boolean) => void,
   onRemoveNote: () => void,
   onSetDirty: (dirty: boolean) => void,
@@ -63,7 +61,7 @@ const NotePopover = (props: Props) => {
     }
 
     const [type] = note.targetUUID.split('-', 1);
-    const uuidPrefix = entitiesPrefixes[type as entities];
+    const uuidPrefix = Constants.entitiesPrefixes[type as Constants.entities];
 
     return (
       <>

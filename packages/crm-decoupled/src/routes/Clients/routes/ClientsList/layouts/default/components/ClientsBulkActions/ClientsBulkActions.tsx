@@ -1,16 +1,15 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { QueryResult } from '@apollo/client';
+import { Types, Constants } from '@crm/common';
 import { Button } from 'components';
-import { TableSelection } from 'types';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { ClientsListQuery } from 'routes/Clients/routes/ClientsList/graphql/__generated__/ClientsQuery';
 import useClientsBulkActions from 'routes/Clients/routes/ClientsList/hooks/useClientsBulkActions';
-import { departments } from 'constants/brands';
 import './ClientsBulkActions.scss';
 
 type Props = {
-  select: TableSelection | null,
+  select: Types.TableSelection | null,
   selectedRowsLength: number,
   clientsQuery: QueryResult<ClientsListQuery>,
 };
@@ -30,7 +29,7 @@ const ClientsBulkActions = (_props: Props) => {
       </div>
 
       <If condition={allowChangeAsquisitionStatus}>
-        <If condition={department !== departments.RETENTION}>
+        <If condition={department !== Constants.departments.RETENTION}>
           <Button
             tertiary
             className="ClientsBulkActions__button"
@@ -41,7 +40,7 @@ const ClientsBulkActions = (_props: Props) => {
           </Button>
         </If>
 
-        <If condition={department !== departments.SALES}>
+        <If condition={department !== Constants.departments.SALES}>
           <Button
             tertiary
             className="ClientsBulkActions__button"

@@ -1,7 +1,7 @@
 import React from 'react';
 import ClipboardContainer from 'react-copy-to-clipboard';
 import classNames from 'classnames';
-import { LevelType } from 'providers/NotificationProvider';
+import { Types } from '@crm/common';
 import useCopyToClipboard from '../hooks/useCopyToClipboard';
 import './CopyToClipboard.scss';
 
@@ -11,7 +11,7 @@ type Props = {
   withNotification: boolean,
   notificationTitle: string,
   notificationMessage: string,
-  notificationLevel?: LevelType,
+  notificationLevel?: Types.LevelType,
   className?: string,
 };
 

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useApolloClient } from '@apollo/client';
-import { Config } from '@crm/common';
-import { useStorageState } from 'providers/StorageProvider';
+import { Config, useStorageState } from '@crm/common';
 import { BrandToAuthorities } from '__generated__/types';
 import { useBrandsQuery } from '../graphql/__generated__/BrandsQuery';
 

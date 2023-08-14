@@ -1,10 +1,7 @@
 import { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
 import Trackify from '@hrzn/trackify';
-import { Config } from '@crm/common';
-import { parseErrors } from 'apollo';
-import { usePermission } from 'providers/PermissionsProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Config, parseErrors, usePermission, notify, Types } from '@crm/common';
 import { useLeadEmailQueryLazyQuery } from '../graphql/__generated__/LeadEmailQuery';
 import { useLeadMobileQueryLazyQuery } from '../graphql/__generated__/LeadMobileQuery';
 import { useLeadPhoneQueryLazyQuery } from '../graphql/__generated__/LeadPhoneQuery';
@@ -75,7 +72,7 @@ const useLeadProfileTab = (props: Props) => {
       await onRefetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('LEAD_PROFILE.UPDATED'),
       });
@@ -83,7 +80,7 @@ const useLeadProfileTab = (props: Props) => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('LEAD_PROFILE.NOTIFICATION_FAILURE'),
         message: error.error === 'error.entity.already.exist'
           ? I18n.t('lead.error.entity.already.exist', { email: values.email })
@@ -102,7 +99,7 @@ const useLeadProfileTab = (props: Props) => {
       setState({ ...state, email, isEmailShown: true });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -119,7 +116,7 @@ const useLeadProfileTab = (props: Props) => {
       setState({ ...state, mobile, isMobileShown: true });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -136,7 +133,7 @@ const useLeadProfileTab = (props: Props) => {
       setState({ ...state, phone, isPhoneShown: true });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

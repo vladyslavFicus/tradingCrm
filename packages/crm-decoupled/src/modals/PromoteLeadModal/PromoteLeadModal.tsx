@@ -3,14 +3,11 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { omit } from 'lodash';
 import Trackify from '@hrzn/trackify';
+import { Config, Utils, parseErrors, usePermission, notify, Types } from '@crm/common';
 import { Button, Input } from 'components';
-import { Config, Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
 import { Lead } from '__generated__/types';
-import { usePermission } from 'providers/PermissionsProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import Modal from 'components/Modal';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
+import Modal from 'components/Modal';
 import { attributeLabels } from './constants';
 import { useLeadEmailQueryLazyQuery } from './graphql/__generated__/LeadEmailQuery';
 import { usePromoteLeadMutation } from './graphql/__generated__/PromoteLeadMutation';
@@ -73,7 +70,7 @@ const PromoteLeadModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('LEADS.SUCCESS_PROMOTED'),
       });
@@ -105,7 +102,7 @@ const PromoteLeadModal = (props: Props) => {
       }
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

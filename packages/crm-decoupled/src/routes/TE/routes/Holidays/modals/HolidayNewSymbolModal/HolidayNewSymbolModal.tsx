@@ -3,9 +3,8 @@ import I18n from 'i18n-js';
 import { differenceWith, sortBy } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikProps } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, notify, Types } from '@crm/common';
 import { Button, ShortLoader } from 'components';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField } from 'components/Formik';
 import { useSymbolsSourcesQuery } from './graphql/__generated__/SymbolsSourcesQuery';
 import './HolidayNewSymbolModal.scss';
@@ -51,7 +50,7 @@ const HolidayNewSymbolModal = (props: Props) => {
 
   const handleSubmit = (values: FormValues) => {
     notify({
-      level: LevelType.SUCCESS,
+      level: Types.LevelType.SUCCESS,
       title: I18n.t('TRADING_ENGINE.MODALS.HOLIDAY_NEW_SYMBOL_MODAL.TITLE'),
       message: I18n.t('TRADING_ENGINE.MODALS.HOLIDAY_NEW_SYMBOL_MODAL.NOTIFICATION.SUCCESS'),
     });

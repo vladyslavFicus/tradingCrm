@@ -1,20 +1,18 @@
+// @ts-nocheck Select component write by js
 import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { Utils } from '@crm/common';
-import { EditButton, DownloadButton, TrashButton, ShortLoader } from 'components';
-import { FileCategories } from 'types/fileCategories';
+import { Utils, Types, Constants } from '@crm/common';
+import { EditButton, DownloadButton, TrashButton, ShortLoader, Select } from 'components';
 import { File } from '__generated__/types';
 import { Table, Column } from 'components/Table';
 import GridEmptyValue from 'components/GridEmptyValue';
-import Select from 'components/Select';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
 import { TokenRefreshMutationMutationFn }
   from 'routes/Clients/routes/Client/routes/ClientFilesTab/graphql/__generated__/TokenRefreshMutation';
 import useFileGrid from 'routes/Clients/routes/Client/routes/ClientFilesTab/hooks/useFileGrid';
-import { targetTypes } from 'constants/note';
 import MoveFileDropDown from './components/MoveFileDropDown';
 import { statusesCategory } from './constants';
 import ChangeFileStatusDropDown from './components/ChangeFileStatusDropDown';
@@ -22,7 +20,7 @@ import './FileGrid.scss';
 
 type Props = {
   data: Array<File>,
-  categories: FileCategories,
+  categories: Types.FileCategories,
   verificationType: string,
   verificationStatus: string,
   documentType: string,
@@ -96,7 +94,6 @@ const FileGrid = (props: Props) => {
             </span>
 
             <Select
-              // @ts-ignore Select component write by js
               value={selectedVerificationStatus || verificationStatus || ''}
               customClassName="FileGrid__header-status-dropdown"
               data-testid="FileGrid-statusesCategorySelect"
@@ -223,7 +220,7 @@ const FileGrid = (props: Props) => {
       note={note}
       playerUUID={clientUuid}
       targetUUID={uuid}
-      targetType={targetTypes.FILE}
+      targetType={Constants.targetTypes.FILE}
       onRefetch={onRefetch}
     />
   ), [onRefetch]);

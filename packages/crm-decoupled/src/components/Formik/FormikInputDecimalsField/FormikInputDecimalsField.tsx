@@ -1,7 +1,7 @@
 import React from 'react';
 import { eq, get, omit } from 'lodash';
 import { FieldProps } from 'formik';
-import InputDecimals from 'components/InputDecimals';
+import { InputDecimals } from 'components';
 import { DefaultFieldProps } from '../types';
 
 type Props = DefaultFieldProps & {

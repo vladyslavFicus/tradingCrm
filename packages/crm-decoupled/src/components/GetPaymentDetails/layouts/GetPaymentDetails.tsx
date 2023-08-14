@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { LevelType } from 'types';
+import { Types } from '@crm/common';
 import CopyToClipboard from 'components/CopyToClipboard';
 
 type Props = {
@@ -21,7 +21,7 @@ const GetPaymentDetails = (props: Props) => {
         <CopyToClipboard
           text={`${cryptoDetails.tokenContractAddress}`}
           withNotification
-          notificationLevel={LevelType.INFO}
+          notificationLevel={Types.LevelType.INFO}
           notificationTitle="COMMON.NOTIFICATIONS.COPIED"
           notificationMessage="COMMON.NOTIFICATIONS.COPY_CONTRACT_ADDRESS"
         >

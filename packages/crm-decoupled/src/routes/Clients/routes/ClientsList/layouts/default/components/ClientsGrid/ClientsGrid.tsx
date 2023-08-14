@@ -4,9 +4,14 @@ import { QueryResult } from '@apollo/client';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, Types, Constants } from '@crm/common';
 import { UncontrolledTooltip } from 'components';
-import { TableSelection } from 'types';
+import {
+  ClickToCall__Phone__Type__Enum as PhoneType,
+  ClickToCall__Customer__Type__Enum as CustomerType,
+  ProfileView,
+  GridConfig__Types__Enum as GridConfigTypes,
+} from '__generated__/types';
 import Uuid from 'components/Uuid';
 import Link from 'components/Link';
 import GridPlayerInfo from 'components/GridPlayerInfo';
@@ -16,27 +21,16 @@ import Click2Call from 'components/Click2Call';
 import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { AdjustableTable, Column } from 'components/Table';
-import {
-  ClickToCall__Phone__Type__Enum as PhoneType,
-  ClickToCall__Customer__Type__Enum as CustomerType,
-  ProfileView,
-  Sort__Input as Sort,
-  GridConfig__Types__Enum as GridConfigTypes,
-} from '__generated__/types';
 import { MAX_SELECTED_CLIENTS, defaultColumns } from 'routes/Clients/routes/ClientsList/constants';
 import { ClientsListQuery } from 'routes/Clients/routes/ClientsList/graphql/__generated__/ClientsQuery';
 import useClientsGrid from 'routes/Clients/routes/ClientsList/hooks/useClientsGrid';
 import { Hierarchy } from 'components/GridAcquisitionStatus/hooks/useGridAcquisitionStatus';
-import { lastActivityStatusesLabels } from 'constants/lastActivity';
-import { statuses, statusesLabels } from 'constants/user';
-import { warningLabels } from 'constants/warnings';
-import { targetTypes } from 'constants/note';
 import './ClientsGrid.scss';
 
 type Props = {
-  sorts: Array<Sort>,
+  sorts: Array<Types.Sort>,
   clientsQuery: QueryResult<ClientsListQuery>,
-  onSelect: (selectedClients: TableSelection) => void,
+  onSelect: (selectedClients: Types.TableSelection) => void,
 };
 
 const ClientsGrid = (props: Props) => {
@@ -71,7 +65,7 @@ const ClientsGrid = (props: Props) => {
     }
 
     return warnings.map(warning => (
-      <Fragment key={warning}>{I18n.t(Utils.renderLabel(warning as string, warningLabels))}</Fragment>
+      <Fragment key={warning}>{I18n.t(Utils.renderLabel(warning as string, Constants.warningLabels))}</Fragment>
     ));
   }, []);
 
@@ -87,7 +81,7 @@ const ClientsGrid = (props: Props) => {
             'ClientsGrid__last-activity--online': online,
           })}
         >
-          {I18n.t(lastActivityStatusesLabels[activityStatus])}
+          {I18n.t(Constants.lastActivityStatusesLabels[activityStatus])}
         </div>
 
         <div className="ClientsGrid__text-secondary">{localTime}</div>
@@ -347,13 +341,13 @@ const ClientsGrid = (props: Props) => {
             'ClientsGrid__text-primary--uppercase',
             'ClientsGrid__status',
             {
-              'ClientsGrid__status--verified': type === statuses.VERIFIED,
-              'ClientsGrid__status--not-verified': type === statuses.NOT_VERIFIED,
-              'ClientsGrid__status--blocked': type === statuses.BLOCKED,
+              'ClientsGrid__status--verified': type === Constants.User.statuses.VERIFIED,
+              'ClientsGrid__status--not-verified': type === Constants.User.statuses.NOT_VERIFIED,
+              'ClientsGrid__status--blocked': type === Constants.User.statuses.BLOCKED,
             },
           )}
         >
-          {I18n.t(Utils.renderLabel(type as string, statusesLabels))}
+          {I18n.t(Utils.renderLabel(type as string, Constants.User.statusesLabels))}
         </div>
 
         <div className="ClientsGrid__text-secondary">
@@ -379,7 +373,7 @@ const ClientsGrid = (props: Props) => {
           <NoteAction
             playerUUID={uuid}
             targetUUID={uuid}
-            targetType={targetTypes.PLAYER}
+            targetType={Constants.targetTypes.PLAYER}
           />
         </span>
       </If>

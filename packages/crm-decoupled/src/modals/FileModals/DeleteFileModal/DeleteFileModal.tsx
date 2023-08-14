@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { Types, notify } from '@crm/common';
 import { File } from '__generated__/types';
-import { LevelType, notify } from 'providers/NotificationProvider';
 import Modal from 'components/Modal';
 import { useDeleteFileMutation } from './graphql/__generated__/DeleteFileMutation';
 import './DeleteFileModal.scss';
@@ -25,13 +25,13 @@ const DeleteFileModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('FILES.DELETE_MODAL.NOTIFICATIONS.TITLE'),
         message: I18n.t('FILES.DELETE_MODAL.NOTIFICATIONS.SUCCESS'),
       });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('FILES.DELETE_MODAL.NOTIFICATIONS.TITLE'),
         message: I18n.t('FILES.DELETE_MODAL.NOTIFICATIONS.ERROR'),
       });

@@ -2,9 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { Sorts } from 'types';
+import { Types, Constants } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { statusesLabels, statuses } from 'constants/operators';
 import Link from 'components/Link';
 import MiniProfilePopover from 'components/MiniProfilePopover';
 import { Table, Column } from 'components/Table';
@@ -17,7 +16,7 @@ type Props = {
   loading: boolean,
   last: boolean,
   onFetchMore: () => void,
-  onSort: (sorts: Sorts) => void,
+  onSort: (sorts: Types.Sorts) => void,
 };
 
 const OperatorsGrid = (props: Props) => {
@@ -75,7 +74,7 @@ const OperatorsGrid = (props: Props) => {
           )
         }
       >
-        {I18n.t(statusesLabels[operatorStatus as statuses])}
+        {I18n.t(Constants.Operator.statusesLabels[operatorStatus as Constants.Operator.statuses])}
       </div>
 
       <If condition={!!statusChangeDate}>

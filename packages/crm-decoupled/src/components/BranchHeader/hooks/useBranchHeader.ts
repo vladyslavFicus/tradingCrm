@@ -1,8 +1,6 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
+import { Config, usePermission, useModal } from '@crm/common';
 import { HierarchyBranch } from '__generated__/types';
 import AddBranchManagerModal, { AddBranchManagerModalProps } from 'modals/AddBranchManagerModal';
 import RemoveBranchManagerModal, { RemoveBranchManagerModalProps } from 'modals/RemoveBranchManagerModal';

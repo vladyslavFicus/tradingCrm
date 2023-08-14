@@ -1,9 +1,6 @@
 import { useState, useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config, Utils } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
+import { Config, Utils, usePermission, notify, Types, useModal } from '@crm/common';
 import UpdateTradingAccountModal, { UpdateTradingAccountModalProps } from 'modals/UpdateTradingAccountModal';
 import UpdateLeverageModal, { UpdateLeverageModalProps } from 'modals/UpdateLeverageModal';
 import UpdateTradingAccountPasswordModal, {
@@ -54,7 +51,7 @@ const useClientTradingAccountsGrid = (props: Props) => {
       onRefetch();
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -68,13 +65,13 @@ const useClientTradingAccountsGrid = (props: Props) => {
       onRefetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
         message: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CANCEL_NOTIFICATION'),
       });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -88,13 +85,13 @@ const useClientTradingAccountsGrid = (props: Props) => {
       onRefetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
         message: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.APPROVE_NOTIFICATION'),
       });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.LEVERAGE.CHANGE_LEVERAGE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

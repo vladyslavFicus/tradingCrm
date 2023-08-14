@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { ReactSwitch } from 'components';
 import { Profile } from '__generated__/types';
-import ReactSwitch from 'components/ReactSwitch';
 import useClientDepositSwitcher from 'routes/Clients/routes/Client/components/hooks/useClientDepositSwitcher';
 import './ClientDepositSwitcher.scss';
 

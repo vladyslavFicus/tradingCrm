@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldProps, getIn } from 'formik';
-import { Checkbox } from 'components';
+import { Checkbox } from '../../Checkbox';
 import { DefaultFieldProps } from '../types';
 
 type Props = DefaultFieldProps & {

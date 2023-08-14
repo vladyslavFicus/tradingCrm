@@ -2,19 +2,14 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { intersection, sortBy } from 'lodash';
 import { Formik, Field, Form } from 'formik';
-import { Config } from '@crm/common';
-import { Sorts } from 'types';
-import { SetFieldValue } from 'types/formik';
+import { Config, Constants, notify, Types } from '@crm/common';
 import {
   AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
   ClientSearch__Input as ClientSearch,
   LeadSearch__Input as LeadSearch,
 } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
-import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
-import { retentionStatuses as staticRetentionStatuses } from 'constants/retentionStatuses';
 import { useOperatorsSubordinatesQuery } from './graphql/__generated__/OperatorsSubordinatesQuery';
 import { useDesksTeamsQuery } from './graphql/__generated__/DesksTeamsQuery';
 import { useAcquisitionStatusesQuery } from './graphql/__generated__/AcquisitionStatusesQuery';
@@ -38,7 +33,7 @@ type Configs = {
   allRowsSelected: boolean,
   searchParams: Object,
   selectedRowsLength: number,
-  sorts: Sorts,
+  sorts: Types.Sorts,
 };
 
 type FormValues = {
@@ -141,7 +136,7 @@ const UpdateRepresentativeModal = (props: Props) => {
       await updateAcquisitionMutation({ variables: variables as UpdateAcquisitionMutationVariables });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message:
           isClient
@@ -153,7 +148,7 @@ const UpdateRepresentativeModal = (props: Props) => {
       onCloseModal();
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.UPDATE_FAILED'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -183,7 +178,7 @@ const UpdateRepresentativeModal = (props: Props) => {
       }
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message:
           isClient
@@ -195,7 +190,7 @@ const UpdateRepresentativeModal = (props: Props) => {
       onCloseModal();
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.UPDATE_FAILED'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -219,7 +214,7 @@ const UpdateRepresentativeModal = (props: Props) => {
     branchName: string,
     value: string,
     { desk }: FormValues,
-    setFieldValue: SetFieldValue<FormValues>,
+    setFieldValue: Types.SetFieldValue<FormValues>,
   ) => {
     setFieldValue(branchName, value);
 
@@ -353,7 +348,7 @@ const UpdateRepresentativeModal = (props: Props) => {
                   <When condition={type === AcquisitionStatusTypes.SALES}>
                     {salesStatuses.map(({ status }) => (
                       <option key={status} value={status}>
-                        {I18n.t(staticSalesStatuses[status])}
+                        {I18n.t(Constants.salesStatuses[status])}
                       </option>
                     ))}
                   </When>
@@ -361,7 +356,7 @@ const UpdateRepresentativeModal = (props: Props) => {
                   <Otherwise>
                     {retentionStatuses.map(({ status }) => (
                       <option key={status} value={status}>
-                        {I18n.t(staticRetentionStatuses[status])}
+                        {I18n.t(Constants.retentionStatuses[status])}
                       </option>
                     ))}
                   </Otherwise>

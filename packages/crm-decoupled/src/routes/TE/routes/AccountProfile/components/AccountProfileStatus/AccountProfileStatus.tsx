@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Config, usePermission, notify, Types } from '@crm/common';
 import { Account } from '../../AccountProfile';
 import { useUpdateAccountReadonlyMutation } from './graphql/__generated__/UpdateAccountReadonlyMutation';
 import './AccountProfileStatus.scss';
@@ -45,13 +43,13 @@ const AccountProfileStatus = (props: Props) => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.CHANGE_STATUS_SUCCESS'),
       });
     } catch (_) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAILED'),
         message: I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.CHANGE_STATUS_ERROR'),
       });

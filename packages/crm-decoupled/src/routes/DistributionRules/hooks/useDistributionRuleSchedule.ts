@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { useParams } from 'react-router-dom';
-import { parseErrors } from 'apollo';
+import { parseErrors, notify, Types } from '@crm/common';
 import { DistributionRuleMutationUpdateRuleDaysOfWeekArgs } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { useDistributionRuleForScheduleQuery } from '../graphql/__generated__/DistributionRuleForScheduleQuery';
 import { useUpdateRuleDaysOfWeekMutation } from '../graphql/__generated__/UpdateRuleDaysOfWeekMutation';
 
@@ -44,7 +43,7 @@ const useDistributionRuleSchedule = (): UseDistributionRuleSchedule => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.SUCCESS_TITLE'),
         message: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.SUCCESS_MESSAGE'),
       });
@@ -52,7 +51,7 @@ const useDistributionRuleSchedule = (): UseDistributionRuleSchedule => {
       const { error } = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('CLIENTS_DISTRIBUTION.RULE.UPDATE.ERROR_TITLE'),
         message:
           error === 'error.entity.not.complete'

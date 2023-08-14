@@ -1,4 +1,4 @@
 import { QueryLeadCallbacksArgs } from '__generated__/types';
-import { TimeZone } from 'types/timeZoneField';
+import { Types } from '@crm/common';
 
-export type FormValues = Omit<QueryLeadCallbacksArgs, 'page' | 'limit'> & TimeZone;
+export type FormValues = Omit<QueryLeadCallbacksArgs, 'page' | 'limit'> & Types.TimeZone;

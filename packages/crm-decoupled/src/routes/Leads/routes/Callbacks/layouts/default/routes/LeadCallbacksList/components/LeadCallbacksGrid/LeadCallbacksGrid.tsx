@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
+import { Utils, Types, Constants } from '@crm/common';
 import { TrashButton } from 'components';
-import { LeadCallback, Sort__Input as Sort } from '__generated__/types';
+import { LeadCallback } from '__generated__/types';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import NoteAction from 'components/Note/NoteAction';
@@ -12,13 +12,11 @@ import useLeadCallbacksGrid from 'routes/Leads/routes/Callbacks/hooks/useLeadCal
 import {
   LeadCallbacksListQueryQueryResult,
 } from 'routes/Leads/routes/Callbacks/graphql/__generated__/LeadCallbacksListQuery';
-import { CallbackTimes } from 'constants/callbacks';
-import { targetTypes } from 'constants/note';
 import './LeadCallbacksGrid.scss';
 
 type Props = {
-  sorts: Array<Sort>,
-  onSort: (sorts: Array<Sort>) => void,
+  sorts: Array<Types.Sort>,
+  onSort: (sorts: Array<Types.Sort>) => void,
   leadCallbacksListQuery: LeadCallbacksListQueryQueryResult,
 };
 
@@ -88,7 +86,7 @@ const LeadCallbacksGrid = (props: Props) => {
     </div>
   ), []);
 
-  const renderDateTime = useCallback((callback: LeadCallback, field: CallbackTimes) => (
+  const renderDateTime = useCallback((callback: LeadCallback, field: Types.CallbackTimes) => (
     <>
       <div className="LeadCallbacksGrid__info-main">
         {moment.utc(callback[field]).local().format('DD.MM.YYYY')}
@@ -122,7 +120,7 @@ const LeadCallbacksGrid = (props: Props) => {
           note={note}
           playerUUID={userId}
           targetUUID={callbackId}
-          targetType={targetTypes.LEAD_CALLBACK}
+          targetType={Constants.targetTypes.LEAD_CALLBACK}
           onRefetch={refetch}
         />
 

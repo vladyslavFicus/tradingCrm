@@ -1,9 +1,9 @@
 import React, { RefObject, useMemo } from 'react';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
+import { Constants } from '@crm/common';
 import { Field } from 'formik';
 import { TradingAccount } from '__generated__/types';
-import { accountTypesLabels } from 'constants/accountTypes';
 import { FormikSelectField } from 'components/Formik';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Badge from 'components/Badge';
@@ -65,7 +65,7 @@ const AccountsSelectField = (props: Props) => {
         <div className="AccountsSelectField__option-title">
           <Badge
             center
-            text={I18n.t(accountTypesLabels[account.accountType]?.label) || ''}
+            text={I18n.t(Constants.accountTypesLabels[account.accountType]?.label) || ''}
             info={account.accountType === 'DEMO'}
             success={account.accountType === 'LIVE'}
           >

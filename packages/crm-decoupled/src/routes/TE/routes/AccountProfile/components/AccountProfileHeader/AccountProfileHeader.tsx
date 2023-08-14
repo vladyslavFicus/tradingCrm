@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import Hotkeys from 'react-hot-keys';
 import I18n from 'i18n-js';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, parseErrors, notify, Types, useModal, usePermission } from '@crm/common';
 import { Button } from 'components';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
 import NewOrderModal, { NewOrderModalProps } from 'routes/TE/modals/NewOrderModal';
@@ -65,7 +61,7 @@ const AccountProfileHeader = (props: Props) => {
       handleRefetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t(`TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.${enabled ? 'UNARCHIVE' : 'ARCHIVE'}`),
       });
@@ -73,13 +69,13 @@ const AccountProfileHeader = (props: Props) => {
       const error = parseErrors(e);
       if (error.error === 'error.group.disabled') {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.ERROR'),
           message: I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.ACCOUNT_DISABLE_GROUP'),
         });
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.ERROR'),
           message: error.error === 'error.account.disable.prohibited'
             ? I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.ACCOUNT_DISABLE_PROHIBITED')

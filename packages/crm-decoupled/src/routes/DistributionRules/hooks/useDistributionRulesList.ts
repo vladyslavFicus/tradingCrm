@@ -1,10 +1,7 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { set, cloneDeep } from 'lodash';
-import { Config } from '@crm/common';
-import { State } from 'types';
-import { useModal } from 'providers/ModalProvider';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, usePermission, useModal, Types } from '@crm/common';
 import CreateDistributionRuleModal, { CreateDistributionRuleModalProps } from 'modals/CreateDistributionRuleModal';
 import {
   useDistributionRulesQuery,
@@ -28,7 +25,7 @@ type UseDistributionRuleList = {
 const useDistributionRuleList = (): UseDistributionRuleList => {
   const createDistributionRuleModal = useModal<CreateDistributionRuleModalProps>(CreateDistributionRuleModal);
 
-  const state = useLocation().state as State<DistributionRulesQueryVariables>;
+  const state = useLocation().state as Types.State<DistributionRulesQueryVariables>;
 
   const permission = usePermission();
 

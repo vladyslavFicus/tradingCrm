@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
+import { Types } from '@crm/common';
 import { Feed__AuditCategory__Enum as FeedAuditCategoryEnum } from '__generated__/types';
-import { State } from 'types';
 import { FeedsQueryVariables, useFeedsQuery } from '../graphql/__generated__/FeedsQuery';
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
 const useFeedsList = (props: Props) => {
   const { targetUUID, auditCategory } = props;
 
-  const state = useLocation().state as State<FeedsQueryVariables>;
+  const state = useLocation().state as Types.State<FeedsQueryVariables>;
 
   // ===== Requests ===== //
   const feedsQuery = useFeedsQuery({

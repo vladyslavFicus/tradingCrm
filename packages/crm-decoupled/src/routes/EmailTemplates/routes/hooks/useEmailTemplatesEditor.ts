@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { notify, Types } from '@crm/common';
 import { EmailTemplateQuery, useEmailTemplateQuery } from '../graphql/__generated__/EmailTemplateQuery';
 import { useEmailTemplateUpdateMutation } from '../graphql/__generated__/EmailTemplateUpdateMutation';
 
@@ -52,13 +52,13 @@ const useEmailTemplatesEditor = (): EmailTemplatesEditor => {
       navigate('/email-templates/list');
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.ACTIONS.UPDATED'),
         message: I18n.t('COMMON.ACTIONS.SUCCESSFULLY'),
       });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ACTIONS.UPDATED'),
         message: I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY'),
       });

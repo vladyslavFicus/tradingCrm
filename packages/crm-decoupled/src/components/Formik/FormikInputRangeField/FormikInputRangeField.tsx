@@ -1,7 +1,7 @@
 import React from 'react';
 import { eq, get, omit } from 'lodash';
 import { FieldProps, getIn } from 'formik';
-import InputRange from 'components/InputRange';
+import { InputRange } from 'components';
 
 type Props = {
   errorText: string,

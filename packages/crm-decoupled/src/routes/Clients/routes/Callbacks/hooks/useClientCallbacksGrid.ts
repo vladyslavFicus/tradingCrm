@@ -1,9 +1,7 @@
 import { useCallback } from 'react';
-import { Config } from '@crm/common';
+import { Config, useModal, usePermission } from '@crm/common';
 import { ClientCallback } from '__generated__/types';
-import { useModal } from 'providers/ModalProvider';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
-import { usePermission } from 'providers/PermissionsProvider';
 import UpdateClientCallbackModal, { UpdateClientCallbackModalProps } from 'modals/UpdateClientCallbackModal';
 import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import {

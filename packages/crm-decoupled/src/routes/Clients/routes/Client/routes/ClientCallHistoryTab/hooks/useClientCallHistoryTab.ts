@@ -1,11 +1,11 @@
 import { useLocation, useParams } from 'react-router-dom';
-import { State } from 'types';
+import { Types } from '@crm/common';
 import { CallHistoryQueryVariables, useCallHistoryQuery } from '../graphql/__generated__/ClientCallHistoryQuery';
 
 const useClientCallHistoryTab = () => {
   const uuid = useParams().id as string;
 
-  const state = useLocation().state as State<CallHistoryQueryVariables['args']>;
+  const state = useLocation().state as Types.State<CallHistoryQueryVariables['args']>;
 
   // ===== Requests ===== //
   const callHistoryQuery = useCallHistoryQuery({

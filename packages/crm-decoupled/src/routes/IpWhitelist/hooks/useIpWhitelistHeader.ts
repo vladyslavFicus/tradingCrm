@@ -1,12 +1,8 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
-import { State, TableSelection } from 'types';
+import { Config, Types, usePermission, useModal, notify } from '@crm/common';
 import { IpWhitelistAddress } from '__generated__/types';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
-import { LevelType, notify } from 'providers/NotificationProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import CreateIpWhiteListModal, { CreateIpWhiteListModalProps } from 'modals/CreateIpWhiteListModal';
 import { useIpWhitelistBulkDeleteMutation } from '../graphql/__generated__/IpWhitelistBulkDeleteMutation';
@@ -14,7 +10,7 @@ import { useIpWhitelistBulkDeleteMutation } from '../graphql/__generated__/IpWhi
 type Props = {
   content: Array<IpWhitelistAddress>,
   totalElements: number,
-  selected: TableSelection | null,
+  selected: Types.TableSelection | null,
   onRefetch: () => void,
 };
 
@@ -26,7 +22,7 @@ const useIpWhitelistHeader = (props: Props) => {
     onRefetch,
   } = props;
 
-  const state = useLocation().state as State;
+  const state = useLocation().state as Types.State;
 
   const searchParams = state?.filters;
   const sorts = state?.sorts;
@@ -83,14 +79,14 @@ const useIpWhitelistHeader = (props: Props) => {
       onRefetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('IP_WHITELIST.MODALS.DELETE_MANY_MODAL.NOTIFICATIONS.IP_DELETED',
           { ips: getSelectedList('ip').join(', ') }),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('IP_WHITELIST.MODALS.DELETE_MANY_MODAL.NOTIFICATIONS.IP_NOT_DELETED'),
       });

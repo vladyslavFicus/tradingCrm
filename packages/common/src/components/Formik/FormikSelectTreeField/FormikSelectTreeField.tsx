@@ -1,7 +1,7 @@
 import React from 'react';
 import { FieldProps } from 'formik';
-import { SelectTree } from 'components';
-import { Props } from 'types/selectTreeTypes';
+import { Props } from '../../../types/selectTreeTypes';
+import { SelectTree } from '../../SelectTree';
 
 const FormikSelectTreeField = (props: Props & FieldProps) => {
   const {

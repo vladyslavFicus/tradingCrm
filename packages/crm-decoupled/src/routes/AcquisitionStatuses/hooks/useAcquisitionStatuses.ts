@@ -2,17 +2,10 @@ import { useCallback } from 'react';
 import I18n from 'i18n-js';
 import { useLocation } from 'react-router-dom';
 import { orderBy } from 'lodash';
-import { Config } from '@crm/common';
-import { State } from 'types';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Config, Constants, parseErrors, notify, Types, usePermission, useModal } from '@crm/common';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
 import CreateAcquisitionStatusModal, { CreateAcquisitionStatusModalProps } from 'modals/CreateAcquisitionStatusModal';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import { retentionStatuses } from 'constants/retentionStatuses';
-import { salesStatuses } from 'constants/salesStatuses';
 import {
   useAcquisitionStatusesQuery,
   AcquisitionStatusesQuery,
@@ -33,7 +26,7 @@ type UseAcquisitionStatuses = {
 };
 
 const useAcquisitionStatuses = (): UseAcquisitionStatuses => {
-  const state = useLocation().state as State<AcquisitionStatusesQueryVariables['args']>;
+  const state = useLocation().state as Types.State<AcquisitionStatusesQueryVariables['args']>;
 
   const permission = usePermission();
 
@@ -80,7 +73,7 @@ const useAcquisitionStatuses = (): UseAcquisitionStatuses => {
       confirmActionModal.hide();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('SETTINGS.ACQUISITION_STATUSES.NOTIFICATION.DELETE.SUCCESS'),
       });
@@ -111,7 +104,7 @@ const useAcquisitionStatuses = (): UseAcquisitionStatuses => {
       }
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message,
       });
@@ -125,8 +118,8 @@ const useAcquisitionStatuses = (): UseAcquisitionStatuses => {
       actionText: I18n.t('SETTINGS.ACQUISITION_STATUSES.CONFIRMATION.DELETE.DESCRIPTION', {
         type: I18n.t(`SETTINGS.ACQUISITION_STATUSES.TYPES.${acquisitionStatus.type}`),
         status: acquisitionStatus.type === AcquisitionStatusTypes.SALES
-          ? I18n.t(salesStatuses[acquisitionStatus.status])
-          : I18n.t(retentionStatuses[acquisitionStatus.status]),
+          ? I18n.t(Constants.salesStatuses[acquisitionStatus.status])
+          : I18n.t(Constants.retentionStatuses[acquisitionStatus.status]),
       }),
       submitButtonLabel: I18n.t('COMMON.OK'),
     });

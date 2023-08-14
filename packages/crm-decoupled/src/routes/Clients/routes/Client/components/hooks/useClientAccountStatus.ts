@@ -1,12 +1,8 @@
 import { useState, useCallback, useMemo } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, notify, Types, Constants, useModal, usePermission } from '@crm/common';
 import { Profile } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import ChangeAccountStatusModal, { ChangeAccountStatusModalProps, FormValues } from 'modals/ChangeAccountStatusModal';
-import { statuses, statusActions, actions } from 'constants/user';
 import { useChangeClientStatusMutation } from '../graphql/__generated__/ChangeClientStatusMutation';
 
 type Props = {
@@ -29,7 +25,7 @@ const useClientAccountStatus = (props: Props) => {
   const [changeClientStatusMutation] = useChangeClientStatusMutation();
 
   // ===== Handlers ===== //
-  const handleSubmit = useCallback(async (values: FormValues, action: actions) => {
+  const handleSubmit = useCallback(async (values: FormValues, action: Constants.User.actions) => {
     try {
       await changeClientStatusMutation({
         variables: {
@@ -41,7 +37,7 @@ const useClientAccountStatus = (props: Props) => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('CLIENT_PROFILE.CLIENT.ACCOUNT_STATUS.NOTIFICATIONS.SUCCESS.TITLE'),
         message: I18n.t('CLIENT_PROFILE.CLIENT.ACCOUNT_STATUS.NOTIFICATIONS.SUCCESS.MESSAGE'),
       });
@@ -49,14 +45,14 @@ const useClientAccountStatus = (props: Props) => {
       changeAccountStatusModal.hide();
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('CLIENT_PROFILE.CLIENT.ACCOUNT_STATUS.NOTIFICATIONS.ERROR.TITLE'),
         message: I18n.t('CLIENT_PROFILE.CLIENT.ACCOUNT_STATUS.NOTIFICATIONS.ERROR.MESSAGE'),
       });
     }
   }, [changeAccountStatusModal, changeClientStatusMutation, uuid]);
 
-  const handleSelectStatus = useCallback((reasons: Record<string, string>, action: actions) => {
+  const handleSelectStatus = useCallback((reasons: Record<string, string>, action: Constants.User.actions) => {
     changeAccountStatusModal.show({
       reasons,
       onSubmit: (values: FormValues) => handleSubmit(values, action),
@@ -67,7 +63,8 @@ const useClientAccountStatus = (props: Props) => {
   const toggleDropdown = useCallback(() => setIsDropDownOpen(prevIsDropDownOpen => !prevIsDropDownOpen), []);
 
   const statusesOptions = useMemo(() => (
-    statusActions[status.type as statuses].filter(action => permission.allows(action.permission))
+    Constants.User.statusActions[status.type as Constants.User.statuses]
+      .filter(action => permission.allows(action.permission))
   ), [permission, status.type]);
 
   return {

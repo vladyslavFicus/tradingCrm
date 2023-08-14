@@ -1,13 +1,8 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Config, Utils } from '@crm/common';
-import { Sort, State } from 'types';
+import { Config, Utils, Types, usePermission, useModal, notify, useLightbox } from '@crm/common';
 import { DocumentFile } from '__generated__/types';
-import { usePermission } from 'providers/PermissionsProvider';
-import { LevelType, notify } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
-import { useLightbox } from 'providers/LightboxProvider/useLightbox';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import UpdateDocumentModal, { UpdateDocumentModalProps } from 'modals/UpdateDocumentModal';
 import { FormValues } from '../types';
@@ -15,7 +10,7 @@ import { useDeleteDocumentMutation } from '../graphql/__generated__/DocumentDele
 import { useTokenRenewMutation } from '../graphql/__generated__/TokenRenewMutation';
 
 const useDocumentsGrid = () => {
-  const state = useLocation().state as State<FormValues>;
+  const state = useLocation().state as Types.State<FormValues>;
 
   const navigate = useNavigate();
 
@@ -87,13 +82,13 @@ const useDocumentsGrid = () => {
       refetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('DOCUMENTS.MODALS.DELETE.NOTIFICATIONS.DOCUMENT_DELETED', { title }),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('DOCUMENTS.MODALS.DELETE.NOTIFICATIONS.DOCUMENT_NOT_DELETED'),
       });
@@ -137,7 +132,7 @@ const useDocumentsGrid = () => {
     }
   }, []);
 
-  const handleSort = useCallback((sorts: Sort[]) => {
+  const handleSort = useCallback((sorts: Types.Sort[]) => {
     navigate('.', {
       replace: true,
       state: {

@@ -2,12 +2,11 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
-import { Sort, State } from 'types';
+import { Types, Constants } from '@crm/common';
 import {
   TradingEngine__AccountTypes__Enum as AccountTypes,
   TradingEngine__OrderStatuses__Enum as OrderStatus,
 } from '__generated__/types';
-import { accountTypesLabels } from 'constants/accountTypes';
 import Badge from 'components/Badge';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
@@ -23,7 +22,7 @@ const DEFAULT_SORTING = [{ column: 'marginLevel', direction: 'ASC' }];
 type Account = ExtractApolloTypeFromPageable<AccountsQuery['tradingEngine']['accounts']>;
 
 const MarginCalls = () => {
-  const state = useLocation().state as State<AccountsQueryVariables['args']>;
+  const state = useLocation().state as Types.State<AccountsQueryVariables['args']>;
   const navigate = useNavigate();
 
   const sorts = (state?.sorts && state?.sorts.length > 0) ? state.sorts : DEFAULT_SORTING;
@@ -48,7 +47,7 @@ const MarginCalls = () => {
 
   const handlePageChanged = useHandlePageChanged({ query: accountsQuery, page, path: 'page.from' });
 
-  const handleSort = (_sorts: Sort[]) => {
+  const handleSort = (_sorts: Types.Sort[]) => {
     navigate('.', {
       replace: true,
       state: {
@@ -104,7 +103,7 @@ const MarginCalls = () => {
             render={({ uuid, name, accountType }: Account) => (
               <>
                 <Badge
-                  text={I18n.t(accountTypesLabels[accountType].label)}
+                  text={I18n.t(Constants.accountTypesLabels[accountType].label)}
                   info={accountType === AccountTypes.DEMO}
                   success={accountType === AccountTypes.LIVE}
                 >

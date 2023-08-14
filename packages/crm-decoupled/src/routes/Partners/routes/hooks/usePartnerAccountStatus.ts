@@ -1,9 +1,6 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
-import { useModal } from 'providers/ModalProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, useModal, notify, Types, usePermission } from '@crm/common';
 import ChangeAccountStatusModal, { ChangeAccountStatusModalProps, FormValues } from 'modals/ChangeAccountStatusModal';
 import { usePartnerAccountStatusMutation } from '../graphql/__generated__/PartnerAccountStatusMutation';
 
@@ -52,7 +49,7 @@ const usePartnerAccountStatus = (props: Props): PartnerAccountStatus => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.TITLE'),
         message: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.MESSAGE'),
       });
@@ -61,7 +58,7 @@ const usePartnerAccountStatus = (props: Props): PartnerAccountStatus => {
       changeAccountStatusModal.hide();
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.ERROR.TITLE'),
         message: I18n.t('PARTNER_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.ERROR.MESSAGE'),
       });

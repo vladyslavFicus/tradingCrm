@@ -1,8 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
-import { Sorts, State } from 'types';
-import { Select } from 'types/table';
+import { Types } from '@crm/common';
 import { Partner } from '__generated__/types';
 import { usePartnersQuery, PartnersQueryVariables } from '../graphql/__generated__/PartnersQuery';
 
@@ -16,14 +15,14 @@ type PartnersList = {
   last: boolean,
   handleRefetch: () => void,
   handleFetchMore: () => void,
-  handleSort: (sorts: Sorts) => void,
-  handleSelect: (value: Select) => void,
+  handleSort: (sorts: Types.Sorts) => void,
+  handleSelect: (value: Types.Select) => void,
 };
 
 const usePartnersList = (): PartnersList => {
-  const [select, setSelect] = useState<Select>(null);
+  const [select, setSelect] = useState<Types.Select>(null);
 
-  const state = useLocation().state as State<PartnersQueryVariables>;
+  const state = useLocation().state as Types.State<PartnersQueryVariables>;
 
   const navigate = useNavigate();
 
@@ -46,7 +45,7 @@ const usePartnersList = (): PartnersList => {
   const selectedUuids = (select?.touched || []).map(item => partnersUuids[item]);
 
   // ===== Handlers ===== //
-  const handleSelect = useCallback((value: Select) => {
+  const handleSelect = useCallback((value: Types.Select) => {
     setSelect(value);
   }, []);
 
@@ -58,7 +57,7 @@ const usePartnersList = (): PartnersList => {
     }
   }, [loading, page, variables]);
 
-  const handleSort = useCallback((sorts: Sorts) => {
+  const handleSort = useCallback((sorts: Types.Sorts) => {
     navigate('.', {
       replace: true,
       state: {

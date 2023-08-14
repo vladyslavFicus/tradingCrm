@@ -1,14 +1,11 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Config } from '@crm/common';
-import { State } from 'types';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
+import { Config, usePermission, useModal, Types } from '@crm/common';
 import CreateOfficeModal, { CreateOfficeModalProps } from 'modals/CreateOfficeModal';
 import { useOfficesListQuery, OfficesListQueryVariables } from '../graphql/__generated__/OfficesListQuery';
 
 const useOfficesList = () => {
-  const state = useLocation().state as State<OfficesListQueryVariables>;
+  const state = useLocation().state as Types.State<OfficesListQueryVariables>;
 
   const permission = usePermission();
   const allowCreateBranch = permission.allows(Config.permissions.HIERARCHY.CREATE_BRANCH);

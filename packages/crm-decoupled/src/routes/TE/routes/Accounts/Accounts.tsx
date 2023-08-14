@@ -3,14 +3,9 @@ import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
-import { Config } from '@crm/common';
+import { Config, Types, Constants, useModal, useStorage, usePermission } from '@crm/common';
 import { Button } from 'components';
-import { Sort, State } from 'types';
-import { useModal } from 'providers/ModalProvider';
-import { useStorage } from 'providers/StorageProvider';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
-import { usePermission } from 'providers/PermissionsProvider';
-import { accountTypesLabels } from 'constants/accountTypes';
 import Badge from 'components/Badge';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
@@ -30,7 +25,7 @@ const Accounts = () => {
 
   const permission = usePermission();
 
-  const state = useLocation().state as State<AccountsQueryVariables['args']>;
+  const state = useLocation().state as Types.State<AccountsQueryVariables['args']>;
   const navigate = useNavigate();
 
   const accountsQuery = useAccountsQuery({
@@ -56,7 +51,7 @@ const Accounts = () => {
     path: 'page.from',
   });
 
-  const handleSort = (sorts: Sort[]) => {
+  const handleSort = (sorts: Types.Sort[]) => {
     navigate('.', {
       replace: true,
       state: {
@@ -77,7 +72,7 @@ const Accounts = () => {
   const renderTradingAccountColumn = ({ uuid, name, accountType }: Account) => (
     <Fragment>
       <Badge
-        text={I18n.t(accountTypesLabels[accountType].label)}
+        text={I18n.t(Constants.accountTypesLabels[accountType].label)}
         info={accountType === 'DEMO'}
         success={accountType === 'LIVE'}
       >

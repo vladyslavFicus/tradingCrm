@@ -1,14 +1,9 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config, Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
+import { Config, Utils, Constants, parseErrors, notify, Types, usePermission, useModal } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
 import ChangePasswordModal, { ChangePasswordModalProps } from 'modals/ChangePasswordModal';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import { passwordPattern, passwordMaxSize, passwordCustomError } from 'constants/operators';
 import { useOperatorLockStatusQuery } from '../graphql/__generated__/OperatorLockStatusQuery';
 import { useChangeOperatorPasswordMutation } from '../graphql/__generated__/ChangeOperatorPasswordMutation';
 import { useResetOperatorPasswordMutation } from '../graphql/__generated__/ResetOperatorPasswordMutation';
@@ -61,7 +56,7 @@ const useOperatorHeader = (props: Props): UseOperatorHeader => {
       await unlockOperatorLoginMutation({ variables: { uuid } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.UNLOCK.SUCCESS.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.UNLOCK.SUCCESS.MESSAGE'),
       });
@@ -69,7 +64,7 @@ const useOperatorHeader = (props: Props): UseOperatorHeader => {
       refetch();
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.UNLOCK.ERROR.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.UNLOCK.ERROR.MESSAGE'),
       });
@@ -81,7 +76,7 @@ const useOperatorHeader = (props: Props): UseOperatorHeader => {
       await resetOperatorPasswordMutation({ variables: { uuid } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.RESET_PASSWORD.SUCCESS.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.RESET_PASSWORD.SUCCESS.MESSAGE'),
       });
@@ -89,7 +84,7 @@ const useOperatorHeader = (props: Props): UseOperatorHeader => {
       confirmActionModal.hide();
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.RESET_PASSWORD.ERROR.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.RESET_PASSWORD.ERROR.MESSAGE'),
       });
@@ -113,7 +108,7 @@ const useOperatorHeader = (props: Props): UseOperatorHeader => {
       await changeOperatorPasswordMutation({ variables: { uuid, newPassword } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_PASSWORD.SUCCESS.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_PASSWORD.SUCCESS.MESSAGE'),
       });
@@ -123,7 +118,7 @@ const useOperatorHeader = (props: Props): UseOperatorHeader => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_PASSWORD.ERROR.TITLE'),
         message: I18n.t(
           error.error,
@@ -138,9 +133,9 @@ const useOperatorHeader = (props: Props): UseOperatorHeader => {
       onSubmit: handleChangePassword,
       fullName: fullName || '',
       uuid,
-      passwordPattern: passwordPattern.toString(),
-      passwordMaxSize,
-      passwordCustomError,
+      passwordPattern: Constants.Operator.passwordPattern.toString(),
+      passwordMaxSize: Constants.Operator.passwordMaxSize,
+      passwordCustomError: Constants.Operator.passwordCustomError,
     });
   }, [fullName, uuid]);
 

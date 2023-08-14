@@ -1,11 +1,8 @@
 import I18n from 'i18n-js';
 import { useCallback } from 'react';
-import { Config } from '@crm/common';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
-import { decodeNullValues } from 'components/Formik/utils';
+import { Config, parseErrors, notify, Types, usePermission } from '@crm/common';
 import { Profile } from '__generated__/types';
+import { decodeNullValues } from 'components/Formik/utils';
 import { useUpdateClientPersonalMutation } from '../graphql/__generated__/UpdateClientPersonalMutation';
 
 type FormValues = {
@@ -57,7 +54,7 @@ const useClientPersonalForm = (props: Props): UseClientPersonalForm => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
@@ -65,7 +62,7 @@ const useClientPersonalForm = (props: Props): UseClientPersonalForm => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
         message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
       });

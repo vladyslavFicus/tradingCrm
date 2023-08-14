@@ -1,7 +1,7 @@
 import React from 'react';
 import { eq, get, omit } from 'lodash';
 import { FieldProps, getIn } from 'formik';
-import { Input } from 'components';
+import { Input } from '../../Input';
 import { DefaultFieldProps } from '../types';
 
 type Props = DefaultFieldProps & {

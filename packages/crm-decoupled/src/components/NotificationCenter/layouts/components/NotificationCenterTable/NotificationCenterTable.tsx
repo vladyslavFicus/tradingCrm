@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { TableSelection } from 'types';
+import { Types } from '@crm/common';
 import { NotificationCenter } from '__generated__/types';
 import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
@@ -20,7 +20,7 @@ type Props = {
   filters: Filter,
   className: string,
   onSetEnableToggle: (enable: boolean) => void,
-  onSelect: (select: TableSelection) => void,
+  onSelect: (select: Types.TableSelection) => void,
 };
 
 const NotificationCenterTable = (props: Props) => {

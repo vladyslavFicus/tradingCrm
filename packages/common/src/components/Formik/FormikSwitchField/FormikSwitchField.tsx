@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import { FieldProps } from 'formik';
-import { Position } from 'types/position';
-import { ReactSwitch } from 'components';
+import { Position } from '../../../types';
+import { ReactSwitch } from '../../ReactSwitch';
 import { DefaultFieldProps } from '../types';
 import './FormikSwitchField.scss';
 

@@ -2,12 +2,10 @@ import React from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
-import { Button, RefreshButton } from 'components';
-import useFilter from 'hooks/useFilter';
-import { accountTypes } from 'constants/accountTypes';
-import { statuses as operatorsStasuses } from 'constants/operators';
+import { Constants } from '@crm/common';
+import { Button, RefreshButton, RangeGroup } from 'components';
 import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import { RangeGroup } from 'components/Forms';
+import useFilter from 'hooks/useFilter';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import useTradingActivityGridFilter
   from 'routes/Clients/routes/Client/routes/ClientTradingActivityTab/hooks/useTradingActivityGridFilter';
@@ -141,7 +139,8 @@ const TradingActivityGridFilter = (props: Props) => {
                   key={uuid}
                   value={uuid}
                   className={classNames({
-                    'TradingActivityGridFilter__field-inactive-option': operatorStatus !== operatorsStasuses.ACTIVE,
+                    'TradingActivityGridFilter__field-inactive-option':
+                      operatorStatus !== Constants.Operator.statuses.ACTIVE,
                   })}
                 >
                   {fullName}
@@ -205,7 +204,7 @@ const TradingActivityGridFilter = (props: Props) => {
               withAnyOption
               withFocus
             >
-              {accountTypes.map(({ value, label }) => (
+              {Constants.accountTypes.map(({ value, label }) => (
                 <option key={value} value={value}>
                   {I18n.t(label)}
                 </option>

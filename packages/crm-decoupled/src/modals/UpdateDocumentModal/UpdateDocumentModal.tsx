@@ -1,9 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, notify, Types } from '@crm/common';
 import { DocumentFile } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useUpdateDocumentMutation } from './graphql/__generated__/UpdateDocumentMutation';
@@ -36,13 +35,13 @@ const UpdateDocumentModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('DOCUMENTS.MODALS.UPDATE.NOTIFICATIONS.DOCUMENT_UPDATED'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('DOCUMENTS.MODALS.UPDATE.NOTIFICATIONS.DOCUMENT_NOT_UPDATED'),
       });

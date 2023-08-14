@@ -1,13 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { Config, Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
-
+import { Config, Utils, notify, Types, parseErrors } from '@crm/common';
+import { Desk__Types__Enum as DeskTypesEnum } from '__generated__/types';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { Desk__Types__Enum as DeskTypesEnum } from '__generated__/types';
 import { useCreateDeskMutation } from './graphql/__generated__/CreateDeskMutation';
 import { useOfficesQuery } from './graphql/__generated__/OfficesQuery';
 import './CreateDeskModal.scss';
@@ -50,7 +47,7 @@ const CreateDeskModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('MODALS.ADD_DESK_MODAL.NOTIFICATIONS.SUCCESS'),
         message: I18n.t('COMMON.SUCCESS'),
       });
@@ -61,7 +58,7 @@ const CreateDeskModal = (props: Props) => {
         formikHelpers.setFieldError('name', I18n.t('MODALS.ADD_DESK_MODAL.ERRORS.UNIQUE'));
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('MODALS.ADD_DESK_MODAL.NOTIFICATIONS.ERROR'),
           message: I18n.t('COMMON.FAIL'),
         });

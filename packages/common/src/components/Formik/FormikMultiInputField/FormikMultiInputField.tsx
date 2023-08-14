@@ -1,8 +1,9 @@
 import React from 'react';
 import { getIn, FieldProps } from 'formik';
 import classNames from 'classnames';
-import { FieldLabel, MultiInput } from 'components';
-import { createTagOption } from 'constants/multiInput';
+import { createTagOption } from '../../MultiInput/constants';
+import { MultiInput } from '../../MultiInput';
+import FieldLabel from '../../Forms/FieldLabel';
 import { DefaultFieldProps } from '../types';
 import './FormikMultiInputField.scss';
 

@@ -1,8 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Config } from '@crm/common';
+import { Config, useStorage } from '@crm/common';
 import { BrandToAuthorities } from '__generated__/types';
-import { useStorage } from 'providers/StorageProvider';
 import { useSelectDepartmentMutation } from '../graphql/__generated__/SelectDepartmentMutation';
 
 type Props = {

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Types } from '@crm/common';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
-import { Sort, State } from 'types';
 import {
   CallHistoryQueryQueryResult,
   CallHistoryQueryVariables,
@@ -17,7 +17,7 @@ const useClientCallHistoryGrid = (props: Props) => {
   const { data, loading } = callHistoryQuery;
   const { content = [], last = false } = callHistoryQuery?.data?.callHistory || {};
 
-  const state = useLocation().state as State<CallHistoryQueryVariables['args']>;
+  const state = useLocation().state as Types.State<CallHistoryQueryVariables['args']>;
 
   const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ const useClientCallHistoryGrid = (props: Props) => {
     path: 'page.from',
   });
 
-  const handleSort = useCallback((sorts: Sort[]) => {
+  const handleSort = useCallback((sorts: Types.Sort[]) => {
     navigate('.', {
       replace: true,
       state: {

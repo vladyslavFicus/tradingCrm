@@ -8,6 +8,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "lerna run start --scope=@crm/{crm-decoupled,common}",
+    "build": "lerna run codegen --scope=@crm/{crm-decoupled,common} && lerna run build --scope @crm/crm-decoupled",
     "registry:login": "npm login --registry=https://nexus.cyberhat.guru/repository/hrzn-npm/",
     "eslint": "eslint \"packages/*/src/**/*.{js,jsx,ts,tsx,json,gql}\" --fix"
   },
@@ -148,8 +150,8 @@
     "eslint-plugin-json-format": "^2.0.1",
     "eslint-plugin-jsx-control-statements": "^3.0.0",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "hard-source-webpack-plugin": "^0.13.1",
     "husky": "^3.0.2",
+    "lerna": "^7.1.4",
     "sass": "^1.41.1",
     "sentry-release": "1.0.10",
     "webpack-bundle-analyzer": "^4.2.0",
@@ -172,10 +174,10 @@
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/**/*Debug.{js,jsx,ts,tsx}"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run eslint && cross-env CI=true"
+    }
   }
-  // "husky": {
-  //   "hooks": {
-  //     "pre-commit": "npm run eslint && cross-env CI=true"
-  //   }
-  // }
 }

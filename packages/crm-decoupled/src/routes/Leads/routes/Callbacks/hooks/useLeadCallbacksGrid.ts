@@ -1,9 +1,7 @@
 import { useCallback } from 'react';
-import { Config } from '@crm/common';
+import { Config, useModal, usePermission } from '@crm/common';
 import { LeadCallback } from '__generated__/types';
-import { useModal } from 'providers/ModalProvider';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
-import { usePermission } from 'providers/PermissionsProvider';
 import UpdateLeadCallbackModal, { UpdateLeadCallbackModalProps } from 'modals/UpdateLeadCallbackModal';
 import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
 import {

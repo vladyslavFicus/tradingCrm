@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Formik, Form, Field, FieldArray, FieldArrayRenderProps, FormikHelpers } from 'formik';
+import { Utils, notify, Types } from '@crm/common';
 import { TrashButton } from 'components';
-import { Utils } from '@crm/common';
-import { SetFieldValue } from 'types/formik';
 import { Partner__Schedule__CountrySpreads as CountrySpreads } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import Modal from 'components/Modal';
 import { decodeNullValues } from 'components/Formik/utils';
 import { FormikInputField, FormikSelectField, FormikTimeRangeField } from 'components/Formik';
+import Modal from 'components/Modal';
 import { attributeLabels, validate } from './constants';
 import { useCreateScheduleMutation } from './graphql/__generated__/CreateScheduleMutation';
 import './CreatePartnerScheduleModal.scss';
@@ -87,13 +85,13 @@ const CreatePartnerScheduleModal = (props: Props) => {
         onCloseModal();
 
         notify({
-          level: LevelType.SUCCESS,
+          level: Types.LevelType.SUCCESS,
           title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.CREATE.TITLE'),
           message: I18n.t('COMMON.SUCCESS'),
         });
       } catch (e) {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('PARTNERS.MODALS.SCHEDULE.NOTIFICATIONS.CREATE.TITLE'),
           message: I18n.t('COMMON.ERROR'),
         });
@@ -106,7 +104,7 @@ const CreatePartnerScheduleModal = (props: Props) => {
   const onHandleSelect = (index: number,
     name: string,
     value: string,
-    setFieldValue: SetFieldValue<FormValues>,
+    setFieldValue: Types.SetFieldValue<FormValues>,
     arrayHelpers: FieldArrayRenderProps) => {
     setSelectedCountries([...selectedCountries, value]);
 

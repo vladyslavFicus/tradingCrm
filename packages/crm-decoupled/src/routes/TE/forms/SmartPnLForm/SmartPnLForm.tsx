@@ -4,11 +4,8 @@ import I18n from 'i18n-js';
 import { intersectionWith, orderBy } from 'lodash';
 import Hotkeys from 'react-hot-keys';
 import moment from 'moment';
-import { Utils } from '@crm/common';
+import { Utils, parseErrors, notify, Types, useStorage } from '@crm/common';
 import { Button, Input } from 'components';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useStorage } from 'providers/StorageProvider';
 import {
   FormikCheckbox,
   FormikInputDecimalsField,
@@ -16,7 +13,6 @@ import {
   FormikDatePicker,
   FormikSelectTreeField,
 } from 'components/Formik';
-import { Node } from 'components/SelectTree';
 import { OrderDirection, OrderType } from 'types/trading-engine';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { calculateClosePrice, calculateMargin, calculatePnL } from 'routes/TE/utils/formulas';
@@ -26,6 +22,13 @@ import { useCreateClosedOrderMutation } from './graphql/__generated__/CreateClos
 import { useAccountQuery } from './graphql/__generated__/AccountQuery';
 import { useAccountSymbolsQuery } from './graphql/__generated__/AccountSymbolsQuery';
 import './SmartPnLForm.scss';
+
+type Node = {
+  value: string,
+  label: string,
+  children?: Node[],
+  showCheckbox?: boolean,
+};
 
 type Props = {
   accountUuid?: string,
@@ -223,7 +226,7 @@ const SmartPnLForm = (props: Props) => {
       onSuccess();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.MODALS.COMMON_NEW_ORDER_MODAL.NOTIFICATION.SUCCESS'),
       });
@@ -231,7 +234,7 @@ const SmartPnLForm = (props: Props) => {
       const { message } = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.ERROR'),
         message,
       });

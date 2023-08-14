@@ -5,15 +5,10 @@ import I18n from 'i18n-js';
 import Hotkeys from 'react-hot-keys';
 import { UncontrolledTooltip } from 'reactstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Config, Utils } from '@crm/common';
+import { useModal, Config, Utils, Types, usePermission, useStorage, notify } from '@crm/common';
 import { Button } from 'components';
 import { TradingEngine__OrderStatuses__Enum as OrderStatusesEnum } from '__generated__/types';
-import { State, Sort } from 'types';
 import { OrderCloseByEnum } from 'types/trading-engine';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useStorage } from 'providers/StorageProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import Tabs from 'components/Tabs';
@@ -43,7 +38,7 @@ const Orders = () => {
   const newOrderModal = useModal<NewOrderModalProps>(NewOrderModal);
 
   const navigate = useNavigate();
-  const state = useLocation().state as State<OrdersQueryVariables['args']>;
+  const state = useLocation().state as Types.State<OrdersQueryVariables['args']>;
 
   const permission = usePermission();
   const [closeOrder] = useCloseOrderMutation();
@@ -88,7 +83,7 @@ const Orders = () => {
     path: 'page.from',
   });
 
-  const handleSort = (sorts: Sort[]) => {
+  const handleSort = (sorts: Types.Sort[]) => {
     navigate('.', {
       replace: true,
       state: {
@@ -134,7 +129,7 @@ const Orders = () => {
           });
 
           notify({
-            level: LevelType.SUCCESS,
+            level: Types.LevelType.SUCCESS,
             title: I18n.t('COMMON.SUCCESS'),
             message: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.NOTIFICATION.CLOSE_SUCCESS'),
           });
@@ -142,7 +137,7 @@ const Orders = () => {
           await ordersQuery.refetch();
         } catch (_) {
           notify({
-            level: LevelType.ERROR,
+            level: Types.LevelType.ERROR,
             title: I18n.t('COMMON.ERROR'),
             message: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.NOTIFICATION.CLOSE_FAILED'),
           });

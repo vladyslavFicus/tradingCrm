@@ -1,9 +1,8 @@
 import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
-import { Utils } from '@crm/common';
+import { Utils, Types, Constants } from '@crm/common';
 import { Button } from 'components';
-import { Sorts } from 'types';
 import { AccountView } from '__generated__/types';
 import { Table, Column } from 'components/Table';
 import GridPlayerInfo from 'components/GridPlayerInfo';
@@ -12,7 +11,6 @@ import HideText from 'components/HideText';
 import Uuid from 'components/Uuid';
 import Badge from 'components/Badge';
 import useTradingAccountsGrid from 'routes/TradingAccounts/hooks/useTradingAccountsGrid';
-import { accountTypesLabels } from 'constants/accountTypes';
 import './TradingAccountsGrid.scss';
 
 type Props = {
@@ -20,7 +18,7 @@ type Props = {
   loading: boolean,
   last: boolean,
   onFetchMore: () => void,
-  onSort: (sorts: Sorts) => void,
+  onSort: (sorts: Types.Sorts) => void,
 };
 
 const TradingAccountsGrid = (props: Props) => {
@@ -50,7 +48,7 @@ const TradingAccountsGrid = (props: Props) => {
   const renderAccount = useCallback(({ uuid, name, accountType, platformType, archived }: AccountView) => (
     <>
       <Badge
-        text={I18n.t(archived ? 'CONSTANTS.ARCHIVED' : accountTypesLabels[accountType].label)}
+        text={I18n.t(archived ? 'CONSTANTS.ARCHIVED' : Constants.accountTypesLabels[accountType].label)}
         info={accountType === 'DEMO' && !archived}
         success={accountType === 'LIVE' && !archived}
         danger={!!archived}

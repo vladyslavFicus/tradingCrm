@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Preloader from 'components/Preloader';
+import { Preloader } from 'components';
 import useLogout from './useLogout';
 
 const Logout = () => {

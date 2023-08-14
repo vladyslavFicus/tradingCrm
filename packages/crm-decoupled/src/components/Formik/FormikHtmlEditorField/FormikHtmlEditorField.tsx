@@ -1,6 +1,6 @@
 import React from 'react';
 import { get } from 'lodash';
-import HtmlEditor from 'components/HtmlEditor';
+import { HtmlEditor } from 'components';
 
 type Form = {
   errors: object,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { targetTypes } from 'constants/note';
+import { Constants } from '@crm/common';
 import PinnedNotes from 'components/Note/PinnedNotes';
 import useClientPinnedNotes from 'routes/Clients/routes/Client/components/hooks/useClientPinnedNotes';
 
@@ -14,7 +14,7 @@ const ClientPinnedNotes = (props: Props) => {
 
   return (
     <If condition={allowViewNotes}>
-      <PinnedNotes targetUUID={clientUuid} targetType={targetTypes.PLAYER} />
+      <PinnedNotes targetUUID={clientUuid} targetType={Constants.targetTypes.PLAYER} />
     </If>
   );
 };

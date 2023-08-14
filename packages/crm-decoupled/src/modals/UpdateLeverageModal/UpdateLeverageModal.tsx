@@ -1,12 +1,10 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Config, Utils } from '@crm/common';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Config, Utils, notify, Types, Constants } from '@crm/common';
+import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import Badge from 'components/Badge';
-import { FormikSelectField } from 'components/Formik';
-import { accountTypesLabels } from 'constants/accountTypes';
 import { useUpdateLeverageMutation } from './graphql/__generated__/UpdateLeverageMutation';
 import './UpdateLeverageModal.scss';
 
@@ -50,7 +48,7 @@ const UpdateLeverageModal = (props: Props) => {
       await updateLeverageMutation({ variables: { accountUUID, leverage: values.leverage } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.TITLE'),
         message: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.LEVERAGE_CHANGED'),
       });
@@ -59,7 +57,7 @@ const UpdateLeverageModal = (props: Props) => {
       onCloseModal();
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -85,7 +83,7 @@ const UpdateLeverageModal = (props: Props) => {
             </div>
 
             <Badge
-              text={I18n.t(archived ? 'CONSTANTS.ARCHIVED' : accountTypesLabels[accountType].label)}
+              text={I18n.t(archived ? 'CONSTANTS.ARCHIVED' : Constants.accountTypesLabels[accountType].label)}
               info={accountType === 'DEMO' && !archived}
               success={accountType === 'LIVE' && !archived}
               danger={archived}

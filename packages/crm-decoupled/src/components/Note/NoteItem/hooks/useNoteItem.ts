@@ -1,13 +1,11 @@
 import { useCallback } from 'react';
-import { Utils } from '@crm/common';
-import { Note } from 'types/Note';
-import { useModal } from 'providers/ModalProvider';
+import { Utils, useModal, Types } from '@crm/common';
 import { UpdateNoteModalProps } from 'modals/UpdateNoteModal';
 import UpdateNoteModal from 'modals/UpdateNoteModal/UpdateNoteModal';
 import { useRemoveNoteMutation } from '../../NoteAction/graphql/__generated__/RemoveNoteMutation';
 
 type Props = {
-  note: Note,
+  note: Types.Note,
 };
 
 const useNoteItem = (props: Props) => {

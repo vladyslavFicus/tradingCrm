@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { Field } from 'formik';
-import { timeZoneOffsets } from 'constants/dates';
+import { Constants } from '@crm/common';
 import { FormikSelectField } from 'components/Formik';
 
 type Props = {
@@ -25,7 +25,7 @@ const TimeZoneField = (props: Props) => {
       component={FormikSelectField}
       withFocus
     >
-      {timeZoneOffsets.map(item => (
+      {Constants.timeZoneOffsets.map(item => (
         <option key={item} value={item}>
           {`UTC ${item}`}
         </option>

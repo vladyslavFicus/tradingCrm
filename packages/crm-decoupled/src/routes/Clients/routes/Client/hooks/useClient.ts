@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Trackify from '@hrzn/trackify';
-import { Config, Utils } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, Utils, usePermission } from '@crm/common';
 import { useClientQuery } from '../graphql/__generated__/ClientQuery';
 
 const useClient = () => {

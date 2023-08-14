@@ -1,10 +1,10 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
+import { Constants } from '@crm/common';
 import { Button, RefreshButton } from 'components';
-import useFilter from 'hooks/useFilter';
-import { accountTypes } from 'constants/accountTypes';
 import { FormikSelectField } from 'components/Formik';
+import useFilter from 'hooks/useFilter';
 import useClientTradingAccountsGridFilter
   from 'routes/Clients/routes/Client/routes/ClientTradingAccountsTab/hooks/useClientTradingAccountsGridFilter';
 import {
@@ -53,7 +53,7 @@ const ClientTradingAccountsGridFilter = (props: Props) => {
             withAnyOption
             withFocus
           >
-            {accountTypes.map(({ label, value }) => (
+            {Constants.accountTypes.map(({ label, value }) => (
               <option key={value} value={value}>{I18n.t(label)}</option>
             ))}
           </Field>

@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { LastWithdrawalDepositFragment } from 'fragments/__generated__/lastWithdrawalDeposit';
 import { Grids } from 'routes/Dashboard/types';
 import useGrid from 'routes/Dashboard/hooks/useGrid';
-import { LastWithdrawalDepositFragment } from 'apollo/fragments/__generated__/lastWithdrawalDeposit';
 import { useLastWithdrawalsQuery } from 'routes/Dashboard/graphql/__generated__/LastWithdrawalsQuery';
 import DashboardPaymentsGrid from '../DashboardPaymentsGrid';
 import './LastWithdrawalsGrid.scss';

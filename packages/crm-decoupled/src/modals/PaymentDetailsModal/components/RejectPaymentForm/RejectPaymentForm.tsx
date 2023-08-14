@@ -1,10 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
+import { Config, Utils, notify, Types } from '@crm/common';
 import { Button } from 'components';
-import { Config, Utils } from '@crm/common';
-import { notify, LevelType } from 'providers/NotificationProvider';
-
 import { FormikSelectField } from 'components/Formik';
 import { useRejectPaymentMutation } from './graphql/__generated__/RejectPaymentMutation';
 import './RejectPaymentForm.scss';
@@ -46,7 +44,7 @@ const RejectPaymentForm = (props: Props) => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.REJECT_SUCCESS'),
       });
@@ -54,7 +52,7 @@ const RejectPaymentForm = (props: Props) => {
       onSuccess();
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.REJECT_FAILED'),
       });

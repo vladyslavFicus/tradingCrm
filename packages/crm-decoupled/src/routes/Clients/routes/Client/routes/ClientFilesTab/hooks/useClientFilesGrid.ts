@@ -2,9 +2,7 @@ import { useEffect, useCallback } from 'react';
 import I18n from 'i18n-js';
 import { useParams } from 'react-router-dom';
 import { omit } from 'lodash';
-import { Config, Utils } from '@crm/common';
-import { FileCategories } from 'types/fileCategories';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Config, Types, Utils, notify } from '@crm/common';
 import { useFilesCategoriesQuery } from '../graphql/__generated__/FilesCategoriesQuery';
 import { useTokenRefreshMutation } from '../graphql/__generated__/TokenRefreshMutation';
 import {
@@ -24,7 +22,7 @@ const useClientFilesGrid = (props: Props) => {
 
   const filesCategoriesQuery = useFilesCategoriesQuery();
   const categoriesData = filesCategoriesQuery.data?.filesCategories || {};
-  const categories = omit(categoriesData, '__typename') as FileCategories;
+  const categories = omit(categoriesData, '__typename') as Types.FileCategories;
 
   const [tokenRefreshMutation] = useTokenRefreshMutation();
   const [updateFileMetaMutation] = useUpdateFileMetaMutation();
@@ -53,13 +51,13 @@ const useClientFilesGrid = (props: Props) => {
       onRefetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('FILES.TITLE'),
         message: I18n.t('FILES.STATUS_CHANGED'),
       });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('FILES.TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -79,13 +77,13 @@ const useClientFilesGrid = (props: Props) => {
       onRefetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('FILES.TITLE'),
         message: I18n.t('FILES.DOCUMENT_TYPE_CHANGED'),
       });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('FILES.TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -101,13 +99,13 @@ const useClientFilesGrid = (props: Props) => {
       onRefetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('FILES.TITLE'),
         message: I18n.t('FILES.CHANGED_FILE_STATUS'),
       });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('FILES.TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -123,13 +121,13 @@ const useClientFilesGrid = (props: Props) => {
       onRefetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('FILES.DOCUMENT_RENAMED'),
       });
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

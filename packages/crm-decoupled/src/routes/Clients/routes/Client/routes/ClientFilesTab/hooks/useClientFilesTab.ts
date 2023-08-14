@@ -1,8 +1,6 @@
 import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { Config } from '@crm/common';
-import { useModal } from 'providers/ModalProvider';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, useModal, usePermission } from '@crm/common';
 import { UploadFileModal } from 'modals/FileModals';
 import { UploadFileModalProps } from 'modals/FileModals/UploadFileModal';
 import { useFilesByProfileUuidQuery } from '../graphql/__generated__/FilesByProfileUuidQuery';

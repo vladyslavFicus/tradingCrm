@@ -1,4 +1,4 @@
-import { ManualNote } from 'types/Note';
+import { Types } from '@crm/common';
 
 export enum TargetTypes {
   PAYMENT_ACCOUNT = 'PAYMENT_ACCOUNT',
@@ -9,7 +9,7 @@ export type FileData = {
   fileUuid: string,
   error?: string,
   file?: File,
-  fileNote?: ManualNote,
+  fileNote?: Types.ManualNote,
   uploading?: boolean,
   progress?: number,
 };

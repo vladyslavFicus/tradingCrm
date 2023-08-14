@@ -1,9 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { FormikInputField, FormikSwitchField, FormikTextAreaField } from 'components/Formik';
-import { Note } from 'types/Note';
 import Modal from 'components/Modal';
 import { useUpdateNoteMutation } from './graphql/__generated__/UpdateNoteMutation';
 import { MAX_NOTE_BODY_LENGTH, attributeLabels, validator } from './constants';
@@ -16,7 +15,7 @@ export type FormValues = {
 };
 
 export type Props = {
-  note: Note,
+  note: Types.Note,
   onCloseModal: () => void,
 };
 

@@ -3,7 +3,7 @@ import { Field, FormikProps } from 'formik';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import moment from 'moment';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, Constants } from '@crm/common';
 import {
   FormikSelectField,
   FormikInputField,
@@ -12,8 +12,6 @@ import {
 import { FormValues } from 'routes/DistributionRules/types';
 import useDistributionRuleSourceBrandForm
   from 'routes/DistributionRules/hooks/useDistributionRuleSourceBrandForm';
-import { timeInCurrentStatusInHours } from 'constants/clientsDistribution';
-import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
 import { baseUnits, periodInDays, periodInHours, sortTypes } from '../../constants';
 import './DistributionRuleSourceBrandForm.scss';
 
@@ -107,7 +105,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
         multiple
       >
         {salesStatuses.map(({ status }) => (
-          <option key={status} value={status}>{I18n.t(staticSalesStatuses[status])}</option>
+          <option key={status} value={status}>{I18n.t(Constants.salesStatuses[status])}</option>
         ))}
       </Field>
 
@@ -120,7 +118,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
         disabled={!sourceBrandConfig?.brand}
         withAnyOption
       >
-        {timeInCurrentStatusInHours.map(({ label, value, i18nValue }) => (
+        {Constants.timeInCurrentStatusInHours.map(({ label, value, i18nValue }) => (
           <option key={value} value={value}>
             {I18n.t(label, { value: i18nValue })}
           </option>

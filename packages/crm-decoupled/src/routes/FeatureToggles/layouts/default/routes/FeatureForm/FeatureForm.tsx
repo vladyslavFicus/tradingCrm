@@ -4,7 +4,6 @@ import I18n from 'i18n-js';
 import { Utils } from '@crm/common';
 import { Button, UncontrolledTooltip } from 'components';
 import { PaymentDeposit } from '__generated__/types';
-
 import { FormikCheckbox, FormikInputField, FormikSelectField } from 'components/Formik';
 import useFeatureForm from 'routes/FeatureToggles/hooks/useFeatureForm';
 import { FormValues } from 'routes/FeatureToggles/types/featureForm';

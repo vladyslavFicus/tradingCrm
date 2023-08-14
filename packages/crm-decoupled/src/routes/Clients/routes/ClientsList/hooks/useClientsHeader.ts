@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { QueryResult, NetworkStatus } from '@apollo/client';
-import { State, TableSelection } from 'types';
+import { Types } from '@crm/common';
 import { ClientsListQuery, ClientsListQueryVariables } from '../graphql/__generated__/ClientsQuery';
 import { useClientsCountQueryLazyQuery } from '../graphql/__generated__/ClientsCountQuery';
 
 type Props = {
-  select: TableSelection | null,
+  select: Types.TableSelection | null,
   clientsQuery: QueryResult<ClientsListQuery>,
 };
 
@@ -21,7 +21,7 @@ const useClientsHeader = (props: Props) => {
     },
   } = props;
 
-  const state = useLocation().state as State<ClientsListQueryVariables['args']>;
+  const state = useLocation().state as Types.State<ClientsListQueryVariables['args']>;
 
   const [clientsTotalCount, setClientsTotalCount] = useState<number | null>(null);
   const [clientsTotalCountLoading, setClientsTotalCountLoading] = useState(false);

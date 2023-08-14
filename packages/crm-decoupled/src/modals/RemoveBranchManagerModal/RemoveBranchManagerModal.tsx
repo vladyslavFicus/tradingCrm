@@ -1,9 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Utils, parseErrors, notify, Types } from '@crm/common';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useRemoveBranchManagerMutation } from './graphql/__generated__/removeBranchManagerMutation';
@@ -53,7 +51,7 @@ const RemoveBranchManagerModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.SUCCEED.TITLE'),
         message: I18n.t('MODALS.REMOVE_BRANCH_MANAGER_MODAL.NOTIFICATIONS.SUCCEED.DESC'),
       });
@@ -61,7 +59,7 @@ const RemoveBranchManagerModal = (props: Props) => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('MODALS.ADD_BRANCH_MANAGER_MODAL.NOTIFICATION.FAILED.TITLE'),
         message: error.error === 'error.branch.manager.addition'
           ? I18n.t('MODALS.ADD_BRANCH_MANAGER_MODAL.NOTIFICATION.FAILED.ADDITION_FAILED')

@@ -3,11 +3,10 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { Utils } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
-import { Sort, State } from 'types';
 import { types } from '../../attributes/constants';
 import AccountProfileTransactionsGridFilter from './components/AccountProfileTransactionsGridFilter';
 import { TransactionsQueryVariables, useTransactionsQuery } from './graphql/__generated__/TransactionsQuery';
@@ -16,7 +15,7 @@ import './AccountProfileTransactionsGrid.scss';
 const AccountProfileTransactionsGrid = () => {
   const navigate = useNavigate();
   const id = useParams().id as string;
-  const state = useLocation().state as State<TransactionsQueryVariables['args']>;
+  const state = useLocation().state as Types.State<TransactionsQueryVariables['args']>;
 
   const transactionsQuery = useTransactionsQuery({
     variables: {
@@ -50,7 +49,7 @@ const AccountProfileTransactionsGrid = () => {
     path: 'page.from',
   });
 
-  const handleSort = (sorts: Sort[]) => {
+  const handleSort = (sorts: Types.Sort[]) => {
     navigate('.', {
       replace: true,
       state: {

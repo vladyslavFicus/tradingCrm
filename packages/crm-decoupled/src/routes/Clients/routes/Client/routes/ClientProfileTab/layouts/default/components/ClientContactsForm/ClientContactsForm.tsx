@@ -4,8 +4,8 @@ import { Formik, Form, Field } from 'formik';
 import { Config, Utils } from '@crm/common';
 import { Button } from 'components';
 
-import { FormikInputField } from 'components/Formik';
 import { Profile } from '__generated__/types';
+import { FormikInputField } from 'components/Formik';
 import { attributeLabels } from 'routes/Clients/routes/Client/routes/ClientProfileTab/constants/clientContactsForm';
 import { FormValues } from 'routes/Clients/routes/Client/routes/ClientProfileTab/types/clientContactsForm';
 import useClientContactsForm from 'routes/Clients/routes/Client/routes/ClientProfileTab/hooks/useClientContactsForm';

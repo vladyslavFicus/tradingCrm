@@ -1,11 +1,11 @@
 import React from 'react';
 import { Field } from 'formik';
-import I18n from 'i18n';
 import {
   FormikInputField,
   FormikCheckbox,
   FormikSelectField,
 } from 'components/Formik';
+import I18n from 'i18n-config';
 import { swapTypesLabels } from '../../constants';
 import './SwapsSettings.scss';
 

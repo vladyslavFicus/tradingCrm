@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect, RefObject, ReactElement } from 'react';
+import React, { useState, useMemo, useRef, useEffect, RefObject } from 'react';
 import I18n from 'i18n-js';
 import { v4 } from 'uuid';
 import { isEqual } from 'lodash';

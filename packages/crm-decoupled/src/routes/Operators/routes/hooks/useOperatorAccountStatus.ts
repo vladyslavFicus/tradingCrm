@@ -1,12 +1,8 @@
 import { ReactNode, useCallback, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, Constants, useModal, Types, notify, usePermission } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { useModal } from 'providers/ModalProvider';
-import { LevelType, notify } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import ChangeAccountStatusModal, { ChangeAccountStatusModalProps, FormValues } from 'modals/ChangeAccountStatusModal';
-import { StatusAction, statusActions, statuses } from 'constants/operators';
 import { useOperatorRelationsCountQuery } from '../graphql/__generated__/OperatorRelationsCountQuery';
 import { useOperatorAccountStatusMutation } from '../graphql/__generated__/OperatorAccountStatusMutation';
 
@@ -19,7 +15,7 @@ type Messages = {
 type UseOperatorAccountStatus = {
   allowUpdateAccountStatus: boolean,
   isDropDownOpen: boolean,
-  actions: Array<StatusAction>,
+  actions: Array<Constants.Operator.StatusAction>,
   messages: Array<Messages>,
   toggleDropdown: () => void,
   handleSelectStatus: (reasons: Record<string, string>, action: string, getMessages: () => ReactNode) => void,
@@ -47,7 +43,7 @@ const useOperatorAccountStatus = (props: Props): UseOperatorAccountStatus => {
 
   const allowUpdateAccountStatus = permission.allows(Config.permissions.OPERATORS.UPDATE_STATUS);
 
-  const actions = statusActions[operatorStatus as statuses] || [];
+  const actions = Constants.Operator.statusActions[operatorStatus as Constants.Operator.statuses] || [];
 
   // ===== Requests ===== //
   const [operatorAccountStatusMutation] = useOperatorAccountStatusMutation();
@@ -72,7 +68,7 @@ const useOperatorAccountStatus = (props: Props): UseOperatorAccountStatus => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.SUCCESS.MESSAGE'),
       });
@@ -82,7 +78,7 @@ const useOperatorAccountStatus = (props: Props): UseOperatorAccountStatus => {
       changeAccountStatusModal.hide();
     } catch {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.ERROR.TITLE'),
         message: I18n.t('OPERATOR_PROFILE.NOTIFICATIONS.CHANGE_ACCOUNT_STATUS.ERROR.MESSAGE'),
       });

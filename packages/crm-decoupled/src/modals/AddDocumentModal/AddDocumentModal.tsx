@@ -3,10 +3,8 @@ import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import Dropzone from 'react-dropzone';
 import classNames from 'classnames';
+import { Utils, parseErrors, Types, notify } from '@crm/common';
 import { Button } from 'components';
-import { Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
-import { LevelType, notify } from 'providers/NotificationProvider';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { FILE_CONFIG, RULES, TRANSLATED_LABELS } from './constants';
@@ -45,7 +43,7 @@ const AddDocumentModal = (props: Props) => {
   const handleRejectUpload = ([file]: Array<File>) => {
     if (file.size / 1024 / 1024 > FILE_CONFIG.maxSize) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.UPLOAD_FAILED'),
         message: I18n.t('error.multipart.max-file-size.exceeded', { size: FILE_CONFIG.maxSize }),
       });
@@ -67,7 +65,7 @@ const AddDocumentModal = (props: Props) => {
       const errorMessage = error.errorParameters?.errorMessage || error.message || 'COMMON.SOMETHING_WRONG';
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.UPLOAD_FAILED'),
         message: I18n.t(errorMessage),
       });
@@ -92,14 +90,14 @@ const AddDocumentModal = (props: Props) => {
         await onSuccess();
 
         notify({
-          level: LevelType.SUCCESS,
+          level: Types.LevelType.SUCCESS,
           title: I18n.t('COMMON.SUCCESS'),
           message: I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.SUCCESS'),
         });
       }
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('FILES.UPLOAD_MODAL.FILE.NOTIFICATIONS.ERROR'),
       });

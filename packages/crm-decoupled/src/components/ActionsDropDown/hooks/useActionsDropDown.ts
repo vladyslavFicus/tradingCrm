@@ -1,5 +1,5 @@
 
-import { usePermission } from 'providers/PermissionsProvider';
+import { usePermission } from '@crm/common';
 import { ActionItem } from '../types';
 
 type UseActionsDropDown = {

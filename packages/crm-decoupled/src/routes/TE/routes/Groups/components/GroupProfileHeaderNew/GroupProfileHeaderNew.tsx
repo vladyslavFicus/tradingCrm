@@ -1,8 +1,8 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { FormikProps } from 'formik';
-import { Button } from 'components';
-import Select from 'components/Select';
+import { Button, Select } from 'components';
 import { FormValues } from '../../types';
 import { useNewGroupTemplatesQuery, NewGroupTemplatesQuery } from './graphql/__generated__/NewGroupTemplatesQuery';
 import './GroupProfileHeaderNew.scss';
@@ -52,9 +52,9 @@ const GroupProfileHeaderNew = (props: Props) => {
           <span className="GroupProfileHeaderNew__select-label">
             {I18n.t('TRADING_ENGINE.GROUP.TEMPLATES')}
           </span>
+
           <Select
             // Required because the Select component is not the TS component and doesn't support typing
-            // @ts-ignore
             disabled={groupTemplates.loading}
             onChange={onChangeHandler}
             value={templateNameGroup}

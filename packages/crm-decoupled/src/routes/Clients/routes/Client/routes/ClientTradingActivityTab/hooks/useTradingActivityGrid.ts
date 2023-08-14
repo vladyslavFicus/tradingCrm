@@ -1,5 +1,4 @@
-import { Config } from '@crm/common';
-import { useModal } from 'providers/ModalProvider';
+import { Config, useModal } from '@crm/common';
 import { TradingActivity } from '__generated__/types';
 import UpdateTradingActivityModal, { UpdateTradingActivityModalProps } from 'modals/UpdateTradingActivityModal';
 

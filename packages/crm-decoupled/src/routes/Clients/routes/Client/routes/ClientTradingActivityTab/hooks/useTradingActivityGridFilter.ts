@@ -1,6 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { Utils } from '@crm/common';
-import { LabelValue, State } from 'types';
+import { Utils, Types } from '@crm/common';
 import { TradingActivityQueryVariables } from '../graphql/__generated__/TradingActivityQuery';
 import { useOperatorsQuery } from '../graphql/__generated__/OperatorsQuery';
 import { useTradingAccountsQuery } from '../graphql/__generated__/TradingAccountsQuery';
@@ -16,14 +15,14 @@ type UseTradingActivityGridFilter = {
   accounts: Array<Accounts>,
   disabledOriginalAgentField: boolean,
   originalAgents: Array<OriginalAgent>,
-  platformTypes: Array<LabelValue>,
+  platformTypes: Array<Types.LabelValue>,
   tradingAccountsLoading: boolean,
 };
 
 const useTradingActivityGridFilter = (props: Props): UseTradingActivityGridFilter => {
   const { profileUUID } = props;
 
-  const state = useLocation().state as State<TradingActivityQueryVariables>;
+  const state = useLocation().state as Types.State<TradingActivityQueryVariables>;
 
   // ===== Requests ===== //
   const { data: operatorsData, loading: operatorsLoading } = useOperatorsQuery({

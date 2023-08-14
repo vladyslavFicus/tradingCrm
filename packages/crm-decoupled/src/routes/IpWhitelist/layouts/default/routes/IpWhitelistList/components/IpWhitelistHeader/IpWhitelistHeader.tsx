@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { Types } from '@crm/common';
 import { Button } from 'components';
-import { TableSelection } from 'types';
 import { IpWhitelistAddress } from '__generated__/types';
 import useIpWhitelistHeader from 'routes/IpWhitelist/hooks/useIpWhitelistHeader';
 import './IpWhitelistHeader.scss';
@@ -9,7 +9,7 @@ import './IpWhitelistHeader.scss';
 type Props = {
   content: Array<IpWhitelistAddress>,
   totalElements: number,
-  selected: TableSelection | null,
+  selected: Types.TableSelection | null,
   onRefetch: () => void,
 };
 

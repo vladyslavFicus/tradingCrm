@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { QueryResult } from '@apollo/client';
+import { Types } from '@crm/common';
 import { Button, UncontrolledTooltip } from 'components';
-import { TableSelection } from 'types';
 import Placeholder from 'components/Placeholder';
 import { MAX_QUERY_LEADS } from 'routes/Leads/routes/LeadsList/constants/leadsHeader';
 import useLeadsHeader from 'routes/Leads/routes/LeadsList/hooks/useLeadsHeader';
@@ -10,7 +10,7 @@ import { LeadsListQuery } from 'routes/Leads/routes/LeadsList/graphql/__generate
 import './LeadsHeader.scss';
 
 type Props = {
-  select: TableSelection | null,
+  select: Types.TableSelection | null,
   leadsQuery: QueryResult<LeadsListQuery>,
 };
 

@@ -1,4 +1,4 @@
 import { PaymentSearch__Input as PaymentSearch } from '__generated__/types';
-import { TimeZone } from 'types/timeZoneField';
+import { Types } from '@crm/common';
 
-export type FormValues = Omit<PaymentSearch, 'page'> & TimeZone;
+export type FormValues = Omit<PaymentSearch, 'page'> & Types.TimeZone;

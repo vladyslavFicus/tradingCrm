@@ -1,6 +1,7 @@
+// @ts-nocheck Select component write by js
 import React from 'react';
 import I18n from 'i18n-js';
-import Select from 'components/Select';
+import { Select } from 'components';
 import useChangeFileStatusDropDown
   from 'routes/Clients/routes/Client/routes/ClientFilesTab/hooks/useChangeFileStatusDropDown';
 import { statusesFile } from '../../constants';
@@ -20,7 +21,6 @@ const ChangeFileStatusDropDown = (props: Props) => {
 
   return (
     <Select
-      // @ts-ignore Select component write by js
       customClassName="ChangeFileStatusDropDown"
       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
       value={currentValue}

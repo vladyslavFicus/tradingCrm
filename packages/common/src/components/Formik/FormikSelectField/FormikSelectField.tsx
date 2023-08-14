@@ -4,7 +4,8 @@ import { FieldProps, getIn } from 'formik';
 import { eq, isNil } from 'lodash';
 import I18n from 'i18n-js';
 import { v4 } from 'uuid';
-import { UncontrolledTooltip, Select } from 'components';
+import { UncontrolledTooltip } from 'components';
+import { Select } from '../../Select';
 import { DefaultFieldProps } from '../types';
 import './FormikSelectField.scss';
 

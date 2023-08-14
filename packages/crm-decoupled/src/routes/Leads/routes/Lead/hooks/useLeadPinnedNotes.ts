@@ -1,5 +1,4 @@
-import { Config } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, usePermission } from '@crm/common';
 
 const useLeadPinnedNotes = () => {
   // ===== Permissions ===== //

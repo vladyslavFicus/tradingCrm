@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import I18n from 'i18n-js';
 import { v4 } from 'uuid';
-import { useModal } from 'providers/ModalProvider';
+import { useModal } from '@crm/common';
 import { PaymentDeposit } from '__generated__/types';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import UpdateDepositAmountModal,

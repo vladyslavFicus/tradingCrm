@@ -1,10 +1,11 @@
+// @ts-nocheck Select component write by js
 import React, { useCallback } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import classNames from 'classnames';
 import { groupBy, sumBy } from 'lodash';
 import I18n from 'i18n-js';
+import { Select } from 'components';
 import { Profile } from '__generated__/types';
-import Select from 'components/Select';
 import { selectOptions } from 'routes/Clients/routes/Client/components/constants/clientBalance';
 import useClientBalance from 'routes/Clients/routes/Client/components/hooks/useClientBalance';
 import './ClientBalance.scss';
@@ -85,7 +86,6 @@ const ClientBalance = (_props: Props) => {
   const renderPaymentsStatistic = useCallback(() => (
     <>
       <Select
-        // @ts-ignore Select component write by js
         customClassName="ClientBalance__select"
         data-testid="ClientBalance-paymentsSelect"
         onChange={handleDateChange}

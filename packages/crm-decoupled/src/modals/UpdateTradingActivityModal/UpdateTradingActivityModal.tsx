@@ -1,9 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
+import { notify, Types } from '@crm/common';
 import { Button } from 'components';
 import { Operator } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { OPERATORS_SORT } from './constants';
@@ -42,13 +42,13 @@ const UpdateTradingActivityModal = (props: Props) => {
 
       notify({
         title: I18n.t('TRADING_ACTIVITY_MODAL.TITLE'),
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         message: I18n.t('TRADING_ACTIVITY_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
       });
     } catch {
       notify({
         title: I18n.t('TRADING_ACTIVITY_MODAL.TITLE'),
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });
     }

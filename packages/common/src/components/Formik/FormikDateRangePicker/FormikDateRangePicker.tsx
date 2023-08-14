@@ -3,7 +3,7 @@ import { omit, get, set, PropertyPath } from 'lodash';
 import deepMerge from 'deepmerge';
 import { FieldProps } from 'formik';
 import moment from 'moment';
-import { DateRangePicker } from 'components';
+import { DateRangePicker } from '../../DatePickers';
 import { DefaultFieldProps } from '../types';
 
 type Fields = {

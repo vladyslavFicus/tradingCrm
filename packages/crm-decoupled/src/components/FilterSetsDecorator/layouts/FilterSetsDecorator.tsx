@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormikValues } from 'formik';
+import { Types } from '@crm/common';
 import { FilterSet__Types__Enum as FilterSetType } from '__generated__/types';
 import { FormValues as ClientFilterSet } from 'routes/Clients/routes/ClientsList/types';
-import { FilterSetContext } from 'types/filterSet';
 import { FiltersFormValues as PaymentFilterSet } from 'components/PaymentsListFilters';
 import useFilterSetsDecorator from '../hooks/useFilterSetsDecorator';
 import FilterSets from './components/FilterSets';
@@ -18,7 +18,7 @@ type Props = {
   submitFilters: (filterSet: PaymentFilterSet | ClientFilterSet) => void,
 };
 
-export const FilterSetsContext = React.createContext({} as FilterSetContext);
+export const FilterSetsContext = React.createContext({} as Types.FilterSetContext);
 
 const FilterSetsDecorator = (props: Props) => {
   const {

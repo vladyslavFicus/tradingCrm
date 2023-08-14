@@ -1,10 +1,9 @@
-import { Utils } from '@crm/common';
-import { statuses, statusMapper, statusesLabels } from 'constants/payment';
+import { Utils, Constants } from '@crm/common';
 
 // find correspond status and return Object in following structure - { status, label }
 export const getTradingStatusProps = (tradingStatus: string) => {
-  const status = Utils.enumToArray(statuses).find(
-    statusName => statusMapper[statusName].find(
+  const status = Utils.enumToArray(Constants.Payment.statuses).find(
+    statusName => Constants.Payment.statusMapper[statusName].find(
       item => item === tradingStatus,
     ),
   );
@@ -12,7 +11,7 @@ export const getTradingStatusProps = (tradingStatus: string) => {
   if (status) {
     return {
       status,
-      label: statusesLabels[status],
+      label: Constants.Payment.statusesLabels[status],
     };
   }
 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { parseErrors, notify, Types } from '@crm/common';
 import Modal from 'components/Modal';
 import { useDeleteBranchMutation } from './graphql/__generated__/DeleteBranchMutation';
 import './DeleteBranchModal.scss';
@@ -37,7 +36,7 @@ const DeleteBranchModal = (props: Props) => {
         await deleteBranchMutation({ variables: { uuid } });
 
         notify({
-          level: LevelType.SUCCESS,
+          level: Types.LevelType.SUCCESS,
           title: I18n.t('COMMON.SUCCESS'),
           message: I18n.t('MODALS.DELETE_BRANCH_MODAL.SUCCESS', { name }),
         });

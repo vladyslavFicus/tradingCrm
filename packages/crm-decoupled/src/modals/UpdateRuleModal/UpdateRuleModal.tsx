@@ -2,13 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
+import { Config, Utils, Constants, parseErrors, notify, Types } from '@crm/common';
 import { Button } from 'components';
-import { Config, Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { ruleTypes, priorities } from 'constants/rules';
-import { attributeLabels, customErrors, nestedFieldsNames } from 'constants/ruleModal';
 import { decodeNullValues } from 'components/Formik/utils';
 import Modal from 'components/Modal';
 import StaticTabs from 'components/StaticTabs';
@@ -99,7 +95,7 @@ const UpdateRuleModal = (props: Props) => {
       onSuccess();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_UPDATED'),
       });
@@ -107,7 +103,7 @@ const UpdateRuleModal = (props: Props) => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('HIERARCHY.PROFILE_RULE_TAB.RULE_NOT_UPDATED'),
       });
@@ -172,21 +168,21 @@ const UpdateRuleModal = (props: Props) => {
       validate={(values) => {
         const errors = Utils.createValidator({
           name: ['required', 'string'],
-          priority: ['required', `in:${priorities.join()}`],
+          priority: ['required', `in:${Constants.priorities.join()}`],
           countries: [`in:${Object.keys(Utils.countryList).join()}`],
           languages: [`in:${Config.getAvailableLanguages().join()}`],
           'operatorSpreads.*.percentage': ['between:1,100', 'integer'],
           ...currentOperatorSpreads && { 'operatorSpreads.0.parentUser': 'required' },
-          type: ['required', `in:${ruleTypes.map(({ value }) => value).join()}`],
+          type: ['required', `in:${Constants.ruleTypes.map(({ value }) => value).join()}`],
           ...validationSchedulesEnabled && {
             'schedules.*.timeIntervals.*.operatorSpreads.*.percentage': ['between:1,100', 'integer'],
             'schedules.*.timeIntervals.*.operatorSpreads.0.parentUser': ['required'],
           },
-        }, Utils.translateLabels(attributeLabels), false, customErrors)(values);
+        }, Utils.translateLabels(Constants.ruleAttributeLabels), false, Constants.ruleCustomErrors)(values);
 
         return nestedFieldsTranslator(
           extraValidation(values, errors, validationSchedulesEnabled),
-          nestedFieldsNames,
+          Constants.ruleNestedFieldsNames,
         );
       }}
       validateOnBlur={false}

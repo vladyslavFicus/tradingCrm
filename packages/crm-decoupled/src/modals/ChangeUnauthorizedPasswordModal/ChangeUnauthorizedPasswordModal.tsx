@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
-import { Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { passwordCustomError, passwordMaxSize, passwordPattern } from 'constants/operators';
+import { Utils, Constants, parseErrors, notify, Types } from '@crm/common';
 import { FormikInputField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useChangeUnauthorizedPasswordMutation } from './graphql/__generated__/ChangeUnauthorizedPasswordMutation';
@@ -17,7 +14,7 @@ const fieldLabels = {
 };
 
 const customErrors = {
-  'regex.newPassword': passwordCustomError,
+  'regex.newPassword': Constants.Operator.passwordCustomError,
 };
 
 type FormValues = {
@@ -49,7 +46,7 @@ const ChangeUnauthorizedPasswordModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.NOTIFICATIONS.SUCCESS.TITLE'),
         message: I18n.t('MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.NOTIFICATIONS.SUCCESS.MESSAGE'),
       });
@@ -65,7 +62,7 @@ const ChangeUnauthorizedPasswordModal = (props: Props) => {
         setFormError(null);
 
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.NOTIFICATIONS.ERROR.TITLE'),
           message: I18n.t('MODALS.CHANGE_UNAUTHORIZED_PASSWORD_MODAL.NOTIFICATIONS.ERROR.MESSAGE'),
         });
@@ -85,8 +82,8 @@ const ChangeUnauthorizedPasswordModal = (props: Props) => {
             currentPassword: ['required'],
             newPassword: [
               'required',
-              `regex:${passwordPattern}`,
-              `max:${passwordMaxSize}`,
+              `regex:${Constants.Operator.passwordPattern}`,
+              `max:${Constants.Operator.passwordMaxSize}`,
             ],
             repeatPassword: ['required', 'same:newPassword'],
           }, Utils.translateLabels(fieldLabels), false, customErrors)

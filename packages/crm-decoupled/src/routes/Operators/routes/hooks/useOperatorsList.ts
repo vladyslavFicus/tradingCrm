@@ -1,10 +1,7 @@
 import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
-import { Config } from '@crm/common';
-import { Sorts, State } from 'types';
-import { useModal } from 'providers/ModalProvider';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, Types, useModal, usePermission } from '@crm/common';
 import CreateOperatorModal, { CreateOperatorModalProps, ExistValues as FormValues } from 'modals/CreateOperatorModal';
 import ExistingOperatorModal, { ExistingOperatorModalProps } from 'modals/ExistingOperatorModal';
 import { OPERATORS_SORT } from '../../constants';
@@ -18,12 +15,12 @@ type UseOperatorsList = {
   totalElements: number,
   refetch: () => void,
   handleFetchMore: () => void,
-  handleSort: (sorts: Sorts) => void,
+  handleSort: (sorts: Types.Sorts) => void,
   handleOpenCreateOperatorModal: () => void,
 };
 
 const useOperatorsList = (): UseOperatorsList => {
-  const state = useLocation().state as State<OperatorsQueryVariables>;
+  const state = useLocation().state as Types.State<OperatorsQueryVariables>;
 
   const navigate = useNavigate();
 
@@ -57,7 +54,7 @@ const useOperatorsList = (): UseOperatorsList => {
     }
   }, [page]);
 
-  const handleSort = useCallback((sorts: Sorts) => {
+  const handleSort = useCallback((sorts: Types.Sorts) => {
     navigate('.', {
       replace: true,
       state: {

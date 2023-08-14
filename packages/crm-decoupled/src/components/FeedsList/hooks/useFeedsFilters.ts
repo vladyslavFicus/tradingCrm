@@ -1,12 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { useCallback, useMemo } from 'react';
-import { Utils } from '@crm/common';
-import { State } from 'types';
-import { ResetForm } from 'types/formik';
-import { decodeNullValues } from 'components/Formik/utils';
+import { Utils, Types, Constants } from '@crm/common';
 import { Feed__AuditCategory__Enum as FeedAuditCategoryEnum } from '__generated__/types';
-import { typesLabels } from 'constants/audit';
+import { decodeNullValues } from 'components/Formik/utils';
 import { FeedsQueryVariables } from '../graphql/__generated__/FeedsQuery';
 import { useFeedTypesQuery } from '../graphql/__generated__/FeedTypesQuery';
 
@@ -26,7 +23,7 @@ type Props = {
 const useFeedsFilters = (props: Props) => {
   const { targetUUID, skipCategoryFilter, auditCategory } = props;
 
-  const state = useLocation().state as State<FeedsQueryVariables>;
+  const state = useLocation().state as Types.State<FeedsQueryVariables>;
   const initialValues = state?.filters as FormValues || {};
 
   const navigate = useNavigate();
@@ -48,7 +45,7 @@ const useFeedsFilters = (props: Props) => {
     .filter(key => feedTypesList[key] && key !== '__typename')
     .map(type => ({
       key: type,
-      value: I18n.t(Utils.renderLabel(type, typesLabels)),
+      value: I18n.t(Utils.renderLabel(type, Constants.auditTypesLabels)),
     }))
     .sort(({ value: a }, { value: b }) => (a > b ? 1 : -1)),
   [feedTypesList]);
@@ -64,7 +61,7 @@ const useFeedsFilters = (props: Props) => {
     });
   }, [state]);
 
-  const handleReset = useCallback((resetForm: ResetForm<FormValues>) => {
+  const handleReset = useCallback((resetForm: Types.ResetForm<FormValues>) => {
     navigate('.', {
       replace: true,
       state: {

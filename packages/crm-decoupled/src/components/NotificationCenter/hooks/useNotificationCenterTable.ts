@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
+import { useModal } from '@crm/common';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
-import { useModal } from 'providers/ModalProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { MAX_SELECTED_ROWS } from '../constants';
 import {

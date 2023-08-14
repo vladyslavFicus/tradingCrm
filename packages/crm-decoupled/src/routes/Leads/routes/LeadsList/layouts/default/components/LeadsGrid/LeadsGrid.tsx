@@ -4,9 +4,9 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import classNames from 'classnames';
 import { QueryResult } from '@apollo/client';
+import { Types } from '@crm/common';
 import { UncontrolledTooltip } from 'components';
-import { TableSelection } from 'types';
-import { Lead, Sort__Input as Sort } from '__generated__/types';
+import { Lead } from '__generated__/types';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { AdjustableTable, Column } from 'components/Table';
 import GridEmptyValue from 'components/GridEmptyValue';
@@ -21,8 +21,8 @@ import './LeadsGrid.scss';
 
 type Props = {
   leadsQuery: QueryResult<LeadsListQuery>,
-  sorts: Array<Sort>,
-  onSelect: (selectedLeads: TableSelection) => void,
+  sorts: Array<Types.Sort>,
+  onSelect: (selectedLeads: Types.TableSelection) => void,
 };
 
 const LeadsGrid = (props: Props) => {

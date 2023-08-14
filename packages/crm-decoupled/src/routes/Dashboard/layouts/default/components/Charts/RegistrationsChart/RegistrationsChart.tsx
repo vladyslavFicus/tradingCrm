@@ -1,13 +1,13 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { ChartTypes } from 'types/config';
+import { Types } from '@crm/common';
 import { Charts } from 'routes/Dashboard/types';
 import useChart from 'routes/Dashboard/hooks/useChart';
 import { useRegistrationsQuery } from 'routes/Dashboard/graphql/__generated__/RegistrationsQuery';
 import ChartWidget from '../ChartWidget';
 
 type Props = {
-  chartType?: ChartTypes,
+  chartType?: Types.ChartTypes,
 };
 
 const RegistrationsChart = (props: Props) => {

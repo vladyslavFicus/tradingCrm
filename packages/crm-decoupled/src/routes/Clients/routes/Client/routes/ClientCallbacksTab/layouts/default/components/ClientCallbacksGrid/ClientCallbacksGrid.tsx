@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
+import { Utils, Types, Constants } from '@crm/common';
 import { TrashButton } from 'components';
-import { Utils } from '@crm/common';
-import { ClientCallback, Sort__Input as Sort } from '__generated__/types';
+import { ClientCallback } from '__generated__/types';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
@@ -13,13 +13,11 @@ import {
 } from 'routes/Clients/routes/Client/routes/ClientCallbacksTab/graphql/__generated__/ClientCallbacksListQuery';
 import useClientCallbacksGrid
   from 'routes/Clients/routes/Client/routes/ClientCallbacksTab/hooks/useClientCallbacksGrid';
-import { CallbackTimes } from 'constants/callbacks';
-import { targetTypes } from 'constants/note';
 import './ClientCallbacksGrid.scss';
 
 type Props = {
-  sorts: Array<Sort>,
-  onSort: (sorts: Array<Sort>) => void,
+  sorts: Array<Types.Sort>,
+  onSort: (sorts: Array<Types.Sort>) => void,
   clientCallbacksListQuery: ClientCallbacksListQueryQueryResult,
 };
 
@@ -71,7 +69,7 @@ const ClientCallbacksGrid = (props: Props) => {
     </>
   ), []);
 
-  const renderDateTime = useCallback((callback: ClientCallback, field: CallbackTimes) => (
+  const renderDateTime = useCallback((callback: ClientCallback, field: Types.CallbackTimes) => (
     <>
       <div className="ClientCallbacksGrid__info-main">
         {moment.utc(callback[field]).local().format('DD.MM.YYYY')}
@@ -105,7 +103,7 @@ const ClientCallbacksGrid = (props: Props) => {
           note={note}
           playerUUID={userId}
           targetUUID={callbackId}
-          targetType={targetTypes.CLIENT_CALLBACK}
+          targetType={Constants.targetTypes.CLIENT_CALLBACK}
           onRefetch={refetch}
         />
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import I18n from 'i18n-js';
-import { notify } from 'providers/NotificationProvider';
-import { LevelType } from 'types/notify';
+import { notify } from '../providers';
+import { LevelType } from '../types';
 
 type Props = {
   on?: boolean,

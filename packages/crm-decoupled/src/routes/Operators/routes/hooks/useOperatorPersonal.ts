@@ -1,9 +1,7 @@
 import { useCallback } from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, notify, Types, usePermission } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { usePermission } from 'providers/PermissionsProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { useClickToCallConfigQuery, ClickToCallConfigQuery } from '../graphql/__generated__/ClickToCallConfigQuery';
 import { useUpdateOperatorMutation } from '../graphql/__generated__/UpdateOperatorMutation';
 
@@ -52,13 +50,13 @@ const useOperatorPersonal = (props: Props): UseOperatorPersonal => {
       await updateOperatorMutation({ variables: { uuid, ...values } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_SUCCESS.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_SUCCESS.MESSAGE'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_ERROR.TITLE'),
         message: I18n.t('OPERATORS.NOTIFICATIONS.UPDATE_OPERATOR_ERROR.MESSAGE'),
       });

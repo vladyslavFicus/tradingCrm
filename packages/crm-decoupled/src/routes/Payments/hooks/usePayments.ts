@@ -1,16 +1,13 @@
 import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cloneDeep, set, compact } from 'lodash';
-import { Utils } from '@crm/common';
-import { State } from 'types';
-import { Sort__Input as Sort } from '__generated__/types';
-import { statusMapper, statuses } from 'constants/payment';
+import { Utils, Types, Constants } from '@crm/common';
 import { FiltersFormValues } from 'components/PaymentsListFilters';
 import { usePaymentsQuery, PaymentsQueryVariables } from '../graphql/__generated__/PaymentsQuery';
 import { usePartnersQuery } from '../graphql/__generated__/PartnersQuery';
 
 const usePayments = () => {
-  const state = useLocation().state as State<FiltersFormValues>;
+  const state = useLocation().state as Types.State<FiltersFormValues>;
 
   const navigate = useNavigate();
 
@@ -35,7 +32,8 @@ const usePayments = () => {
       ...Utils.fieldTimeZoneOffset('modificationTimeFrom', modificationTimeFrom, timeZone),
       ...Utils.fieldTimeZoneOffset('modificationTimeTo', modificationTimeTo, timeZone),
       statuses: state?.filters?.statuses
-        ? compact(state?.filters?.statuses).map(item => statusMapper[item as statuses]).flat()
+        ? compact(state?.filters?.statuses)
+          .map(item => Constants.Payment.statusMapper[item as Constants.Payment.statuses]).flat()
         : undefined,
       page: {
         from: 0,
@@ -82,7 +80,7 @@ const usePayments = () => {
     });
   }, [variables, number]);
 
-  const handleSort = useCallback((sorts: Array<Sort>) => {
+  const handleSort = useCallback((sorts: Array<Types.Sort>) => {
     navigate('.', {
       replace: true,
       state: {

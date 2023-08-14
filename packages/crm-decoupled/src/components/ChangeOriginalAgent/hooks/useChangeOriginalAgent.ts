@@ -2,9 +2,7 @@ import { useCallback, useMemo } from 'react';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
 import { ApolloError } from '@apollo/client';
-import { Config } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Config, Types, usePermission, notify } from '@crm/common';
 import { OPERATORS_SORT } from '../constants';
 import { Agent, FormValues, Operator } from '../types';
 import { useOperatorsQuery } from '../graphql/__generated__/OperatorsQuery';
@@ -69,13 +67,13 @@ const useChangeOriginalAgent = (props: Props): UseChangeOriginalAgent => {
       resetForm({ values: { agentId } });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PAYMENT_DETAILS_MODAL.ORIGINAL_AGENT'),
         message: I18n.t('PAYMENT_DETAILS_MODAL.NOTIFICATIONS.SUCCESSFULLY'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('PAYMENT_DETAILS_MODAL.ORIGINAL_AGENT'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

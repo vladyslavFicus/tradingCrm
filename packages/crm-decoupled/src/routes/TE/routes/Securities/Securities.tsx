@@ -1,11 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Config } from '@crm/common';
+import { Config, Types, usePermission, useModal, notify, parseErrors } from '@crm/common';
 import { Button, TrashButton } from 'components';
-import { parseErrors } from 'apollo';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
@@ -49,7 +45,7 @@ const Securities = () => {
       confirmActionModal.hide();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.SECURITIES.NOTIFICATION.DELETE.SUCCESS'),
       });
@@ -77,7 +73,7 @@ const Securities = () => {
       }
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message,
       });

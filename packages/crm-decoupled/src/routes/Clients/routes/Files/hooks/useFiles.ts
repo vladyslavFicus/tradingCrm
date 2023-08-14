@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { cloneDeep, set } from 'lodash';
-import { State } from 'types';
+import { Types } from '@crm/common';
 import { useFilesQuery, FilesQueryVariables } from '../graphql/__generated__/FilesQuery';
 
 const useFiles = () => {
-  const state = useLocation().state as State<FilesQueryVariables>;
+  const state = useLocation().state as Types.State<FilesQueryVariables>;
 
   const { data, loading, variables = {}, refetch, fetchMore } = useFilesQuery({
     variables: {

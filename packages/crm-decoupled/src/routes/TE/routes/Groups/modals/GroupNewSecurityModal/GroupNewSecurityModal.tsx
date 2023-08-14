@@ -3,9 +3,8 @@ import I18n from 'i18n-js';
 import { differenceWith } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikProps } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, notify, Types } from '@crm/common';
 import { Button, ShortLoader } from 'components';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import { FormikSelectField } from 'components/Formik';
 import {
   GroupSecurity,
@@ -44,7 +43,7 @@ const GroupNewSecurityModal = ({
 
     onSuccess(selectedSecurities);
     notify({
-      level: LevelType.SUCCESS,
+      level: Types.LevelType.SUCCESS,
       title: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.TITLE'),
       message: I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.NOTIFICATION.SUCCESS'),
     });

@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { hasErrorPath } from 'apollo';
+import { hasErrorPath } from '@crm/common';
 import { useDistributionRuleQuery, DistributionRuleQuery } from '../graphql/__generated__/DistributionRuleQuery';
 
 export type DistributionRuleType = DistributionRuleQuery['distributionRule'];

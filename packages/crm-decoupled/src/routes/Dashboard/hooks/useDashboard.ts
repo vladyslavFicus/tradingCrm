@@ -1,13 +1,9 @@
-import { Config } from '@crm/common';
-import { Widget } from 'types/config';
-import { Permission } from 'types/permissions';
-import { useStorageState, Brand } from 'providers/StorageProvider';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, Types, useStorageState, Brand, usePermission } from '@crm/common';
 
 type UseDashboard = {
   id: string,
-  permission: Permission,
-  widgets: Array<Widget>,
+  permission: Types.Permission,
+  widgets: Array<Types.Widget>,
 };
 
 const useDashboard = (): UseDashboard => {

@@ -1,9 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { Config, Utils } from '@crm/common';
-import { State } from 'types';
-import { useModal } from 'providers/ModalProvider';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, Utils, useModal, usePermission, Types } from '@crm/common';
 import CreateTradingAccountModal, { CreateTradingAccountModalProps } from 'modals/CreateTradingAccountModal';
 import {
   useTradingAccountsQuery,
@@ -24,7 +21,7 @@ type UseClientTradingAccountsTab = {
 const useClientTradingAccountsTab = (): UseClientTradingAccountsTab => {
   const id = useParams().id as string;
 
-  const state = useLocation().state as State<TradingAccountsQueryVariables>;
+  const state = useLocation().state as Types.State<TradingAccountsQueryVariables>;
 
   // ===== Permissions ===== //
   const permission = usePermission();

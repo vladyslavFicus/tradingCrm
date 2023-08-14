@@ -2,13 +2,8 @@ import { useCallback, useState } from 'react';
 import Trackify from '@hrzn/trackify';
 import I18n from 'i18n-js';
 import { FormikHelpers } from 'formik';
-import { Config } from '@crm/common';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
+import { Config, Types, parseErrors, notify, usePermission, useModal } from '@crm/common';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import { Permission } from 'types/permissions';
 import { useProfilePhonesQueryLazyQuery } from '../graphql/__generated__/ProfilePhonesQuery';
 import { useUpdateClientContactsMutation } from '../graphql/__generated__/UpdateClientContactsMutation';
 import { useUpdateClientEmailMutation } from '../graphql/__generated__/UpdateClientEmailMutation';
@@ -29,7 +24,7 @@ type UseClientContactsForm = {
   isAvailableToSeeAltPhone: boolean,
   isAvailableToSeeAltEmail: boolean,
   isPhonesShown: boolean,
-  permission: Permission,
+  permission: Types.Permission,
   isAvailableToUpdateEmail: boolean,
   isAvailableToSeeEmail: boolean,
   isEmailShown: boolean,
@@ -155,7 +150,7 @@ const useClientContactsForm = (props: Props): UseClientContactsForm => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
@@ -165,7 +160,7 @@ const useClientContactsForm = (props: Props): UseClientContactsForm => {
       switch (error) {
         case 'error.phone.already.exist': {
           notify({
-            level: LevelType.ERROR,
+            level: Types.LevelType.ERROR,
             title: I18n.t('COMMON.PHONE'),
             message: I18n.t('error.validation.phone.exists'),
           });
@@ -175,7 +170,7 @@ const useClientContactsForm = (props: Props): UseClientContactsForm => {
 
         default: {
           notify({
-            level: LevelType.ERROR,
+            level: Types.LevelType.ERROR,
             title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
             message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
           });
@@ -196,7 +191,7 @@ const useClientContactsForm = (props: Props): UseClientContactsForm => {
       setProfileContacts({ ...profileContacts, email: values.email });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
@@ -206,7 +201,7 @@ const useClientContactsForm = (props: Props): UseClientContactsForm => {
       switch (error) {
         case 'error.entity.already.exist': {
           notify({
-            level: LevelType.ERROR,
+            level: Types.LevelType.ERROR,
             title: I18n.t('COMMON.EMAIL'),
             message: I18n.t('error.validation.email.exists'),
           });
@@ -216,7 +211,7 @@ const useClientContactsForm = (props: Props): UseClientContactsForm => {
 
         default: {
           notify({
-            level: LevelType.ERROR,
+            level: Types.LevelType.ERROR,
             title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
             message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
           });
@@ -246,7 +241,7 @@ const useClientContactsForm = (props: Props): UseClientContactsForm => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
@@ -254,7 +249,7 @@ const useClientContactsForm = (props: Props): UseClientContactsForm => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
       });
@@ -270,7 +265,7 @@ const useClientContactsForm = (props: Props): UseClientContactsForm => {
       });
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
@@ -278,7 +273,7 @@ const useClientContactsForm = (props: Props): UseClientContactsForm => {
       const error = parseErrors(e);
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
       });

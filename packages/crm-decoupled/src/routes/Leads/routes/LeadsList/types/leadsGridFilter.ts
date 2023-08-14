@@ -1,4 +1,4 @@
 import { LeadSearch__Input as LeadSearch } from '__generated__/types';
-import { TimeZone } from 'types/timeZoneField';
+import { Types } from '@crm/common';
 
-export type FormValues = Omit<LeadSearch, 'page'> & TimeZone;
+export type FormValues = Omit<LeadSearch, 'page'> & Types.TimeZone;

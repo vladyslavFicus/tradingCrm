@@ -1,7 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import { Button } from 'components';
-import ReactSwitch from 'components/ReactSwitch';
+import { Button, ReactSwitch } from 'components';
 import useNotificationCenterContent from 'components/NotificationCenter/hooks/useNotificationCenterContent';
 import NotificationCenterForm from '../NotificationCenterForm';
 import NotificationCenterTable from '../NotificationCenterTable';

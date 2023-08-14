@@ -1,9 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormikHelpers } from 'formik';
-import { parseErrors } from 'apollo';
-import { useModal } from 'providers/ModalProvider';
-import { useStorage } from 'providers/StorageProvider';
+import { parseErrors, useModal, useStorage } from '@crm/common';
 import ChangeUnauthorizedPasswordModal, {
   ChangeUnauthorizedPasswordModalProps as ModalProps,
 } from 'modals/ChangeUnauthorizedPasswordModal';

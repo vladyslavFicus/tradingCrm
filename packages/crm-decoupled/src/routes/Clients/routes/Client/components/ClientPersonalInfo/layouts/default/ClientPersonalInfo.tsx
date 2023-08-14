@@ -3,19 +3,19 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { UncontrolledTooltip } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
+import { Types } from '@crm/common';
 import { Button } from 'components';
-import { FormikSwitchField } from 'components/Formik';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
   ClickToCall__Customer__Type__Enum as CustomerType,
   Profile,
 } from '__generated__/types';
+import { FormikSwitchField } from 'components/Formik';
 import Uuid from 'components/Uuid';
 import CopyToClipboard from 'components/CopyToClipboard';
 import Click2Call from 'components/Click2Call';
 import Sms from 'components/Sms';
 import { PersonalInformationItem } from 'components/Information';
-import { LevelType } from 'providers/NotificationProvider';
 import useClientPersonalInfo from 'routes/Clients/routes/Client/components/hooks/useClientPersonalInfo';
 import './ClientPersonalInfo.scss';
 
@@ -99,7 +99,7 @@ const ClientPersonalInfo = (props: Props) => {
                 <CopyToClipboard
                   text={affiliate.source || ''}
                   withNotification
-                  notificationLevel={LevelType.INFO}
+                  notificationLevel={Types.LevelType.INFO}
                   notificationTitle="COMMON.NOTIFICATIONS.COPIED"
                   notificationMessage="COMMON.NOTIFICATIONS.CLIPPED_VALUE_MESSAGE"
                 >
@@ -129,7 +129,7 @@ const ClientPersonalInfo = (props: Props) => {
                 <CopyToClipboard
                   text={affiliate.referral || ''}
                   withNotification
-                  notificationLevel={LevelType.INFO}
+                  notificationLevel={Types.LevelType.INFO}
                   notificationTitle="COMMON.NOTIFICATIONS.COPIED"
                   notificationMessage="COMMON.NOTIFICATIONS.CLIPPED_VALUE_MESSAGE"
                 >
@@ -161,7 +161,7 @@ const ClientPersonalInfo = (props: Props) => {
                 <CopyToClipboard
                   text={affiliate.campaignId || ''}
                   withNotification
-                  notificationLevel={LevelType.INFO}
+                  notificationLevel={Types.LevelType.INFO}
                   notificationTitle="COMMON.NOTIFICATIONS.COPIED"
                   notificationMessage="COMMON.NOTIFICATIONS.CLIPPED_VALUE_MESSAGE"
                 >

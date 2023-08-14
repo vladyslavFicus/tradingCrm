@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
+import { Types } from '@crm/common';
 import { Formik, Form, Field } from 'formik';
 import { Button, RefreshButton } from 'components';
-import { State } from 'types';
 import {
   FormikInputField,
   FormikDateRangePicker,
@@ -27,7 +27,7 @@ const HolidaysFilter = (props: Props) => {
   const { onRefresh } = props;
 
   const navigate = useNavigate();
-  const state = useLocation().state as State<FormValues>;
+  const state = useLocation().state as Types.State<FormValues>;
 
   // ===== Handlers ===== //
   const handleSubmit = (values: FormValues) => {

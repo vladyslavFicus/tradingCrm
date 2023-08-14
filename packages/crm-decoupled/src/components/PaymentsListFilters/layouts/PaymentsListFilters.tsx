@@ -2,28 +2,15 @@ import React from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Field, Form, Formik } from 'formik';
-import { Utils } from '@crm/common';
-import { Button, FormikMultipleSelectField, FormikSingleSelectField, RefreshButton } from 'components';
+import { Utils, Constants } from '@crm/common';
+import { Button, FormikMultipleSelectField, FormikSingleSelectField, RefreshButton, RangeGroup } from 'components';
 import { FormikDateRangePicker, FormikInputField } from 'components/Formik';
-import { RangeGroup } from 'components/Forms';
 import { FiltersToggler } from 'components/FiltersToggler';
 import { FilterSetsDecorator, FilterSetsButtons } from 'components/FilterSetsDecorator';
 import TimeZoneField from 'components/TimeZoneField';
 import { firstTimeDepositFilter } from 'components/PaymentsListFilters/constants';
 import usePaymentsListFilters from 'components/PaymentsListFilters/hooks/usePaymentsListFilters';
 import { FormValues } from 'components/PaymentsListFilters/types';
-import { filterSetTypes } from 'constants/filterSet';
-import { statuses as operatorsStasuses } from 'constants/operators';
-import { warningLabels, warningValues } from 'constants/warnings';
-import { accountTypes } from 'constants/accountTypes';
-import {
-  aggregators,
-  aggregatorsLabels,
-  statuses as tradingStatuses,
-  statusesLabels as tradingStatusesLabels,
-  tradingTypes,
-  tradingTypesLabels,
-} from 'constants/payment';
 import './PaymentsListFilters.scss';
 
 type Props = {
@@ -71,7 +58,7 @@ const PaymentsListFilters = (props: Props) => {
           return (
             <FilterSetsDecorator
               // @ts-ignore Component withRouter HOC types issue
-              filterSetType={filterSetTypes.PAYMENT}
+              filterSetType={Constants.filterSetTypes.PAYMENT}
               currentValues={values}
               disabled={paymentsLoading}
               submitFilters={(filterValues: FormValues) => {
@@ -144,8 +131,8 @@ const PaymentsListFilters = (props: Props) => {
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PAYMENT_AGGREGATOR')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSingleSelectField}
-                    options={Utils.enumToArray(aggregators).map(value => ({
-                      label: I18n.t(aggregatorsLabels[value]),
+                    options={Utils.enumToArray(Constants.Payment.aggregators).map(value => ({
+                      label: I18n.t(Constants.Payment.aggregatorsLabels[value]),
                       value,
                     }))}
                   />
@@ -191,10 +178,10 @@ const PaymentsListFilters = (props: Props) => {
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.TYPE')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikMultipleSelectField}
-                    options={Object.keys(tradingTypes)
-                      .filter(value => tradingTypesLabels[value])
+                    options={Object.keys(Constants.Payment.tradingTypes)
+                      .filter(value => Constants.Payment.tradingTypesLabels[value])
                       .map(value => ({
-                        label: I18n.t(tradingTypesLabels[value]),
+                        label: I18n.t(Constants.Payment.tradingTypesLabels[value]),
                         value,
                       }))}
                   />
@@ -208,8 +195,8 @@ const PaymentsListFilters = (props: Props) => {
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.STATUSES')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikMultipleSelectField}
-                    options={Utils.enumToArray(tradingStatuses).map(value => ({
-                      label: I18n.t(tradingStatusesLabels[value]),
+                    options={Utils.enumToArray(Constants.Payment.statuses).map(value => ({
+                      label: I18n.t(Constants.Payment.statusesLabels[value]),
                       value,
                     }))}
                   />
@@ -316,7 +303,8 @@ const PaymentsListFilters = (props: Props) => {
                       label: fullName,
                       value: uuid,
                       className: classNames('PaymentsListFilters__select-option', {
-                        'PaymentsListFilters__select-option--inactive': operatorStatus !== operatorsStasuses.ACTIVE,
+                        'PaymentsListFilters__select-option--inactive':
+                            operatorStatus !== Constants.Operator.statuses.ACTIVE,
                       }),
                     }))}
                   />
@@ -330,7 +318,7 @@ const PaymentsListFilters = (props: Props) => {
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSingleSelectField}
-                    options={accountTypes.map(({ value, label }) => ({
+                    options={Constants.accountTypes.map(({ value, label }) => ({
                       label: I18n.t(label),
                       value,
                     }))}
@@ -362,8 +350,8 @@ const PaymentsListFilters = (props: Props) => {
                     label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.WARNING')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                     component={FormikSingleSelectField}
-                    options={Utils.enumToArray(warningValues).map(value => ({
-                      label: I18n.t(warningLabels[value]),
+                    options={Utils.enumToArray(Constants.warningValues).map(value => ({
+                      label: I18n.t(Constants.warningLabels[value]),
                       value,
                     }))}
                   />

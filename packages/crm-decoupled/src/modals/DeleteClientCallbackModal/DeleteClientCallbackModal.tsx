@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { notify, Types } from '@crm/common';
 import { ClientCallback } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
 import Modal from 'components/Modal';
 import { useDeleteClientCallbackMutation } from './graphql/__generated__/DeleteClientCallbackMutation';
 
@@ -28,7 +28,7 @@ const DeleteClientCallbackModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('CALLBACKS.DELETE_MODAL.NOTIFICATION.CLIENT_TITLE'),
         message: I18n.t('CALLBACKS.DELETE_MODAL.SUCCESSFULLY_DELETED'),
       });
@@ -36,7 +36,7 @@ const DeleteClientCallbackModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('CALLBACKS.DELETE_MODAL.NOTIFICATION.CLIENT_TITLE'),
         message: I18n.t('COMMON.SOMETHING_WRONG'),
       });

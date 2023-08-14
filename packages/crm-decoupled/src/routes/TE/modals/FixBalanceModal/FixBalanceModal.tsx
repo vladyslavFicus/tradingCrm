@@ -2,13 +2,10 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, parseErrors, usePermission, Constants } from '@crm/common';
 import { Button, Input, ShortLoader } from 'components';
-import { parseErrors } from 'apollo';
-import { usePermission } from 'providers/PermissionsProvider';
 import { FormikSelectField, FormikInputField } from 'components/Formik';
 import Badge from 'components/Badge';
-import { accountTypesLabels } from 'constants/accountTypes';
 import { useAccountQuery } from './graphql/__generated__/AccountQuery';
 import { useCreditInMutation } from './graphql/__generated__/CreditInMutation';
 import { useCreditOutMutation } from './graphql/__generated__/CreditOutMutation';
@@ -163,7 +160,7 @@ const FixBalanceModal = (props: Props) => {
                         <div className="FixBalanceModal__account">
                           <div>
                             <Badge
-                              text={I18n.t(accountTypesLabels[account?.accountType as string].label)}
+                              text={I18n.t(Constants.accountTypesLabels[account?.accountType as string].label)}
                               info={account?.accountType === 'DEMO'}
                               success={account?.accountType === 'LIVE'}
                             >

@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
+import { Types, Constants } from '@crm/common';
 import { ShortLoader } from 'components';
-import { entities, entitiesPrefixes } from 'constants/uuid';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
-import { Note } from 'types/Note';
 import usePinnedNotes from '../hooks/usePinnedNotes';
 import './PinnedNotes.scss';
 
@@ -22,14 +21,14 @@ const PinnedNotes = (props: Props) => {
   // ===== Renders ===== //
   const renderItemId = useCallback((noteTargetUUID: string) => {
     const [type] = noteTargetUUID.split('-', 1);
-    const uuidPrefix = entitiesPrefixes[type as entities];
+    const uuidPrefix = Constants.entitiesPrefixes[type as Constants.entities];
 
     return (
       <Uuid key={noteTargetUUID} uuid={noteTargetUUID} uuidPrefix={uuidPrefix} />
     );
   }, []);
 
-  const renderChangedBy = useCallback((item: Note) => {
+  const renderChangedBy = useCallback((item: Types.Note) => {
     if (!item.changedBy) {
       return null;
     }
@@ -53,7 +52,7 @@ const PinnedNotes = (props: Props) => {
     );
   }, []);
 
-  const renderItem = useCallback((item: Note) => {
+  const renderItem = useCallback((item: Types.Note) => {
     const {
       subject,
       content,

@@ -2,12 +2,8 @@ import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, parseErrors, notify, Types, useModal, usePermission } from '@crm/common';
 import { Input } from 'components';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
-import { usePermission } from 'providers/PermissionsProvider';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { Account } from '../../AccountProfile';
 import { useUpdateAccountGroupMutation } from './graphql/__generated__/UpdateAccountGroupMutation';
@@ -70,7 +66,7 @@ const AccountProfileGroup = (props: Props) => {
       Utils.EventEmitter.emit(Utils.ORDER_RELOAD);
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.NOTIFICATIONS.CHANGE_GROUP_SUCCESS'),
       });
@@ -87,7 +83,7 @@ const AccountProfileGroup = (props: Props) => {
         });
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.ERROR'),
           message: error.error === 'error.account.group.change'
             || error.error === 'error.account.group.change.incorrect-currency'

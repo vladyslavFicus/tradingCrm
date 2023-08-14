@@ -1,16 +1,14 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Utils } from '@crm/common';
+import { Utils, Constants } from '@crm/common';
 import { Button, RefreshButton } from 'components';
-import useFilter from 'hooks/useFilter';
-
 import { FormikSelectField, FormikDateRangePicker } from 'components/Formik';
+import useFilter from 'hooks/useFilter';
 import useClientNotesGridFilter
   from 'routes/Clients/routes/Client/routes/ClientNotesTab/hooks/useClientNotesGridFilter';
 import { attributeLabels } from 'routes/Clients/routes/Client/routes/ClientNotesTab/constants';
 import { FormValues } from 'routes/Clients/routes/Client/routes/ClientNotesTab/types';
-import { departmentsLabels } from 'constants/operators';
 import './ClientNotesGridFilter.scss';
 
 type Props = {
@@ -59,7 +57,7 @@ const ClientNotesGridFilter = (props: Props) => {
           >
             {Object.keys(departmentRoles).map(department => (
               <option key={department} value={department}>
-                {I18n.t(Utils.renderLabel(department, departmentsLabels))}
+                {I18n.t(Utils.renderLabel(department, Constants.Operator.departmentsLabels))}
               </option>
             ))}
           </Field>

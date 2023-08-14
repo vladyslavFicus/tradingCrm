@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { difference } from 'lodash';
 import CreatableSelect from 'react-select/lib/Creatable';
-import { createTagOption, selectStyles, components } from 'constants/multiInput';
+import { createTagOption, selectStyles, components } from './constants';
 
 type Tag = {
   label: string,

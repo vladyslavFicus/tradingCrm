@@ -2,15 +2,11 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { differenceWith } from 'lodash';
 import { Formik, Form, Field, FormikProps } from 'formik';
-import { Config, Utils } from '@crm/common';
-import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { SetFieldValue } from 'types/formik';
+import { Config, Utils, Constants, notify, Types } from '@crm/common';
 import { ShortLoader } from 'components';
-import Modal from 'components/Modal';
+import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import { FormikSelectField } from 'components/Formik';
-import { retentionStatuses } from 'constants/retentionStatuses';
-import { salesStatuses } from 'constants/salesStatuses';
+import Modal from 'components/Modal';
 import { useAcquisitionStatusesQuery } from './graphql/__generated__/AcquisitionStatusesQuery';
 import { useCreateAcquisitionStatusMutation } from './graphql/__generated__/CreateAcquisitionStatusMutation';
 import './CreateAcquisitionStatusModal.scss';
@@ -53,14 +49,14 @@ const CreateAcquisitionStatusModal = (props: Props) => {
 
   // Get only not used SALES statuses
   const differenceSalesStatuses = differenceWith(
-    Object.keys(salesStatuses),
+    Object.keys(Constants.salesStatuses),
     acquisitionStatuses,
     (salesStatus, { type, status }) => type === AcquisitionStatusTypes.SALES && salesStatus === status,
   ).sort();
 
   // Get only not used RETENTION statuses
   const differenceRetentionStatuses = differenceWith(
-    Object.keys(retentionStatuses),
+    Object.keys(Constants.retentionStatuses),
     acquisitionStatuses,
     (salesStatus, { type, status }) => type === AcquisitionStatusTypes.RETENTION && salesStatus === status,
   ).sort();
@@ -74,20 +70,20 @@ const CreateAcquisitionStatusModal = (props: Props) => {
       onCloseModal();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('SETTINGS.ACQUISITION_STATUSES.MODALS.NEW_ACQUISITION_STATUS.NOTIFICATION.SUCCESS'),
       });
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('SETTINGS.ACQUISITION_STATUSES.MODALS.NEW_ACQUISITION_STATUS.NOTIFICATION.FAILED'),
       });
     }
   };
 
-  const handleTypeChange = (type: AcquisitionStatusTypes, setFieldValue: SetFieldValue<FormValues>) => {
+  const handleTypeChange = (type: AcquisitionStatusTypes, setFieldValue: Types.SetFieldValue<FormValues>) => {
     setFieldValue('type', type);
 
     // Clear status field while new type chosen
@@ -167,7 +163,7 @@ const CreateAcquisitionStatusModal = (props: Props) => {
                       <When condition={values.type === AcquisitionStatusTypes.SALES}>
                         {differenceSalesStatuses.map(status => (
                           <option key={status} value={status}>
-                            {I18n.t(salesStatuses[status])}
+                            {I18n.t(Constants.salesStatuses[status])}
                           </option>
                         ))}
                       </When>
@@ -175,7 +171,7 @@ const CreateAcquisitionStatusModal = (props: Props) => {
                       <When condition={values.type === AcquisitionStatusTypes.RETENTION}>
                         {differenceRetentionStatuses.map(status => (
                           <option key={status} value={status}>
-                            {I18n.t(retentionStatuses[status])}
+                            {I18n.t(Constants.retentionStatuses[status])}
                           </option>
                         ))}
                       </When>

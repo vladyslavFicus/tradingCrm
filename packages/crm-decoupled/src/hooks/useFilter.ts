@@ -1,15 +1,14 @@
 import { useCallback } from 'react';
 import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
 import { FormikHelpers } from 'formik';
-import { State } from 'types';
-import { ResetForm } from 'types/formik';
+import { Types } from '@crm/common';
 import { decodeNullValues } from 'components/Formik/utils';
 
 type UseFilter<TFormValues> = {
   filters: TFormValues,
   navigate: NavigateFunction,
   handleSubmit: (values: TFormValues, { setSubmitting }: FormikHelpers<TFormValues>) => void,
-  handleReset: (resetForm: ResetForm<TFormValues>) => void,
+  handleReset: (resetForm: Types.ResetForm<TFormValues>) => void,
 };
 
 const useFilter = <
@@ -17,7 +16,7 @@ const useFilter = <
   TFilters = Record<string, any>,
   TFiltersFields = Array<String>
 >(): UseFilter<TFormValues> => {
-  const state = useLocation().state as State<TFilters, TFiltersFields>;
+  const state = useLocation().state as Types.State<TFilters, TFiltersFields>;
 
   const navigate = useNavigate();
 
@@ -33,7 +32,7 @@ const useFilter = <
     setSubmitting(false);
   }, [navigate, state]);
 
-  const handleReset = useCallback((resetForm: ResetForm<TFormValues>) => {
+  const handleReset = useCallback((resetForm: Types.ResetForm<TFormValues>) => {
     navigate('.', {
       replace: true,
       state: {

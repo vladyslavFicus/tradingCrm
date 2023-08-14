@@ -2,10 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, Constants } from '@crm/common';
 import { Button } from 'components';
 import { Profile } from '__generated__/types';
-
 import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';
 import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
 import useClientPersonalForm from 'routes/Clients/routes/Client/routes/ClientProfileTab/hooks/useClientPersonalForm';
@@ -13,13 +12,7 @@ import {
   attributeLabels,
   timeZoneOffsets,
 } from 'routes/Clients/routes/Client/routes/ClientProfileTab/constants/clientPersonalForm';
-import {
-  COUNTRY_SPECIFIC_IDENTIFIER_TYPES,
-  AGE_YEARS_CONSTRAINT,
-  genders,
-  MIN_BIRTHDATE,
-  TERMS_ACCEPTED_TYPES,
-} from 'constants/user';
+
 import './ClientPersonalForm.scss';
 
 type Props = {
@@ -82,8 +75,8 @@ const ClientPersonalForm = (props: Props) => {
           languageCode: 'required',
           birthDate: [
             'date',
-            `minDate:${MIN_BIRTHDATE}`,
-            `maxDate:${moment().subtract(AGE_YEARS_CONSTRAINT, 'year').format(DATE_BASE_FORMAT)}`,
+            `minDate:${Constants.User.MIN_BIRTHDATE}`,
+            `maxDate:${moment().subtract(Constants.User.AGE_YEARS_CONSTRAINT, 'year').format(DATE_BASE_FORMAT)}`,
           ],
           'passport.expirationDate': 'date',
           'passport.issueDate': 'date',
@@ -151,9 +144,9 @@ const ClientPersonalForm = (props: Props) => {
                   component={FormikSelectField}
                   disabled={isSubmitting || !allowUpdatePersonalInformation}
                 >
-                  {Object.keys(genders).map(key => (
+                  {Object.keys(Constants.User.genders).map(key => (
                     <option key={key} value={key}>
-                      {I18n.t(genders[key])}
+                      {I18n.t(Constants.User.genders[key])}
                     </option>
                   ))}
                 </Field>
@@ -166,8 +159,8 @@ const ClientPersonalForm = (props: Props) => {
                   data-testid="ClientPersonalForm-birthDatePicker"
                   label={I18n.t(attributeLabels.birthDate)}
                   component={FormikDatePicker}
-                  minDate={moment(MIN_BIRTHDATE)}
-                  maxDate={moment().subtract(AGE_YEARS_CONSTRAINT, 'year')}
+                  minDate={moment(Constants.User.MIN_BIRTHDATE)}
+                  maxDate={moment().subtract(Constants.User.AGE_YEARS_CONSTRAINT, 'year')}
                   disabled={isSubmitting || !allowUpdatePersonalInformation}
                   closeOnSelect
                 />
@@ -225,7 +218,7 @@ const ClientPersonalForm = (props: Props) => {
                   component={FormikSelectField}
                   disabled={isSubmitting || !allowUpdatePersonalInformation}
                 >
-                  {TERMS_ACCEPTED_TYPES.map(({ label, value }) => (
+                  {Constants.User.TERMS_ACCEPTED_TYPES.map(({ label, value }) => (
                     <option key={label} value={value}>
                       {I18n.t(`PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.TERMS_ACCEPTED_TYPES.${label}`)}
                     </option>
@@ -303,7 +296,7 @@ const ClientPersonalForm = (props: Props) => {
                   component={FormikSelectField}
                   disabled={isSubmitting || !allowUpdatePersonalInformation}
                 >
-                  {COUNTRY_SPECIFIC_IDENTIFIER_TYPES.map(item => (
+                  {Constants.User.COUNTRY_SPECIFIC_IDENTIFIER_TYPES.map(item => (
                     <option key={item} value={item}>
                       {I18n.t(`PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.COUNTRY_SPECIFIC_IDENTIFIER_TYPES.${item}`)}
                     </option>

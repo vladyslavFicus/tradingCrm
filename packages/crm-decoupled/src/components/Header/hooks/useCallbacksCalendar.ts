@@ -1,18 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
-import { Config } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
-import { CommonCallback } from 'types/common';
-import useCalendar from 'components/Calendar/hooks/useCalendar';
-import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
+import { Config, Types, Constants, usePermission, useModal } from '@crm/common';
 import { ClientCallback, LeadCallback } from '__generated__/types';
+import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
+import useCalendar from 'components/Calendar/hooks/useCalendar';
 import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
 import UpdateClientCallbackModal, { UpdateClientCallbackModalProps } from 'modals/UpdateClientCallbackModal';
 import UpdateLeadCallbackModal, { UpdateLeadCallbackModalProps } from 'modals/UpdateLeadCallbackModal';
-import { useModal } from 'providers/ModalProvider';
-import { CallbackType } from 'constants/callbacks';
-import { Event } from 'constants/calendar';
 import { useClientCallbacksQuery } from '../graphql/__generated__/ClientCallbacksQuery';
 import { useLeadCallbacksQuery } from '../graphql/__generated__/LeadCallbacksQuery';
 
@@ -52,24 +47,24 @@ const useCallbacksCalendar = (props: Props) => {
     skip: permission.denies(Config.permissions.LEAD_PROFILE.CALLBACKS_LIST),
   });
 
-  const clientCallbacks = clientCallbacksQuery?.data?.clientCallbacks?.content || [] as Array<CommonCallback>;
-  const leadCallbacks = leadCallbacksQuery?.data?.leadCallbacks.content || [] as Array<CommonCallback>;
+  const clientCallbacks = clientCallbacksQuery?.data?.clientCallbacks?.content || [] as Array<Types.CommonCallback>;
+  const leadCallbacks = leadCallbacksQuery?.data?.leadCallbacks.content || [] as Array<Types.CommonCallback>;
 
   const getEventTitle = useCallback((
-    callback: CommonCallback,
-    callbackType: CallbackType,
+    callback: Types.CommonCallback,
+    callbackType: Constants.CallbackType,
   ): string => {
     const date = moment.utc(callback?.callbackTime).local().format('HH:mm');
-    if (callbackType === CallbackType.CLIENT) {
+    if (callbackType === Constants.CallbackType.CLIENT) {
       return `${date} ${(callback as ClientCallback).client?.fullName}`;
     }
     return `${date} ${(callback as LeadCallback).lead?.fullName}`;
   }, []);
 
   const getCalendarEvents = useCallback((
-    callbacks: Array<CommonCallback>,
-    callbackType: CallbackType,
-  ): Array<Event<CommonCallback>> => callbacks.map(callback => ({
+    callbacks: Array<Types.CommonCallback>,
+    callbackType: Constants.CallbackType,
+  ): Array<Types.Event<Types.CommonCallback>> => callbacks.map(callback => ({
     title: getEventTitle(callback, callbackType),
     start: moment.utc(callback.callbackTime).toDate(),
     end: moment.utc(callback.callbackTime).toDate(),
@@ -78,8 +73,8 @@ const useCallbacksCalendar = (props: Props) => {
   })), []);
 
   const events = [
-    ...getCalendarEvents(clientCallbacks as Array<ClientCallback>, CallbackType.CLIENT),
-    ...getCalendarEvents(leadCallbacks as Array<LeadCallback>, CallbackType.LEAD),
+    ...getCalendarEvents(clientCallbacks as Array<ClientCallback>, Constants.CallbackType.CLIENT),
+    ...getCalendarEvents(leadCallbacks as Array<LeadCallback>, Constants.CallbackType.LEAD),
   ];
 
   const handleRangeChanged = useCallback(({
@@ -89,10 +84,10 @@ const useCallbacksCalendar = (props: Props) => {
     setCallbackTime({ callbackTimeFrom, callbackTimeTo });
   }, []);
 
-  const handleOpenDetailModal = useCallback(({ callback, callbackType }: Event<CommonCallback>) => {
+  const handleOpenDetailModal = useCallback(({ callback, callbackType }: Types.Event<Types.CommonCallback>) => {
     const { callbackId } = callback;
 
-    if (callbackType === CallbackType.CLIENT) {
+    if (callbackType === Constants.CallbackType.CLIENT) {
       updateClientCallbackModal.show({
         callbackId,
         onClose: updateClientCallbackModal.hide,
@@ -107,7 +102,7 @@ const useCallbacksCalendar = (props: Props) => {
         },
       });
     }
-    if (callbackType === CallbackType.LEAD) {
+    if (callbackType === Constants.CallbackType.LEAD) {
       updateLeadCallbackModal.show({
         callbackId,
         onClose: updateLeadCallbackModal.hide,

@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { TimePicker } from 'components';
+import { TimePicker } from '../TimePicker';
 import './TimeRange.scss';
 
 type Field = {

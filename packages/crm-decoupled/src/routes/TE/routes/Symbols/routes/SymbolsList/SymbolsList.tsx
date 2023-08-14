@@ -2,15 +2,10 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
-import { Config } from '@crm/common';
+import { Config, notify, Types, useModal, usePermission, parseErrors } from '@crm/common';
 import { Button, TrashButton } from 'components';
-import { parseErrors } from 'apollo';
-import { State, Sort } from 'types';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
-import { usePermission } from 'providers/PermissionsProvider';
 import { Table, Column } from 'components/Table';
 import Tabs from 'components/Tabs';
 import Link from 'components/Link';
@@ -25,7 +20,7 @@ type SymbolType = ExtractApolloTypeFromPageable<SymbolsQuery['tradingEngine']['s
 
 const SymbolsList = () => {
   const navigate = useNavigate();
-  const state = useLocation().state as State<SymbolsQueryVariables['args']>;
+  const state = useLocation().state as Types.State<SymbolsQueryVariables['args']>;
   const [deleteSymbol] = useDeleteSymbolMutation();
   const permission = usePermission();
 
@@ -53,7 +48,7 @@ const SymbolsList = () => {
   const { content = [], last = true, totalElements } = data?.tradingEngine.symbols || {};
 
   // ======= Handlers ======= //
-  const handleSort = (sorts: Sort[]) => {
+  const handleSort = (sorts: Types.Sort[]) => {
     navigate('.', {
       replace: true,
       state: {
@@ -75,7 +70,7 @@ const SymbolsList = () => {
       await symbolsQuery.refetch();
 
       notify({
-        level: LevelType.SUCCESS,
+        level: Types.LevelType.SUCCESS,
         title: I18n.t('COMMON.SUCCESS'),
         message: I18n.t('TRADING_ENGINE.SYMBOL.NOTIFICATION.SUCCESS'),
       });
@@ -92,7 +87,7 @@ const SymbolsList = () => {
         });
       } else {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: I18n.t('TRADING_ENGINE.SYMBOL.NOTIFICATION.FAILED'),
         });

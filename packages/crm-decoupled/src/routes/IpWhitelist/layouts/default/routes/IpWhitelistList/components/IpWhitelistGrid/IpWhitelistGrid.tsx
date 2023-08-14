@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import I18n from 'i18n-js';
 import moment from 'moment';
+import { Types } from '@crm/common';
 import { TrashButton, EditButton } from 'components';
-import { Sorts } from 'types';
 import { IpWhitelistAddress } from '__generated__/types';
 import { Table, Column } from 'components/Table';
 import useIpWhitelistGrid from 'routes/IpWhitelist/hooks/useIpWhitelistGrid';
@@ -14,7 +14,7 @@ type Props = {
   last: boolean,
   onRefetch: () => void,
   onFetchMore: () => void,
-  onSort: (sorts: Sorts) => void,
+  onSort: (sorts: Types.Sorts) => void,
   onSelect: Function,
 };
 

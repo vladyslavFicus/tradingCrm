@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { Config } from '@crm/common';
-import { usePermission } from 'providers/PermissionsProvider';
+import { Config, usePermission } from '@crm/common';
 import { Profile } from '__generated__/types';
 import { useClientQuery } from '../../../graphql/__generated__/ClientQuery';
 

@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import { filesize } from 'filesize';
 import { Field } from 'formik';
 import I18n from 'i18n-js';
+import { Utils, Types, Constants } from '@crm/common';
 import { TrashButton } from 'components';
-import { Utils } from '@crm/common';
-import { targetTypes } from 'constants/note';
-import { EditNote } from 'types/Note';
-import { FileCategories } from 'types/fileCategories';
 import { FormikInputField, FormikSelectField } from 'components/Formik';
 import NoteActionManual from 'components/Note/NoteActionManual';
 import Uuid from 'components/Uuid';
@@ -22,8 +19,8 @@ export type Props = {
   number: number,
   fileData: FileData,
   profileUUID: string,
-  categories: FileCategories,
-  editFileNote: (values: EditNote) => void,
+  categories: Types.FileCategories,
+  editFileNote: (values: Types.EditNote) => void,
   removeFileNote: (fileUuid: string) => void,
   customFieldChange: (values: CustomField) => void,
   onRemoveFileClick: (fileUuid: string) => void,
@@ -154,7 +151,7 @@ const UploadingFileModal = (props: Props) => {
                 note={fileNote || null}
                 playerUUID={profileUUID}
                 targetUUID={fileUuid}
-                targetType={targetTypes.FILE}
+                targetType={Constants.targetTypes.FILE}
                 onEditSuccess={editFileNote}
                 onDeleteSuccess={() => removeFileNote(fileUuid)}
               />

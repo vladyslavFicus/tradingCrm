@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import I18n from 'i18n-js';
-import { notify } from 'providers/NotificationProvider';
-import { LevelType } from 'types';
+import { Types, notify } from '@crm/common';
 
 type Props = {
   on?: boolean,
@@ -40,7 +39,7 @@ const useReactSwitch = (props: Props) => {
 
       if (onError) {
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.ERROR'),
           message: I18n.t('COMMON.FAIL'),
         });

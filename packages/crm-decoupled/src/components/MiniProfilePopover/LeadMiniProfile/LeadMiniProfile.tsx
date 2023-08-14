@@ -1,10 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
-import { Utils } from '@crm/common';
-import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
+import { Utils, Constants } from '@crm/common';
 import { ShortLoader } from 'components';
-import { salesStatuses } from 'constants/salesStatuses'; // salesStatusesColor
+import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import {
   MiniProfile,
   MiniProfileHeader,
@@ -60,7 +59,7 @@ const LeadMiniProfile = (props: Props) => {
 
         <MiniProfileContentItem
           label={I18n.t('MINI_PROFILE.LEADS.SALES')}
-          heading={I18n.t(Utils.renderLabel(salesStatus || '', salesStatuses))}
+          heading={I18n.t(Utils.renderLabel(salesStatus || '', Constants.salesStatuses))}
           description={salesOperator?.fullName || ''}
         />
 

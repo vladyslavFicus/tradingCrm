@@ -1,12 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
 import I18n from 'i18n-js';
 import { omit } from 'lodash';
-import { parseErrors } from 'apollo';
+import { Constants, parseErrors, notify, Types, useModal } from '@crm/common';
 import { Operator, HierarchyBranch } from '__generated__/types';
-import { SetFieldValue } from 'types/formik';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { useModal } from 'providers/ModalProvider';
-import { branchTypes } from 'constants/hierarchyTypes';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { useOperatorHierarchyQuery, OperatorHierarchyQuery } from '../graphql/__generated__/OperatorHierarchyQuery';
 import { useBrandsQuery } from '../graphql/__generated__/BrandsQuery';
@@ -40,8 +36,8 @@ type UseOperatorHierarchyBranches = {
   getBranchTypeList: (branchType: string) => Array<HierarchyBranch>,
   handleSubmit: (formValues: FormValues) => void,
   handleRemoveBranch: (branchItem: HierarchyBranch) => void,
-  handleBranchTypeChange: (branchType: string, setFieldValue: SetFieldValue<FormValues>) => void,
-  handleBrandChange: (brandId: string, setFieldValue: SetFieldValue<FormValues>) => void,
+  handleBranchTypeChange: (branchType: string, setFieldValue: Types.SetFieldValue<FormValues>) => void,
+  handleBrandChange: (brandId: string, setFieldValue: Types.SetFieldValue<FormValues>) => void,
 };
 
 const useOperatorHierarchyBranches = (props: Props): UseOperatorHierarchyBranches => {
@@ -49,7 +45,7 @@ const useOperatorHierarchyBranches = (props: Props): UseOperatorHierarchyBranche
 
   const operatorUuid = operator.uuid;
 
-  const branchTypesOptions = Object.keys(omit(branchTypes, 'COMPANY'));
+  const branchTypesOptions = Object.keys(omit(Constants.branchTypes, 'COMPANY'));
 
   const [userBrandHierarchy, setUserBrandHierarchy] = useState<Record<string, HierarchyBranch[] | null>>({});
   const [isVisibleAddBranchForm, setSsVisibleAddBranchForm] = useState(false);
@@ -139,7 +135,7 @@ const useOperatorHierarchyBranches = (props: Props): UseOperatorHierarchyBranche
           });
 
           notify({
-            level: LevelType.SUCCESS,
+            level: Types.LevelType.SUCCESS,
             title: I18n.t('COMMON.SUCCESS'),
             message: I18n.t('OPERATORS.PROFILE.HIERARCHY.BRANCH_ADDED', { name: branch.name }),
           });
@@ -150,7 +146,7 @@ const useOperatorHierarchyBranches = (props: Props): UseOperatorHierarchyBranche
           const error = parseErrors(e);
 
           notify({
-            level: LevelType.ERROR,
+            level: Types.LevelType.ERROR,
             title: I18n.t('MODALS.ADD_OPERATOR_TO_BRANCH.NOTIFICATION.FAILED.OPERATOR_ADDED'),
             message: error.message || I18n.t('COMMON.SOMETHING_WRONG'),
           });
@@ -172,7 +168,7 @@ const useOperatorHierarchyBranches = (props: Props): UseOperatorHierarchyBranche
         });
 
         notify({
-          level: LevelType.SUCCESS,
+          level: Types.LevelType.SUCCESS,
           title: I18n.t('COMMON.SUCCESS'),
           message: I18n.t('OPERATORS.PROFILE.HIERARCHY.SUCCESS_REMOVE_BRANCH', { name }),
         });
@@ -182,7 +178,7 @@ const useOperatorHierarchyBranches = (props: Props): UseOperatorHierarchyBranche
         const error = parseErrors(e);
 
         notify({
-          level: LevelType.ERROR,
+          level: Types.LevelType.ERROR,
           title: I18n.t('COMMON.FAIL'),
           message: error.message || I18n.t('OPERATORS.PROFILE.HIERARCHY.ERROR_REMOVE_BRANCH'),
         });
@@ -190,14 +186,14 @@ const useOperatorHierarchyBranches = (props: Props): UseOperatorHierarchyBranche
     });
   };
 
-  const handleBranchTypeChange = useCallback((branchType: string, setFieldValue: SetFieldValue<FormValues>) => {
+  const handleBranchTypeChange = useCallback((branchType: string, setFieldValue: Types.SetFieldValue<FormValues>) => {
     setFieldValue('branchType', branchType);
 
     // Clear branchUuid field while new Branch Type chosen
     setFieldValue('branchUuid', '');
   }, []);
 
-  const handleBrandChange = useCallback(async (brandId: string, setFieldValue: SetFieldValue<FormValues>) => {
+  const handleBrandChange = useCallback(async (brandId: string, setFieldValue: Types.SetFieldValue<FormValues>) => {
     setFieldValue('brandId', brandId);
 
     // Clear branchUuid field while new Brand chosen

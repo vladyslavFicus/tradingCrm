@@ -1,8 +1,7 @@
 import React, { Fragment, useCallback } from 'react';
 import I18n from 'i18n-js';
 import { Navigate } from 'react-router-dom';
-import { Config } from '@crm/common';
-import { WidgetNames, ChartTypes, Widget } from 'types/config';
+import { Config, Types } from '@crm/common';
 import UseDashboard from 'routes/Dashboard/hooks/useDashboard';
 import LastDepositsGrid from './components/Grids/LastDepositsGrid';
 import LastNotificationsGrid from './components/Grids/LastNotificationsGrid';
@@ -23,7 +22,7 @@ import ScreenerWidget from './components/TradingViewWidget/ScreenerWidget/Screen
 import './Dashboard.scss';
 
 type WidgetComponent = React.FC<{
-  chartType?: ChartTypes,
+  chartType?: Types.ChartTypes,
 }>
 
 type WidgetConfig = {
@@ -31,71 +30,71 @@ type WidgetConfig = {
   permission: string,
 }
 
-const WIDGETS_CONFIG: Record<WidgetNames, WidgetConfig> = {
+const WIDGETS_CONFIG: Record<Types.WidgetNames, WidgetConfig> = {
   // Charts
-  [WidgetNames.REGISTRATIONS]: {
+  [Types.WidgetNames.REGISTRATIONS]: {
     component: RegistrationsChart,
     permission: Config.permissions.DASHBOARD.REGISTRATIONS,
   },
-  [WidgetNames.DEPOSITS_AMOUNT]: {
+  [Types.WidgetNames.DEPOSITS_AMOUNT]: {
     component: DepositAmountChart,
     permission: Config.permissions.DASHBOARD.DEPOSITS_AMOUNT,
   },
-  [WidgetNames.DEPOSITS_COUNT]: {
+  [Types.WidgetNames.DEPOSITS_COUNT]: {
     component: DepositCountChart,
     permission: Config.permissions.DASHBOARD.DEPOSITS_COUNT,
   },
-  [WidgetNames.WITHDRAWAL_AMOUNT]: {
+  [Types.WidgetNames.WITHDRAWAL_AMOUNT]: {
     component: WithdrawalAmountChart,
     permission: Config.permissions.DASHBOARD.WITHDRAWAL_AMOUNT,
   },
-  [WidgetNames.WITHDRAWAL_COUNT]: {
+  [Types.WidgetNames.WITHDRAWAL_COUNT]: {
     component: WithdrawalCountChart,
     permission: Config.permissions.DASHBOARD.WITHDRAWAL_COUNT,
   },
-  [WidgetNames.RETENTION_AMOUNT]: {
+  [Types.WidgetNames.RETENTION_AMOUNT]: {
     component: RetentionAmountChart,
     permission: Config.permissions.DASHBOARD.RETENTION_AMOUNT,
   },
-  [WidgetNames.RETENTION_COUNT]: {
+  [Types.WidgetNames.RETENTION_COUNT]: {
     component: RetentionCountChart,
     permission: Config.permissions.DASHBOARD.RETENTION_COUNT,
   },
-  [WidgetNames.FTR_AMOUNT]: {
+  [Types.WidgetNames.FTR_AMOUNT]: {
     component: FtrAmountChart,
     permission: Config.permissions.DASHBOARD.FTR_AMOUNT,
   },
-  [WidgetNames.FTR_COUNT]: {
+  [Types.WidgetNames.FTR_COUNT]: {
     component: FtrCountChart,
     permission: Config.permissions.DASHBOARD.FTR_COUNT,
   },
-  [WidgetNames.FTD_AMOUNT]: {
+  [Types.WidgetNames.FTD_AMOUNT]: {
     component: FtdAmountChart,
     permission: Config.permissions.DASHBOARD.FTD_AMOUNT,
   },
-  [WidgetNames.FTD_COUNT]: {
+  [Types.WidgetNames.FTD_COUNT]: {
     component: FtdCountChart,
     permission: Config.permissions.DASHBOARD.FTD_COUNT,
   },
   // Grids
-  [WidgetNames.LATEST_DEPOSITS]: {
+  [Types.WidgetNames.LATEST_DEPOSITS]: {
     component: LastDepositsGrid,
     permission: Config.permissions.DASHBOARD.LATEST_DEPOSITS,
   },
-  [WidgetNames.LATEST_WITHDRAWALS]: {
+  [Types.WidgetNames.LATEST_WITHDRAWALS]: {
     component: LastWithdrawalsGrid,
     permission: Config.permissions.DASHBOARD.LATEST_WITHDRAWALS,
   },
-  [WidgetNames.LATEST_REGISTRATIONS]: {
+  [Types.WidgetNames.LATEST_REGISTRATIONS]: {
     component: LastRegistrationsGrid,
     permission: Config.permissions.DASHBOARD.LATEST_REGISTRATIONS,
   },
-  [WidgetNames.LATEST_NOTIFICATIONS]: {
+  [Types.WidgetNames.LATEST_NOTIFICATIONS]: {
     component: LastNotificationsGrid,
     permission: Config.permissions.DASHBOARD.LATEST_NOTIFICATIONS,
   },
   // Trading view
-  [WidgetNames.SCREENER_WIDGET]: {
+  [Types.WidgetNames.SCREENER_WIDGET]: {
     component: ScreenerWidget,
     permission: Config.permissions.DASHBOARD.SCREENER_WIDGET,
   },
@@ -113,8 +112,8 @@ const Dashboard = () => {
     return <Navigate replace to="/trading-engine" />;
   }
 
-  const renderWidget = useCallback((widget: Widget) => {
-    const { name, newRowAfter, chartType = ChartTypes.LINE } = widget;
+  const renderWidget = useCallback((widget: Types.Widget) => {
+    const { name, newRowAfter, chartType = Types.ChartTypes.LINE } = widget;
     const widgetName = WIDGETS_CONFIG[name];
 
     if (!widgetName) return null;

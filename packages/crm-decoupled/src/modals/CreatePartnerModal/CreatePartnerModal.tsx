@@ -2,9 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { Config, Utils } from '@crm/common';
-import { parseErrors } from 'apollo';
-import { notify, LevelType } from 'providers/NotificationProvider';
+import { Config, Utils, parseErrors, notify, Types } from '@crm/common';
 import { FormikInputField, FormikCheckbox } from 'components/Formik';
 import Modal from 'components/Modal';
 import { useCreatePartnerMutation } from './graphql/__generated__/CreatePartnerMutation';
@@ -52,7 +50,7 @@ const CreatePartnerModal = (props: Props) => {
         const { data } = await createPartnerMutation({ variables: values });
 
         notify({
-          level: LevelType.SUCCESS,
+          level: Types.LevelType.SUCCESS,
           title: I18n.t('PARTNERS.NOTIFICATIONS.CREATE_PARTNER_SUCCESS.TITLE'),
           message: I18n.t('PARTNERS.NOTIFICATIONS.CREATE_PARTNER_SUCCESS.MESSAGE'),
         });
@@ -70,7 +68,7 @@ const CreatePartnerModal = (props: Props) => {
         switch (error) {
           case 'error.entity.already.exist': {
             notify({
-              level: LevelType.ERROR,
+              level: Types.LevelType.ERROR,
               title: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EMAIL.TITLE'),
               message: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EMAIL.MESSAGE'),
             });
@@ -79,7 +77,7 @@ const CreatePartnerModal = (props: Props) => {
           }
           case 'error.affiliate.externalId.already.exists': {
             notify({
-              level: LevelType.ERROR,
+              level: Types.LevelType.ERROR,
               title: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.TITLE'),
               message: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.MESSAGE'),
             });
@@ -88,7 +86,7 @@ const CreatePartnerModal = (props: Props) => {
           }
           default: {
             notify({
-              level: LevelType.ERROR,
+              level: Types.LevelType.ERROR,
               title: I18n.t('PARTNERS.NOTIFICATIONS.EXISTING_PARTNER_EXTERNAL_ID.TITLE'),
               message: I18n.t('COMMON.SOMETHING_WRONG'),
             });

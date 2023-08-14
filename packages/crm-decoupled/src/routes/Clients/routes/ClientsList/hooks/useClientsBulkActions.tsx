@@ -3,18 +3,14 @@ import { useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { compact } from 'lodash';
 import { QueryResult } from '@apollo/client';
-import { Config } from '@crm/common';
-import { State, TableSelection } from 'types';
+import { Config, Types, useStorageState, Auth, usePermission, useModal } from '@crm/common';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import { useStorageState, Auth } from 'providers/StorageProvider';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
 import UpdateAcquisitionStatusModal, { UpdateAcquisitionStatusModalProps } from 'modals/UpdateAcquisitionStatusModal';
 import UpdateRepresentativeModal, { UpdateRepresentativeModalProps } from 'modals/UpdateRepresentativeModal';
 import { ClientsListQuery, ClientsListQueryVariables } from '../graphql/__generated__/ClientsQuery';
 
 type Props = {
-  select: TableSelection | null,
+  select: Types.TableSelection | null,
   selectedRowsLength: number,
   clientsQuery: QueryResult<ClientsListQuery>,
 };
@@ -32,7 +28,7 @@ const useClientsBulkActions = (props: Props) => {
   const clients = data?.profiles?.content || [];
   const totalElements = data?.profiles?.totalElements || 0;
 
-  const state = useLocation().state as State<ClientsListQueryVariables>;
+  const state = useLocation().state as Types.State<ClientsListQueryVariables>;
 
   // ===== Storage ===== //
   const [{ department }] = useStorageState<Auth>('auth');

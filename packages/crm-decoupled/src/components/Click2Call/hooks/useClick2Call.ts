@@ -3,8 +3,7 @@ import { v4 } from 'uuid';
 import I18n from 'i18n-js';
 import jwtDecode from 'jwt-decode';
 import { debounce } from 'lodash';
-import { useStorageState } from 'providers/StorageProvider';
-import { LevelType, notify } from 'providers/NotificationProvider';
+import { useStorageState, Types, notify } from '@crm/common';
 import {
   ClickToCall__Phone__Type__Enum as PhoneType,
   ClickToCall__Customer__Type__Enum as CustomerType,
@@ -103,7 +102,7 @@ const useClick2Call = (props: Props): UseClick2Call => {
       }
     } catch (e) {
       notify({
-        level: LevelType.ERROR,
+        level: Types.LevelType.ERROR,
         title: I18n.t('COMMON.FAIL'),
         message: I18n.t('PLAYER_PROFILE.PROFILE.CLICK_TO_CALL_FAILED'),
       });

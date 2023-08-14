@@ -1,5 +1,4 @@
-import { Config } from '@crm/common';
-import { useModal } from 'providers/ModalProvider';
+import { Config, useModal } from '@crm/common';
 import { SendSmsModalProps } from 'modals/SendSmsModal';
 import SendSmsModal from 'modals/SendSmsModal/SendSmsModal';
 

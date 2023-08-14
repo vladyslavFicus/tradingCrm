@@ -3,14 +3,10 @@ import classNames from 'classnames';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { Config, Utils } from '@crm/common';
+import { Config, Utils, Types, notify, usePermission, useModal } from '@crm/common';
 import { Button } from 'components';
-import { State, Sort, TableSelection } from 'types';
-import { OrderCloseByEnum } from 'types/trading-engine';
 import { TradingEngine__OrderStatuses__Enum as OrderStatusesEnum } from '__generated__/types';
-import { notify, LevelType } from 'providers/NotificationProvider';
-import { usePermission } from 'providers/PermissionsProvider';
-import { useModal } from 'providers/ModalProvider';
+import { OrderCloseByEnum } from 'types/trading-engine';
 import useHandlePageChanged from 'hooks/useHandlePageChanged';
 import { Table, Column } from 'components/Table';
 import Uuid from 'components/Uuid';
@@ -49,8 +45,8 @@ const AccountProfileOrdersGrid = (props: Props) => {
 
   const accountUuid = useParams().id as string;
   const navigate = useNavigate();
-  const state = useLocation().state as State<OrdersQueryVariables['args']>;
-  const [select, setSelect] = useState<TableSelection | null>(null);
+  const state = useLocation().state as Types.State<OrdersQueryVariables['args']>;
+  const [select, setSelect] = useState<Types.TableSelection | null>(null);
 
   const permission = usePermission();
   const [closeOrder] = useCloseOrderMutation();
@@ -96,7 +92,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
     path: 'page.from',
   });
 
-  const handleSort = (sorts: Sort[]) => {
+  const handleSort = (sorts: Types.Sort[]) => {
     navigate('.', {
       replace: true,
       state: {
@@ -136,7 +132,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
           });
 
           notify({
-            level: LevelType.SUCCESS,
+            level: Types.LevelType.SUCCESS,
             title: I18n.t('COMMON.SUCCESS'),
             message: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.NOTIFICATION.CLOSE_SUCCESS'),
           });
@@ -144,7 +140,7 @@ const AccountProfileOrdersGrid = (props: Props) => {
           await refetch();
         } catch (_) {
           notify({
-            level: LevelType.ERROR,
+            level: Types.LevelType.ERROR,
             title: I18n.t('COMMON.ERROR'),
             message: I18n.t('TRADING_ENGINE.MODALS.CLOSE_ORDER.NOTIFICATION.CLOSE_FAILED'),
           });

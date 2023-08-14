@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, FormikProps } from 'formik';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import { salesStatuses as staticSalesStatuses } from 'constants/salesStatuses';
+import { Constants } from '@crm/common';
 import {
   FormikSelectField,
   FormikInputField,
@@ -101,7 +101,7 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
             {I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.MIGRATION_STATUS_CURRENT')}
           </option>,
           ...salesStatuses.map(({ status }) => (
-            <option key={status} value={status}>{I18n.t(staticSalesStatuses[status])}</option>
+            <option key={status} value={status}>{I18n.t(Constants.salesStatuses[status])}</option>
           )),
         ]}
       </Field>
