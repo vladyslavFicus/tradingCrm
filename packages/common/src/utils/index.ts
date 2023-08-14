@@ -29,3 +29,4 @@ export * from './tradingAccount';
 export { default as uuidShortify } from './uuidShortify';
 export { default as validator } from './validator';
 export * from './validator';
+export * from './selectTree';

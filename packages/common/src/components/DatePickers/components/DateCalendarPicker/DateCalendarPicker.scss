@@ -1,0 +1,184 @@
+.DateCalendarPicker {
+  width: 350px;
+
+  &__nav {
+    background: var(--window-header-background-info);
+    color: var(--window-header-color);
+    display: grid;
+    grid-template-columns: 40px 40px 1fr 40px 40px;
+    height: 40px;
+    width: 100%;
+
+    &-title {
+      font-size: 18px;
+      line-height: 40px;
+      text-align: center;
+      user-select: none;
+    }
+
+    &-button {
+      color: var(--button-icon-button-inverse-default);
+      cursor: pointer;
+      line-height: 42px;
+      text-align: center;
+      height: 100%;
+      width: 40px;
+      transition: color 0.2s;
+
+      &:hover {
+        color: var(--button-icon-button-inverse-hover);
+      }
+
+      &:focus {
+        color: var(--button-icon-button-inverse-focus);
+      }
+
+      &:disabled {
+        color: var(--button-icon-button-inverse-disabled);
+      }
+    }
+
+    &-year {
+      font-size: 21px;
+    }
+
+    &-month {
+      font-size: 24px;
+    }
+  }
+
+  &__body {
+    padding: 5px 0;
+  }
+
+  &__weekdays,
+  &__days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  &__weekday,
+  &__day {
+    height: 30px;
+    user-select: none;
+  }
+
+  &__weekday {
+    color: var(--active);
+    font-weight: 700;
+    line-height: 30px;
+    text-align: center;
+  }
+
+  &__day {
+    color: var(--dropdown-options-color-default);
+    cursor: pointer;
+    margin-top: 5px;
+    text-align: center;
+
+    // # hack to make border in select state with no glitch on selected elements
+    &:before {
+      content: "";
+      border: 1px solid transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: var(--z-index-overlap);
+    }
+
+    &:hover {
+      color: var(--dropdown-options-color-hover);
+      background: var(--dropdown-options-background-hover);
+    }
+
+    &-inner {
+      border-radius: 3px;
+      font-weight: 600;
+      line-height: 30px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    &--today {
+      & .DateCalendarPicker__day-inner {
+        background-color: var(--dropdown-options-background-current-date);
+      }
+
+      &.DateCalendarPicker__day--range-between .DateCalendarPicker__day-inner {
+        color: var(--dropdown-options-color-default);
+      }
+
+      &:hover {
+        color: var(--dropdown-options-color-default);
+      }
+    }
+
+    &--range-between {
+      color: var(--dropdown-options-color-focus);
+      background-color: var(--dropdown-options-background-focus);
+    }
+
+    &--out-of-month {
+      color: var(--dropdown-options-color-disabled);
+    }
+
+    &--selected {
+      & .DateCalendarPicker__day-inner {
+        background: var(--dropdown-options-background-focus);
+        border-radius: 3px;
+        color: var(--dropdown-options-color-focus);
+        width: 100%;
+      }
+
+      &:hover {
+        background: var(--dropdown-options-background-hover);
+
+        & .DateCalendarPicker__day-inner {
+          background-color: var(--dropdown-options-background-hover);
+        }
+      }
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+      color: var(--dropdown-options-color-disabled);
+    }
+
+    &--range-start,
+    &--range-end {
+      &:before {
+        display: none;
+      }
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        width: 50%;
+        height: 30px;
+      }
+    }
+
+    &--range-start {
+      &:after {
+        right: 0;
+      }
+
+      & .DateCalendarPicker__day-inner {
+        border-radius: 3px 0 0 3px;
+      }
+    }
+
+    &--range-end {
+      &:after {
+        left: 0;
+      }
+
+      & .DateCalendarPicker__day-inner {
+        border-radius: 0 3px 3px 0;
+      }
+    }
+  }
+}

@@ -25,6 +25,7 @@ export type Props<OptionValue> = {
   disabled?: boolean,
   loading?: boolean,
   searchable?: boolean,
+  multipleLabel?: boolean,
   'data-testid'?: string,
 };
 
@@ -41,6 +42,7 @@ const MultipleSelect = <OptionValue, >(props: Props<OptionValue>) => {
     disabled = false,
     loading = false,
     searchable = false,
+    multipleLabel = false,
   } = props;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -190,6 +192,16 @@ const MultipleSelect = <OptionValue, >(props: Props<OptionValue>) => {
     notifyParent(newCheckedOptions);
   };
 
+  const handleClickDeleteOption = (chosenValue: OptionValue, e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+
+    const newCheckedOptions = checkedOptions.filter(option => option.value !== chosenValue);
+
+    setCheckedOptions(newCheckedOptions);
+
+    notifyParent(newCheckedOptions);
+  };
+
   // Select all options
   const handleClickAll = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -219,6 +231,7 @@ const MultipleSelect = <OptionValue, >(props: Props<OptionValue>) => {
         className={classNames('MultipleSelect__control', {
           'MultipleSelect__control--disabled': disabled,
           'MultipleSelect__control--focused': focused,
+          'MultipleSelect__control--multipleLabel': multipleLabel,
         })}
       >
         <div className="MultipleSelect__control-label">
@@ -227,6 +240,24 @@ const MultipleSelect = <OptionValue, >(props: Props<OptionValue>) => {
             <When condition={loading}>
               <CircleLoader size={18} className="MultipleSelect__control-label-loader" />
               <div className="MultipleSelect__control-label-title">{I18n.t('COMMON.LOADING')}</div>
+            </When>
+
+            {/* Render control multipleLabel with options if it was chosen */}
+            <When condition={multipleLabel}>
+              <div className="MultipleSelect__control-label-title">
+                {checkedOptions.slice(0, 3).map(({ label: chosenLabel, value: chosenValue }) => (
+                  <div className="MultipleSelect__control-multipleLabel-title">
+                    {chosenLabel}
+                    <i
+                      className="icon icon-times MultipleSelect__placeholder-option-delete"
+                      onClick={(e: React.MouseEvent<HTMLDivElement>) => handleClickDeleteOption(chosenValue, e)}
+                    />
+                  </div>
+                ))}
+                {checkedOptions.length > 3 && I18n.t('COMMON.SELECT_OPTION.OPTION_MORE', {
+                  value: checkedOptions.length - 3,
+                })}
+              </div>
             </When>
 
             {/* Render control label with option.label if it was chosen */}

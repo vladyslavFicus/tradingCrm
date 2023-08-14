@@ -1,0 +1,9 @@
+.FormikSwitchField {
+  &__inner {
+    display: inline-flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    line-height: 0;
+    vertical-align: middle;
+  }
+}

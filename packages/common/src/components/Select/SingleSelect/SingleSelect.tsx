@@ -1,11 +1,18 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useMemo, useRef, useEffect, RefObject, ReactElement } from 'react';
 import I18n from 'i18n-js';
 import { v4 } from 'uuid';
 import { isEqual } from 'lodash';
 import classNames from 'classnames';
+// import { TradingAccount } from '__generated__/types';
 import { ShortLoader, CircleLoader, Input } from 'components';
 import { useOutsideClick, useKeyDown } from '../../../hooks';
 import './SingleSelect.scss';
+
+type SingleOption = {
+  onClick: () => void,
+  account: any,
+  forwardedRef: RefObject<HTMLDivElement>,
+};
 
 type WithGroup = {
   firstTitle?: string,
@@ -18,6 +25,7 @@ type Option<OptionValue> = {
   className?: string,
   disabled?: boolean,
   isFavourite?: boolean,
+  'data-account'?: SingleOption,
 };
 
 export type Props<OptionValue> = {
@@ -28,6 +36,7 @@ export type Props<OptionValue> = {
   value: OptionValue,
   error?: React.ReactNode,
   onChange?: (value: OptionValue) => void,
+  singleOptionComponent?: (singleOption: SingleOption) => React.ReactElement,
   focused?: boolean,
   disabled?: boolean,
   loading?: boolean,
@@ -47,6 +56,7 @@ const SingleSelect = <OptionValue, >(props: Props<OptionValue>) => {
     value,
     error,
     onChange = () => null,
+    singleOptionComponent = null,
     focused = false,
     disabled = false,
     loading = false,
@@ -65,6 +75,7 @@ const SingleSelect = <OptionValue, >(props: Props<OptionValue>) => {
 
   const idRef = useRef(`select-${v4()}`);
   const selectRef = useRef<HTMLDivElement>(null);
+  const customOptionRef = useRef<HTMLDivElement>(null);
 
   // Set current option depends on props.value
   useEffect(() => {
@@ -157,6 +168,21 @@ const SingleSelect = <OptionValue, >(props: Props<OptionValue>) => {
     ))
   );
 
+  const renderCustomOptions = () => {
+    const renderedOptions = _options.map((option) => {
+      const accountOption = {
+        account: option['data-account'],
+        onClick: () => handleOptionClick(option as Option<OptionValue>),
+        forwardedRef: customOptionRef,
+      };
+
+      return (
+        singleOptionComponent ? singleOptionComponent(accountOption as SingleOption) : null);
+    });
+
+    return renderedOptions;
+  };
+
   return (
     <div
       ref={selectRef}
@@ -246,6 +272,10 @@ const SingleSelect = <OptionValue, >(props: Props<OptionValue>) => {
 
               <Otherwise>
                 <Choose>
+                  <When condition={!withGroup && !!singleOptionComponent}>
+                    {renderCustomOptions()}
+                  </When>
+
                   <When condition={!withGroup}>
                     {renderOptions(filteredOptions)}
                   </When>

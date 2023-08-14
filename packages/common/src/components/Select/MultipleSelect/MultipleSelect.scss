@@ -9,8 +9,8 @@
 
   &__control {
     width: 100%;
-    height: 40px;
-    padding: 8px 8px 30px 12px;
+    min-height: 40px;
+    padding: 8px 8px 0px 12px;
     background-color: var(--form-background-default);
     border: 1px solid var(--form-border-default);
     border-radius: 3px;
@@ -32,6 +32,10 @@
       background-color: var(--form-background-disabled);
       border: 1px solid var(--form-border-disabled);
     }
+
+    &--multipleLabel {
+      padding-bottom: 0;
+    }
   }
 
   &__control-label {
@@ -49,6 +53,25 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-weight: 600;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__placeholder-option-delete {
+    margin: 0 5px 0 5px;
+    color: var(--state-colors-danger);
+
+    &:hover {
+      color: var(--state-colors-danger);
+    }
+  }
+
+  &__control-multipleLabel-title {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    margin: 0 6px 6px 0;
+    background: var(--form-background-selected);
   }
 
   &__control-icon {

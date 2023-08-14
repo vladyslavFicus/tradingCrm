@@ -1,0 +1,25 @@
+.FormikMultiInputField {
+  margin-bottom: 20px;
+
+  &__label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  &__error {
+    &-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      color: var(--state-colors-danger);
+      font-size: 12px;
+      margin: 4px 0;
+    }
+
+    &-icon {
+      margin-right: 5px;
+      font-size: 16px;
+    }
+  }
+}
