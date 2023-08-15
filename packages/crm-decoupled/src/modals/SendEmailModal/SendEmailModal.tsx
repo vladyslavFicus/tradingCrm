@@ -124,7 +124,7 @@ const SendEmailModal = (props: Props) => {
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               label={I18n.t('EMAILS.MODALS.EMAIL_SELECT.INPUT_SELECT_LABEL')}
               component={FormikSingleSelectField}
-              customOnChange={(value: TemplateId) => handleChangeTemplate(value, setValues)}
+              onChange={(value: TemplateId) => handleChangeTemplate(value, setValues)}
               options={optionsWithCustomEmail.map(({ id, name }) => ({
                 label: name,
                 value: id,

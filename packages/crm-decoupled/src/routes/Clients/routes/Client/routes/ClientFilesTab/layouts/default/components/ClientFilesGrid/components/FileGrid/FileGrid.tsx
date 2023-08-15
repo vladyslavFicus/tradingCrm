@@ -99,7 +99,7 @@ const FileGrid = (props: Props) => {
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               onChange={handleCahgeStatusesCategorySelect}
               options={statusesCategory.map(({ value, label }) => ({
-                label,
+                label: I18n.t(label),
                 value,
               }))}
             />

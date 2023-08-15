@@ -67,7 +67,7 @@ const FilesGridFilter = (props: Props) => {
               placeholder={I18n.t('FILES.FILTER.CATEGORY_PLACEHOLDER')}
               label={I18n.t('FILES.FILTER.CATEGORY')}
               component={FormikSingleSelectField}
-              customOnChange={(value: string) => handleVerificationTypeChange(value, setFieldValue)}
+              onChange={(value: string) => handleVerificationTypeChange(value, setFieldValue)}
               options={verificationTypes.map(item => ({
                 label: I18n.t(`FILES.CATEGORIES.${item}`),
                 value: item,

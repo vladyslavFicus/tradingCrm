@@ -176,7 +176,7 @@ const GroupNewSymbolModal = ({
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       className="GroupNewSymbolModal__field--large"
                       component={FormikSingleSelectField}
-                      customOnChange={(value: string) => handleSymbolChange(value, setFieldValue)}
+                      onChange={(value: string) => handleSymbolChange(value, setFieldValue)}
                       disabled={Boolean(groupSymbol)}
                       options={symbols.map(({ symbol }) => ({
                         label: symbol,

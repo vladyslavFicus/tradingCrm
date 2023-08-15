@@ -3,5 +3,5 @@
   "compilerOptions": {
     "baseUrl": "src",
   },
-  "include": ["src/**/*", "../common/src/types/common.ts", "../common/src/components/Forms/DynamicField", "../common/src/components/Forms/DynamicRangeGroup", "../common/src/components/Forms/RangeGroup"],
+  "include": ["src/**/*"],
 }

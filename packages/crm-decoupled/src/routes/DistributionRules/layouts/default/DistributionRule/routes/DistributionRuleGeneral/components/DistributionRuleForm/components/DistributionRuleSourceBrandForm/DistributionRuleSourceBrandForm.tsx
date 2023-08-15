@@ -269,7 +269,7 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
           label="&nbsp;"
           component={FormikSingleSelectField}
           disabled={!clientsAmountData}
-          customOnChange={(value: string) => {
+          onChange={(value: string) => {
             setFieldValue('sourceBrandConfig.distributionUnit.baseUnit', value);
             setFieldValue('targetBrandConfig.distributionUnit.baseUnit', value);
           }}

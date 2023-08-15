@@ -264,7 +264,7 @@ const CreatePaymentModal = (props: Props) => {
                 label={attributeLabels.paymentType}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 component={FormikSingleSelectField}
-                customOnChange={(value: PaymentValues) => (
+                onChange={(value: PaymentValues) => (
                   handlePaymentTypeChanged(value, {
                     setFieldValue,
                     resetForm,
@@ -429,7 +429,7 @@ const CreatePaymentModal = (props: Props) => {
                           className="CreatePaymentModal__field CreatePaymentModal__field--small"
                           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                           component={FormikSingleSelectField}
-                          customOnChange={(value: String) => (
+                          onChange={(value: String) => (
                             handleCommissionCurrencyChanged(value, {
                               setFieldValue,
                             } as FormikHelpers<String>)

@@ -59,7 +59,7 @@ const SymbolSettings = (props: Props) => {
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
           component={FormikSingleSelectField}
-          customOnChange={onChangeSymbolSource}
+          onChange={onChangeSymbolSource}
           options={symbolsSources.map(({ sourceName }) => ({
             label: sourceName,
             value: sourceName,

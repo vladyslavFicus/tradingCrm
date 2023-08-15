@@ -282,7 +282,7 @@ const UpdateRepresentativeModal = (props: Props) => {
                       : I18n.t('COMMON.SELECT_OPTION.ANY')
                   }
                 disabled={isDesksTeamsLoading || !desks.length}
-                customOnChange={(value: string) => handleBranchChange('desk', value, values, setFieldValue)}
+                onChange={(value: string) => handleBranchChange('desk', value, values, setFieldValue)}
                 component={FormikSingleSelectField}
                 options={desks.map(desk => ({
                   label: desk.name,
@@ -302,7 +302,7 @@ const UpdateRepresentativeModal = (props: Props) => {
                       : I18n.t('COMMON.SELECT_OPTION.ANY')
                   }
                 disabled={isDesksTeamsLoading || !teams.length}
-                customOnChange={(value: string) => handleBranchChange('team', value, values, setFieldValue)}
+                onChange={(value: string) => handleBranchChange('team', value, values, setFieldValue)}
                 component={FormikSingleSelectField}
                 options={teams.map(team => ({
                   label: team.name,

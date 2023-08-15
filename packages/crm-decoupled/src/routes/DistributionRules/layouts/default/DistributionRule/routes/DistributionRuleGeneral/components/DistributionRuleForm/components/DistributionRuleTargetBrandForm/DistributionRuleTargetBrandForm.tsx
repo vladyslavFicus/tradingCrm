@@ -60,7 +60,7 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
           placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_BRAND')}
           component={FormikSingleSelectField}
           disabled={brandsLoading || !isEditEnabled}
-          customOnChange={onChangeBrand}
+          onChange={onChangeBrand}
           options={brands.map(brand => ({
             label: brand.brandName,
             value: brand.brandId,

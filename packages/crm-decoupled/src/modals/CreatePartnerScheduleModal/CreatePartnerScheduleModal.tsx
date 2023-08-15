@@ -192,7 +192,7 @@ const CreatePartnerScheduleModal = (props: Props) => {
                         name={`countrySpreads[${index}].country`}
                         data-testid={`CreatePartnerScheduleModal-countrySpreads[${index}]CountryInput`}
                         component={FormikSingleSelectField}
-                        customOnChange={(value: string) => onHandleSelect(
+                        onChange={(value: string) => onHandleSelect(
                           index,
                           `countrySpreads[${index}].country`,
                           value,

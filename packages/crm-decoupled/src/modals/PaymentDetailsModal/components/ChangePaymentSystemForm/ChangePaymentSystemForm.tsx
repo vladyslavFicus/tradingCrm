@@ -99,7 +99,7 @@ const ChangePaymentSystemForm = (props: Props) => {
               component={FormikSingleSelectField}
               disabled={loading}
               withGroup={{ firstTitle: 'COMMON.FAVORITE', secondTitle: 'COMMON.OTHER' }}
-              customOnChange={(value: string) => onChangePaymentSystem(value, setFieldValue)}
+              onChange={(value: string) => onChangePaymentSystem(value, setFieldValue)}
               options={[
                 { label: I18n.t('COMMON.NONE'), value: 'UNDEFINED' },
                 ...paymentSystems.map(({ paymentSystem, isFavourite }) => ({

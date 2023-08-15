@@ -100,7 +100,7 @@ const UploadingFileModal = (props: Props) => {
           placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY_DEFAULT_OPTION')}
           name={`${fileUuid}.category`}
           component={FormikSingleSelectField}
-          customOnChange={(value: string) => {
+          onChange={(value: string) => {
             setSelectedCategory(value);
             customFieldChange({
               category: value,

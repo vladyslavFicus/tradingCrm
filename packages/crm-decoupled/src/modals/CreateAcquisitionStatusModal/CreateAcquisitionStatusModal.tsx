@@ -134,7 +134,7 @@ const CreateAcquisitionStatusModal = (props: Props) => {
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     className="CreateAcquisitionStatusModal__field--large"
                     component={FormikSingleSelectField}
-                    customOnChange={(type: AcquisitionStatusTypes) => handleTypeChange(type, setFieldValue)}
+                    onChange={(type: AcquisitionStatusTypes) => handleTypeChange(type, setFieldValue)}
                     options={[
                       {
                         label: I18n.t('SETTINGS.ACQUISITION_STATUSES.TYPES.SALES'),

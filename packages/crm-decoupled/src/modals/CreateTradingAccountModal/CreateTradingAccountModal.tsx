@@ -123,7 +123,7 @@ const TradingAccountAddModal = (props: Props) => {
                   component={FormikSingleSelectField}
                   label={I18n.t(attributeLabels.platformType)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                  customOnChange={(value: string) => handleChangePlatformType(values, value, setFieldValue)}
+                  onChange={(value: string) => handleChangePlatformType(values, value, setFieldValue)}
                   options={platformTypes.map(({ value, label }) => ({
                     label,
                     value,

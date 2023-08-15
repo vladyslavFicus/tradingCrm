@@ -126,7 +126,7 @@ const CreateTeamModal = (props: Props) => {
                   label={I18n.t(attributeLabels.officeUuid)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_OFFICE')}
                   component={FormikSingleSelectField}
-                  customOnChange={(value: string) => handleOfficeChange(value, setFieldValue)}
+                  onChange={(value: string) => handleOfficeChange(value, setFieldValue)}
                   disabled={isSubmitting || loading}
                   options={offices.map(({ name, uuid }) => ({
                     label: name,
