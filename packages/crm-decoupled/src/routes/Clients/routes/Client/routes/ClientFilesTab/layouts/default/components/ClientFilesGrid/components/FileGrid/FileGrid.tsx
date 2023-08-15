@@ -3,10 +3,10 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Utils, Types, Constants } from '@crm/common';
-import { TokenRefreshMutationMutationFn }
-  from 'routes/Clients/routes/Client/routes/ClientFilesTab/graphql/__generated__/TokenRefreshMutation';
 import { EditButton, DownloadButton, TrashButton, ShortLoader, SingleSelect } from 'components';
 import { File } from '__generated__/types';
+import { TokenRefreshMutationMutationFn }
+  from 'routes/Clients/routes/Client/routes/ClientFilesTab/graphql/__generated__/TokenRefreshMutation';
 import { Table, Column } from 'components/Table';
 import GridEmptyValue from 'components/GridEmptyValue';
 import Uuid from 'components/Uuid';

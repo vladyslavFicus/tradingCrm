@@ -3,8 +3,9 @@ import { get } from 'lodash';
 import { useLocation } from 'react-router-dom';
 import { Field } from 'formik';
 import { Types } from '@crm/common';
+import { Option } from '../../Select';
 
-type Props = {
+type Props<OptionValue> = {
   name: string,
   className?: string,
   label?: string,
@@ -28,9 +29,10 @@ type Props = {
     to: string,
   },
   onFetch?: () => void,
+  options?: Array<Option<OptionValue>>,
 };
 
-const DynamicField = (props: Props) => {
+const DynamicField = <OptionValue, >(props: Props<OptionValue>) => {
   const { name, onFetch } = props;
 
   const state = useLocation().state as Types.State;

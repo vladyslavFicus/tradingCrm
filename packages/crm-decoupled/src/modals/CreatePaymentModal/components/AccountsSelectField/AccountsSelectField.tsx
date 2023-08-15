@@ -1,10 +1,10 @@
-import React, { RefObject, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { Constants } from '@crm/common';
 import { Field } from 'formik';
-import { FormikSingleSelectField } from 'components';
 import { TradingAccount } from '__generated__/types';
+import { FormikSingleSelectField } from 'components';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Badge from 'components/Badge';
 import { paymentTypes, attributeLabels } from '../../constants';
@@ -23,12 +23,6 @@ type Props = {
   className?: string,
 };
 
-type SingleOption = {
-  onClick: () => void,
-  'data-account': TradingAccount,
-  forwardedRef: RefObject<HTMLDivElement>,
-};
-
 const AccountsSelectField = (props: Props) => {
   const {
     name,
@@ -41,10 +35,7 @@ const AccountsSelectField = (props: Props) => {
     },
   } = props;
 
-  const renderOption = (singleOption: SingleOption) => {
-    const { onClick, forwardedRef } = singleOption;
-    const account = singleOption['data-account'] as TradingAccount;
-
+  const renderOption = (account: TradingAccount) => {
     const isInsufficientBalance = (
       account.balance < amount
       && [paymentTypes.WITHDRAW.name, paymentTypes.TRANSFER.name].includes(paymentType)
@@ -57,11 +48,7 @@ const AccountsSelectField = (props: Props) => {
     );
 
     return (
-      <div
-        ref={forwardedRef}
-        className="AccountsSelectField__option"
-        onClick={isInsufficientBalance || isInsufficientCredit ? () => {} : onClick}
-      >
+      <div className="AccountsSelectField__option">
         <div className="AccountsSelectField__option-title">
           <Badge
             center
@@ -119,19 +106,18 @@ const AccountsSelectField = (props: Props) => {
     <Field
       className={classNames('AccountsSelectField', className)}
       name={name}
+      customOption
       label={attributeLabels[label]}
       placeholder={!tradingAccounts.length
         ? I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
         : I18n.t('COMMON.SELECT_OPTION.DEFAULT')
         }
-      singleOptionComponent={renderOption}
       disabled={!tradingAccounts.length}
       component={FormikSingleSelectField}
       showErrorMessage={false}
       options={filterTradingAccounts.map(account => ({
-        label: account.login,
-        value: account.accountUUID,
-        'data-account': account,
+        label: renderOption(account),
+        value: account.accountUUID as string,
       }))}
     />
   );

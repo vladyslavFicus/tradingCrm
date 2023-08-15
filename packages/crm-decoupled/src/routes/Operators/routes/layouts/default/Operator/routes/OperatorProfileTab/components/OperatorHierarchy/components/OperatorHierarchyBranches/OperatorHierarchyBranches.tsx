@@ -124,7 +124,7 @@ const OperatorHierarchyBranches = (props: Props) => {
                       data-testid="OperatorHierarchyBranches-brandIdSelect"
                       label={I18n.t(attributeLabels.brandId)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                      customOnChange={(value: string) => handleBrandChange(value, setFieldValue)}
+                      onChange={(value: string) => handleBrandChange(value, setFieldValue)}
                       component={FormikSingleSelectField}
                       disabled={isSubmitting || brandsLoading}
                       options={brandsList.map(brand => ({
@@ -140,7 +140,7 @@ const OperatorHierarchyBranches = (props: Props) => {
                       data-testid="OperatorHierarchyBranches-branchTypeSelect"
                       label={I18n.t(attributeLabels.branchType)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                      customOnChange={(value: string) => handleBranchTypeChange(value, setFieldValue)}
+                      onChange={(value: string) => handleBranchTypeChange(value, setFieldValue)}
                       component={FormikSingleSelectField}
                       disabled={isSubmitting || !values.brandId}
                       options={branchTypesOptions.map(branchType => ({

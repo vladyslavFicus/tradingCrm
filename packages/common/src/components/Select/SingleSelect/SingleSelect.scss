@@ -32,6 +32,11 @@
       background-color: var(--form-background-disabled);
       border: 1px solid var(--form-border-disabled);
     }
+
+    &--custom {
+      height: fit-content;
+      padding-bottom: 8px;
+    }
   }
 
   &__control-label {
@@ -148,6 +153,11 @@
     &--disabled {
       cursor: not-allowed !important;
       color: var(--dropdown-options-color-disabled) !important;
+    }
+
+    &--custom {
+      border-bottom: 1px solid grey;
+      border-radius: 0;
     }
   }
 

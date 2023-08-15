@@ -1,31 +1,23 @@
-import React, { useState, useMemo, useRef, useEffect, RefObject } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import I18n from 'i18n-js';
 import { v4 } from 'uuid';
 import { isEqual } from 'lodash';
 import classNames from 'classnames';
-// import { TradingAccount } from '__generated__/types';
 import { ShortLoader, CircleLoader, Input } from 'components';
 import { useOutsideClick, useKeyDown } from '../../../hooks';
 import './SingleSelect.scss';
-
-type SingleOption = {
-  onClick: () => void,
-  account: any,
-  forwardedRef: RefObject<HTMLDivElement>,
-};
 
 type WithGroup = {
   firstTitle?: string,
   secondTitle?: string,
 };
 
-type Option<OptionValue> = {
+export type Option<OptionValue> = {
   label: string,
   value?: OptionValue,
   className?: string,
   disabled?: boolean,
   isFavourite?: boolean,
-  'data-account'?: SingleOption,
 };
 
 export type Props<OptionValue> = {
@@ -36,7 +28,6 @@ export type Props<OptionValue> = {
   value: OptionValue,
   error?: React.ReactNode,
   onChange?: (value: OptionValue) => void,
-  singleOptionComponent?: (singleOption: SingleOption) => React.ReactElement,
   focused?: boolean,
   disabled?: boolean,
   loading?: boolean,
@@ -44,6 +35,7 @@ export type Props<OptionValue> = {
   isFavourite?: boolean,
   withAnyOption?: boolean,
   withGroup?: WithGroup,
+  customOption?: boolean,
   'data-testid'?: string,
 };
 
@@ -56,12 +48,12 @@ const SingleSelect = <OptionValue, >(props: Props<OptionValue>) => {
     value,
     error,
     onChange = () => null,
-    singleOptionComponent = null,
     focused = false,
     disabled = false,
     loading = false,
     searchable = false,
     withAnyOption = false,
+    customOption = false,
     withGroup,
   } = props;
 
@@ -75,7 +67,6 @@ const SingleSelect = <OptionValue, >(props: Props<OptionValue>) => {
 
   const idRef = useRef(`select-${v4()}`);
   const selectRef = useRef<HTMLDivElement>(null);
-  const customOptionRef = useRef<HTMLDivElement>(null);
 
   // Set current option depends on props.value
   useEffect(() => {
@@ -160,6 +151,7 @@ const SingleSelect = <OptionValue, >(props: Props<OptionValue>) => {
         className={classNames('SingleSelect__menu-item', {
           'SingleSelect__menu-item--active': isEqual(currentOption, option),
           'SingleSelect__menu-item--disabled': option.disabled,
+          'SingleSelect__menu-item--custom': customOption,
         }, option.className)}
         onClick={() => handleOptionClick(option as Option<OptionValue>)}
       >
@@ -167,21 +159,6 @@ const SingleSelect = <OptionValue, >(props: Props<OptionValue>) => {
       </div>
     ))
   );
-
-  const renderCustomOptions = () => {
-    const renderedOptions = _options.map((option) => {
-      const accountOption = {
-        account: option['data-account'],
-        onClick: () => handleOptionClick(option as Option<OptionValue>),
-        forwardedRef: customOptionRef,
-      };
-
-      return (
-        singleOptionComponent ? singleOptionComponent(accountOption as SingleOption) : null);
-    });
-
-    return renderedOptions;
-  };
 
   return (
     <div
@@ -199,6 +176,7 @@ const SingleSelect = <OptionValue, >(props: Props<OptionValue>) => {
         className={classNames('SingleSelect__control', {
           'SingleSelect__control--disabled': disabled,
           'SingleSelect__control--focused': focused,
+          'SingleSelect__control--custom': customOption,
         })}
       >
         <div className="SingleSelect__control-label">
@@ -272,10 +250,6 @@ const SingleSelect = <OptionValue, >(props: Props<OptionValue>) => {
 
               <Otherwise>
                 <Choose>
-                  <When condition={!withGroup && !!singleOptionComponent}>
-                    {renderCustomOptions()}
-                  </When>
-
                   <When condition={!withGroup}>
                     {renderOptions(filteredOptions)}
                   </When>
