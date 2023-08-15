@@ -6,7 +6,7 @@ import compose from 'compose-function';
 import onClickOutside from 'react-onclickoutside';
 import { difference, isObject } from 'lodash';
 import { Popover } from 'reactstrap';
-import { Utils } from '@crm/common';
+import { shallowEqual, deleteFromArray } from '../../../utils';
 import SelectSearchBox, {
   filterOptionsByQuery,
   filterOptionsByQueryWithMultiple,
@@ -40,7 +40,7 @@ const objectShallowEqual = (current, next) => {
     return current === next;
   }
 
-  return Utils.shallowEqual(current, next);
+  return shallowEqual(current, next);
 };
 
 class Select extends PureComponent {
@@ -134,7 +134,7 @@ class Select extends PureComponent {
     const { value } = nextProps;
     let options = originalOptions;
 
-    if (!Utils.shallowEqual(children, nextProps.children) && !opened) {
+    if (!shallowEqual(children, nextProps.children) && !opened) {
       options = [...filterOptions(nextProps.children)];
 
       const selectedOptions = multiple
@@ -262,7 +262,7 @@ class Select extends PureComponent {
     const { query, originalSelectedOptions } = this.state;
     const deletedOptions = originalSelectedOptions.filter(option => !options.includes(option));
     const newOriginalSelectedOptions = deletedOptions
-      .reduce((res, option) => Utils.deleteFromArray(res, option), originalSelectedOptions);
+      .reduce((res, option) => deleteFromArray(res, option), originalSelectedOptions);
 
     if (originalSelectedOptions.length !== newOriginalSelectedOptions.length) {
       this.updateState({

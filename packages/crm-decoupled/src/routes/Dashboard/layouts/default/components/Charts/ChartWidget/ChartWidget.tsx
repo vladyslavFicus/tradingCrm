@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { Modal, ModalBody } from 'reactstrap';
 import { TooltipProps } from 'recharts';
 import { Utils, Types } from '@crm/common';
-import { ShortLoader, Select } from 'components';
+import { ShortLoader, SingleSelect } from 'components';
 import { ChartData, DateRange, SummaryData, SelectOption } from 'routes/Dashboard/types';
 import { chartSelectOptions } from 'routes/Dashboard/constants';
 import { valueFormatter, getSummaryValue } from 'routes/Dashboard/utils';
@@ -80,16 +80,15 @@ const ChartWidget = (props: Props) => {
             </Otherwise>
           </Choose>
 
-          <Select
-            // Required because the Select component is not the TS component and doesn't support typing
+          <SingleSelect
             value={selectOption}
-            customClassName="ChartWidget__select"
+            className="ChartWidget__select"
             onChange={handleSelectChange}
-          >
-            {Utils.enumToArray(SelectOption).map(key => (
-              <option key={key} value={key}>{chartSelectOptions[key].label}</option>
-            ))}
-          </Select>
+            options={Utils.enumToArray(SelectOption).map(key => ({
+              label: chartSelectOptions[key].label,
+              value: key,
+            }))}
+          />
         </div>
       </div>
 

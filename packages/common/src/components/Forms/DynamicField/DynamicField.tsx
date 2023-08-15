@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { get } from 'lodash';
 import { useLocation } from 'react-router-dom';
 import { Field } from 'formik';
-import { Types } from '@crm/common';
+import { State } from '../../../types';
 import { Option } from '../../Select';
 
 type Props<OptionValue> = {
@@ -35,7 +35,7 @@ type Props<OptionValue> = {
 const DynamicField = <OptionValue, >(props: Props<OptionValue>) => {
   const { name, onFetch } = props;
 
-  const state = useLocation().state as Types.State;
+  const state = useLocation().state as State;
 
   const shouldFieldRender = React.useMemo(() => {
     const fieldName = name?.split('.')[0];

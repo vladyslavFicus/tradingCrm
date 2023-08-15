@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { v4 } from 'uuid';
-import { Utils } from '@crm/common';
+import { deleteFromArray } from '../../../utils';
 import './SelectMultipleOptions.scss';
 
 const OptionPropType = PropTypes.shape({
@@ -39,7 +39,7 @@ class SelectMultipleOptions extends PureComponent {
   };
 
   handleDeleteOption = (option) => {
-    const newSelectedOptions = Utils.deleteFromArray(this.props.selectedOptions, option);
+    const newSelectedOptions = deleteFromArray(this.props.selectedOptions, option);
 
     if (newSelectedOptions.length !== this.props.selectedOptions.length) {
       this.props.onChange(newSelectedOptions);
