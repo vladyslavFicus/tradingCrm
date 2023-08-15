@@ -7,7 +7,7 @@ import UnauthorizedLayout from 'layouts/UnauthorizedLayout';
 import AuthorizedLayout from 'layouts/AuthorizedLayout';
 import NotFound from 'routes/NotFound';
 import Logout from 'routes/Logout';
-import SignIn from 'routes/SignIn';
+import SignIn from 'routes/SignIn/SignIn';
 import ResetPassword from 'routes/ResetPassword';
 import Brands from 'routes/Brands';
 import Dashboard from 'routes/Dashboard';
