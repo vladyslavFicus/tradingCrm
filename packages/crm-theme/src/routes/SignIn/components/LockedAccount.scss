@@ -1,0 +1,38 @@
+.LockedAccount {
+  margin: 0 auto;
+  max-width: 400px;
+  width: 100%;
+
+  &__header {
+    display: flex;
+    font-size: 48px;
+    font-weight: 700;
+  }
+
+  &__icon {
+    margin: auto 15px auto 90px;
+  }
+
+  &__error {
+    height: 88px;
+    margin: 20px 0;
+    padding: 20px 20%;
+    font-weight: 700;
+    text-align: center;
+    background: #fb43491a;
+    color: var(--state-colors-danger);
+  }
+
+  &__link {
+    color: var(--state-colors-info);
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+  }
+
+  &__link-text {
+    text-decoration-line: underline;
+    font-size: 16px;
+    margin-left: 10px;
+  }
+}

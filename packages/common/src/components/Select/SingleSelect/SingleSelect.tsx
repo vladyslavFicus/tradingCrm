@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { v4 } from 'uuid';
 import { isEqual } from 'lodash';
 import classNames from 'classnames';
-import { ShortLoader, CircleLoader, Input } from 'components';
+import { ShortLoader, CircleLoader, Input } from '../..';
 import { useOutsideClick, useKeyDown } from '../../../hooks';
 import './SingleSelect.scss';
 

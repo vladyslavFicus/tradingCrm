@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from 'components';
+import { Input } from '..';
 
 type Props = {
   onChange: (value: number | null) => void,

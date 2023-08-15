@@ -2938,12 +2938,15 @@
     }
   },
   "SIGN_IN": {
+    "TITLE": "Sign In",
     "EMAIL": "Email",
     "PASSWORD": "Password",
     "LOGIN": "Login",
     "NEXT": "Next",
     "OTP": "OTP",
-    "NEED_REGISTER_ACCOUNT": "Need to register account by Google Authenticator"
+    "NEED_REGISTER_ACCOUNT": "Need to register account by Google Authenticator",
+    "OOPS": "Oops!",
+    "ANOTHER_ACCOUNT": "Sign in to another account"
   },
   "CLIENT_PROFILE": {
     "TABS": {

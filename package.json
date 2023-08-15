@@ -9,6 +9,7 @@
   "main": "index.js",
   "scripts": {
     "start": "lerna run start --scope=@crm/{crm-decoupled,common}",
+    "start:theme": "lerna run start --scope=@crm/{crm-theme,common}",
     "build": "lerna run codegen --scope=@crm/{crm-decoupled,common} && lerna run build --scope @crm/crm-decoupled",
     "registry:login": "npm login --registry=https://nexus.cyberhat.guru/repository/hrzn-npm/",
     "eslint": "eslint \"packages/*/src/**/*.{js,jsx,ts,tsx,json,gql}\" --fix"

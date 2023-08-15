@@ -8,3 +8,4 @@ export * from './providers';
 export * from './apollo';
 export * from './i18n';
 export * from './rsocket';
+export * as Routes from './routes';

@@ -1,0 +1,410 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;900&family=Roboto+Mono&display=swap");
+
+:root {
+  /* Fonts */
+  --base-font-family: "Open Sans", sans-serif;
+
+  /* --- GLOBAL --- */
+  --accent: rgba(82, 135, 189, 1);
+  --active: rgba(1, 144, 218, 1);
+  --divider: rgba(221, 221, 221, 1);
+  --box-shadow-color: rgba(0, 0, 0, 0.15);
+  --skeleton: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+  /* --- END GLOBAL --- */
+
+  /* --- SURFACE --- */
+  --surface-filters-background: #f2f4f8;
+  --surface-page-background: #ffffff;
+  --surface-page-border: #dddddd;
+  --surface-body-background: #f2f2f2;
+  --surface-frame-background: #fff;
+  --surface-frame-border: #dddddd;
+  --surface-note: #fffde6;
+  --surface-gradient-background: linear-gradient(
+    180deg,
+    #ffffff 49.73%,
+    #f8f8f8 100%
+  );
+  --hint-background: #000000;
+  --hint-color: #ffffff;
+  /* --- END SURFACE --- */
+
+  /* --- NAVIGATION --- */
+  --navigation-primary-background: #000000;
+  --navigation-secondary-background: #252525;
+  --navigation-secondary-color: #999999;
+  --navigation-primary-color: #ffffff;
+  /* --- END NAVIGATION --- */
+
+  /* --- UNAUTHORIZED LAYOUT --- */
+  --unauthorized-layout-color: #ffffff;
+  --unauthorized-layout-copyright-color: #999999;
+  --unauthorized-layout-header-background: #000000;
+  --unauthorized-layout-body-background: #000000;
+  --unauthorized-layout-surface-color: #999999;
+  --unauthorized-layout-surface-background-default: #252525;
+  --unauthorized-layout-surface-border-default: #999999;
+  --unauthorized-layout-surface-border-hover: #ffffff;
+  /* --- END UNAUTHORIZED LAYOUT --- */
+
+  /* --- STATE COLORS --- */
+  --state-colors-success: #46be8a;
+  --state-colors-info: #0190da;
+  --state-colors-none: #9b9b9b;
+  --state-colors-warning: #f39834;
+  --state-colors-danger: #fb434a;
+  --state-colors-content: #ffffff;
+  /* --- END STATE COLORS --- */
+
+  /* --- TEXT --- */
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  /* --- END TEXT --- */
+
+  /* --- LINK --- */
+  /* ---  Default: --- */
+  --link-default: #666666;
+
+  /* ---  Hover: --- */
+  --link-hover: #333333;
+
+  /* ---  Focus: --- */
+  --link-focus: #333333;
+
+  /* ---  Disabled: --- */
+  --link-disabled: #e3e3e3;
+  /* --- END LINK --- */
+
+  /* --- BRAND GRADIENT --- */
+  --window-header-background-info: linear-gradient(
+    90deg,
+    #4a90e2 0%,
+    #24bdee 100%
+  );
+  --window-header-color: #fff;
+  --window-header-background-warning: #e18b5b;
+  /* --- END BRAND GRADIENT --- */
+
+  /* --- FORM --- */
+  /* ---  Placeholder: --- */
+  --form-color-placeholder: #9b9b9b;
+
+  /* ---  Default: --- */
+  --form-border-default: #cfcfcf;
+  --form-background-default: #ffffff;
+  --form-color-default: #4a4a4a;
+  --form-icon-button-default: #cfcfcf;
+
+  /* ---  Hover: --- */
+  --form-border-hover: #0190da;
+  --form-background-hover: #ffffff;
+  --form-color-hover: #4a4a4a;
+  --form-icon-button-hover: #9b9b9b;
+
+  /* ---  Focus: --- */
+  --form-border-focus: #0190da;
+  --form-background-focus: #ffffff;
+  --form-color-focus: #4a4a4a;
+  --form-icon-button-focus: #9b9b9b;
+  --form-background-selected: rgba(135, 206, 250, 0.3);
+
+  /* ---  Disabled: --- */
+  --form-border-disabled: #cfcfcf;
+  --form-background-disabled: #f6f6f6;
+  --form-color-disabled: #9b9b9b;
+  --form-icon-button-disabled: #cfcfcf;
+  /* --- END FORM --- */
+
+  /* --- DROPDOWN-SELECT --- */
+  --dropdown-surface-background: rgba(255, 255, 255, 1);
+  --dropdown-surface-border: rgba(155, 155, 155, 1);
+
+  /* ---  Default: --- */
+  --dropdown-options-background-default: #ffffff;
+  --dropdown-options-color-default: #333333;
+  --dropdown-options-border-default: #ffffff;
+
+  /* ---  Hover: --- */
+  --dropdown-options-background-hover: rgba(135, 206, 250, 0.3);
+  --dropdown-options-color-hover: #000000;
+  --dropdown-options-border-hover: #ffffff;
+
+  /* ---  Focus: --- */
+  --dropdown-options-background-focus: #0190da;
+  --dropdown-options-color-focus: #ffffff;
+  --dropdown-options-border-focus: #ffffff;
+
+  /* ---  Disabled: --- */
+  --dropdown-options-background-disabled: #ffffff;
+  --dropdown-options-color-disabled: #b7b7b7;
+  --dropdown-options-border-disabled: #ffffff;
+
+  /* ---  For date picker: --- */
+  --dropdown-options-background-current-date: #e9fbe4;
+  --dropdown-options-color-current-date: #000000;
+  --dropdown-options-border-current-date: #000000;
+  /* --- END DROPDOWN-SELECT --- */
+
+  /* --- MULTIOPTIONS --- */
+  --dropdown-multioptions-default: #333333;
+  --dropdown-multioptions-hover: #000000;
+  --dropdown-multioptions-selected: #0190da;
+  /* --- END MULTIOPTIONS --- */
+
+  /* --- BUTTON Primary --- */
+  /* ---  Default: --- */
+  --button-primary-background-default: linear-gradient(
+    90deg,
+    #4a90e2 0%,
+    #24bdee 100%
+  );
+  --button-primary-color-default: #ffffff;
+  --button-primary-border-default: transparent;
+
+  /* ---  Hover: --- */
+  --button-primary-background-hover: linear-gradient(
+    90deg,
+    #297bdc 0%,
+    #1db8ed 100%
+  );
+  --button-primary-color-hover: #ffffff;
+  --button-primary-border-hover: transparent;
+
+  /* ---  Focus: --- */
+  --button-primary-background-focus: linear-gradient(
+    90deg,
+    #4a90e2 0%,
+    #24bdee 100%
+  );
+  --button-primary-color-focus: #ffffff;
+  --button-primary-border-focus: transparent;
+
+  /* ---  Disabled: --- */
+  --button-primary-background-disabled: #d3d3d3;
+  --button-primary-color-disabled: #ffffff;
+  --button-primary-border-disabled: transparent;
+  /* --- END BUTTON Primary --- */
+
+  /* --- BUTTON Secondary --- */
+  /* ---  Default: --- */
+  --button-secondary-background-default: #ffffff;
+  --button-secondary-color-default: #0190da;
+  --button-secondary-border-default: #9b9b9b;
+
+  /* ---  Hover: --- */
+  --button-secondary-background-hover: #f9f9f9;
+  --button-secondary-color-hover: #0190da;
+  --button-secondary-border-hover: #9b9b9b;
+
+  /* ---  Focus: --- */
+  --button-secondary-background-focus: #f9f9f9;
+  --button-secondary-color-focus: #0190da;
+  --button-secondary-border-focus: #9b9b9b;
+
+  /* ---  Disabled: --- */
+  --button-secondary-background-disabled: #ffffff;
+  --button-secondary-color-disabled: #e3e3e3;
+  --button-secondary-border-disabled: #e3e3e3;
+  /* --- END BUTTON Secondary --- */
+
+  /* --- BUTTON Tertiary --- */
+  /* ---  Default: --- */
+  --button-tertiary-background-default: #ffffff;
+  --button-tertiary-color-default: #9b9b9b;
+  --button-tertiary-border-default: #9b9b9b;
+
+  /* ---  Hover: --- */
+  --button-tertiary-background-hover: #f9f9f9;
+  --button-tertiary-color-hover: #9b9b9b;
+  --button-tertiary-border-hover: #9b9b9b;
+
+  /* ---  Focus: --- */
+  --button-tertiary-background-focus: #f9f9f9;
+  --button-tertiary-color-focus: #9b9b9b;
+  --button-tertiary-border-focus: #9b9b9b;
+
+  /* ---  Disabled: --- */
+  --button-tertiary-background-disabled: #ffffff;
+  --button-tertiary-color-disabled: #e3e3e3;
+  --button-tertiary-border-disabled: #e3e3e3;
+  /* --- END BUTTON Tertiary --- */
+
+  /* --- BUTTON Danger --- */
+  /* ---  Default: --- */
+  --button-danger-background-default: linear-gradient(
+    to left,
+    #f99939,
+    #f76b1c
+  );
+  --button-danger-color-default: #ffffff;
+  --button-danger-border-default: transparent;
+
+  /* ---  Hover: --- */
+  --button-danger-background-hover: linear-gradient(to left, #f78717, #f55000);
+  --button-danger-color-hover: #ffffff;
+  --button-danger-border-hover: transparent;
+
+  /* ---  Focus: --- */
+  --button-danger-background-focus: linear-gradient(to left, #f78717, #f55000);
+  --button-danger-color-focus: #ffffff;
+  --button-danger-border-focus: transparent;
+
+  /* ---  Disabled: --- */
+  --button-danger-background-disabled: #d3d3d3;
+  --button-danger-color-disabled: #ffffff;
+  --button-danger-border-disabled: transparent;
+  /* --- END BUTTON Danger --- */
+
+  /* --- BUTTON Success --- */
+  /* ---  Default: --- */
+  --button-success-background-default: linear-gradient(
+    to left,
+    #46be8a,
+    #2a9d5c
+  );
+  --button-success-color-default: #ffffff;
+  --button-success-border-default: transparent;
+
+  /* ---  Hover: --- */
+  --button-success-background-hover: linear-gradient(to left, #3dac7c, #2a9d5c);
+  --button-success-color-hover: #ffffff;
+  --button-success-border-hover: transparent;
+
+  /* ---  Focus: --- */
+  --button-success-background-focus: linear-gradient(to left, #3dac7c, #2a9d5c);
+  --button-success-color-focus: #ffffff;
+  --button-success-border-focus: transparent;
+
+  /* ---  Disabled: --- */
+  --button-success-background-disabled: #d3d3d3;
+  --button-success-color-disabled: #ffffff;
+  --button-success-border-disabled: transparent;
+  /* --- END BUTTON Tertiary --- */
+
+  /* --- BUTTON Icon --- */
+  /* ---  Default: --- */
+  --button-icon-button-default: #666666;
+
+  /* ---  Hover: --- */
+  --button-icon-button-hover: #0190da;
+
+  /* ---  Focus: --- */
+  --button-icon-button-focus: #0190da;
+
+  /* ---  Disabled: --- */
+  --button-icon-button-disabled: #e3e3e3;
+  /* --- END BUTTON Icon --- */
+
+  /* --- BUTTON Icon inverse --- */
+  /* ---  Default: --- */
+  --button-icon-button-inverse-default: #ffffff;
+
+  /* ---  Hover: --- */
+  --button-icon-button-inverse-hover: #f5f5f5;
+
+  /* ---  Focus: --- */
+  --button-icon-button-inverse-focus: #f5f5f5;
+
+  /* ---  Disabled: --- */
+  --button-icon-button-inverse-disabled: #f5f5f5;
+  /* --- END BUTTON Icon inverse --- */
+
+  /* --- CHECKBOX --- */
+  /* ---  Unselected default: --- */
+  --checkbox-unselected-background-default: #ffffff;
+  --checkbox-unselected-border-default: #9b9b9b;
+  /* ---  Selected default: --- */
+  --checkbox-selected-background-default: #ffffff;
+  --checkbox-selected-color-default: #0190da;
+  --checkbox-selected-border-default: #0190da;
+  /* ---  Unselected hover: --- */
+  --checkbox-unselected-background-hover: #f9f9f9;
+  --checkbox-unselected-border-hover: #9b9b9b;
+  /* ---  Selected hover: --- */
+  --checkbox-selected-background-hover: #f9f9f9;
+  --checkbox-selected-color-hover: #0190da;
+  --checkbox-selected-border-hover: #0190da;
+  /* ---  Unselected focus: --- */
+  --checkbox-unselected-background-focus: #f9f9f9;
+  --checkbox-unselected-border-focus: #9b9b9b;
+  /* ---  Selected focus: --- */
+  --checkbox-selected-background-focus: #f9f9f9;
+  --checkbox-selected-color-focus: #0190da;
+  --checkbox-selected-border-focus: #0190da;
+  /* ---  Unselected disabled: --- */
+  --checkbox-unselected-background-disabled: #ffffff;
+  --checkbox-unselected-border-disabled: #e3e3e3;
+  /* ---  Selected disabled: --- */
+  --checkbox-selected-background-disabled: #ffffff;
+  --checkbox-selected-color-disabled: #cbdbeb;
+  --checkbox-selected-border-disabled: #cbdbeb;
+  /* --- END CHECKBOX --- */
+
+  /* --- SWITCHES --- */
+  /* ---  Unselected default: --- */
+  --switch-unselected-toggle-default: #ffffff;
+  --switch-unselected-background-default: #cccccc;
+  /* ---  Selected default: --- */
+  --switch-selected-toggle-default: #ffffff;
+  --switch-selected-background-default: #0190da;
+  /* ---  Unselected hover: --- */
+  --switch-unselected-toggle-hover: #ffffff;
+  --switch-unselected-background-hover: #cccccc;
+  /* ---  Selected hover: --- */
+  --switch-selected-toggle-hover: #ffffff;
+  --switch-selected-background-hover: #0190da;
+  /* ---  Unselected focus: --- */
+  --switch-unselected-toggle-focus: #ffffff;
+  --switch-unselected-background-focus: #cccccc;
+  /* ---  Selected focus: --- */
+  --switch-selected-toggle-focus: #ffffff;
+  --switch-selected-background-focus: #0190da;
+  /* ---  Unselected disabled: --- */
+  --switch-unselected-toggle-disabled: #ffffff;
+  --switch-unselected-background-disabled: #e3e3e3;
+  /* ---  Selected disabled: --- */
+  --switch-selected-toggle-disabled: #ffffff;
+  --switch-selected-background-disabled: #cbdbeb;
+  /* --- END SWITCHES --- */
+
+  /* --- CARD --- */
+  --card-hover: #f8f8f8;
+  /* --- END CARD --- */
+
+  /* --- TABLE --- */
+  --table-header-background-approved: #cffce8;
+  --table-header-background-pending: #f5f5f5;
+  --table-header-background-rejected: #ffeae7;
+  --table-background-default-hover: #f8f8f8;
+  --table-background-selected: #eef3f8;
+  --table-background-selected-hover: #e5effa;
+  --table-background-warning: #fffcf2;
+  --table-background-danger: #fff8f6;
+  --table-background-success: #f8fffa;
+  --table-background-disabled: #e1e1e1;
+  /* --- END TABLE --- */
+
+  /* --- TABS --- */
+  /* ---  Default: --- */
+  --tab-color-default: #666666;
+  --tab-background-default: transparent;
+
+  /* ---  Hover: --- */
+  --tab-color-hover: #0190da;
+  --tab-background-hover: transparent;
+
+  /* ---  Focus --- */
+  --tab-color-focus: #0190da;
+  --tab-background-focus: #ffffff;
+  /* --- END TABS --- */
+
+  /* ---  Calendar --- */
+  --calendar-header-background: #f0f2f7;
+  --calendar-body-background: #ffffff;
+  --calendar-background-disabled: #e1e1e1;
+  --calendar-current-background: #e7f4fe;
+  --calendar-current-border: #4384db;
+  --calendar-divider: #d8d8d8;
+  /* ---  END Calendar --- */
+}

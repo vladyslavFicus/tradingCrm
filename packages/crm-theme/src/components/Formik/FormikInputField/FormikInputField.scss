@@ -1,0 +1,18 @@
+.Input {
+  .Input__control {
+    border-radius: 10px;
+  }
+  .Input__addition {
+    border-radius: 10px 0 0 10px;
+    border-right: none;
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  &.Input--has-addition {
+    .Input__control {
+      padding-left: 45px;
+    }
+  }
+}

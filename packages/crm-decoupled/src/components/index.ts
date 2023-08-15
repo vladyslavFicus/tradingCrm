@@ -43,6 +43,7 @@ import {
   FormikTextAreaField,
   FormikTimeRangeField,
   FieldLabel,
+  Copyrights,
 } from '@crm/common';
 
 export {
@@ -90,4 +91,5 @@ export {
   FormikTextAreaField,
   FormikTimeRangeField,
   FieldLabel,
+  Copyrights,
 };

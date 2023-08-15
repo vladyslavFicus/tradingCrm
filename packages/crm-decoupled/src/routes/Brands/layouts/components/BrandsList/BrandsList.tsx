@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Config } from '@crm/common';
 import { BrandToAuthorities } from '__generated__/types';
-import Copyrights from 'components/Copyrights';
+import { Copyrights } from 'components';
 import { getGreetingMsg } from 'routes/Brands/utils';
 import BrandItem from '../BrandItem';
 import './BrandsList.scss';

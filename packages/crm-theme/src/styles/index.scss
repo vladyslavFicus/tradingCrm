@@ -1,0 +1,14 @@
+@import "vendor";
+@import "root-variables";
+
+* {
+  font-family: var(--base-font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+
+a:hover {
+  color: var(--accent);
+}

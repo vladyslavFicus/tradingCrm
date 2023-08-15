@@ -22,3 +22,4 @@ export * from './ReactSwitch';
 export * from './TextArea';
 export * from './TimeRange';
 export * from './TimePicker';
+export * from './Copyrights';
