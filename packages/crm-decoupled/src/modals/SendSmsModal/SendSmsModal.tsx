@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils, notify, Types } from '@crm/common';
-import { FormikSelectField, FormikTextAreaField } from 'components/Formik';
+import { FormikSingleSelectField, FormikTextAreaField } from 'components';
 import Modal from 'components/Modal';
 import { useFullSmsNumbersQuery } from './graphql/__generated__/FullSmsNumbersQuery';
 import { useFullSmsSendMutation } from './graphql/__generated__/FullSmsSendMutation';
@@ -82,14 +82,12 @@ const SendSmsModal = (props: Props) => {
               data-testid="SendSmsModal-fromSelect"
               label={I18n.t('SMS.SMS_SEND_MODAL.FROM_NUMBER')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_PHONE_NUMBER')}
-              component={FormikSelectField}
-            >
-              {numbers.map(({ number, country }) => (
-                <option key={number} value={number}>
-                  {`[${country}] ${number}`}
-                </option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={numbers.map(({ number, country }) => ({
+                label: `[${country}] ${number}`,
+                value: number,
+              }))}
+            />
 
             <Field
               name="message"

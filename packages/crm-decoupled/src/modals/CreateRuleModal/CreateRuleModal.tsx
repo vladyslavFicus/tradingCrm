@@ -10,7 +10,6 @@ import {
   RuleOperatorSpread__Input as OperatorSpread,
   AcquisitionStatusTypes__Enum as AcquisitionStatusTypes,
 } from '__generated__/types';
-import { decodeNullValues } from 'components/Formik/utils';
 import StaticTabs from 'components/StaticTabs';
 import StaticTabsItem from 'components/StaticTabsItem';
 import Uuid from 'components/Uuid';
@@ -78,7 +77,7 @@ const CreateRuleModal = (props: Props) => {
     { operatorSpreads, ...values }: FormValues,
     { setSubmitting, setErrors }: FormikHelpers<FormValues>,
   ) => {
-    const variables = decodeNullValues(values);
+    const variables = Utils.decodeNullValues(values);
 
     if (withOperatorSpreads) {
       variables.operatorSpreads = [

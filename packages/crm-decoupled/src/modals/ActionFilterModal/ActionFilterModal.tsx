@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikProps, FormikHelpers } from 'formik';
 import { Utils, notify, Types } from '@crm/common';
 import { ClientSearch__Input as ClientSearch } from '__generated__/types';
-import { FormikInputField, FormikCheckbox } from 'components/Formik';
+import { FormikInputField, FormikCheckbox } from 'components';
 import Modal from 'components/Modal';
 import { actionTypes } from './attributes';
 import { useCreateFilterSetMutation } from './graphql/__generated__/CreateFilterSetMutation';

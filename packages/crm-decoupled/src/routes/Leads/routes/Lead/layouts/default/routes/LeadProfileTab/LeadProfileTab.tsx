@@ -3,10 +3,8 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
 import { Utils, Constants } from '@crm/common';
-import { Button } from 'components';
+import { Button, FormikSingleSelectField, FormikInputField, FormikDatePicker } from 'components';
 import { Lead } from '__generated__/types';
-import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
-import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';
 import TabHeader from 'components/TabHeader';
 import { attributeLabels, genders, AGE_YEARS_CONSTRAINT } from 'routes/Leads/routes/Lead/constants/leadProfileTab';
 import useLeadProfileTab from 'routes/Leads/routes/Lead/hooks/useLeadProfileTab';
@@ -61,7 +59,7 @@ const LeadProfileTab = (props: Props) => {
               birthDate: [
                 'date',
                 `minDate:${Constants.User.MIN_BIRTHDATE}`,
-                `maxDate:${moment().subtract(AGE_YEARS_CONSTRAINT, 'year').format(DATE_BASE_FORMAT)}`,
+                `maxDate:${moment().subtract(AGE_YEARS_CONSTRAINT, 'year').format(Constants.DATE_BASE_FORMAT)}`,
               ],
               identifier: 'string',
               country: `in:${Object.keys(Utils.countryList).join()}`,
@@ -146,15 +144,13 @@ const LeadProfileTab = (props: Props) => {
                     data-testid="LeadProfileTab-genderSelect"
                     label={I18n.t(attributeLabels.gender)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                    component={FormikSelectField}
+                    component={FormikSingleSelectField}
                     disabled={isSubmitting}
-                  >
-                    {genders.map(item => (
-                      <option key={item} value={item}>
-                        {Utils.formatLabel(item)}
-                      </option>
-                    ))}
-                  </Field>
+                    options={genders.map(item => ({
+                      label: Utils.formatLabel(item),
+                      value: item,
+                    }))}
+                  />
                 </div>
 
                 <hr />
@@ -173,15 +169,13 @@ const LeadProfileTab = (props: Props) => {
                     data-testid="LeadProfileTab-countrySelect"
                     label={I18n.t(attributeLabels.country)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.COUNTRY')}
-                    component={FormikSelectField}
+                    component={FormikSingleSelectField}
                     disabled={isSubmitting}
-                  >
-                    {Object.entries(Utils.countryList).map(([key, value]) => (
-                      <option key={key} value={key}>
-                        {value}
-                      </option>
-                    ))}
-                  </Field>
+                    options={Object.entries(Utils.countryList).map(([key, value]) => ({
+                      label: value,
+                      value: key,
+                    }))}
+                  />
 
                   <Field
                     name="city"

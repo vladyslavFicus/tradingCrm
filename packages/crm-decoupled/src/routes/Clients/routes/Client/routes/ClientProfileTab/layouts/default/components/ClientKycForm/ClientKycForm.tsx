@@ -2,9 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils, Constants } from '@crm/common';
-import { Button } from 'components';
+import { Button, FormikSingleSelectField } from 'components';
 import { Profile } from '__generated__/types';
-import { FormikSelectField } from 'components/Formik';
 import useClientKycForm from 'routes/Clients/routes/Client/routes/ClientProfileTab/hooks/useClientKycForm';
 import './ClientKycForm.scss';
 
@@ -50,15 +49,13 @@ const ClientKycForm = (_props: Props) => {
               data-testid="ClientKycForm-kycStatusSelect"
               label={I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS.CURRENT_STATUS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               disabled={isSubmitting || !allowUpdateKycStatus}
-            >
-              {Utils.enumToArray(Constants.kycStatuses).map(status => (
-                <option key={status} value={status}>
-                  {I18n.t(Constants.kycStatusesLabels[status])}
-                </option>
-              ))}
-            </Field>
+              options={Utils.enumToArray(Constants.kycStatuses).map(status => ({
+                label: I18n.t(Constants.kycStatusesLabels[status]),
+                value: status,
+              }))}
+            />
           </Form>
         )}
       </Formik>

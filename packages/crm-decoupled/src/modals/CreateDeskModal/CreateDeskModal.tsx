@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Config, Utils, notify, Types, parseErrors } from '@crm/common';
 import { Desk__Types__Enum as DeskTypesEnum } from '__generated__/types';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { FormikInputField, FormikSingleSelectField } from 'components';
 import Modal from 'components/Modal';
 import { useCreateDeskMutation } from './graphql/__generated__/CreateDeskMutation';
 import { useOfficesQuery } from './graphql/__generated__/OfficesQuery';
@@ -111,47 +111,43 @@ const CreateDeskModal = (props: Props) => {
               name="deskType"
               className="CreateDeskModal__field CreateDeskModal__desk-type"
               data-testid="CreateDeskModal-deskTypeSelect"
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               label={I18n.t(attributeLabels.deskType)}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               disabled={isSubmitting}
-            >
-              {Utils.enumToArray(DeskTypesEnum).map(deskType => (
-                <option key={deskType} value={deskType}>
-                  {I18n.t(`MODALS.ADD_DESK_MODAL.LABELS.DESK_TYPE_OPTIONS.${deskType}`)}
-                </option>
-              ))}
-            </Field>
+              options={Utils.enumToArray(DeskTypesEnum).map(deskType => ({
+                label: I18n.t(`MODALS.ADD_DESK_MODAL.LABELS.DESK_TYPE_OPTIONS.${deskType}`),
+                value: deskType,
+              }))}
+            />
 
             <Field
               name="officeUuid"
               className="CreateDeskModal__field"
               data-testid="CreateDeskModal-officeUuidSelect"
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               label={I18n.t(attributeLabels.officeUuid)}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               disabled={isSubmitting || offices.length === 0}
-            >
-              {offices.map(({ name, uuid }) => (
-                <option key={uuid} value={uuid}>{name}</option>
-              ))}
-            </Field>
+              options={offices.map(({ name, uuid }) => ({
+                label: name,
+                value: uuid,
+              }))}
+            />
 
             <Field
               name="language"
               className="CreateDeskModal__field"
               data-testid="CreateDeskModal-languageSelect"
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               label={I18n.t(attributeLabels.language)}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               disabled={isSubmitting}
-            >
-              {Config.getAvailableLanguages().map((locale: string) => (
-                <option key={locale} value={locale}>
-                  {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
-                </option>
-              ))}
-            </Field>
+              options={Config.getAvailableLanguages().map((locale: string) => ({
+                label: I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() }),
+                value: locale,
+              }))}
+            />
           </Form>
         </Modal>
       )}

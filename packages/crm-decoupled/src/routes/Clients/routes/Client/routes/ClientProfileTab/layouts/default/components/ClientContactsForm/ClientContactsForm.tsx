@@ -2,10 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Config, Utils } from '@crm/common';
-import { Button } from 'components';
+import { Button, FormikInputField } from 'components';
 
 import { Profile } from '__generated__/types';
-import { FormikInputField } from 'components/Formik';
 import { attributeLabels } from 'routes/Clients/routes/Client/routes/ClientProfileTab/constants/clientContactsForm';
 import { FormValues } from 'routes/Clients/routes/Client/routes/ClientProfileTab/types/clientContactsForm';
 import useClientContactsForm from 'routes/Clients/routes/Client/routes/ClientProfileTab/hooks/useClientContactsForm';

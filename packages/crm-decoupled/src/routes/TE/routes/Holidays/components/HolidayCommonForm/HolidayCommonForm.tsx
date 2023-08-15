@@ -6,7 +6,7 @@ import {
   FormikCheckbox,
   FormikDatePicker,
   FormikTimeRangeField,
-} from 'components/Formik';
+} from 'components';
 import './HolidayCommonForm.scss';
 
 const HolidayCommonForm = () => (

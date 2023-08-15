@@ -12,6 +12,7 @@ import {
   ProfileView,
   GridConfig__Types__Enum as GridConfigTypes,
 } from '__generated__/types';
+import { ClientsListQuery } from 'routes/Clients/routes/ClientsList/graphql/__generated__/ClientsQuery';
 import Uuid from 'components/Uuid';
 import Link from 'components/Link';
 import GridPlayerInfo from 'components/GridPlayerInfo';
@@ -22,7 +23,6 @@ import GridAcquisitionStatus from 'components/GridAcquisitionStatus';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { AdjustableTable, Column } from 'components/Table';
 import { MAX_SELECTED_CLIENTS, defaultColumns } from 'routes/Clients/routes/ClientsList/constants';
-import { ClientsListQuery } from 'routes/Clients/routes/ClientsList/graphql/__generated__/ClientsQuery';
 import useClientsGrid from 'routes/Clients/routes/ClientsList/hooks/useClientsGrid';
 import { Hierarchy } from 'components/GridAcquisitionStatus/hooks/useGridAcquisitionStatus';
 import './ClientsGrid.scss';

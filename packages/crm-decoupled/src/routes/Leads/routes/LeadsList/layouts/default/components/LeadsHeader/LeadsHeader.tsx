@@ -3,10 +3,10 @@ import I18n from 'i18n-js';
 import { QueryResult } from '@apollo/client';
 import { Types } from '@crm/common';
 import { Button, UncontrolledTooltip } from 'components';
+import { LeadsListQuery } from 'routes/Leads/routes/LeadsList/graphql/__generated__/LeadsListQuery';
 import Placeholder from 'components/Placeholder';
 import { MAX_QUERY_LEADS } from 'routes/Leads/routes/LeadsList/constants/leadsHeader';
 import useLeadsHeader from 'routes/Leads/routes/LeadsList/hooks/useLeadsHeader';
-import { LeadsListQuery } from 'routes/Leads/routes/LeadsList/graphql/__generated__/LeadsListQuery';
 import './LeadsHeader.scss';
 
 type Props = {

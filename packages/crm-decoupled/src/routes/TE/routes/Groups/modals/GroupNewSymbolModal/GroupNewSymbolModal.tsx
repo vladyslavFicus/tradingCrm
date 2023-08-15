@@ -4,8 +4,13 @@ import { differenceWith } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { Utils, notify, Types } from '@crm/common';
-import { Button, ShortLoader } from 'components';
-import { FormikCheckbox, FormikInputField, FormikSelectField } from 'components/Formik';
+import {
+  Button,
+  ShortLoader,
+  FormikSingleSelectField,
+  FormikCheckbox,
+  FormikInputField,
+} from 'components';
 import {
   GroupSecurity,
   GroupSymbol,
@@ -164,22 +169,20 @@ const GroupNewSymbolModal = ({
                   />
                   <div className="GroupNewSymbolModal__fields">
                     <Field
+                      searchable
                       name="symbol"
                       data-testid="GroupNewSymbolModal-symbolSelect"
                       label={I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SYMBOL_MODAL.SYMBOL')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       className="GroupNewSymbolModal__field--large"
-                      component={FormikSelectField}
+                      component={FormikSingleSelectField}
                       customOnChange={(value: string) => handleSymbolChange(value, setFieldValue)}
-                      searchable
                       disabled={Boolean(groupSymbol)}
-                    >
-                      {symbols.map(({ symbol }) => (
-                        <option key={symbol} value={symbol}>
-                          {symbol}
-                        </option>
-                      ))}
-                    </Field>
+                      options={symbols.map(({ symbol }) => ({
+                        label: symbol,
+                        value: symbol,
+                      }))}
+                    />
                   </div>
 
                   <div className="GroupNewSymbolModal__fields">

@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Config, Utils, parseErrors, notify, Types } from '@crm/common';
 import { Desk__Types__Enum as DeskTypesEnum, HierarchyBranch } from '__generated__/types';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { FormikInputField, FormikSingleSelectField } from 'components';
 import Modal from 'components/Modal';
 
 import { useUpdateDeskMutation } from './graphql/__generated__/UpdateDeskMutation';
@@ -96,33 +96,29 @@ const UpdateDeskModal = (props: Props) => {
               name="deskType"
               className="UpdateDeskModal__field UpdateDeskModal__desk-type"
               data-testid="UpdateDeskModal-deskTypeSelect"
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               label={I18n.t(attributeLabels.deskType)}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               disabled={isSubmitting}
-            >
-              {Utils.enumToArray(DeskTypesEnum).map(deskType => (
-                <option key={deskType} value={deskType}>
-                  {I18n.t(`MODALS.ADD_DESK_MODAL.LABELS.DESK_TYPE_OPTIONS.${deskType}`)}
-                </option>
-              ))}
-            </Field>
+              options={Utils.enumToArray(DeskTypesEnum).map(deskType => ({
+                label: I18n.t(`MODALS.ADD_DESK_MODAL.LABELS.DESK_TYPE_OPTIONS.${deskType}`),
+                value: deskType,
+              }))}
+            />
 
             <Field
               name="language"
               className="UpdateDeskModal__field"
               data-testid="UpdateDeskModal-languageSelect"
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               label={I18n.t(attributeLabels.language)}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               disabled={isSubmitting}
-            >
-              {Config.getAvailableLanguages().map((locale: string) => (
-                <option key={locale} value={locale}>
-                  {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
-                </option>
-              ))}
-            </Field>
+              options={Config.getAvailableLanguages().map((locale: string) => ({
+                label: I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() }),
+                value: locale,
+              }))}
+            />
           </Form>
         </Modal>
       )}

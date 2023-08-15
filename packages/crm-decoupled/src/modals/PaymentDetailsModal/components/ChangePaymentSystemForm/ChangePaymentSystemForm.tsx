@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { Utils, notify, Types } from '@crm/common';
-import { Button } from 'components';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { Button, FormikSingleSelectField, FormikInputField } from 'components';
 import { useUpdatePaymentSystemMutation } from './graphql/__generated__/UpdatePaymentSystemMutation';
 import { usePaymentSystemsProviderQuery } from './graphql/__generated__/PaymentSystemsProviderQuery';
 import './ChangePaymentSystemForm.scss';
@@ -97,20 +96,20 @@ const ChangePaymentSystemForm = (props: Props) => {
               className="ChangePaymentSystemForm__field"
               label={I18n.t('PAYMENT_DETAILS_MODAL.PAYMENT_SYSTEM')}
               placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               disabled={loading}
               withGroup={{ firstTitle: 'COMMON.FAVORITE', secondTitle: 'COMMON.OTHER' }}
               customOnChange={(value: string) => onChangePaymentSystem(value, setFieldValue)}
-            >
-              {[<option key="NONE" value="NONE">{I18n.t('COMMON.NONE')}</option>,
-                ...paymentSystems.map(({ paymentSystem, isFavourite }) => (
-                  <option key={paymentSystem} value={paymentSystem} data-isFavourite={isFavourite}>
-                    {paymentSystem}
-                  </option>
-                )),
-                <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
+              options={[
+                { label: I18n.t('COMMON.NONE'), value: 'UNDEFINED' },
+                ...paymentSystems.map(({ paymentSystem, isFavourite }) => ({
+                  label: paymentSystem,
+                  value: paymentSystem,
+                  isFavourite,
+                })),
+                { label: I18n.t('COMMON.OTHER'), value: 'OTHER' },
               ]}
-            </Field>
+            />
 
             <If condition={!!isOtherSelected}>
               <Field

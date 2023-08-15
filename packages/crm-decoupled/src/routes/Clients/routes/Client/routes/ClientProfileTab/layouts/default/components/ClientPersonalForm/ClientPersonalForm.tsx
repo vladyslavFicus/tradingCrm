@@ -3,10 +3,9 @@ import I18n from 'i18n-js';
 import moment from 'moment';
 import { Formik, Form, Field } from 'formik';
 import { Config, Utils, Constants } from '@crm/common';
-import { Button } from 'components';
+import { Button, FormikSingleSelectField, FormikInputField, FormikDatePicker } from 'components';
 import { Profile } from '__generated__/types';
-import { DATE_BASE_FORMAT } from 'components/DatePickers/constants';
-import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
+
 import useClientPersonalForm from 'routes/Clients/routes/Client/routes/ClientProfileTab/hooks/useClientPersonalForm';
 import {
   attributeLabels,
@@ -76,7 +75,8 @@ const ClientPersonalForm = (props: Props) => {
           birthDate: [
             'date',
             `minDate:${Constants.User.MIN_BIRTHDATE}`,
-            `maxDate:${moment().subtract(Constants.User.AGE_YEARS_CONSTRAINT, 'year').format(DATE_BASE_FORMAT)}`,
+            `maxDate:${moment().subtract(Constants.User.AGE_YEARS_CONSTRAINT, 'year')
+              .format(Constants.DATE_BASE_FORMAT)}`,
           ],
           'passport.expirationDate': 'date',
           'passport.issueDate': 'date',
@@ -141,15 +141,13 @@ const ClientPersonalForm = (props: Props) => {
                   data-testid="ClientPersonalForm-genderSelect"
                   label={I18n.t(attributeLabels.gender)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   disabled={isSubmitting || !allowUpdatePersonalInformation}
-                >
-                  {Object.keys(Constants.User.genders).map(key => (
-                    <option key={key} value={key}>
-                      {I18n.t(Constants.User.genders[key])}
-                    </option>
-                  ))}
-                </Field>
+                  options={Object.keys(Constants.User.genders).map(key => ({
+                    label: I18n.t(Constants.User.genders[key]),
+                    value: key,
+                  }))}
+                />
               </div>
 
               <div>
@@ -171,15 +169,14 @@ const ClientPersonalForm = (props: Props) => {
                   data-testid="ClientPersonalForm-languageCodeSelect"
                   label={I18n.t(attributeLabels.language)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   disabled={isSubmitting || !allowUpdatePersonalInformation}
-                >
-                  {Config.getAvailableLanguages().map(locale => (
-                    <option key={locale} value={locale}>
-                      {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
-                    </option>
-                  ))}
-                </Field>
+                  options={Config.getAvailableLanguages().map(locale => ({
+                    label: I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`,
+                      { defaultValue: locale.toUpperCase() }),
+                    value: locale,
+                  }))}
+                />
 
                 <Field
                   name="timeZone"
@@ -187,15 +184,13 @@ const ClientPersonalForm = (props: Props) => {
                   data-testid="ClientPersonalForm-timeZoneSelect"
                   label={I18n.t(attributeLabels.timeZone)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   disabled={isSubmitting || !allowUpdatePersonalInformation}
-                >
-                  {timeZoneOffsets.map(item => (
-                    <option key={item} value={item}>
-                      {`UTC ${item}`}
-                    </option>
-                  ))}
-                </Field>
+                  options={timeZoneOffsets.map(item => ({
+                    label: `UTC ${item}`,
+                    value: item,
+                  }))}
+                />
               </div>
 
               <div>
@@ -215,15 +210,13 @@ const ClientPersonalForm = (props: Props) => {
                   data-testid="ClientPersonalForm-termsAcceptedSelect"
                   label={I18n.t(attributeLabels.termsAccepted)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   disabled={isSubmitting || !allowUpdatePersonalInformation}
-                >
-                  {Constants.User.TERMS_ACCEPTED_TYPES.map(({ label, value }) => (
-                    <option key={label} value={value}>
-                      {I18n.t(`PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.TERMS_ACCEPTED_TYPES.${label}`)}
-                    </option>
-                  ))}
-                </Field>
+                  options={Constants.User.TERMS_ACCEPTED_TYPES.map(({ label, value }) => ({
+                    label: I18n.t(`PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.TERMS_ACCEPTED_TYPES.${label}`),
+                    value,
+                  }))}
+                />
               </div>
 
               <div>
@@ -255,15 +248,13 @@ const ClientPersonalForm = (props: Props) => {
                   data-testid="ClientPersonalForm-passportCountryOfIssueSelect"
                   label={I18n.t(attributeLabels.countryOfIssue)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   disabled={isSubmitting || !allowUpdatePersonalInformation}
-                >
-                  {Object.entries(Utils.countryList).map(([key, value]) => (
-                    <option key={key} value={key}>
-                      {value}
-                    </option>
-                  ))}
-                </Field>
+                  options={Object.entries(Utils.countryList).map(([key, value]) => ({
+                    label: value,
+                    value: key,
+                  }))}
+                />
 
                 <Field
                   name="passport.issueDate"
@@ -293,15 +284,13 @@ const ClientPersonalForm = (props: Props) => {
                   data-testid="ClientPersonalForm-passportCountrySpecificIdentifierTypeSelect"
                   label={I18n.t(attributeLabels.countrySpecificIdentifierType)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   disabled={isSubmitting || !allowUpdatePersonalInformation}
-                >
-                  {Constants.User.COUNTRY_SPECIFIC_IDENTIFIER_TYPES.map(item => (
-                    <option key={item} value={item}>
-                      {I18n.t(`PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.COUNTRY_SPECIFIC_IDENTIFIER_TYPES.${item}`)}
-                    </option>
-                  ))}
-                </Field>
+                  options={Constants.User.COUNTRY_SPECIFIC_IDENTIFIER_TYPES.map(item => ({
+                    label: I18n.t(`PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.COUNTRY_SPECIFIC_IDENTIFIER_TYPES.${item}`),
+                    value: item,
+                  }))}
+                />
               </div>
             </div>
           </Form>

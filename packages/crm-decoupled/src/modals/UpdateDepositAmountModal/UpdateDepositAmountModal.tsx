@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { Config, Utils, Types, notify } from '@crm/common';
 import { PaymentDeposit } from '__generated__/types';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { FormikInputField, FormikSingleSelectField } from 'components';
 import Modal from 'components/Modal';
 import { attributeLabels } from './constants';
 
@@ -69,15 +69,13 @@ const UpdateDepositAmountModal = (props: Props) => {
                 label={I18n.t('FEATURE_TOGGLES.MODALS.UPDATE_DEPOSIT_AMOUNT.CURRENCY')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 className="UpdateDepositAmountModal__field--large"
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 disabled={!currencies}
-              >
-                {(currencies ? freeCurrencies : supportedCurrencies).map((currency: string) => (
-                  <option key={currency} value={currency}>
-                    {currency}
-                  </option>
-                ))}
-              </Field>
+                options={(currencies ? freeCurrencies : supportedCurrencies).map((currency: string) => ({
+                  label: currency,
+                  value: currency,
+                }))}
+              />
 
               <Field
                 name="min"

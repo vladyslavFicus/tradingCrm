@@ -2,11 +2,11 @@ import { useEffect, useCallback } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Config, Utils, useModal, usePermission, Types } from '@crm/common';
 
-import CreateClientCallbackModal, { CreateClientCallbackModalProps } from 'modals/CreateClientCallbackModal';
 import {
   ClientCallbacksListQueryVariables,
   useClientCallbacksListQuery,
 } from 'routes/Clients/routes/Client/routes/ClientCallbacksTab/graphql/__generated__/ClientCallbacksListQuery';
+import CreateClientCallbackModal, { CreateClientCallbackModalProps } from 'modals/CreateClientCallbackModal';
 
 const useClientCallbacksTab = () => {
   const uuid = useParams().id as string;

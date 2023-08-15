@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import { omit } from 'lodash';
 import { Utils, Constants, parseErrors, notify, Types } from '@crm/common';
 import { HierarchyBranch } from '__generated__/types';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { FormikInputField, FormikSingleSelectField } from 'components';
 import Modal from 'components/Modal';
 import { ExistingOperatorModalProps } from '../ExistingOperatorModal';
 import { useAuthoritiesOptionsQuery } from './graphql/__generated__/AuthoritiesOptionsQuery';
@@ -218,40 +218,37 @@ const CreateOperatorModal = (props: Props) => {
               />
 
               <Field
+                searchable
                 name="userType"
                 className="CreateOperatorModal__field"
                 data-testid="CreateOperatorModal-userTypeSelect"
                 label={I18n.t(attributeLabels.userType)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 disabled={isSubmitting}
-                searchable
-              >
-                {userTypesOptions.map(userType => (
-                  <option key={userType} value={userType}>
-                    {I18n.t(Utils.renderLabel(userType, Constants.userTypeLabels))}
-                  </option>
-                ))}
-              </Field>
+                options={userTypesOptions.map(userType => ({
+                  label: I18n.t(Utils.renderLabel(userType, Constants.userTypeLabels)),
+                  value: userType,
+                }))}
+              />
 
               <Field
+                searchable
                 name="department"
                 className="CreateOperatorModal__field"
                 data-testid="CreateOperatorModal-departmentSelect"
                 label={I18n.t(attributeLabels.department)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 disabled={isSubmitting}
-                searchable
-              >
-                {departmentsOptions.map(department => (
-                  <option key={department} value={department}>
-                    {I18n.t(Utils.renderLabel(department, Constants.Operator.departmentsLabels))}
-                  </option>
-                ))}
-              </Field>
+                options={departmentsOptions.map(department => ({
+                  label: I18n.t(Utils.renderLabel(department, Constants.Operator.departmentsLabels)),
+                  value: department,
+                }))}
+              />
 
               <Field
+                searchable
                 name="role"
                 className="CreateOperatorModal__field"
                 data-testid="CreateOperatorModal-roleSelect"
@@ -261,35 +258,31 @@ const CreateOperatorModal = (props: Props) => {
                       ? I18n.t('COMMON.SELECT_OPTION.DEFAULT')
                       : I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
                   }
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 disabled={isSubmitting || !rolesOptions.length}
-                searchable
-              >
-                {rolesOptions.map(role => (
-                  <option key={role} value={role}>
-                    {I18n.t(Utils.renderLabel(role, Constants.Operator.rolesLabels))}
-                  </option>
-                ))}
-              </Field>
+                options={rolesOptions.map(role => ({
+                  label: I18n.t(Utils.renderLabel(role, Constants.Operator.rolesLabels)),
+                  value: role,
+                }))}
+              />
 
               <Field
+                searchable
                 name="branchType"
                 className="CreateOperatorModal__field"
                 data-testid="CreateOperatorModal-branchTypeSelect"
                 label={I18n.t(attributeLabels.branchType)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 disabled={isSubmitting}
-                searchable
-              >
-                {branchTypesOptions.map(branchType => (
-                  <option key={branchType} value={branchType}>
-                    {I18n.t(`COMMON.${branchType}`)}
-                  </option>
-                ))}
-              </Field>
+                options={branchTypesOptions.map(branchType => ({
+                  label: I18n.t(`COMMON.${branchType}`),
+                  value: branchType,
+                }))}
+              />
 
               <Field
+                searchable
                 name="branchId"
                 className="CreateOperatorModal__field"
                 data-testid="CreateOperatorModal-branchIdSelect"
@@ -299,16 +292,13 @@ const CreateOperatorModal = (props: Props) => {
                       ? placeholderBranchType
                       : I18n.t('COMMON.SELECT_OPTION.SELECT_BRANCH_TYPE')
                   }
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 disabled={isSubmitting || !branchesOptions.length}
-                searchable
-              >
-                {branchesOptions.map(({ name, uuid }) => (
-                  <option key={uuid} value={uuid}>
-                    {name}
-                  </option>
-                ))}
-              </Field>
+                options={branchesOptions.map(({ name, uuid }) => ({
+                  label: name,
+                  value: uuid,
+                }))}
+              />
             </Form>
           </Modal>
         );

@@ -2,9 +2,14 @@ import React from 'react';
 import { Field, Form, Formik } from 'formik';
 import I18n from 'i18n-js';
 import { Utils } from '@crm/common';
-import { Button, UncontrolledTooltip } from 'components';
+import {
+  Button,
+  FormikMultipleSelectField,
+  FormikCheckbox,
+  FormikInputField,
+  UncontrolledTooltip,
+} from 'components';
 import { PaymentDeposit } from '__generated__/types';
-import { FormikCheckbox, FormikInputField, FormikSelectField } from 'components/Formik';
 import useFeatureForm from 'routes/FeatureToggles/hooks/useFeatureForm';
 import { FormValues } from 'routes/FeatureToggles/types/featureForm';
 import DepositeGrid from './components/DepositGrid';
@@ -119,19 +124,18 @@ const FeatureForm = () => {
                   </span>
 
                   <Field
+                    searchable
                     name="restrictedCountries"
                     className="FeatureForm__field"
                     data-testid="FeatureForm-restrictedCountriesSelect"
                     label={I18n.t(attributeLabels.restrictedCountries)}
-                    component={FormikSelectField}
-                    searchable
-                    multiple
+                    component={FormikMultipleSelectField}
                     disabled={isSubmitting}
-                  >
-                    {Object.keys(Utils.countryList).map(country => (
-                      <option key={country} value={country}>{Utils.countryList[country]}</option>
-                    ))}
-                  </Field>
+                    options={Object.keys(Utils.countryList).map(country => ({
+                      label: Utils.countryList[country],
+                      value: country,
+                    }))}
+                  />
                 </div>
 
                 <div className="FeatureForm__block">

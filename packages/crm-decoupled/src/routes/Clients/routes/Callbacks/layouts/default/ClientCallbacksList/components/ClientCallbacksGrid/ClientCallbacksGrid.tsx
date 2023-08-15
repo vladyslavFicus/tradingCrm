@@ -5,12 +5,12 @@ import I18n from 'i18n-js';
 import { Utils, Types, Constants } from '@crm/common';
 import { TrashButton } from 'components';
 import { ClientCallback } from '__generated__/types';
-import Uuid from 'components/Uuid';
-import { Table, Column } from 'components/Table';
-import NoteAction from 'components/Note/NoteAction';
 import {
   ClientCallbacksListQueryQueryResult,
 } from 'routes/Clients/routes/Callbacks/graphql/__generated__/ClientCallbacksListQuery';
+import Uuid from 'components/Uuid';
+import { Table, Column } from 'components/Table';
+import NoteAction from 'components/Note/NoteAction';
 import useClientCallbacksGrid from 'routes/Clients/routes/Callbacks/hooks/useClientCallbacksGrid';
 import './ClientCallbacksGrid.scss';
 

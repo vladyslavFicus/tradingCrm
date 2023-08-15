@@ -2,8 +2,7 @@ import React from 'react';
 import { Field, Form, Formik } from 'formik';
 import I18n from 'i18n-js';
 import { Utils } from '@crm/common';
-import { Button } from 'components';
-import { FormikSelectField } from 'components/Formik';
+import { Button, FormikSingleSelectField } from 'components';
 import { FormValues } from 'routes/DistributionRules/types';
 import useDistributionRuleForm from 'routes/DistributionRules/hooks/useDistributionRuleForm';
 import { executionTypes } from './constants';
@@ -115,12 +114,12 @@ const DistributionRuleForm = () => {
                 label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.EXECUTION_TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 className="DistributionRuleForm__form-field"
-                component={FormikSelectField}
-              >
-                {executionTypes.map(({ label, value }) => (
-                  <option key={value} value={value}>{I18n.t(label)}</option>
-                ))}
-              </Field>
+                component={FormikSingleSelectField}
+                options={executionTypes.map(({ label, value }) => ({
+                  label: I18n.t(label),
+                  value,
+                }))}
+              />
 
               <If condition={formik.dirty}>
                 <div className="DistributionRuleForm__not-saved-message">

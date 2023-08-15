@@ -3,8 +3,14 @@ import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import moment from 'moment';
 import { Config, Utils, notify, Types, usePermission, useModal } from '@crm/common';
-import { Button, Input } from 'components';
-import { FormikDatePicker, FormikInputDecimalsField, FormikInputField, FormikSelectField } from 'components/Formik';
+import {
+  Button,
+  Input,
+  FormikSingleSelectField,
+  FormikDatePicker,
+  FormikInputDecimalsField,
+  FormikInputField,
+} from 'components';
 import { OrderStatus, OrderType } from 'types/trading-engine';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { calculateMargin, calculatePnL } from 'routes/TE/utils/formulas';
@@ -231,31 +237,31 @@ const EditOrderForm = (props: Props) => {
                     <Field
                       name="type"
                       data-testid="EditOrderForm-typeSelect"
-                      component={FormikSelectField}
+                      component={FormikSingleSelectField}
                       className="EditOrderModal__field"
                       label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.TYPE')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       disabled={isOrderEditDisabled}
-                    >
-                      {types.map(({ value, label }) => (
-                        <option key={value} value={value}>{I18n.t(label)}</option>
-                      ))}
-                    </Field>
+                      options={types.map(({ value, label }) => ({
+                        label: I18n.t(label),
+                        value,
+                      }))}
+                    />
                   </If>
 
                   <Field
                     name="reason"
                     data-testid="EditOrderForm-reasonSelect"
-                    component={FormikSelectField}
+                    component={FormikSingleSelectField}
                     className="EditOrderModal__field"
                     label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.REASON')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     disabled={isOrderEditDisabled}
-                  >
-                    {reasons.map(({ value, label }) => (
-                      <option key={value} value={value}>{I18n.t(label)}</option>
-                    ))}
-                  </Field>
+                    options={reasons.map(({ value, label }) => ({
+                      label: I18n.t(label),
+                      value,
+                    }))}
+                  />
                 </div>
               </If>
 
@@ -279,13 +285,15 @@ const EditOrderForm = (props: Props) => {
                     disabled
                     name="symbol"
                     data-testid="EditOrderForm-symbolSelect"
-                    component={FormikSelectField}
+                    component={FormikSingleSelectField}
                     className="EditOrderModal__field"
                     label={I18n.t('TRADING_ENGINE.MODALS.EDIT_ORDER_MODAL.SYMBOL')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                  >
-                    {[<option key={symbol} value={symbol}>{symbol}</option>]}
-                  </Field>
+                    options={[{
+                      label: symbol,
+                      value: symbol,
+                    }]}
+                  />
                 </div>
               </If>
 

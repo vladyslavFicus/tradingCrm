@@ -6,7 +6,6 @@ import { usePaymentSystemsProviderQuery } from '../graphql/__generated__/Payment
 import { useOperatorsQuery } from '../graphql/__generated__/OperatorsQuery';
 import { useDesksAndTeamsQuery } from '../graphql/__generated__/DesksAndTeamsQuery';
 import { usePaymentMethodsQuery } from '../graphql/__generated__/PaymentMethodsQuery';
-import { decodeNullValues } from '../../Formik/utils';
 import { FormValues } from '../types';
 
 type Props = {
@@ -114,7 +113,7 @@ const usePaymentsListFilters = (props: Props) => {
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(omitFilterValues(values)),
+        filters: Utils.decodeNullValues(omitFilterValues(values)),
       },
     });
   }, [state]);

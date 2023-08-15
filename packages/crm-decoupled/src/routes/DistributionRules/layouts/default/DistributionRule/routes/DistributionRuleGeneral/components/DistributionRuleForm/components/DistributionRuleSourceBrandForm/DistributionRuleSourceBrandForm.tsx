@@ -5,10 +5,11 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { Config, Utils, Constants } from '@crm/common';
 import {
-  FormikSelectField,
+  FormikMultipleSelectField,
+  FormikSingleSelectField,
   FormikInputField,
   FormikDateRangePicker,
-} from 'components/Formik';
+} from 'components';
 import { FormValues } from 'routes/DistributionRules/types';
 import useDistributionRuleSourceBrandForm
   from 'routes/DistributionRules/hooks/useDistributionRuleSourceBrandForm';
@@ -62,20 +63,18 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
     <div className="DistributionRuleSourceBrandForm">
       <div>
         <Field
+          searchable
           name="sourceBrandConfig.brand"
           data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigBrandSelect"
           label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.SOURCE_BRAND')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_BRAND')}
-          component={FormikSelectField}
+          component={FormikSingleSelectField}
           disabled={brandsLoading}
-          searchable
-        >
-          {brands.map(brand => (
-            <option key={brand.brandId} value={brand.brandId}>
-              {brand.brandName}
-            </option>
-          ))}
-        </Field>
+          options={brands.map(brand => ({
+            label: brand.brandName,
+            value: brand.brandId,
+          }))}
+        />
 
         <If condition={isClientsAmountAvailable && !clientsAmountError}>
           <div
@@ -94,79 +93,72 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
       <div />
 
       <Field
+        multipleLabel
+        searchable
         name="sourceBrandConfig.salesStatuses"
         data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigSalesStatusesSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.SALES_STATUS')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
-        component={FormikSelectField}
+        component={FormikMultipleSelectField}
         disabled={acquisitionStatusesLoading || !salesStatuses.length}
-        multipleLabel
-        searchable
-        multiple
-      >
-        {salesStatuses.map(({ status }) => (
-          <option key={status} value={status}>{I18n.t(Constants.salesStatuses[status])}</option>
-        ))}
-      </Field>
+        options={salesStatuses.map(({ status }) => ({
+          label: I18n.t(Constants.salesStatuses[status]),
+          value: status,
+        }))}
+      />
 
       <Field
+        withAnyOption
         name="sourceBrandConfig.timeInCurrentStatusInHours"
         data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigTimeInCurrentStatusInHoursSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.EXECUTION_TIME')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-        component={FormikSelectField}
+        component={FormikSingleSelectField}
         disabled={!sourceBrandConfig?.brand}
-        withAnyOption
-      >
-        {Constants.timeInCurrentStatusInHours.map(({ label, value, i18nValue }) => (
-          <option key={value} value={value}>
-            {I18n.t(label, { value: i18nValue })}
-          </option>
-        ))}
-      </Field>
+        options={Constants.timeInCurrentStatusInHours.map(({ label, value, i18nValue }) => ({
+          label: I18n.t(label, { value: i18nValue }),
+          value,
+        }))}
+      />
 
       <Field
+        multipleLabel
+        searchable
         name="sourceBrandConfig.countries"
         data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigCountriesSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.COUNTRY')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
-        component={FormikSelectField}
+        component={FormikMultipleSelectField}
         disabled={!sourceBrandConfig?.brand}
-        multipleLabel
-        searchable
-        multiple
-      >
-        {[
-          <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-          ...Object.keys(Utils.countryList).map(key => (
-            <option key={key} value={key}>{Utils.countryList[key]}</option>
-          )),
+        options={[
+          { label: I18n.t('COMMON.OTHER'), value: 'UNDEFINED' },
+          ...Object.keys(Utils.countryList).map(country => ({
+            label: Utils.countryList[country],
+            value: country,
+          })),
         ]}
-      </Field>
+      />
 
       <Field
+        multipleLabel
+        searchable
         name="sourceBrandConfig.languages"
         data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigLanguagesSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.LANGUAGE')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
-        component={FormikSelectField}
+        component={FormikMultipleSelectField}
         disabled={!sourceBrandConfig?.brand}
-        multipleLabel
-        searchable
-        multiple
-      >
-        {[
-          <option key="undefined" value="undefined">{I18n.t('COMMON.OTHER')}</option>,
-          ...Config.getAvailableLanguages().map((locale: string) => (
-            <option key={locale} value={locale}>
-              {I18n.t(
-                `COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`,
-                { defaultValue: locale.toUpperCase() },
-              )}
-            </option>
-          )),
+        options={[
+          { label: I18n.t('COMMON.OTHER'), value: 'UNDEFINED' },
+          ...Config.getAvailableLanguages().map((locale: string) => ({
+            label: I18n.t(
+              `COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`,
+              { defaultValue: locale.toUpperCase() },
+            ),
+            value: locale,
+          })),
         ]}
-      </Field>
+      />
 
       <Field
         data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigRegistrationDateRangePicker"
@@ -201,83 +193,63 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
       />
 
       <Field
+        withAnyOption
         name="sourceBrandConfig.firstTimeDeposit"
         data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigFirstTimeDepositSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.FIRST_TIME_DEPOSIT')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-        component={FormikSelectField}
+        component={FormikSingleSelectField}
         disabled={!sourceBrandConfig?.brand}
-        withAnyOption
-      >
-        {/* @ts-ignore TS doesn't approve value as boolean type */}
-        <option key="NO" value={false}>
-          {I18n.t('COMMON.NO')}
-        </option>
-
-        {/* @ts-ignore TS doesn't approve value as boolean type */}
-        <option key="YES" value>
-          {I18n.t('COMMON.YES')}
-        </option>
-      </Field>
+        options={[
+          { label: I18n.t('COMMON.NO'), value: false },
+          { label: I18n.t('COMMON.YES'), value: true },
+        ]}
+      />
 
       <Field
+        searchable
         name="sourceBrandConfig.affiliateUuids"
         data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigAffiliateUuidsSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.AFFILIATE')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-        component={FormikSelectField}
+        component={FormikMultipleSelectField}
         disabled={partnersLoading || !sourceBrandConfig?.brand}
-        searchable
-        multiple
-      >
-        {partners.map(({ uuid, fullName, status }) => (
-          <option
-            key={uuid}
-            value={uuid}
-            className={
-              classNames({
-                'DistributionRuleSourceBrandForm__option--inactive': ['INACTIVE', 'CLOSED'].includes(status),
-              })
-            }
-          >
-            {fullName}
-          </option>
-        ))}
-      </Field>
+        options={partners.map(({ uuid, fullName, status }) => ({
+          label: fullName,
+          value: uuid,
+          className: classNames({
+            'DistributionRuleSourceBrandForm__option--inactive': ['INACTIVE', 'CLOSED'].includes(status),
+          }),
+        }))}
+      />
 
       <Field
+        searchable
         name="sourceBrandConfig.desks"
         data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigDesksSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.DESKS')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-        component={FormikSelectField}
+        component={FormikMultipleSelectField}
         disabled={hierarchyBranchesLoading || !desks.length}
-        searchable
-        multiple
-      >
-        {desks.map(({ uuid, name }) => (
-          <option key={uuid} value={uuid}>
-            {name}
-          </option>
-        ))}
-      </Field>
+        options={desks.map(({ uuid, name }) => ({
+          label: name,
+          value: uuid,
+        }))}
+      />
 
       <Field
+        searchable
         name="sourceBrandConfig.teams"
         data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigTeamsSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.TEAMS')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-        component={FormikSelectField}
+        component={FormikMultipleSelectField}
         disabled={hierarchyBranchesLoading || !filteredTeams.length}
-        searchable
-        multiple
-      >
-        {filteredTeams.map(({ uuid, name }) => (
-          <option key={uuid} value={uuid}>
-            {name}
-          </option>
-        ))}
-      </Field>
+        options={filteredTeams.map(({ uuid, name }) => ({
+          label: name,
+          value: uuid,
+        }))}
+      />
 
       <div className="DistributionRuleSourceBrandForm__row DistributionRuleSourceBrandForm__row--small">
         <Field
@@ -290,21 +262,22 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
           validate={validateQuantity}
           disabled={!clientsAmountData}
         />
+
         <Field
           name="sourceBrandConfig.distributionUnit.baseUnit"
           data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigDistributionUnitBaseUnitSelect"
           label="&nbsp;"
-          component={FormikSelectField}
+          component={FormikSingleSelectField}
           disabled={!clientsAmountData}
           customOnChange={(value: string) => {
             setFieldValue('sourceBrandConfig.distributionUnit.baseUnit', value);
             setFieldValue('targetBrandConfig.distributionUnit.baseUnit', value);
           }}
-        >
-          {(executionType === 'MANUAL' ? ['AMOUNT', 'PERCENTAGE'] : ['PERCENTAGE']).map(value => (
-            <option key={value} value={value}>{I18n.t(baseUnits[value])}</option>
-          ))}
-        </Field>
+          options={(executionType === 'MANUAL' ? ['AMOUNT', 'PERCENTAGE'] : ['PERCENTAGE']).map(value => ({
+            label: I18n.t(baseUnits[value]),
+            value,
+          }))}
+        />
 
         <If
           condition={
@@ -327,13 +300,13 @@ const DistributionRuleSourceBrandForm = (props: Props) => {
         name="sourceBrandConfig.sortType"
         data-testid="DistributionRuleSourceBrandForm-sourceBrandConfigSortTypeSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.SORT_METHOD')}
-        component={FormikSelectField}
+        component={FormikSingleSelectField}
         disabled={!sourceBrandConfig?.brand}
-      >
-        {Object.keys(sortTypes).map(key => (
-          <option key={key} value={key}>{I18n.t(sortTypes[key])}</option>
-        ))}
-      </Field>
+        options={Object.keys(sortTypes).map(key => ({
+          label: I18n.t(sortTypes[key]),
+          value: key,
+        }))}
+      />
     </div>
   );
 };

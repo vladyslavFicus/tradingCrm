@@ -1,15 +1,15 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Types } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { Formik, Form, Field } from 'formik';
-import { Button, RefreshButton } from 'components';
 import {
+  Button,
+  RefreshButton,
+  FormikSingleSelectField,
   FormikInputField,
-  FormikSelectField,
   FormikDateRangePicker,
-} from 'components/Formik/index';
-import { decodeNullValues } from 'components/Formik/utils';
+} from 'components';
 import { TransactionsQueryVariables } from '../../graphql/__generated__/TransactionsQuery';
 import { types } from './constants';
 import './AccountProfileTransactionsGridFilter.scss';
@@ -27,7 +27,7 @@ const AccountProfileTransactionsGrid = ({ handleRefetch }: Props) => {
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: Utils.decodeNullValues(values),
       },
     });
   };
@@ -68,23 +68,23 @@ const AccountProfileTransactionsGrid = ({ handleRefetch }: Props) => {
               addition={<i className="icon icon-search" />}
               withFocus
             />
+
             <Field
+              withAnyOption
+              searchable
+              withFocus
               name="transactionType"
               data-testid="AccountProfileTransactionsGrid-transactionTypeSelect"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.TYPE_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="AccountProfileOrdersGridFilter__field"
-              component={FormikSelectField}
-              withAnyOption
-              searchable
-              withFocus
-            >
-              {types.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {I18n.t(label)}
-                </option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={types.map(({ value, label }) => ({
+                label: I18n.t(label),
+                value,
+              }))}
+            />
+
             <Field
               name="creationDateRange"
               className="AccountProfileOrdersGridFilter__field AccountProfileOrdersGridFilter__date-range"

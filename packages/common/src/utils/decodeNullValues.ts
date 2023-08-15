@@ -2,7 +2,7 @@ const isObject = (val: any) => typeof val === 'object' && !Array.isArray(val) &&
 
 // # Need to convert empty strings in input fields to null
 // # Need to check how to make values undefined on component level
-export const decodeNullValues = (values: any) => {
+const decodeNullValues = (values: any) => {
   const newValues = { ...values };
 
   Object.keys(newValues).forEach((key) => {
@@ -17,3 +17,5 @@ export const decodeNullValues = (values: any) => {
 
   return newValues;
 };
+
+export default decodeNullValues;

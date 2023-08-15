@@ -1,11 +1,9 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Types } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { Formik, Form, Field } from 'formik';
-import { Button, RefreshButton } from 'components';
-import { FormikSelectField } from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
+import { Button, RefreshButton, FormikMultipleSelectField } from 'components';
 import { useSecuritiesQuery } from './graphql/__generated__/SecuritiesQuery';
 import { useSymbolsQuery, SymbolsQueryVariables } from './graphql/__generated__/SymbolsQuery';
 import './SymbolsFilter.scss';
@@ -40,7 +38,7 @@ const SymbolsFilter = (props: Props) => {
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: Utils.decodeNullValues(values),
       },
     });
   };
@@ -72,40 +70,35 @@ const SymbolsFilter = (props: Props) => {
         <Form className="SymbolsFilter">
           <div className="SymbolsFilter__fields">
             <Field
+              searchable
+              withFocus
               name="symbolNames"
               data-testid="SymbolsFilter-symbolNamesSelect"
               label={I18n.t('TRADING_ENGINE.SYMBOLS.FILTER_FORM.SYMBOL_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="SymbolsFilter__field"
-              component={FormikSelectField}
+              component={FormikMultipleSelectField}
+              disabled={symbolsQuery.loading}
+              options={symbols.map(({ symbol }) => ({
+                label: symbol,
+                value: symbol,
+              }))}
+            />
+
+            <Field
               searchable
               withFocus
-              multiple
-              disabled={symbolsQuery.loading}
-            >
-              {symbols.map(({ symbol }) => (
-                <option key={symbol} value={symbol}>
-                  {symbol}
-                </option>
-              ))}
-            </Field>
-            <Field
               name="securityNames"
               data-testid="SymbolsFilter-securityNamesSelect"
               label={I18n.t('TRADING_ENGINE.SYMBOL.SECURITY_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="SymbolsFilter__field"
-              component={FormikSelectField}
-              searchable
-              withFocus
-              multiple
-            >
-              {securities.map(({ name, id }) => (
-                <option key={id} value={name}>
-                  {name}
-                </option>
-              ))}
-            </Field>
+              component={FormikMultipleSelectField}
+              options={securities.map(({ name }) => ({
+                label: name,
+                value: name,
+              }))}
+            />
           </div>
           <div className="SymbolsFilter__buttons">
             <RefreshButton

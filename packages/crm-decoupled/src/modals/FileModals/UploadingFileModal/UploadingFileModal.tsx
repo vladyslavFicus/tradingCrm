@@ -3,8 +3,7 @@ import { filesize } from 'filesize';
 import { Field } from 'formik';
 import I18n from 'i18n-js';
 import { Utils, Types, Constants } from '@crm/common';
-import { TrashButton } from 'components';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { TrashButton, FormikInputField, FormikSingleSelectField } from 'components';
 import NoteActionManual from 'components/Note/NoteActionManual';
 import Uuid from 'components/Uuid';
 import { FileData } from '../constants';
@@ -100,7 +99,7 @@ const UploadingFileModal = (props: Props) => {
         <Field
           placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY_DEFAULT_OPTION')}
           name={`${fileUuid}.category`}
-          component={FormikSelectField}
+          component={FormikSingleSelectField}
           customOnChange={(value: string) => {
             setSelectedCategory(value);
             customFieldChange({
@@ -108,13 +107,11 @@ const UploadingFileModal = (props: Props) => {
               documentType: value === 'OTHER' ? 'OTHER' : '',
             });
           }}
-        >
-          {Object.keys(categories).map(item => (
-            <option key={`${fileUuid}-${item}`} value={item}>
-              {I18n.t(`FILES.CATEGORIES.${item}`)}
-            </option>
-          ))}
-        </Field>
+          options={Object.keys(categories).map(item => ({
+            label: I18n.t(`FILES.CATEGORIES.${item}`),
+            value: item,
+          }))}
+        />
       </td>
 
       <td className="UploadingFileModal__col UploadingFileModal__type">
@@ -122,14 +119,12 @@ const UploadingFileModal = (props: Props) => {
           placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.DOCUMENT_TYPE_DEFAULT_OPTION')}
           name={`${fileUuid}.documentType`}
           disabled={!selectedCategory || selectedCategory === 'OTHER'}
-          component={FormikSelectField}
-        >
-          {documentTypes.map((item: string) => (
-            <option key={`${fileUuid}-${item}`} value={item}>
-              {item ? I18n.t(`FILES.DOCUMENT_TYPES.${item}`) : item}
-            </option>
-          ))}
-        </Field>
+          component={FormikSingleSelectField}
+          options={documentTypes.map((item: string) => ({
+            label: item ? I18n.t(`FILES.DOCUMENT_TYPES.${item}`) : item,
+            value: item,
+          }))}
+        />
       </td>
 
       <td className="UploadingFileModal__col UploadingFileModal__status">

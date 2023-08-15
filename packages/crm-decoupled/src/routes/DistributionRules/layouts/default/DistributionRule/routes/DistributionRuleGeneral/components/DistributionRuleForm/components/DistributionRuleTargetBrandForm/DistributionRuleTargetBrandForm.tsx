@@ -4,10 +4,10 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Constants } from '@crm/common';
 import {
-  FormikSelectField,
+  FormikSingleSelectField,
   FormikInputField,
   FormikCheckbox,
-} from 'components/Formik';
+} from 'components';
 import { FormValues } from 'routes/DistributionRules/types';
 import useDistributionRuleTargetBrand from 'routes/DistributionRules/hooks/useDistributionRuleTargetBrandForm';
 import { baseUnits } from '../../constants';
@@ -53,21 +53,19 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
     >
       <div>
         <Field
+          searchable
           name="targetBrandConfig.brand"
           data-testid="DistributionRuleTargetBrandForm-targetBrandConfigBrandSelect"
           label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.TARGET_BRAND')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_BRAND')}
-          component={FormikSelectField}
+          component={FormikSingleSelectField}
           disabled={brandsLoading || !isEditEnabled}
-          searchable
           customOnChange={onChangeBrand}
-        >
-          {brands.map(brand => (
-            <option key={brand.brandId} value={brand.brandId}>
-              {brand.brandName}
-            </option>
-          ))}
-        </Field>
+          options={brands.map(brand => ({
+            label: brand.brandName,
+            value: brand.brandId,
+          }))}
+        />
 
         <If condition={isClientsAmountAvailable && !clientsAmountError}>
           <div
@@ -84,71 +82,61 @@ const DistributionRuleTargetBrandForm = (props: Props) => {
       </div>
 
       <Field
+        searchable
         name="targetBrandConfig.targetSalesStatus"
         data-testid="DistributionRuleTargetBrandForm-targetBrandConfigTargetSalesStatusSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.MIGRATION_STATUS')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-        component={FormikSelectField}
+        component={FormikSingleSelectField}
         disabled={!isEditEnabled || acquisitionStatusesLoading || salesStatuses.length === 0}
-        searchable
-      >
-        {[
-          <option
-            key="__CURRENT__"
-            value="__CURRENT__"
-            className="DistributionRuleTargetBrandForm__field--highlight"
-          >
-            {I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.MIGRATION_STATUS_CURRENT')}
-          </option>,
-          ...salesStatuses.map(({ status }) => (
-            <option key={status} value={status}>{I18n.t(Constants.salesStatuses[status])}</option>
-          )),
+        options={[
+          {
+            label: I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.MIGRATION_STATUS_CURRENT'),
+            value: '__CURRENT__',
+            className: 'DistributionRuleTargetBrandForm__field--highlight',
+          },
+          ...salesStatuses.map(({ status }) => ({
+            label: I18n.t(Constants.salesStatuses[status]),
+            value: status,
+          })),
         ]}
-      </Field>
+      />
 
       <Field
+        searchable
         name="targetBrandConfig.affiliateUuid"
         data-testid="DistributionRuleTargetBrandForm-targetBrandConfigAffiliateUuidSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.FILTERS_LABELS.AFFILIATE_TARGET_BRAND')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-        component={FormikSelectField}
+        component={FormikSingleSelectField}
         disabled={partnersLoading || !partners.length || !isEditEnabled}
-        searchable
-      >
-        {partners.map(({ uuid, fullName, status }) => (
-          <option
-            key={uuid}
-            value={uuid}
-            disabled={['INACTIVE', 'CLOSED'].includes(status)}
-          >
-            {fullName}
-          </option>
-        ))}
-      </Field>
+        options={partners.map(({ uuid, fullName, status }) => ({
+          label: fullName,
+          value: uuid,
+          disabled: ['INACTIVE', 'CLOSED'].includes(status),
+        }))}
+      />
 
       <Field
+        searchable
         name="targetBrandConfig.operator"
         data-testid="DistributionRuleTargetBrandForm-targetBrandConfigOperatorSelect"
         label={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.OPERATOR')}
         placeholder={I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AUTO_OPERATOR')}
-        component={FormikSelectField}
+        component={FormikSingleSelectField}
         disabled={operatorsByBrandLoading || !operators.length || !isEditEnabled}
-        searchable
-      >
-        {[
-          <option
-            key="__CURRENT__"
-            // @ts-ignore Because in .tsx files value can't be as option value
-            value={null}
-            className="DistributionRuleTargetBrandForm__field--highlight"
-          >
-            {I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AUTO_OPERATOR')}
-          </option>,
-          ...operators.map(({ uuid, fullName }) => (
-            <option key={uuid} value={uuid}>{fullName}</option>
-          )),
+        options={[
+          {
+            label: I18n.t('CLIENTS_DISTRIBUTION.RULE.MODAL.AUTO_OPERATOR'),
+            value: null,
+            className: 'DistributionRuleTargetBrandForm__field--highlight',
+          },
+          ...operators.map(({ uuid, fullName }) => ({
+            label: fullName,
+            value: uuid,
+          })),
         ]}
-      </Field>
+      />
 
       <Field
         name="targetBrandConfig.copyAffiliateSource"

@@ -5,13 +5,13 @@ import I18n from 'i18n-js';
 import { Utils, Types, Constants } from '@crm/common';
 import { TrashButton } from 'components';
 import { LeadCallback } from '__generated__/types';
+import {
+  LeadCallbacksListQueryQueryResult,
+} from 'routes/Leads/routes/Callbacks/graphql/__generated__/LeadCallbacksListQuery';
 import Uuid from 'components/Uuid';
 import { Table, Column } from 'components/Table';
 import NoteAction from 'components/Note/NoteAction';
 import useLeadCallbacksGrid from 'routes/Leads/routes/Callbacks/hooks/useLeadCallbacksGrid';
-import {
-  LeadCallbacksListQueryQueryResult,
-} from 'routes/Leads/routes/Callbacks/graphql/__generated__/LeadCallbacksListQuery';
 import './LeadCallbacksGrid.scss';
 
 type Props = {

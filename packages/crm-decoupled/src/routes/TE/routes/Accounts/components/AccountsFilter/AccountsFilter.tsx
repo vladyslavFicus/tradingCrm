@@ -1,15 +1,16 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Types } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { Formik, Form, Field } from 'formik';
-import { Button, RefreshButton } from 'components';
 import {
-  FormikDateRangePicker,
+  Button,
+  RefreshButton,
+  FormikSingleSelectField,
+  FormikMultipleSelectField,
   FormikInputField,
-  FormikSelectField,
-} from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
+  FormikDateRangePicker,
+} from 'components';
 import { statuses } from '../../constants';
 import { useGroupsQuery } from './graphql/__generated__/GroupsQuery';
 import './AccountsFilter.scss';
@@ -55,7 +56,7 @@ const AccountsFilter = (props: Props) => {
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: Utils.decodeNullValues(values),
       },
     });
   };
@@ -96,39 +97,32 @@ const AccountsFilter = (props: Props) => {
               withFocus
             />
             <Field
+              withAnyOption
+              withFocus
               name="enabled"
               label={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.STATUS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="AccountsFilter__field"
-              component={FormikSelectField}
-              withAnyOption
-              withFocus
-              boolean
-            >
-              {statuses.map(({ value, label }) => (
-                // @ts-ignore because in tsx file Field can't set BOOLEAN to option value
-                <option key={`archived-${value}`} value={value}>
-                  {I18n.t(label)}
-                </option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={statuses.map(({ value, label }) => ({
+                label: I18n.t(label),
+                value,
+              }))}
+            />
             <Field
+              searchable
+              withFocus
               name="groups"
               label={I18n.t('TRADING_ENGINE.ACCOUNTS.FORM.FIELDS.GROUPS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="AccountsFilter__field"
-              component={FormikSelectField}
-              searchable
-              withFocus
-              multiple
+              component={FormikMultipleSelectField}
               disabled={groupsQuery.loading}
-            >
-              {groups.map(({ groupName }) => (
-                <option key={groupName} value={groupName}>
-                  {groupName}
-                </option>
-              ))}
-            </Field>
+              options={groups.map(({ groupName }) => ({
+                label: groupName,
+                value: groupName,
+              }))}
+            />
             <Field
               name="registrationDateRange"
               className="AccountsFilter__field AccountsFilter__field--large"

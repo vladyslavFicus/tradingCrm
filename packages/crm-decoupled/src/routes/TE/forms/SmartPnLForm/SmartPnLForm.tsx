@@ -5,14 +5,15 @@ import { intersectionWith, orderBy } from 'lodash';
 import Hotkeys from 'react-hot-keys';
 import moment from 'moment';
 import { Utils, parseErrors, notify, Types, useStorage } from '@crm/common';
-import { Button, Input } from 'components';
 import {
+  Button,
+  Input,
   FormikCheckbox,
   FormikInputDecimalsField,
   FormikInputField,
   FormikDatePicker,
   FormikSelectTreeField,
-} from 'components/Formik';
+} from 'components';
 import { OrderDirection, OrderType } from 'types/trading-engine';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { calculateClosePrice, calculateMargin, calculatePnL } from 'routes/TE/utils/formulas';

@@ -2,9 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Constants } from '@crm/common';
-import { Button } from 'components';
+import { Button, FormikSingleSelectField } from 'components';
 import { Operator } from '__generated__/types';
-import { FormikSelectField } from 'components/Formik';
 import useOperatorHierarchyUserType from 'routes/Operators/routes/hooks/useOperatorHierarchyUserType';
 import './OperatorHierarhyUsetType.scss';
 
@@ -34,20 +33,18 @@ const OperatorHierarchyUserType = (props: Props) => {
       {({ isSubmitting, dirty }) => (
         <Form className="OperatorHierarchyUserType">
           <Field
+            searchable
             name="userType"
             className="OperatorHierarchyUserType__field"
             data-testid="OperatorHierarchyUserType-userTypeSelect"
             label={I18n.t('OPERATORS.PROFILE.HIERARCHY.FORM_LABEL.USER_TYPE')}
-            component={FormikSelectField}
+            component={FormikSingleSelectField}
             disabled={isSubmitting || !allowToUpdateHierarchy}
-            searchable
-          >
-            {userTypesOptions.map(userTypeOption => (
-              <option key={userTypeOption} value={userTypeOption}>
-                {I18n.t(Constants.userTypeLabels[userTypeOption as Constants.userTypes])}
-              </option>
-            ))}
-          </Field>
+            options={userTypesOptions.map(userTypeOption => ({
+              label: I18n.t(Constants.userTypeLabels[userTypeOption as Constants.userTypes]),
+              value: userTypeOption,
+            }))}
+          />
 
           <If condition={dirty && !isSubmitting && allowToUpdateHierarchy}>
             <div className="OperatorHierarchyUserType__buttons">

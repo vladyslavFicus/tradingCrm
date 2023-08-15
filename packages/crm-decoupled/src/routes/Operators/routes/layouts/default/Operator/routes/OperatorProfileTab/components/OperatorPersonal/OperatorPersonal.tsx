@@ -3,9 +3,8 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { camelCase, startCase } from 'lodash';
 import { Utils } from '@crm/common';
-import { Button } from 'components';
+import { Button, FormikSingleSelectField, FormikInputField } from 'components';
 import { Operator } from '__generated__/types';
-import { FormikSelectField, FormikInputField } from 'components/Formik';
 import useOperatorPersonal from 'routes/Operators/routes/hooks/useOperatorPersonal';
 import './OperatorPersonal.scss';
 
@@ -133,22 +132,20 @@ const OperatorPersonal = (props: Props) => {
             />
 
             <Field
+              withAnyOption
+              searchable
               name="country"
               className="OperatorPersonal__field"
               data-testid="OperatorPersonal-countrySelect"
               label={I18n.t(attributeLabels.country)}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               disabled={isSubmitting || deniesUpdate}
-              withAnyOption
-              searchable
-            >
-              {Object.keys(Utils.countryList).map(countryCode => (
-                <option key={countryCode} value={countryCode}>
-                  {Utils.countryList[countryCode]}
-                </option>
-              ))}
-            </Field>
+              options={Object.keys(Utils.countryList).map(countryCode => ({
+                label: Utils.countryList[countryCode],
+                value: countryCode,
+              }))}
+            />
           </div>
 
           <If condition={!!clickToCallConfig.length}>

@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils, notify, Types } from '@crm/common';
-import { FormikInputField, FormikSelectField, FormikHtmlEditorField } from 'components/Formik';
+import { FormikInputField, FormikSingleSelectField, FormikHtmlEditorField } from 'components';
 import EmailPreview from 'components/EmailPreview';
 import Modal from 'components/Modal';
 import { useEmailTemplatesQuery } from './graphql/__generated__/EmailTemplatesQuery';
@@ -123,15 +123,13 @@ const SendEmailModal = (props: Props) => {
               data-testid="SendEmailModal-templateIdSelect"
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               label={I18n.t('EMAILS.MODALS.EMAIL_SELECT.INPUT_SELECT_LABEL')}
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               customOnChange={(value: TemplateId) => handleChangeTemplate(value, setValues)}
-            >
-              {optionsWithCustomEmail.map(({ id, name }) => (
-                <option key={id} value={id}>
-                  {name}
-                </option>
-              ))}
-            </Field>
+              options={optionsWithCustomEmail.map(({ id, name }) => ({
+                label: name,
+                value: id,
+              }))}
+            />
 
             <If condition={!!values.templateId}>
               <div>

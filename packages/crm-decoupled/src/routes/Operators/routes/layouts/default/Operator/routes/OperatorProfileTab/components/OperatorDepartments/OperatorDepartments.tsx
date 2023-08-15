@@ -2,9 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils, Constants } from '@crm/common';
-import { Button } from 'components';
+import { Button, FormikSingleSelectField } from 'components';
 import { Operator } from '__generated__/types';
-import { FormikSelectField } from 'components/Formik';
 import useOperatorDepartments from 'routes/Operators/routes/hooks/useOperatorDepartments';
 import './OperatorDepartments.scss';
 
@@ -108,31 +107,27 @@ const OperatorDepartments = (props: Props) => {
                       data-testid="OperatorDepartments-departmentSelect"
                       label={I18n.t(attributeLabels.department)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                      component={FormikSelectField}
+                      component={FormikSingleSelectField}
                       disabled={isSubmitting}
-                    >
-                      {availableDepartments.map(department => (
-                        <option key={department} value={department}>
-                          {I18n.t(Utils.renderLabel(department, Constants.Operator.departmentsLabels))}
-                        </option>
-                      ))}
-                    </Field>
+                      options={availableDepartments.map(department => ({
+                        label: I18n.t(Utils.renderLabel(department, Constants.Operator.departmentsLabels)),
+                        value: department,
+                      }))}
+                    />
 
                     <Field
                       name="role"
                       label={I18n.t(attributeLabels.role)}
                       className="OperatorDepartments__form-field"
                       data-testid="OperatorDepartments-roleSelect"
-                      component={FormikSelectField}
+                      component={FormikSingleSelectField}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       disabled={!availableRolesDepartment.length}
-                    >
-                      {availableRolesDepartment.map((role: string) => (
-                        <option key={role} value={role}>
-                          {I18n.t(Utils.renderLabel(role, Constants.Operator.rolesLabels))}
-                        </option>
-                      ))}
-                    </Field>
+                      options={availableRolesDepartment.map((role: string) => ({
+                        label: I18n.t(Utils.renderLabel(role, Constants.Operator.rolesLabels)),
+                        value: role,
+                      }))}
+                    />
 
                     <div className="OperatorDepartments__form-buttons">
                       <Button

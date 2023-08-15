@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Constants, parseErrors, notify, Types, usePermission } from '@crm/common';
 import { PaymentMutationCreatePaymentArgs as PaymentValues, Profile, TradingAccount } from '__generated__/types';
-import { FormikInputField, FormikSelectField, FormikDatePicker } from 'components/Formik';
+import { FormikInputField, FormikSingleSelectField, FormikDatePicker } from 'components';
 import Modal from 'components/Modal';
 import NoteActionManual from 'components/Note/NoteActionManual';
 import Currency from 'components/Currency';
@@ -263,7 +263,7 @@ const CreatePaymentModal = (props: Props) => {
                 name="paymentType"
                 label={attributeLabels.paymentType}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 customOnChange={(value: PaymentValues) => (
                   handlePaymentTypeChanged(value, {
                     setFieldValue,
@@ -271,16 +271,14 @@ const CreatePaymentModal = (props: Props) => {
                   } as FormikHelpers<PaymentValues>)
                 )}
                 showErrorMessage={false}
-              >
-                {Object
+                options={Object
                   .values(paymentTypes)
                   .filter(type => permission.allows(type.permission))
-                  .map(({ name }) => (
-                    <option key={name} value={name}>
-                      {I18n.t(paymentTypesLabels[name])}
-                    </option>
-                  ))}
-              </Field>
+                  .map(({ name }) => ({
+                    label: I18n.t(paymentTypesLabels[name]),
+                    value: name,
+                  }))}
+              />
 
               <If condition={!!paymentType}>
                 <>
@@ -297,19 +295,17 @@ const CreatePaymentModal = (props: Props) => {
                             'PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.CHOOSE_PAYMENT_METHOD_LABEL',
                           )}
                           disabled={manualMethodsLoading}
-                          component={FormikSelectField}
+                          component={FormikSingleSelectField}
                           showErrorMessage={false}
-                        >
-                          {paymentMethods.map(item => (
-                            <option key={item} value={item as string}>
-                              {Constants.Payment.manualPaymentMethodsLabels[
-                                  item as Constants.Payment.manualPaymentMethods
-                              ] ? I18n.t(Constants.Payment.manualPaymentMethodsLabels[
-                                  item as Constants.Payment.manualPaymentMethods
-                                ]) : item}
-                            </option>
-                          ))}
-                        </Field>
+                          options={paymentMethods.map(item => ({
+                            label: Constants.Payment.manualPaymentMethodsLabels[
+                              item as Constants.Payment.manualPaymentMethods
+                            ] ? I18n.t(Constants.Payment.manualPaymentMethodsLabels[
+                              item as Constants.Payment.manualPaymentMethods
+                              ]) : item,
+                            value: item,
+                          }))}
+                        />
 
                         <div className="CreatePaymentModal__direction-icon">
                           <i className="icon-arrow-down" />
@@ -385,20 +381,19 @@ const CreatePaymentModal = (props: Props) => {
                         label={attributeLabels.paymentSystem}
                         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                         className="CreatePaymentModal__field"
-                        component={FormikSelectField}
+                        component={FormikSingleSelectField}
                         disabled={paymentSystemsLoading}
                         withGroup={{ firstTitle: 'COMMON.FAVORITE', secondTitle: 'COMMON.OTHER' }}
-                      >
-                        {[
-                          <option key="NONE" value="NONE">{I18n.t('COMMON.NONE')}</option>,
-                          ...paymentSystems.map(({ paymentSystem: system, isFavourite }) => (
-                            <option key={system} value={system} data-isFavourite={isFavourite}>
-                              {system}
-                            </option>
-                          )),
-                          <option key="OTHER" value="OTHER">{I18n.t('COMMON.OTHER')}</option>,
+                        options={[
+                          { label: I18n.t('COMMON.NONE'), value: 'UNDEFINED' },
+                          ...paymentSystems.map(({ paymentSystem: system, isFavourite }) => ({
+                            label: system,
+                            value: system,
+                            isFavourite,
+                          })),
+                          { label: I18n.t('COMMON.OTHER'), value: 'OTHER' },
                         ]}
-                      </Field>
+                      />
                     </div>
                   </If>
 
@@ -433,22 +428,19 @@ const CreatePaymentModal = (props: Props) => {
                           label={attributeLabels.commissionCurrency}
                           className="CreatePaymentModal__field CreatePaymentModal__field--small"
                           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                          component={FormikSelectField}
+                          component={FormikSingleSelectField}
                           customOnChange={(value: String) => (
                             handleCommissionCurrencyChanged(value, {
                               setFieldValue,
                             } as FormikHelpers<String>)
                           )}
                           showErrorMessage={false}
-                        >
-                          {Object
-                            .values(Constants.Payment.commissionCurrencies)
-                            .map(cur => (
-                              <option key={cur} value={cur}>
-                                {I18n.t(Constants.Payment.commissionCurrenciesLabels[cur])}
-                              </option>
-                            ))}
-                        </Field>
+                          options={Object.values(Constants.Payment.commissionCurrencies)
+                            .map(cur => ({
+                              label: I18n.t(Constants.Payment.commissionCurrenciesLabels[cur]),
+                              value: cur,
+                            }))}
+                        />
 
                         <div
                           className="CreatePaymentModal__field CreatePaymentModal__field--small

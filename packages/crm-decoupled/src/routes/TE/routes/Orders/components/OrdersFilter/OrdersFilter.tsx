@@ -1,15 +1,16 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Types } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { Formik, Form, Field } from 'formik';
-import { Button, RefreshButton } from 'components';
 import {
+  Button,
+  FormikSingleSelectField,
+  FormikMultipleSelectField,
+  RefreshButton,
   FormikInputField,
-  FormikSelectField,
   FormikDateRangePicker,
-} from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
+} from 'components';
 import { statuses } from '../../attributes/constants';
 import { useGroupsQuery } from './graphql/__generated__/GroupsQuery';
 import { useSymbolsQuery } from './graphql/__generated__/SymbolsQuery';
@@ -69,7 +70,7 @@ const OrdersFilter = (props: Props) => {
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: Utils.decodeNullValues(values),
       },
     });
   };
@@ -112,56 +113,49 @@ const OrdersFilter = (props: Props) => {
             />
 
             <Field
+              searchable
+              withFocus
               name="groups"
               data-testid="OrdersFilter-groupsSelect"
               label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.GROUP')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="OrdersFilter__field"
-              component={FormikSelectField}
-              searchable
-              withFocus
-              multiple
-            >
-              {groups.map(({ groupName }) => (
-                <option key={groupName} value={groupName}>
-                  {I18n.t(groupName)}
-                </option>
-              ))}
-            </Field>
+              component={FormikMultipleSelectField}
+              options={groups.map(({ groupName }) => ({
+                label: I18n.t(groupName),
+                value: groupName,
+              }))}
+            />
             <Field
+              withFocus
+              withAnyOption
               name="orderStatuses"
               data-testid="OrdersFilter-orderStatusesSelect"
               className="OrdersFilter__field"
               label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.STATUS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
+              options={statuses.map(({ value, label }) => ({
+                label: I18n.t(label),
+                value,
+              }))}
+            />
+            <Field
+              searchable
               withFocus
               withAnyOption
-            >
-              {statuses.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {I18n.t(label)}
-                </option>
-              ))}
-            </Field>
-            <Field
               name="symbol"
               data-testid="OrdersFilter-symbolSelect"
               label={I18n.t('TRADING_ENGINE.ORDERS.FILTER_FORM.SYMBOL_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="OrdersFilter__field"
-              component={FormikSelectField}
-              searchable
-              withFocus
-              withAnyOption
+              component={FormikSingleSelectField}
               disabled={symbolsQuery.loading}
-            >
-              {symbols.map(({ symbol }) => (
-                <option key={symbol} value={symbol}>
-                  {symbol}
-                </option>
-              ))}
-            </Field>
+              options={symbols.map(({ symbol }) => ({
+                label: symbol,
+                value: symbol,
+              }))}
+            />
             <Field
               name="openingDateRange"
               data-testid="OrdersFilter-openingDateRangePicker"

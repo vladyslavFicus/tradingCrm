@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Config, Utils, notify, Types, Constants } from '@crm/common';
-import { FormikSelectField } from 'components/Formik';
+import { FormikSingleSelectField } from 'components';
 import Modal from 'components/Modal';
 import Badge from 'components/Badge';
 import { useUpdateLeverageMutation } from './graphql/__generated__/UpdateLeverageMutation';
@@ -110,14 +110,14 @@ const UpdateLeverageModal = (props: Props) => {
               data-testid="UpdateLeverageModal-leverageSelect"
               label={I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.FORM.CHANGE_LEVERAGE')}
               placeholder={I18n.t('CLIENT_PROFILE.ACCOUNTS.MODAL_CHANGE_LEVERAGE.FORM.CHANGE_LEVERAGE')}
-              component={FormikSelectField}
-            >
-              {brand[platformType.toLowerCase()].leveragesChangingRequest
+              component={FormikSingleSelectField}
+              options={brand[platformType.toLowerCase()].leveragesChangingRequest
                 .filter((item: number) => leverage !== item)
-                .map((value: number) => (
-                  <option key={value} value={value}>1:{value}</option>
-                ))}
-            </Field>
+                .map((value: number) => ({
+                  label: `1:${value}`,
+                  value,
+                }))}
+            />
           </Form>
         </Modal>
       )}

@@ -1,8 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
-import { Button } from 'components';
-import { FormikInputField, FormikHtmlEditorField } from 'components/Formik';
+import { Button, FormikInputField, FormikHtmlEditorField } from 'components';
 import Hint from 'components/Hint';
 import { validator } from 'routes/EmailTemplates/utils';
 import useEmailTemplatesEditor from 'routes/EmailTemplates/routes/hooks/useEmailTemplatesEditor';

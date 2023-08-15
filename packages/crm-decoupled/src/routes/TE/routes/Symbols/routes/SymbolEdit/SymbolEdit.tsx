@@ -3,7 +3,6 @@ import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { useParams } from 'react-router-dom';
 import { Utils, notify, Types, useModal, parseErrors } from '@crm/common';
 import { Button, ShortLoader } from 'components';
-import { decodeNullValues } from 'components/Formik/utils';
 import I18n from 'i18n-config';
 import NotFound from 'routes/NotFound';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
@@ -123,7 +122,7 @@ const SymbolEdit = () => {
     try {
       await editSymbol({
         variables: {
-          args: decodeNullValues({ ...values, force }),
+          args: Utils.decodeNullValues({ ...values, force }),
         },
       });
 

@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { Constants } from '@crm/common';
 import { Field } from 'formik';
+import { FormikSingleSelectField } from 'components';
 import { TradingAccount } from '__generated__/types';
-import { FormikSelectField } from 'components/Formik';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import Badge from 'components/Badge';
 import { paymentTypes, attributeLabels } from '../../constants';
@@ -126,19 +126,14 @@ const AccountsSelectField = (props: Props) => {
         }
       singleOptionComponent={renderOption}
       disabled={!tradingAccounts.length}
-      component={FormikSelectField}
+      component={FormikSingleSelectField}
       showErrorMessage={false}
-    >
-      {filterTradingAccounts.map(account => (
-        <option
-          key={account.accountUUID}
-          value={account.accountUUID as string}
-          data-account={account}
-        >
-          {`${account.login}`}
-        </option>
-      ))}
-    </Field>
+      options={filterTradingAccounts.map(account => ({
+        label: account.login,
+        value: account.accountUUID,
+        'data-account': account,
+      }))}
+    />
   );
 };
 

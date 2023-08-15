@@ -3,12 +3,11 @@ import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { Utils, notify, Types } from '@crm/common';
-import { Button } from 'components';
+import { Button, FormikSingleSelectField, FormikInputField, FormikCheckbox } from 'components';
 import {
   Commission__Type__Enum as GroupCommissionType,
   Commission__Lots__Enum as GroupCommissionLots,
 } from '__generated__/types';
-import { FormikInputField, FormikSelectField, FormikCheckbox } from 'components/Formik';
 import {
   GroupSecurity, LotMin, LotMax, LotStep,
 } from '../../types';
@@ -111,43 +110,37 @@ const GroupSecurityCustomizationModal = ({
                   data-testid="GroupSecurityCustomizationModal-lotMinSelect"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_MIN')}
                   className="GroupSecurityCustomizationModal__field"
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   disabled={values.defaultLots}
-                >
-                  {Utils.enumToArray(LotMin).map(value => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </Field>
+                  options={Utils.enumToArray(LotMin).map(value => ({
+                    label: value,
+                    value,
+                  }))}
+                />
                 <Field
                   name="lotMax"
                   data-testid="GroupSecurityCustomizationModal-lotMaxSelect"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_MAX')}
                   className="GroupSecurityCustomizationModal__field"
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   disabled={values.defaultLots}
-                >
-                  {Utils.enumToArray(LotMax).map(value => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </Field>
+                  options={Utils.enumToArray(LotMax).map(value => ({
+                    label: value,
+                    value,
+                  }))}
+                />
                 <Field
                   name="lotStep"
                   data-testid="GroupSecurityCustomizationModal-lotStepSelect"
                   label={I18n.t('TRADING_ENGINE.MODALS.GROUP_CUSTOMIZATION_SECURITY_MODAL.LOT_STEP')}
                   className="GroupSecurityCustomizationModal__field"
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   disabled={values.defaultLots}
-                >
-                  {Utils.enumToArray(LotStep).map(value => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </Field>
+                  options={Utils.enumToArray(LotStep).map(value => ({
+                    label: value,
+                    value,
+                  }))}
+                />
               </div>
 
               <div className="GroupSecurityCustomizationModal__title">
@@ -168,26 +161,22 @@ const GroupSecurityCustomizationModal = ({
                   name="commissionType"
                   data-testid="GroupSecurityCustomizationModal-commissionTypeSelect"
                   className="GroupSecurityCustomizationModal__field--small"
-                  component={FormikSelectField}
-                >
-                  {Object.keys(GroupCommissionType).map(key => (
-                    <option key={key} value={key}>
-                      {I18n.t(`TRADING_ENGINE.GROUP.${key}`)}
-                    </option>
-                  ))}
-                </Field>
+                  component={FormikSingleSelectField}
+                  options={Object.keys(GroupCommissionType).map(key => ({
+                    label: I18n.t(`TRADING_ENGINE.GROUP.${key}`),
+                    value: key,
+                  }))}
+                />
                 <Field
                   name="commissionLots"
                   data-testid="GroupSecurityCustomizationModal-commissionLotsSelect"
                   className="GroupSecurityCustomizationModal__field--small"
-                  component={FormikSelectField}
-                >
-                  {Object.keys(GroupCommissionLots).map(key => (
-                    <option key={key} value={key}>
-                      {I18n.t(`TRADING_ENGINE.GROUP.PER_${key}`)}
-                    </option>
-                  ))}
-                </Field>
+                  component={FormikSingleSelectField}
+                  options={Object.keys(GroupCommissionLots).map(key => ({
+                    label: I18n.t(`TRADING_ENGINE.GROUP.PER_${key}`),
+                    value: key,
+                  }))}
+                />
               </div>
             </ModalBody>
 

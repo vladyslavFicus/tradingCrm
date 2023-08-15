@@ -2,9 +2,14 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { Utils } from '@crm/common';
-import { Button, RefreshButton } from 'components';
+import {
+  Button,
+  FormikSingleSelectField,
+  RefreshButton,
+  FormikDateRangePicker,
+  FormikInputField,
+} from 'components';
 import { Feed__AuditCategory__Enum as FeedAuditCategoryEnum } from '__generated__/types';
-import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'components/Formik';
 import useFeedsFilters from '../../../hooks/useFeedsFilters';
 import './FeedsFilters.scss';
 
@@ -56,19 +61,19 @@ const FeedsFilters = (props: Props) => {
 
           <If condition={!skipCategoryFilter}>
             <Field
+              withAnyOption
+              withFocus
               name="auditLogType"
               className="FeedsFilters__field"
               data-testid="FeedsFilters-auditLogTypeSelect"
               label={I18n.t('COMMON.FEEDS.FILTERS.ACTION_TYPE')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              component={FormikSelectField}
-              withAnyOption
-              withFocus
-            >
-              {availableTypes.map(({ key, value }) => (
-                <option key={key} value={key}>{value}</option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={availableTypes.map(({ key, value }) => ({
+                label: value,
+                value: key,
+              }))}
+            />
           </If>
 
           <Field

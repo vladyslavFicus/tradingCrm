@@ -2,8 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Config, Utils, notify, Types } from '@crm/common';
-import { Button } from 'components';
-import { FormikSelectField } from 'components/Formik';
+import { Button, FormikSingleSelectField } from 'components';
 import { useRejectPaymentMutation } from './graphql/__generated__/RejectPaymentMutation';
 import './RejectPaymentForm.scss';
 
@@ -77,14 +76,12 @@ const RejectPaymentForm = (props: Props) => {
             name="declineReason"
             label={I18n.t(attributeLabels.declineReason)}
             placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
-            component={FormikSelectField}
-          >
-            {Config.getPaymentReason().refuse.map((reason: string, key: string) => (
-              <option key={key} value={reason}>
-                {Utils.formatLabel(reason)}
-              </option>
-            ))}
-          </Field>
+            component={FormikSingleSelectField}
+            options={Config.getPaymentReason().refuse.map((reason: string) => ({
+              label: Utils.formatLabel(reason),
+              value: reason,
+            }))}
+          />
 
           <Button
             secondary

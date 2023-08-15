@@ -2,9 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { notify, Types } from '@crm/common';
-import { Button } from 'components';
+import { Button, FormikSingleSelectField } from 'components';
 import { Operator } from '__generated__/types';
-import { FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { OPERATORS_SORT } from './constants';
 import { useOperatorsQuery } from './graphql/__generated__/OperatorsQuery';
@@ -79,17 +78,16 @@ const UpdateTradingActivityModal = (props: Props) => {
             <Field
               searchable
               name="agentId"
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               label={I18n.t('CHANGE_ORIGINAL_AGENT.TITLE')}
               data-testid="UpdateTradingActivityModal-agentIdSelect"
               disabled={loading}
-            >
-              {operators.map(({ uuid, fullName, operatorStatus }) => (
-                <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>
-                  {fullName}
-                </option>
-              ))}
-            </Field>
+              options={operators.map(({ uuid, fullName, operatorStatus }) => ({
+                label: fullName,
+                value: uuid,
+                disabled: operatorStatus !== 'ACTIVE',
+              }))}
+            />
           </Form>
         </Modal>
       )}

@@ -7,7 +7,7 @@ import {
   HierarchyUserAcquisition,
   ProfileView,
 } from '__generated__/types';
-import { FormikSelectField } from 'components/Formik';
+import { FormikSingleSelectField } from 'components';
 import Modal from 'components/Modal';
 import { useUpdateAcquisitionStatusMutation } from './graphql/__generated__/UpdateAcquisitionStatusMutation';
 import './UpdateAcquisitionStatusModal.scss';
@@ -176,15 +176,13 @@ const UpdateAcquisitionStatusModal = (props: Props) => {
               name="acquisitionStatus"
               label={I18n.t('CLIENTS.MODALS.MOVE_MODAL.MOVE_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               disabled={isSubmitting}
-            >
-              {Constants.aquisitionStatuses.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {I18n.t(label)}
-                </option>
-              ))}
-            </Field>
+              options={Constants.aquisitionStatuses.map(({ value, label }) => ({
+                label: I18n.t(label),
+                value,
+              }))}
+            />
           </Form>
         </Modal>
       )}

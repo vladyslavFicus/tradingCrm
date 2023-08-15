@@ -2,8 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Field, Form, Formik } from 'formik';
-import { Button } from 'components';
-import { FormikSelectField } from 'components/Formik';
+import { Button, FormikMultipleSelectField, FormikSingleSelectField } from 'components';
 import { Filter } from 'components/NotificationCenter/types';
 import { readTypes } from 'components/NotificationCenter/constants';
 import useNotificationCenterForm from 'components/NotificationCenter/hooks/useNotificationCenterForm';
@@ -28,37 +27,31 @@ const NotificationCenterForm = (props: Props) => {
       {({ dirty, resetForm }) => (
         <Form className={classNames('NotificationCenterForm', className)}>
           <Field
+            searchable
             name="notificationTypes"
             label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE')}
             placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-            component={FormikSelectField}
+            component={FormikMultipleSelectField}
             className="NotificationCenterForm__field"
-            searchable
-            multiple
-          >
-            {notificationTypes.map(value => (
-              <option key={value} value={value}>
-                {I18n.t(`NOTIFICATION_CENTER.TYPES.${value}`)}
-              </option>
-            ))}
-          </Field>
+            options={notificationTypes.map(value => ({
+              label: I18n.t(`NOTIFICATION_CENTER.TYPES.${value}`),
+              value,
+            }))}
+          />
 
           <Field
+            withAnyOption
+            withFocus
             name="read"
             className="NotificationCenterForm__field"
             label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.READ_UNREAD')}
             placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-            component={FormikSelectField}
-            withAnyOption
-            withFocus
-          >
-            {readTypes.map(({ value, label }) => (
-              // @ts-ignore because in tsx file Field can't set BOOLEAN to option value
-              <option key={`readTypes-${value}`} value={value}>
-                {I18n.t(label)}
-              </option>
-            ))}
-          </Field>
+            component={FormikSingleSelectField}
+            options={readTypes.map(({ value, label }) => ({
+              label: I18n.t(label),
+              value,
+            }))}
+          />
 
           <div className="NotificationCenterForm__button-group">
             <Button

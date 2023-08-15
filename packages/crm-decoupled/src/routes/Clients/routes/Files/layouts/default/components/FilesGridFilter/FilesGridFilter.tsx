@@ -1,8 +1,13 @@
 import React from 'react';
 import { Form, Field, Formik } from 'formik';
 import I18n from 'i18n-js';
-import { Button, RefreshButton } from 'components';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
+import {
+  Button,
+  RefreshButton,
+  FormikSingleSelectField,
+  FormikInputField,
+  FormikDateRangePicker,
+} from 'components';
 import useFilter from 'hooks/useFilter';
 import useFilesGridFilter from 'routes/Clients/routes/Files/hooks/useFilesGridFilter';
 import './FilesGridFilter.scss';
@@ -53,42 +58,38 @@ const FilesGridFilter = (props: Props) => {
             />
 
             <Field
+              searchable
+              withAnyOption
+              withFocus
               name="verificationType"
               className="FilesGridFilter__input FilesGridFilter__select"
               data-testid="FilesGridFilter-verificationTypeSelect"
               placeholder={I18n.t('FILES.FILTER.CATEGORY_PLACEHOLDER')}
               label={I18n.t('FILES.FILTER.CATEGORY')}
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               customOnChange={(value: string) => handleVerificationTypeChange(value, setFieldValue)}
+              options={verificationTypes.map(item => ({
+                label: I18n.t(`FILES.CATEGORIES.${item}`),
+                value: item,
+              }))}
+            />
+
+            <Field
               searchable
               withAnyOption
               withFocus
-            >
-              {verificationTypes.map(item => (
-                <option key={item} value={item}>
-                  {I18n.t(`FILES.CATEGORIES.${item}`)}
-                </option>
-              ))}
-            </Field>
-
-            <Field
               name="documentType"
               className="FilesGridFilter__input FilesGridFilter__select"
               data-testid="FilesGridFilter-documentTypeSelect"
               placeholder={I18n.t('FILES.FILTER.DOCUMENT_TYPE_PLACEHOLDER')}
               label={I18n.t('FILES.FILTER.DOCUMENT_TYPE')}
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               disabled={!values.verificationType || values.verificationType === 'OTHER'}
-              searchable
-              withAnyOption
-              withFocus
-            >
-              {(categories[values.verificationType] || []).map(item => (
-                <option key={item} value={item}>
-                  {I18n.t(`FILES.DOCUMENT_TYPES.${item}`)}
-                </option>
-              ))}
-            </Field>
+              options={(categories[values.verificationType] || []).map(item => ({
+                label: I18n.t(`FILES.DOCUMENT_TYPES.${item}`),
+                value: item,
+              }))}
+            />
 
             <Field
               className="FilesGridFilter__input FilesGridFilter__dates"

@@ -5,12 +5,12 @@ import classNames from 'classnames';
 import { Utils, Types, Constants } from '@crm/common';
 import { TrashButton } from 'components';
 import { ClientCallback } from '__generated__/types';
-import { Table, Column } from 'components/Table';
-import Uuid from 'components/Uuid';
-import NoteAction from 'components/Note/NoteAction';
 import {
   ClientCallbacksListQueryQueryResult,
 } from 'routes/Clients/routes/Client/routes/ClientCallbacksTab/graphql/__generated__/ClientCallbacksListQuery';
+import { Table, Column } from 'components/Table';
+import Uuid from 'components/Uuid';
+import NoteAction from 'components/Note/NoteAction';
 import useClientCallbacksGrid
   from 'routes/Clients/routes/Client/routes/ClientCallbacksTab/hooks/useClientCallbacksGrid';
 import './ClientCallbacksGrid.scss';

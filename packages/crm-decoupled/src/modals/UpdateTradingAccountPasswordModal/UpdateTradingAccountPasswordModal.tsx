@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Config, Utils, notify, Types } from '@crm/common';
-import { FormikInputField } from 'components/Formik/index';
+import { FormikInputField } from 'components';
 import Modal from 'components/Modal';
 import { useUpdateTradingAccountPasswordMutation } from './graphql/__generated__/UpdateTradingAccountPasswordMutation';
 

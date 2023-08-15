@@ -1,15 +1,15 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Types } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { Formik, Form, Field } from 'formik';
-import { Button, RefreshButton } from 'components';
 import {
+  Button,
+  RefreshButton,
+  FormikSingleSelectField,
   FormikInputField,
-  FormikSelectField,
   FormikDateRangePicker,
-} from 'components/Formik/index';
-import { decodeNullValues } from 'components/Formik/utils';
+} from 'components';
 import { orderTypes } from '../../../../attributes/constants';
 import { useSymbolsQuery, SymbolsQueryVariables } from './graphql/__generated__/SymbolsQuery';
 import './AccountProfileOrdersGridFilter.scss';
@@ -40,7 +40,7 @@ const AccountProfileOrdersGridFilter = ({ onRefresh }: Props) => {
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: Utils.decodeNullValues(values),
       },
     });
   };
@@ -82,39 +82,35 @@ const AccountProfileOrdersGridFilter = ({ onRefresh }: Props) => {
               withFocus
             />
             <Field
+              withAnyOption
+              searchable
+              withFocus
               name="orderType"
               data-testid="AccountProfileOrdersGridFilter-orderTypeSelect"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.TYPE_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="AccountProfileOrdersGridFilter__field"
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
+              options={orderTypes.map(({ value, label }) => ({
+                label: I18n.t(label),
+                value,
+              }))}
+            />
+            <Field
               withAnyOption
               searchable
               withFocus
-            >
-              {orderTypes.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {I18n.t(label)}
-                </option>
-              ))}
-            </Field>
-            <Field
               name="symbol"
               data-testid="AccountProfileOrdersGridFilter-symbolSelect"
               label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.ORDERS.FILTER_FORM.SYMBOL_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="AccountProfileOrdersGridFilter__field"
-              component={FormikSelectField}
-              withAnyOption
-              searchable
-              withFocus
-            >
-              {symbols.map(({ symbol }) => (
-                <option key={symbol} value={symbol}>
-                  {symbol}
-                </option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={symbols.map(({ symbol }) => ({
+                label: symbol,
+                value: symbol,
+              }))}
+            />
             <Field
               name="openingDateRange"
               className="AccountProfileOrdersGridFilter__field AccountProfileOrdersGridFilter__date-range"

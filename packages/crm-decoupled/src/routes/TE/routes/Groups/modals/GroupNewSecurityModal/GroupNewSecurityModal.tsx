@@ -4,8 +4,7 @@ import { differenceWith } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { Utils, notify, Types } from '@crm/common';
-import { Button, ShortLoader } from 'components';
-import { FormikSelectField } from 'components/Formik';
+import { Button, ShortLoader, FormikMultipleSelectField } from 'components';
 import {
   GroupSecurity,
   Security,
@@ -87,20 +86,17 @@ const GroupNewSecurityModal = ({
                   </div>
 
                   <Field
+                    searchable
                     name="idx"
                     data-testid="GroupNewSecurityModal-idxSelect"
                     label={I18n.t('TRADING_ENGINE.MODALS.GROUP_NEW_SECURITY_MODAL.SECURITY')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                    component={FormikSelectField}
-                    searchable
-                    multiple
-                  >
-                    {securitiesDiff.map(({ id, name }) => (
-                      <option key={id} value={id}>
-                        {name}
-                      </option>
-                    ))}
-                  </Field>
+                    component={FormikMultipleSelectField}
+                    options={securitiesDiff.map(({ id, name }) => ({
+                      label: name,
+                      value: id,
+                    }))}
+                  />
                 </ModalBody>
 
                 <ModalFooter>

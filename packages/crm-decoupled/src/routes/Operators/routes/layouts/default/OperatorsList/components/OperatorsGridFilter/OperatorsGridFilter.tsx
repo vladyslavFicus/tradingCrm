@@ -2,8 +2,14 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils, Constants } from '@crm/common';
-import { Button, RefreshButton } from 'components';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
+import {
+  Button,
+  FormikMultipleSelectField,
+  FormikSingleSelectField,
+  FormikInputField,
+  FormikDateRangePicker,
+  RefreshButton,
+} from 'components';
 import useFilter from 'hooks/useFilter';
 import useOperatorsGridFilter from 'routes/Operators/routes/hooks/useOperatorsGridFilter';
 import { FormValues } from 'routes/Operators/routes/types';
@@ -75,42 +81,39 @@ const OperatorsGridFilter = (props: Props) => {
               />
 
               <Field
+                withAnyOption
+                searchable
+                withFocus
                 name="country"
                 className="OperatorsGridFilter__field OperatorsGridFilter__select"
                 data-testid="OperatorsGridFilter-countrySelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('OPERATORS.GRID_FILTERS.COUNTRY')}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
+                options={[
+                  { label: I18n.t('COMMON.OTHER'), value: 'UNDEFINED' },
+                  ...Object.keys(Utils.countryList).map(country => ({
+                    label: Utils.countryList[country],
+                    value: country,
+                  })),
+                ]}
+              />
+
+              <Field
                 withAnyOption
                 searchable
                 withFocus
-              >
-                {[
-                  <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                  ...Object.keys(Utils.countryList)
-                    .map(country => (
-                      <option key={country} value={country}>{Utils.countryList[country]}</option>
-                    )),
-                ]}
-              </Field>
-
-              <Field
                 name="status"
                 className="OperatorsGridFilter__field OperatorsGridFilter__select"
                 data-testid="OperatorsGridFilter-statusSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('PARTNERS.GRID_FILTERS.STATUS')}
-                component={FormikSelectField}
-                withAnyOption
-                searchable
-                withFocus
-              >
-                {Object.keys(Constants.Operator.statusesLabels).map(status => (
-                  <option key={status} value={status}>
-                    {I18n.t(Constants.Operator.statusesLabels[status as Constants.Operator.statuses])}
-                  </option>
-                ))}
-              </Field>
+                component={FormikSingleSelectField}
+                options={Object.keys(Constants.Operator.statusesLabels).map(status => ({
+                  label: I18n.t(Constants.Operator.statusesLabels[status as Constants.Operator.statuses]),
+                  value: status,
+                }))}
+              />
 
               <Field
                 className="OperatorsGridFilter__field OperatorsGridFilter__date-range"
@@ -125,25 +128,24 @@ const OperatorsGridFilter = (props: Props) => {
               />
 
               <Field
+                withFocus
+                searchable
                 name="offices"
                 className="OperatorsGridFilter__field OperatorsGridFilter__select"
                 data-testid="OperatorsGridFilter-officesSelect"
                 label={I18n.t('OPERATORS.GRID_FILTERS.OFFICES')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 disabled={officesDesksTeamsLoading || !offices.length}
-                withFocus
-                multiple
-                searchable
-              >
-                {offices.map(({ name, uuid }) => (
-                  <option key={uuid} value={uuid}>
-                    {name}
-                  </option>
-                ))}
-              </Field>
+                options={offices.map(({ name, uuid }) => ({
+                  label: name,
+                  value: uuid,
+                }))}
+              />
 
               <Field
+                searchable
+                withFocus
                 name="desks"
                 className="OperatorsGridFilter__field OperatorsGridFilter__select"
                 data-testid="OperatorsGridFilter-desksSelect"
@@ -155,18 +157,17 @@ const OperatorsGridFilter = (props: Props) => {
                       : 'COMMON.SELECT_OPTION.ANY',
                   )
                 }
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 disabled={officesDesksTeamsLoading || !desksOptions.length}
-                searchable
-                withFocus
-                multiple
-              >
-                {desksOptions.map(({ uuid, name }) => (
-                  <option key={uuid} value={uuid}>{name}</option>
-                ))}
-              </Field>
+                options={desksOptions.map(({ uuid, name }) => ({
+                  label: name,
+                  value: uuid,
+                }))}
+              />
 
               <Field
+                searchable
+                withFocus
                 name="teams"
                 className="OperatorsGridFilter__field OperatorsGridFilter__select"
                 data-testid="OperatorsGridFilter-teamsSelect"
@@ -178,55 +179,47 @@ const OperatorsGridFilter = (props: Props) => {
                       : 'COMMON.SELECT_OPTION.ANY',
                   )
                 }
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 disabled={officesDesksTeamsLoading || !teamsOptions.length}
-                searchable
-                withFocus
-                multiple
-              >
-                {teamsOptions.map(({ uuid, name }) => (
-                  <option key={uuid} value={uuid}>{name}</option>
-                ))}
-              </Field>
+                options={teamsOptions.map(({ uuid, name }) => ({
+                  label: name,
+                  value: uuid,
+                }))}
+              />
 
               <Field
+                withAnyOption
+                searchable
+                withFocus
                 name="authorities.department"
                 className="OperatorsGridFilter__field OperatorsGridFilter__select"
                 data-testid="OperatorsGridFilter-authoritiesDepartmentSelect"
                 label={I18n.t(attributeLabels.department)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 disabled={isSubmitting}
-                withAnyOption
-                customOnChange={(value: string) => handleDepartmentFieldChange(value, setFieldValue)}
-                searchable
-                withFocus
-              >
-                {Object.keys(availableDepartments).map(department => (
-                  <option key={department} value={department}>
-                    {I18n.t(Utils.renderLabel(department, Constants.Operator.departmentsLabels))}
-                  </option>
-                ))}
-              </Field>
+                onChange={(value: string) => handleDepartmentFieldChange(value, setFieldValue)}
+                options={Object.keys(availableDepartments).map(department => ({
+                  label: I18n.t(Utils.renderLabel(department, Constants.Operator.departmentsLabels)),
+                  value: department,
+                }))}
+              />
 
               <Field
+                searchable
+                withFocus
                 name="authorities.roles"
                 data-testid="OperatorsGridFilter-authoritiesRolesSelect"
                 label={I18n.t(attributeLabels.roles)}
                 className="OperatorsGridFilter__field OperatorsGridFilter__select"
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 disabled={isSubmitting || !availableRoles.length}
-                searchable
-                withFocus
-                multiple
-              >
-                {availableRoles.map(role => (
-                  <option key={role} value={role}>
-                    {I18n.t(Utils.renderLabel(role, Constants.Operator.rolesLabels))}
-                  </option>
-                ))}
-              </Field>
+                options={availableRoles.map(role => ({
+                  label: I18n.t(Utils.renderLabel(role, Constants.Operator.rolesLabels)),
+                  value: role,
+                }))}
+              />
             </div>
 
             <div className="OperatorsGridFilter__buttons">

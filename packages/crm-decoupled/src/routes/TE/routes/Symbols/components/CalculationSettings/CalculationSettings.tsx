@@ -1,9 +1,6 @@
 import React from 'react';
 import { Field, FormikProps } from 'formik';
-import { Input } from 'components';
-import {
-  FormikInputField,
-} from 'components/Formik';
+import { Input, FormikInputField } from 'components';
 import I18n from 'i18n-config';
 import { FormValues } from '../../types';
 import './CalculationSettings.scss';

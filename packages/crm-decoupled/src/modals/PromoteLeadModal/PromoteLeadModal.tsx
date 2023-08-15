@@ -4,9 +4,8 @@ import { Formik, Form, Field } from 'formik';
 import { omit } from 'lodash';
 import Trackify from '@hrzn/trackify';
 import { Config, Utils, parseErrors, usePermission, notify, Types } from '@crm/common';
-import { Button, Input } from 'components';
+import { Button, Input, FormikSingleSelectField, FormikInputField } from 'components';
 import { Lead } from '__generated__/types';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { attributeLabels } from './constants';
 import { useLeadEmailQueryLazyQuery } from './graphql/__generated__/LeadEmailQuery';
@@ -195,40 +194,36 @@ const PromoteLeadModal = (props: Props) => {
               />
 
               <Field
+                searchable
                 name="address.countryCode"
                 className="PromoteLeadModal__field"
                 data-testid="PromoteLeadModal-countryCodeSelect"
                 label={I18n.t(attributeLabels.country)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 disabled={isSubmitting}
-                searchable
-              >
-                {Object.entries(Utils.countryList).map(([key, value]) => (
-                  <option key={key} value={key}>
-                    {value}
-                  </option>
-                ))}
-              </Field>
+                options={Object.entries(Utils.countryList).map(([key, value]) => ({
+                  label: value,
+                  value: key,
+                }))}
+              />
 
               <Field
+                searchable
                 name="languageCode"
                 className="PromoteLeadModal__field"
                 data-testid="PromoteLeadModal-languageCodeSelect"
                 label={I18n.t(attributeLabels.language)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 disabled={isSubmitting}
-                searchable
-              >
-                {Config.getAvailableLanguages().map(locale => (
-                  <option key={locale} value={locale}>
-                    {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, {
-                      defaultValue: locale.toUpperCase(),
-                    })}
-                  </option>
-                ))}
-              </Field>
+                options={Config.getAvailableLanguages().map(locale => ({
+                  label: I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, {
+                    defaultValue: locale.toUpperCase(),
+                  }),
+                  value: locale,
+                }))}
+              />
             </div>
 
             <If condition={!!error}>

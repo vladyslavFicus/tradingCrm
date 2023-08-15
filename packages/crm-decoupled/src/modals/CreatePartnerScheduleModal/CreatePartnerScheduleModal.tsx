@@ -3,10 +3,8 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Formik, Form, Field, FieldArray, FieldArrayRenderProps, FormikHelpers } from 'formik';
 import { Utils, notify, Types } from '@crm/common';
-import { TrashButton } from 'components';
+import { TrashButton, FormikInputField, FormikSingleSelectField, FormikTimeRangeField } from 'components';
 import { Partner__Schedule__CountrySpreads as CountrySpreads } from '__generated__/types';
-import { decodeNullValues } from 'components/Formik/utils';
-import { FormikInputField, FormikSelectField, FormikTimeRangeField } from 'components/Formik';
 import Modal from 'components/Modal';
 import { attributeLabels, validate } from './constants';
 import { useCreateScheduleMutation } from './graphql/__generated__/CreateScheduleMutation';
@@ -77,7 +75,7 @@ const CreatePartnerScheduleModal = (props: Props) => {
               // filter need for delete empty value in array
               ...newCountrySpreads.filter((item: CountrySpreads) => item && item.limit),
             ],
-            ...decodeNullValues({ newTotalLimit, ...rest }),
+            ...Utils.decodeNullValues({ newTotalLimit, ...rest }),
           },
         });
 
@@ -190,9 +188,10 @@ const CreatePartnerScheduleModal = (props: Props) => {
                   {currentCountrySpreads.map(({ country }, index) => (
                     <div className="CreatePartnerScheduleModal__spread" key={index}>
                       <Field
+                        searchable
                         name={`countrySpreads[${index}].country`}
                         data-testid={`CreatePartnerScheduleModal-countrySpreads[${index}]CountryInput`}
-                        component={FormikSelectField}
+                        component={FormikSingleSelectField}
                         customOnChange={(value: string) => onHandleSelect(
                           index,
                           `countrySpreads[${index}].country`,
@@ -202,23 +201,14 @@ const CreatePartnerScheduleModal = (props: Props) => {
                         )}
                         disabled={isSubmitting}
                         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                        searchable
-                      >
-                        {Object.entries(Utils.countryList).map(([key, value]) => (
-                          <option
-                            key={key}
-                            value={key}
-                            className={
-                                    classNames('CreatePartnerScheduleModal__options-item', {
-                                      'CreatePartnerScheduleModal--is-disabled': selectedCountries.indexOf(key) !== -1,
-                                    })
-                                  }
-                          >
-                            {value}
-                          </option>
-                        ))
-                              }
-                      </Field>
+                        options={Object.entries(Utils.countryList).map(([key, value]) => ({
+                          label: value,
+                          value: key,
+                          className: classNames('CreatePartnerScheduleModal__options-item', {
+                            'CreatePartnerScheduleModal--is-disabled': selectedCountries.indexOf(key) !== -1,
+                          }),
+                        }))}
+                      />
 
                       <Field
                         name={`countrySpreads[${index}].limit`}

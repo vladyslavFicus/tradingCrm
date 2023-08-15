@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 import moment from 'moment';
 import { Types, Constants, useModal } from '@crm/common';
 import { LeadCallback } from '__generated__/types';
-import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
 import UpdateLeadCallbackModal, { UpdateLeadCallbackModalProps } from 'modals/UpdateLeadCallbackModal';
 import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
 import useCalendar from 'components/Calendar/hooks/useCalendar';
@@ -18,8 +17,8 @@ const useLeadCallbacksCalendar = () => {
   // ===== Requests ===== //
   const leadCallbacksCalendarListQuery = useLeadCallbacksCalendarListQuery({
     variables: {
-      callbackTimeFrom: firstVisibleDate(moment()).utc().format(DATE_TIME_BASE_FORMAT),
-      callbackTimeTo: lastVisibleDate(moment()).utc().format(DATE_TIME_BASE_FORMAT),
+      callbackTimeFrom: firstVisibleDate(moment()).utc().format(Constants.DATE_TIME_BASE_FORMAT),
+      callbackTimeTo: lastVisibleDate(moment()).utc().format(Constants.DATE_TIME_BASE_FORMAT),
       page: {
         from: 0,
         size: 2000,

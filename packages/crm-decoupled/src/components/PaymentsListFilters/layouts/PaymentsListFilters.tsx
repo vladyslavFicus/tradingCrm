@@ -3,8 +3,15 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Field, Form, Formik } from 'formik';
 import { Utils, Constants } from '@crm/common';
-import { Button, FormikMultipleSelectField, FormikSingleSelectField, RefreshButton, RangeGroup } from 'components';
-import { FormikDateRangePicker, FormikInputField } from 'components/Formik';
+import {
+  Button,
+  FormikMultipleSelectField,
+  FormikSingleSelectField,
+  RefreshButton,
+  RangeGroup,
+  FormikDateRangePicker,
+  FormikInputField,
+} from 'components';
 import { FiltersToggler } from 'components/FiltersToggler';
 import { FilterSetsDecorator, FilterSetsButtons } from 'components/FilterSetsDecorator';
 import TimeZoneField from 'components/TimeZoneField';

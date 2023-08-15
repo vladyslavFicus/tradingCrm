@@ -2,9 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils } from '@crm/common';
-import { Button } from 'components';
+import { Button, FormikSingleSelectField } from 'components';
 import { Operator } from '__generated__/types';
-import { FormikSelectField } from 'components/Formik';
 
 import useOperatorHierarchyBranches from 'routes/Operators/routes/hooks/useOperatorHierarchyBranches';
 import './OperatorHierarchyBranches.scss';
@@ -119,63 +118,60 @@ const OperatorHierarchyBranches = (props: Props) => {
                 return (
                   <Form className="OperatorHierarchyBranches__form">
                     <Field
+                      searchable
                       name="brandId"
                       className="OperatorHierarchyBranches__form-field"
                       data-testid="OperatorHierarchyBranches-brandIdSelect"
                       label={I18n.t(attributeLabels.brandId)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       customOnChange={(value: string) => handleBrandChange(value, setFieldValue)}
-                      component={FormikSelectField}
+                      component={FormikSingleSelectField}
                       disabled={isSubmitting || brandsLoading}
-                      searchable
-                    >
-                      {brandsList.map(brand => (
-                        <option key={brand.uuid} value={brand.uuid}>
-                          {brand.name}
-                        </option>
-                      ))}
-                    </Field>
+                      options={brandsList.map(brand => ({
+                        label: brand.name,
+                        value: brand.uuid,
+                      }))}
+                    />
 
                     <Field
+                      searchable
                       name="branchType"
                       className="OperatorHierarchyBranches__form-field"
                       data-testid="OperatorHierarchyBranches-branchTypeSelect"
                       label={I18n.t(attributeLabels.branchType)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       customOnChange={(value: string) => handleBranchTypeChange(value, setFieldValue)}
-                      component={FormikSelectField}
+                      component={FormikSingleSelectField}
                       disabled={isSubmitting || !values.brandId}
-                      searchable
-                    >
-                      {branchTypesOptions.map(branchType => (
-                        <option key={branchType} value={branchType}>
-                          {I18n.t(`COMMON.${branchType}`)}
-                        </option>
-                      ))}
-                    </Field>
+                      options={branchTypesOptions.map(branchType => ({
+                        label: I18n.t(`COMMON.${branchType}`),
+                        value: branchType,
+                      }))}
+                    />
 
                     <Field
+                      searchable
                       name="branchUuid"
                       label={I18n.t(attributeLabels.branch)}
                       className="OperatorHierarchyBranches__form-field"
                       data-testid="OperatorHierarchyBranches-branchUuidSelect"
-                      component={FormikSelectField}
+                      component={FormikSingleSelectField}
                       placeholder={I18n.t(
                         !availableBranches.length
                           ? 'COMMON.SELECT_OPTION.NO_ITEMS'
                           : 'COMMON.SELECT_OPTION.DEFAULT',
                       )}
                       disabled={disabledBranchUuid}
-                      searchable
-                    >
-                      {availableBranches.map(branch => (
-                        // @ts-ignore prop "search" does not exist for the tag option
-                        <option key={branch.uuid} value={branch.uuid} search={branch.name}>
-                          {buildHierarchyParentsBranchChain(branch)}
-                          <span className="OperatorHierarchyBranches__branch-name">{branch.name}</span>
-                        </option>
-                      ))}
-                    </Field>
+                      options={availableBranches.map(branch => ({
+                        label: (
+                          <>
+                            {buildHierarchyParentsBranchChain(branch)}
+                            <span className="OperatorHierarchyBranches__branch-name">{branch.name}</span>
+                          </>
+                        ),
+                        value: branch.uuid,
+                      }))}
+                    />
 
                     <div className="OperatorHierarchyBranches__form-buttons">
                       <Button

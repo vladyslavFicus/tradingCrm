@@ -5,7 +5,6 @@ import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
 import { Config, Utils, Constants, parseErrors, notify, Types } from '@crm/common';
 import { Button } from 'components';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import { decodeNullValues } from 'components/Formik/utils';
 import Modal from 'components/Modal';
 import StaticTabs from 'components/StaticTabs';
 import StaticTabsItem from 'components/StaticTabsItem';
@@ -87,7 +86,7 @@ const UpdateRuleModal = (props: Props) => {
             },
             // update schedules only if it's changed to prevent sending default schedule body
             ...validationSchedulesEnabled && { schedules },
-            ...decodeNullValues(values),
+            ...Utils.decodeNullValues(values),
           },
         },
       );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field, FieldArray, FormikProps } from 'formik';
 import I18n from 'i18n-js';
-import { FormikCheckbox } from 'components/Formik';
+import { FormikCheckbox } from 'components';
 import { weekDays } from './constants';
 import './DistributionRuleScheduleSettings.scss';
 

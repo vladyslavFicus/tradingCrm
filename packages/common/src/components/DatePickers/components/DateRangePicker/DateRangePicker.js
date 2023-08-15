@@ -15,7 +15,7 @@ import {
   DATE_TIME_BASE_FORMAT,
   DATE_TIME_OLD_BASE_FORMAT,
   defaultAdditionalOptions,
-} from '../../constants';
+} from '../../../../constants';
 import './DateRangePicker.scss';
 
 class DateRangePicker extends PureComponent {

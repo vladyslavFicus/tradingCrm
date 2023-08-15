@@ -16,7 +16,7 @@ import {
   DATE_TIME_USER_STRING_FORMAT,
   DATE_TIME_BASE_FORMAT,
   DATE_TIME_OLD_BASE_FORMAT,
-} from '../../constants';
+} from '../../../../constants';
 import './DatePicker.scss';
 
 class DatePicker extends PureComponent {

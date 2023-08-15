@@ -3,8 +3,15 @@ import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import { Constants } from '@crm/common';
-import { Button, RefreshButton, RangeGroup } from 'components';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
+import {
+  Button,
+  RefreshButton,
+  FormikSingleSelectField,
+  FormikMultipleSelectField,
+  FormikInputField,
+  FormikDateRangePicker,
+  RangeGroup,
+} from 'components';
 import useFilter from 'hooks/useFilter';
 import PlatformTypeBadge from 'components/PlatformTypeBadge';
 import useTradingActivityGridFilter
@@ -67,86 +74,74 @@ const TradingActivityGridFilter = (props: Props) => {
             />
 
             <Field
+              withFocus
               name="loginIds"
               data-testid="TradingActivityGridFilter-loginIdsSelect"
               label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.LOGIN_IDS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ALL')}
               className="TradingActivityGridFilter__field"
-              component={FormikSelectField}
+              component={FormikMultipleSelectField}
               disabled={accounts.length === 0}
-              withFocus
-              multiple
-            >
-              {accounts.map(({ login, platformType }) => (
-                <option key={login} value={login}>
+              options={accounts.map(({ login, platformType }) => ({
+                label: (
                   <PlatformTypeBadge platformType={platformType} center>
                     {login}
-                  </PlatformTypeBadge>
-                </option>
-              ))}
-            </Field>
+                  </PlatformTypeBadge>),
+                value: login,
+              }))}
+            />
 
             <Field
+              withAnyOption
+              searchable
+              withFocus
               name="operationType"
               data-testid="TradingActivityGridFilter-operationTypeSelect"
               label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.TYPE_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="TradingActivityGridFilter__field"
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
+              options={types.map(({ value, label }) => ({
+                label: I18n.t(label),
+                value,
+              }))}
+            />
+
+            <Field
               withAnyOption
               searchable
               withFocus
-            >
-              {types.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {I18n.t(label)}
-                </option>
-              ))}
-            </Field>
-
-            <Field
               name="symbol"
               data-testid="TradingActivityGridFilter-symbolSelect"
               label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.SYMBOL_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="TradingActivityGridFilter__field"
-              component={FormikSelectField}
-              withAnyOption
-              searchable
-              withFocus
-            >
-              {symbols.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {I18n.t(label)}
-                </option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={symbols.map(({ value, label }) => ({
+                label: I18n.t(label),
+                value,
+              }))}
+            />
 
             <Field
+              searchable
+              withFocus
               name="agentIds"
               data-testid="TradingActivityGridFilter-agentIdsSelect"
               label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.ORIGINAL_AGENT_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="TradingActivityGridFilter__field"
-              component={FormikSelectField}
+              component={FormikMultipleSelectField}
               disabled={disabledOriginalAgentField}
-              searchable
-              withFocus
-              multiple
-            >
-              {originalAgents.map(({ fullName, uuid, operatorStatus }) => (
-                <option
-                  key={uuid}
-                  value={uuid}
-                  className={classNames({
-                    'TradingActivityGridFilter__field-inactive-option':
-                      operatorStatus !== Constants.Operator.statuses.ACTIVE,
-                  })}
-                >
-                  {fullName}
-                </option>
-              ))}
-            </Field>
+              options={originalAgents.map(({ fullName, uuid, operatorStatus }) => ({
+                label: fullName,
+                value: uuid,
+                className: classNames({
+                  'TradingActivityGridFilter__field-inactive-option': operatorStatus
+                  !== Constants.Operator.statuses.ACTIVE,
+                }),
+              }))}
+            />
 
             <RangeGroup
               className="TradingActivityGridFilter__field"
@@ -178,21 +173,19 @@ const TradingActivityGridFilter = (props: Props) => {
             </RangeGroup>
 
             <Field
+              withAnyOption
+              withFocus
               name="status"
               data-testid="TradingActivityGridFilter-statusSelect"
               label={I18n.t('CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUS_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="TradingActivityGridFilter__field"
-              component={FormikSelectField}
-              withAnyOption
-              withFocus
-            >
-              {Object.keys(statuses).map(status => (
-                <option key={status} value={status}>
-                  {I18n.t(`CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.${status}`)}
-                </option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={Object.keys(statuses).map(status => ({
+                label: I18n.t(`CLIENT_PROFILE.TRADING_ACTIVITY.FILTER_FORM.STATUSES.${status}`),
+                value: status,
+              }))}
+            />
 
             <Field
               name="tradeType"
@@ -200,16 +193,14 @@ const TradingActivityGridFilter = (props: Props) => {
               label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="TradingActivityGridFilter__field"
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               withAnyOption
               withFocus
-            >
-              {Constants.accountTypes.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {I18n.t(label)}
-                </option>
-              ))}
-            </Field>
+              options={Constants.accountTypes.map(({ value, label }) => ({
+                label: I18n.t(label),
+                value,
+              }))}
+            />
 
             <If condition={platformTypes.length > 1}>
               <Field
@@ -218,14 +209,14 @@ const TradingActivityGridFilter = (props: Props) => {
                 label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="TradingActivityGridFilter__field"
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 withAnyOption
                 withFocus
-              >
-                {platformTypes.map(({ value, label }) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
-              </Field>
+                options={platformTypes.map(({ value, label }) => ({
+                  label,
+                  value,
+                }))}
+              />
             </If>
 
             <Field

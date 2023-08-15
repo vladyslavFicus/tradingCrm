@@ -4,8 +4,12 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { Utils, parseErrors, useModal, notify, Types } from '@crm/common';
-import { Button } from 'components';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
+import {
+  Button,
+  FormikSingleSelectField,
+  FormikMultipleSelectField,
+  FormikInputField,
+} from 'components';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { passwordMaxSize, passwordPattern } from '../../constants';
 import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAccessDataQuery';
@@ -175,6 +179,7 @@ const NewOperatorModal = (props: Props) => {
                   disabled={isSubmitting}
                 />
                 <Field
+                  searchable
                   name="role"
                   className="NewOperatorModal__field"
                   label={I18n.t(attributeLabels.role)}
@@ -183,17 +188,16 @@ const NewOperatorModal = (props: Props) => {
                       ? I18n.t('COMMON.SELECT_OPTION.DEFAULT')
                       : I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
                   }
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   disabled={isSubmitting || !rolesOptions.length}
-                  searchable
-                >
-                  {rolesOptions.map(role => (
-                    <option key={role} value={role}>
-                      {role}
-                    </option>
-                  ))}
-                </Field>
+                  options={rolesOptions.map(role => ({
+                    label: role,
+                    value: role,
+                  }))}
+                />
                 <Field
+                  searchable
+                  multipleLabel
                   name="groupNames"
                   className="NewOperatorModal__wide_field"
                   label={I18n.t(attributeLabels.groups)}
@@ -202,18 +206,13 @@ const NewOperatorModal = (props: Props) => {
                       ? I18n.t('COMMON.SELECT_OPTION.DEFAULT')
                       : I18n.t('COMMON.SELECT_OPTION.NO_ITEMS')
                   }
-                  component={FormikSelectField}
+                  component={FormikMultipleSelectField}
                   disabled={isSubmitting || !rolesOptions.length}
-                  searchable
-                  multiple
-                  multipleLabel
-                >
-                  {accessibleGroupNames.map(group => (
-                    <option key={group} value={group}>
-                      {group}
-                    </option>
-                  ))}
-                </Field>
+                  options={accessibleGroupNames.map(group => ({
+                    label: group,
+                    value: group,
+                  }))}
+                />
               </ModalBody>
               <ModalFooter>
                 <If condition={!values.groupNames?.length}>

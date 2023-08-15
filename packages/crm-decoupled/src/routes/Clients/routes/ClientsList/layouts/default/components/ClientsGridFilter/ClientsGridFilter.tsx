@@ -9,17 +9,16 @@ import {
   ReactSwitch,
   DynamicField as Field,
   DynamicRangeGroup as RangeGroup,
-} from 'components';
-import {
   FormikInputField,
   FormikSelectField,
   FormikDateRangePicker,
-} from 'components/Formik';
+} from 'components';
 import useFilter from 'hooks/useFilter';
 import { FiltersToggler } from 'components/FiltersToggler';
 import { FilterSetsDecorator, FilterSetsButtons } from 'components/FilterSetsDecorator';
 import DynamicFiltersButton from 'components/DynamicFiltersButton';
 import TimeZoneField from 'components/TimeZoneField/TimeZoneField';
+
 import {
   MAX_SELECTED_CLIENTS,
   acquisitionStatuses,

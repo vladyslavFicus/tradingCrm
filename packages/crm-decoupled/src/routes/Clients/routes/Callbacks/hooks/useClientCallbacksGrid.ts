@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
 import { Config, useModal, usePermission } from '@crm/common';
 import { ClientCallback } from '__generated__/types';
-import useHandlePageChanged from 'hooks/useHandlePageChanged';
-import UpdateClientCallbackModal, { UpdateClientCallbackModalProps } from 'modals/UpdateClientCallbackModal';
-import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import {
   ClientCallbacksListQueryQueryResult,
 } from 'routes/Clients/routes/Callbacks/graphql/__generated__/ClientCallbacksListQuery';
+import useHandlePageChanged from 'hooks/useHandlePageChanged';
+import UpdateClientCallbackModal, { UpdateClientCallbackModalProps } from 'modals/UpdateClientCallbackModal';
+import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 
 type Props = {
   clientCallbacksListQuery: ClientCallbacksListQueryQueryResult,

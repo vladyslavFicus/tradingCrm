@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
 import { Config, Types, Constants, usePermission, useModal } from '@crm/common';
 import { ClientCallback, LeadCallback } from '__generated__/types';
-import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
 import useCalendar from 'components/Calendar/hooks/useCalendar';
 import DeleteClientCallbackModal, { DeleteClientCallbackModalProps } from 'modals/DeleteClientCallbackModal';
 import DeleteLeadCallbackModal, { DeleteLeadCallbackModalProps } from 'modals/DeleteLeadCallbackModal';
@@ -21,8 +20,8 @@ const useCallbacksCalendar = (props: Props) => {
   const { firstVisibleDate, lastVisibleDate } = useCalendar();
 
   const [callbackTime, setCallbackTime] = useState({
-    callbackTimeFrom: firstVisibleDate(moment()).utc().format(DATE_TIME_BASE_FORMAT),
-    callbackTimeTo: lastVisibleDate(moment()).utc().format(DATE_TIME_BASE_FORMAT),
+    callbackTimeFrom: firstVisibleDate(moment()).utc().format(Constants.DATE_TIME_BASE_FORMAT),
+    callbackTimeTo: lastVisibleDate(moment()).utc().format(Constants.DATE_TIME_BASE_FORMAT),
   });
 
   // ===== Modals ===== //

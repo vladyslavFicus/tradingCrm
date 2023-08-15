@@ -3,8 +3,13 @@ import I18n from 'i18n-js';
 import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Config, Utils, parseErrors, usePermission, Constants } from '@crm/common';
-import { Button, Input, ShortLoader } from 'components';
-import { FormikSelectField, FormikInputField } from 'components/Formik';
+import {
+  Button,
+  Input,
+  ShortLoader,
+  FormikSingleSelectField,
+  FormikInputField,
+} from 'components';
 import Badge from 'components/Badge';
 import { useAccountQuery } from './graphql/__generated__/AccountQuery';
 import { useCreditInMutation } from './graphql/__generated__/CreditInMutation';
@@ -219,14 +224,12 @@ const FixBalanceModal = (props: Props) => {
                       label={I18n.t('TRADING_ENGINE.MODALS.FIX_ORDER_MODAL.OPERATION')}
                       className="FixBalanceModal__field"
                       disabled={accountQuery.loading}
-                      component={FormikSelectField}
-                    >
-                      {allowedOperations.map(operation => (
-                        <option key={operation} value={operation}>
-                          {I18n.t(`TRADING_ENGINE.MODALS.FIX_ORDER_MODAL.OPERATIONS.${operation}`)}
-                        </option>
-                      ))}
-                    </Field>
+                      component={FormikSingleSelectField}
+                      options={allowedOperations.map(operation => ({
+                        label: I18n.t(`TRADING_ENGINE.MODALS.FIX_ORDER_MODAL.OPERATIONS.${operation}`),
+                        value: operation,
+                      }))}
+                    />
                   </div>
                   <div className="FixBalanceModal__field-container">
                     <Field

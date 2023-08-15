@@ -2,14 +2,16 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils, Types } from '@crm/common';
-import { Button } from 'components';
 import { Partner } from '__generated__/types';
 import {
+  Button,
+  FormikSingleSelectField,
+  FormikMultipleSelectField,
   FormikInputField,
-  FormikSelectField,
   FormikCheckbox,
   FormikMultiInputField,
-  FormikInputRangeField } from 'components/Formik';
+  FormikInputRangeField } from 'components';
+
 import CopyToClipboard from 'components/CopyToClipboard';
 import usePartnerPersonalInfoForm, { FormValues } from 'routes/Partners/routes/hooks/usePartnerPersonalInfoForm';
 import { attributeLabels } from './constants';
@@ -202,21 +204,19 @@ const PartnerPersonalInfoForm = (props: Props) => {
               />
 
               <Field
+                searchable
                 name="country"
                 className="PartnerPersonalInfoForm__field"
                 data-testid="PartnerPersonalInfoForm-countrySelect"
                 label={I18n.t(attributeLabels.country)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.COUNTRY')}
-                component={FormikSelectField}
-                searchable
+                component={FormikSingleSelectField}
                 disabled={isSubmitting || deniesUpdate}
-              >
-                {Object.entries(Utils.countryList).map(([key, value]) => (
-                  <option key={key} value={key}>
-                    {value}
-                  </option>
-                ))}
-              </Field>
+                options={Object.entries(Utils.countryList).map(([key, value]) => ({
+                  label: value,
+                  value: key,
+                }))}
+              />
 
               <Field
                 name="permission.allowedIpAddresses"
@@ -229,22 +229,19 @@ const PartnerPersonalInfoForm = (props: Props) => {
               />
 
               <Field
+                searchable
                 name="permission.forbiddenCountries"
                 className="PartnerPersonalInfoForm__field"
                 data-testid="PartnerPersonalInfoForm-permissionForbiddenCountriesSelect"
                 label={I18n.t(attributeLabels.forbiddenCountries)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.COUNTRY')}
-                component={FormikSelectField}
-                searchable
-                multiple
+                component={FormikMultipleSelectField}
                 disabled={isSubmitting || deniesUpdate}
-              >
-                {Object.entries(Utils.countryList).map(([key, value]) => (
-                  <option key={key} value={key}>
-                    {value}
-                  </option>
-                ))}
-              </Field>
+                options={Object.entries(Utils.countryList).map(([key, value]) => ({
+                  label: value,
+                  value: key,
+                }))}
+              />
 
               <Field
                 name="permission.restrictedSources"

@@ -1,9 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Button } from 'components';
+import { Button, FormikSingleSelectField } from 'components';
 import { Profile } from '__generated__/types';
-import { FormikSelectField } from 'components/Formik';
 import useClientTransferForm from 'routes/Clients/routes/Client/routes/ClientProfileTab/hooks/useClientTransferForm';
 import { transferTypes } from 'routes/Clients/routes/Client/routes/ClientProfileTab/constants/clientTransferForm';
 import './ClientTransferForm.scss';
@@ -50,16 +49,13 @@ const ClientTransferForm = (_props: Props) => {
               data-testid="ClientTransferForm-internalTransferSelect"
               label={I18n.t('PLAYER_PROFILE.PROFILE.TRANSFER_AVAILABILITY.LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               disabled={isSubmitting || !allowUpdateTransfer}
-            >
-              {transferTypes.map(({ value, label }) => (
-                // @ts-ignore TS doesn't approve value as boolean type
-                <option key={`transferTypes-${value}`} value={value}>
-                  {I18n.t(label)}
-                </option>
-              ))}
-            </Field>
+              options={transferTypes.map(({ value, label }) => ({
+                label: I18n.t(label),
+                value,
+              }))}
+            />
           </Form>
         )}
       </Formik>

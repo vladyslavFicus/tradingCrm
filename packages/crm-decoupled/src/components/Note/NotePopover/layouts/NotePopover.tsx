@@ -4,8 +4,13 @@ import { Field, Form, Formik } from 'formik';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Utils, Types, Constants } from '@crm/common';
-import { Button, TrashButton } from 'components';
-import { FormikInputField, FormikSwitchField, FormikTextAreaField } from 'components/Formik';
+import {
+  Button,
+  TrashButton,
+  FormikInputField,
+  FormikSwitchField,
+  FormikTextAreaField,
+} from 'components';
 import Uuid from 'components/Uuid';
 import useNotePopover from '../hooks/useNotePopover';
 import './NotePopover.scss';

@@ -2,9 +2,14 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Utils } from '@crm/common';
-import { Button, RefreshButton } from 'components';
+import {
+  Button,
+  FormikMultipleSelectField,
+  RefreshButton,
+  FormikInputField,
+  FormikDateRangePicker,
+} from 'components';
 import { Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import useFilter from 'hooks/useFilter';
 import TimeZoneField from 'components/TimeZoneField';
 import { FormValues } from 'routes/Clients/routes/Callbacks/types';
@@ -49,22 +54,19 @@ const ClientCallbacksGridFilter = (props: Props) => {
           />
 
           <Field
+            searchable
+            withFocus
             name="statuses"
             className="ClientCallbacksGridFilter__field ClientCallbacksGridFilter__select"
             data-testid="ClientCallbacksGridFilter-statusesSelect"
             placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
             label={I18n.t('CALLBACKS.FILTER.STATUS')}
-            component={FormikSelectField}
-            searchable
-            withFocus
-            multiple
-          >
-            {Utils.enumToArray(CallbackStatusEnum).map(callbackStatus => (
-              <option key={callbackStatus} value={callbackStatus}>
-                {I18n.t(`CONSTANTS.CALLBACKS.${callbackStatus}`)}
-              </option>
-            ))}
-          </Field>
+            component={FormikMultipleSelectField}
+            options={Utils.enumToArray(CallbackStatusEnum).map(callbackStatus => ({
+              label: I18n.t(`CONSTANTS.CALLBACKS.${callbackStatus}`),
+              value: callbackStatus,
+            }))}
+          />
 
           <TimeZoneField
             className="ClientCallbacksGridFilter__field ClientCallbacksGridFilter__time-zone"

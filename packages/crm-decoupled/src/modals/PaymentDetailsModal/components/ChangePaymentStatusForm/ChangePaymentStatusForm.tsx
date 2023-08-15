@@ -2,8 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Utils, Constants, notify, Types } from '@crm/common';
-import { Button } from 'components';
-import { FormikSelectField } from 'components/Formik';
+import { Button, FormikSingleSelectField } from 'components';
 import { useUpdatePaymentMethodMutation } from './graphql/__generated__/UpdatePaymentMethodMutation';
 import { useUpdatePaymentStatusMutation } from './graphql/__generated__/UpdatePaymentStatusMutation';
 import { useManualPaymentMethodsQuery } from './graphql/__generated__/ManualPaymentMethodsQuery';
@@ -109,34 +108,27 @@ const ChangePaymentStatusForm = (props: Props) => {
               className="ChangePaymentStatusForm__field"
               label={I18n.t('PAYMENT_DETAILS_MODAL.CHANGE_STATUS')}
               placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
-              component={FormikSelectField}
-            >
-              {
-                  Object
-                    .entries(Constants.Payment.statusMapper)
-                    .filter(([item]) => item !== Constants.Payment.statuses.PENDING)
-                    .map(([key, value]) => (
-                      <option key={key} value={value[0]}>
-                        {I18n.t(Utils.renderLabel(key, Constants.Payment.statusesLabels))}
-                      </option>
-                    ))
-                }
-            </Field>
+              component={FormikSingleSelectField}
+              options={Object.entries(Constants.Payment.statusMapper)
+                .filter(([item]) => item !== Constants.Payment.statuses.PENDING)
+                .map(([key, value]) => ({
+                  label: I18n.t(Utils.renderLabel(key, Constants.Payment.statusesLabels)),
+                  value: value[0],
+                }))}
+            />
 
             <Field
               name="paymentMethod"
               className="ChangePaymentStatusForm__field"
               label={I18n.t('PAYMENT_DETAILS_MODAL.CHANGE_PAYMENT_METHOD')}
               placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               disabled={loading || disablePaymentMethod}
-            >
-              {(manualMethods as Array<string>).filter(item => item !== 'COMMISSION').map(item => (
-                <option key={item} value={item}>
-                  {Utils.formatLabel(item || '')}
-                </option>
-              ))}
-            </Field>
+              options={(manualMethods as Array<string>).filter(item => item !== 'COMMISSION').map(item => ({
+                label: Utils.formatLabel(item || ''),
+                value: item,
+              }))}
+            />
           </div>
 
           <div className="ChangePaymentStatusForm__buttons">

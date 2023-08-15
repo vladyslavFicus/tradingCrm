@@ -1,5 +1,5 @@
-import { ClickToCall__CallSystem__Enum as CallSystem } from '__generated__/types';
 import { Types } from '@crm/common';
+import { ClickToCall__CallSystem__Enum as CallSystem } from '__generated__/types';
 
 export type Arrow = Types.Position & null | 'center';
 

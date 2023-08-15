@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils, Constants, parseErrors, notify, Types } from '@crm/common';
 import { Operator } from '__generated__/types';
-import { FormikSelectField, FormikDatePicker } from 'components/Formik';
+import { FormikSingleSelectField, FormikDatePicker } from 'components';
 import Modal from 'components/Modal';
 import NoteActionManual from 'components/Note/NoteActionManual';
 import { useCallbackAddNoteMutation } from './graphql/__generated__/CallbackAddNoteMutation';
@@ -116,10 +116,11 @@ const CreateClientCallbackModal = (props: Props) => {
         >
           <Form>
             <Field
+              searchable
               name="operatorId"
               className="CreateClientCallbackModal__field"
               data-testid="CreateClientCallbackModal-operatorIdSelect"
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               label={I18n.t(attributeLabels.operatorId)}
               placeholder={
                   I18n.t(isOperatorsLoading
@@ -127,12 +128,12 @@ const CreateClientCallbackModal = (props: Props) => {
                     : 'CALLBACKS.CREATE_MODAL.SELECT_OPERATOR')
                 }
               disabled={isSubmitting || isOperatorsLoading}
-              searchable
-            >
-              {operators.map(({ uuid, fullName, operatorStatus }) => (
-                <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>{fullName}</option>
-              ))}
-            </Field>
+              options={operators.map(({ uuid, fullName, operatorStatus }) => ({
+                label: fullName,
+                value: uuid,
+                disabled: operatorStatus !== 'ACTIVE',
+              }))}
+            />
 
             <Field
               name="callbackTime"
@@ -150,14 +151,12 @@ const CreateClientCallbackModal = (props: Props) => {
               data-testid="CreateClientCallbackModal-reminderSelect"
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               label={I18n.t(attributeLabels.reminder)}
-              component={FormikSelectField}
-            >
-              {Constants.reminderValues.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={Constants.reminderValues.map(({ value, label }) => ({
+                label,
+                value,
+              }))}
+            />
 
             <div className="CreateClientCallbackModal__note">
               <NoteActionManual

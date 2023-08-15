@@ -3,8 +3,13 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import classNames from 'classnames';
 import { Constants } from '@crm/common';
-import { Button, RefreshButton } from 'components';
-import { FormikDateRangePicker, FormikInputField, FormikSelectField } from 'components/Formik';
+import {
+  Button,
+  FormikMultipleSelectField,
+  FormikInputField,
+  FormikDateRangePicker,
+  RefreshButton,
+} from 'components';
 import useFilter from 'hooks/useFilter';
 import useNotificationsGridFilters from 'routes/Notifications/hooks/useNotificationsGridFilters';
 import { FormValues } from 'routes/Notifications/types/notificationGridFilters';
@@ -65,6 +70,8 @@ const NotificationsGridFilters = (props: Props) => {
               />
 
               <Field
+                searchable
+                withFocus
                 name="operatorDesks"
                 className="NotificationsGridFilters__field NotificationsGridFilters__select"
                 data-testid="NotificationsFilters-operatorDesksSelect"
@@ -76,20 +83,17 @@ const NotificationsGridFilters = (props: Props) => {
                       : 'COMMON.SELECT_OPTION.ANY',
                   )
                 }
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 disabled={desksTeamsLoading || !desks.length}
-                searchable
-                withFocus
-                multiple
-              >
-                {desks.map(({ uuid, name }) => (
-                  <option key={uuid} value={uuid}>
-                    {I18n.t(name)}
-                  </option>
-                ))}
-              </Field>
+                options={desks.map(({ uuid, name }) => ({
+                  label: I18n.t(name),
+                  value: uuid,
+                }))}
+              />
 
               <Field
+                searchable
+                withFocus
                 name="operatorTeams"
                 className="NotificationsGridFilters__field NotificationsGridFilters__select"
                 data-testid="NotificationsFilters-operatorTeamsSelect"
@@ -101,20 +105,17 @@ const NotificationsGridFilters = (props: Props) => {
                       : 'COMMON.SELECT_OPTION.ANY',
                   )
                 }
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 disabled={desksTeamsLoading || !teamsOptions.length}
-                searchable
-                withFocus
-                multiple
-              >
-                {teamsOptions.map(({ uuid, name }) => (
-                  <option key={uuid} value={uuid}>
-                    {I18n.t(name)}
-                  </option>
-                ))}
-              </Field>
+                options={teamsOptions.map(({ uuid, name }) => ({
+                  label: I18n.t(name),
+                  value: uuid,
+                }))}
+              />
 
               <Field
+                searchable
+                withFocus
                 name="operators"
                 className="NotificationsGridFilters__field NotificationsGridFilters__select"
                 data-testid="NotificationsFilters-operatorsSelect"
@@ -126,63 +127,49 @@ const NotificationsGridFilters = (props: Props) => {
                       : 'COMMON.SELECT_OPTION.ANY',
                   )
                 }
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 disabled={operatorsLoading || !operatorsOptions.length}
-                searchable
-                withFocus
-                multiple
-              >
-                {operatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
-                  <option
-                    key={uuid}
-                    value={uuid}
-                    className={classNames('NotificationsGridFilters__select-option', {
-                      'NotificationsGridFilters__select-option--inactive':
-                        operatorStatus !== Constants.Operator.statuses.ACTIVE,
-                    })}
-                  >
-                    {fullName}
-                  </option>
-                ))}
-              </Field>
+                options={operatorsOptions.map(({ uuid, fullName, operatorStatus }) => ({
+                  label: fullName,
+                  value: uuid,
+                  className: classNames('NotificationsGridFilters__select-option', {
+                    'NotificationsGridFilters__select-option--inactive': operatorStatus
+                    !== Constants.Operator.statuses.ACTIVE,
+                  }),
+                }))}
+              />
 
               <Field
+                searchable
+                withFocus
                 name="notificationTypes"
                 className="NotificationsGridFilters__field NotificationsGridFilters__select"
                 data-testid="NotificationsFilters-notificationTypesSelect"
                 label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 disabled={notificationTypesLoading}
-                searchable
-                withFocus
-                multiple
-              >
-                {notificationTypes.map(type => (
-                  <option key={type} value={type}>
-                    {I18n.t(`NOTIFICATION_CENTER.TYPES.${type}`)}
-                  </option>
-                ))}
-              </Field>
+                options={notificationTypes.map(type => ({
+                  label: I18n.t(`NOTIFICATION_CENTER.TYPES.${type}`),
+                  value: type,
+                }))}
+              />
 
               <Field
+                searchable
+                withFocus
                 name="notificationSubtypes"
                 className="NotificationsGridFilters__field NotificationsGridFilters__select"
                 data-testid="NotificationsFilters-notificationSubtypesSelect"
                 label={I18n.t('NOTIFICATION_CENTER.FILTERS.LABELS.NOTIFICATION_TYPE_DETAILS')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 disabled={notificationTypesLoading || !notificationSubtypes.length}
-                searchable
-                withFocus
-                multiple
-              >
-                {notificationSubtypes.map(subtype => (
-                  <option key={subtype} value={subtype}>
-                    {I18n.t(`NOTIFICATION_CENTER.SUBTYPES.${subtype}`)}
-                  </option>
-                ))}
-              </Field>
+                options={notificationSubtypes.map(subtype => ({
+                  label: I18n.t(`NOTIFICATION_CENTER.TYPES.${subtype}`),
+                  value: subtype,
+                }))}
+              />
 
               <Field
                 className="NotificationsGridFilters__field NotificationsGridFilters__date-range"
