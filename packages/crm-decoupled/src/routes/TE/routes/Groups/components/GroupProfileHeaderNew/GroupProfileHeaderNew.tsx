@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import I18n from 'i18n-js';
 import { FormikProps } from 'formik';
-import { Button } from 'components';
-import Select from 'components/Select';
+import { Button, SingleSelect } from 'components';
 import { FormValues } from '../../types';
 import { useNewGroupTemplatesQuery, NewGroupTemplatesQuery } from './graphql/__generated__/NewGroupTemplatesQuery';
 import './GroupProfileHeaderNew.scss';
@@ -54,20 +53,17 @@ const GroupProfileHeaderNew = (props: Props) => {
             {I18n.t('TRADING_ENGINE.GROUP.TEMPLATES')}
           </span>
 
-          <Select
-            // Required because the Select component is not the TS component and doesn't support typing
+          <SingleSelect
             disabled={groupTemplates.loading}
             onChange={onChangeHandler}
             value={templateNameGroup}
             data-testid="GroupProfileHeaderNew-groupTemplateSelect"
             placeholder={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.GROUP_TEMPLATE')}
-          >
-            {content.map((group: Group) => (
-              <option key={group.groupName} value={group.groupName}>
-                {group.groupName}
-              </option>
-            ))}
-          </Select>
+            options={content.map((group: Group) => ({
+              label: group.groupName,
+              value: group.groupName,
+            }))}
+          />
         </div>
 
         <Button

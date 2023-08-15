@@ -687,6 +687,17 @@
     "DEFER": "Defer",
     "BRANCH_TYPE": "Branch type",
     "BRANCH": "Branch",
+    "SELECT": {
+      "ANY": "Any",
+      "SEARCH_PLACEHOLDER": "Search",
+      "NOTHING_FOUND": "Nothing found...",
+      "OPTIONS_NOT_FOUND": "Available options by query \"{{search}}\" not found...",
+      "N_OPTIONS_SELECTED": "{{count}} options selected",
+      "SELECTED_OPTIONS": "Selected options",
+      "AVAILABLE_OPTIONS": "Available options",
+      "ALL": "All",
+      "CLEAR": "Clear"
+    },
     "SELECT_OPTION": {
       "ANY": "Any",
       "ALL": "All",

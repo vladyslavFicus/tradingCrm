@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Utils } from '@crm/common';
-import { FormikSelectField, FormikTextAreaField } from 'components/Formik';
+import { FormikSingleSelectField, FormikTextAreaField } from 'components';
 import Modal from 'components/Modal';
 import { attributeLabels } from './constants';
 
@@ -66,14 +66,12 @@ const ChangeAccountStatusModal = (props: Props) => {
               data-testid="ChangeAccountStatusModal-reasonSelect"
               placeholder={I18n.t('COMMON.SELECT_OPTION.STATUS')}
               label={I18n.t(attributeLabels.reason)}
-              component={FormikSelectField}
-            >
-              {reasonsKeys.map(key => (
-                <option key={key} value={key}>
-                  {I18n.t(Utils.renderLabel(key, reasons))}
-                </option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={reasonsKeys.map(key => ({
+                label: I18n.t(Utils.renderLabel(key, reasons)),
+                value: key,
+              }))}
+            />
 
             <If condition={!!withComment}>
               <Field

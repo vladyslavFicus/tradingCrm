@@ -1,11 +1,7 @@
 import React from 'react';
 import { Field } from 'formik';
+import { FormikSingleSelectField, FormikCheckbox, FormikInputField } from 'components';
 import I18n from 'i18n-config';
-import {
-  FormikInputField,
-  FormikCheckbox,
-  FormikSelectField,
-} from 'components/Formik';
 import { swapTypesLabels } from '../../constants';
 import './SwapsSettings.scss';
 
@@ -32,14 +28,12 @@ const SwapsSettings = () => (
         label={I18n.t('TRADING_ENGINE.SYMBOL.TYPE_LABEL')}
         placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
         className="SwapsSettings__field"
-        component={FormikSelectField}
-      >
-        {swapTypesLabels.map(({ name, value }) => (
-          <option key={value} value={value}>
-            {I18n.t(name)}
-          </option>
-        ))}
-      </Field>
+        component={FormikSingleSelectField}
+        options={swapTypesLabels.map(({ name, value }) => ({
+          label: I18n.t(name),
+          value,
+        }))}
+      />
       <Field
         type="number"
         name="swapConfigs.long"

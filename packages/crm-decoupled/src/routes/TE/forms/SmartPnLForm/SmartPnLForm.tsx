@@ -5,15 +5,15 @@ import { intersectionWith, orderBy } from 'lodash';
 import Hotkeys from 'react-hot-keys';
 import moment from 'moment';
 import { Utils, parseErrors, notify, Types, useStorage } from '@crm/common';
-import { Button, Input } from 'components';
 import {
+  Button,
+  Input,
   FormikCheckbox,
   FormikInputDecimalsField,
   FormikInputField,
   FormikDatePicker,
   FormikSelectTreeField,
-} from 'components/Formik';
-import { Node } from 'components/SelectTree';
+} from 'components';
 import { OrderDirection, OrderType } from 'types/trading-engine';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { calculateClosePrice, calculateMargin, calculatePnL } from 'routes/TE/utils/formulas';
@@ -23,6 +23,13 @@ import { useCreateClosedOrderMutation } from './graphql/__generated__/CreateClos
 import { useAccountQuery } from './graphql/__generated__/AccountQuery';
 import { useAccountSymbolsQuery } from './graphql/__generated__/AccountSymbolsQuery';
 import './SmartPnLForm.scss';
+
+type Node = {
+  value: string,
+  label: string,
+  children?: Node[],
+  showCheckbox?: boolean,
+};
 
 type Props = {
   accountUuid?: string,

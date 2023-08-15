@@ -3,14 +3,14 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils, Types } from '@crm/common';
-import { Button, RefreshButton } from 'components';
-import { TradingEngine__OperatorStatuses__Enum as OperatorStatusesEnum } from '__generated__/types';
 import {
+  Button,
+  FormikMultipleSelectField,
+  RefreshButton,
   FormikInputField,
-  FormikSelectField,
   FormikDateRangePicker,
-} from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
+} from 'components';
+import { TradingEngine__OperatorStatuses__Enum as OperatorStatusesEnum } from '__generated__/types';
 import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAccessDataQuery';
 import './OperatorsFilter.scss';
 
@@ -43,7 +43,7 @@ const OperatorsFilter = (props: Props) => {
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: Utils.decodeNullValues(values),
       },
     });
   };
@@ -85,37 +85,31 @@ const OperatorsFilter = (props: Props) => {
             />
 
             <Field
+              searchable
+              withFocus
               name="groupNames"
               label={I18n.t('TRADING_ENGINE.OPERATORS.GRID.GROUP')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="OperatorsFilter__field"
-              component={FormikSelectField}
+              component={FormikMultipleSelectField}
+              options={groups.map(groupName => ({
+                label: I18n.t(groupName),
+                value: groupName,
+              }))}
+            />
+            <Field
               searchable
               withFocus
-              multiple
-            >
-              {groups.map(groupName => (
-                <option key={groupName} value={groupName}>
-                  {I18n.t(groupName)}
-                </option>
-              ))}
-            </Field>
-            <Field
               name="statuses"
               label={I18n.t('TRADING_ENGINE.OPERATORS.GRID.STATUS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="OperatorsFilter__field"
-              component={FormikSelectField}
-              searchable
-              withFocus
-              multiple
-            >
-              {Utils.enumToArray(OperatorStatusesEnum).map(status => (
-                <option key={status} value={status}>
-                  {I18n.t(status)}
-                </option>
-              ))}
-            </Field>
+              component={FormikMultipleSelectField}
+              options={Utils.enumToArray(OperatorStatusesEnum).map(status => ({
+                label: I18n.t(status),
+                value: status,
+              }))}
+            />
             <Field
               name="registrationDateRange"
               className="OperatorsFilter__field OperatorsFilter__date-range"

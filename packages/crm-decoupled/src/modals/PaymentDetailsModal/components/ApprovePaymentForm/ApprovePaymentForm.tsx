@@ -2,8 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils, Constants, parseErrors, notify, Types } from '@crm/common';
-import { Button } from 'components';
-import { FormikSelectField } from 'components/Formik';
+import { Button, FormikSingleSelectField } from 'components';
 import { useApprovePaymentMutation } from './graphql/__generated__/ApprovePaymentMutation';
 import { useManualPaymentMethodsQuery } from './graphql/__generated__/ManualPaymentMethodsQuery';
 import './ApprovePaymentForm.scss';
@@ -77,19 +76,16 @@ const ApprovePaymentForm = (props: Props) => {
             name="paymentMethod"
             label={I18n.t(attributeLabels.paymentMethod)}
             placeholder={I18n.t(I18n.t('COMMON.SELECT_OPTION.DEFAULT'))}
-            component={FormikSelectField}
-          >
-            {(manualMethods as Array<Constants.Payment.manualPaymentMethods>)
+            component={FormikSingleSelectField}
+            options={(manualMethods as Array<Constants.Payment.manualPaymentMethods>)
               .filter(item => item !== Constants.Payment.manualPaymentMethods.COMMISSION)
-              .map(item => (
-                <option key={item} value={item}>
-                  {Constants.Payment.manualPaymentMethodsLabels[item]
-                    ? I18n.t(Constants.Payment.manualPaymentMethodsLabels[item])
-                    : Utils.formatLabel(item || '')
-                  }
-                </option>
-              ))}
-          </Field>
+              .map(item => ({
+                label: Constants.Payment.manualPaymentMethodsLabels[item]
+                  ? I18n.t(Constants.Payment.manualPaymentMethodsLabels[item])
+                  : Utils.formatLabel(item || ''),
+                value: item,
+              }))}
+          />
 
           <Button
             primary

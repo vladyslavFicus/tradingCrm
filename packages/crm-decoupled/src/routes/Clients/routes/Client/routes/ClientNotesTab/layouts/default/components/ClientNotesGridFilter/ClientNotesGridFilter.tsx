@@ -2,9 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils, Constants } from '@crm/common';
-import { Button, RefreshButton } from 'components';
+import { Button, RefreshButton, FormikSingleSelectField, FormikDateRangePicker } from 'components';
 import useFilter from 'hooks/useFilter';
-import { FormikSelectField, FormikDateRangePicker } from 'components/Formik';
+
 import useClientNotesGridFilter
   from 'routes/Clients/routes/Client/routes/ClientNotesTab/hooks/useClientNotesGridFilter';
 import { attributeLabels } from 'routes/Clients/routes/Client/routes/ClientNotesTab/constants';
@@ -44,23 +44,21 @@ const ClientNotesGridFilter = (props: Props) => {
       {({ isSubmitting, resetForm, values, dirty }) => (
         <Form className="ClientNotesGridFilter">
           <Field
+            withAnyOption
+            searchable
+            withFocus
             name="department"
             data-testid="ClientNotesGridFilter-departmentSelect"
             label={I18n.t(attributeLabels.department)}
             placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-            component={FormikSelectField}
+            component={FormikSingleSelectField}
             className="ClientNotesGridFilter__field"
             disabled={loading}
-            withAnyOption
-            searchable
-            withFocus
-          >
-            {Object.keys(departmentRoles).map(department => (
-              <option key={department} value={department}>
-                {I18n.t(Utils.renderLabel(department, Constants.Operator.departmentsLabels))}
-              </option>
-            ))}
-          </Field>
+            options={Object.keys(departmentRoles).map(department => ({
+              label: I18n.t(Utils.renderLabel(department, Constants.Operator.departmentsLabels)),
+              value: department,
+            }))}
+          />
 
           <Field
             className="ClientNotesGridFilter__field ClientNotesGridFilter__field--date-range"

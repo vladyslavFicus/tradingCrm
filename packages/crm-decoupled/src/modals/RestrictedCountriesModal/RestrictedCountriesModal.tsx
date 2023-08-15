@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils } from '@crm/common';
-import { FormikSelectField } from 'components/Formik';
+import { FormikMultipleSelectField } from 'components';
 import Modal from 'components/Modal';
 
 import { TypesRestrictedCountriesModal, attributeLabels } from './constant';
@@ -55,22 +55,19 @@ const RestrictedCountriesModal = (props: Props) => {
         >
           <Form>
             <Field
+              searchable
               name="forbiddenCountries"
               className="RestrictedCountriesModal__field"
               data-testid="RestrictedCountriesModal-forbiddenCountriesSelect"
               label={I18n.t('PARTNERS.PROFILE.CONTACTS.FORM.LABELS.RESTRICTED_COUNTRIES')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.COUNTRY')}
-              component={FormikSelectField}
-              searchable
-              multiple
+              component={FormikMultipleSelectField}
               disabled={isSubmitting}
-            >
-              {Object.entries(Utils.countryList).map(([key, value]) => (
-                <option key={key} value={key}>
-                  {value}
-                </option>
-              ))}
-            </Field>
+              options={Object.entries(Utils.countryList).map(([key, value]) => ({
+                label: value,
+                value: key,
+              }))}
+            />
           </Form>
         </Modal>
       )}

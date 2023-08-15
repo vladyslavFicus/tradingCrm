@@ -2,10 +2,9 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils } from '@crm/common';
-import { Button } from 'components';
+import { Button, FormikSingleSelectField, FormikInputField, FormikTextAreaField } from 'components';
 import { Profile } from '__generated__/types';
 
-import { FormikInputField, FormikSelectField, FormikTextAreaField } from 'components/Formik';
 import { attributeLabels } from 'routes/Clients/routes/Client/routes/ClientProfileTab/constants/clientAddressForm';
 import { FormValues } from 'routes/Clients/routes/Client/routes/ClientProfileTab/types/clientAddressForm';
 import useClientAddressForm from 'routes/Clients/routes/Client/routes/ClientProfileTab/hooks/useClientAddressForm';
@@ -68,15 +67,13 @@ const ClientAddressForm = (props: Props) => {
                 data-testid="ClientAddressForm-countryCodeSelect"
                 label={I18n.t(attributeLabels.country)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 disabled={isSubmitting || !allowUpdateAddress}
-              >
-                {Object.entries(Utils.countryList).map(([key, value]) => (
-                  <option key={key} value={key}>
-                    {value}
-                  </option>
-                ))}
-              </Field>
+                options={Object.entries(Utils.countryList).map(([key, value]) => ({
+                  label: value,
+                  value: key,
+                }))}
+              />
 
               <Field
                 name="city"

@@ -1,8 +1,7 @@
 import I18n from 'i18n-js';
 import { useCallback } from 'react';
-import { Config, parseErrors, notify, Types, usePermission } from '@crm/common';
+import { Config, parseErrors, notify, Types, usePermission, Utils } from '@crm/common';
 import { Profile } from '__generated__/types';
-import { decodeNullValues } from 'components/Formik/utils';
 import { useUpdateClientPersonalMutation } from '../graphql/__generated__/UpdateClientPersonalMutation';
 
 type FormValues = {
@@ -49,7 +48,7 @@ const useClientPersonalForm = (props: Props): UseClientPersonalForm => {
       await updateClientPersonalMutation({
         variables: {
           playerUUID: profile.uuid,
-          ...decodeNullValues(values),
+          ...Utils.decodeNullValues(values),
         },
       });
 

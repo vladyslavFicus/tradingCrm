@@ -2,14 +2,14 @@ import React, { Fragment, useCallback } from 'react';
 import moment from 'moment';
 import { startCase } from 'lodash';
 import I18n from 'i18n-js';
-import { Column, Table } from 'components/Table';
-import Uuid from 'components/Uuid';
-import useClientCallHistoryGrid
-  from 'routes/Clients/routes/Client/routes/ClientCallHistoryTab/hooks/useClientCallHistoryGrid';
 import {
   CallHistoryQuery,
   CallHistoryQueryQueryResult,
 } from 'routes/Clients/routes/Client/routes/ClientCallHistoryTab/graphql/__generated__/ClientCallHistoryQuery';
+import { Column, Table } from 'components/Table';
+import Uuid from 'components/Uuid';
+import useClientCallHistoryGrid
+  from 'routes/Clients/routes/Client/routes/ClientCallHistoryTab/hooks/useClientCallHistoryGrid';
 import './ClientCallHistoryGrid.scss';
 
 type CallHistoryType = ExtractApolloTypeFromPageable<CallHistoryQuery['callHistory']>;

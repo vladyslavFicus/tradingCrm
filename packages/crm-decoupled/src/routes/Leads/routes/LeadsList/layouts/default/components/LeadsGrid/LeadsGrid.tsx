@@ -7,6 +7,7 @@ import { QueryResult } from '@apollo/client';
 import { Types } from '@crm/common';
 import { UncontrolledTooltip } from 'components';
 import { Lead } from '__generated__/types';
+import { LeadsListQuery } from 'routes/Leads/routes/LeadsList/graphql/__generated__/LeadsListQuery';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
 import { AdjustableTable, Column } from 'components/Table';
 import GridEmptyValue from 'components/GridEmptyValue';
@@ -16,7 +17,6 @@ import MiniProfilePopover from 'components/MiniProfilePopover';
 import { Hierarchy } from 'components/GridAcquisitionStatus/hooks/useGridAcquisitionStatus';
 import { MAX_SELECTED_LEADS, leadStatuses } from 'routes/Leads/routes/LeadsList/constants/leadsGrid';
 import useLeadsGrid from 'routes/Leads/routes/LeadsList/hooks/useLeadsGrid';
-import { LeadsListQuery } from 'routes/Leads/routes/LeadsList/graphql/__generated__/LeadsListQuery';
 import './LeadsGrid.scss';
 
 type Props = {

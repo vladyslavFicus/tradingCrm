@@ -1,11 +1,9 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Types } from '@crm/common';
+import { Utils, Types } from '@crm/common';
 import { Formik, Form, Field } from 'formik';
-import { Button, RefreshButton } from 'components';
-import { FormikSelectField } from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
+import { Button, FormikSingleSelectField, FormikMultipleSelectField, RefreshButton } from 'components';
 import { SymbolsQueryVariables } from '../../graphql/__generated__/SymbolsQuery';
 import { favorites } from './constants';
 import { useSymbolsQuery } from './graphql/__generated__/SymbolsQuery';
@@ -42,7 +40,7 @@ const QuotesFilter = (props: Props) => {
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: Utils.decodeNullValues(values),
       },
     });
   };
@@ -69,42 +67,36 @@ const QuotesFilter = (props: Props) => {
         <Form className="QuotesFilter">
           <div className="SymbolsFilter__fields">
             <Field
+              searchable
+              withFocus
               name="symbolNames"
               data-testid="QuotesFilter-symbolNamesSelect"
               label={I18n.t('TRADING_ENGINE.QUOTES.FILTER_FORM.FIELDS.SYMBOL_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="SymbolsFilter__field"
-              component={FormikSelectField}
-              searchable
-              withFocus
-              multiple
+              component={FormikMultipleSelectField}
               disabled={symbolsQuery.loading}
-            >
-              {symbols.map(({ symbol }) => (
-                <option key={symbol} value={symbol}>
-                  {symbol}
-                </option>
-              ))}
-            </Field>
+              options={symbols.map(({ symbol }) => ({
+                label: symbol,
+                value: symbol,
+              }))}
+            />
 
             <Field
+              searchable
+              withFocus
               name="securityNames"
               data-testid="QuotesFilter-securityNamesSelect"
               label={I18n.t('TRADING_ENGINE.QUOTES.FILTER_FORM.FIELDS.SECURITY_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="QuotesFilter__field"
-              component={FormikSelectField}
-              searchable
-              withFocus
-              multiple
+              component={FormikMultipleSelectField}
               disabled={securitiesQuery.loading}
-            >
-              {securities.map(({ name, id }) => (
-                <option key={id} value={name}>
-                  {name}
-                </option>
-              ))}
-            </Field>
+              options={securities.map(({ name }) => ({
+                label: name,
+                value: name,
+              }))}
+            />
 
             <Field
               name="favorite"
@@ -112,18 +104,15 @@ const QuotesFilter = (props: Props) => {
               label={I18n.t('TRADING_ENGINE.QUOTES.FILTER_FORM.FIELDS.FAVOURITE_LABEL')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="AccountsFilter__field"
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               withAnyOption
               withFocus
               boolean
-            >
-              {favorites.map(({ value, label }) => (
-                // @ts-ignore because in tsx file Field can't set BOOLEAN to option value
-                <option key={`favorite-${value}`} value={value}>
-                  {I18n.t(label)}
-                </option>
-              ))}
-            </Field>
+              options={favorites.map(({ value, label }) => ({
+                label: I18n.t(label),
+                value,
+              }))}
+            />
           </div>
 
           <div className="QuotesFilter__buttons">

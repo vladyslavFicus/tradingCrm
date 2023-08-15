@@ -8,7 +8,7 @@ import {
   ClientSearch__Input as ClientSearch,
   LeadSearch__Input as LeadSearch,
 } from '__generated__/types';
-import { FormikSelectField } from 'components/Formik';
+import { FormikSingleSelectField } from 'components';
 import Modal from 'components/Modal';
 import { useOperatorsSubordinatesQuery } from './graphql/__generated__/OperatorsSubordinatesQuery';
 import { useDesksTeamsQuery } from './graphql/__generated__/DesksTeamsQuery';
@@ -271,6 +271,8 @@ const UpdateRepresentativeModal = (props: Props) => {
           >
             <Form>
               <Field
+                withAnyOption
+                searchable
                 name="desk"
                 data-testid="UpdateRepresentativeModal-deskSelect"
                 label={I18n.t(attributeLabels(type).desk)}
@@ -280,19 +282,17 @@ const UpdateRepresentativeModal = (props: Props) => {
                       : I18n.t('COMMON.SELECT_OPTION.ANY')
                   }
                 disabled={isDesksTeamsLoading || !desks.length}
-                customOnChange={(value: string) => handleBranchChange('desk', value, values, setFieldValue)}
-                component={FormikSelectField}
-                withAnyOption
-                searchable
-              >
-                {desks.map(desk => (
-                  <option key={desk.uuid} value={desk.uuid}>
-                    {desk.name}
-                  </option>
-                ))}
-              </Field>
+                onChange={(value: string) => handleBranchChange('desk', value, values, setFieldValue)}
+                component={FormikSingleSelectField}
+                options={desks.map(desk => ({
+                  label: desk.name,
+                  value: desk.uuid,
+                }))}
+              />
 
               <Field
+                withAnyOption
+                searchable
                 name="team"
                 data-testid="UpdateRepresentativeModal-teamSelect"
                 label={I18n.t(attributeLabels(type).team)}
@@ -302,19 +302,16 @@ const UpdateRepresentativeModal = (props: Props) => {
                       : I18n.t('COMMON.SELECT_OPTION.ANY')
                   }
                 disabled={isDesksTeamsLoading || !teams.length}
-                customOnChange={(value: string) => handleBranchChange('team', value, values, setFieldValue)}
-                component={FormikSelectField}
-                withAnyOption
-                searchable
-              >
-                {teams.map(team => (
-                  <option key={team.uuid} value={team.uuid}>
-                    {team.name}
-                  </option>
-                ))}
-              </Field>
+                onChange={(value: string) => handleBranchChange('team', value, values, setFieldValue)}
+                component={FormikSingleSelectField}
+                options={teams.map(team => ({
+                  label: team.name,
+                  value: team.uuid,
+                }))}
+              />
 
               <Field
+                searchable
                 name="operators"
                 data-testid="UpdateRepresentativeModal-operatorsSelect"
                 label={I18n.t(attributeLabels(type).operator)}
@@ -324,44 +321,33 @@ const UpdateRepresentativeModal = (props: Props) => {
                       : I18n.t('COMMON.SELECT_OPTION.ANY')
                   }
                 disabled={isOperatorsLoading || !filteredOperators.length}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 multiple={multiAssign}
-                searchable
-              >
-                {filteredOperators.map(operator => (
-                  <option key={operator.uuid} value={operator.uuid}>
-                    {operator.fullName}
-                  </option>
-                ))}
-              </Field>
+                options={filteredOperators.map(operator => ({
+                  label: operator.fullName,
+                  value: operator.uuid,
+                }))}
+              />
 
               <Field
+                searchable
                 name="status"
                 data-testid="UpdateRepresentativeModal-statusSelect"
                 label={I18n.t(attributeLabels(type).status)}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                 disabled={isAcquisitionStatusesLoading}
-                searchable
-              >
-                <Choose>
-                  <When condition={type === AcquisitionStatusTypes.SALES}>
-                    {salesStatuses.map(({ status }) => (
-                      <option key={status} value={status}>
-                        {I18n.t(Constants.salesStatuses[status])}
-                      </option>
-                    ))}
-                  </When>
-
-                  <Otherwise>
-                    {retentionStatuses.map(({ status }) => (
-                      <option key={status} value={status}>
-                        {I18n.t(Constants.retentionStatuses[status])}
-                      </option>
-                    ))}
-                  </Otherwise>
-                </Choose>
-              </Field>
+                options={type === AcquisitionStatusTypes.SALES
+                  ? salesStatuses.map(({ status }) => ({
+                    label: I18n.t(Constants.salesStatuses[status]),
+                    value: status,
+                  }))
+                  : retentionStatuses.map(({ status }) => ({
+                    label: I18n.t(Constants.retentionStatuses[status]),
+                    value: status,
+                  }))
+              }
+              />
             </Form>
           </Modal>
         );

@@ -2,11 +2,9 @@ import React from 'react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { useParams } from 'react-router-dom';
 import { Utils, notify, Types, useModal, parseErrors } from '@crm/common';
-import { Button } from 'components';
+import { Button, ShortLoader } from 'components';
 import I18n from 'i18n-config';
-import ShortLoader from 'components/ShortLoader';
 import NotFound from 'routes/NotFound';
-import { decodeNullValues } from 'components/Formik/utils';
 import ConfirmActionModal, { ConfirmActionModalProps } from 'modals/ConfirmActionModal';
 import { LotMax, LotMin, LotStep } from 'routes/TE/routes/Groups/types';
 import SymbolSettings from '../../components/SymbolSettings';
@@ -124,7 +122,7 @@ const SymbolEdit = () => {
     try {
       await editSymbol({
         variables: {
-          args: decodeNullValues({ ...values, force }),
+          args: Utils.decodeNullValues({ ...values, force }),
         },
       });
 

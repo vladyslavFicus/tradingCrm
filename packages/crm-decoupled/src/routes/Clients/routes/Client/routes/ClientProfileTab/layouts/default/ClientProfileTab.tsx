@@ -1,8 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
+import { ShortLoader } from 'components';
 import TabHeader from 'components/TabHeader';
 import NotFound from 'routes/NotFound';
-import ShortLoader from 'components/ShortLoader';
 import useClientProfileTab from '../../hooks/useClientProfileTab';
 import ClientPersonalForm from './components/ClientPersonalForm';
 import ClientAddressForm from './components/ClientAddressForm';

@@ -3,8 +3,7 @@ import I18n from 'i18n-js';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field } from 'formik';
 import { Utils, parseErrors, notify, Types } from '@crm/common';
-import { Button } from 'components';
-import { FormikInputField } from 'components/Formik';
+import { Button, FormikInputField } from 'components';
 import { securityNamePattern } from '../../constants';
 import { useCreateSecurityMutation } from './graphql/__generated__/CreateSecurityMutation';
 

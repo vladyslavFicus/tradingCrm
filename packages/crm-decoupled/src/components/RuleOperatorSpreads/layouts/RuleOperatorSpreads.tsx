@@ -2,9 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Field, FieldArray } from 'formik';
 import { Constants } from '@crm/common';
-import { TrashButton } from 'components';
+import { TrashButton, FormikSingleSelectField, FormikInputField } from 'components';
 import { Operator, RuleOperatorSpread__Input as RuleOperatorSpread } from '__generated__/types';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
 import useRuleOperatorSpreads from '../hooks/useRuleOperatorSpreads';
 import './RuleOperatorSpreads.scss';
 
@@ -49,25 +48,18 @@ const RuleOperatorSpreads = (props: Props) => {
             {[...operatorSpreads, ''].map((_, index) => (
               <div className="RuleOperatorSpreads__spread" key={index}>
                 <Field
+                  searchable
                   name={`${namePrefix}[${index}].parentUser`}
                   data-testid="RuleOperatorSpreads-parentUserSelect"
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   disabled={disabled}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                  searchable
-                >
-                  {operators
-                    .map(({ uuid, fullName }) => (
-                      <option
-                        key={uuid}
-                        value={uuid}
-                        disabled={selectedOperators.includes(uuid)}
-                      >
-                        {fullName}
-                      </option>
-                    ))
-                  }
-                </Field>
+                  options={operators.map(({ uuid, fullName }) => ({
+                    label: fullName,
+                    value: uuid,
+                    disabled: selectedOperators.includes(uuid),
+                  }))}
+                />
 
                 <Field
                   name={`${namePrefix}[${index}].percentage`}

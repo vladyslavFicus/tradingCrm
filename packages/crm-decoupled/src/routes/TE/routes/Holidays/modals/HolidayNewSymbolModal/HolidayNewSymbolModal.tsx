@@ -4,9 +4,7 @@ import { differenceWith, sortBy } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { Utils, notify, Types } from '@crm/common';
-import { Button } from 'components';
-import ShortLoader from 'components/ShortLoader';
-import { FormikSelectField } from 'components/Formik';
+import { Button, FormikMultipleSelectField, ShortLoader } from 'components';
 import { useSymbolsSourcesQuery } from './graphql/__generated__/SymbolsSourcesQuery';
 import './HolidayNewSymbolModal.scss';
 
@@ -98,22 +96,18 @@ const HolidayNewSymbolModal = (props: Props) => {
 
                   <div className="HolidayNewSymbolModal__fields">
                     <Field
+                      searchable
                       name="symbols"
                       data-testid="HolidayNewSymbolModal-symbolsSelect"
                       label={I18n.t('TRADING_ENGINE.MODALS.HOLIDAY_NEW_SYMBOL_MODAL.SYMBOL')}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                       className="HolidayNewSymbolModal__field--large"
-                      component={FormikSelectField}
-                      searchable
-                      multiple
-                    >
-                      {symbolsSources.map(({ sourceName, children }) => (
-                        <option key={sourceName} value={sourceName}>
-                          {/* Here we should to construct string depends from children existing */}
-                          {`${sourceName}${children.length > 0 ? ` → ${children.join(', ')}` : ''}`}
-                        </option>
-                      ))}
-                    </Field>
+                      component={FormikMultipleSelectField}
+                      options={symbolsSources.map(({ sourceName, children }) => ({
+                        label: `${sourceName}${children.length > 0 ? ` → ${children.join(', ')}` : ''}`,
+                        value: sourceName,
+                      }))}
+                    />
                   </div>
                 </ModalBody>
 

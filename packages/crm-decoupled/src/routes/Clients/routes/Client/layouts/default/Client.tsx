@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Helmet from 'react-helmet';
+import { ShortLoader } from 'components';
 import Tabs from 'components/Tabs';
 import HideDetails from 'components/HideDetails';
-import ShortLoader from 'components/ShortLoader';
 import NotFound from 'routes/NotFound';
 import useClient from 'routes/Clients/routes/Client/hooks/useClient';
 import { clientTabs } from 'routes/Clients/routes/Client/constants';

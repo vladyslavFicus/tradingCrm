@@ -2,9 +2,8 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Utils, Constants } from '@crm/common';
-import { Button, RefreshButton } from 'components';
+import { Button, RefreshButton, FormikSingleSelectField, FormikInputField } from 'components';
 import useFilter from 'hooks/useFilter';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
 import { FormValues } from 'routes/Offices/types/officesGridFilter';
 import './OfficesGridFilter.scss';
 
@@ -42,20 +41,20 @@ const OfficesGridFilter = (props: Props) => {
             />
 
             <Field
+              withAnyOption
+              searchable
+              withFocus
               name="country"
               className="OfficesGridFilter__field OfficesGridFilter__select"
               data-testid="OfficesGridFilter-countrySelect"
               label={I18n.t(Constants.User.filterLabels.country)}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              component={FormikSelectField}
-              withAnyOption
-              searchable
-              withFocus
-            >
-              {Object.keys(Utils.countryList).map(country => (
-                <option key={country} value={country}>{Utils.countryList[country]}</option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={Object.keys(Utils.countryList).map(country => ({
+                label: Utils.countryList[country],
+                value: country,
+              }))}
+            />
           </div>
 
           <div className="OfficesGridFilter__buttons">

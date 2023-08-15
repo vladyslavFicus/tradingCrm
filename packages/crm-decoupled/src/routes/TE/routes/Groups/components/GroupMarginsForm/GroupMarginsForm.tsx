@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field, FormikProps } from 'formik';
-import { FormikInputField } from 'components/Formik';
+import { FormikInputField } from 'components';
 import { FormValues } from '../../types';
 import './GroupMarginsForm.scss';
 

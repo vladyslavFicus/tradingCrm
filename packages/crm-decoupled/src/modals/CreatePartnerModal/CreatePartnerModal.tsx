@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Config, Utils, parseErrors, notify, Types } from '@crm/common';
-import { FormikInputField, FormikCheckbox } from 'components/Formik';
+import { FormikInputField, FormikCheckbox } from 'components';
 import Modal from 'components/Modal';
 import { useCreatePartnerMutation } from './graphql/__generated__/CreatePartnerMutation';
 import './CreatePartnerModal.scss';

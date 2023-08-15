@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { Utils, notify, Types, parseErrors } from '@crm/common';
 import { Button } from 'components';
 import I18n from 'i18n-config';
-import { decodeNullValues } from 'components/Formik/utils';
 import { LotMax, LotMin, LotStep } from 'routes/TE/routes/Groups/types';
 import { DayOfWeek, SymbolType, SwapType, FormValues } from '../../types';
 import SymbolSettings from '../../components/SymbolSettings';
@@ -39,7 +38,7 @@ const SymbolNew = () => {
     try {
       await createSymbol({
         variables: {
-          args: decodeNullValues(values),
+          args: Utils.decodeNullValues(values),
         },
       });
 

@@ -10,11 +10,10 @@ import {
   RSocketProvider,
   useAuthorizedLayout,
 } from '@crm/common';
-import { ErrorBoundary, DebugMode, ForbiddenChecker } from 'components';
+import { ErrorBoundary, DebugMode, ForbiddenChecker, ShortLoader } from 'components';
 import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
 import BackToTop from 'components/BackToTop';
-import ShortLoader from 'components/ShortLoader';
 import Notifications from 'components/Notifications';
 import './AuthorizedLayout.scss';
 

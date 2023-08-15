@@ -1,4 +1,9 @@
 export { default as useIdleTimer } from './useIdleTimer';
+export { default as useKeyDown } from './useKeyDown';
+export { default as useOutsideClick } from './useOutsideClick';
+export { default as useCheckbox } from './useCheckbox';
+export { default as useSelectTree } from './useSelectTree';
+export { default as useReactSwitch } from './useReactSwitch';
 export { default as useLogout } from './useLogout';
 export { default as useAuthorizedLayout } from './useAuthorizedLayout';
 export { default as useApp } from './useApp';

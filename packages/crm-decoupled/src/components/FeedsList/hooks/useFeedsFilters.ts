@@ -3,7 +3,6 @@ import I18n from 'i18n-js';
 import { useCallback, useMemo } from 'react';
 import { Utils, Types, Constants } from '@crm/common';
 import { Feed__AuditCategory__Enum as FeedAuditCategoryEnum } from '__generated__/types';
-import { decodeNullValues } from 'components/Formik/utils';
 import { FeedsQueryVariables } from '../graphql/__generated__/FeedsQuery';
 import { useFeedTypesQuery } from '../graphql/__generated__/FeedTypesQuery';
 
@@ -56,7 +55,7 @@ const useFeedsFilters = (props: Props) => {
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: Utils.decodeNullValues(values),
       },
     });
   }, [state]);

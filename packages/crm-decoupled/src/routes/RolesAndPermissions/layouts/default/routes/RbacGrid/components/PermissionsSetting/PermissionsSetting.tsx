@@ -9,9 +9,7 @@ import {
 } from 'react-accessible-accordion';
 import classNames from 'classnames';
 import { Types } from '@crm/common';
-import { Button } from 'components';
-import ShortLoader from 'components/ShortLoader';
-import ReactSwitch from 'components/ReactSwitch';
+import { Button, ShortLoader, ReactSwitch } from 'components';
 import usePermissionsSetting from 'routes/RolesAndPermissions/hooks/usePermissionsSetting';
 import { ReactComponent as PreviewIcon } from './preview-icon.svg';
 import './PermissionsSetting.scss';

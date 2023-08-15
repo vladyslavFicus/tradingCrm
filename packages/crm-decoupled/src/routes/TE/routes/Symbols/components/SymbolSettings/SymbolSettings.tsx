@@ -1,11 +1,11 @@
 import React from 'react';
 import { Field, FormikProps } from 'formik';
-import I18n from 'i18n-config';
 import {
   FormikInputField,
-  FormikSelectField,
+  FormikSingleSelectField,
   FormikTextAreaField,
-} from 'components/Formik';
+} from 'components';
+import I18n from 'i18n-config';
 import { FormValues } from '../../types';
 import './SymbolSettings.scss';
 
@@ -51,22 +51,20 @@ const SymbolSettings = (props: Props) => {
           component={FormikInputField}
         />
         <Field
+          searchable
           disabled={!!initialValues.symbol} // Disable field only if it's edit symbol page
           name="source"
           data-testid="SymbolSettings-sourceSelect"
           label={I18n.t('TRADING_ENGINE.SYMBOL.SOURCE_LABEL')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
-          component={FormikSelectField}
-          customOnChange={onChangeSymbolSource}
-          searchable
-        >
-          {symbolsSources.map(({ sourceName }) => (
-            <option key={sourceName} value={sourceName}>
-              {sourceName}
-            </option>
-          ))}
-        </Field>
+          component={FormikSingleSelectField}
+          onChange={onChangeSymbolSource}
+          options={symbolsSources.map(({ sourceName }) => ({
+            label: sourceName,
+            value: sourceName,
+          }))}
+        />
         <Field
           disabled // Field should be disabled on new symbol and edit symbol page
           name="digits"
@@ -87,20 +85,18 @@ const SymbolSettings = (props: Props) => {
       </div>
       <div className="SymbolSettings__field-container">
         <Field
+          searchable
           name="securityName"
           data-testid="SymbolSettings-securityNameSelect"
           label={I18n.t('TRADING_ENGINE.SYMBOL.SECURITY_LABEL')}
           placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
           className="SymbolSettings__field"
-          component={FormikSelectField}
-          searchable
-        >
-          {securities.map(({ name }) => (
-            <option key={name} value={name}>
-              {name}
-            </option>
-          ))}
-        </Field>
+          component={FormikSingleSelectField}
+          options={securities.map(({ name }) => ({
+            label: name,
+            value: name,
+          }))}
+        />
         <Field
           disabled // Field should be disabled on new symbol and edit symbol page
           name="symbolType"

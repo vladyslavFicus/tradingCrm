@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import ShortLoader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import Tabs from 'components/Tabs';
 import NotFound from 'routes/NotFound';
 import UseDistributionRule from 'routes/DistributionRules/hooks/useDistributionRule';

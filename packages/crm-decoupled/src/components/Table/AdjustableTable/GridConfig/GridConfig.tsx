@@ -2,7 +2,7 @@
 import I18n from 'i18n-js';
 import React, { useState } from 'react';
 import { notify, Types } from '@crm/common';
-import Select from 'components/Select';
+import { Select } from 'components';
 import { AvailableColumns, Config } from '../types';
 import { useCreateGridConfigMutation } from '../graphql/__generated__/CreateGridConfigMutation';
 import { useUpdateGridConfigMutation } from '../graphql/__generated__/UpdateGridConfigMutation';

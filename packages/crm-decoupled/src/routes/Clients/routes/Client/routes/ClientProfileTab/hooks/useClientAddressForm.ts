@@ -1,8 +1,7 @@
 import { useCallback, useState } from 'react';
 import I18n from 'i18n-js';
-import { Config, parseErrors, notify, Types, usePermission } from '@crm/common';
+import { Config, parseErrors, notify, Types, usePermission, Utils } from '@crm/common';
 import { Profile } from '__generated__/types';
-import { decodeNullValues } from 'components/Formik/utils';
 import { FormValues } from '../types/clientAddressForm';
 import { useUpdateClientAddressMutation } from '../graphql/__generated__/UpdateClientAddressMutation';
 
@@ -40,7 +39,7 @@ const useClientAddressForm = (props: Props): UseClientAddressForm => {
       await updateClientAddressMutation({
         variables: {
           playerUUID: profile.uuid,
-          ...decodeNullValues(values),
+          ...Utils.decodeNullValues(values),
         },
       });
 

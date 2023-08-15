@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Config, Utils, parseErrors, notify, Types } from '@crm/common';
-import { FormikSelectField, FormikInputField } from 'components/Formik';
+import { FormikSingleSelectField, FormikInputField } from 'components';
 import Modal from 'components/Modal';
 import { attributeLabels, amounts } from './constants';
 import {
@@ -120,29 +120,29 @@ const TradingAccountAddModal = (props: Props) => {
                 <Field
                   name="platformType"
                   data-testid="TradingAccountAddModal-platformTypeSelect"
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   label={I18n.t(attributeLabels.platformType)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                  customOnChange={(value: string) => handleChangePlatformType(values, value, setFieldValue)}
-                >
-                  {platformTypes.map(({ value, label }) => (
-                    <option key={value} value={value}>{label}</option>
-                  ))}
-                </Field>
+                  onChange={(value: string) => handleChangePlatformType(values, value, setFieldValue)}
+                  options={platformTypes.map(({ value, label }) => ({
+                    label,
+                    value,
+                  }))}
+                />
               </If>
 
               <If condition={accountTypes.length > 1}>
                 <Field
                   name="accountType"
                   data-testid="TradingAccountAddModal-accountTypeSelect"
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   label={attributeLabels.accountType}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                >
-                  {accountTypes.map(({ value, label }) => (
-                    <option key={value} value={value}>{I18n.t(label)}</option>
-                  ))}
-                </Field>
+                  options={accountTypes.map(({ value, label }) => ({
+                    label: I18n.t(label),
+                    value,
+                  }))}
+                />
               </If>
 
               <Field
@@ -158,31 +158,27 @@ const TradingAccountAddModal = (props: Props) => {
                 <Field
                   name="amount"
                   data-testid="TradingAccountAddModal-amountSelect"
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   label={attributeLabels.amount}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-                >
-                  {amounts.map(value => (
-                    <option key={value} value={value}>
-                      {I18n.toNumber(value, { precision: 0 })}
-                    </option>
-                  ))}
-                </Field>
+                  options={amounts.map(value => ({
+                    label: I18n.toNumber(value, { precision: 0 }),
+                    value,
+                  }))}
+                />
               </If>
 
               <Field
                 name="currency"
                 data-testid="TradingAccountAddModal-currencySelect"
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 label={attributeLabels.currency}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-              >
-                {Utils.getPlarformSupportedCurrencies(values.platformType).map((item, index) => (
-                  <option key={index} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </Field>
+                options={Utils.getPlarformSupportedCurrencies(values.platformType).map(item => ({
+                  label: item,
+                  value: item,
+                }))}
+              />
 
               <If condition={values.platformType !== 'WET' && values.platformType !== 'TE'}>
                 <Field

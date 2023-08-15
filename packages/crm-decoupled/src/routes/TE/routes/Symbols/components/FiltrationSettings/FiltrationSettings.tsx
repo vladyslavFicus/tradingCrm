@@ -1,11 +1,7 @@
 import React from 'react';
 import { Field, FormikProps } from 'formik';
+import { FormikSingleSelectField, FormikCheckbox, FormikInputField } from 'components';
 import I18n from 'i18n-config';
-import {
-  FormikCheckbox,
-  FormikInputField,
-  FormikSelectField,
-} from 'components/Formik';
 import { FormValues } from '../../types';
 import './FiltrationSettings.scss';
 
@@ -48,14 +44,12 @@ const FiltrationSettings = (props: Props) => (
         data-testid="FiltrationSettings-filtrationSoftFilterSelect"
         label={I18n.t('TRADING_ENGINE.SYMBOL.FILTER')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
-        component={FormikSelectField}
-      >
-        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
-          <option key={i} value={i}>
-            {i}
-          </option>
-        ))}
-      </Field>
+        component={FormikSingleSelectField}
+        options={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(index => ({
+          label: index,
+          value: index,
+        }))}
+      />
       <Field
         disabled={props.values.defaultFiltration}
         type="number"
@@ -71,14 +65,12 @@ const FiltrationSettings = (props: Props) => (
         data-testid="FiltrationSettings-filtrationHardFilterSelect"
         label={I18n.t('TRADING_ENGINE.SYMBOL.FILTER')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
-        component={FormikSelectField}
-      >
-        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
-          <option key={i} value={i}>
-            {i}
-          </option>
-        ))}
-      </Field>
+        component={FormikSingleSelectField}
+        options={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(index => ({
+          label: index,
+          value: index,
+        }))}
+      />
       <Field
         disabled={props.values.defaultFiltration}
         type="number"
@@ -94,14 +86,12 @@ const FiltrationSettings = (props: Props) => (
         data-testid="FiltrationSettings-filtrationFilterSmoothingSelect"
         label={I18n.t('TRADING_ENGINE.SYMBOL.SMOOTHING')}
         className="FiltrationSettings__field FiltrationSettings__field--small"
-        component={FormikSelectField}
-      >
-        {['off', 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
-          <option key={i} value={i === 'off' ? 0 : i}>
-            {i}
-          </option>
-        ))}
-      </Field>
+        component={FormikSingleSelectField}
+        options={['off', 2, 3, 4, 5, 6, 7, 8, 9, 10].map(index => ({
+          label: (index === 'off') ? 0 : index,
+          value: index,
+        }))}
+      />
     </div>
   </div>
 );

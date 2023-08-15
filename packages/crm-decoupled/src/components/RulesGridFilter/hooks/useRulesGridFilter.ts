@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FormikHelpers, FormikValues } from 'formik';
 import { Utils, Types, Constants } from '@crm/common';
-import { decodeNullValues } from 'components/Formik/utils';
 
 import { RulesQueryVariables } from '../graphql/__generated__/RulesQuery';
 
@@ -37,7 +36,7 @@ const useRulesGridFilter = () => {
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: Utils.decodeNullValues(values),
       },
     });
 

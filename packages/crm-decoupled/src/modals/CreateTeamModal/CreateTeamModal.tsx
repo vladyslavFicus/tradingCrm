@@ -2,7 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Utils, parseErrors, notify, Types } from '@crm/common';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { FormikInputField, FormikSingleSelectField } from 'components';
 import Modal from 'components/Modal';
 import { useCreateTeamMutation } from './graphql/__generated__/CreateTeamMutation';
 import { useDesksAndOfficesQuery } from './graphql/__generated__/DesksAndOfficesQuery';
@@ -119,26 +119,26 @@ const CreateTeamModal = (props: Props) => {
 
               <div className="CreateTeamModal__row">
                 <Field
+                  searchable
                   name="officeUuid"
                   className="CreateTeamModal__select"
                   data-testid="CreateTeamModal-officeUuidSelect"
                   label={I18n.t(attributeLabels.officeUuid)}
                   placeholder={I18n.t('COMMON.SELECT_OPTION.SELECT_OFFICE')}
-                  component={FormikSelectField}
-                  customOnChange={(value: string) => handleOfficeChange(value, setFieldValue)}
+                  component={FormikSingleSelectField}
+                  onChange={(value: string) => handleOfficeChange(value, setFieldValue)}
                   disabled={isSubmitting || loading}
-                  searchable
-                >
-                  {offices.map(({ name, uuid }) => (
-                    <option key={uuid} value={uuid}>{name}</option>
-                  ))}
-                </Field>
+                  options={offices.map(({ name, uuid }) => ({
+                    label: name,
+                    value: uuid,
+                  }))}
+                />
 
                 <Field
                   name="deskUuid"
                   className="CreateTeamModal__select"
                   data-testid="CreateTeamModal-deskUuidSelect"
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   label={I18n.t(attributeLabels.deskUuid)}
                   placeholder={I18n.t(
                     (officeUuid)
@@ -146,11 +146,11 @@ const CreateTeamModal = (props: Props) => {
                       : 'MODALS.ADD_TEAM_MODAL.PLACEHOLDERS.SELECT_OFFICE_FIRST',
                   )}
                   disabled={isSubmitting || !desksByOffice.length}
-                >
-                  {desksByOffice.map(({ name, uuid }) => (
-                    <option key={uuid} value={uuid}>{name}</option>
-                  ))}
-                </Field>
+                  options={desksByOffice.map(({ name, uuid }) => ({
+                    label: name,
+                    value: uuid,
+                  }))}
+                />
               </div>
             </Form>
           </Modal>

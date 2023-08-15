@@ -3,8 +3,7 @@ import I18n from 'i18n-js';
 import { Field, Form, Formik } from 'formik';
 import { useParams } from 'react-router-dom';
 import { Config, Utils, usePermission, notify, Types } from '@crm/common';
-import { Button } from 'components';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { Button, FormikSingleSelectField, FormikMultipleSelectField, FormikInputField } from 'components';
 import { useOperatorProfileQuery } from './graphql/__generated__/OperatorProfileQuery';
 import { useOperatorAccessDataQuery } from './graphql/__generated__/OperatorAccessDataQuery';
 import { useUpdateOperatorAndChangeRoleMutation } from './graphql/__generated__/UpdateOperatorAndChangeRoleMutation';
@@ -171,34 +170,29 @@ const DealingOperatorProfileTab = () => {
                 className="DealingOperatorProfileForm__field"
                 data-testid="DealingOperatorProfileTab-roleSelect"
                 label={I18n.t(attributeLabels.role)}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 disabled={isSubmitting || isReadOnly}
-              >
-                {writeableRoles.map(role => (
-                  <option key={role} value={role}>
-                    {role}
-                  </option>
-                ))}
-              </Field>
+                options={writeableRoles.map(role => ({
+                  label: role,
+                  value: role,
+                }))}
+              />
             </div>
             <div className="DealingOperatorProfileForm__fields">
               <Field
+                searchable
+                multipleLabel
                 name="groupNames"
                 className="DealingOperatorProfileForm__field"
                 data-testid="DealingOperatorProfileTab-groupNamesSelect"
                 label={I18n.t(attributeLabels.groups)}
-                component={FormikSelectField}
-                searchable
-                multiple
-                multipleLabel
+                component={FormikMultipleSelectField}
                 disabled={isSubmitting || isReadOnly}
-              >
-                {groupNames.map(group => (
-                  <option key={group} value={group}>
-                    {group}
-                  </option>
-                ))}
-              </Field>
+                options={groupNames.map(group => ({
+                  label: group,
+                  value: group,
+                }))}
+              />
             </div>
             <If condition={!values.groupNames?.length}>
               <div className="DealingOperatorProfileForm__note">

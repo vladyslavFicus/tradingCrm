@@ -3,10 +3,9 @@ import I18n from 'i18n-js';
 import { differenceWith } from 'lodash';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { Config, Utils, Constants, notify, Types } from '@crm/common';
+import { ShortLoader, FormikSingleSelectField } from 'components';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
-import ShortLoader from 'components/ShortLoader';
 import Modal from 'components/Modal';
-import { FormikSelectField } from 'components/Formik';
 import { useAcquisitionStatusesQuery } from './graphql/__generated__/AcquisitionStatusesQuery';
 import { useCreateAcquisitionStatusMutation } from './graphql/__generated__/CreateAcquisitionStatusMutation';
 import './CreateAcquisitionStatusModal.scss';
@@ -134,49 +133,44 @@ const CreateAcquisitionStatusModal = (props: Props) => {
                     label={I18n.t('SETTINGS.ACQUISITION_STATUSES.MODALS.NEW_ACQUISITION_STATUS.FORM.ACQUISITION')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     className="CreateAcquisitionStatusModal__field--large"
-                    component={FormikSelectField}
-                    customOnChange={(type: AcquisitionStatusTypes) => handleTypeChange(type, setFieldValue)}
-                  >
-                    <option key={AcquisitionStatusTypes.SALES} value={AcquisitionStatusTypes.SALES}>
-                      {I18n.t('SETTINGS.ACQUISITION_STATUSES.TYPES.SALES')}
-                    </option>
-                    <option key={AcquisitionStatusTypes.RETENTION} value={AcquisitionStatusTypes.RETENTION}>
-                      {I18n.t('SETTINGS.ACQUISITION_STATUSES.TYPES.RETENTION')}
-                    </option>
-                  </Field>
+                    component={FormikSingleSelectField}
+                    onChange={(type: AcquisitionStatusTypes) => handleTypeChange(type, setFieldValue)}
+                    options={[
+                      {
+                        label: I18n.t('SETTINGS.ACQUISITION_STATUSES.TYPES.SALES'),
+                        value: AcquisitionStatusTypes.SALES,
+                      },
+                      {
+                        label: I18n.t('SETTINGS.ACQUISITION_STATUSES.TYPES.RETENTION'),
+                        value: AcquisitionStatusTypes.RETENTION,
+                      },
+                    ]}
+                  />
 
                   <Field
+                    searchable
                     name="status"
                     data-testid="CreateAcquisitionStatusModal-statusSelect"
                     label={I18n.t('SETTINGS.ACQUISITION_STATUSES.MODALS.NEW_ACQUISITION_STATUS.FORM.STATUS')}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                     className="CreateAcquisitionStatusModal__field--large"
-                    component={FormikSelectField}
+                    component={FormikSingleSelectField}
                     disabled={
                         values.type === AcquisitionStatusTypes.SALES
                           ? differenceSalesStatuses.length === 0
                           : differenceRetentionStatuses.length === 0
                       }
-                    searchable
-                  >
-                    <Choose>
-                      <When condition={values.type === AcquisitionStatusTypes.SALES}>
-                        {differenceSalesStatuses.map(status => (
-                          <option key={status} value={status}>
-                            {I18n.t(Constants.salesStatuses[status])}
-                          </option>
-                        ))}
-                      </When>
-
-                      <When condition={values.type === AcquisitionStatusTypes.RETENTION}>
-                        {differenceRetentionStatuses.map(status => (
-                          <option key={status} value={status}>
-                            {I18n.t(Constants.retentionStatuses[status])}
-                          </option>
-                        ))}
-                      </When>
-                    </Choose>
-                  </Field>
+                    options={values.type === AcquisitionStatusTypes.SALES
+                      ? differenceSalesStatuses.map(status => ({
+                        label: I18n.t(Constants.salesStatuses[status]),
+                        value: status,
+                      }))
+                      : differenceRetentionStatuses.map(status => ({
+                        label: I18n.t(Constants.retentionStatuses[status]),
+                        value: status,
+                      }))
+                  }
+                  />
                 </div>
               </Otherwise>
             </Choose>

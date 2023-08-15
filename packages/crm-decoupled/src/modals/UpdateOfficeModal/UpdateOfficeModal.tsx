@@ -3,7 +3,7 @@ import { Formik, Form, Field, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
 import { Utils, parseErrors, notify, Types } from '@crm/common';
 import { HierarchyBranch } from '__generated__/types';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
+import { FormikInputField, FormikSingleSelectField } from 'components';
 import Modal from 'components/Modal';
 import { useUpdateOfficeMutation } from './graphql/__generated__/UpdateOfficeMutation';
 import { attributeLabels } from './constants';
@@ -87,20 +87,18 @@ const UpdateOfficeModal = (props: Props) => {
             />
 
             <Field
+              searchable
               name="country"
               data-testid="UpdateOfficeModal-countrySelect"
               label={attributeLabels.country}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               disabled={isSubmitting}
-              searchable
-            >
-              {Object.keys(Utils.countryList).map(country => (
-                <option key={country} value={country}>
-                  {Utils.countryList[country]}
-                </option>
-              ))}
-            </Field>
+              options={Object.keys(Utils.countryList).map(country => ({
+                label: Utils.countryList[country],
+                value: country,
+              }))}
+            />
           </Form>
         </Modal>
       )}

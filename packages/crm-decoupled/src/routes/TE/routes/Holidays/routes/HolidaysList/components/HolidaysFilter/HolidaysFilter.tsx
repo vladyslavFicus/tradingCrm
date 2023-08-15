@@ -1,14 +1,14 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import I18n from 'i18n-js';
-import { Types } from '@crm/common';
+import { Types, Utils } from '@crm/common';
 import { Formik, Form, Field } from 'formik';
-import { Button, RefreshButton } from 'components';
 import {
+  Button,
+  RefreshButton,
   FormikInputField,
   FormikDateRangePicker,
-} from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
+} from 'components';
 import './HolidaysFilter.scss';
 
 type Props = {
@@ -35,7 +35,7 @@ const HolidaysFilter = (props: Props) => {
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: Utils.decodeNullValues(values),
       },
     });
   };

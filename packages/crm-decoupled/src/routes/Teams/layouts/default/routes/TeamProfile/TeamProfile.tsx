@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import ShortLoader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import NotFound from 'routes/NotFound';
 import BranchHeader from 'components/BranchHeader';
 import HierarchyProfileRules from 'components/HierarchyProfileRules';

@@ -2,7 +2,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Types } from '@crm/common';
-import Select from 'components/Select';
+import { Select } from 'components';
 import useMoveFileDropDown from 'routes/Clients/routes/Client/routes/ClientFilesTab/hooks/useMoveFileDropDown';
 import { VerificationType } from 'routes/Clients/routes/Client/routes/ClientFilesTab/types/clientFilesGrid';
 import './MoveFileDropDown.scss';

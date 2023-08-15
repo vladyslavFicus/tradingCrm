@@ -3,9 +3,13 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Utils, Types, Constants } from '@crm/common';
-import { Button, RefreshButton } from 'components';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
+import {
+  Button,
+  RefreshButton,
+  FormikSingleSelectField,
+  FormikInputField,
+  FormikDateRangePicker,
+} from 'components';
 import { attributeLabels } from './constants';
 import { FeedFilterFormQueryVariables, useFeedFilterFormQuery } from './graphql/__generated__/FeedTypesQuery';
 import './AccountProfileFeedGridFilter.scss';
@@ -39,7 +43,7 @@ const AccountProfileFeedGridFilter = ({ handleRefetch }: Props) => {
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: Utils.decodeNullValues(values),
       },
     });
   };
@@ -96,18 +100,18 @@ const AccountProfileFeedGridFilter = ({ handleRefetch }: Props) => {
             withFocus
           />
           <Field
-            name="auditLogType"
-            label={I18n.t(attributeLabels.actionType)}
-            component={FormikSelectField}
-            placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-            className="AccountProfileFeedGridFilter__field"
             withAnyOption
             withFocus
-          >
-            {availableTypes.map(({ key, value }) => (
-              <option key={key} value={key}>{value}</option>
-            ))}
-          </Field>
+            name="auditLogType"
+            label={I18n.t(attributeLabels.actionType)}
+            component={FormikSingleSelectField}
+            placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
+            className="AccountProfileFeedGridFilter__field"
+            options={availableTypes.map(({ key, value }) => ({
+              label: value,
+              value: key,
+            }))}
+          />
           <Field
             className="AccountProfileFeedGridFilter__field AccountProfileFeedGridFilter__field--date-range"
             label={I18n.t('TRADING_ENGINE.ACCOUNT_PROFILE.FEED.FILTER_FORM.LABELS.ACTION_DATE_RANGE')}

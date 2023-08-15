@@ -1,8 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Button } from 'components';
-import { FormikSelectField } from 'components/Formik';
+import { Button, FormikSingleSelectField } from 'components';
 import { Agent } from 'components/ChangeOriginalAgent/types';
 import useChangeOriginalAgent from 'components/ChangeOriginalAgent/hooks/useChangeOriginalAgent';
 import './ChangeOriginalAgent.scss';
@@ -39,14 +38,15 @@ const ChangeOriginalAgent = (_props: Props) => {
             <Field
               name="agentId"
               searchable
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               className="ChangeOriginalAgent__select"
               disabled={!canChangeOriginalAgent || loading}
-            >
-              {operators.map(({ uuid, fullName, operatorStatus }) => (
-                <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>{fullName}</option>
-              ))}
-            </Field>
+              options={operators.map(({ uuid, fullName, operatorStatus }) => ({
+                label: fullName,
+                value: uuid,
+                disabled: operatorStatus !== 'ACTIVE',
+              }))}
+            />
 
             <If condition={canChangeOriginalAgent}>
               <Button

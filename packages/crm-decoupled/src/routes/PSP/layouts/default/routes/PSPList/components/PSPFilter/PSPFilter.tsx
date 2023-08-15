@@ -1,9 +1,8 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Button, RefreshButton } from 'components';
+import { Button, RefreshButton, FormikSingleSelectField, FormikInputField } from 'components';
 import useFilter from 'hooks/useFilter';
-import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { favouriteStatuses } from 'routes/PSP/constants/PSP';
 import './PSPFilter.scss';
 
@@ -49,25 +48,19 @@ const PSPFilter = (props: Props) => {
             />
 
             <Field
+              withFocus
+              withAnyOption
               name="favourite"
               data-testid="PSPFilter-favouriteSelect"
               label={I18n.t('SETTINGS.PSP.FORM.FIELDS.FAVOURITE_PSP')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="PSPFilter__field"
-              component={FormikSelectField}
-              withFocus
-              withAnyOption
-            >
-              {favouriteStatuses.map(({ label, value }) => (
-                <option
-                  key={label}
-                  /* @ts-ignore TS doesn't approve value as boolean type */
-                  value={value}
-                >
-                  {I18n.t(`SETTINGS.PSP.TYPES.${label}`)}
-                </option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={favouriteStatuses.map(({ label, value }) => ({
+                label: I18n.t(`SETTINGS.PSP.TYPES.${label}`),
+                value,
+              }))}
+            />
 
             <div className="PSPFilter__buttons">
               <RefreshButton

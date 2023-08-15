@@ -2,9 +2,14 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Utils } from '@crm/common';
-import { Button, RefreshButton } from 'components';
+import {
+  Button,
+  RefreshButton,
+  FormikSingleSelectField,
+  FormikInputField,
+  FormikDateRangePicker,
+} from 'components';
 import useFilter from 'hooks/useFilter';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import { statusesLabels, statuses } from 'routes/Partners/constants';
 import { FormValues } from 'routes/Partners/types';
 import './PartnersGridFilter.scss';
@@ -45,40 +50,39 @@ const PartnersGridFilter = (props: Props) => {
             />
 
             <Field
+              withAnyOption
+              searchable
+              withFocus
               name="country"
               className="PartnersGridFilter__field PartnersGridFilter__select"
               data-testid="PartnersGridFilter-countrySelect"
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               label={I18n.t('PARTNERS.GRID_FILTERS.COUNTRY')}
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
+              options={[
+                { label: I18n.t('COMMON.OTHER'), value: 'UNDEFINED' },
+                ...Object.keys(Utils.countryList).map(country => ({
+                  label: Utils.countryList[country],
+                  value: country,
+                })),
+              ]}
+            />
+
+            <Field
               withAnyOption
               searchable
               withFocus
-            >
-              {[
-                <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                ...Object.keys(Utils.countryList)
-                  .map(country => (
-                    <option key={country} value={country}>{Utils.countryList[country]}</option>
-                  )),
-              ]}
-            </Field>
-
-            <Field
               name="status"
               className="PartnersGridFilter__field PartnersGridFilter__select"
               data-testid="PartnersGridFilter-statusSelect"
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               label={I18n.t('PARTNERS.GRID_FILTERS.STATUS')}
-              component={FormikSelectField}
-              withAnyOption
-              searchable
-              withFocus
-            >
-              {Object.keys(statusesLabels).map(status => (
-                <option key={status} value={status}>{I18n.t(statusesLabels[status as statuses])}</option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={Object.keys(statusesLabels).map(status => ({
+                label: I18n.t(statusesLabels[status as statuses]),
+                value: status,
+              }))}
+            />
 
             <Field
               className="PartnersGridFilter__field PartnersGridFilter__date-range"

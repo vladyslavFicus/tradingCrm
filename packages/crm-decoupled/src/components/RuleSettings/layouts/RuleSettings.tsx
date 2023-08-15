@@ -2,8 +2,13 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Field } from 'formik';
 import { Config, Utils, Constants } from '@crm/common';
+import {
+  FormikMultipleSelectField,
+  FormikSingleSelectField,
+  FormikInputField,
+  FormikMultiInputField,
+} from 'components';
 import { Operator, Partner, RuleOperatorSpread__Input as RuleOperatorSpread } from '__generated__/types';
-import { FormikInputField, FormikMultiInputField, FormikSelectField } from 'components/Formik';
 import RuleOperatorSpreads from 'components/RuleOperatorSpreads';
 import useRuleSettings, { FormikBag } from 'components/RuleSettings/hooks/useRuleSettings';
 import './RuleSettings.scss';
@@ -58,82 +63,69 @@ const RuleSettings = (props: Props) => {
           name="priority"
           data-testid="RuleSettings-prioritySelect"
           label={I18n.t(Constants.ruleAttributeLabels.priority)}
-          component={FormikSelectField}
+          component={FormikSingleSelectField}
           disabled={isSubmitting}
           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-        >
-          {Constants.priorities.map(item => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </Field>
+          options={Constants.priorities.map(item => ({
+            label: item,
+            value: item,
+          }))}
+        />
 
         <Field
           name="type"
           data-testid="RuleSettings-typeSelect"
           label={I18n.t(Constants.ruleAttributeLabels.type)}
-          component={FormikSelectField}
+          component={FormikSingleSelectField}
           disabled={isSubmitting}
           placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-        >
-          {Constants.ruleTypes.map(({ label, value }) => (
-            <option key={value} value={value}>
-              {I18n.t(label)}
-            </option>
-          ))}
-        </Field>
+          options={Constants.ruleTypes.map(({ label, value }) => ({
+            label: I18n.t(label),
+            value,
+          }))}
+        />
       </div>
 
       <Field
+        searchable
         name="countries"
         data-testid="RuleSettings-countriesSelect"
         label={I18n.t(Constants.ruleAttributeLabels.country)}
-        component={FormikSelectField}
+        component={FormikMultipleSelectField}
         disabled={isSubmitting}
-        searchable
-        multiple
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
-      >
-        {Object.entries(Utils.countryList).map(([key, value]) => (
-          <option key={key} value={key}>
-            {value}
-          </option>
-        ))}
-      </Field>
+        options={Object.entries(Utils.countryList).map(([key, value]) => ({
+          label: value,
+          value: key,
+        }))}
+      />
 
       <Field
         name="languages"
         data-testid="RuleSettings-languagesSelect"
         label={I18n.t(Constants.ruleAttributeLabels.language)}
-        component={FormikSelectField}
+        component={FormikMultipleSelectField}
         disabled={isSubmitting}
-        multiple
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
-      >
-        {Config.getAvailableLanguages().map(locale => (
-          <option key={locale} value={locale}>
-            {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
-          </option>
-        ))}
-      </Field>
+        options={Config.getAvailableLanguages().map(locale => ({
+          label: I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() }),
+          value: locale,
+        }))}
+      />
 
       <Field
+        searchable
         name="affiliateUUIDs"
         data-testid="RuleSettings-affiliateUUIDsSelect"
         label={I18n.t(Constants.ruleAttributeLabels.partner)}
-        component={FormikSelectField}
+        component={FormikMultipleSelectField}
         disabled={isSubmitting || partners.length === 0}
-        multiple
         placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT_MULTISELECT')}
-        searchable
-      >
-        {partners.slice().map(partner => (
-          <option key={partner.uuid} value={partner.uuid}>
-            {partner.fullName}
-          </option>
-        ))}
-      </Field>
+        options={partners.slice().map(({ fullName, uuid }) => ({
+          label: fullName,
+          value: uuid,
+        }))}
+      />
 
       <Field
         name="sources"

@@ -2,13 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
-import { Types } from '@crm/common';
-import { Button, RefreshButton } from 'components';
-import {
-  FormikInputField,
-  FormikSelectField,
-} from 'components/Formik';
-import { decodeNullValues } from 'components/Formik/utils';
+import { Utils, Types } from '@crm/common';
+import { Button, FormikMultipleSelectField, RefreshButton, FormikInputField } from 'components';
 import { useGroupsQuery } from './graphql/__generated__/GroupsQuery';
 import './MarginCallsFilter.scss';
 
@@ -46,7 +41,7 @@ const MarginCallsFilter = (props: Props) => {
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: Utils.decodeNullValues(values),
       },
     });
   };
@@ -88,23 +83,20 @@ const MarginCallsFilter = (props: Props) => {
               withFocus
             />
             <Field
+              searchable
+              withFocus
               name="groups"
               data-testid="MarginCallsFilter-groupsSelect"
               label={I18n.t('TRADING_ENGINE.MARGIN_CALLS.FORM.FIELDS.GROUPS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               disabled={groupsQuery.loading}
               className="MarginCallsFilter__field"
-              component={FormikSelectField}
-              searchable
-              withFocus
-              multiple
-            >
-              {groups.map(({ groupName }) => (
-                <option key={groupName} value={groupName}>
-                  {I18n.t(groupName)}
-                </option>
-              ))}
-            </Field>
+              component={FormikMultipleSelectField}
+              options={groups.map(({ groupName }) => ({
+                label: I18n.t(groupName),
+                value: groupName,
+              }))}
+            />
           </div>
           <div className="MarginCallsFilter__buttons">
             <RefreshButton

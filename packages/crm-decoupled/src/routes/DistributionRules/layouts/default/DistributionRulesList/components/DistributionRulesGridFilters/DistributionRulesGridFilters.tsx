@@ -3,11 +3,17 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import classNames from 'classnames';
 import { Config, Utils, Constants } from '@crm/common';
-import { Button, RefreshButton } from 'components';
+import {
+  Button,
+  RefreshButton,
+  FormikSingleSelectField,
+  FormikMultipleSelectField,
+  FormikInputField,
+  FormikDateRangePicker,
+} from 'components';
 import { DistributionRule__Statuses__Enum as DistributionRuleStatusesEnum } from '__generated__/types';
 import useFilter from 'hooks/useFilter';
 import { FiltersToggler } from 'components/FiltersToggler';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import useDistributionRulesGridFilters from 'routes/DistributionRules/hooks/useDistributionRulesGridFilters';
 import { RulesFormValues } from 'routes/DistributionRules/types';
 import { firstTimeDepositFilter } from './constants';
@@ -53,21 +59,19 @@ const DistributionRulesGridFilters = (props: Props) => {
               />
 
               <Field
+                withAnyOption
+                withFocus
                 name="ruleStatus"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
                 data-testid="DistributionRulesGridFilters-ruleStatusSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.RULE_STATUS')}
-                component={FormikSelectField}
-                withAnyOption
-                withFocus
-              >
-                {Utils.enumToArray(DistributionRuleStatusesEnum).map(status => (
-                  <option key={status} value={status}>
-                    {I18n.t(Constants.clientDistributionStatusesLabels[status])}
-                  </option>
-                ))}
-              </Field>
+                component={FormikSingleSelectField}
+                options={Utils.enumToArray(DistributionRuleStatusesEnum).map(status => ({
+                  label: I18n.t(Constants.clientDistributionStatusesLabels[status]),
+                  value: status,
+                }))}
+              />
 
               <Field
                 name="fromBrand"
@@ -90,101 +94,83 @@ const DistributionRulesGridFilters = (props: Props) => {
               />
 
               <Field
+                searchable
+                withFocus
                 name="salesStatuses"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
                 data-testid="DistributionRulesGridFilters-salesStatusesSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.SALES_STATUS')}
-                component={FormikSelectField}
-                searchable
-                withFocus
-                multiple
-              >
-                {Object.keys(Constants.salesStatuses).map(value => (
-                  <option key={value} value={value}>
-                    {I18n.t(Utils.renderLabel(value, Constants.salesStatuses))}
-                  </option>
-                ))}
-              </Field>
+                component={FormikMultipleSelectField}
+                options={Object.keys(Constants.salesStatuses).map(value => ({
+                  label: I18n.t(Utils.renderLabel(value, Constants.salesStatuses)),
+                  value,
+                }))}
+              />
 
               <Field
+                withAnyOption
+                searchable
+                withFocus
                 name="affiliateUuids"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
                 data-testid="DistributionRulesGridFilters-affiliateUuidsSelect"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.AFFILIATE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 disabled={loading}
-                withAnyOption
-                searchable
-                withFocus
-                multiple
-              >
-                {partners.map(({ uuid, fullName, status }) => (
-                  <option
-                    key={uuid}
-                    value={uuid}
-                    className={
-                      classNames('DistributionRulesGridFilters__select-option', {
-                        'DistributionRulesGridFilters__select-option--inactive':
-                          ['INACTIVE', 'CLOSED'].includes(status),
-                      })
-                    }
-                  >
-                    {fullName}
-                  </option>
-                ))}
-              </Field>
+                options={partners.map(({ uuid, fullName, status }) => ({
+                  label: fullName,
+                  value: uuid,
+                  className: classNames('DistributionRulesGridFilters__select-option', {
+                    'DistributionRulesGridFilters__select-option--inactive':
+                      ['INACTIVE', 'CLOSED'].includes(status),
+                  }),
+                }))}
+              />
 
               <Field
+                searchable
                 name="languages"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
                 data-testid="DistributionRulesGridFilters-languagesSelect"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.LANGUAGES')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
-                searchable
-                multiple
-              >
-                {Config.getAvailableLanguages().map(locale => (
-                  <option key={locale} value={locale}>
-                    {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
-                  </option>
-                ))}
-              </Field>
+                component={FormikMultipleSelectField}
+                options={Config.getAvailableLanguages().map(locale => ({
+                  label: I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() }),
+                  value: locale,
+                }))}
+              />
 
               <Field
+                searchable
+                withFocus
                 name="countries"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
                 data-testid="DistributionRulesGridFilters-countriesSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.COUNTRY')}
-                component={FormikSelectField}
-                searchable
-                withFocus
-                multiple
-              >
-                {Object.keys(Utils.countryList).map(country => (
-                  <option key={country} value={country}>{Utils.countryList[country]}</option>
-                ))}
-              </Field>
+                component={FormikMultipleSelectField}
+                options={Object.keys(Utils.countryList).map(country => ({
+                  label: Utils.countryList[country],
+                  value: country,
+                }))}
+              />
 
               <Field
+                withAnyOption
                 name="firstTimeDeposit"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
                 data-testid="DistributionRulesGridFilters-firstTimeDepositSelect"
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.FIRST_TIME_DEPOSIT')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
-                withAnyOption
-              >
-                {firstTimeDepositFilter.map(({ value, label }) => (
-                  // @ts-ignore because in tsx file Field can't set BOOLEAN to option value
-                  <option key={`firstTimeDeposit-${value}`} value={value}>
-                    {I18n.t(label)}
-                  </option>
-                ))}
-              </Field>
+                component={FormikSingleSelectField}
+                options={firstTimeDepositFilter.map(({ value, label }) => ({
+                  label: I18n.t(label),
+                  value,
+                }))}
+              />
 
               <Field
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__date-range"
@@ -199,22 +185,19 @@ const DistributionRulesGridFilters = (props: Props) => {
               />
 
               <Field
+                searchable
+                withFocus
                 name="timesInCurrentStatusInHours"
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__select"
                 data-testid="DistributionRulesGridFilters-timesInCurrentStatusInHoursSelect"
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 label={I18n.t('CLIENTS_DISTRIBUTION.FILTERS.TIME_IN_STATUS')}
-                component={FormikSelectField}
-                searchable
-                withFocus
-                multiple
-              >
-                {Constants.timeInCurrentStatusInHours.map(({ label, value, i18nValue }) => (
-                  <option key={value} value={value}>
-                    {I18n.t(label, { value: i18nValue })}
-                  </option>
-                ))}
-              </Field>
+                component={FormikMultipleSelectField}
+                options={Constants.timeInCurrentStatusInHours.map(({ label, value, i18nValue }) => ({
+                  label: I18n.t(label, { value: i18nValue }),
+                  value,
+                }))}
+              />
 
               <Field
                 className="DistributionRulesGridFilters__field DistributionRulesGridFilters__date-range"

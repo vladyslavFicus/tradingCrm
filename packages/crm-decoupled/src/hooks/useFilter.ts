@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
 import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
 import { FormikHelpers } from 'formik';
-import { Types } from '@crm/common';
-import { decodeNullValues } from 'components/Formik/utils';
+import { Utils, Types } from '@crm/common';
 
 type UseFilter<TFormValues> = {
   filters: TFormValues,
@@ -25,7 +24,7 @@ const useFilter = <
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: Utils.decodeNullValues(values),
       },
     });
 

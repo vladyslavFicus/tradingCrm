@@ -2,9 +2,8 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils } from '@crm/common';
-import { Button, RefreshButton } from 'components';
+import { Button, RefreshButton, FormikSingleSelectField, FormikInputField } from 'components';
 import useFilter from 'hooks/useFilter';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
 import {
   AccountTypes,
   AccountTypeLabels,
@@ -52,53 +51,48 @@ const TradingAccountsFilters = (props: Props) => {
             />
 
             <Field
+              withAnyOption
+              withFocus
               name="accountType"
               label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.ACCOUNT_TYPE')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="TradingAccountsFilters__field"
-              component={FormikSelectField}
-              withAnyOption
-              withFocus
-            >
-              {Utils.enumToArray(AccountTypes).map(key => (
-                <option key={key} value={key}>
-                  {I18n.t(AccountTypeLabels[key])}
-                </option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={Utils.enumToArray(AccountTypes).map(key => ({
+                label: I18n.t(AccountTypeLabels[key]),
+                value: key,
+              }))}
+            />
 
             <If condition={platformTypes.length > 1}>
               <Field
+                withAnyOption
+                withFocus
                 name="platformType"
                 label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.PLATFORM_TYPE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
                 className="TradingAccountsFilters__field"
-                component={FormikSelectField}
-                withAnyOption
-                withFocus
-              >
-                {platformTypes.map(({ value, label }) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
-              </Field>
+                component={FormikSingleSelectField}
+                options={platformTypes.map(({ value, label }) => ({
+                  label,
+                  value,
+                }))}
+              />
             </If>
 
             <Field
+              withAnyOption
+              withFocus
               name="archived"
               label={I18n.t('TRADING_ACCOUNTS.FORM.FIELDS.STATUS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="TradingAccountsFilters__field"
-              component={FormikSelectField}
-              withAnyOption
-              withFocus
-            >
-              {AccountStatuses.map(({ value, label }) => (
-                // @ts-ignore because in tsx file Field can't set BOOLEAN to option value
-                <option key={`archived-${value}`} value={value}>
-                  {I18n.t(label)}
-                </option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={AccountStatuses.map(({ value, label }) => ({
+                label: I18n.t(label),
+                value,
+              }))}
+            />
           </div>
 
           <div className="TradingAccountsFilters__buttons">

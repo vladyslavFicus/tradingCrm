@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Form, Formik, FormikProps } from 'formik';
 import { useParams } from 'react-router-dom';
 import { Utils, notify, Types, hasErrorPath } from '@crm/common';
-import ShortLoader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import NotFound from 'routes/NotFound';
 import HolidayHeader from '../../components/HolidayHeader';
 import HolidayCommonForm from '../../components/HolidayCommonForm';

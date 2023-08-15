@@ -3,7 +3,7 @@ import { Formik, Form, Field, FormikHelpers } from 'formik';
 import I18n from 'i18n-js';
 import { Utils, parseErrors, notify, Types } from '@crm/common';
 import { HierarchyBranchUser } from '__generated__/types';
-import { FormikSelectField } from 'components/Formik';
+import { FormikSingleSelectField } from 'components';
 import Modal from 'components/Modal';
 import { useBranchUsersQuery } from './graphql/__generated__/BranchUsersQuery';
 import { useAddBranchManagerMutation } from './graphql/__generated__/AddBranchManagerMutation';
@@ -126,21 +126,20 @@ const AddBranchManagerModal = (props: Props) => {
             </If>
 
             <Field
+              searchable
               name="operatorUuid"
               className="AddBranchManagerModal__select"
               data-testid="AddBranchManagerModal-operatorUuidSelect"
               label={I18n.t('COMMON.CHOOSE_OPERATOR')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               disabled={loading || isSubmitting || !operators.length}
-              searchable
-            >
-              {operators.map(({ uuid, operator }: HierarchyBranchUser) => (
-                <option key={uuid} value={uuid} disabled={operator?.operatorStatus !== 'ACTIVE'}>
-                  {operator?.fullName}
-                </option>
-              ))}
-            </Field>
+              options={operators.map(({ uuid, operator }: HierarchyBranchUser) => ({
+                label: operator?.fullName,
+                value: uuid,
+                disabled: operator?.operatorStatus !== 'ACTIVE',
+              }))}
+            />
           </Form>
         </Modal>
       )}

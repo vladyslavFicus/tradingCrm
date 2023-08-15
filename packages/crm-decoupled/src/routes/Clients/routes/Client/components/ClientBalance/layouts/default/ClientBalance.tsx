@@ -4,8 +4,8 @@ import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import classNames from 'classnames';
 import { groupBy, sumBy } from 'lodash';
 import I18n from 'i18n-js';
+import { SingleSelect } from 'components';
 import { Profile } from '__generated__/types';
-import Select from 'components/Select';
 import { selectOptions } from 'routes/Clients/routes/Client/components/constants/clientBalance';
 import useClientBalance from 'routes/Clients/routes/Client/components/hooks/useClientBalance';
 import './ClientBalance.scss';
@@ -85,18 +85,16 @@ const ClientBalance = (_props: Props) => {
 
   const renderPaymentsStatistic = useCallback(() => (
     <>
-      <Select
+      <SingleSelect
         customClassName="ClientBalance__select"
         data-testid="ClientBalance-paymentsSelect"
         onChange={handleDateChange}
         value={selectedDate}
-      >
-        {selectOptions().map(({ value, label }) => (
-          <option key={value} value={value}>
-            {I18n.t(label)}
-          </option>
-        ))}
-      </Select>
+        options={selectOptions().map(({ value, label }) => ({
+          label: I18n.t(label),
+          value,
+        }))}
+      />
 
       <div className="ClientBalance__statistics">
         {/* Deposit counter */}

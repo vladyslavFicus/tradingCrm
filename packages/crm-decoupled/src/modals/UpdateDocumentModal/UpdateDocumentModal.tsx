@@ -3,7 +3,7 @@ import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Utils, notify, Types } from '@crm/common';
 import { DocumentFile } from '__generated__/types';
-import { FormikInputField } from 'components/Formik';
+import { FormikInputField } from 'components';
 import Modal from 'components/Modal';
 import { useUpdateDocumentMutation } from './graphql/__generated__/UpdateDocumentMutation';
 

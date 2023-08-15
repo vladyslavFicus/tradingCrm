@@ -2,11 +2,7 @@ import React from 'react';
 import I18n from 'i18n-js';
 import { Field, FormikProps } from 'formik';
 import { Config, Utils } from '@crm/common';
-import {
-  FormikInputField,
-  FormikSelectField,
-  FormikCheckbox,
-} from 'components/Formik';
+import { FormikSingleSelectField, FormikInputField, FormikCheckbox } from 'components';
 import { FormValues, DefaultLeverage } from '../../types';
 import './GroupCommonForm.scss';
 
@@ -35,6 +31,7 @@ const GroupCommonForm = (props: Props) => {
           className="GroupCommonForm__field GroupCommonForm__field--center"
           disabled={archived}
         />
+
         <Field
           label={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.NAME')}
           name="groupName"
@@ -44,6 +41,7 @@ const GroupCommonForm = (props: Props) => {
           data-testid="GroupCommonForm-groupNameInput"
           disabled={!!groupName || archived}
         />
+
         <Field
           label={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.DESCRIPTION')}
           name="description"
@@ -53,34 +51,32 @@ const GroupCommonForm = (props: Props) => {
           data-testid="GroupCommonForm-descriptionInput"
           disabled={archived}
         />
+
         <Field
           label={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.DEPOSIT_CURRENCY')}
           name="currency"
           data-testid="GroupCommonForm-currencySelect"
-          component={FormikSelectField}
+          component={FormikSingleSelectField}
           className="GroupCommonForm__field"
           disabled={!!groupName || archived}
-        >
-          {Config.getBrand().currencies.supported.map((currency: string) => (
-            <option key={currency} value={currency}>
-              {currency}
-            </option>
-          ))}
-        </Field>
+          options={Config.getBrand().currencies.supported.map((currency: string) => ({
+            label: currency,
+            value: currency,
+          }))}
+        />
+
         <Field
           label={I18n.t('TRADING_ENGINE.GROUP.COMMON_GROUP_FORM.LEVERAGE_BY_DEFAULT')}
           name="defaultLeverage"
-          component={FormikSelectField}
+          component={FormikSingleSelectField}
           className="GroupCommonForm__field"
           data-testid="GroupCommonForm-defaultLeverageSelect"
           disabled={archived}
-        >
-          {Utils.enumToArray(DefaultLeverage).map(value => (
-            <option key={value} value={value}>
-              1:{value}
-            </option>
-          ))}
-        </Field>
+          options={Utils.enumToArray(DefaultLeverage).map(value => ({
+            label: `1:${value}`,
+            value,
+          }))}
+        />
       </div>
     </div>
   );

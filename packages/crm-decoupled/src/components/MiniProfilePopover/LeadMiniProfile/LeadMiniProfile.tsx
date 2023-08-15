@@ -2,8 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Utils, Constants } from '@crm/common';
+import { ShortLoader } from 'components';
 import CountryLabelWithFlag from 'components/CountryLabelWithFlag';
-import ShortLoader from 'components/ShortLoader';
 import {
   MiniProfile,
   MiniProfileHeader,

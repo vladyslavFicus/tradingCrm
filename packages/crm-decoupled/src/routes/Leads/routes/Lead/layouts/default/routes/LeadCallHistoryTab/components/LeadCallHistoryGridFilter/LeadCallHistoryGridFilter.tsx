@@ -3,10 +3,16 @@ import { startCase } from 'lodash';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Utils } from '@crm/common';
-import { Button, RefreshButton } from 'components';
+import {
+  Button,
+  FormikMultipleSelectField,
+  FormikSingleSelectField,
+  FormikInputField,
+  FormikDateRangePicker,
+  RefreshButton,
+} from 'components';
 import { CallHistory__Status__Enum as CallHistoryStatusEnum } from '__generated__/types';
 import useFilter from 'hooks/useFilter';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import useLeadCallHistoryGridFilter from 'routes/Leads/routes/Lead/hooks/useLeadCallHistoryGridFilter';
 import { FormValues } from 'routes/Leads/routes/Lead/types/leadCallHistoryGridFilter';
 import './LeadCallHistoryGridFilter.scss';
@@ -57,40 +63,35 @@ const LeadCallHistoryGridFilter = (props: Props) => {
             />
 
             <Field
+              searchable
+              withFocus
               name="callSystems"
               disabled={loading}
               className="LeadCallHistoryGridFilter__field LeadCallHistoryGridFilter__select"
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
               label={I18n.t('LEAD_PROFILE.CALL_HISTORY.GRID.FILTERS.CALL_SYSTEM')}
-              component={FormikSelectField}
+              component={FormikMultipleSelectField}
               data-testid="LeadCallHistoryGridFilter-callSystemsSelect"
-              searchable
-              multiple
-              withFocus
-            >
-              {callSystems.map(callSystem => (
-                <option key={callSystem} value={callSystem}>
-                  {startCase(callSystem.toLowerCase())}
-                </option>
-              ))}
-            </Field>
+              options={callSystems.map(callSystem => ({
+                label: startCase(callSystem.toLowerCase()),
+                value: callSystem,
+              }))}
+            />
 
             <Field
+              withAnyOption
               name="callStatus"
               className="LeadCallHistoryGridFilter__field LeadCallHistoryGridFilter__select"
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               label={I18n.t('LEAD_PROFILE.CALL_HISTORY.GRID.FILTERS.CALL_STATUS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               data-testid="LeadCallHistoryGridFilter-callStatusSelect"
               disabled={isSubmitting}
-              withAnyOption
-            >
-              {Utils.enumToArray(CallHistoryStatusEnum).map(callHistoryStatus => (
-                <option key={callHistoryStatus} value={callHistoryStatus}>
-                  {I18n.t(`LEAD_PROFILE.CALL_HISTORY.STATUSES.${callHistoryStatus}`)}
-                </option>
-              ))}
-            </Field>
+              options={Utils.enumToArray(CallHistoryStatusEnum).map(callHistoryStatus => ({
+                label: I18n.t(`LEAD_PROFILE.CALL_HISTORY.STATUSES.${callHistoryStatus}`),
+                value: callHistoryStatus,
+              }))}
+            />
 
             <Field
               className="LeadCallHistoryGridFilter__field LeadCallHistoryGridFilter__date-range"

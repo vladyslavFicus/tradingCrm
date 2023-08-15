@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
-import ShortLoader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import useHierarchy from 'routes/Hierarchy/hooks/useHierarchy';
 import HierarchyItemBranch from './components/HierarchyItemBranch';
 import './Hierarchy.scss';

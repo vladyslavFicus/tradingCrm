@@ -2,9 +2,8 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Utils } from '@crm/common';
-import { Button, RefreshButton } from 'components';
+import { Button, RefreshButton, FormikSingleSelectField, FormikInputField } from 'components';
 import useFilter from 'hooks/useFilter';
-import { FormikInputField, FormikSelectField } from 'components/Formik';
 import useTeamsGridFilter from 'routes/Teams/hooks/useTeamsGridFilter';
 import { FormValues } from 'routes/Teams/types/teamsGridFilter';
 import './TeamsGridFilter.scss';
@@ -59,23 +58,26 @@ const TeamsGridFilter = (props: Props) => {
               />
 
               <Field
+                withAnyOption
+                searchable
+                withFocus
                 name="officeUuid"
                 className="TeamsGridFilter__field TeamsGridFilter__select"
                 data-testid="TeamsGridFilter-officeUuidSelect"
                 label={I18n.t('TEAMS.GRID_FILTERS.OFFICE')}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 disabled={loading}
+                options={officesList.map(({ name, uuid }) => ({
+                  label: name,
+                  value: uuid,
+                }))}
+              />
+
+              <Field
                 withAnyOption
                 searchable
                 withFocus
-              >
-                {officesList.map(({ name, uuid }) => (
-                  <option key={uuid} value={uuid}>{name}</option>
-                ))}
-              </Field>
-
-              <Field
                 name="deskUuid"
                 className="TeamsGridFilter__field TeamsGridFilter__select"
                 data-testid="TeamsGridFilter-deskUuidSelect"
@@ -85,16 +87,13 @@ const TeamsGridFilter = (props: Props) => {
                     ? 'TEAMS.GRID_FILTERS.DESK_ERROR_PLACEHOLDER'
                     : 'COMMON.SELECT_OPTION.ANY',
                 )}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 disabled={loading || !desksByOffice.length}
-                withAnyOption
-                searchable
-                withFocus
-              >
-                {desksOptions.map(({ name, uuid }) => (
-                  <option key={uuid} value={uuid}>{name}</option>
-                ))}
-              </Field>
+                options={desksOptions.map(({ name, uuid }) => ({
+                  label: name,
+                  value: uuid,
+                }))}
+              />
             </div>
 
             <div className="TeamsGridFilter__buttons">

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import { Types, Constants } from '@crm/common';
-import ShortLoader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import Uuid from 'components/Uuid';
 import NoteAction from 'components/Note/NoteAction';
 import usePinnedNotes from '../hooks/usePinnedNotes';

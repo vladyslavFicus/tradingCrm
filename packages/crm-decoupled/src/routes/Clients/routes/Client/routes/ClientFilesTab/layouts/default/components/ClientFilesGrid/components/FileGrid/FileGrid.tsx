@@ -1,19 +1,16 @@
-// @ts-nocheck Select component write by js
 import React, { useCallback } from 'react';
 import moment from 'moment';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
 import { Utils, Types, Constants } from '@crm/common';
-import { EditButton, DownloadButton, TrashButton } from 'components';
+import { EditButton, DownloadButton, TrashButton, ShortLoader, SingleSelect } from 'components';
 import { File } from '__generated__/types';
-import { Table, Column } from 'components/Table';
-import GridEmptyValue from 'components/GridEmptyValue';
-import Select from 'components/Select';
-import Uuid from 'components/Uuid';
-import ShortLoader from 'components/ShortLoader';
-import NoteAction from 'components/Note/NoteAction';
 import { TokenRefreshMutationMutationFn }
   from 'routes/Clients/routes/Client/routes/ClientFilesTab/graphql/__generated__/TokenRefreshMutation';
+import { Table, Column } from 'components/Table';
+import GridEmptyValue from 'components/GridEmptyValue';
+import Uuid from 'components/Uuid';
+import NoteAction from 'components/Note/NoteAction';
 import useFileGrid from 'routes/Clients/routes/Client/routes/ClientFilesTab/hooks/useFileGrid';
 import MoveFileDropDown from './components/MoveFileDropDown';
 import { statusesCategory } from './constants';
@@ -95,17 +92,17 @@ const FileGrid = (props: Props) => {
               {I18n.t('FILES.CHANGE_VERIFICATION_STATUS')}:
             </span>
 
-            <Select
+            <SingleSelect
               value={selectedVerificationStatus || verificationStatus || ''}
-              customClassName="FileGrid__header-status-dropdown"
+              className="FileGrid__header-status-dropdown"
               data-testid="FileGrid-statusesCategorySelect"
-              onChange={handleCahgeStatusesCategorySelect}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-            >
-              {statusesCategory.map(({ value, label }) => (
-                <option key={`${verificationType}-${documentType}-${value}`} value={value}>{I18n.t(label)}</option>
-              ))}
-            </Select>
+              onChange={handleCahgeStatusesCategorySelect}
+              options={statusesCategory.map(({ value, label }) => ({
+                label: I18n.t(label),
+                value,
+              }))}
+            />
           </div>
         </div>
       </If>

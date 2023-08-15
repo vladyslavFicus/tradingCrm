@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Field, FormikProps } from 'formik';
-import { FormikCheckbox } from 'components/Formik';
+import { FormikCheckbox } from 'components';
 import { FormValues } from '../../types';
 import './GroupPermissionsForm.scss';
 

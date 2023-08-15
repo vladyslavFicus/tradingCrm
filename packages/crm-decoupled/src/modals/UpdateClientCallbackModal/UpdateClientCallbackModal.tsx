@@ -3,13 +3,10 @@ import moment from 'moment';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Config, Utils, Constants, notify, Types, usePermission } from '@crm/common';
-import { Button } from 'components';
+import { Button, ShortLoader, FormikSingleSelectField, FormikDatePicker } from 'components';
 import { ClientCallback, Operator, Callback__Status__Enum as CallbackStatusEnum } from '__generated__/types';
 import Modal from 'components/Modal';
-import { FormikSelectField, FormikDatePicker } from 'components/Formik';
-import ShortLoader from 'components/ShortLoader';
 import Uuid from 'components/Uuid';
-import { DATE_TIME_BASE_FORMAT } from 'components/DatePickers/constants';
 import { useGetClientCallbackQuery } from './graphql/__generated__/GetClientCallbackQuery';
 import { useGetOperatorsQuery } from './graphql/__generated__/GetOperatorsQuery';
 import { useUpdateClientCallbackMutation } from './graphql/__generated__/UpdateClientCallbackMutation';
@@ -64,7 +61,7 @@ const UpdateClientCallbackModal = (props: Props) => {
         variables: {
           ...values,
           callbackId,
-          callbackTime: moment.utc(values.callbackTime).format(DATE_TIME_BASE_FORMAT),
+          callbackTime: moment.utc(values.callbackTime).format(Constants.DATE_TIME_BASE_FORMAT),
         },
       });
 
@@ -180,6 +177,7 @@ const UpdateClientCallbackModal = (props: Props) => {
                 </div>
 
                 <Field
+                  searchable
                   name="operatorId"
                   className="UpdateClientCallbackModal__field"
                   data-testid="UpdateClientCallbackModal-operatorIdSelect"
@@ -191,16 +189,14 @@ const UpdateClientCallbackModal = (props: Props) => {
                       )
                     }
                   label={I18n.t('CALLBACKS.MODAL.OPERATOR')}
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   disabled={isOperatorsLoading || readOnly}
-                  searchable
-                >
-                  {operators.map(({ uuid, fullName, operatorStatus }) => (
-                    <option key={uuid} value={uuid} disabled={operatorStatus !== 'ACTIVE'}>
-                      {fullName}
-                    </option>
-                  ))}
-                </Field>
+                  options={operators.map(({ uuid, fullName, operatorStatus }) => ({
+                    label: fullName,
+                    value: uuid,
+                    disabled: operatorStatus !== 'ACTIVE',
+                  }))}
+                />
 
                 <Field
                   name="callbackTime"
@@ -219,30 +215,26 @@ const UpdateClientCallbackModal = (props: Props) => {
                   data-testid="UpdateClientCallbackModal-statusSelect"
                   placeholder={I18n.t('CALLBACKS.MODAL.SELECT_STATUS')}
                   label={I18n.t('CALLBACKS.MODAL.STATUS')}
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   disabled={readOnly}
-                >
-                  {Utils.enumToArray(CallbackStatusEnum).map(callbackStatus => (
-                    <option key={callbackStatus} value={callbackStatus}>
-                      {I18n.t(`CONSTANTS.CALLBACKS.${callbackStatus}`)}
-                    </option>
-                  ))}
-                </Field>
+                  options={Utils.enumToArray(CallbackStatusEnum).map(callbackStatus => ({
+                    label: I18n.t(`CONSTANTS.CALLBACKS.${callbackStatus}`),
+                    value: callbackStatus,
+                  }))}
+                />
 
                 <Field
                   name="reminder"
                   data-testid="UpdateClientCallbackModal-reminderSelect"
                   placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
                   label={I18n.t(attributeLabels.reminder)}
-                  component={FormikSelectField}
+                  component={FormikSingleSelectField}
                   disabled={readOnly}
-                >
-                  {Constants.reminderValues.map(({ value, label }) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </Field>
+                  options={Constants.reminderValues.map(({ value, label }) => ({
+                    label,
+                    value,
+                  }))}
+                />
               </Form>
             </Modal>
           )}

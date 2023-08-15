@@ -3,9 +3,15 @@ import classNames from 'classnames';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
 import { Config, Utils, Constants } from '@crm/common';
-import { Button, RefreshButton } from 'components';
+import {
+  Button,
+  FormikMultipleSelectField,
+  FormikSingleSelectField,
+  FormikInputField,
+  FormikDateRangePicker,
+  RefreshButton,
+} from 'components';
 import useFilter from 'hooks/useFilter';
-import { FormikInputField, FormikSelectField, FormikDateRangePicker } from 'components/Formik';
 import TimeZoneField from 'components/TimeZoneField';
 import {
   attributeLabels,
@@ -80,44 +86,41 @@ const LeadsGridFilter = (props:Props) => {
               />
 
               <Field
+                searchable
+                withFocus
                 name="languages"
                 className="LeadsGridFilter__field LeadsGridFilter__select"
                 label={I18n.t(attributeLabels.languages)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 data-testid="LeadsGridFilter-languagesSelect"
-                searchable
-                withFocus
-                multiple
-              >
-                {languagesOptions.map(locale => (
-                  <option key={locale} value={locale}>
-                    {I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() })}
-                  </option>
-                ))}
-              </Field>
+                options={languagesOptions.map(locale => ({
+                  label: I18n.t(`COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`, { defaultValue: locale.toUpperCase() }),
+                  value: locale,
+                }))}
+              />
 
               <Field
+                searchable
+                withFocus
                 name="countries"
                 className="LeadsGridFilter__field LeadsGridFilter__select"
                 label={I18n.t(attributeLabels.countries)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 data-testid="LeadsGridFilter-countriesSelect"
-                searchable
-                withFocus
-                multiple
-              >
-                {[
-                  <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                  ...Object.keys(Utils.countryList)
-                    .map(country => (
-                      <option key={country} value={country}>{Utils.countryList[country]}</option>
-                    )),
+                options={[
+                  { label: I18n.t('COMMON.OTHER'), value: 'UNDEFINED' },
+                  ...Object.keys(Utils.countryList).map(country => ({
+                    label: Utils.countryList[country],
+                    value: country,
+                  })),
                 ]}
-              </Field>
+              />
 
               <Field
+                searchable
+                withFocus
                 name="desks"
                 className="LeadsGridFilter__field LeadsGridFilter__select"
                 label={I18n.t(attributeLabels.desks)}
@@ -128,21 +131,18 @@ const LeadsGridFilter = (props:Props) => {
                         : 'COMMON.SELECT_OPTION.DEFAULT',
                     )
                   }
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 disabled={isDesksAndTeamsLoading || desks.length === 0}
                 data-testid="LeadsGridFilter-desksSelect"
-                searchable
-                withFocus
-                multiple
-              >
-                {desks.map(({ uuid, name }) => (
-                  <option key={uuid} value={uuid}>
-                    {I18n.t(name)}
-                  </option>
-                ))}
-              </Field>
+                options={desks.map(({ uuid, name }) => ({
+                  label: I18n.t(name),
+                  value: uuid,
+                }))}
+              />
 
               <Field
+                searchable
+                withFocus
                 name="teams"
                 className="LeadsGridFilter__field LeadsGridFilter__select"
                 label={I18n.t(attributeLabels.teams)}
@@ -153,21 +153,18 @@ const LeadsGridFilter = (props:Props) => {
                         : 'COMMON.SELECT_OPTION.DEFAULT',
                     )
                   }
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 disabled={isDesksAndTeamsLoading || teamsOptions.length === 0}
                 data-testid="LeadsGridFilter-teamsSelect"
-                searchable
-                withFocus
-                multiple
-              >
-                {teamsOptions.map(({ uuid, name }) => (
-                  <option key={uuid} value={uuid}>
-                    {I18n.t(name)}
-                  </option>
-                ))}
-              </Field>
+                options={teamsOptions.map(({ uuid, name }) => ({
+                  label: I18n.t(name),
+                  value: uuid,
+                }))}
+              />
 
               <Field
+                searchable
+                withFocus
                 name="salesAgents"
                 className="LeadsGridFilter__field LeadsGridFilter__select"
                 label={I18n.t(attributeLabels.salesAgents)}
@@ -178,83 +175,66 @@ const LeadsGridFilter = (props:Props) => {
                         : 'COMMON.SELECT_OPTION.DEFAULT',
                     )
                   }
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 disabled={isOperatorsLoading || operatorsOptions.length === 0}
                 data-testid="LeadsGridFilter-salesAgentsSelect"
-                searchable
-                withFocus
-                multiple
-              >
-                {operatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
-                  <option
-                    key={uuid}
-                    value={uuid}
-                    className={classNames('LeadsGridFilter__select-option', {
-                      'LeadsGridFilter__select-option--inactive':
-                        operatorStatus === Constants.Operator.statuses.INACTIVE
+                options={operatorsOptions.map(({ uuid, fullName, operatorStatus }) => ({
+                  label: fullName,
+                  value: uuid,
+                  className: classNames('LeadsGridFilter__select-option', {
+                    'LeadsGridFilter__select-option--inactive': operatorStatus === Constants.Operator.statuses.INACTIVE
                         || operatorStatus === Constants.Operator.statuses.CLOSED,
-                    })}
-                  >
-                    {fullName}
-                  </option>
-                ))}
-              </Field>
+                  }),
+                }))}
+              />
 
               <Field
+                searchable
+                withFocus
                 name="salesStatuses"
                 className="LeadsGridFilter__field LeadsGridFilter__select"
                 label={I18n.t(attributeLabels.salesStatuses)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
+                component={FormikMultipleSelectField}
                 disabled={isAcquisitionStatusesLoading}
                 data-testid="LeadsGridFilter-salesStatusesSelect"
-                searchable
-                withFocus
-                multiple
-              >
-                {salesStatuses.map(({ status }) => (
-                  <option key={status} value={status}>
-                    {I18n.t(Constants.salesStatuses[status])}
-                  </option>
-                ))}
-              </Field>
+                options={salesStatuses.map(({ status }) => ({
+                  label: I18n.t(Constants.salesStatuses[status]),
+                  value: status,
+                }))}
+              />
 
               <Field
+                withAnyOption
+                searchable
+                withFocus
                 name="status"
                 className="LeadsGridFilter__field LeadsGridFilter__select"
                 label={I18n.t(attributeLabels.status)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 data-testid="LeadsGridFilter-statusSelect"
-                withAnyOption
-                searchable
-                withFocus
-              >
-                {Object.values(leadAccountStatuses)
-                  .map(({ label, value }) => (
-                    <option key={value} value={value}>
-                      {I18n.t(label)}
-                    </option>
-                  ))}
-              </Field>
+                options={Object.values(leadAccountStatuses)
+                  .map(({ label, value }) => ({
+                    label: I18n.t(label),
+                    value,
+                  }))}
+              />
 
               <Field
+                withAnyOption
+                withFocus
                 name="isNeverCalled"
                 className="LeadsGridFilter__field LeadsGridFilter__select"
                 label={I18n.t(attributeLabels.isNeverCalled)}
                 placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                component={FormikSelectField}
+                component={FormikSingleSelectField}
                 data-testid="LeadsGridFilter-isNeverCalledSelect"
-                withAnyOption
-                withFocus
-              >
-                {neverCalledTypes.map(({ value, label }) => (
-                  // @ts-ignore TS doesn't approve value as boolean type
-                  <option key={`isNeverCalled-${value}`} value={value}>
-                    {I18n.t(label)}
-                  </option>
-                ))}
-              </Field>
+                options={neverCalledTypes.map(({ value, label }) => ({
+                  label: I18n.t(label),
+                  value,
+                }))}
+              />
 
               <Field
                 name="searchLimit"

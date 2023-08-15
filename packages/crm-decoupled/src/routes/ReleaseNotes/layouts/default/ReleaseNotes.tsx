@@ -1,7 +1,7 @@
 import React from 'react';
 import { startCase } from 'lodash';
 import { Config } from '@crm/common';
-import ShortLoader from 'components/ShortLoader';
+import { ShortLoader } from 'components';
 import useReleaseNotes from 'routes/ReleaseNotes/hooks/useReleaseNotes';
 import './ReleaseNotes.scss';
 

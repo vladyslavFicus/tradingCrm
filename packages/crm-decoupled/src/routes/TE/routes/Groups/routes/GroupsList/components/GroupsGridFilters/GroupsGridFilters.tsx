@@ -2,10 +2,8 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Types } from '@crm/common';
-import { Button, RefreshButton } from 'components';
-import { decodeNullValues } from 'components/Formik/utils';
-import { FormikInputField } from 'components/Formik';
+import { Utils, Types } from '@crm/common';
+import { Button, RefreshButton, FormikInputField } from 'components';
 import { GroupsQueryQueryResult, GroupsQueryVariables } from '../../graphql/__generated__/GroupsQuery';
 import './GroupsGridFilters.scss';
 
@@ -24,7 +22,7 @@ const GroupsGridFilters = ({ groupsListQuery }: Props) => {
       replace: true,
       state: {
         ...state,
-        filters: decodeNullValues(values),
+        filters: Utils.decodeNullValues(values),
       },
     });
   };

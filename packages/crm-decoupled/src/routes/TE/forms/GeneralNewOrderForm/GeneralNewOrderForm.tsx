@@ -4,15 +4,15 @@ import I18n from 'i18n-js';
 import { orderBy, intersectionWith } from 'lodash';
 import Hotkeys from 'react-hot-keys';
 import { Utils, parseErrors, notify, Types, useStorage } from '@crm/common';
-import { Button, Input } from 'components';
 import { TradingEngine__OperationTypes__Enum as OrderType } from '__generated__/types';
 import {
+  Button,
+  Input,
   FormikCheckbox,
   FormikInputDecimalsField,
   FormikInputField,
   FormikSelectTreeField,
-} from 'components/Formik';
-import { Node } from 'components/SelectTree';
+} from 'components';
 import { OrderDirection } from 'types/trading-engine';
 import { placeholder, step } from 'routes/TE/utils/inputHelper';
 import { calculatePnL, calculateMargin, determineOrderType } from 'routes/TE/utils/formulas';
@@ -22,6 +22,13 @@ import { useCreateOrderMutation } from './graphql/__generated__/CreateOrderMutat
 import { useAccountQuery } from './graphql/__generated__/AccountQuery';
 import { useAccountSymbolsQuery } from './graphql/__generated__/AccountSymbolsQuery';
 import './GeneralNewOrderForm.scss';
+
+type Node = {
+  value: string,
+  label: string,
+  children?: Node[],
+  showCheckbox?: boolean,
+};
 
 type Props = {
   accountUuid?: string,

@@ -1,10 +1,9 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import { Formik, Form, Field } from 'formik';
-import { Button, RefreshButton } from 'components';
+import { Button, RefreshButton, FormikSingleSelectField, FormikInputField } from 'components';
 import { AcquisitionStatusTypes__Enum as AcquisitionStatusTypes } from '__generated__/types';
 import useFilter from 'hooks/useFilter';
-import { FormikSelectField, FormikInputField } from 'components/Formik';
 import { FormValues } from 'routes/AcquisitionStatuses/types';
 import useAcquisitionStatuses from 'routes/AcquisitionStatuses/hooks/useAcquisitionStatuses';
 import './AcquisitionStatusesFilter.scss';
@@ -44,23 +43,25 @@ const AcquisitionStatusesFilter = () => {
             />
 
             <Field
+              withFocus
+              withAnyOption
               name="type"
               data-testid="AcquisitionStatusesFilter-typeSelect"
               label={I18n.t('SETTINGS.ACQUISITION_STATUSES.FORM.FIELDS.ACQUISITION_STATUS')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
               className="AcquisitionStatusesFilter__field"
-              component={FormikSelectField}
-              withFocus
-              withAnyOption
-            >
-              <option key={AcquisitionStatusTypes.SALES} value={AcquisitionStatusTypes.SALES}>
-                {I18n.t('SETTINGS.ACQUISITION_STATUSES.TYPES.SALES')}
-              </option>
-
-              <option key={AcquisitionStatusTypes.RETENTION} value={AcquisitionStatusTypes.RETENTION}>
-                {I18n.t('SETTINGS.ACQUISITION_STATUSES.TYPES.RETENTION')}
-              </option>
-            </Field>
+              component={FormikSingleSelectField}
+              options={[
+                {
+                  label: I18n.t('SETTINGS.ACQUISITION_STATUSES.TYPES.SALES'),
+                  value: AcquisitionStatusTypes.SALES,
+                },
+                {
+                  label: I18n.t('SETTINGS.ACQUISITION_STATUSES.TYPES.RETENTION'),
+                  value: AcquisitionStatusTypes.RETENTION,
+                },
+              ]}
+            />
 
             <div className="AcquisitionStatusesFilter__buttons">
               <RefreshButton

@@ -2,9 +2,8 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Constants } from '@crm/common';
-import { Button, RefreshButton } from 'components';
+import { Button, RefreshButton, FormikSingleSelectField } from 'components';
 import useFilter from 'hooks/useFilter';
-import { FormikSelectField } from 'components/Formik';
 import useClientTradingAccountsGridFilter
   from 'routes/Clients/routes/Client/routes/ClientTradingAccountsTab/hooks/useClientTradingAccountsGridFilter';
 import {
@@ -44,36 +43,36 @@ const ClientTradingAccountsGridFilter = (props: Props) => {
       }) => (
         <Form className="ClientTradingAccountsGridFilter__form">
           <Field
+            withAnyOption
+            withFocus
             name="accountType"
             className="ClientTradingAccountsGridFilter__field"
             data-testid="ClientTradingAccountsGridFilter-accountTypeSelect"
             label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.ACCOUNT_TYPE')}
             placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-            component={FormikSelectField}
-            withAnyOption
-            withFocus
-          >
-            {Constants.accountTypes.map(({ label, value }) => (
-              <option key={value} value={value}>{I18n.t(label)}</option>
-            ))}
-          </Field>
+            component={FormikSingleSelectField}
+            options={Constants.accountTypes.map(({ label, value }) => ({
+              label: I18n.t(label),
+              value,
+            }))}
+          />
 
           <If condition={!!platformTypes.length}>
             <Field
+              withAnyOption
+              searchable
+              withFocus
               name="platformType"
               className="ClientTradingAccountsGridFilter__field"
               data-testid="ClientTradingAccountsGridFilter-platformTypeSelect"
               label={I18n.t('CONSTANTS.TRANSACTIONS.FILTER_FORM.ATTRIBUTES_LABELS.PLATFORM_TYPE')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-              component={FormikSelectField}
-              withAnyOption
-              searchable
-              withFocus
-            >
-              {platformTypes.map(({ label, value }) => (
-                <option key={value} value={value}>{I18n.t(label)}</option>
-              ))}
-            </Field>
+              component={FormikSingleSelectField}
+              options={platformTypes.map(({ label, value }) => ({
+                label: I18n.t(label),
+                value,
+              }))}
+            />
           </If>
 
           <div className="ClientTradingAccountsGridFilter__buttons">

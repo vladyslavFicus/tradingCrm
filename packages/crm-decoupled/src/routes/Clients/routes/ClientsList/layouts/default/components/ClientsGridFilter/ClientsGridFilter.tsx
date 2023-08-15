@@ -3,19 +3,23 @@ import classNames from 'classnames';
 import { Formik, Form } from 'formik';
 import I18n from 'i18n-js';
 import { Config, Utils, Constants } from '@crm/common';
-import { Button, RefreshButton } from 'components';
-import useFilter from 'hooks/useFilter';
 import {
+  Button,
+  RefreshButton,
+  ReactSwitch,
+  DynamicField as Field,
+  DynamicRangeGroup as RangeGroup,
   FormikInputField,
-  FormikSelectField,
+  FormikSingleSelectField,
   FormikDateRangePicker,
-} from 'components/Formik';
-import { DynamicField as Field, DynamicRangeGroup as RangeGroup } from 'components/Forms';
+  FormikMultipleSelectField,
+} from 'components';
+import useFilter from 'hooks/useFilter';
 import { FiltersToggler } from 'components/FiltersToggler';
 import { FilterSetsDecorator, FilterSetsButtons } from 'components/FilterSetsDecorator';
 import DynamicFiltersButton from 'components/DynamicFiltersButton';
-import ReactSwitch from 'components/ReactSwitch';
 import TimeZoneField from 'components/TimeZoneField/TimeZoneField';
+
 import {
   MAX_SELECTED_CLIENTS,
   acquisitionStatuses,
@@ -217,80 +221,74 @@ const ClientsGridFilter = (props:Props) => {
                   />
 
                   <Field
+                    withAnyOption
+                    withFocus
                     name="activityStatus"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-activityStatusSelect"
                     label={I18n.t(attributeLabels.activityStatus)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withAnyOption
-                    withFocus
-                  >
-                    {activityStatuses.map(({ value, label }) => (
-                      <option key={value} value={value}>{I18n.t(label)}</option>
-                    ))}
-                  </Field>
+                    component={FormikSingleSelectField}
+                    options={activityStatuses.map(({ value, label }) => ({
+                      label: I18n.t(label),
+                      value,
+                    }))}
+                  />
 
                   <Field
+                    searchable
+                    withFocus
                     name="languages"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-languagesSelect"
                     label={I18n.t(attributeLabels.languages)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {languagesOptions.map(locale => (
-                      <option key={locale} value={locale}>
-                        {I18n.t(
-                          `COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`,
-                          { defaultValue: locale.toUpperCase() },
-                        )}
-                      </option>
-                    ))}
-                  </Field>
+                    component={FormikMultipleSelectField}
+                    options={languagesOptions.map(locale => ({
+                      label: I18n.t(
+                        `COMMON.LANGUAGE_NAME.${locale.toUpperCase()}`,
+                        { defaultValue: locale.toUpperCase() },
+                      ),
+                      value: locale,
+                    }))}
+                  />
 
                   <Field
+                    searchable
+                    withFocus
                     name="countries"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-countriesSelect"
                     label={I18n.t(attributeLabels.countries)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {[
-                      <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                      ...Object.keys(Utils.countryList)
-                        .map(country => (
-                          <option key={country} value={country}>{Utils.countryList[country]}</option>
-                        )),
+                    component={FormikMultipleSelectField}
+                    options={[
+                      { label: I18n.t('COMMON.OTHER'), value: 'UNDEFINED' },
+                      ...Object.keys(Utils.countryList).map(country => ({
+                        label: Utils.countryList[country],
+                        value: country,
+                      })),
                     ]}
-                  </Field>
+                  />
 
                   <Field
+                    withFocus
+                    searchable
                     name="offices"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-officesSelect"
                     label={I18n.t(attributeLabels.offices)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withFocus
-                    multiple
-                    searchable
-                  >
-                    {offices.map(({ name, uuid }) => (
-                      <option key={uuid} value={uuid}>
-                        {name}
-                      </option>
-                    ))}
-                  </Field>
+                    component={FormikMultipleSelectField}
+                    options={offices.map(({ name, uuid }) => ({
+                      label: name,
+                      value: uuid,
+                    }))}
+                  />
 
                   <Field
+                    searchable
+                    withFocus
                     name="desks"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-desksSelect"
@@ -302,19 +300,18 @@ const ClientsGridFilter = (props:Props) => {
                             : 'COMMON.SELECT_OPTION.ANY',
                         )
                       }
-                    component={FormikSelectField}
+                    component={FormikMultipleSelectField}
                     disabled={isDesksAndTeamsLoading || !desksOptions.length}
                     onFetch={handleFetchDesksAndTeamsQuery}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {desksOptions.map(({ uuid, name }) => (
-                      <option key={uuid} value={uuid}>{name}</option>
-                    ))}
-                  </Field>
+                    options={desksOptions.map(({ uuid, name }) => ({
+                      label: name,
+                      value: uuid,
+                    }))}
+                  />
 
                   <Field
+                    searchable
+                    withFocus
                     name="teams"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-teamsSelect"
@@ -326,19 +323,18 @@ const ClientsGridFilter = (props:Props) => {
                             : 'COMMON.SELECT_OPTION.ANY',
                         )
                       }
-                    component={FormikSelectField}
+                    component={FormikMultipleSelectField}
                     disabled={isDesksAndTeamsLoading || !teamsOptions.length}
                     onFetch={handleFetchDesksAndTeamsQuery}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {teamsOptions.map(({ uuid, name }) => (
-                      <option key={uuid} value={uuid}>{name}</option>
-                    ))}
-                  </Field>
+                    options={teamsOptions.map(({ uuid, name }) => ({
+                      label: name,
+                      value: uuid,
+                    }))}
+                  />
 
                   <Field
+                    searchable
+                    withFocus
                     name="operators"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-operatorsSelect"
@@ -350,30 +346,24 @@ const ClientsGridFilter = (props:Props) => {
                             : 'COMMON.SELECT_OPTION.ANY',
                         )
                       }
-                    component={FormikSelectField}
+                    component={FormikMultipleSelectField}
                     disabled={isOperatorsLoading || !operatorsOptions.length}
                     onFetch={handleFetchOperators}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {operatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
-                      <option
-                        key={uuid}
-                        value={uuid}
-                        className={classNames('ClientsGridFilter__select-option', {
-                          'ClientsGridFilter__select-option--inactive':
-                              operatorStatus === Constants.Operator.statuses.INACTIVE
-                              || operatorStatus === Constants.Operator.statuses.CLOSED,
-                        })}
-                      >
-                        {fullName}
-                      </option>
-                    ))}
-                  </Field>
+                    options={operatorsOptions.map(({ uuid, fullName, operatorStatus }) => ({
+                      label: fullName as string,
+                      value: uuid,
+                      className: classNames('ClientsGridFilter__select-option', {
+                        'ClientsGridFilter__select-option--inactive':
+                            operatorStatus === Constants.Operator.statuses.INACTIVE
+                            || operatorStatus === Constants.Operator.statuses.CLOSED,
+                      }),
+                    }))}
+                  />
 
                   <If condition={allowPartnersListView}>
                     <Field
+                      searchable
+                      withFocus
                       name="affiliateUuids"
                       className="ClientsGridFilter__field ClientsGridFilter__select"
                       data-testid="ClientsGridFilter-affiliateUuidsSelect"
@@ -385,31 +375,25 @@ const ClientsGridFilter = (props:Props) => {
                             : 'COMMON.SELECT_OPTION.ANY',
                         )
                       }
-                      component={FormikSelectField}
+                      component={FormikMultipleSelectField}
                       disabled={isPartnersLoading || !partners.length}
                       onFetch={handleFetchPartners}
-                      searchable
-                      withFocus
-                      multiple
-                    >
-                      {[{ uuid: 'NONE', fullName: 'NONE', status: '' }, ...partners]
-                        .map(({ uuid, fullName, status }) => (
-                          <option
-                            key={uuid}
-                            value={uuid}
-                            className={classNames('ClientsGridFilter__select-option', {
-                              'ClientsGridFilter__select-option--inactive':
-                                ['INACTIVE', 'CLOSED'].includes(status),
-                            })}
-                          >
-                            {fullName}
-                          </option>
-                        ))}
-                    </Field>
+                      options={[{ uuid: 'NONE', fullName: 'NONE', status: '' }, ...partners]
+                        .map(({ uuid, fullName, status }) => ({
+                          label: fullName as string,
+                          value: uuid,
+                          className: classNames('ClientsGridFilter__select-option', {
+                            'ClientsGridFilter__select-option--inactive':
+                              ['INACTIVE', 'CLOSED'].includes(status),
+                          }),
+                        }))}
+                    />
                   </If>
 
                   <If condition={allowAffiliateReferrals}>
                     <Field
+                      searchable
+                      withFocus
                       name="affiliateReferrals"
                       className="ClientsGridFilter__field ClientsGridFilter__select"
                       data-testid="ClientsGridFilter-affiliateaffiliateReferralsSelect"
@@ -421,95 +405,74 @@ const ClientsGridFilter = (props:Props) => {
                             : 'COMMON.SELECT_OPTION.ANY',
                         )
                       }
-                      component={FormikSelectField}
+                      component={FormikMultipleSelectField}
                       disabled={isAffiliateReferralsLoading || !affiliateReferrals.length}
                       onFetch={handleFetchAffiliateReferrals}
-                      searchable
-                      withFocus
-                      multiple
-                    >
-                      {affiliateReferrals.map((name, idx) => (
-                        <option
-                          key={idx}
-                          value={name as string}
-                          className="ClientsGridFilter__select-option"
-                        >
-                          {name}
-                        </option>
-                      ))}
-                    </Field>
+                      options={affiliateReferrals.map(name => ({
+                        label: name,
+                        value: name,
+                      }))}
+                    />
                   </If>
 
                   <Field
+                    withAnyOption
+                    withFocus
                     name="affiliateFtd"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-affiliateFtdSelect"
                     label={I18n.t(attributeLabels.affiliateFtd)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withAnyOption
-                    withFocus
-                  >
-                    {radioSelect.map(({ value, label }) => (
-                      // @ts-ignore TS doesn't approve value as boolean type
-                      <option key={`affiliateFTD-${value}`} value={value}>
-                        {I18n.t(label)}
-                      </option>
-                    ))}
-                  </Field>
+                    component={FormikSingleSelectField}
+                    options={radioSelect.map(({ value, label }) => ({
+                      label: I18n.t(label),
+                      value,
+                    }))}
+                  />
 
                   <Field
+                    withAnyOption
+                    withFocus
                     name="isReferrered"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-isReferreredSelect"
                     label={I18n.t(attributeLabels.isReferrered)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withAnyOption
-                    withFocus
-                  >
-                    {radioSelect.map(({ value, label }) => (
-                      // @ts-ignore TS doesn't approve value as boolean type
-                      <option key={`refferer-${value}`} value={value}>
-                        {I18n.t(label)}
-                      </option>
-                    ))}
-                  </Field>
+                    component={FormikSingleSelectField}
+                    options={radioSelect.map(({ value, label }) => ({
+                      label: I18n.t(label),
+                      value,
+                    }))}
+                  />
 
                   <Field
+                    withFocus
                     name="statuses"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-statusesSelect"
                     label={I18n.t(attributeLabels.statuses)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withFocus
-                    multiple
-                  >
-                    {Object.keys(Constants.User.statusesLabels).map(status => (
-                      <option key={status} value={status}>
-                        {I18n.t(Constants.User.statusesLabels[status as Constants.User.statuses])}
-                      </option>
-                    ))}
-                  </Field>
+                    component={FormikMultipleSelectField}
+                    options={Object.keys(Constants.User.statusesLabels).map(status => ({
+                      label: I18n.t(Constants.User.statusesLabels[status as Constants.User.statuses]),
+                      value: status,
+                    }))}
+                  />
 
                   <Field
+                    searchable
+                    withFocus
                     name="kycStatuses"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-kycStatusesSelect"
                     label={I18n.t(attributeLabels.kycStatuses)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {Object.keys(Constants.kycStatusesLabels).map(status => (
-                      <option key={status} value={status}>
-                        {I18n.t(Constants.kycStatusesLabels[status as Constants.kycStatuses])}
-                      </option>
-                    ))}
-                  </Field>
+                    component={FormikMultipleSelectField}
+                    options={Object.keys(Constants.kycStatusesLabels).map(status => ({
+                      label: I18n.t(Constants.kycStatusesLabels[status as Constants.kycStatuses]),
+                      value: status,
+                    }))}
+                  />
 
                   {/* Only Admin and CS Head of department can see unassigned clients */}
                   <If
@@ -519,81 +482,73 @@ const ClientsGridFilter = (props:Props) => {
                     }
                   >
                     <Field
+                      withAnyOption
+                      withFocus
                       name="assignStatus"
                       className="ClientsGridFilter__field ClientsGridFilter__select"
                       data-testid="ClientsGridFilter-assignStatusSelect"
                       label={I18n.t(attributeLabels.assignStatus)}
                       placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                      component={FormikSelectField}
-                      withAnyOption
-                      withFocus
-                    >
-                      {assignStatuses.map(({ value, label }) => (
-                        <option key={value} value={value}>
-                          {I18n.t(label)}
-                        </option>
-                      ))}
-                    </Field>
+                      component={FormikSingleSelectField}
+                      options={assignStatuses.map(({ value, label }) => ({
+                        label: I18n.t(label),
+                        value,
+                      }))}
+                    />
                   </If>
 
                   <Field
+                    withAnyOption
+                    withFocus
                     name="acquisitionStatus"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-acquisitionStatusSelect"
                     label={I18n.t(attributeLabels.acquisitionStatus)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withAnyOption
-                    withFocus
-                  >
-                    {acquisitionStatuses.map(({ value, label }) => (
-                      <option key={value} value={value}>
-                        {I18n.t(label)}
-                      </option>
-                    ))}
-                  </Field>
+                    component={FormikSingleSelectField}
+                    options={acquisitionStatuses.map(({ value, label }) => ({
+                      label: I18n.t(label),
+                      value,
+                    }))}
+                  />
 
                   <Field
+                    searchable
+                    withFocus
                     name="salesStatuses"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-salesStatusesSelect"
                     label={I18n.t(attributeLabels.salesStatuses)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
+                    component={FormikMultipleSelectField}
                     disabled={isAcquisitionStatusesLoading}
                     onFetch={handleFetchAcquisitionStatuses}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {salesStatuses.map(({ status }) => (
-                      <option key={status} value={status}>
-                        {I18n.t(Constants.salesStatuses[status])}
-                      </option>
-                    ))}
-                  </Field>
+                    options={salesStatuses.map(({ status }) => ({
+                      label: I18n.t(Constants.salesStatuses[status]),
+                      value: status,
+                    }))}
+                  />
 
                   <Field
+                    searchable
+                    withFocus
                     name="retentionStatuses"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-retentionStatusesSelect"
                     label={I18n.t(attributeLabels.retentionStatuses)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
+                    component={FormikMultipleSelectField}
                     disabled={isAcquisitionStatusesLoading}
                     onFetch={handleFetchAcquisitionStatuses}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {retentionStatuses.map(({ status }) => (
-                      <option key={status} value={status}>
-                        {I18n.t(Constants.retentionStatuses[status])}
-                      </option>
-                    ))}
-                  </Field>
+                    options={retentionStatuses.map(({ status }) => ({
+                      label: I18n.t(Constants.retentionStatuses[status]),
+                      value: status,
+                    }))}
+                  />
 
                   <Field
+                    searchable
+                    withFocus
                     name="retentionOperators"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-retentionOperatorsSelect"
@@ -605,29 +560,23 @@ const ClientsGridFilter = (props:Props) => {
                             : 'COMMON.SELECT_OPTION.ANY',
                         )
                       }
-                    component={FormikSelectField}
+                    component={FormikMultipleSelectField}
                     disabled={isOperatorsLoading || !retentionOperatorsOptions.length}
                     onFetch={handleFetchOperators}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {retentionOperatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
-                      <option
-                        key={uuid}
-                        value={uuid}
-                        className={classNames('ClientsGridFilter__select-option', {
-                          'ClientsGridFilter__select-option--inactive':
-                            operatorStatus === Constants.Operator.statuses.INACTIVE
-                            || operatorStatus === Constants.Operator.statuses.CLOSED,
-                        })}
-                      >
-                        {fullName}
-                      </option>
-                    ))}
-                  </Field>
+                    options={retentionOperatorsOptions.map(({ uuid, fullName, operatorStatus }) => ({
+                      label: fullName as string,
+                      value: uuid,
+                      className: classNames('ClientsGridFilter__select-option', {
+                        'ClientsGridFilter__select-option--inactive':
+                          operatorStatus === Constants.Operator.statuses.INACTIVE
+                          || operatorStatus === Constants.Operator.statuses.CLOSED,
+                      }),
+                    }))}
+                  />
 
                   <Field
+                    searchable
+                    withFocus
                     name="salesOperators"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-salesOperatorsSelect"
@@ -639,27 +588,19 @@ const ClientsGridFilter = (props:Props) => {
                           : 'COMMON.SELECT_OPTION.ANY',
                       )
                     }
-                    component={FormikSelectField}
+                    component={FormikMultipleSelectField}
                     disabled={isOperatorsLoading || !salesOperatorsOptions.length}
                     onFetch={handleFetchOperators}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {salesOperatorsOptions.map(({ uuid, fullName, operatorStatus }) => (
-                      <option
-                        key={uuid}
-                        value={uuid}
-                        className={classNames('ClientsGridFilter__select-option', {
-                          'ClientsGridFilter__select-option--inactive':
-                            operatorStatus === Constants.Operator.statuses.INACTIVE
-                            || operatorStatus === Constants.Operator.statuses.CLOSED,
-                        })}
-                      >
-                        {fullName}
-                      </option>
-                    ))}
-                  </Field>
+                    options={salesOperatorsOptions.map(({ uuid, fullName, operatorStatus }) => ({
+                      label: fullName as string,
+                      value: uuid,
+                      className: classNames('ClientsGridFilter__select-option', {
+                        'ClientsGridFilter__select-option--inactive':
+                          operatorStatus === Constants.Operator.statuses.INACTIVE
+                          || operatorStatus === Constants.Operator.statuses.CLOSED,
+                      }),
+                    }))}
+                  />
 
                   <Field
                     name="termsAccepted"
@@ -667,32 +608,27 @@ const ClientsGridFilter = (props:Props) => {
                     data-testid="ClientsGridFilter-termsAcceptedSelect"
                     label={I18n.t(attributeLabels.termsAccepted)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                  >
-                    {Constants.User.TERMS_ACCEPTED_FILTER_TYPES.map(({ label, value }) => (
-                      <option key={label} value={value}>
-                        {I18n.t(`PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.TERMS_ACCEPTED_TYPES.${label}`)}
-                      </option>
-                    ))}
-                  </Field>
+                    component={FormikSingleSelectField}
+                    options={Constants.User.TERMS_ACCEPTED_FILTER_TYPES.map(({ label, value }) => ({
+                      label: I18n.t(`PLAYER_PROFILE.PROFILE.PERSONAL.LABEL.TERMS_ACCEPTED_TYPES.${label}`),
+                      value,
+                    }))}
+                  />
 
                   <Field
+                    withAnyOption
+                    withFocus
                     name="firstTimeDeposit"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-firstTimeDepositSelect"
                     label={I18n.t(attributeLabels.firstTimeDeposit)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withAnyOption
-                    withFocus
-                  >
-                    {radioSelect.map(({ value, label }) => (
-                      // @ts-ignore TS doesn't approve value as boolean type
-                      <option key={`firstTimeDeposit-${value}`} value={value}>
-                        {I18n.t(label)}
-                      </option>
-                    ))}
-                  </Field>
+                    component={FormikSingleSelectField}
+                    options={radioSelect.map(({ value, label }) => ({
+                      label: I18n.t(label),
+                      value,
+                    }))}
+                  />
 
                   <RangeGroup
                     name="balanceRange"
@@ -753,22 +689,19 @@ const ClientsGridFilter = (props:Props) => {
                   </RangeGroup>
 
                   <Field
+                    withAnyOption
+                    withFocus
                     name="isNeverCalled"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-isNeverCalledSelect"
                     label={I18n.t(attributeLabels.isNeverCalled)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withAnyOption
-                    withFocus
-                  >
-                    {radioSelect.map(({ value, label }) => (
-                      // @ts-ignore TS doesn't approve value as boolean type
-                      <option key={`isNeverCalled-${value}`} value={value}>
-                        {I18n.t(label)}
-                      </option>
-                    ))}
-                  </Field>
+                    component={FormikSingleSelectField}
+                    options={radioSelect.map(({ value, label }) => ({
+                      label: I18n.t(label),
+                      value,
+                    }))}
+                  />
 
                   <Field
                     name="timeZone"
@@ -897,41 +830,37 @@ const ClientsGridFilter = (props:Props) => {
                   />
 
                   <Field
+                    searchable
+                    withFocus
                     name="passportCountriesOfIssue"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-passportCountriesOfIssueSelect"
                     label={I18n.t(attributeLabels.passportCountryOfIssue)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    searchable
-                    withFocus
-                    multiple
-                  >
-                    {[
-                      <option key="UNDEFINED" value="UNDEFINED">{I18n.t('COMMON.OTHER')}</option>,
-                      ...Object.keys(Utils.countryList)
-                        .map(country => (
-                          <option key={country} value={country}>{Utils.countryList[country]}</option>
-                        )),
+                    component={FormikMultipleSelectField}
+                    options={[
+                      { label: I18n.t('COMMON.OTHER'), value: 'UNDEFINED' },
+                      ...Object.keys(Utils.countryList).map(country => ({
+                        label: Utils.countryList[country],
+                        value: country,
+                      })),
                     ]}
-                  </Field>
+                  />
 
                   <Field
+                    withAnyOption
+                    withFocus
                     name="warnings"
                     className="ClientsGridFilter__field ClientsGridFilter__select"
                     data-testid="ClientsGridFilter-warningsSelect"
                     label={I18n.t(attributeLabels.warnings)}
                     placeholder={I18n.t('COMMON.SELECT_OPTION.ANY')}
-                    component={FormikSelectField}
-                    withAnyOption
-                    withFocus
-                  >
-                    {Object.keys(Constants.warningLabels).map(warning => (
-                      <option key={warning} value={warning}>
-                        {I18n.t(Constants.warningLabels[warning as Constants.warningValues])}
-                      </option>
-                    ))}
-                  </Field>
+                    component={FormikSingleSelectField}
+                    options={Object.keys(Constants.warningLabels).map(warning => ({
+                      label: I18n.t(Constants.warningLabels[warning as Constants.warningValues]),
+                      value: warning,
+                    }))}
+                  />
 
                   <Field
                     name="searchLimit"

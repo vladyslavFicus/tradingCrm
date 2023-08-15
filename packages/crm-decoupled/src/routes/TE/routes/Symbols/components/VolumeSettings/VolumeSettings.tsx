@@ -1,10 +1,8 @@
 import React from 'react';
 import { Field } from 'formik';
 import { Utils } from '@crm/common';
+import { FormikSingleSelectField } from 'components';
 import I18n from 'i18n-config';
-import {
-  FormikSelectField,
-} from 'components/Formik';
 import {
   LotMin,
   LotMax,
@@ -25,40 +23,34 @@ const VolumeSettings = () => (
         data-testid="VolumeSettings-lotMinSelect"
         label={I18n.t('TRADING_ENGINE.SYMBOL.LOT_MIN')}
         className="VolumeSettings__field"
-        component={FormikSelectField}
-      >
-        {Utils.enumToArray(LotMin).map(value => (
-          <option key={value} value={value}>
-            {value}
-          </option>
-        ))}
-      </Field>
+        component={FormikSingleSelectField}
+        options={Utils.enumToArray(LotMin).map(value => ({
+          label: value,
+          value,
+        }))}
+      />
       <Field
         name="lotMax"
         data-testid="VolumeSettings-lotMaxSelect"
         label={I18n.t('TRADING_ENGINE.SYMBOL.LOT_MAX')}
         className="VolumeSettings__field"
-        component={FormikSelectField}
-      >
-        {Utils.enumToArray(LotMax).map(value => (
-          <option key={value} value={value}>
-            {value}
-          </option>
-        ))}
-      </Field>
+        component={FormikSingleSelectField}
+        options={Utils.enumToArray(LotMax).map(value => ({
+          label: value,
+          value,
+        }))}
+      />
       <Field
         name="lotStep"
         data-testid="VolumeSettings-lotStepSelect"
         label={I18n.t('TRADING_ENGINE.SYMBOL.LOT_STEP')}
         className="VolumeSettings__field"
-        component={FormikSelectField}
-      >
-        {Utils.enumToArray(LotStep).map(value => (
-          <option key={value} value={value}>
-            {value}
-          </option>
-        ))}
-      </Field>
+        component={FormikSingleSelectField}
+        options={Utils.enumToArray(LotStep).map(value => ({
+          label: value,
+          value,
+        }))}
+      />
     </div>
   </div>
 );

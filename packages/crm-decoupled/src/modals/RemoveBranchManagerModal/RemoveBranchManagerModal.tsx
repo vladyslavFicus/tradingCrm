@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import I18n from 'i18n-js';
 import { Utils, parseErrors, notify, Types } from '@crm/common';
-import { FormikSelectField } from 'components/Formik';
+import { FormikSingleSelectField } from 'components';
 import Modal from 'components/Modal';
 import { useRemoveBranchManagerMutation } from './graphql/__generated__/removeBranchManagerMutation';
 import './RemoveBranchManagerModal.scss';
@@ -94,21 +94,19 @@ const RemoveBranchManagerModal = (props: Props) => {
             </div>
 
             <Field
+              searchable
               name="uuid"
               className="RemoveBranchManagerModal__select"
               data-testid="RemoveBranchManagerModal-uuidSelect"
               label={I18n.t('COMMON.CHOOSE_OPERATOR')}
               placeholder={I18n.t('COMMON.SELECT_OPTION.DEFAULT')}
-              component={FormikSelectField}
+              component={FormikSingleSelectField}
               disabled={isSubmitting || operators?.length === 0}
-              searchable
-            >
-              {operators?.map(({ uuid, fullName }) => (
-                <option key={uuid} value={uuid}>
-                  {fullName}
-                </option>
-              ))}
-            </Field>
+              options={operators?.map(({ uuid, fullName }) => ({
+                label: fullName,
+                value: uuid,
+              }))}
+            />
           </Form>
         </Modal>
       )}
