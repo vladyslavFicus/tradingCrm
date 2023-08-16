@@ -1,0 +1,14 @@
+.Button {
+  min-width: 100px;
+  height: 44px;
+  border-radius: 24px;
+
+  &--tertiary {
+    border: 1px solid #9b9b9b;
+    color: var(--state-colors-info);
+  }
+
+  &--primary {
+    border: none;
+  }
+}
